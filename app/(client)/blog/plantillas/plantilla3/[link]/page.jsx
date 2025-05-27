@@ -1,21 +1,23 @@
 "use client"
+export const dynamic = "force-dynamic";
 
-import { useEffect, useState, Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Swal from "sweetalert2"
-import Header from "../components/Header"
-import Body1 from "../components/Body1"
-import Footer from "../components/Footer"
-import Fetch from "../../services/fetch"
+import Header from "../../components/Header"
+import Body3 from "../../components/Body3"
+import Footer from "../../components/Footer"
+import Fetch from "../../../services/fetch"
 import { Loader2 } from "lucide-react"
 
-const Page = () => {
-  return (
-    <Suspense fallback={<div className="flex justify-center items-center h-screen text-gray-700">Cargando...</div>}>
-      <PageContent />
-    </Suspense>
-  )
-}
+const Loading = () => (
+  <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+    <div className="bg-black/70 p-8 rounded-xl backdrop-blur-sm flex flex-col items-center">
+      <Loader2 className="h-12 w-12 text-white animate-spin mb-4" />
+      <p className="text-white font-medium">Cargando blog...</p>
+    </div>
+  </div>
+)
 
 const PageContent = () => {
   const [data, setDataResponse] = useState(null)
@@ -52,7 +54,7 @@ const PageContent = () => {
     }
 
     fetchBlogData()
-  }, [id_blog]) 
+  }, [id_blog])
 
   if (error) {
     return (
@@ -72,14 +74,7 @@ const PageContent = () => {
     )
   }
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 className="h-12 w-12 text-gray-700 animate-spin" />
-        <p className="text-gray-700 ml-3">Cargando blog...</p>
-      </div>
-    )
-  }
+  if (isLoading) return <Loading />
 
   if (!data) {
     return (
@@ -102,16 +97,19 @@ const PageContent = () => {
   return (
     <div>
       <Header id_blog_head={data.id_blog_head} />
-
       <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
         <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
-
-        <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
-
+        <Body3 id_blog_body={data.id_blog_body} fecha={data.fecha} />
         <Footer id_blog_footer={data.id_blog_footer} />
       </div>
     </div>
   )
 }
+
+const Page = () => (
+  <Suspense fallback={<Loading />}>
+    <PageContent />
+  </Suspense>
+)
 
 export default Page

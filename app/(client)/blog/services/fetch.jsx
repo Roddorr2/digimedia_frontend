@@ -37,6 +37,17 @@ const Fetch = {
         }
     },
 
+    fetchBlogByLink: async (link) => {
+        try {
+            const response = await axios.get(`${url}/api/blogs/links/${link}`);
+            if (response.status === 200) return response.data.data;
+            return null;
+        } catch (error) {
+            console.error("Error al obtener blog por link:", error);
+            return null;
+        }
+    },
+
     fetchCards: async function fetchCards(){
         try{
             const response = await axios.get(`${url}/api/cards`);

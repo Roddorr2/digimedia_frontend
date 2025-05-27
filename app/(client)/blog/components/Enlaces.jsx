@@ -130,7 +130,7 @@ function EnlacesForm() {
                                                 <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">{card.descripcion}</p>
 
                                                 <a
-                                                    href={`./plantillas/plantilla${card.id_plantilla}?id_blog=${card.id_blog}`}
+                                                    href={`/blog/plantillas/plantilla${card.id_plantilla}/${card.blog?.link}`}
                                                     target="_blank"
                                                     className="group flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300 mt-auto"
                                                     rel="noreferrer"
