@@ -1,12 +1,11 @@
 "use client"
-
 export const dynamic = "force-dynamic";
 
 import { useEffect, useState, Suspense } from "react"
 import { useParams,useRouter } from "next/navigation"
 import Swal from "sweetalert2"
 import Header from "../../components/Header"
-import Body1 from "../../components/Body1"
+import Body2 from "../../components/Body2"
 import Footer from "../../components/Footer"
 import Fetch from "../../../services/fetch"
 import { Loader2 } from "lucide-react"
@@ -112,7 +111,7 @@ const PageContent = () => {
       <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
         <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
 
-        <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
+        <Body2 id_blog_body={data.id_blog_body} fecha={data.fecha} />
 
         <Footer id_blog_footer={data.id_blog_footer} />
       </div>
