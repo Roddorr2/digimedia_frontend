@@ -113,6 +113,19 @@ const PageContent = () => {
 
         <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
 
+        {data.body?.service_url && (
+          <div className="flex justify-center my-8">
+            <a
+              href={data.body.service_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg"
+            >
+              Conoce nuestro servicio
+            </a>
+          </div>
+        )}
+
         <Footer id_blog_footer={data.id_blog_footer} />
       </div>
     </div>

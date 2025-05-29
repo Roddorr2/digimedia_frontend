@@ -217,8 +217,6 @@ const PageContent = () => {
 
   async function guardarBody(id_commend_tarjeta) {
 
-    console.log("Id del commend tarjeta guarda body:", id_commend_tarjeta);
-
     const formBody = {
       titulo: formEncabezadoBody.titulo,
       descripcion: formEncabezadoBody.descripcion,
@@ -229,7 +227,10 @@ const PageContent = () => {
       url_image2: formGaleryBody.url_image2,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
+      service_url: serviceRedirectUrl,
     }
+
+    console.log("📤 Enviando body con servicio:", formBody);
 
     const id = await Service.saveBody(formBody);
     if (id && id > 0) {
