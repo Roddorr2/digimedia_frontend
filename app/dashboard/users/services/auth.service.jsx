@@ -27,7 +27,9 @@ const setAuthCookie = (name, value, options = {}) => {
             id_empleado: value.id_empleado,
             nombre: value.nombre,
             apellido: value.apellido,
-            email: value.email 
+            email: value.email,
+            rol: value.rol.nombre,
+            subtipo_admin: value.id_subtipo_admin
         };
         setCookie(name, JSON.stringify(essentialEmpleadoData), cookieOptions);
         return;

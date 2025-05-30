@@ -2,7 +2,7 @@
 
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
-import { use, useState } from "react"
+import { use, useState, useEffect } from "react"
 import { Eye, Pencil, Trash2, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -16,51 +16,95 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
   const empleadoAutenticado = auth_service.getCurrentEmpleado()
   const empleadoAutenticadoId = empleadoAutenticado?.id_empleado
   const empleadoAutenticadoEmail = empleadoAutenticado?.email
+  
+  // Obtenemos el subtipo de administrador
+  const subtipoAdministrador = empleadoAutenticado?.subtipo_admin
 
-  const restrictedEmails = ["joseluisjlgd123@gmail.com", "keving.kpg@gmail.com", "tmlighting@hotmail.com"]
+  // const restrictedEmails = ["joseluisjlgd123@gmail.com", "keving.kpg@gmail.com", "tmlighting@hotmail.com"]
 
-  const isPrivilegedUser = empleadoAutenticadoEmail === "tmlighting@hotmail.com"
-  const isRestrictedUser = restrictedEmails.includes(empleadoAutenticadoEmail) && !isPrivilegedUser
-  const isNormalAdmin = !restrictedEmails.includes(empleadoAutenticadoEmail)
+  let isPrivilegedUser = false
+  let isRestrictedUser = false
+  let isNormalAdmin = false
+
+  // (function setPrivilegeLevel(empleado) {
+  //   if(!empleado) return;
+    
+  //   if(!subtipoAdministrador) {
+  //     if(empleado.rol.id_rol !== 1) return;
+  //     isNormalAdmin = true  
+  //   }
+
+  //   switch(subtipoAdministrador.id) {
+  //     case 1:
+  //       isPrivilegedUser = true
+  //     case 2:
+  //       isRestrictedUser = true
+  //     case 3:
+  //       isNormalAdmin = true
+  //   }
+  // })();
+  // useEffect(() => {
+  //     console.log(`Hola mundo \n${data.value}`)
+  //   }, [])
+
+  const getHierarchy = (empleado) => {
+    if(!empleado) return null
+    if(!empleado.subtipo_admin) {
+      if(empleado.rol === "administrador") return 80;
+      if(empleado.rol === "ventas") return 30;
+      return 20;
+    }
+    console.log(empleado.subtipo_admin)
+    switch(empleado.subtipo_admin.id) {
+      case 1:
+        return 100
+      case 2:
+        return 90
+      case 3:
+        return 80
+    }
+  }
 
   console.log("Empleado autenticado:", empleadoAutenticado)
-  console.log("Tipo de usuario:", { isPrivilegedUser, isRestrictedUser, isNormalAdmin })
+  console.log("Puntos de jerarquía del usuario autenticado:", getHierarchy(empleadoAutenticado))
   
   const toggleRowExpansion = (index) => {
     setExpandedRow(expandedRow === index ? null : index)
   }
 
   const verificarEditDelete = (dataRow) => {
-    console.log("verificarEditDelete - dataRow:", dataRow)
+    // console.log("verificarEditDelete - dataRow:", dataRow)
 
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      console.log("Registro es propio. Permitir editar/eliminar (mostrar perfil).")
+      // console.log("Registro es propio. Permitir editar/eliminar (mostrar perfil).")
       return true
     }
 
-    if (isPrivilegedUser) {
-      console.log("Usuario privilegiado. Permitir editar/eliminar.")
+    if (getHierarchy(empleadoAutenticado) === 100) {
+      // console.log("Usuario privilegiado. Permitir editar/eliminar.")
       return true
     }
 
-    if (restrictedEmails.includes(dataRow.email)) {
-      console.log("Registro con email restringido:", dataRow.email, ". No se permite editar/eliminar para usuarios restringidos/administradores normales.")
-      return false
-    }
-
-    console.log("Registro no restringido. Permitir editar/eliminar para este usuario.")
+    // if (restrictedEmails.includes(dataRow.email)) {
+    //   console.log("Registro con email restringido:", dataRow.email, ". No se permite editar/eliminar para usuarios restringidos/administradores normales.")
+    //   return false
+    // }
+    console.log(`Auth user: ${getHierarchy(empleadoAutenticado)}` , `\nDataRow user: ${getHierarchy(dataRow)}`)
+    
+    return getHierarchy(empleadoAutenticado) > getHierarchy(dataRow)
+    // console.log("Registro no restringido. Permitir editar/eliminar para este usuario.")
     return true
   }
 
   const verificarShow = (dataRow) => {
-    console.log("verificarShow - dataRow:", dataRow)
+    // console.log("verificarShow - dataRow:", dataRow)
   
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      console.log("Registro es propio. No se muestra botón Show.")
+      // console.log("Registro es propio. No se muestra botón Show.")
       return false
     }
   
-    console.log("Permitir mostrar registro para cualquier usuario.")
+    // console.log("Permitir mostrar registro para cualquier usuario.")
     return true
   }
 
@@ -69,7 +113,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
       <div className="grid gap-4 md:hidden ">
         {data.map((dataRow, index) => {
           const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-          console.log(`MobileView - Fila ${index}:`, { esMismoUsuario, dataRow })
+          // console.log(`MobileView - Fila ${index}:`, { esMismoUsuario, dataRow })
 
           return (
             <Card
@@ -179,7 +223,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
           <TableBody>
             {data.map((dataRow, index) => {
               const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-              console.log(`DesktopView - Fila ${index}:`, { esMismoUsuario, dataRow })
+              // console.log(`DesktopView - Fila ${index}:`, { esMismoUsuario, dataRow })
 
               return (
                 <TableRow 
