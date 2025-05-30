@@ -314,7 +314,7 @@ export default function Page() {
   }
 
   return (
-    <main className="p-4 md:p-6 flex flex-col w-full h-[100vh] bg-gray-50 dark:bg-gray-900">
+    <main className="p-4 md:p-6 flex flex-col w-full overflow-x-auto h-[100vh] bg-gray-50 dark:bg-gray-900">
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6 dark:bg-gray-800 dark:text-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Gestión de Reclamaciones</h1>
