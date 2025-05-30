@@ -40,6 +40,8 @@ const PageContent = () => {
   const [FileFooterFile2, setFileFooterFile2] = useState(null);
   const [FileFooterFile3, setFileFooterFile3] = useState(null);
 
+  const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
+
   //data blog
   const [dataBlog, setDataBlog] = useState(null);
 
@@ -319,6 +321,7 @@ const PageContent = () => {
       url_image2: formGaleryBody.url_image2,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
+      service_url: serviceRedirectUrl,
     }
 
     const id = await Fetch.updateBody(dataBody.id_blog_body, form);
@@ -647,6 +650,8 @@ const PageContent = () => {
               setFormEncabezadoBody={setFormEncabezadoBody}
     
               setValidacionBody={setValidacionBody}
+              serviceRedirectUrl={serviceRedirectUrl}
+              setServiceRedirectUrl={setServiceRedirectUrl}
             />
           </div>
 
