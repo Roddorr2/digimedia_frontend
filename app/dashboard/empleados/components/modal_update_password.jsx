@@ -159,7 +159,7 @@ export default function ModalUpdatePassword({ isVisible, onClose }) {
 
     return (
         <section className="fixed inset-0 bg-black bg-opacity-45 backdrop-blur-md flex justify-center items-center px-4 z-50">
-            <div className="max-w-[400px] w-full bg-white rounded-xl p-6 shadow-lg">
+            <div className="max-w-[400px] w-full dark:bg-gray-900 bg-white rounded-xl p-6 shadow-lg">
                 <h2 className="font-bold text-lg mb-4">Cambiar Contraseña</h2>
                 
                 {error.status !== undefined && (
