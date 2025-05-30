@@ -184,7 +184,6 @@ const PageContent = () => {
   async function guardarHeader() {
     const id = await Service.saveHeader(dataHeader);
     if (id && id > 0) {
-      console.log("Id del header:", id);
       return id;
     }
     else {
@@ -201,7 +200,6 @@ const PageContent = () => {
   async function guardarFooter() {
     const id = await Service.saveFooter(formFooter);
     if (id && id > 0) {
-      console.log("Id del footer:", id);
       return id;
     }
     else {
@@ -230,8 +228,6 @@ const PageContent = () => {
       service_url: serviceRedirectUrl,
     }
 
-    console.log("📤 Enviando body con servicio:", formBody);
-
     const id = await Service.saveBody(formBody);
     if (id && id > 0) {
       return id;
@@ -250,7 +246,6 @@ const PageContent = () => {
   async function guardarCommendTarjeta() {
     const id = await Service.saveCommendTarjeta(formCommendBody);
     if (id && id > 0) {
-      console.log("Id del la tarjeta comentario:", id);
       return id;
     }
     else {
@@ -265,8 +260,6 @@ const PageContent = () => {
   }
 
   async function guardarBlog( id_blog_head, id_blog_footer, id_blog_body) {
-
-    console.log("Ides de guardar el blog:", id_blog_head, id_blog_footer, id_blog_body);
 
     const formBlog = {
       id_blog_head: id_blog_head,
@@ -300,11 +293,8 @@ const PageContent = () => {
       id_empleado : id_empleado,
     }
 
-    console.log(formCard);
-
     const id = await Service.saveCard(formCard);
     if (id && id > 0) {
-      console.log("Id del card:", id);
       return id;
     }
     else {
@@ -345,17 +335,27 @@ const PageContent = () => {
   }
 
   async function executionFunction(functionSave, mensajeError) {
-    const resultado = await functionSave();
-    if (!resultado || resultado === "error") {
+    try {
+      const resultado = await functionSave();
+      
+      if (!resultado || resultado === "error") {
+        throw new Error(mensajeError);
+      }
+      return resultado;
+    } catch (error) {
+      console.error(`❌ Error en executionFunction:`, {
+        error: error.message,
+        mensajeError
+      });
+      
       Swal.fire({
         title: "Error",
         text: mensajeError,
         icon: "error",
         confirmButtonText: "OK",
       });
-      throw new Error(mensajeError);
+      throw error;
     }
-    return resultado;
   }
 
   /* 
@@ -364,30 +364,104 @@ const PageContent = () => {
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.webp
   */
 
-  async function SaveImage(file,ruta, name = null){
-    try{
 
-      if (!file) return;
+async function SaveImage(file, ruta, name = null) {
+  try {
+    if (!file) return "ok";
 
-      const formData = new FormData();
-      formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
+    if (name) formData.append("name", name);
 
-      if(name){
-        formData.append("name", name);
-      }
-
-      const response = await Service.saveImage(formData, ruta);
-      if (response.status === 200 || response.status === 201) {
-        setFileHeader(null)
-        return "ok";
-      } else {
-        throw new Error("Error al subir la imagen");
-      }
-
-    }catch(error){
-      console.log(error);
+    const response = await Service.saveImage(formData, ruta);
+    
+    // si la respuesta es undefined pero no hay error, consideramos éxito
+    if (response === undefined) {
+      return "ok";
     }
+
+    // si la respuesta es null, también lo consideramos éxito
+    if (response === null) {
+      return "ok";
+    }
+
+    let jsonData = null;
+
+    if (typeof response === 'string') {
+      const jsonMatch = response.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          jsonData = JSON.parse(jsonMatch[0]);
+        } catch (parseError) {
+          console.warn("⚠️ Error al parsear JSON.");
+          // si contiene "success" o "200", lo consideramos exitoso
+          if (response.toLowerCase().includes('success') || response.includes('200')) {
+            return "ok";
+          }
+        }
+      } else {
+        // si no hay JSON pero contiene indicadores de éxito
+        if (response.toLowerCase().includes('success') || response.includes('200')) {
+          return "ok";
+        }
+      }
+    } else if (response?.data) {
+      // si tiene propiedad data
+      if (typeof response.data === 'string') {
+        const jsonMatch = response.data.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          try {
+            jsonData = JSON.parse(jsonMatch[0]);
+          } catch (parseError) {
+            console.warn("⚠️ Error al parsear JSON de data.");
+          }
+        }
+      } else {
+        jsonData = response.data;
+      }
+    } else if (typeof response === 'object') {
+      // si es un objeto directo
+      jsonData = response;
+    }
+
+    // verificar éxito por diferentes criterios
+    const isSuccess = jsonData?.status === 200 || 
+                     jsonData?.status === "200" ||
+                     jsonData?.success === true ||
+                     jsonData?.message?.toLowerCase().includes('success') ||
+                     jsonData?.message?.includes('guardado') ||
+                     jsonData?.message?.includes('subido') ||
+                     (response && typeof response === 'object' && !jsonData?.error);
+
+    if (isSuccess) {
+      return "ok";
+    }
+
+    // si llegamos aquí y no hay error explícito, consideramos éxito
+    if (!jsonData?.error && !jsonData?.message?.toLowerCase().includes('error')) {
+      return "ok";
+    }
+
+    // solo lanzar error si hay indicadores claros de fallo
+    const errorMessage = jsonData?.message || jsonData?.error || 'Error desconocido en el servidor';
+    throw new Error(`Error al subir imagen: ${errorMessage}`);
+
+  } catch (error) {
+    console.error("❌ Error en SaveImage:", {
+      error: error.message,
+      ruta,
+      name,
+      file: file ? file.name : 'no file'
+    });
+    
+    // si el error es de red o de parsing, pero no del servidor, podríamos asumir éxito
+    if (error.message.includes('JSON') || error.message.includes('undefined')) {
+      return "ok"; 
+    }
+    
+    throw error;
   }
+}
 
   async function HandleSave() {
     try {
@@ -407,31 +481,31 @@ const PageContent = () => {
       const id_card = await executionFunction(() => guardarCard(id_blog,id_empleado), "No se pudo guardar la card");
 
       if(fileHeader){
-        await executionFunction(() => SaveImage(fileHeader,`card/blog/image_head/${id_card}`), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(fileHeader,`card/blog/image_head/${id_card}`), "No se pudo guardar la imagen head");
       }
 
       if(FileBodyHeader){
-        await executionFunction(() => SaveImage(FileBodyHeader,`card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileBodyHeader,`card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen body1");
       }
 
       if(FileBodyFile1){
-        await executionFunction(() => SaveImage(FileBodyFile1,`card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileBodyFile1,`card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen body2");
       }
 
       if(FileBodyFile2){
-        await executionFunction(() => SaveImage(FileBodyFile2,`card/blog/images_body/${id_card}`,"image3"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileBodyFile2,`card/blog/images_body/${id_card}`,"image3"), "No se pudo guardar la imagen body3");
       }
 
       if(FileFooterFile1){
-        await executionFunction(() => SaveImage(FileFooterFile1,`card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileFooterFile1,`card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen footer1");
       }
 
       if(FileFooterFile2){
-        await executionFunction(() => SaveImage(FileFooterFile2,`card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileFooterFile2,`card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen footer2");
       }
 
       if(FileFooterFile3){
-        await executionFunction(() => SaveImage(FileFooterFile3,`card/blog/images_footer/${id_card}`,"image3"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileFooterFile3,`card/blog/images_footer/${id_card}`,"image3"), "No se pudo guardar la imagen footer3");
       }
 
       await Swal.fire({

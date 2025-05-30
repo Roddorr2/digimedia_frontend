@@ -344,7 +344,7 @@ export default function Page() {
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div className="flex justify-end gap-2">
                                                     <Link
-                                                        href={`/blog/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                                                        href={`/blog/plantillas/plantilla${blog.id_plantilla}/${blog.blog.link}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors"
@@ -352,7 +352,6 @@ export default function Page() {
                                                     >
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
-
                                                     <Link
                                                         href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
                                                         className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
@@ -429,3 +428,5 @@ export default function Page() {
         </main>
     )
 }
+
+                           

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 import FormBody1 from '../../components/FormBody1';
 import FormFooter from '../../components/FormFooter'
 import FormHeader from '../../components/FormHeader'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Save } from "lucide-react"
 import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
@@ -10,6 +10,14 @@ import { getCookie } from 'cookies-next';
 import { useSearchParams } from "next/navigation"
 import Fetch from "../../services/fetch"
 import { Loader2 } from "lucide-react"
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center h-screen text-gray-700">Cargando...</div>}>
+      <PageContent />
+    </Suspense>
+  )
+}
 
 const PageContent = () => {
 
@@ -152,7 +160,7 @@ const PageContent = () => {
           setDataFooter(responseFooter);
 
           console.log("Footer: ", responseFooter);
-          console.log("Data: ", dataFooter);
+          console.log("Datita Footer: ", dataFooter);
         }
         else {
           setError("No se pudo cargar la informacion del footer");
@@ -511,31 +519,31 @@ const PageContent = () => {
       //await executionFunction(deleteCarpetImages, "No se logro eliminar la carpeta de imagenes antigua");
 
       if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen head");
       }
 
       if (FileBodyHeader) {
-        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen body 1");
       }
 
       if (FileBodyFile1) {
-        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen body 2");
       }
 
       if (FileBodyFile2) {
-        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen body 3");
       }
 
       if (FileFooterFile1) {
-        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen 1");
       }
 
       if (FileFooterFile2) {
-        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen 2");
       }
 
       if (FileFooterFile3) {
-        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen");
+        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen 3");
       }
 
       Swal.fire({
@@ -569,7 +577,7 @@ const PageContent = () => {
       setFileFooterFile3(null);
 
     } catch (error) {
-      console.error("Error al guardar:", error.message);
+      console.error("Error al guardar: mee", error.message);
     } finally {
       setLoading(false);
     }
@@ -696,4 +704,4 @@ const PageContent = () => {
   );
 };
 
-export default PageContent;
+export default Page;
