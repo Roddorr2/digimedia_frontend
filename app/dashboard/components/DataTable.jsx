@@ -24,7 +24,13 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
   const subtipoAdministrador = auth_service.getCurrentSubtipoAdmin()
   let AuthHierarchy = 0;
   (() => {
-    if(subtipoAdministrador.hierarchy > 0) AuthHierarchy = subtipoAdministrador.hierarchy
+    if(empleadoAutenticado.id_rol === 1 && !subtipoAdministrador) {
+      AuthHierarchy = 80
+      return;
+    }
+    
+    if(subtipoAdministrador.hierarchy > 0) 
+      AuthHierarchy = subtipoAdministrador.hierarchy
   })();
 
   /** Obtenemos la jerarquía de los empleados de cada dataRow a mostrar
