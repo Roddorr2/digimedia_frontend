@@ -228,7 +228,7 @@ export default function Page() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl ">
+    <div className="container mx-auto px-4 py-6 overflow-x-auto max-w-7xl ">
       <Card className="border-none shadow-md">
         <CardHeader className="bg-gradient-to-r from-[#8c52ff] to-[#7a45e6] text-white rounded-t-lg pb-6">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">

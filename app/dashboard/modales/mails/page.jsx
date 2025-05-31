@@ -217,7 +217,7 @@ function PageContent() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             <button
-                className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-all duration-300 shadow-sm group"
+                className="flex items-center gap-2  hover:bg-[#7b45e0]  bg-[#8c52ff] text-white px-4 py-2 rounded-lg  transition-all duration-300 shadow-sm group"
                 onClick={() => router.push("/dashboard/modales/")}
             >
                 <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
@@ -250,7 +250,7 @@ function PageContent() {
                                         .some(prev => prev.estado == 0);
 
                                     return (
-                                        <div key={index} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors mb-4">
+                                        <div key={index} className="border rounded-lg p-4 hover:bg-gray-50 hover:text-black transition-colors mb-4">
                                             <div className="flex justify-between items-start mb-2">
                                                 <h3 className="font-medium">Email #{mail.number_message}</h3>
                                                 {getStatusBadge(mail.estado, mail.error)}
@@ -335,7 +335,7 @@ function PageContent() {
                                                 .some(prev => !prev.error && prev.estado == 0);
 
                                             return (
-                                                <div key={index} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                                                <div key={index} className="border rounded-lg p-4 hover:bg-gray-50  hover:text-black transition-colors">
                                                     <div className="flex justify-between items-start mb-2">
                                                         <h3 className="font-medium">Mensaje #{wat.number_message}</h3>
                                                         {getStatusBadgeWat(wat.estado, wat.error)}
@@ -375,7 +375,7 @@ function PageContent() {
                                                                         }
                                                                     }}
                                                                     className={`mx-auto mt-1 py-2 px-4 rounded-lg text-sm ${wat_pendientes
-                                                                        ? "bg-gray-400 cursor-not-allowed"
+                                                                        ? "bg-gray-400 text-black cursor-not-allowed"
                                                                         : "bg-purple-600 text-white hover:bg-purple-700"
                                                                         }`}
                                                                     disabled={wat_pendientes || isLoadingWat}
@@ -394,7 +394,7 @@ function PageContent() {
                                                                     }
                                                                     onClick={() => !wat_pendientes && cambiarEstadoWat(wat.id_modal_wat)}
                                                                     className={`mx-auto mt-1 py-2 px-4 rounded-lg text-center text-sm ${wat_pendientes
-                                                                        ? "bg-gray-400 cursor-not-allowed"
+                                                                        ? "bg-gray-400 text-black cursor-not-allowed"
                                                                         : "bg-blue-400 text-white"
                                                                         }`}
                                                                     disabled={wat_pendientes}
