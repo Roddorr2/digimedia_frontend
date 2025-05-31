@@ -205,6 +205,7 @@ const auth_service = {
         deleteCookie('empleado');
         deleteCookie('rol');
         deleteCookie('permisos');
+        deleteCookie('subtipoAdmin');
     },
 
     getCurrentUser: () => {
