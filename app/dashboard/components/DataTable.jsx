@@ -2,7 +2,7 @@
 
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
-import { use, useState, useEffect } from "react"
+import { use, useState } from "react"
 import { Eye, Pencil, Trash2, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -15,85 +15,52 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
 
   const empleadoAutenticado = auth_service.getCurrentEmpleado()
   const empleadoAutenticadoId = empleadoAutenticado?.id_empleado
-  const empleadoAutenticadoEmail = empleadoAutenticado?.email
-  
-  // Obtenemos el subtipo de administrador
-  const subtipoAdministrador = empleadoAutenticado?.subtipo_admin
 
-  // const restrictedEmails = ["joseluisjlgd123@gmail.com", "keving.kpg@gmail.com", "tmlighting@hotmail.com"]
+  /**
+   * Obtenermos el subtipo de administrador (objeto con descripción y puntos de jerarquía) desde auth_service
+   * Inicializamos los puntos de jerarquía en 0
+   * Se asignan los puntos de jerarquía desde la cookie mediante la arrow function
+   */
+  const subtipoAdministrador = auth_service.getCurrentSubtipoAdmin()
+  let AuthHierarchy = 0;
+  (() => {
+    if(subtipoAdministrador.hierarchy > 0) AuthHierarchy = subtipoAdministrador.hierarchy
+  })();
 
-  let isPrivilegedUser = false
-  let isRestrictedUser = false
-  let isNormalAdmin = false
-
-  // (function setPrivilegeLevel(empleado) {
-  //   if(!empleado) return;
-    
-  //   if(!subtipoAdministrador) {
-  //     if(empleado.rol.id_rol !== 1) return;
-  //     isNormalAdmin = true  
-  //   }
-
-  //   switch(subtipoAdministrador.id) {
-  //     case 1:
-  //       isPrivilegedUser = true
-  //     case 2:
-  //       isRestrictedUser = true
-  //     case 3:
-  //       isNormalAdmin = true
-  //   }
-  // })();
-  // useEffect(() => {
-  //     console.log(`Hola mundo \n${data.value}`)
-  //   }, [])
-
-  const getHierarchy = (empleado) => {
+  /** Obtenemos la jerarquía de los empleados de cada dataRow a mostrar
+   *  Si el subtipo fuese null asignamos valores por defecto
+   *  Sino retorna los puntos de jerarquía desde el subtipo (objeto)
+  */
+  const getDataRowHierarchy = (empleado) => {
     if(!empleado) return null
     if(!empleado.subtipo_admin) {
       if(empleado.rol === "administrador") return 80;
       if(empleado.rol === "ventas") return 30;
       return 20;
     }
-    console.log(empleado.subtipo_admin)
-    switch(empleado.subtipo_admin.id) {
-      case 1:
-        return 100
-      case 2:
-        return 90
-      case 3:
-        return 80
-    }
+    return empleado.subtipo_admin.hierarchy
   }
 
   console.log("Empleado autenticado:", empleadoAutenticado)
-  console.log("Puntos de jerarquía del usuario autenticado:", getHierarchy(empleadoAutenticado))
   
   const toggleRowExpansion = (index) => {
     setExpandedRow(expandedRow === index ? null : index)
   }
 
   const verificarEditDelete = (dataRow) => {
-    // console.log("verificarEditDelete - dataRow:", dataRow)
+    console.log("verificarEditDelete - dataRow:", dataRow)
 
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      // console.log("Registro es propio. Permitir editar/eliminar (mostrar perfil).")
+      console.log("Registro es propio. Permitir editar/eliminar (mostrar perfil).")
       return true
     }
 
-    if (getHierarchy(empleadoAutenticado) === 100) {
-      // console.log("Usuario privilegiado. Permitir editar/eliminar.")
+    if (AuthHierarchy === 100) {
+      console.log("Usuario privilegiado. Permitir editar/eliminar.")
       return true
     }
-
-    // if (restrictedEmails.includes(dataRow.email)) {
-    //   console.log("Registro con email restringido:", dataRow.email, ". No se permite editar/eliminar para usuarios restringidos/administradores normales.")
-    //   return false
-    // }
-    console.log(`Auth user: ${getHierarchy(empleadoAutenticado)}` , `\nDataRow user: ${getHierarchy(dataRow)}`)
     
-    return getHierarchy(empleadoAutenticado) > getHierarchy(dataRow)
-    // console.log("Registro no restringido. Permitir editar/eliminar para este usuario.")
-    return true
+    return AuthHierarchy > getDataRowHierarchy(dataRow)
   }
 
   const verificarShow = (dataRow) => {
@@ -112,8 +79,8 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
     return (
       <div className="grid gap-4 md:hidden ">
         {data.map((dataRow, index) => {
+          console.log(dataRow)
           const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-          // console.log(`MobileView - Fila ${index}:`, { esMismoUsuario, dataRow })
 
           return (
             <Card
@@ -206,7 +173,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
     )
   }
 
-  const renderDesktopView = () => {
+  const renderDesktopView = () => {    
     return (
       <div className="hidden md:block overflow-auto rounded-md border">
         <Table>
