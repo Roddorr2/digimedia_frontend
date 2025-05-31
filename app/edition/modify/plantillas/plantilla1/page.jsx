@@ -277,20 +277,24 @@ const PageContent = () => {
   }, []);
 
   async function guardarHeader() {
-    const id = await Fetch.updateHeader(dataHeader.id_blog_head, dataHeader);
-    if (id && id > 0) {
-      return id;
-    }
-    else {
-      Swal.fire({
-        title: "Error",
-        text: "No se pudo guardar el encabezado",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return "error";
-    }
+  const response = await Fetch.updateHeader(dataHeader.id_blog_head, dataHeader);
+  if (response && response.id) {
+    setDataBlog(prev => ({
+      ...prev,
+      link: response.link || prev.link, 
+    }));
+
+    return response.id;
+  } else {
+    Swal.fire({
+      title: "Error",
+      text: "No se pudo guardar el encabezado",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    return "error";
   }
+}
 
   async function guardarFooter() {
     const id = await Fetch.updateFooter(dataFooter.id_blog_footer, dataFooter);
