@@ -101,7 +101,8 @@ const empleado_service = {
             });
 
             if (!response.ok) {
-                return { status: response.status, error: true };
+                const data = await response.json();                 
+                return { status: response.status, error: true, message:data.errors };
             }
 
             const data = await response.json();
@@ -124,7 +125,8 @@ const empleado_service = {
             });
 
             if (!response.ok) {
-                return { status: response.status, error: true };
+                 const data = await response.json();
+                return { status: response.status, error: true, message:data.errors };
             }
 
             const data = await response.json();
