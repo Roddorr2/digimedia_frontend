@@ -143,7 +143,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
       .create(form)
       .then((response) => {
         if (response.error) {
-          setError({ status: true, message: "Hubo un error al crear el empleado" })
+          setError({ status: true, message: response.message })                   
           setButtonStatus(true)
         } else {
           if (response.status === 200) {
@@ -220,7 +220,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
   
             console.log("Datos actualizados:", data);
           } else {
-            setError({ status: true, message: "Hubo un error al actualizar la información" });
+            setError({ status: true, message: response.message });
             setButtonStatus(true);
           }
         }
