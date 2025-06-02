@@ -198,12 +198,17 @@ export default function Page() {
       item.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.dni?.toLowerCase().includes(searchTerm.toLowerCase())
   
-    // busqueda de nombre del rol en base al id
+    /**
+     * Si el rol seleccionado es el default (all) se establece ese roleName
+     * Sino, busca el nombre del rol según el id
+     */
     const selectedRoleName = selectedRole === "all" 
       ? "all" 
       : roles.find(r => r.id_rol === selectedRole)?.nombre?.toLowerCase() || "";
 
-    // filtro por rol usando el nombre del rol
+    /**
+     * Determina si es igual
+     */
     const matchesRole = selectedRole === "all" || 
       (item.rol && item.rol.toLowerCase() === selectedRoleName);
   
