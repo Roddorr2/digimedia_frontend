@@ -57,10 +57,21 @@ const PageContent= () => {
     texto3: '',
     texto4: '',
     texto5: ''
+  });  const [formInfoBody, setFormInfoBody] = useState([]);
+  const [formGaleryBody, setFormGaleryBody] = useState({
+    public_image1: '',
+    public_image2: '',
+    public_image3: '',
+    url_image1: '',
+    url_image2: '',
+    url_image3: ''
   });
-  const [formInfoBody, setFormInfoBody] = useState([]);
-  const [formGaleryBody, setFormGaleryBody] = useState({});
-  const [formEncabezadoBody, setFormEncabezadoBody] = useState({});
+  const [formEncabezadoBody, setFormEncabezadoBody] = useState({
+    titulo: '',
+    descripcion: '',
+    fecha: '',
+    public_image1: ''
+  });
 
   // footer
   const [dataFooter, setDataFooter] = useState(null);
