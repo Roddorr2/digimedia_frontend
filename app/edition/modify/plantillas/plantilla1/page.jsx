@@ -47,18 +47,28 @@ const PageContent = () => {
   const [dataHeader, setDataHeader] = useState(null);
 
   // body
-  const [dataBody, setDataBody] = useState(null);
-  const [formCommendBody, setFormCommendBody] = useState({
+  const [dataBody, setDataBody] = useState(null);  const [formCommendBody, setFormCommendBody] = useState({
     titulo: '',
     texto1: '',
     texto2: '',
     texto3: '',
     texto4: '',
     texto5: ''
+  });  const [formInfoBody, setFormInfoBody] = useState([]);
+  const [formGaleryBody, setFormGaleryBody] = useState({
+    public_image1: '',
+    public_image2: '',
+    public_image3: '',
+    url_image1: '',
+    url_image2: '',
+    url_image3: ''
   });
-  const [formInfoBody, setFormInfoBody] = useState([]);
-  const [formGaleryBody, setFormGaleryBody] = useState({});
-  const [formEncabezadoBody, setFormEncabezadoBody] = useState({});
+  const [formEncabezadoBody, setFormEncabezadoBody] = useState({
+    titulo: '',
+    descripcion: '',
+    fecha: '',
+    public_image1: ''
+  });
 
   // footer
   const [dataFooter, setDataFooter] = useState(null);
@@ -456,32 +466,69 @@ const PageContent = () => {
       });
       return "error";
     }
-  }*/
-
-  async function executionFunction(functionSave, mensajeError) {
-    const resultado = await functionSave();
-    if (!resultado || resultado === "error") {
-      Swal.fire({
-        title: "Error",
-        text: mensajeError,
-        icon: "error",
-        confirmButtonText: "OK",
+  }*/  async function executionFunction(functionSave, mensajeError) {
+    try {
+      console.log(`🔄 [executionFunction] Ejecutando: ${functionSave.name || 'función anónima'} - ${mensajeError}`);
+      
+      const resultado = await functionSave();
+      
+      console.log(`✅ [executionFunction] Resultado:`, {
+        resultado,
+        type: typeof resultado,
+        isError: resultado === "error",
+        isFalsy: !resultado
       });
-      throw new Error(mensajeError);
+      
+      if (!resultado || resultado === "error") {
+        console.error(`❌ [executionFunction] Función falló: ${mensajeError}`);
+        await Swal.fire({
+          title: "Error",
+          text: mensajeError,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        throw new Error(mensajeError);
+      }
+      
+      return resultado;
+    } catch (error) {
+      console.error(`💥 [executionFunction] Error capturado:`, {
+        message: error.message,
+        name: error.name,
+        functionName: functionSave.name || 'función anónima',
+        mensajeError,
+        stack: error.stack
+      });
+      
+      // Mostrar el error solo si no contiene ciertos mensajes ya manejados
+      const shouldShowAlert = !error.message.includes("No se recibió respuesta del servidor") && 
+                             !error.message.includes("verifique la conexión");
+      
+      if (shouldShowAlert) {
+        await Swal.fire({
+          title: "Error",
+          text: `${mensajeError}: ${error.message}`,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+      
+      throw error;
     }
-    return resultado;
   }
 
   /* 
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/head/image.jpeg
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/body/image.webp
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.webp
-  */
-
-  async function SaveImage(file, ruta, name = null) {
+  */  async function SaveImage(file, ruta, name = null) {
     try {
+      console.log(`🚀 [SaveImage] Iniciando para archivo:`, file?.name, `ruta:`, ruta, `name:`, name);
 
-      if (!file) return;
+      if (!file) {
+        console.log("⚠️ [SaveImage] No hay archivo para subir, retornando éxito");
+        return "ok";
+      }
 
       const formData = new FormData();
       formData.append("file", file);
@@ -490,65 +537,155 @@ const PageContent = () => {
         formData.append("name", name);
       }
 
+      console.log("📤 [SaveImage] Enviando imagen al servidor...");
       const response = await Fetch.saveImage(formData, ruta);
-      if (response.status === 200 || response.status === 201) {
-        setFileHeader(null)
-        return "ok";
-      } else {
-        throw new Error("Error al subir la imagen");
+      
+      console.log("📥 [SaveImage] Respuesta recibida:", {
+        response,
+        type: typeof response,
+        isNull: response === null,
+        isUndefined: response === undefined,
+        hasStatus: response?.status,
+        statusValue: response?.status
+      });
+
+      // Caso 1: Respuesta es null o undefined (error en Fetch.saveImage)
+      if (response === null || response === undefined) {
+        console.error("❌ [SaveImage] La respuesta del servidor es null o undefined");
+        throw new Error("No se recibió respuesta del servidor - verifique la conexión");
       }
 
+      // Caso 2: Respuesta es un objeto con propiedad status (respuesta HTTP estándar)
+      if (response && typeof response === 'object' && 'status' in response) {
+        console.log(`📊 [SaveImage] Respuesta con status: ${response.status}`);
+        
+        if (response.status === 200 || response.status === 201) {
+          console.log("✅ [SaveImage] Imagen subida exitosamente con status", response.status);
+          setFileHeader(null); // Limpiar el archivo después del éxito
+          return "ok";
+        } else if (response.status === 400) {
+          console.warn("⚠️ [SaveImage] Status 400 - error del cliente:", response.data || response);
+          throw new Error(`Error 400: ${response.data?.message || 'Solicitud inválida'}`);
+        } else if (response.status >= 500) {
+          console.error("💥 [SaveImage] Error del servidor:", response.status);
+          throw new Error(`Error del servidor (${response.status}): ${response.data?.message || 'Error interno'}`);
+        } else {
+          console.error("❌ [SaveImage] Status no manejado:", response.status);
+          throw new Error(`Status no esperado: ${response.status}`);
+        }
+      }
+
+      // Caso 3: Respuesta es directamente los datos (sin propiedad status)
+      if (response && typeof response === 'object' && !('status' in response)) {
+        console.log("✅ [SaveImage] Respuesta directa exitosa (sin status)");
+        setFileHeader(null); // Limpiar el archivo después del éxito
+        return "ok";
+      }
+
+      // Caso 4: Respuesta es string o primitivo
+      if (typeof response === 'string') {
+        console.log("📝 [SaveImage] Respuesta tipo string:", response);
+        // Intentar parsear si contiene JSON
+        try {
+          const parsed = JSON.parse(response);
+          if (parsed && (parsed.success || parsed.status === 200 || parsed.status === 201)) {
+            console.log("✅ [SaveImage] String parseado exitoso");
+            setFileHeader(null);
+            return "ok";
+          }
+        } catch (parseError) {
+          console.log("⚠️ [SaveImage] String no es JSON válido, tratando como éxito");
+          setFileHeader(null);
+          return "ok";
+        }
+      }
+
+      // Caso 5: Si llegamos aquí, algo salió mal
+      console.error("❌ [SaveImage] Tipo de respuesta no manejado:", {
+        response,
+        type: typeof response,
+        constructor: response?.constructor?.name
+      });
+      throw new Error("Formato de respuesta no reconocido del servidor");
+
     } catch (error) {
-      console.log(error);
+      console.error("💥 [SaveImage] Error capturado:", {
+        message: error.message,
+        name: error.name,
+        stack: error.stack,
+        file: file?.name,
+        ruta,
+        nameParam: name
+      });
+      
+      // Re-lanzar el error para que executionFunction lo maneje
+      throw error;
     }
   }
-
   async function HandleSave() {
     try {
-
+      console.log("🚀 Iniciando proceso de guardado...");
       setLoading(true);
 
+      console.log("💾 Guardando tarjeta de comentarios...");
       await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
 
+      console.log("💾 Guardando contenido del blog...");
       await executionFunction(guardarBody, "No se pudo guardar el contenido del blog");
 
+      console.log("💾 Guardando tarjetas informativas...");
       await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");
 
+      console.log("💾 Guardando encabezado...");
       await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
+      
+      console.log("💾 Guardando pie de página...");
       await executionFunction(guardarFooter, "No se pudo guardar el pie de página");
 
+      console.log("💾 Guardando blog...");
       await executionFunction(guardarBlog, "No se pudo guardar el blog");
+      
+      console.log("💾 Guardando card...");
       await executionFunction(() => guardarCard(id_empleado), "No se pudo guardar la card");
 
-      //await executionFunction(deleteCarpetImages, "No se logro eliminar la carpeta de imagenes antigua");
+      console.log("📸 Iniciando guardado de imágenes...");
 
       if (fileHeader) {
+        console.log("📸 Subiendo imagen de header...");
         await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen head");
       }
 
       if (FileBodyHeader) {
+        console.log("📸 Subiendo imagen de body header...");
         await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen body 1");
       }
 
       if (FileBodyFile1) {
+        console.log("📸 Subiendo imagen de body 2...");
         await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen body 2");
       }
 
       if (FileBodyFile2) {
+        console.log("📸 Subiendo imagen de body 3...");
         await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen body 3");
       }
 
       if (FileFooterFile1) {
+        console.log("📸 Subiendo imagen de footer 1...");
         await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen 1");
       }
 
       if (FileFooterFile2) {
+        console.log("📸 Subiendo imagen de footer 2...");
         await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen 2");
       }
 
       if (FileFooterFile3) {
+        console.log("📸 Subiendo imagen de footer 3...");
         await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen 3");
       }
+
+      console.log("✅ ¡Proceso de guardado completado exitosamente!");
 
       Swal.fire({
         title: "Actualizado Correctamente",
@@ -558,6 +695,7 @@ const PageContent = () => {
 
       router.push("/dashboard/blogs/")
 
+      // Limpiar estados
       setImageBodyFile1Before("");
       setImageBodyFile2Before("");
       setImageFooterFile1Before("");
@@ -566,7 +704,6 @@ const PageContent = () => {
       setImageHeaderBefore("");
       setImageBodyHeaderBefore("");
       
-
       setDataBody(null);
       setDataFooter(null);
       setDataHeader(null);
@@ -581,7 +718,8 @@ const PageContent = () => {
       setFileFooterFile3(null);
 
     } catch (error) {
-      console.error("Error al guardar: mee", error.message);
+      console.error("💥 Error en HandleSave:", error);
+      console.error("📊 Stack trace:", error.stack);
     } finally {
       setLoading(false);
     }
