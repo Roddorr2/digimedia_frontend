@@ -15,16 +15,39 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
 
   const empleadoAutenticado = auth_service.getCurrentEmpleado()
   const empleadoAutenticadoId = empleadoAutenticado?.id_empleado
-  const empleadoAutenticadoEmail = empleadoAutenticado?.email
 
-  const restrictedEmails = ["joseluisjlgd123@gmail.com", "keving.kpg@gmail.com", "tmlighting@hotmail.com"]
+  /**
+   * Obtenermos el subtipo de administrador (objeto con descripción y puntos de jerarquía) desde auth_service
+   * Inicializamos los puntos de jerarquía en 0
+   * Se asignan los puntos de jerarquía desde la cookie mediante la arrow function
+   */
+  const subtipoAdministrador = auth_service.getCurrentSubtipoAdmin()
+  let AuthHierarchy = 0;
+  (() => {
+    if(empleadoAutenticado.id_rol === 1 && !subtipoAdministrador) {
+      AuthHierarchy = 80
+      return;
+    }
+    
+    if(subtipoAdministrador.hierarchy > 0) 
+      AuthHierarchy = subtipoAdministrador.hierarchy
+  })();
 
-  const isPrivilegedUser = empleadoAutenticadoEmail === "tmlighting@hotmail.com"
-  const isRestrictedUser = restrictedEmails.includes(empleadoAutenticadoEmail) && !isPrivilegedUser
-  const isNormalAdmin = !restrictedEmails.includes(empleadoAutenticadoEmail)
+  /** Obtenemos la jerarquía de los empleados de cada dataRow a mostrar
+   *  Si el subtipo fuese null asignamos valores por defecto
+   *  Sino retorna los puntos de jerarquía desde el subtipo (objeto)
+  */
+  const getDataRowHierarchy = (empleado) => {
+    if(!empleado) return null
+    if(!empleado.subtipo_admin) {
+      if(empleado.rol === "administrador") return 80;
+      if(empleado.rol === "ventas") return 30;
+      return 20;
+    }
+    return empleado.subtipo_admin.hierarchy
+  }
 
   console.log("Empleado autenticado:", empleadoAutenticado)
-  console.log("Tipo de usuario:", { isPrivilegedUser, isRestrictedUser, isNormalAdmin })
   
   const toggleRowExpansion = (index) => {
     setExpandedRow(expandedRow === index ? null : index)
@@ -38,29 +61,23 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
       return true
     }
 
-    if (isPrivilegedUser) {
+    if (AuthHierarchy === 100) {
       console.log("Usuario privilegiado. Permitir editar/eliminar.")
       return true
     }
-
-    if (restrictedEmails.includes(dataRow.email)) {
-      console.log("Registro con email restringido:", dataRow.email, ". No se permite editar/eliminar para usuarios restringidos/administradores normales.")
-      return false
-    }
-
-    console.log("Registro no restringido. Permitir editar/eliminar para este usuario.")
-    return true
+    
+    return AuthHierarchy > getDataRowHierarchy(dataRow)
   }
 
   const verificarShow = (dataRow) => {
-    console.log("verificarShow - dataRow:", dataRow)
+    // console.log("verificarShow - dataRow:", dataRow)
   
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      console.log("Registro es propio. No se muestra botón Show.")
+      // console.log("Registro es propio. No se muestra botón Show.")
       return false
     }
   
-    console.log("Permitir mostrar registro para cualquier usuario.")
+    // console.log("Permitir mostrar registro para cualquier usuario.")
     return true
   }
 
@@ -68,8 +85,8 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
     return (
       <div className="grid gap-4 md:hidden ">
         {data.map((dataRow, index) => {
+          console.log(dataRow)
           const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-          console.log(`MobileView - Fila ${index}:`, { esMismoUsuario, dataRow })
 
           return (
             <Card
@@ -162,7 +179,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
     )
   }
 
-  const renderDesktopView = () => {
+  const renderDesktopView = () => {    
     return (
       <div className="hidden md:block overflow-auto rounded-md border">
         <Table>
@@ -179,7 +196,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
           <TableBody>
             {data.map((dataRow, index) => {
               const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-              console.log(`DesktopView - Fila ${index}:`, { esMismoUsuario, dataRow })
+              // console.log(`DesktopView - Fila ${index}:`, { esMismoUsuario, dataRow })
 
               return (
                 <TableRow 

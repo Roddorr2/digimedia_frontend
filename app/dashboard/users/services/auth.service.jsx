@@ -27,9 +27,19 @@ const setAuthCookie = (name, value, options = {}) => {
             id_empleado: value.id_empleado,
             nombre: value.nombre,
             apellido: value.apellido,
-            email: value.email 
+            email: value.email,
+            id_rol: value.id_rol
         };
         setCookie(name, JSON.stringify(essentialEmpleadoData), cookieOptions);
+        return;
+    }
+
+    if(name === 'subtipoAdmin' && value && typeof value === 'object') {
+        const data = {
+            description: value.description,
+            hierarchy: value.hierarchy
+        };
+        setCookie(name, JSON.stringify(data), cookieOptions);
         return;
     }
     
@@ -77,7 +87,7 @@ const auth_service = {
             });
     
             const data = await response.json();
-    
+            console.log("Usuario autenticado: \n", data)
             if (!response.ok) {
                 throw new Error(data.message || "Error en la autenticación");
             }
@@ -95,6 +105,10 @@ const auth_service = {
             
             if (data.permisos) {
                 setAuthCookie('permisos', data.permisos);
+            }
+
+            if(data.empleado.subtipo_admin) {
+                setAuthCookie('subtipoAdmin', data.empleado.subtipo_admin)
             }
     
             return data;
@@ -192,6 +206,7 @@ const auth_service = {
         deleteCookie('empleado');
         deleteCookie('rol');
         deleteCookie('permisos');
+        deleteCookie('subtipoAdmin');
     },
 
     getCurrentUser: () => {
@@ -213,6 +228,19 @@ const auth_service = {
         try {
             if (empleado) {
                 return typeof empleado === 'string' ? JSON.parse(empleado) : empleado;
+            }
+            return null;
+        } catch (e) {
+            console.error("Error parsing empleado cookie:", e);
+            return null;
+        }
+    },
+
+    getCurrentSubtipoAdmin: () => {
+        const subtipoAdmin = getCookie('subtipoAdmin');
+        try {
+            if (subtipoAdmin) {
+                return typeof subtipoAdmin === 'string' ? JSON.parse(subtipoAdmin) : subtipoAdmin;
             }
             return null;
         } catch (e) {

@@ -215,6 +215,7 @@ export default function Page() {
   useEffect(() => {
     fetchEmpleados()
     fetchRoles()
+    console.log(`Hola mundo \n${data}`)
   }, [currentPage])
 
   // formatear rol
