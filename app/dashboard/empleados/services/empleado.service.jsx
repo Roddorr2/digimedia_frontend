@@ -28,14 +28,14 @@ const empleado_service = {
              */
             const reqParams = new URLSearchParams({
                 page: page.toString(),
-                limit: limit.toString
+                limit: limit.toString()
             })
 
             if(search && search.trim() !== '') {
                 reqParams.append('search', search)
             }
 
-            if(role && role.trim() !== 'all') {
+            if(role && role != 'all') {
                 reqParams.append('rol', role)
             }
 
