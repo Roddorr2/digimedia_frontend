@@ -15,7 +15,7 @@ export function FeaturesSection({ features }) {
               <div className="text-purple-700 mb-6 w-24 h-24">{feature.icon}</div>
               <div className="w-16 h-1 bg-[#ff037f] mb-4"></div>
               <h3 className="text-purple-700 uppercase text-sm font-bold mb-3">{feature.title}</h3>
-              <p className="text-gray-700 text-sm">{feature.description}</p>
+              <p className="text-gray-700 text-sm uppercase">{feature.description}</p>
             </div>
           ))}
         </div>
