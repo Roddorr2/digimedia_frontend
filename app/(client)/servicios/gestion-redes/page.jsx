@@ -51,14 +51,14 @@ export default function Page() {
 
       <Main
         title="GESTIÓN DE REDES SOCIALES"
-        subtitle="¡Gestionamos tu éxito en redes sociales!"
-        text="Te ayudamos a construir una voz única para tu marca, interactúa de manera auténtica con tu audiencia y transforma tus seguidores en clientes fieles."
+        subtitle="¡Conviértete en la marca que todos quieren seguir!"
+        text="Impulsamos tu presencia digital con contenido estratégico y cercano, logrando que tu marca conecte, inspire y convierta seguidores en clientes fieles."
         image="/servicios/gestion/img-main.png"
       />
 
       <Description
-        title="Gestión de Redes Sociales"
-        text="La gestión de redes sociales es el proceso de administrar y optimizar la presencia de una marca en plataformas como Facebook, Instagram, Twitter, etc. Ayuda a tu marca a crear una voz consistente, interactuar con tu audiencia, aumentar el compromiso y la visibilidad, así como impulsar el tráﬁco y las conversiones hacia tu negocio."
+        title="¿QUÉ ES?"
+        text="La gestión de redes sociales consiste en planificar, crear y administrar contenido estratégico para potenciar la presencia de una marca en plataformas digitales, conectar con su audiencia y alcanzar objetivos de negocio."
       />
 
       <Servicios servicios={servicios} />
