@@ -1,6 +1,7 @@
 export function FeaturesSection({ features }) {
   // Determine grid columns based on number of features
   const getGridCols = () => {
+    if (features.length === 1) return "grid-cols-1 md:w-1/2 mx-auto"
     if (features.length <= 2) return "grid-cols-1 md:grid-cols-2"
     if (features.length <= 3) return "grid-cols-1 md:grid-cols-3"
     return "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
