@@ -24,6 +24,7 @@ export default function Page() {
       title: 'PRODUCCIÓN DE PAUTAS',
       text: 'Creamos PAUTAS estratégicAS que habla el idioma de tu audiencia y fortalece tu marca',
       icon: '/servicios/gestion/icon2.svg',
+      ruta: '/servicios/produccion-pautas/'
     },
     {
       title: 'DISEÑO UX Y UI',
