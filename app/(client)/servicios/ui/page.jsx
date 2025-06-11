@@ -19,13 +19,14 @@ export default function UXUI() {
 
     const featuresuxui = [
     {
-      icon: <MonitorIcon className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/DiseñoUI/icons/UX.webp" alt="UX" className="w-full h-full object-contain" />,
+      title: "Diseño de pautas",
       title: "UX",
       description:
         "EL DISEÑO UX (EXPERIENCIA DE USUARIO) SE ENFOCA EN LA EXPERIENCIA GENERAL AL USAR UN PRODUCTO DIGITAL. MIDE Y ESTUDIA CÓMO UNA EXPERIENCIA HACE SENTIR AL USUARIO Y QUÉ TAN INTUITIVA ES.",
     },
     {
-      icon: <Smartphone className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/DiseñoUI/icons/UI.webp" alt="UI" className="w-full h-full object-contain" />,
       title: "UI",
       description:
         "EL DISEÑO UI (INTERFAZ DE USUARIO) SE ENCARGA DE CREAR Y DESARROLLAR UNA INTERFAZ ATRACTIVA, COHERENTE Y FÁCIL DE NAVEGAR.",

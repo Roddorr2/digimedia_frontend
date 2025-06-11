@@ -6,13 +6,13 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function ProduccionPautas() {
     const features = [
         {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/gestion/produccion-pautas/icons/first.webp" alt="Diseño de pautas" className="w-full h-full object-contain" />,
         title: "Diseño de pautas",
         description:
             "El diseño de pautas se enfoca principalmente en la parte visual y comunicacional del anuncio. Aquí se busca que la pieza tenga un impacto visual fuerte, que sea coherente con la identidad de marca y que transmita el mensaje de forma clara y atractiva para el público objetivo.",
         },
         {
-        icon: <Smartphone className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/gestion/produccion-pautas/icons/second.webp" alt="Producción de pautas" className="w-full h-full object-contain" />,
         title: "Producción de pautas",
         description:
             "La producción de pautas tiene un enfoque más integral y operativo. No solo incluye la parte visual, sino también la planificación estratégica, edición técnica, adaptación a formatos, y preparación de archivos finales para que el anuncio esté listo para su publicación.",

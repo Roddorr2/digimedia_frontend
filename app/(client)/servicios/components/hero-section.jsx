@@ -8,13 +8,13 @@ export function HeroSection
     <section className="relative w-full overflow-hidden bg-purple-950 text-[#523194] uppercase font-bold">
       {/* Background image with gradient overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/10 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/20 to-transparent z-10" />
         <img src={backgroundImageUrl || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
       </div>
 
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row">
-        <div className="w-full md:w-3/5 space-y-6">
+        <div className="w-full md:w-1/2 space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold text-[#523194] uppercase border-b-4 border-[#ff037f] pb-2 inline-block">
             {title}
           </h2>
