@@ -2,7 +2,7 @@
 import React from 'react'
 import { CheckCircle, Clock, Bookmark, Share2, Eye, Image, Type, AlignLeft, Clock1, Loader2, Trash2, BookType } from "lucide-react"
 import { useState } from 'react';
-
+import BotonAñadirLink from "../../plantillas/components/BotonAñadirLink";
 export default function FormBody2(props) {
 
   const [activeTab, setActiveTab] = useState("info")
@@ -645,7 +645,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                             placeholder="Descripción corta"
                           ></textarea>
                      </div>
-                                               <div className="w-full flex justify-end"> <BotonAñadirLink texto={section.descripcion} item={section.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
+                                               <div className="w-full justify-end"> <BotonAñadirLink texto={section.descripcion} item={section.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
                         
                       </form>
                     </div>

@@ -2,7 +2,7 @@
 import { Type, AlignLeft, Quote, Image, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Loader2, CheckCircle, Calendar, ExternalLink, Image as IconImage } from "lucide-react";
-
+import BotonAñadirLink from "../../plantillas/components/BotonAñadirLink";
 export default function FormBody3(props) {
     const {
         formCommendBody,

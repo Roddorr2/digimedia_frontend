@@ -7,7 +7,7 @@ const [open,setOpen]=useState(false)
   return (<>
   {open ? (
         <div className="w-full text-xs items-center flex gap-4 h-6 justify-between my-2">
-            <div>
+            <div className="flex flex-col">
             <label className="text-purple-400">Palabra</label>
        <select
         className="w-full max-w-24 h-6 focus:bg-white-black break-all bg-white"      
@@ -24,7 +24,7 @@ const [open,setOpen]=useState(false)
           ))}
         </select>
         </div>
-        <div>
+         <div className="flex flex-col">
             <label className="text-purple-400" htmlFor="">Enlace</label>
         <select
       

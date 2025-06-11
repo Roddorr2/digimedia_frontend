@@ -2,7 +2,7 @@
 import React from 'react'
 import { CheckCircle, Clock, Bookmark, Share2, Eye, Image, Type, AlignLeft, Clock1, Loader2, Trash2, BookType } from "lucide-react"
 import { useState } from 'react';
-import BotonAñadirLink from './BotonAñadirLink';
+import BotonAñadirLink from "./BotonAñadirLink";
 
 export default function FormBody2(props) {
 
