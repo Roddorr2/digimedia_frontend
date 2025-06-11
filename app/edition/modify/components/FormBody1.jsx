@@ -2,6 +2,7 @@
 import { Type, AlignLeft, Quote, Image, Trash2, Clock1, Clock } from "lucide-react";
 import { Loader2, CheckCircle, ArrowRight, Image as IconImage } from "lucide-react"
 import { useState } from "react";
+import BotonAñadirLink from "../../plantillas/components/BotonAñadirLink";
 
 
 export default function FormBody1(props) {
@@ -48,6 +49,31 @@ export default function FormBody1(props) {
     });
 
     const [uploading, setUploading] = useState(false);
+ 
+  const servicios = [
+    { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
+    { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
+    { label: "Marketing de Gestión Digital", url: "/servicios/marketing-gestion/" },
+    { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
+  ];
+
+function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+    return texto;
+  }
+  return texto.split(" ").map((palabra, i) => {
+    const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
+    const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+    return isMatch ? (
+      <a key={i} href={enlace} className="text-blue-400 font-bold underline hover:text-blue-200">
+        {palabraClave}
+      </a>
+    ) : (
+      <span key={i}>{" "+palabra + " "}</span>
+    );
+  });
+}
 
     const handleChange = (setter) => (e) => {
         const { name, value } = e.target;
@@ -363,7 +389,9 @@ export default function FormBody1(props) {
                                         className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${styles[index % styles.length]}`}
                                     >
                                         <h3 className="text-xl font-bold mb-3 text-blue-400">{section.titulo}</h3>
-                                        <p className="text-gray-100">{section.descripcion}</p>
+                                           <p className="text-gray-100">
+        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
+      </p>
                                     </div>
                                 );
                             })}
@@ -667,7 +695,12 @@ export default function FormBody1(props) {
                                             className="w-full resize-none h-[100px] bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm"
                                             placeholder="Descripción"
                                         />
+                                        <div className="w-full flex justify-end">
+                                                            <BotonAñadirLink texto={item.descripcion} item={item.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/>
+                                        
+                                                            </div>
                                     </div>
+                                    
                                 </div>
                             ))
                         }

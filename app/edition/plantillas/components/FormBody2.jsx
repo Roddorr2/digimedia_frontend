@@ -67,6 +67,9 @@ export default function FormBody2(props) {
 
   
 function renderDescripcion(texto, palabraClave, enlace) {
+  if (!palabraClave || !enlace) {
+    return texto;
+  }
   return texto.split(" ").map((palabra, i) => {
     const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
     const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
@@ -609,7 +612,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                       <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-3 text-teal-700">{section.titulo}</h3>
-                             <p className="text-gray-100">
+                             <p className="text-gray-700 leading-relaxed">
         {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
       </p>
                       </div>

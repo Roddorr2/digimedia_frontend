@@ -63,6 +63,9 @@ export default function FormBody1(props) {
 
 
 function renderDescripcion(texto, palabraClave, enlace) {
+  if (!palabraClave || !enlace) {
+    return texto;
+  }
   return texto.split(" ").map((palabra, i) => {
     const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
     const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
