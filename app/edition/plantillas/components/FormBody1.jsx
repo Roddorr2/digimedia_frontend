@@ -1,5 +1,5 @@
 "use client";
-import { Type, AlignLeft, Quote, Image,Link, Trash2, Clock1, Clock } from "lucide-react";
+import { Type, AlignLeft, Quote, Image, Trash2, Clock1, Clock } from "lucide-react";
 import { Loader2, CheckCircle, ArrowRight, Image as IconImage } from "lucide-react"
 
 import { useState } from "react";

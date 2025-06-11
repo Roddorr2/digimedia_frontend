@@ -2,6 +2,7 @@
 import { Type, AlignLeft, Quote, Image, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Loader2, CheckCircle, Calendar, ExternalLink, Image as IconImage } from "lucide-react";
+import BotonAñadirLink from "./BotonAñadirLink";
 
 export default function FormBody3(props) {
 
@@ -40,6 +41,21 @@ export default function FormBody3(props) {
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
+
+function renderDescripcion(texto, palabraClave, enlace) {
+  return texto.split(" ").map((palabra, i) => {
+    const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
+    const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+    return isMatch ? (
+      <a key={i} href={enlace} className="text-blue-400 font-bold underline hover:text-blue-200">
+        {palabraClave}
+      </a>
+    ) : (
+      <span key={i}>{" "+palabra + " "}</span>
+    );
+  });
+}
 
   const [errors, setErrors] = useState({
     titulo: { message: 'Debe tener entre 10 y 50 caracteres', isValid: null },
@@ -444,9 +460,9 @@ export default function FormBody3(props) {
                           </h3>
                         </div>
                         <div className="md:w-2/3 p-6">
-                          <p className="text-gray-700 leading-relaxed">
-                            {section.descripcion}
-                          </p>
+                                               <p className="text-gray-100 leading-relaxed">
+        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
+      </p>
                         </div>
                       </div>
                     );
@@ -792,6 +808,8 @@ export default function FormBody3(props) {
                   <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
 
                 </div>
+                
+                                           <div className="w-full flex justify-end"> <BotonAñadirLink texto={item.descripcion} item={item.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
               </div>
             ))}
           </form>

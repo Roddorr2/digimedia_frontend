@@ -2,6 +2,7 @@
 import React from 'react'
 import { CheckCircle, Clock, Bookmark, Share2, Eye, Image, Type, AlignLeft, Clock1, Loader2, Trash2, BookType } from "lucide-react"
 import { useState } from 'react';
+import BotonAñadirLink from './BotonAñadirLink';
 
 export default function FormBody2(props) {
 
@@ -63,6 +64,23 @@ export default function FormBody2(props) {
     { label: "Marketing de Gestión Digital", url: "/servicios/marketing-gestion/" },
     { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
   ];
+
+  
+function renderDescripcion(texto, palabraClave, enlace) {
+  return texto.split(" ").map((palabra, i) => {
+    const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
+    const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+    return isMatch ? (
+      <a key={i} href={enlace} className="text-blue-400 font-bold underline hover:text-blue-200">
+        {palabraClave}
+      </a>
+    ) : (
+      <span key={i}>{" "+palabra + " "}</span>
+    );
+  });
+}
+
 
   const handleServiceChange = (e) => {
     const url = e.target.value;
@@ -591,7 +609,9 @@ export default function FormBody2(props) {
                       <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-3 text-teal-700">{section.titulo}</h3>
-                        <p className="text-gray-700">{section.descripcion}</p>
+                             <p className="text-gray-100">
+        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
+      </p>
                       </div>
                     </div>
                     <div className="bg-black/90 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg w-[650px] mr-4">
@@ -627,7 +647,9 @@ export default function FormBody2(props) {
                             className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
                             placeholder="Descripción corta"
                           ></textarea>
+                            
                         </div>
+                           <div className="w-full flex justify-end"> <BotonAñadirLink texto={section.descripcion} item={section.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
                       </form>
                     </div>
                   </div>
