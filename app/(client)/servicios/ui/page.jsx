@@ -1,10 +1,21 @@
-
+'use client';
 import Contactanos from '../components/Contactanos';
 import './globals.css';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import { useSearchParams } from 'next/navigation';
 
 export default function UXUI() {
+
+    const searchParams = useSearchParams();
+    const from = searchParams.get('from');
+
+    const backgroundImages = {
+      disenoDesarrollo: '/servicios/DiseñoUI/background_ui.svg',
+      gestionRedes: '/servicios/DiseñoUI/background_ui_2.jpg',
+    }
+
+    const backgroundImage = backgroundImages[from]
 
     const featuresuxui = [
     {
@@ -27,7 +38,7 @@ export default function UXUI() {
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='EL DISEÑO UX SE PREOCUPA POR LA EXPERIENCIA DEL USUARIO, CENTRÁNDOSE EN LA USABILIDAD Y SE ENFOCA EN LOS DETALLES VISUALES DE LA INTERFAZ DIGITAL, DISEÑADA PARA CREAR PRODUCTOS ATRACTIVOS.'
-      backgroundImage='/servicios/DiseñoUI/background_ui.svg'
+      backgroundImage={backgroundImage}
       heroTitle="DISEÑO UX Y UI"
       heroBulletPoints={[
         "MAYOR SATISFACCIÓN DEL USUARIO: UN DISEÑO INTUITIVO Y AGRADABLE HACE QUE LOS USUARIOS DISFRUTEN USANDO EL PRODUCTO O SERVICIO.",

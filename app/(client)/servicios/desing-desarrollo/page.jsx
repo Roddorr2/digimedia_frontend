@@ -12,7 +12,7 @@ export default function Page() {
       title: 'DISEÑOS UX Y UI',
       text: 'Ccreamos experiencias digitales que atrapan, CAUTIVAN y convierten visitantes en clientes fieles.',
       icon: '/servicios/desarrollo/icon1.svg',
-      ruta: '/servicios/ui'
+      ruta: '/servicios/ui/?from=disenoDesarrollo'
     },
     {
       title: 'DESARROLLO WEB',

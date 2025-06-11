@@ -30,7 +30,7 @@ export default function Page() {
       title: 'DISEÑO UX Y UI',
       text: 'Combinamos  (UI) y  (UX) para crear plataformas intuitivas, fáciles de usar y optimizadas para generar conversiones',
       icon: '/servicios/gestion/icon4.svg',
-      ruta: '/servicios/ui/'
+      ruta: '/servicios/ui/?from=gestionRedes'
     },
   ];
 
