@@ -22,7 +22,7 @@ export default function DisenoPauta() {
       <UxUiSection 
       features={features} 
       mainDescription='Es el proceso de crear piezas gráficas o audiovisuales atractivas y efectivas que serán utilizadas en campañas de publicidad digital. Estas piezas están dirigidas a públicos segmentados y tienen un objetivo específico.'
-      backgroundImage='/servicios/DiseñoUI/background_ui.svg'
+      backgroundImage='/servicios/gestion/diseno-pautas/Diseno-de-Pautas---Digimedia.jpg'
       heroTitle="DISEÑO DE PAUTAS"
       heroBulletPoints={[
         "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
