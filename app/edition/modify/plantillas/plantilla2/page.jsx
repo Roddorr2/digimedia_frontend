@@ -490,8 +490,12 @@ const PageContent= () => {
 
   async function SaveImage(file, ruta, name = null) {
     try {
+      console.log(`🚀 [SaveImage] Iniciando para archivo:`, file?.name, `ruta:`, ruta, `name:`, name);
 
-      if (!file) return;
+      if (!file) {
+        console.log("⚠️ [SaveImage] No hay archivo para subir, retornando éxito");
+        return "ok";
+      }
 
       const formData = new FormData();
       formData.append("file", file);
@@ -500,16 +504,89 @@ const PageContent= () => {
         formData.append("name", name);
       }
 
+      console.log("📤 [SaveImage] Enviando imagen al servidor...");
       const response = await Fetch.saveImage(formData, ruta);
-      if (response.status === 200 || response.status === 201) {
-        setFileHeader(null)
-        return "ok";
-      } else {
-        throw new Error("Error al subir la imagen");
+      
+      console.log("📥 [SaveImage] Respuesta recibida:", {
+        response,
+        type: typeof response,
+        isNull: response === null,
+        isUndefined: response === undefined,
+        hasStatus: response?.status,
+        statusValue: response?.status
+      });
+
+      // Caso 1: Respuesta es null o undefined (error en Fetch.saveImage)
+      if (response === null || response === undefined) {
+        console.error("❌ [SaveImage] La respuesta del servidor es null o undefined");
+        throw new Error("No se recibió respuesta del servidor - verifique la conexión");
       }
 
+      // Caso 2: Respuesta es un objeto con propiedad status (respuesta HTTP estándar)
+      if (response && typeof response === 'object' && 'status' in response) {
+        console.log(`📊 [SaveImage] Respuesta con status: ${response.status}`);
+        
+        if (response.status === 200 || response.status === 201) {
+          console.log("✅ [SaveImage] Imagen subida exitosamente con status", response.status);
+          setFileHeader(null); // Limpiar el archivo después del éxito
+          return "ok";
+        } else if (response.status === 400) {
+          console.warn("⚠️ [SaveImage] Status 400 - error del cliente:", response.data || response);
+          throw new Error(`Error 400: ${response.data?.message || 'Solicitud inválida'}`);
+        } else if (response.status >= 500) {
+          console.error("💥 [SaveImage] Error del servidor:", response.status);
+          throw new Error(`Error del servidor (${response.status}): ${response.data?.message || 'Error interno'}`);
+        } else {
+          console.error("❌ [SaveImage] Status no manejado:", response.status);
+          throw new Error(`Status no esperado: ${response.status}`);
+        }
+      }
+
+      // Caso 3: Respuesta es directamente los datos (sin propiedad status)
+      if (response && typeof response === 'object' && !('status' in response)) {
+        console.log("✅ [SaveImage] Respuesta directa exitosa (sin status)");
+        setFileHeader(null); // Limpiar el archivo después del éxito
+        return "ok";
+      }
+
+      // Caso 4: Respuesta es string o primitivo
+      if (typeof response === 'string') {
+        console.log("📝 [SaveImage] Respuesta tipo string:", response);
+        // Intentar parsear si contiene JSON
+        try {
+          const parsed = JSON.parse(response);
+          if (parsed && (parsed.success || parsed.status === 200 || parsed.status === 201)) {
+            console.log("✅ [SaveImage] String parseado exitoso");
+            setFileHeader(null);
+            return "ok";
+          }
+        } catch (parseError) {
+          console.log("⚠️ [SaveImage] String no es JSON válido, tratando como éxito");
+          setFileHeader(null);
+          return "ok";
+        }
+      }
+
+      // Caso 5: Si llegamos aquí, algo salió mal
+      console.error("❌ [SaveImage] Tipo de respuesta no manejado:", {
+        response,
+        type: typeof response,
+        constructor: response?.constructor?.name
+      });
+      throw new Error("Formato de respuesta no reconocido del servidor");
+
     } catch (error) {
-      console.log(error);
+      console.error("💥 [SaveImage] Error capturado:", {
+        message: error.message,
+        name: error.name,
+        stack: error.stack,
+        file: file?.name,
+        ruta,
+        nameParam: name
+      });
+      
+      // Re-lanzar el error para que executionFunction lo maneje
+      throw error;
     }
   }
 
