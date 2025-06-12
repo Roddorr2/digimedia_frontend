@@ -15,7 +15,7 @@ export default function UXUI() {
       gestionRedes: '/servicios/DiseñoUI/background_ui_2.jpg',
     }
 
-    const backgroundImage = backgroundImages[from]
+    const backgroundImage = backgroundImages[from] ? backgroundImages[from] : '/servicios/DiseñoUI/background_ui.svg'
 
     const featuresuxui = [
     {
