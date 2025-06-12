@@ -11,22 +11,22 @@ export default function UXUI() {
     const from = searchParams.get('from');
 
     const backgroundImages = {
-      disenoDesarrollo: '/servicios/DiseñoUI/background_ui.svg',
-      gestionRedes: '/servicios/DiseñoUI/background_ui_2.jpg',
+      disenoDesarrollo: '/servicios/DisenoUI/background_ui.svg',
+      gestionRedes: '/servicios/DisenoUI/background_ui_2.jpg',
     }
 
-    const backgroundImage = backgroundImages[from] ? backgroundImages[from] : '/servicios/DiseñoUI/background_ui.svg'
+    const backgroundImage = backgroundImages[from] || '/servicios/DisenoUI/background_ui.svg'
 
     const featuresuxui = [
     {
-      icon: <img src="/servicios/DiseñoUI/icons/UX.webp" alt="UX" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/DisenoUI/icons/UX.webp" alt="UX" className="w-full h-full object-contain" />,
       title: "Diseño de pautas",
       title: "UX",
       description:
         "EL DISEÑO UX (EXPERIENCIA DE USUARIO) SE ENFOCA EN LA EXPERIENCIA GENERAL AL USAR UN PRODUCTO DIGITAL. MIDE Y ESTUDIA CÓMO UNA EXPERIENCIA HACE SENTIR AL USUARIO Y QUÉ TAN INTUITIVA ES.",
     },
     {
-      icon: <img src="/servicios/DiseñoUI/icons/UI.webp" alt="UI" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/DisenoUI/icons/UI.webp" alt="UI" className="w-full h-full object-contain" />,
       title: "UI",
       description:
         "EL DISEÑO UI (INTERFAZ DE USUARIO) SE ENCARGA DE CREAR Y DESARROLLAR UNA INTERFAZ ATRACTIVA, COHERENTE Y FÁCIL DE NAVEGAR.",
