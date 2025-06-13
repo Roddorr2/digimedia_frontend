@@ -67,7 +67,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
     const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
     return isMatch ? (
-      <a key={i} href={enlace} className="text-blue-400 font-bold underline hover:text-blue-200">
+      <a key={i} href={enlace} target="_blank" className="text-blue-400 font-bold underline hover:text-blue-200">
         {palabraClave}
       </a>
     ) : (
@@ -466,9 +466,9 @@ function renderDescripcion(texto, palabraClave, enlace) {
                                                     </h3>
                                                 </div>
                                                 <div className="md:w-2/3 p-6">
-                                                    <p className="text-gray-100 leading-relaxed">
-        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
-      </p>
+                                                    <p className="text-gray-700 leading-relaxed">
+                                                        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
+                                                    </p>
                                                 </div>
                                             </div>
                                         );

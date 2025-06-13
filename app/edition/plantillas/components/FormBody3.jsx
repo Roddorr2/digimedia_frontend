@@ -1,11 +1,16 @@
 "use client";
 import { Type, AlignLeft, Quote, Image, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Loader2, CheckCircle, Calendar, ExternalLink, Image as IconImage } from "lucide-react";
+import {
+  Loader2,
+  CheckCircle,
+  Calendar,
+  ExternalLink,
+  Image as IconImage,
+} from "lucide-react";
 import BotonAñadirLink from "./BotonAñadirLink";
 
 export default function FormBody3(props) {
-
   const {
     formCommendBody,
     setFormCommendBody,
@@ -20,7 +25,7 @@ export default function FormBody3(props) {
     setFileBodyFile2,
     setValidacionBody,
     serviceRedirectUrl,
-    setServiceRedirectUrl
+    setServiceRedirectUrl,
   } = props;
 
   const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
@@ -41,46 +46,55 @@ export default function FormBody3(props) {
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
+  function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+      return texto;
+    }
+    return texto.split(" ").map((palabra, i) => {
+      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
+      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
-function renderDescripcion(texto, palabraClave, enlace) {
-  if (!palabraClave || !enlace) {
-    return texto;
+      return isMatch ? (
+        <a
+          key={i}
+          href={enlace}
+          target="_blank"
+          className="text-blue-400 font-bold underline hover:text-blue-200"
+        >
+          {palabraClave}
+        </a>
+      ) : (
+        <span key={i}>{" " + palabra + " "}</span>
+      );
+    });
   }
-  return texto.split(" ").map((palabra, i) => {
-    const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
-    const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
-
-    return isMatch ? (
-      <a key={i} href={enlace} className="text-blue-400 font-bold underline hover:text-blue-200">
-        {palabraClave}
-      </a>
-    ) : (
-      <span key={i}>{" "+palabra + " "}</span>
-    );
-  });
-}
 
   const [errors, setErrors] = useState({
-    titulo: { message: 'Debe tener entre 10 y 50 caracteres', isValid: null },
-    texto1: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
-    texto2: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
-    texto3: { message: 'Debe tener entre 10 y 150 caracteres', isValid: null },
-    descripcion: { message: 'Debe tener entre 10 y 400 caracteres', isValid: null },
+    titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
+    texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    descripcion: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
   });
 
   const [uploading, setUploading] = useState(false);
 
-    const servicios = [
+  const servicios = [
     { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
     { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
-    { label: "Marketing de Gestión Digital", url: "/servicios/marketing-gestion/" },
+    {
+      label: "Marketing de Gestión Digital",
+      url: "/servicios/marketing-gestion/",
+    },
     { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
   ];
 
   const handleServiceChange = (e) => {
     const url = e.target.value;
     setServiceRedirectUrl(url);
-
   };
 
   //HANDLE CHANGE
@@ -89,69 +103,82 @@ function renderDescripcion(texto, palabraClave, enlace) {
     let isValid = true;
 
     switch (name) {
-      case 'titulo':
+      case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
         setIsValidTituloPrincipal(isValid);
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
           [name]: {
             ...prev[name],
-            isValid: isValid
-          }
+            isValid: isValid,
+          },
         }));
         break;
-      case 'descripcion':
+      case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidDescripcion(isValid);
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
           [name]: {
             ...prev[name],
-            isValid: isValid
-          }
+            isValid: isValid,
+          },
         }));
         break;
-      case 'texto1':
+      case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
           [name]: {
             ...prev[name],
-            isValid: isValid
-          }
+            isValid: isValid,
+          },
         }));
         break;
-      case 'texto2':
+      case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
           [name]: {
             ...prev[name],
-            isValid: isValid
-          }
+            isValid: isValid,
+          },
         }));
         break;
-      case 'texto3':
+      case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
-        setErrors(prev => ({
+        setErrors((prev) => ({
           ...prev,
           [name]: {
             ...prev[name],
-            isValid: isValid
-          }
+            isValid: isValid,
+          },
         }));
         break;
       default:
         break;
     }
-    if (isValidTituloPrincipal && isValidDescripcion && isValidTexto1 && isValidTexto2 && isValidTexto3 && isValidInfoTitulo1 && isValidInfoDescripcion1 && isValidInfoTitulo2 && isValidInfoDescripcion2 && isValidInfoTitulo3 && isValidInfoDescripcion3 && isValidInfoTitulo4 && isValidInfoDescripcion4
+    if (
+      isValidTituloPrincipal &&
+      isValidDescripcion &&
+      isValidTexto1 &&
+      isValidTexto2 &&
+      isValidTexto3 &&
+      isValidInfoTitulo1 &&
+      isValidInfoDescripcion1 &&
+      isValidInfoTitulo2 &&
+      isValidInfoDescripcion2 &&
+      isValidInfoTitulo3 &&
+      isValidInfoDescripcion3 &&
+      isValidInfoTitulo4 &&
+      isValidInfoDescripcion4
     ) {
-      setValidacionBody(true)
+      setValidacionBody(true);
     } else {
-      setValidacionBody(false)
+      setValidacionBody(false);
     }
 
     setter((prev) => ({
@@ -164,17 +191,26 @@ function renderDescripcion(texto, palabraClave, enlace) {
   // Validation message component
 
   const ValidationMessage = ({ error }) => (
-    <p className={`text-xs mt-1 ml-3 ${error.isValid === null ? 'text-gray-400' :
-      error.isValid ? 'text-green-400' : 'text-red-500'}`}>
+    <p
+      className={`text-xs mt-1 ml-3 ${
+        error.isValid === null
+          ? "text-gray-400"
+          : error.isValid
+          ? "text-green-400"
+          : "text-red-500"
+      }`}
+    >
       {error.message}
     </p>
   );
 
-
   const [errorsInfoBody, setErrorsInfoBody] = useState(
     formInfoBody.map(() => ({
-      titulo: { message: 'Debe tener entre 10 y 50 caracteres', isValid: null },
-      descripcion: { message: 'Debe tener entre 10 y 400 caracteres', isValid: null },
+      titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
+      descripcion: {
+        message: "Debe tener entre 10 y 400 caracteres",
+        isValid: null,
+      },
     }))
   );
 
@@ -186,7 +222,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
     let isValid = true;
 
     switch (name) {
-      case 'titulo':
+      case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
 
         if (index === 0) {
@@ -200,7 +236,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
         }
 
         break;
-      case 'descripcion':
+      case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
 
         if (index === 0) {
@@ -218,36 +254,47 @@ function renderDescripcion(texto, palabraClave, enlace) {
         break;
     }
 
-    if (isValidTituloPrincipal && isValidDescripcion && isValidTexto1 && isValidTexto2 && isValidTexto3
-      && isValidInfoTitulo1 && isValidInfoDescripcion1 && isValidInfoTitulo2 && isValidInfoDescripcion2 && isValidInfoTitulo3 && isValidInfoDescripcion3 && isValidInfoTitulo4 && isValidInfoDescripcion4) {
-      setValidacionBody(true)
+    if (
+      isValidTituloPrincipal &&
+      isValidDescripcion &&
+      isValidTexto1 &&
+      isValidTexto2 &&
+      isValidTexto3 &&
+      isValidInfoTitulo1 &&
+      isValidInfoDescripcion1 &&
+      isValidInfoTitulo2 &&
+      isValidInfoDescripcion2 &&
+      isValidInfoTitulo3 &&
+      isValidInfoDescripcion3 &&
+      isValidInfoTitulo4 &&
+      isValidInfoDescripcion4
+    ) {
+      setValidacionBody(true);
     } else {
-      setValidacionBody(false)
+      setValidacionBody(false);
     }
 
-    setFormInfoBody(prev => {
+    setFormInfoBody((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], [field]: value };
       return updated;
     });
 
-    setErrorsInfoBody(prev => {
+    setErrorsInfoBody((prev) => {
       const updatedErrors = [...prev];
       updatedErrors[index] = {
         ...updatedErrors[index],
         [field]: {
           ...updatedErrors[index][field],
-          isValid: isValid
-        }
+          isValid: isValid,
+        },
       };
       return updatedErrors;
     });
   };
 
-
   // HANDLE IMAGE UPLOAD
   // Handle image upload for header and body images
-
 
   const handleImageHeader = async (e) => {
     const file = e.target.files[0];
@@ -262,7 +309,6 @@ function renderDescripcion(texto, palabraClave, enlace) {
       }));
 
       setFileBodyHeader(file);
-
     } catch (error) {
       console.error("Error al subir imagen:", error);
       Swal.fire({
@@ -274,7 +320,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
     } finally {
       setUploading(false);
     }
-  }
+  };
 
   const handleImageBody = async (e) => {
     const file = e.target.files[0];
@@ -294,7 +340,6 @@ function renderDescripcion(texto, palabraClave, enlace) {
       } else if (name === "public_image3") {
         setFileBodyFile2(file);
       }
-
     } catch (error) {
       console.error("Error al subir imagen:", error);
       Swal.fire({
@@ -306,8 +351,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
     } finally {
       setUploading(false);
     }
-  }
-
+  };
 
   return (
     <div className="relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-row my-5 justify-center">
@@ -321,10 +365,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
           </div>
           <div className="flex space-x-1">
             {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="w-2 h-2 rounded-full bg-white/70"
-              ></div>
+              <div key={i} className="w-2 h-2 rounded-full bg-white/70"></div>
             ))}
           </div>
         </div>
@@ -346,9 +387,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
                 <div className="relative">
                   <img
-                    src={
-                      formEncabezadoBody.public_image1
-                    }
+                    src={formEncabezadoBody.public_image1}
                     alt={formEncabezadoBody.titulo || "Imagen principal"}
                     className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative "
                   />
@@ -453,19 +492,29 @@ function renderDescripcion(texto, palabraClave, enlace) {
                     return (
                       <div
                         key={`tarjeta-${index}`}
-                        className={`mb-8 flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"} bg-white rounded-xl overflow-hidden shadow-md`}
+                        className={`mb-8 flex flex-col ${
+                          isEven ? "md:flex-row" : "md:flex-row-reverse"
+                        } bg-white rounded-xl overflow-hidden shadow-md`}
                       >
                         <div
-                          className={`md:w-1/3 bg-gradient-to-br ${isEven ? "from-blue-600 to-indigo-700" : "from-indigo-700 to-purple-800"} p-6 flex items-center justify-center`}
+                          className={`md:w-1/3 bg-gradient-to-br ${
+                            isEven
+                              ? "from-blue-600 to-indigo-700"
+                              : "from-indigo-700 to-purple-800"
+                          } p-6 flex items-center justify-center`}
                         >
                           <h3 className="text-2xl font-bold text-white text-center">
                             {section.titulo}
                           </h3>
                         </div>
                         <div className="md:w-2/3 p-6">
-                                               <p className="text-gray-700 leading-relaxed">
-        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
-      </p>
+                          <p className="text-gray-700 leading-relaxed">
+                            {renderDescripcion(
+                              section.descripcion,
+                              section.palabra,
+                              section.enlace
+                            )}
+                          </p>
                         </div>
                       </div>
                     );
@@ -484,16 +533,11 @@ function renderDescripcion(texto, palabraClave, enlace) {
                 Conoce nuestro servicio
               </a>
             )}
-      </div>
+          </div>
         </div>
 
-        
         <div className="h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
-      
-      
       </div>
-
-      
 
       <div className="w-[420px] flex flex-col justify-center gap-5 p-5">
         <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-24">
@@ -512,7 +556,6 @@ function renderDescripcion(texto, palabraClave, enlace) {
                 className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                 placeholder="Título principal"
               />
-
             </div>
 
             <div>
@@ -531,10 +574,11 @@ function renderDescripcion(texto, palabraClave, enlace) {
 
             <div className="relative">
               <label
-                className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
-                  ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                  : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                  }`}
+                className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                  uploading
+                    ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                    : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                }`}
               >
                 {uploading ? (
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -575,7 +619,8 @@ function renderDescripcion(texto, palabraClave, enlace) {
             </div>
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
-                <AlignLeft className="w-5 h-5 mr-2 text-purple-400" /> Descripción
+                <AlignLeft className="w-5 h-5 mr-2 text-purple-400" />{" "}
+                Descripción
                 <h1 className="ml-3 mt-1 text-xs">Máximo 400 caracteres</h1>
               </label>
               <input
@@ -591,7 +636,6 @@ function renderDescripcion(texto, palabraClave, enlace) {
           </form>
         </div>
 
-
         <div className="my-20 bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-28">
           <form className="space-y-6">
             <div>
@@ -602,10 +646,11 @@ function renderDescripcion(texto, palabraClave, enlace) {
 
               <div className="relative">
                 <label
-                  className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
-                    ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                    : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                    }`}
+                  className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                    uploading
+                      ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                      : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                  }`}
                 >
                   {uploading ? (
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -636,7 +681,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                 <div className="flex justify-center mt-2">
                   <button
                     type="button"
-                    onClick={props.onDeleteBodyFile1}    //  Aca se puede Eliminar 
+                    onClick={props.onDeleteBodyFile1} //  Aca se puede Eliminar
                     className="ml-2 p-2 rounded-full hover:bg-red-100"
                     title="Eliminar imagen galeria 1"
                   >
@@ -654,10 +699,11 @@ function renderDescripcion(texto, palabraClave, enlace) {
 
               <div className="relative">
                 <label
-                  className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
-                    ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                    : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                    }`}
+                  className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                    uploading
+                      ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                      : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                  }`}
                 >
                   {uploading ? (
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -688,7 +734,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                 <div className="flex justify-center mt-2">
                   <button
                     type="button"
-                    onClick={props.onDeleteBodyFile2}    //  Aca se puede Eliminar 
+                    onClick={props.onDeleteBodyFile2} //  Aca se puede Eliminar
                     className="ml-2 p-2 rounded-full hover:bg-red-100"
                     title="Eliminar imagen de galeria 2"
                   >
@@ -697,7 +743,6 @@ function renderDescripcion(texto, palabraClave, enlace) {
                 </div>
               </div>
             </div>
-
           </form>
         </div>
 
@@ -791,8 +836,14 @@ function renderDescripcion(texto, palabraClave, enlace) {
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder="Título principal"
                   />
-                  <ValidationMessage error={errorsInfoBody[index]?.titulo || { isValid: null, message: '' }} />
-
+                  <ValidationMessage
+                    error={
+                      errorsInfoBody[index]?.titulo || {
+                        isValid: null,
+                        message: "",
+                      }
+                    }
+                  />
                 </div>
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -808,19 +859,35 @@ function renderDescripcion(texto, palabraClave, enlace) {
                     className="w-full resize-none h-[100px] bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm"
                     placeholder="Descripción"
                   />
-                  <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
-
+                  <ValidationMessage
+                    error={
+                      errorsInfoBody[index]?.descripcion || {
+                        isValid: null,
+                        message: "",
+                      }
+                    }
+                  />
                 </div>
-                
-                                           <div className="w-full flex justify-end"> <BotonAñadirLink texto={item.descripcion} item={item.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
+
+                <div className="w-full flex justify-end">
+                  {" "}
+                  <BotonAñadirLink
+                    texto={item.descripcion}
+                    item={item.palabra}
+                    index={index}
+                    servicios={servicios}
+                    handleChange={handleChangeMap}
+                  />
+                </div>
               </div>
             ))}
           </form>
         </div>
-         {/* NUEVO SELECT para elegir servicio */}
+        {/* NUEVO SELECT para elegir servicio */}
         <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-
-          <label className="block mb-2 font-semibold text-white">Selecciona servicio para el botón</label>
+          <label className="block mb-2 font-semibold text-white">
+            Selecciona servicio para el botón
+          </label>
           <select
             className="w-full p-3 rounded text-white bg-gray-900 border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             value={serviceRedirectUrl}
@@ -834,7 +901,6 @@ function renderDescripcion(texto, palabraClave, enlace) {
             ))}
           </select>
         </div>
-
       </div>
     </div>
   );
