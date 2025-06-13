@@ -2,7 +2,7 @@
 import { Type, AlignLeft, Quote, Image, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Loader2, CheckCircle, Calendar, ExternalLink, Image as IconImage } from "lucide-react";
-
+import BotonAñadirLink from "../../plantillas/components/BotonAñadirLink";
 export default function FormBody3(props) {
     const {
         formCommendBody,
@@ -47,6 +47,34 @@ export default function FormBody3(props) {
     });
 
     const [uploading, setUploading] = useState(false);
+
+    
+  const servicios = [
+    { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
+    { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
+    { label: "Marketing de Gestión Digital", url: "/servicios/marketing-gestion/" },
+    { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
+  ];
+
+
+
+function renderDescripcion(texto, palabraClave, enlace) {
+    if (!palabraClave || !enlace) {
+    return texto;
+  }
+  return texto.split(" ").map((palabra, i) => {
+    const cleanPalabra = palabra.replace(/[.,;!?]/g, ""); 
+    const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+
+    return isMatch ? (
+      <a key={i} href={enlace} target="_blank" className="text-blue-400 font-bold underline hover:text-blue-200">
+        {palabraClave}
+      </a>
+    ) : (
+      <span key={i}>{" "+palabra + " "}</span>
+    );
+  });
+}
 
     //HANDLE CHANGE
     const handleChange = (setter) => (e) => {
@@ -439,7 +467,7 @@ export default function FormBody3(props) {
                                                 </div>
                                                 <div className="md:w-2/3 p-6">
                                                     <p className="text-gray-700 leading-relaxed">
-                                                        {section.descripcion}
+                                                        {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -763,6 +791,8 @@ export default function FormBody3(props) {
                                     <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
 
                                 </div>
+                                                  <div className="w-full flex justify-end"> <BotonAñadirLink texto={item.descripcion} item={item.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
+                                        
                             </div>
                         ))}
                     </form>

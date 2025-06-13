@@ -7,7 +7,7 @@ const Fetch = {
     fetchBlogs: async function fetchBlogs(){
         try{
             const response = await axios.get(`${url}/api/blogs/`);
-
+  console.log(response)
             if(response.status === 200){
                 return response.data;
             }
@@ -24,7 +24,7 @@ const Fetch = {
     fetchBlogById: async function fetchBlogById(id){
         try{
             const response = await axios.get(`${url}/api/blogs/${id}`);
-            
+              console.log(response)
             if(response.status === 200){
                 return response.data.data;
             }
@@ -42,7 +42,7 @@ const Fetch = {
         try{
             const response = await axios.get(`${url}/api/cards`);
             if(response.status === 200){
-                return response.data;
+                                 return response.data;
             }
             else{
                 return null;
@@ -86,8 +86,9 @@ const Fetch = {
     fetchBlogBodyById: async function fetchBlogBodyById(id){
         try{
             const response = await axios.get(`${url}/api/blog_body/${id}`);
+            console.log(response.data)
             if(response.status === 200){
-                return response.data.data;
+                             return response.data.data;
             }
             else{
                 return null;
