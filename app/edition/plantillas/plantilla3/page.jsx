@@ -360,11 +360,10 @@ const PageContent = () => {
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/body/image.webp
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.webp
   */
-
   async function SaveImage(file, ruta, name = null) {
     try {
 
-      if (!file) return;
+      if (!file) return "ok";
 
       const formData = new FormData();
       formData.append("file", file);

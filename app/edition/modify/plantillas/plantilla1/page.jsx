@@ -628,13 +628,30 @@ const PageContent = () => {
       setLoading(true);
 
       console.log("💾 Guardando tarjeta de comentarios...");
-      await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
-
-      console.log("💾 Guardando contenido del blog...");
+      await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");      console.log("💾 Guardando contenido del blog...");
       await executionFunction(guardarBody, "No se pudo guardar el contenido del blog");
 
       console.log("💾 Guardando tarjetas informativas...");
       await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");
+
+      console.log("📸 Iniciando guardado de imágenes...");      // Upload header image first if it exists
+      if (fileHeader) {
+        console.log("📸 Subiendo imagen de header...");
+        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
+        // Después de subir la imagen, reemplazar la blob URL con la URL correcta del backend
+        setDataHeader(prev => ({
+          ...prev,
+          public_image: `http://127.0.0.1:8000${prev.url_image}`,
+        }));
+      } else if (dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
+        // If there's a blob URL but no file selected, revert to original image
+        console.log("🔄 Revirtiendo imagen de header a original...");
+        setDataHeader(prev => ({
+          ...prev,
+          public_image: dataHeader.url_image || imageHeaderBefore,
+          url_image: dataHeader.url_image || imageHeaderBefore
+        }));
+      }
 
       console.log("💾 Guardando encabezado...");
       await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
@@ -648,12 +665,7 @@ const PageContent = () => {
       console.log("💾 Guardando card...");
       await executionFunction(() => guardarCard(id_empleado), "No se pudo guardar la card");
 
-      console.log("📸 Iniciando guardado de imágenes...");
-
-      if (fileHeader) {
-        console.log("📸 Subiendo imagen de header...");
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen head");
-      }
+      console.log("📸 Continuando con otras imágenes...");
 
       if (FileBodyHeader) {
         console.log("📸 Subiendo imagen de body header...");
@@ -683,9 +695,7 @@ const PageContent = () => {
       if (FileFooterFile3) {
         console.log("📸 Subiendo imagen de footer 3...");
         await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen 3");
-      }
-
-      console.log("✅ ¡Proceso de guardado completado exitosamente!");
+      }      console.log("✅ ¡Proceso de guardado completado exitosamente!");
 
       Swal.fire({
         title: "Actualizado Correctamente",

@@ -589,7 +589,6 @@ const PageContent = () => {
       throw error;
     }
   }
-
   async function HandleSave() {
     try {
 
@@ -599,7 +598,30 @@ const PageContent = () => {
 
       await executionFunction(guardarBody, "No se pudo guardar el contenido del blog");
 
-      await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");
+      await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");      // Upload images first, then update header with proper image paths
+      if (fileHeader) {
+        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
+        // Refrescar el header desde el backend para obtener el nuevo url_image
+        const refreshedHeader = await Fetch.fetchBlogHead(dataHeader.id_blog_head);
+        if (refreshedHeader && refreshedHeader.url_image) {
+          setDataHeader(prev => ({
+            ...prev,
+            public_image: `http://127.0.0.1:8000${refreshedHeader.url_image}`,
+            url_image: refreshedHeader.url_image
+          }));
+        }
+        // Wait a moment for state update
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } else if (dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
+        // If there's a blob URL but no file selected, revert to original image
+        setDataHeader(prev => ({
+          ...prev,
+          public_image: dataHeader.url_image || imageHeaderBefore,
+          url_image: dataHeader.url_image || imageHeaderBefore
+        }));
+        // Wait a moment for state update
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
 
       await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
       await executionFunction(guardarFooter, "No se pudo guardar el pie de página");
@@ -608,10 +630,6 @@ const PageContent = () => {
       await executionFunction(() => guardarCard(id_empleado), "No se pudo guardar la card");
 
       //await executionFunction(deleteCarpetImages, "No se logro eliminar la carpeta de imagenes antigua");
-
-      if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen");
-      }
 
       if (FileBodyHeader) {
         await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen");

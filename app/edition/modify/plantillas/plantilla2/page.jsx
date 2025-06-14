@@ -48,6 +48,16 @@ const PageContent= () => {
   // header
   const [dataHeader, setDataHeader] = useState(null);
 
+  // Al cargar la edición, si hay url_image, úsala como public_image
+  useEffect(() => {
+    if (dataHeader && dataHeader.url_image && dataHeader.url_image !== '' && dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
+      setDataHeader(prev => ({
+        ...prev,
+        public_image: dataHeader.url_image
+      }));
+    }
+  }, [dataHeader]);
+
   // body
   const [dataBody, setDataBody] = useState(null);
   const [formCommendBody, setFormCommendBody] = useState({
@@ -589,7 +599,6 @@ const PageContent= () => {
       throw error;
     }
   }
-
   async function HandleSave() {
     try {
 
@@ -599,7 +608,23 @@ const PageContent= () => {
 
       await executionFunction(guardarBody, "No se pudo guardar el contenido del blog");
 
-      await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");
+      await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");      // Upload images first, then update header with proper image paths
+      if (fileHeader) {
+        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
+        // Después de subir la imagen, reemplazar la blob URL con la URL correcta del backend
+        setDataHeader(prev => ({
+          ...prev,
+          public_image: `http://127.0.0.1:8000${prev.url_image}`,
+        }));
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } else if (dataHeader && dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
+        setDataHeader(prev => ({
+          ...prev,
+          public_image: dataHeader.url_image || imageHeaderBefore,
+          url_image: dataHeader.url_image || imageHeaderBefore
+        }));
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
 
       await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
       await executionFunction(guardarFooter, "No se pudo guardar el pie de página");
@@ -608,10 +633,6 @@ const PageContent= () => {
       await executionFunction(() => guardarCard(id_empleado), "No se pudo guardar la card");
 
       //await executionFunction(deleteCarpetImages, "No se logro eliminar la carpeta de imagenes antigua");
-
-      if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen");
-      }
 
       if (FileBodyHeader) {
         await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen");
