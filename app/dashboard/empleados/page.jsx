@@ -63,7 +63,7 @@ export default function Page() {
   async function setEmpleados(page) {
     setIsLoading(true)
     try {
-      const response = await empleado_service.empleadosByPage(page, 5)
+      const response = await empleado_service.empleadosByPage(page, 5, searchTerm, selectedRole)
       if (response.status === 401) {
         Swal.fire({
           icon: "error",
@@ -82,10 +82,16 @@ export default function Page() {
       if (Number.parseInt(response.status) === 200) {
         if (response.total > 0) {
           const transformedData = response.data.map((item) => ({
-            ...item,
-            id: item.id_empleado,
-            id_rol: item.rol?.id_rol || "",
-          }))
+            id_empleado: item.id_empleado,
+            nombre: item.nombre,
+            apellido: item.apellido,
+            email: item.email,
+            dni: item.dni,
+            telefono: item.telefono,
+            rol: item.rol, // Ahora viene del backend
+            id_rol: item.id_rol, // Ahora viene del backend
+            subtipo_admin: item.subtipo_admin // Ahora viene del backend
+        }));
           setData(transformedData)
           setCount(response.total)
         }
@@ -175,6 +181,20 @@ export default function Page() {
     setModal(true)
   }
 
+  const handleFilterChange = () => {
+    // Volvemos a la primera página al cambiar filtros
+    router.push(`?page=1`);
+    fetchEmpleados(1);
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      handleFilterChange();
+    }, 500); // Espera 500ms después de la última tecla
+
+    return () => clearTimeout(handler);
+  }, [searchTerm, selectedRole]);
+  
   const handleUpdateSuccess = (updatedData) => {
     setData((prevData) =>
       prevData.map((item) => (item.id === updatedData.id_empleado ? { ...item, ...updatedData } : item)),
@@ -198,12 +218,17 @@ export default function Page() {
       item.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.dni?.toLowerCase().includes(searchTerm.toLowerCase())
   
-    // busqueda de nombre del rol en base al id
+    /**
+     * Si el rol seleccionado es el default (all) se establece ese roleName
+     * Sino, busca el nombre del rol según el id
+     */
     const selectedRoleName = selectedRole === "all" 
       ? "all" 
       : roles.find(r => r.id_rol === selectedRole)?.nombre?.toLowerCase() || "";
 
-    // filtro por rol usando el nombre del rol
+    /**
+     * Determina si es igual
+     */
     const matchesRole = selectedRole === "all" || 
       (item.rol && item.rol.toLowerCase() === selectedRoleName);
   

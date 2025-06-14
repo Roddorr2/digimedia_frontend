@@ -51,7 +51,7 @@ const Servicios = {
     },
 
     saveBody : async function saveBody(formData){
-        try{
+        try{           
             const response = await axios.post(`${URL_API}/blog_body`, formData,{
                 headers: {
                     Authorization: `Bearer ${getCookie('token')}`,
@@ -93,6 +93,7 @@ const Servicios = {
     },
 
     saveTarjeta : async function saveTarjeta(formData){
+        console.log(formData)   
         try{
             const response = await axios.post(`${URL_API}/tarjeta`, formData,{
                 headers: {

@@ -435,6 +435,7 @@ const PageContent = () => {
             id_blog_body: dataBody.id_blog_body,
             titulo: section.titulo,
             descripcion: section.descripcion,
+            palabra:section.palabra,enlace:section.enlace,
           };
           const id = await Fetch.updateTarjeta(section.id_tarjeta, form);
           if (!id || id <= 0) throw new Error("Error al guardar tarjeta");

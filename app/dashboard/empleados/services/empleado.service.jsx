@@ -20,9 +20,26 @@ const handlePermissionError = (response) => {
 };
 
 const empleado_service = {
-    empleadosByPage: async (page, limit=5) => {
+    empleadosByPage: async (page, limit = 5, search = '', role = 'all') => {
         try {
-            const response = await fetch(`${api_url}?page=${page}&limit=${limit}`, {
+            /**
+             * Parámetros requeridos para hacer la petición
+             * de los empleados
+             */
+            const reqParams = new URLSearchParams({
+                page: page.toString(),
+                limit: limit.toString()
+            })
+
+            if(search && search.trim() !== '') {
+                reqParams.append('search', search)
+            }
+
+            if(role && role != 'all') {
+                reqParams.append('rol', role)
+            }
+
+            const response = await fetch(`${api_url}?${reqParams}`, {
                 method: "GET",
                 headers: {
                     "authorization": `Bearer ${getCookie('token')}`
