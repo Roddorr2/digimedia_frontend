@@ -4,77 +4,47 @@ import Main from "../components/Main";
 import ModalScroll from "../components/ModalScroll";
 import ModalButton from "../components/ModalButton";
 import Servicios from "../components/Servicios";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import { UxUiSection } from "../components/uxui-section"
 import "./globales.css";
 
 export default function Web() {
-  const servicios = [
-    {
-      title: "DESARROLLO DE BRIEF",
-      text: "El briefing nos permite entender tu empresa para crear y definir tu marca.",
-      icon: "/servicios/branding/icon1.svg",
-    },
-    {
-      title: "IDENTIDAD VISUAL CORPORATIVA",
-      text: "Creemos identidades visuales únicas que reflejan tu esencia y destacan en el mercado.",
-      icon: "/servicios/branding/icon2.svg",
-    },
-    {
-      title: "NAMING, LOGO Y SLOGAN",
-      text: "Creamos elementos clave que representen tu marca y conecten con tu audiencia.",
-      icon: "/servicios/branding/icon3.svg",
-    },
-    {
-      title: "MANUAL DE MARCA",
-      text: "Definimos las reglas que guiarán todas las estrategias de tu marca.",
-      icon: "/servicios/branding/icon4.svg",
-    },
-  ];
-
-  return (
-    <div className="relative min-h-screen flex flex-col items-center bg-gray-100 overflow-x-hidden">
-      {/* Imagen de fondo con mejor responsividad */}
-      <div
-        className="absolute inset-0 w-full h-full opacity-30 md:opacity-40 lg:opacity-50"
-        style={{
-          backgroundImage: "url('/servicios/DiseñoUI/desarrolloweb4.jpg')",
-          backgroundSize: "cover", // La imagen se estira horizontalmente sin deformarse
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          width: "100%", // Se expande a todo el ancho disponible
-          height: "100%", // Asegura que ocupe el espacio del contenedor sin salir del límite
-        }}
-      ></div>
-
-      <div className="relative z-10 w-full max-w-screen-lg px-4">
-        <div className="flex justify-center md:justify-start w-full">
-          <Main
-            title="Desarrollo Web"
-            subtitle="Vive la Experiencia en la Web"
-            image="/servicios/uxui/img-main.png"
-            className="custom-web2 py-10 md:py-20 text-center md:-ml-44"
-          />
-        </div>
-
-        <div className="relative w-full h-full">
-          {/* Texto flotante 2 */}
-          <div className="floating-text2">
-            <p className="font-montserrat text-black text-lg md:text-xl font-extrabold uppercase tracking-wide">
-              Aquí se enfocan en el diseño y posicionamiento web, desarrollo de
-              tiendas virtuales, desarrollo, optimización y Cloud Hosting para
-              páginas web en Perú.
-            </p>
-          </div>
-
-          {/* Lista de características en viñetas (Texto flotante 3) */}
-          <div className="floating-text3">
-            <ul className="features-list font-montserrat text-black text-lg md:text-xl font-extrabold uppercase tracking-wide">
-              <li>Diseño responsivo</li>
-              <li>Paquete de diseño web</li>
-              <li>Diseño web WordPress</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    const featuresuxui = [
+      {
+        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        title: "DESARROLLO FRONT-END",
+        description:
+          "SE ENFOCA EN LA PARTE VISUAL DEL SITIO WEB CON LA QUE LOS USUARIOS INTERACTÚAN DIRECTAMENTE. UTILIZA LENGUAJES COMO HTML, CSS Y JAVASCRIPT PARA CREAR LA ESTRUCTURA, EL ESTILO Y LA INTERACTIVIDAD DE LA PÁGINA.",
+      },
+      {
+        icon: <Smartphone className="w-full h-full stroke-1" />,
+        title: "DESARROLLO BACK-END",
+        description:
+          'SE OCUPA DE LA "TRASTIENDA" DEL SITIO WEB, GESTIONANDO EL SERVIDOR, LA BASE DE DATOS Y LA LÓGICA DE LA APLICACIÓN. LENGUAJES COMUNES INCLUYEN PYTHON, JAVA, PHP Y NODE.JS.',
+      },
+    ]
+    
+    return (
+  
+     <div>
+        <UxUiSection 
+        features={featuresuxui} 
+        mainDescription='EL DESARROLLO WEB ES EL PROCESO DE CREAR Y MANTENER SITIOS WEB Y APLICACIONES QUE SE EJECUTAN EN INTERNET. IMPLICA UNA COMBINACIÓN DE DISEÑO, PROGRAMACIÓN Y GESTIÓN DE BASES DE DATOS PARA ASEGURAR QUE UN SITIO WEB SEA FUNCIONAL, ATRACTIVO Y ACCESIBLE PARA LOS USUARIOS.'
+        backgroundImage='/servicios/DiseñoUI/diseno_1.jpg'
+        heroTitle="DESARROLLO WEB"
+        heroBulletPoints={[
+          "PLANIFICACIÓN: DEFINIR LOS OBJETIVOS DEL SITIO WEB, EL PÚBLICO OBJETIVO Y LAS FUNCIONALIDADES NECESARIAS.",
+          "DISEÑO: CREAR LA APARIENCIA VISUAL Y LA EXPERIENCIA DE USUARIO (UX/UI).",
+          "DESARROLLO FRONT-END: ESCRIBIR EL CÓDIGO PARA LA INTERFAZ DE USUARIO.",
+        ]}
+  
+        />
+        <Contactanos
+          text="Consolida tu presencia web, diseña con nosotros tu página web"
+          iconLeft="/servicios/desarrollo/icon-left.svg"
+          iconRight="/servicios/desarrollo/icon-right.svg"
+        /> 
+     </div>
+     
+    );
 }
