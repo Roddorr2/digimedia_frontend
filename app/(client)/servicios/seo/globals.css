@@ -1,0 +1,98 @@
+/* Estilos específicos para UXUI.js */
+.custom-uxui {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrado en móvil */
+  background: linear-gradient(90deg, #c026d3, #e879f9, #ffffff);
+  padding: 2rem 4rem;
+  border-radius: 15px;
+  text-align: center; /* Centra el texto en móvil */
+  position: relative;
+  overflow: hidden;
+  margin-left: auto; /* Centra en móvil */
+  margin-right: auto; /* Centra en móvil */
+  margin-top: 100px;
+  max-width: 600px;
+  height: auto;
+}
+
+/* En pantallas grandes (PC), lo mueves a la izquierda */
+@media (min-width: 768px) {
+  .custom-uxui {
+    align-items: flex-start; /* Alineado a la izquierda en PC */
+    text-align: left;
+    margin-left: 0; /* Elimina el centrado */
+    margin-right: auto; /* Empuja a la izquierda */
+    transform: translateX(-200px); /* Lo mueve más a la izquierda */
+  }
+}
+
+.floating-text {
+  font-weight: bold;
+  color: #ff4b2b;
+  text-shadow: 3px 3px 10px rgba(255, 75, 43, 0.8);
+  transition: all 0.3s ease-in-out;
+}
+
+.floating-text {
+  width: 100%;
+  text-align: center; /* Centrado en móvil */
+  padding: 0 1.5rem;
+  margin-top: 1.5rem; /* Espaciado en móvil */
+}
+
+/* En pantallas grandes (PC), lo alineamos correctamente */
+@media (min-width: 1024px) {
+  .floating-text {
+    position: absolute;
+    top: -170px; /* Subir el texto */
+    right: -10%; /* Mueve el texto hacia la derecha correctamente */
+    width: 65%; /* Reduce el ancho para que no se vea muy extendido */
+    text-align: right; /* Alinea el texto a la derecha */
+  }
+}
+
+.custom-uxui h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 1rem;
+}
+
+.custom-uxui p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  color: #333;
+}
+
+/* Contenedor de las características */
+.custom-uxui .features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature-item {
+  text-align: center;
+  width: 250px;
+}
+
+.feature-item img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.feature-item img:hover {
+  transform: scale(1.05);
+}
+
+.feature-item p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #222;
+  margin-top: 0.5rem;
+}
+
