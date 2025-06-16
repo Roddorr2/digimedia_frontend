@@ -95,8 +95,11 @@ const PageContent = () => {
     }));
   };
 
-  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
-
+  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1;
+  
+  /**
+   * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
+   */
   const [formFooter, setFormFooter] = useState({
     titulo: "Titulo Footer",
     descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
@@ -108,6 +111,9 @@ const PageContent = () => {
     url_image3: "",
   });
 
+  /**
+   * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
+   */
   const [dataHeader, setDataHeader] = useState({
     titulo: "Titulo Header",
     texto_frase: "Texto atractivo y llamativo para el cliente",
@@ -116,6 +122,9 @@ const PageContent = () => {
     url_image: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog. Contiene campos para el título, descripción, fecha y una imagen pública.
+   */
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: "Titulo del Blog",
     descripcion:
@@ -125,6 +134,9 @@ const PageContent = () => {
     url_image1: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene la información de tarjetas informativas del blog.
+   */
   const [formInfoBody, setFormInfoBody] = useState([
     {
       titulo: "El Factor Sorpresa y Distinción",
@@ -152,6 +164,9 @@ const PageContent = () => {
     }
   ]);
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene tarjetas de comentario del blog.
+   */
   const [formCommendBody, setFormCommendBody] = useState({
     titulo: "Consejos para Elegir el Letrero Perfecto",
     texto1:

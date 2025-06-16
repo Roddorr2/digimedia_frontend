@@ -398,13 +398,13 @@ const PageContent = () => {
     }
   }
 
-  async function guardarCard(id_empleado) {
+  async function guardarCard(id_empleado, header) {
     const form = {
       id_blog: dataBlog.id_blog,
-      titulo: dataHeader.titulo,
-      descripcion: dataHeader.texto_descripcion,
-      public_image: dataHeader.public_image,
-      url_image: dataHeader.url_image,
+      titulo: header.titulo,
+      descripcion: header.texto_descripcion,
+      public_image: header.public_image,
+      url_image: header.url_image,
       id_plantilla: 1,
       id_empleado: id_empleado,
     }
@@ -549,6 +549,12 @@ const PageContent = () => {
         hasStatus: response?.status,
         statusValue: response?.status
       });
+      
+      // SaveImage ahora devuelve la URL de la imagen EN EL SERVIDOR
+      if (response && response.status === 200 && response.url_image) {
+        return response.url_image;
+      }
+      throw new Error("No se recibió url_image del servidor");
 
       // Caso 1: Respuesta es null o undefined (error en Fetch.saveImage)
       if (response === null || response === undefined) {
@@ -624,6 +630,7 @@ const PageContent = () => {
     }
   }
   async function HandleSave() {
+    let headerDataToUse = dataHeader;
     try {
       console.log("🚀 Iniciando proceso de guardado...");
       setLoading(true);
@@ -638,25 +645,49 @@ const PageContent = () => {
       console.log("📸 Iniciando guardado de imágenes...");      // Upload header image first if it exists
       if (fileHeader) {
         console.log("📸 Subiendo imagen de header...");
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
-        // Después de subir la imagen, reemplazar la blob URL con la URL correcta del backend
-        setDataHeader(prev => ({
-          ...prev,
-          public_image: `http://127.0.0.1:8000${prev.url_image}`,
-        }));
-      } else if (dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
-        // If there's a blob URL but no file selected, revert to original image
-        console.log("🔄 Revirtiendo imagen de header a original...");
-        setDataHeader(prev => ({
-          ...prev,
-          public_image: dataHeader.url_image || imageHeaderBefore,
-          url_image: dataHeader.url_image || imageHeaderBefore
-        }));
+        // await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
+
+        const serverUrl = await SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`);
+        console.log("📸 Imagen de header subida exitosamente:", serverUrl);
+        
+        // Actualizar dataHeader con la URL del servidor
+        // Asegurarse de que dataHeader esté definido antes de actualizar
+        const updatedHeader = {
+          ...dataHeader,
+          public_image: serverUrl,
+        };
+
+        //Persistir directamente con el objeto corregido
+        await executionFunction(
+          () => Fetch.updateHeader(dataHeader.id_blog_head, updatedHeader),
+          "No se pudo guardar el encabezado"
+        );
+        headerDataToUse = updatedHeader;
+      } else {
+        await executionFunction(
+          () => Fetch.updateHeader(dataHeader.id_blog_head, dataHeader),
+          "No se pudo guardar el encabezado"
+      );
       }
 
-      console.log("💾 Guardando encabezado...");
-      await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
+
+      // else if (dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
+      //   // If there's a blob URL but no file selected, revert to original image
+      //   // console.log("🔄 Revirtiendo imagen de header a original...");
+      //   // setDataHeader(prev => ({
+      //   //   ...prev,
+      //   //   public_image: dataHeader.url_image || imageHeaderBefore,
+      //   //   url_image: dataHeader.url_image || imageHeaderBefore
+      //   // }));
+      // }
+
       
+
+      // console.log("💾 Guardando encabezado...");
+      // await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
+      
+
+
       console.log("💾 Guardando pie de página...");
       await executionFunction(guardarFooter, "No se pudo guardar el pie de página");
 
@@ -664,7 +695,7 @@ const PageContent = () => {
       await executionFunction(guardarBlog, "No se pudo guardar el blog");
       
       console.log("💾 Guardando card...");
-      await executionFunction(() => guardarCard(id_empleado), "No se pudo guardar la card");
+      await executionFunction(() => guardarCard(id_empleado, headerDataToUse), "No se pudo guardar la card");
 
       console.log("📸 Continuando con otras imágenes...");
 
