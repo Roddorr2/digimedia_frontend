@@ -638,19 +638,27 @@ const PageContent = () => {
       console.log("📸 Iniciando guardado de imágenes...");      // Upload header image first if it exists
       if (fileHeader) {
         console.log("📸 Subiendo imagen de header...");
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
-        // Después de subir la imagen, reemplazar la blob URL con la URL correcta del backend
-        setDataHeader(prev => ({
-          ...prev,
-          public_image: `http://127.0.0.1:8000${prev.url_image}`,
-        }));
+        const uploadResponse = await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
+        
+        // Después de subir la imagen, actualizar dataHeader con la URL real devuelta por el backend
+        if (uploadResponse && uploadResponse.url_image) { // Asumiendo que el backend devuelve la URL en 'url_image'
+          setDataHeader(prev => ({
+            ...prev,
+            public_image: uploadResponse.url_image, // Usar la URL real devuelta por el backend
+            url_image: uploadResponse.url_image, // También actualizar url_image si es necesario
+          }));
+        } else {
+          console.warn("⚠️ [HandleSave] No se recibió url_image en la respuesta de subida del header.");
+          // Opcional: Manejar el caso donde la URL no se devuelve, quizás revertir a la original o mostrar un error.
+        }
+        setFileHeader(null); // Limpiar el archivo después de la subida exitosa
       } else if (dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
         // If there's a blob URL but no file selected, revert to original image
         console.log("🔄 Revirtiendo imagen de header a original...");
         setDataHeader(prev => ({
           ...prev,
-          public_image: dataHeader.url_image || imageHeaderBefore,
-          url_image: dataHeader.url_image || imageHeaderBefore
+          public_image: imageHeaderBefore, // Revertir a la URL original de la base de datos
+          url_image: imageHeaderBefore // Asegurarse de que url_image también sea la original
         }));
       }
 
@@ -670,32 +678,116 @@ const PageContent = () => {
 
       if (FileBodyHeader) {
         console.log("📸 Subiendo imagen de body header...");
-        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen body 1");
+        const uploadResponse = await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen body 1");
+        if (uploadResponse && uploadResponse.url) { // CardController.php imagesBody devuelve 'url'
+          setFormEncabezadoBody(prev => ({
+            ...prev,
+            public_image1: uploadResponse.url,
+            url_image1: uploadResponse.url,
+          }));
+        }
+        setFileBodyHeader(null);
+      } else if (formEncabezadoBody.public_image1 && formEncabezadoBody.public_image1.startsWith('blob:')) {
+        setFormEncabezadoBody(prev => ({
+          ...prev,
+          public_image1: imageBodyHeaderBefore,
+          url_image1: imageBodyHeaderBefore,
+        }));
       }
 
       if (FileBodyFile1) {
         console.log("📸 Subiendo imagen de body 2...");
-        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen body 2");
+        const uploadResponse = await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen body 2");
+        if (uploadResponse && uploadResponse.url) {
+          setFormGaleryBody(prev => ({
+            ...prev,
+            public_image2: uploadResponse.url,
+            url_image2: uploadResponse.url,
+          }));
+        }
+        setFileBodyFile1(null);
+      } else if (formGaleryBody.public_image2 && formGaleryBody.public_image2.startsWith('blob:')) {
+        setFormGaleryBody(prev => ({
+          ...prev,
+          public_image2: imageBodyFile1Before,
+          url_image2: imageBodyFile1Before,
+        }));
       }
 
       if (FileBodyFile2) {
         console.log("📸 Subiendo imagen de body 3...");
-        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen body 3");
+        const uploadResponse = await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen body 3");
+        if (uploadResponse && uploadResponse.url) {
+          setFormGaleryBody(prev => ({
+            ...prev,
+            public_image3: uploadResponse.url,
+            url_image3: uploadResponse.url,
+          }));
+        }
+        setFileBodyFile2(null);
+      } else if (formGaleryBody.public_image3 && formGaleryBody.public_image3.startsWith('blob:')) {
+        setFormGaleryBody(prev => ({
+          ...prev,
+          public_image3: imageBodyFile2Before,
+          url_image3: imageBodyFile2Before,
+        }));
       }
 
       if (FileFooterFile1) {
         console.log("📸 Subiendo imagen de footer 1...");
-        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen 1");
+        const uploadResponse = await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen 1");
+        if (uploadResponse && uploadResponse.url) {
+          setDataFooter(prev => ({
+            ...prev,
+            public_image1: uploadResponse.url,
+            url_image1: uploadResponse.url,
+          }));
+        }
+        setFileFooterFile1(null);
+      } else if (dataFooter.public_image1 && dataFooter.public_image1.startsWith('blob:')) {
+        setDataFooter(prev => ({
+          ...prev,
+          public_image1: imageFooterFile1Before,
+          url_image1: imageFooterFile1Before,
+        }));
       }
 
       if (FileFooterFile2) {
         console.log("📸 Subiendo imagen de footer 2...");
-        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen 2");
+        const uploadResponse = await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen 2");
+        if (uploadResponse && uploadResponse.url) {
+          setDataFooter(prev => ({
+            ...prev,
+            public_image2: uploadResponse.url,
+            url_image2: uploadResponse.url,
+          }));
+        }
+        setFileFooterFile2(null);
+      } else if (dataFooter.public_image2 && dataFooter.public_image2.startsWith('blob:')) {
+        setDataFooter(prev => ({
+          ...prev,
+          public_image2: imageFooterFile2Before,
+          url_image2: imageFooterFile2Before,
+        }));
       }
 
       if (FileFooterFile3) {
         console.log("📸 Subiendo imagen de footer 3...");
-        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen 3");
+        const uploadResponse = await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen 3");
+        if (uploadResponse && uploadResponse.url) {
+          setDataFooter(prev => ({
+            ...prev,
+            public_image3: uploadResponse.url,
+            url_image3: uploadResponse.url,
+          }));
+        }
+        setFileFooterFile3(null);
+      } else if (dataFooter.public_image3 && dataFooter.public_image3.startsWith('blob:')) {
+        setDataFooter(prev => ({
+          ...prev,
+          public_image3: imageFooterFile3Before,
+          url_image3: imageFooterFile3Before,
+        }));
       }      console.log("✅ ¡Proceso de guardado completado exitosamente!");
 
       Swal.fire({
