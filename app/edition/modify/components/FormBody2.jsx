@@ -784,8 +784,7 @@ export default function FormBody2(props) {
                           ></textarea>
                         </div>
                         <div className="w-full justify-end">
-                          {" "}
-                          <BotonAñadirLink
+                         <BotonAñadirLink
                             texto={section.descripcion}
                             item={section.palabra}
                             index={index}

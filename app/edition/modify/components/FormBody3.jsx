@@ -193,7 +193,9 @@ function renderDescripcion(texto, palabraClave, enlace) {
     // HANDLE CHANGE MAP
 
     const handleChangeMap = (e, index, field) => {
+        
         const { value } = e.target;
+        console.log(field,value)
         const name = field;
         let isValid = true;
 
@@ -808,7 +810,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                                     <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
 
                                 </div>
-                                                  <div className="w-full flex justify-end"> <BotonAñadirLink texto={item.descripcion} item={item.palabra} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
+                                                  <div className="w-full flex justify-end"> <BotonAñadirLink  item={item} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
                                         
                             </div>
                         ))}

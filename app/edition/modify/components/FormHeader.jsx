@@ -95,7 +95,6 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
 
             const tempUrl = URL.createObjectURL(file);
             setPreviewImageUrl(tempUrl); // Usar el nuevo estado para la previsualización
-
             setFile(file); // Esto es correcto, el archivo real se pasa al padre
 
         } catch (error) {

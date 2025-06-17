@@ -57,7 +57,34 @@ const PageContent = () => {
     texto3: '',
     texto4: '',
     texto5: ''
-  });  const [formInfoBody, setFormInfoBody] = useState([]);
+  });  
+  const [formInfoBody, setFormInfoBody] = useState([
+    {
+      titulo: "",
+      descripcion: "",
+      palabra: "",
+      enlace: "",
+    },
+    {
+      titulo: "",
+      descripcion: "",
+      palabra: "",
+      enlace: "",
+    },
+    {
+      titulo: "",
+      descripcion: "",
+      palabra: "",
+      enlace: "",
+    },
+    {
+      titulo: "",
+      descripcion: "",
+      palabra: "",
+      enlace: "",
+    }
+  ]);
+
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image1: '',
     public_image2: '',
@@ -291,7 +318,7 @@ const PageContent = () => {
 
   async function guardarHeader() {
     const id = await Fetch.updateHeader(dataHeader.id_blog_head, dataHeader);
-    if (id && id > 0) {
+    if (id.id && id.id > 0) {
       return id;
     }
     else {
@@ -662,29 +689,7 @@ const PageContent = () => {
       });
 
       router.push("/dashboard/blogs/")
-
-      setImageBodyFile1Before("");
-      setImageBodyFile2Before("");
-      setImageFooterFile1Before("");
-      setImageFooterFile2Before("");
-      setImageFooterFile3Before("");
-      setImageHeaderBefore("");
-      setImageBodyHeaderBefore("");
-      
-
-      setDataBody(null);
-      setDataFooter(null);
-      setDataHeader(null);
-      setDataBlog(null);
-
-      setFileHeader(null);
-      setFileBodyHeader(null);
-      setFileBodyFile1(null);
-      setFileBodyFile2(null);
-      setFileFooterFile1(null);
-      setFileFooterFile2(null);
-      setFileFooterFile3(null);
-
+    
     } catch (error) {
       console.error("Error al guardar:", error.message);
     } finally {
