@@ -1,6 +1,7 @@
 "use client"
 import { Type, AlignLeft, Quote, Image as IconImage, Loader2, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2"; // Asegúrate de importar Swal
 
 export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteImage, setValidacionHeader, setIsDisabled}) {
 
@@ -8,6 +9,12 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
     const [isValid_titulo, setIsValid_titulo] = useState(true);
     const [isValid_texto_frase, setIsValid_texto_frase] = useState(true);
     const [isValid_texto_descripcion, setIsValid_texto_descripcion] = useState(true);
+    const [previewImageUrl, setPreviewImageUrl] = useState(dataHeader.public_image || "/blog/fondo_blog_extend.png"); // Nuevo estado para la previsualización
+
+    useEffect(() => {
+        // Actualizar la previsualización cuando dataHeader.public_image cambie (ej. al cargar datos iniciales o después de guardar)
+        setPreviewImageUrl(dataHeader.public_image || "/blog/fondo_blog_extend.png");
+    }, [dataHeader.public_image]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -87,12 +94,9 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
             setUploading(true);
 
             const tempUrl = URL.createObjectURL(file);
-            setFormData((prev) => ({
-                ...prev,
-                ["public_image"]: tempUrl,
-            }));
+            setPreviewImageUrl(tempUrl); // Usar el nuevo estado para la previsualización
 
-            setFile(file);
+            setFile(file); // Esto es correcto, el archivo real se pasa al padre
 
         } catch (error) {
             console.error("Error al subir imagen:", error);
@@ -124,7 +128,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
         <div
             className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat" id="file-name"
             style={{
-                backgroundImage: `url(${dataHeader.public_image})`,
+                backgroundImage: `url(${previewImageUrl})`, // Usar previewImageUrl aquí
                 backgroundSize: "cover",
             }}
         >
@@ -219,7 +223,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
                                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                         ) : (
                                             <>
-                                                {dataHeader.public_image !== "/blog/fondo_blog_extend.png" ? (
+                                                {previewImageUrl !== "/blog/fondo_blog_extend.png" ? (
                                                     <>
                                                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                         <span className="text-sm">Cambiar imagen</span>
