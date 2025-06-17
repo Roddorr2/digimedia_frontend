@@ -11,13 +11,13 @@ import "./globales.css";
 export default function Web() {
     const featuresuxui = [
       {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/DisenoUI/desarrollo_front1.webp" alt="UX" className="w-full h-full object-contain" />,
         title: "DESARROLLO FRONT-END",
         description:
           "SE ENFOCA EN LA PARTE VISUAL DEL SITIO WEB CON LA QUE LOS USUARIOS INTERACTÚAN DIRECTAMENTE. UTILIZA LENGUAJES COMO HTML, CSS Y JAVASCRIPT PARA CREAR LA ESTRUCTURA, EL ESTILO Y LA INTERACTIVIDAD DE LA PÁGINA.",
       },
       {
-        icon: <Smartphone className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/desarrollo/desarrollo-back/desarrollo-back1.webp" alt="UX" className="w-full h-full object-contain" />,
         title: "DESARROLLO BACK-END",
         description:
           'SE OCUPA DE LA "TRASTIENDA" DEL SITIO WEB, GESTIONANDO EL SERVIDOR, LA BASE DE DATOS Y LA LÓGICA DE LA APLICACIÓN. LENGUAJES COMUNES INCLUYEN PYTHON, JAVA, PHP Y NODE.JS.',
