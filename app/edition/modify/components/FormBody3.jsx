@@ -52,20 +52,20 @@ export default function FormBody3(props) {
     const [uploading, setUploading] = useState(false);
 
     // Nuevos estados para las URLs de previsualización
-    const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(formEncabezadoBody.public_image1 || "/blog/blog-4.jpg");
-    const [previewImageBody2Url, setPreviewImageBody2Url] = useState(formGaleryBody.public_image2 || "/blog/blog-10.jpg");
-    const [previewImageBody3Url, setPreviewImageBody3Url] = useState(formGaleryBody.public_image3 || "/blog/blog-1.jpg");
+    const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+    const [previewImageBody2Url, setPreviewImageBody2Url] = useState(formGaleryBody.public_image2 || "/blog/blog-10.webp");
+    const [previewImageBody3Url, setPreviewImageBody3Url] = useState(formGaleryBody.public_image3 || "/blog/blog-1.webp");
 
     useEffect(() => {
-        setPreviewImageHeaderUrl(formEncabezadoBody.public_image1 || "/blog/blog-4.jpg");
+        setPreviewImageHeaderUrl(formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
     }, [formEncabezadoBody.public_image1]);
 
     useEffect(() => {
-        setPreviewImageBody2Url(formGaleryBody.public_image2 || "/blog/blog-10.jpg");
+        setPreviewImageBody2Url(formGaleryBody.public_image2 || "/blog/blog-10.webp");
     }, [formGaleryBody.public_image2]);
 
     useEffect(() => {
-        setPreviewImageBody3Url(formGaleryBody.public_image3 || "/blog/blog-1.jpg");
+        setPreviewImageBody3Url(formGaleryBody.public_image3 || "/blog/blog-1.webp");
     }, [formGaleryBody.public_image3]);
     
   const servicios = [
@@ -291,7 +291,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
         
         setFormEncabezadoBody((prev) => ({
           ...prev,
-          public_image1: "/blog/blog-4.jpg", 
+          public_image1: "/blog/blog-4.webp", 
         }));
       
         setFileBodyHeader(null);
@@ -396,8 +396,8 @@ function renderDescripcion(texto, palabraClave, enlace) {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {[
-                                previewImageBody2Url || "/blog/blog-10.jpg", // Usar el nuevo estado de previsualización
-                                previewImageBody3Url || "/blog/blog-1.jpg", // Usar el nuevo estado de previsualización
+                                previewImageBody2Url || "/blog/blog-10.webp", // Usar el nuevo estado de previsualización
+                                previewImageBody3Url || "/blog/blog-1.webp", // Usar el nuevo estado de previsualización
                             ].map((src, index) => (
                                 <div
                                     key={index}
@@ -545,7 +545,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                 ) : (
                                     <>
-                                        {previewImageHeaderUrl !== "/blog/blog-4.jpg" ? (
+                                        {previewImageHeaderUrl !== "/blog/blog-4.webp" ? (
                                             <>
                                                 <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                 <span className="text-sm">Cambiar imagen</span>
@@ -614,7 +614,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                                         <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                     ) : (
                                         <>
-                                            {previewImageBody2Url !== "/blog/blog-2.jpg" ? (
+                                            {previewImageBody2Url !== "/blog/blog-2.webp" ? (
                                                 <>
                                                     <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                     <span className="text-sm">Cambiar imagen</span>
@@ -664,7 +664,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
                                         <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                     ) : (
                                         <>
-                                            {previewImageBody3Url !== "/blog/blog-2.jpg" ? (
+                                            {previewImageBody3Url !== "/blog/blog-2.webp" ? (
                                                 <>
                                                     <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                     <span className="text-sm">Cambiar imagen</span>

@@ -186,7 +186,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                                 <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                             ) : (
                                                 <>
-                                                    {formFooter[`public_image${num}`] !== "/blog/blog-10.jpg" ? (
+                                                    {formFooter[`public_image${num}`] !== "/blog/blog-10.webp" ? (
                                                         <>
                                                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                             <span className="text-sm">Cambiar imagen</span>

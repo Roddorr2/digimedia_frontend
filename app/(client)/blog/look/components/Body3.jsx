@@ -59,7 +59,7 @@ export default function Body3() {
                             <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
                             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                                 <img
-                                    src="/blog/blog-11.jpg"
+                                    src="/blog/blog-11.webp"
                                         alt="Imagen principal"
                                     className="w-[22rem] h-[22rem] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110 rounded-2xl shadow-lg object-cover relative z-10"
                                 />
@@ -82,7 +82,7 @@ export default function Body3() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {["/blog/blog-12.jpg", "/blog/blog-1.jpg"].map((src, index) => (
+                        {["/blog/blog-12.webp", "/blog/blog-1.webp"].map((src, index) => (
                             <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg">
                                 <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <img

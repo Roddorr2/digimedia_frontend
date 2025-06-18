@@ -28,7 +28,7 @@ export default function Body1() {
             <div className="relative h-[400px] overflow-hidden">
                 <div className="absolute inset-0 z-10"></div>
                 <img
-                    src="/blog/blog-4.jpg"
+                    src="/blog/blog-4.webp"
                     alt="Imagen principal"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -70,7 +70,7 @@ export default function Body1() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
-                    {["/blog/blog-10.jpg", "/blog/blog-1.jpg"].map((src, index) => (
+                    {["/blog/blog-10.webp", "/blog/blog-1.webp"].map((src, index) => (
                         <div key={index} className="group relative overflow-hidden rounded-xl shadow-xl">
                             <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                             <img

@@ -66,20 +66,20 @@ export default function FormBody1(props) {
 
   const [uploading, setUploading] = useState(false);
   // Nuevos estados para las URLs de previsualización
-  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(formEncabezadoBody.public_image1 || "/blog/blog-4.jpg");
-  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(formGaleryBody.public_image2 || "/blog/blog-2.jpg");
-  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(formGaleryBody.public_image3 || "/blog/blog-1.jpg");
+  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(formGaleryBody.public_image2 || "/blog/blog-2.webp");
+  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(formGaleryBody.public_image3 || "/blog/blog-1.webp");
 
   useEffect(() => {
-    setPreviewImageHeaderUrl(formEncabezadoBody.public_image1 || "/blog/blog-4.jpg");
+    setPreviewImageHeaderUrl(formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
   }, [formEncabezadoBody.public_image1]);
 
   useEffect(() => {
-    setPreviewImageBody2Url(formGaleryBody.public_image2 || "/blog/blog-2.jpg");
+    setPreviewImageBody2Url(formGaleryBody.public_image2 || "/blog/blog-2.webp");
   }, [formGaleryBody.public_image2]);
 
   useEffect(() => {
-    setPreviewImageBody3Url(formGaleryBody.public_image3 || "/blog/blog-1.jpg");
+    setPreviewImageBody3Url(formGaleryBody.public_image3 || "/blog/blog-1.webp");
   }, [formGaleryBody.public_image3]);
 
   const servicios = [
@@ -429,8 +429,8 @@ export default function FormBody1(props) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
             {[
-              previewImageBody2Url || "/blog/blog-10.jpg", // Usar el nuevo estado de previsualización
-              previewImageBody3Url || "/blog/blog-1.jpg", // Usar el nuevo estado de previsualización
+              previewImageBody2Url || "/blog/blog-10.webp", // Usar el nuevo estado de previsualización
+              previewImageBody3Url || "/blog/blog-1.webp", // Usar el nuevo estado de previsualización
             ].map((src, index) => (
               <div
                 key={index}
@@ -535,7 +535,7 @@ export default function FormBody1(props) {
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                 ) : (
                   <>
-                    {previewImageHeaderUrl !== "/blog/blog-4.jpg" ? ( // Usar el nuevo estado de previsualización
+                    {previewImageHeaderUrl !== "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -672,7 +672,7 @@ export default function FormBody1(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {previewImageBody2Url !== "/blog/blog-2.jpg" ? ( // Usar el nuevo estado de previsualización
+                      {previewImageBody2Url !== "/blog/blog-2.webp" ? ( // Usar el nuevo estado de previsualización
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">Cambiar imagen</span>
@@ -723,7 +723,7 @@ export default function FormBody1(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {previewImageBody3Url !== "/blog/blog-2.jpg" ? ( // Usar el nuevo estado de previsualización
+                      {previewImageBody3Url !== "/blog/blog-2.webp" ? ( // Usar el nuevo estado de previsualización
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">Cambiar imagen</span>

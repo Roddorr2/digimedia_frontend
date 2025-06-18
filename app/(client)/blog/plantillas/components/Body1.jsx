@@ -142,7 +142,7 @@ export default function Body1({ id_blog_body, fecha }) {
               ? data.public_image1.startsWith("http")
                 ? data.public_image1
                 : `${data.public_image1}`
-              : "/blog/blog-4.jpg"
+              : "/blog/blog-4.webp"
           }
           alt={data.titulo || "Imagen principal"}
           className="absolute inset-0 w-full h-full object-cover"
@@ -196,8 +196,8 @@ export default function Body1({ id_blog_body, fecha }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
           {[
-            data.public_image2 || "/blog/blog-10.jpg",
-            data.public_image3 || "/blog/blog-1.jpg",
+            data.public_image2 || "/blog/blog-10.webp",
+            data.public_image3 || "/blog/blog-1.webp",
           ].map((src, index) => (
             <div
               key={index}

@@ -22,7 +22,7 @@ export default function DisenoPauta() {
       <UxUiSection 
       features={features} 
       mainDescription='LA PUBLICIDAD DIGITAL PERMITE A LAS EMPRESAS DIRIGIRSE A UN PÚBLICO ESPECÍFICO, MEDIR EL RENDIMIENTO DE LAS CAMPAÑAS EN TIEMPO REAL Y AJUSTAR LAS ESTRATEGIAS PARA OPTIMIZAR LOS RESULTADOS.'
-      backgroundImage='/servicios/gestion/diseno-pautas/publicidad_digital1.png'
+      backgroundImage='/servicios/gestion/diseno-pautas/publicidad_digital1.webp'
       heroTitle="PUBLICIDAD DIGITAL"
       heroBulletPoints={[
         "PERMITE LLEGAR A AUDIENCIAS EN TODO EL MUNDO, SIN IMPORTAR LA UBICACIÓN GEOGRÁFICA.",

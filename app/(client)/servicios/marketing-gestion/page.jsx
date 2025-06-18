@@ -54,7 +54,7 @@ export default function Page() {
         title="MARKETING Y GESTIÓN DIGITAL"
         subtitle="¡Impulsa tu marca al éxito digital!"
         text="Creamos campañas que no solo se ven, sino que se sienten. Potenciamos tu presencia online con tácticas personalizadas, llevándote al siguiente nivel con resultados medibles y un impacto real. Tu éxito digital comienza aquí."
-        image="/servicios/marketing/img-main.png"
+        image="/servicios/marketing/img-main.webp"
       />
 
       <Description

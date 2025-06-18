@@ -22,7 +22,7 @@ export default function UXUI() {
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='ES LAMANIFESTACIÓN VISUAL DE LA IDENTIDAD DE UNA EMPRESA, UTILIZANDO ELEMENTOS COMO LOGOTIPOS, COLORES, TIPOGRAFÍAS Y ESTILOS GRÁFICOS PARA CREAR UNA IMAGEN COHERENTE Y RECONOCIBLE.'
-      backgroundImage='/servicios/DisenoUI/branding2.jpg'
+      backgroundImage='/servicios/DisenoUI/branding2.webp'
       heroTitle="IDENTIDAD VISUAL Y CORPORTIVA"
       heroBulletPoints={[
         "LA IVC AYUDA A QUE LA MARCA SEA FÁCILMENTE RECONOCIBLE Y DIFERENCIADA DE LA COMPETENCIA.",

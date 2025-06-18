@@ -12,7 +12,7 @@ export default function UXUI() {
 
     const backgroundImages = {
       disenoDesarrollo: '/servicios/DisenoUI/background_ui.svg',
-      gestionRedes: '/servicios/DisenoUI/background_ui_2.jpg',
+      gestionRedes: '/servicios/DisenoUI/background_ui_2.webp',
     }
 
     const backgroundImage = backgroundImages[from] || '/servicios/DisenoUI/background_ui.svg'

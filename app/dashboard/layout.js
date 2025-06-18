@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
       <AuthGuard>
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
           <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2">
-            <img src="/dashboard/logo.png" className="h-full" alt="Logo" />
+            <img src="/dashboard/logo.webp" className="h-full" alt="Logo" />
             <h1 className="text-3xl text-white font-semibold">
               SECCIÓN: {pathname.slice(pathname.indexOf('/', 1) + 1, -1).toUpperCase()}
             </h1>

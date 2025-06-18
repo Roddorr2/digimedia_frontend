@@ -56,11 +56,11 @@ const PageContent = () => {
   const [formFooter, setFormFooter] = useState({
     titulo: "Titulo Footer",
     descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-    public_image1: "/blog/blog-10.jpg",
+    public_image1: "/blog/blog-10.webp",
     url_image1: "",
-    public_image2: "/blog/blog-10.jpg",
+    public_image2: "/blog/blog-10.webp",
     url_image2: "",
-    public_image3: "/blog/blog-10.jpg",
+    public_image3: "/blog/blog-10.webp",
     url_image3: "",
   });
 
@@ -68,7 +68,7 @@ const PageContent = () => {
     titulo: "Titulo Header",
     texto_frase: "Texto atractivo y llamativo para el cliente",
     texto_descripcion: "Texto destacado y secundario para el titulo",
-    public_image: "/blog/fondo_blog_extend.png",
+    public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
   });
 
@@ -76,7 +76,7 @@ const PageContent = () => {
     titulo: "Titulo del Blog",
     descripcion: "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
     fecha: '2025-03-31',
-    public_image1: "/blog/blog-4.jpg",
+    public_image1: "/blog/blog-4.webp",
     url_image1: "",
   });
 
@@ -117,9 +117,9 @@ const PageContent = () => {
   });
 
   const [formGaleryBody, setFormGaleryBody] = useState({
-    public_image2: "/blog/blog-2.jpg",
+    public_image2: "/blog/blog-2.webp",
     url_image2: "",
-    public_image3: "/blog/blog-2.jpg",
+    public_image3: "/blog/blog-2.webp",
     url_image3: "",
   });
 
@@ -128,7 +128,7 @@ const PageContent = () => {
     setFileFooterFile1(null);
     setFormFooter(prev => ({
       ...prev,
-      public_image1: originalData.footer?.public_image1 || "/blog/blog-10.jpg",
+      public_image1: originalData.footer?.public_image1 || "/blog/blog-10.webp",
       url_image1: ""
     }));
   };
@@ -137,7 +137,7 @@ const PageContent = () => {
     setFileFooterFile2(null);
     setFormFooter(prev => ({
       ...prev,
-      public_image2: originalData.footer?.public_image2 || "/blog/blog-10.jpg",
+      public_image2: originalData.footer?.public_image2 || "/blog/blog-10.webp",
       url_image2: ""
     }));
   };
@@ -146,7 +146,7 @@ const PageContent = () => {
     setFileFooterFile3(null);
     setFormFooter(prev => ({
       ...prev,
-      public_image3: originalData.footer?.public_image3 || "/blog/blog-10.jpg",
+      public_image3: originalData.footer?.public_image3 || "/blog/blog-10.webp",
       url_image3: ""
     }));
   };
@@ -155,7 +155,7 @@ const PageContent = () => {
     setFileHeader(null);
     setDataHeader(prev => ({
       ...prev,
-      public_image: originalData.header?.public_image || "/blog/fondo_blog_extend.png",
+      public_image: originalData.header?.public_image || "/blog/fondo_blog_extend.webp",
       url_image: ""
     }));
   };
@@ -164,7 +164,7 @@ const PageContent = () => {
     setFileBodyHeader(null);
     setFormEncabezadoBody(prev => ({
       ...prev,
-      public_image1: originalData.body?.public_image1 || "/blog/blog-4.jpg",
+      public_image1: originalData.body?.public_image1 || "/blog/blog-4.webp",
       url_image1: ""
     }));
   };
@@ -173,7 +173,7 @@ const PageContent = () => {
     setFileBodyFile1(null);
     setFormGaleryBody(prev => ({
       ...prev,
-      public_image2: originalData.body?.public_image2 || "/blog/blog-2.jpg",
+      public_image2: originalData.body?.public_image2 || "/blog/blog-2.webp",
       url_image2: ""
     }));
   };
@@ -182,7 +182,7 @@ const PageContent = () => {
     setFileBodyFile2(null);
     setFormGaleryBody(prev => ({
       ...prev,
-      public_image3: originalData.body?.public_image3 || "/blog/blog-2.jpg",
+      public_image3: originalData.body?.public_image3 || "/blog/blog-2.webp",
       url_image3: ""
     }));
   };
@@ -252,7 +252,7 @@ const PageContent = () => {
         titulo: responseHeader.titulo || "",
         texto_frase: responseHeader.texto_frase || "",
         texto_descripcion: responseHeader.texto_descripcion || "",
-        public_image: responseHeader.public_image || "/blog/fondo_blog_extend.png",
+        public_image: responseHeader.public_image || "/blog/fondo_blog_extend.webp",
         url_image: responseHeader.url_image || "",
       });
 
@@ -260,11 +260,11 @@ const PageContent = () => {
         ...responseFooter,
         titulo: responseFooter.titulo || "Titulo Footer",
         descripcion: responseFooter.descripcion || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-        public_image1: responseFooter.public_image1 || "/blog/blog-10.jpg",
+        public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
         url_image1: responseFooter.url_image1 || "",
-        public_image2: responseFooter.public_image2 || "/blog/blog-10.jpg",
+        public_image2: responseFooter.public_image2 || "/blog/blog-10.webp",
         url_image2: responseFooter.url_image2 || "",
-        public_image3: responseFooter.public_image3 || "/blog/blog-10.jpg",
+        public_image3: responseFooter.public_image3 || "/blog/blog-10.webp",
         url_image3: responseFooter.url_image3 || "",
       });
 
@@ -277,14 +277,14 @@ const PageContent = () => {
         titulo: responseBody.titulo || "Titulo del Blog",
         descripcion: responseBody.descripcion || "",
         fecha: fechaFormateada,
-        public_image1: responseBody.public_image1 || "/blog/blog-4.jpg",
+        public_image1: responseBody.public_image1 || "/blog/blog-4.webp",
         url_image1: responseBody.url_image1 || "",
       });
 
       setFormGaleryBody({
-        public_image2: responseBody.public_image2 || "/blog/blog-2.jpg",
+        public_image2: responseBody.public_image2 || "/blog/blog-2.webp",
         url_image2: responseBody.url_image2 || "",
-        public_image3: responseBody.public_image3 || "/blog/blog-2.jpg",
+        public_image3: responseBody.public_image3 || "/blog/blog-2.webp",
         url_image3: responseBody.url_image3 || "",
       });
 

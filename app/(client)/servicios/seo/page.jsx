@@ -27,7 +27,7 @@ export default function UXUI() {
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='EL SEO (SEARCH ENGINE OPTIMIZATION) ES EL CONJUNTO DE TÉCNICAS Y ESTRATEGIAS QUE SE IMPLEMENTAN EN UN SITIO WEB CON EL OBJETIVO DE MEJORAR SU VISIBILIDAD Y POSICIONAMIENTO EN LOS RESULTADOS ORGÁNICOS (NO PAGADOS) DE LOS MOTORES DE BÚSQUEDA COMO GOOGLE, BING Y OTROS.'
-      backgroundImage='/servicios/DisenoUI/seo2.jpg'
+      backgroundImage='/servicios/DisenoUI/seo2.webp'
       heroTitle="SEO  "
       heroBulletPoints={[
         "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",

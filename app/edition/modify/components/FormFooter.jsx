@@ -6,20 +6,20 @@ import Swal from "sweetalert2"; // Importar Swal
 export default function FormFooter({ formFooter, setFormData, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3, onDeleteFooterFile1, onDeleteFooterFile2, onDeleteFooterFile3, setValidacionFooter }) {
     const [uploading, setUploading] = useState(false);
     // Nuevos estados para las URLs de previsualización
-    const [previewImage1Url, setPreviewImage1Url] = useState(formFooter.public_image1 || "/blog/blog-10.jpg");
-    const [previewImage2Url, setPreviewImage2Url] = useState(formFooter.public_image2 || "/blog/blog-10.jpg");
-    const [previewImage3Url, setPreviewImage3Url] = useState(formFooter.public_image3 || "/blog/blog-10.jpg");
+    const [previewImage1Url, setPreviewImage1Url] = useState(formFooter.public_image1 || "/blog/blog-10.webp");
+    const [previewImage2Url, setPreviewImage2Url] = useState(formFooter.public_image2 || "/blog/blog-10.webp");
+    const [previewImage3Url, setPreviewImage3Url] = useState(formFooter.public_image3 || "/blog/blog-10.webp");
 
     useEffect(() => {
-        setPreviewImage1Url(formFooter.public_image1 || "/blog/blog-10.jpg");
+        setPreviewImage1Url(formFooter.public_image1 || "/blog/blog-10.webp");
     }, [formFooter.public_image1]);
 
     useEffect(() => {
-        setPreviewImage2Url(formFooter.public_image2 || "/blog/blog-10.jpg");
+        setPreviewImage2Url(formFooter.public_image2 || "/blog/blog-10.webp");
     }, [formFooter.public_image2]);
 
     useEffect(() => {
-        setPreviewImage3Url(formFooter.public_image3 || "/blog/blog-10.jpg");
+        setPreviewImage3Url(formFooter.public_image3 || "/blog/blog-10.webp");
     }, [formFooter.public_image3]);
 
     const handleChange = (e) => {
@@ -208,7 +208,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                                 <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                             ) : (
                                                 <>
-                                                    {(num === "1" ? previewImage1Url : num === "2" ? previewImage2Url : previewImage3Url) !== "/blog/blog-10.jpg" ? ( // Usar el nuevo estado de previsualización
+                                                    {(num === "1" ? previewImage1Url : num === "2" ? previewImage2Url : previewImage3Url) !== "/blog/blog-10.webp" ? ( // Usar el nuevo estado de previsualización
                                                         <>
                                                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                             <span className="text-sm">Cambiar imagen</span>

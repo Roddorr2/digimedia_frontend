@@ -24,7 +24,7 @@ export default function ProduccionPautas() {
             <UxUiSection 
             features={features} 
             mainDescription='SON PROCESOS INTERRELACIONADOS QUE SE ENFOCAN EN LA RECOLECCIÓN, ANÁLISIS Y PRESENTACIÓN DE DATOS PARA EVALUAR EL RENDIMIENTO Y LA EFECTIVIDAD DE UN PROYECTO, PROGRAMA O ESTRATEGIA.'
-            backgroundImage='/servicios/gestion/monitoreo_1.png'
+            backgroundImage='/servicios/gestion/monitoreo_1.webp'
             heroTitle="MONITOREO Y REPORTING"
             heroBulletPoints={[
             "PERMITE TOMAR DECISIONES INFORMADAS, IMPLEMENTAR MEDIDAS CORRECTIVAS Y OPTIMIZAR LA GESTIÓN DEL PROYECTO.",

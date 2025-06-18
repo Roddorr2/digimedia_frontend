@@ -9,11 +9,11 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
     const [isValid_titulo, setIsValid_titulo] = useState(true);
     const [isValid_texto_frase, setIsValid_texto_frase] = useState(true);
     const [isValid_texto_descripcion, setIsValid_texto_descripcion] = useState(true);
-    const [previewImageUrl, setPreviewImageUrl] = useState(dataHeader.public_image || "/blog/fondo_blog_extend.png"); // Nuevo estado para la previsualización
+    const [previewImageUrl, setPreviewImageUrl] = useState(dataHeader.public_image || "/blog/fondo_blog_extend.webp"); // Nuevo estado para la previsualización
 
     useEffect(() => {
         // Actualizar la previsualización cuando dataHeader.public_image cambie (ej. al cargar datos iniciales o después de guardar)
-        setPreviewImageUrl(dataHeader.public_image || "/blog/fondo_blog_extend.png");
+        setPreviewImageUrl(dataHeader.public_image || "/blog/fondo_blog_extend.webp");
     }, [dataHeader.public_image]);
 
     const handleChange = (e) => {
@@ -222,7 +222,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
                                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                         ) : (
                                             <>
-                                                {previewImageUrl !== "/blog/fondo_blog_extend.png" ? (
+                                                {previewImageUrl !== "/blog/fondo_blog_extend.webp" ? (
                                                     <>
                                                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                         <span className="text-sm">Cambiar imagen</span>

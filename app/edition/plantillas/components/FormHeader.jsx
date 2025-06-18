@@ -213,7 +213,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
                       <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                     ) : (
                       <>
-                        {dataHeader.public_image !== "/blog/fondo_blog_extend.png" ? (
+                        {dataHeader.public_image !== "/blog/fondo_blog_extend.webp" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen</span>

@@ -59,7 +59,7 @@ export default function Page() {
         </>
   }
         text="Diseñamos y desarrollamos sitios web que capturan la atención desde el primer clic. Modernos, rápidos y visualmente impactantes, pensados para que tu marca destaque y FIDELIZAR A TUS clientes."
-        image="/servicios/desarrollo/img-main.png"
+        image="/servicios/desarrollo/img-main.webp"
       />
 
       <Description

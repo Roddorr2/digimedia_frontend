@@ -25,7 +25,7 @@ export default function PlanificacionCronograma() {
       <UxUiSection 
       features={features} 
       mainDescription='Es el proceso de definir estrategias, objetivos, temáticas y tipos de contenido que se publicarán en las redes sociales. Esta etapa implica pensar a mediano y largo plazo para construir una presencia digital sólida.'
-      backgroundImage='/servicios/gestion/planificacion/PLANIFICACION-Y-CRONOGRAMA---Digimedia.jpg'
+      backgroundImage='/servicios/gestion/planificacion/PLANIFICACION-Y-CRONOGRAMA---Digimedia.webp'
       heroTitle="PLANIFICACIÓN Y CRONOGRAMA"
       heroBulletPoints={[
         "Aseguran coherencia y frecuencia constante en las publicaciones.",

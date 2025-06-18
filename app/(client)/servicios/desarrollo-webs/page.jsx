@@ -30,7 +30,7 @@ export default function Web() {
         <UxUiSection 
         features={featuresuxui} 
         mainDescription='EL DESARROLLO WEB ES EL PROCESO DE CREAR Y MANTENER SITIOS WEB Y APLICACIONES QUE SE EJECUTAN EN INTERNET. IMPLICA UNA COMBINACIÓN DE DISEÑO, PROGRAMACIÓN Y GESTIÓN DE BASES DE DATOS PARA ASEGURAR QUE UN SITIO WEB SEA FUNCIONAL, ATRACTIVO Y ACCESIBLE PARA LOS USUARIOS.'
-        backgroundImage='/servicios/DisenoUI/diseno_1.jpg'
+        backgroundImage='/servicios/DisenoUI/diseno_1.webp'
         heroTitle="DESARROLLO WEB"
         heroBulletPoints={[
           "PLANIFICACIÓN: DEFINIR LOS OBJETIVOS DEL SITIO WEB, EL PÚBLICO OBJETIVO Y LAS FUNCIONALIDADES NECESARIAS.",

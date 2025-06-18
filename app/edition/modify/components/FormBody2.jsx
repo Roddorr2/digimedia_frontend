@@ -69,20 +69,20 @@ export default function FormBody2(props) {
   ];
 
   // Nuevos estados para las URLs de previsualización
-  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(props.formEncabezadoBody.public_image1 || "/blog/blog-4.jpg");
-  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(props.formGaleryBody.public_image2 || "/blog/blog-10.jpg");
-  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(props.formGaleryBody.public_image3 || "/blog/blog-1.jpg");
+  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(props.formGaleryBody.public_image2 || "/blog/blog-10.webp");
+  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(props.formGaleryBody.public_image3 || "/blog/blog-1.webp");
 
   useEffect(() => {
-    setPreviewImageHeaderUrl(props.formEncabezadoBody.public_image1 || "/blog/blog-4.jpg");
+    setPreviewImageHeaderUrl(props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
   }, [props.formEncabezadoBody.public_image1]);
 
   useEffect(() => {
-    setPreviewImageBody2Url(props.formGaleryBody.public_image2 || "/blog/blog-10.jpg");
+    setPreviewImageBody2Url(props.formGaleryBody.public_image2 || "/blog/blog-10.webp");
   }, [props.formGaleryBody.public_image2]);
 
   useEffect(() => {
-    setPreviewImageBody3Url(props.formGaleryBody.public_image3 || "/blog/blog-1.jpg");
+    setPreviewImageBody3Url(props.formGaleryBody.public_image3 || "/blog/blog-1.webp");
   }, [props.formGaleryBody.public_image3]);
 
   const [commendErrors, setCommendErrors] = useState({
@@ -635,7 +635,7 @@ export default function FormBody2(props) {
                     ) : (
                       <>
                         {previewImageHeaderUrl !==
-                        "/blog/blog-4.jpg" ? ( // Usar el nuevo estado de previsualización
+                        "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
                           <>
                             <Image className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen</span>
@@ -913,12 +913,12 @@ export default function FormBody2(props) {
                 {[
                   {
                     id: 2,
-                    url: formGaleryBody.public_image2 || "/blog/blog-10.jpg",
+                    url: formGaleryBody.public_image2 || "/blog/blog-10.webp",
                     title: "Imagen destacada 1",
                   },
                   {
                     id: 3,
-                    url: formGaleryBody.public_image3 || "/blog/blog-1.jpg",
+                    url: formGaleryBody.public_image3 || "/blog/blog-1.webp",
                     title: "Imagen destacada 2",
                   },
                 ].map((image, index) => (
@@ -957,7 +957,7 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {(image.id === 2 ? previewImageBody2Url : previewImageBody3Url) !== "/blog/blog-4.jpg" ? ( // Usar el nuevo estado de previsualización
+                              {(image.id === 2 ? previewImageBody2Url : previewImageBody3Url) !== "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
                                 <>
                                   <Image className="w-5 h-5 mr-2 text-purple-400" />
                                   <span className="text-sm">

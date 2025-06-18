@@ -14,7 +14,7 @@ export default function Footer() {
                 width="250px"
                 height="120px"
                 loading="lazy"
-              />
+              /> 
             </div>
             <div className="contactoFooter listaFooter">
               <h3>Contacto</h3>
@@ -22,7 +22,7 @@ export default function Footer() {
                 <li>
                   <Link href="https://wa.me/936910425" target="_blank">
                     <img
-                      src="/headerFooter/phone.png"
+                      src="/headerFooter/phone.webp"
                       alt="Celular"
                       width="24px"
                       height="24px"
@@ -33,7 +33,7 @@ export default function Footer() {
                 <li>
                   <Link href="mailto:digimediamkt@gmail.com" target="_blank">
                     <img
-                      src="/headerFooter/correo.png"
+                      src="/headerFooter/correo.webp"
                       alt="Correo"
                       width="24px"
                       height="24px"
@@ -44,7 +44,7 @@ export default function Footer() {
                 <li>
                   <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
                     <img
-                      src="/headerFooter/location.png"
+                      src="/headerFooter/location.webp"
                       alt="Ubicacion"
                       width="24px"
                       height="24px"
@@ -86,7 +86,7 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/tiktok.png"
+                      src="/headerFooter/tiktok.webp"
                       alt="tiktok"
                       width="24px"
                       height="24px"
@@ -99,7 +99,7 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/instagram.png"
+                      src="/headerFooter/instagram.webp"
                       alt="Instagram"
                       width="24px"
                       height="24px"
@@ -112,7 +112,7 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/youtube.png"
+                      src="/headerFooter/youtube.webp"
                       alt="YouTube"
                       width="24px"
                       height="24px"
@@ -125,7 +125,7 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/linkedin.png"
+                      src="/headerFooter/linkedin.webp"
                       alt="Linkedin"
                       width="24px"
                       height="24px"
@@ -138,7 +138,7 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/facebook.png"
+                      src="/headerFooter/facebook.webp"
                       alt="Facebook"
                       width="24px"
                       height="24px"
