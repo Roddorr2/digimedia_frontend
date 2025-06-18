@@ -29,14 +29,6 @@ const PageContent= () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // const [imageHeaderBefore, setImageHeaderBefore] = useState("");
-  // const [imageBodyHeaderBefore, setImageBodyHeaderBefore] = useState("");
-  // const [imageBodyFile1Before, setImageBodyFile1Before] = useState("");
-  // const [imageBodyFile2Before, setImageBodyFile2Before] = useState("");
-  // const [imageFooterFile1Before, setImageFooterFile1Before] = useState("");
-  // const [imageFooterFile2Before, setImageFooterFile2Before] = useState("");
-  // const [imageFooterFile3Before, setImageFooterFile3Before] = useState("");
-
   const [fileHeader, setFileHeader] = useState(null);
   const [FileBodyHeader, setFileBodyHeader] = useState(null);
   const [FileBodyFile1, setFileBodyFile1] = useState(null);
@@ -337,16 +329,6 @@ const PageContent= () => {
     }
   }
 
-  // useEffect(() => {
-  //   const sections = document.querySelectorAll("#header, #body, #footer");
-  //   sections.forEach(section => {
-  //     section.style.scrollMargin = "50px";
-  //     if (section.id === "body" && section.clientHeight < 300) {
-  //       section.style.minHeight = "300px";
-  //     }
-  //   });
-  // }, []);
-
   async function guardarHeader() {
     console.log("🔄 Enviando datos:", dataHeader);
     console.log("🔄 ID a actualizar:", originalData.header.id_blog_head);
@@ -390,34 +372,6 @@ const PageContent= () => {
     }
   }
 
-  // async function guardarBody() {
-  //   const form = {
-  //     titulo: formEncabezadoBody.titulo,
-  //     descripcion: formEncabezadoBody.descripcion,
-  //     id_commend_tarjeta: dataBody.id_commend_tarjeta,
-  //     public_image1: formEncabezadoBody.public_image1,
-  //     url_image1: formEncabezadoBody.url_image1,
-  //     public_image2: formGaleryBody.public_image2,
-  //     url_image2: formGaleryBody.url_image2,
-  //     public_image3: formGaleryBody.public_image3,
-  //     url_image3: formGaleryBody.url_image3,
-  //     service_url: serviceRedirectUrl,
-  //   }
-
-  //   const id = await Fetch.updateBody(dataBody.id_blog_body, form);
-  //   if (id && id > 0) {
-  //     return id;
-  //   }
-  //   else {
-  //     Swal.fire({
-  //       title: "Error",
-  //       text: "No se pudo guardar el contenido",
-  //       icon: "error",
-  //       confirmButtonText: "OK",
-  //     });
-  //     return "error";
-  //   }
-  // }
   async function guardarBody(id_commend_tarjeta) {
     const formBody = {
       titulo: formEncabezadoBody.titulo,
@@ -461,27 +415,6 @@ const PageContent= () => {
     }
   }
 
-  // async function guardarBlog() {
-  //   const form = {
-  //     id_blog_head: dataBlog.id_blog_head,
-  //     id_blog_footer: dataBlog.id_blog_footer,
-  //     id_blog_body: dataBlog.id_blog_body,
-  //     fecha: dataBlog.fecha,
-  //   }
-  //   const id = await Fetch.updateBlog(dataBlog.id_blog, form);
-  //   if (id && id > 0) {
-  //     return id;
-  //   }
-  //   else {
-  //     Swal.fire({
-  //       title: "Error",
-  //       text: "No se actualizar guardar el blog",
-  //       icon: "error",
-  //       confirmButtonText: "OK",
-  //     });
-  //     return "error";
-  //   }
-  // }
   async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body) {
     const formBlog = {
       id_blog_head: id_blog_head,
@@ -504,35 +437,6 @@ const PageContent= () => {
       return "error";
     }
   }
-
-  // async function guardarCard(id_empleado) {
-  //   const form = {
-  //     id_blog: dataBlog.id_blog,
-  //     titulo: dataHeader.titulo,
-  //     descripcion: dataHeader.texto_descripcion,
-  //     public_image: dataHeader.public_image,
-  //     url_image: dataHeader.url_image,
-  //     id_plantilla: 2,
-  //     id_empleado: id_empleado,
-  //   }
-
-  //   console.log("Form Card: ", form);
-
-  //   const id = await Fetch.updateCard(dataBlog.card.id_card, form);
-  //   if (id && id > 0) {
-  //     console.log("Id del card:", id);
-  //     return id;
-  //   }
-  //   else {
-  //     Swal.fire({
-  //       title: "Error",
-  //       text: "No se pudo guardar la tarjeta",
-  //       icon: "error",
-  //       confirmButtonText: "OK",
-  //     });
-  //     return "error";
-  //   }
-  // }
 
   async function guardarCard(id_blog, id_empleado) {
     const formCard = {
@@ -558,32 +462,6 @@ const PageContent= () => {
       return "error";
     }
   }
-
-  // async function guardarTarjetas() {
-  //   try {
-  //     await Promise.all(
-  //       formInfoBody.map(async (section) => {
-  //         const form = {
-  //           id_blog_body: dataBody.id_blog_body,
-  //           titulo: section.titulo,
-  //           descripcion: section.descripcion,
-  //         };
-  //         const id = await Fetch.updateTarjeta(section.id_tarjeta, form);
-  //         if (!id || id <= 0) throw new Error("Error al guardar tarjeta");
-  //         return id;
-  //       })
-  //     );
-  //     return "succes";
-  //   } catch (error) {
-  //     Swal.fire({
-  //       title: "Error",
-  //       text: "No se pudo guardar una o más tarjetas",
-  //       icon: "error",
-  //       confirmButtonText: "OK",
-  //     });
-  //     return "error";
-  //   }
-  // }
 
   async function guardarTarjetas(id_blog_body) {
     try {
@@ -621,21 +499,6 @@ const PageContent= () => {
     }
   }
 
-  /*async function deleteCarpetImages(){
-    try {
-      const response = await Fetch.deleteImagesCarpet(dataBlog.card.id_card);
-      return response;
-    } catch (error) {
-      Swal.fire({
-        title: "Error",
-        text: "No se pudo guardar una o más tarjetas",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return "error";
-    }
-  }*/
-
   async function executionFunction(functionSave, mensajeError) {
     try {
       const resultado = await functionSave();
@@ -666,107 +529,6 @@ const PageContent= () => {
     storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.webp
   */
 
-  // async function SaveImage(file, ruta, name = null) {
-  //   try {
-  //     console.log(`🚀 [SaveImage] Iniciando para archivo:`, file?.name, `ruta:`, ruta, `name:`, name);
-
-  //     if (!file) {
-  //       console.log("⚠️ [SaveImage] No hay archivo para subir, retornando éxito");
-  //       return "ok";
-  //     }
-
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-
-  //     if (name) {
-  //       formData.append("name", name);
-  //     }
-
-  //     console.log("📤 [SaveImage] Enviando imagen al servidor...");
-  //     const response = await Fetch.saveImage(formData, ruta);
-      
-  //     console.log("📥 [SaveImage] Respuesta recibida:", {
-  //       response,
-  //       type: typeof response,
-  //       isNull: response === null,
-  //       isUndefined: response === undefined,
-  //       hasStatus: response?.status,
-  //       statusValue: response?.status
-  //     });
-
-  //     // Caso 1: Respuesta es null o undefined (error en Fetch.saveImage)
-  //     if (response === null || response === undefined) {
-  //       console.error("❌ [SaveImage] La respuesta del servidor es null o undefined");
-  //       throw new Error("No se recibió respuesta del servidor - verifique la conexión");
-  //     }
-
-  //     // Caso 2: Respuesta es un objeto con propiedad status (respuesta HTTP estándar)
-  //     if (response && typeof response === 'object' && 'status' in response) {
-  //       console.log(`📊 [SaveImage] Respuesta con status: ${response.status}`);
-        
-  //       if (response.status === 200 || response.status === 201) {
-  //         console.log("✅ [SaveImage] Imagen subida exitosamente con status", response.status);
-  //         setFileHeader(null); // Limpiar el archivo después del éxito
-  //         return "ok";
-  //       } else if (response.status === 400) {
-  //         console.warn("⚠️ [SaveImage] Status 400 - error del cliente:", response.data || response);
-  //         throw new Error(`Error 400: ${response.data?.message || 'Solicitud inválida'}`);
-  //       } else if (response.status >= 500) {
-  //         console.error("💥 [SaveImage] Error del servidor:", response.status);
-  //         throw new Error(`Error del servidor (${response.status}): ${response.data?.message || 'Error interno'}`);
-  //       } else {
-  //         console.error("❌ [SaveImage] Status no manejado:", response.status);
-  //         throw new Error(`Status no esperado: ${response.status}`);
-  //       }
-  //     }
-
-  //     // Caso 3: Respuesta es directamente los datos (sin propiedad status)
-  //     if (response && typeof response === 'object' && !('status' in response)) {
-  //       console.log("✅ [SaveImage] Respuesta directa exitosa (sin status)");
-  //       setFileHeader(null); // Limpiar el archivo después del éxito
-  //       return "ok";
-  //     }
-
-  //     // Caso 4: Respuesta es string o primitivo
-  //     if (typeof response === 'string') {
-  //       console.log("📝 [SaveImage] Respuesta tipo string:", response);
-  //       // Intentar parsear si contiene JSON
-  //       try {
-  //         const parsed = JSON.parse(response);
-  //         if (parsed && (parsed.success || parsed.status === 200 || parsed.status === 201)) {
-  //           console.log("✅ [SaveImage] String parseado exitoso");
-  //           setFileHeader(null);
-  //           return "ok";
-  //         }
-  //       } catch (parseError) {
-  //         console.log("⚠️ [SaveImage] String no es JSON válido, tratando como éxito");
-  //         setFileHeader(null);
-  //         return "ok";
-  //       }
-  //     }
-
-  //     // Caso 5: Si llegamos aquí, algo salió mal
-  //     console.error("❌ [SaveImage] Tipo de respuesta no manejado:", {
-  //       response,
-  //       type: typeof response,
-  //       constructor: response?.constructor?.name
-  //     });
-  //     throw new Error("Formato de respuesta no reconocido del servidor");
-
-  //   } catch (error) {
-  //     console.error("💥 [SaveImage] Error capturado:", {
-  //       message: error.message,
-  //       name: error.name,
-  //       stack: error.stack,
-  //       file: file?.name,
-  //       ruta,
-  //       nameParam: name
-  //     });
-      
-  //     // Re-lanzar el error para que executionFunction lo maneje
-  //     throw error;
-  //   }
-  // }
   async function SaveImage(file, ruta, name = null) {
     try {
       if (!file) return "ok";
@@ -797,102 +559,6 @@ const PageContent= () => {
       throw error;
     }
   }
-  
-  // async function HandleSave() {
-  //   try {
-
-  //     setLoading(true);
-
-  //     await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
-
-  //     await executionFunction(guardarBody, "No se pudo guardar el contenido del blog");
-
-  //     await executionFunction(guardarTarjetas, "No se pudo guardar las tarjetas informativas");      // Upload images first, then update header with proper image paths
-  //     if (fileHeader) {
-  //       await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${dataBlog.card.id_card}`), "No se pudo guardar la imagen del encabezado");
-  //       // Después de subir la imagen, reemplazar la blob URL con la URL correcta del backend
-  //       setDataHeader(prev => ({
-  //         ...prev,
-  //         public_image: `http://127.0.0.1:8000${prev.url_image}`,
-  //       }));
-  //       await new Promise(resolve => setTimeout(resolve, 100));
-  //     } else if (dataHeader && dataHeader.public_image && dataHeader.public_image.startsWith('blob:')) {
-  //       setDataHeader(prev => ({
-  //         ...prev,
-  //         public_image: dataHeader.url_image || imageHeaderBefore,
-  //         url_image: dataHeader.url_image || imageHeaderBefore
-  //       }));
-  //       await new Promise(resolve => setTimeout(resolve, 100));
-  //     }
-
-  //     await executionFunction(guardarHeader, "No se pudo guardar el encabezado");
-  //     await executionFunction(guardarFooter, "No se pudo guardar el pie de página");
-
-  //     await executionFunction(guardarBlog, "No se pudo guardar el blog");
-  //     await executionFunction(() => guardarCard(id_empleado), "No se pudo guardar la card");
-
-  //     //await executionFunction(deleteCarpetImages, "No se logro eliminar la carpeta de imagenes antigua");
-
-  //     if (FileBodyHeader) {
-  //       await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen");
-  //     }
-
-  //     if (FileBodyFile1) {
-  //       await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen");
-  //     }
-
-  //     if (FileBodyFile2) {
-  //       await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen");
-  //     }
-
-  //     if (FileFooterFile1) {
-  //       await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${dataBlog.card.id_card}`, "image1"), "No se pudo guardar la imagen");
-  //     }
-
-  //     if (FileFooterFile2) {
-  //       await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${dataBlog.card.id_card}`, "image2"), "No se pudo guardar la imagen");
-  //     }
-
-  //     if (FileFooterFile3) {
-  //       await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${dataBlog.card.id_card}`, "image3"), "No se pudo guardar la imagen");
-  //     }
-
-  //     Swal.fire({
-  //       title: "Actualizado Correctamente",
-  //       text: "¡Podrás ver tu blog en la sección de blogs de la página principal!",
-  //       icon: "success"
-  //     });
-
-  //     router.push("/dashboard/blogs/")
-
-  //     setImageBodyFile1Before("");
-  //     setImageBodyFile2Before("");
-  //     setImageFooterFile1Before("");
-  //     setImageFooterFile2Before("");
-  //     setImageFooterFile3Before("");
-  //     setImageHeaderBefore("");
-  //     setImageBodyHeaderBefore("");
-      
-
-  //     setDataBody(null);
-  //     setDataFooter(null);
-  //     setDataHeader(null);
-  //     setDataBlog(null);
-
-  //     setFileHeader(null);
-  //     setFileBodyHeader(null);
-  //     setFileBodyFile1(null);
-  //     setFileBodyFile2(null);
-  //     setFileFooterFile1(null);
-  //     setFileFooterFile2(null);
-  //     setFileFooterFile3(null);
-
-  //   } catch (error) {
-  //     console.error("Error al guardar:", error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
 
   async function HandleSave() {
     let headerDataToUse = dataHeader;
