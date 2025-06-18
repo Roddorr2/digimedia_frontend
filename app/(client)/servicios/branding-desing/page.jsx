@@ -24,11 +24,14 @@ export default function Page() {
       title: 'NAMING, LOGO Y SLOGAN',
       text: 'Creamos elementos clave que representen tu marca y conecten con tu audencia.',
       icon: '/servicios/branding/icon3.svg',
+      ruta: '/servicios/naming-logo-slogan/'
     },
     {
       title: 'MANUAL DE MARCA',
       text: 'Definimos las reglas que guiarán todas las estrategias para tu marca.',
       icon: '/servicios/branding/icon4.svg',
+      ruta: '/servicios/manual-marca/'
+
     },
   ];
 
