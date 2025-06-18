@@ -22,7 +22,7 @@ export default function UXUI() {
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='ES LA CONSTRUCCIÓN DE UNA GUÍA QUE RECOGE TODA LA INFORMACIÓN ESENCIAL DE UN PROYECTO DE DISEÑO O BRANDING. SIRVE COMO BASE PARA DEFINIR LA IDENTIDAD VISUAL, TONO, MENSAJE Y OBJETIVOS DE UNA MARCA, PRODUCTO O CAMPAÑA.'
-      backgroundImage='/servicios/DiseñoUI/branding1.jpg'
+      backgroundImage='/servicios/DisenoUI/branding1.jpg'
       heroTitle="DESARROLLO DE BRIEF"
       heroBulletPoints={[
         "ALINEAR AL CLIENTE Y AL EQUIPO CREATIVO EN UNA MISMA VISIÓN Y DIRECCIÓN.",
