@@ -24,11 +24,13 @@ export default function Page() {
       title: 'PUBLICIDAD DIGITAL',
       text: 'Desarrollamos campañas digitales de alto impacto para aumentar la visibilidad, captar audencias y maximizar conversiones .',
       icon: '/servicios/marketing/icon3.svg',
+      ruta: '/servicios/publicidad-digital/'
     },
     {
       title: 'MONITOREO Y REPORTING',
       text: 'Hacemos seguimiento continuo del avance,  gestionando los proyectos,  programas y actividades  de forma efectiva',
       icon: '/servicios/marketing/icon4.svg',
+      ruta: '/servicios/monitoreo-y-reporting/'
     },
   ];
 
