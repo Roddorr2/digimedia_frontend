@@ -24,7 +24,7 @@ export default function ProduccionPautas() {
             <UxUiSection 
             features={features} 
             mainDescription='Es el desarrollo de todos los elementos necesarios para ejecutar una campaña publicitaria en redes sociales. Implica tanto la parte creativa como la técnica para que los anuncios funcionen correctamente en las plataformas elegidas.'
-            backgroundImage='/servicios/gestion/produccion-pautas/PRODUCCION-DE-PAUTAS---digimedia.webp'
+            backgroundImage='/servicios/planificacion/produccion_pautas_principal.webp'
             heroTitle="PRODUCCIÓN DE PAUTAS"
             heroBulletPoints={[
             "Crear contenidos listos para ser promocionados.",

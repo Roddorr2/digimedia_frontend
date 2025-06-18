@@ -8,13 +8,13 @@ export default function UXUI() {
 
     const featuresuxui = [
     {
-      icon: <MonitorIcon className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/seo/seo_on.webp" alt="UX" className="w-full h-full stroke-1" />,
       title: "SEO ON-PAGE",
       description:
         "SE REFIERE A LA OPTIMIZACIÓN DE LOS ELEMENTOS DENTRO DE TU PROPIO SITIO WEB PARA MEJORAR SU POSICIONAMIENTO.",
     },
     {
-      icon: <Smartphone className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/seo/seo_off.webp" alt="UX" className="w-full h-full stroke-1" />,
       title: "SEO OFF-PAGE",
       description:
         "SE CENTRA EN LAS ACCIONES QUE REALIZAS FUERA DE TU PROPIO SITIO WEB PARA INFLUIR EN SU POSICIONAMIENTO. LA CONSTRUCCIÓN DE ENLACES (LINK BUILDING) ES UN COMPONENTE CRUCIAL.",
@@ -27,7 +27,7 @@ export default function UXUI() {
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='EL SEO (SEARCH ENGINE OPTIMIZATION) ES EL CONJUNTO DE TÉCNICAS Y ESTRATEGIAS QUE SE IMPLEMENTAN EN UN SITIO WEB CON EL OBJETIVO DE MEJORAR SU VISIBILIDAD Y POSICIONAMIENTO EN LOS RESULTADOS ORGÁNICOS (NO PAGADOS) DE LOS MOTORES DE BÚSQUEDA COMO GOOGLE, BING Y OTROS.'
-      backgroundImage='/servicios/DisenoUI/seo2.webp'
+      backgroundImage='/servicios/seo/seo_principal.webp'
       heroTitle="SEO  "
       heroBulletPoints={[
         "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
