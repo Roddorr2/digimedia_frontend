@@ -2,27 +2,27 @@
 import Contactanos from '../components/Contactanos';
 import '../ui/globals.css';
 import { UxUiSection } from "../components/uxui-section"
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react"
 
 export default function UXUI() {
 
     const featuresuxui = [
       {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <PencilRuler className="w-full h-full stroke-1" />,
         title: "LOGOTIPO",
         description:
         "INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.",
     },
 
     {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <Palette className="w-full h-full stroke-1" />,
         title: "PALETA DE COLOR",
         description:
         "DEFINICIÓN DE LOS COLORES PRIMARIOS Y SECUNDARIOS DE LA MARCA, INCLUYENDO SUS CÓDIGOS RGB, CMYK Y PANTONE PARA FACILITAR SU USO EN DIFERENTES SOPORTES.",
     },
 
     {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <SpellCheck className="w-full h-full stroke-1" />,
         title: "TIPOGRAFÍAS",
         description:
         "SELECCIÓN DE FUENTES DE LETRA PRINCIPALES Y SECUNDARIAS, INCLUYENDO EJEMPLOS DE CÓMO USARLAS EN DIFERENTES TAMAÑOS Y ESTILOS PARA TITULARES Y CUERPOS DE TEXTO.",

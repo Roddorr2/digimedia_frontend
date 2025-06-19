@@ -2,13 +2,13 @@
 import Contactanos from '../components/Contactanos';
 import '../ui/globals.css';
 import { UxUiSection } from "../components/uxui-section"
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import { Lightbulb, Smartphone, PenTool, Layers } from "lucide-react"
 
 export default function UXUI() {
 
     const featuresuxui = [
     {
-      icon: <MonitorIcon className="w-full h-full stroke-1" />,
+      icon: <Lightbulb className="w-full h-full stroke-1" />,
       title: "IVC",
       description:
         "ES LA CARA VISIBLE DE LA MARCA, QUE AYUDA A COMUNICAR SU PERSONALIDAD, VALORES Y POSICIONAMIENTO EN EL MERCADO.",

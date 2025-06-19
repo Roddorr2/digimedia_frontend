@@ -9,21 +9,21 @@ export default function UXUI() {
     const featuresuxui = [
   
     {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/naming-logo-slogan/naming.webp" alt="Planificación" className="w-full h-full object-contain" />,
         title: "NAMING",
         description:
         "EL NAMING ES EL PROCESO DE CREAR Y SELECCIONAR EL NOMBRE DE UNA MARCA, PRODUCTO, SERVICIO O PROYECTO.",
     },
 
     {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/naming-logo-slogan/logo.webp" alt="Planificación" className="w-full h-full object-contain" />,
         title: "LOGO",
         description:
         "EL LOGO ES UN SÍMBOLO GRÁFICO COMPUESTO POR PALABRAS, IMÁGENES, COLORES O UNA COMBINACIÓN DE ELLOS, QUE SE UTILIZA PARA IDENTIFICAR UNA MARCA O UN PRODUCTO.",
     },
 
     {
-        icon: <MonitorIcon className="w-full h-full stroke-1" />,
+        icon: <img src="/servicios/naming-logo-slogan/slogan.webp" alt="Planificación" className="w-full h-full object-contain" />,
         title: "SLOGAN",
         description:
         "EL ESLOGAN (O SLOGAN EN INGLÉS) ES UNA FRASE CORTA Y PEGADIZA QUE SE UTILIZA PARA IDENTIFICAR UN PRODUCTO, SERVICIO O EMPRESA, BUSCANDO RESALTAR SUS BENEFICIOS, SU ESENCIA O UN MENSAJE CLAVE.",
