@@ -20,7 +20,7 @@ export default function Footer() {
               <h3>Contacto</h3>
               <ul>
                 <li>
-                  <Link href="https://wa.me/936910425" target="_blank">
+                  <Link href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios." target="_blank">
                     <img
                       src="/headerFooter/phone.webp"
                       alt="Celular"
