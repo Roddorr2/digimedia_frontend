@@ -872,8 +872,8 @@ export default function FormBody3(props) {
                 <div className="w-full flex justify-end">
                   {" "}
                   <BotonAñadirLink
-                    texto={item.descripcion}
-                    item={item.palabra}
+                    // texto={item.descripcion}
+                    item={item}
                     index={index}
                     servicios={servicios}
                     handleChange={handleChangeMap}
