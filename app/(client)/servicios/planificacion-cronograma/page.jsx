@@ -6,13 +6,13 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function PlanificacionCronograma() {
   const features = [
     {
-      icon: <img src="/servicios/gestion/planificacion/icons/first.webp" alt="Planificación" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/gestion/planificacion/icons/first.webp" alt="Tabla de apuntes" className="w-full h-full object-contain" />,
       title: "PLANIFICACIÓN",
       description:
         "La planificación es el proceso de definir qué se quiere lograr, cómo se va a lograr, cuándo se va a lograr y quién será responsable de cada tarea. Es como crear un mapa detallado antes de emprender un viaje.",
     },
     {
-      icon: <img src="/servicios/gestion/planificacion/icons/second.webp" alt="Planificación" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/gestion/planificacion/icons/second.webp" alt="Calendario" className="w-full h-full object-contain" />,
       title: "CRONOGRAMA",
       description:
         "Un cronograma es una herramienta que muestra la secuencia de las actividades necesarias para completar un proyecto, junto con sus fechas de inicio y fin estimadas. ",

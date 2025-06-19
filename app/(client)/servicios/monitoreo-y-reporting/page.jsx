@@ -6,13 +6,13 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function ProduccionPautas() {
     const features = [
         {
-        icon: <img src="/servicios/monitoreo_reporting/icons/monitoreo.webp" alt="Diseño de pautas" className="w-full h-full object-contain" />,
+        icon: <img src="/servicios/monitoreo_reporting/icons/monitoreo.webp" alt="Icono de una computadora y una lupa con un ojo" className="w-full h-full object-contain" />,
         title: "MONITOREO",
         description:
             "IMPLICA LA OBSERVACIÓN CONSTANTE DE INDICADORES CLAVE (KPI) Y LA RECOPILACIÓN DE DATOS RELEVANTES.",
         },
         {
-        icon: <img src="/servicios/monitoreo_reporting/icons/reporting.webp" alt="Producción de pautas" className="w-full h-full object-contain" />,
+        icon: <img src="/servicios/monitoreo_reporting/icons/reporting.webp" alt="Icono de un gráfico del rendimiento" className="w-full h-full object-contain" />,
         title: "REPORTING",
         description:
             "EL PROCESO DE PRESENTAR LA INFORMACIÓN RECOPILADA A TRAVÉS DE INFORMES, PRESENTACIONES O PANELES DE CONTROL.",

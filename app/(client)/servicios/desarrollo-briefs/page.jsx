@@ -8,7 +8,7 @@ export default function UXUI() {
 
     const featuresuxui = [
     {
-      icon: <img src="/servicios/desarrollo_brief/brief.webp" alt="Planificación" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/desarrollo_brief/brief.webp" alt="Icono de una computadora con mapas y graficos" className="w-full h-full object-contain" />,
       title: "BRIEF",
       description:
         "ES UN DOCUMENTO CLAVE QUE RECOGE LA INFORMACIÓN ESENCIAL PARA DESARROLLAR UN PROYECTO VISUAL ALINEADO CON LOS OBJETIVOS DE UNA MARCA. SUELE INCLUIR DATOS SOBRE LA IDENTIDAD DE LA EMPRESA (COMO SU HISTORIA, MISIÓN, VISIÓN Y VALORES), ASÍ COMO EL OBJETIVO DEL ENCARGO, YA SEA CREAR UN LOGO, RENOVAR LA IDENTIDAD VISUAL O LANZAR UNA CAMPAÑA.",

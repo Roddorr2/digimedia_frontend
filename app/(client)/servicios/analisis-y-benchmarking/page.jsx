@@ -6,13 +6,13 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function ProduccionPautas() {
     const features = [
         {
-        icon: <img src="/servicios/analisis_benchmarking/icons/analisis.webp" alt="Diseño de pautas" className="w-full h-full object-contain" />,
+        icon: <img src="/servicios/analisis_benchmarking/icons/analisis.webp" alt="Icono de una hoja y una lupa de color morado y fondo oscuro" className="w-full h-full object-contain" />,
         title: "ANALISIS",
         description:
             "AYUDA A COMPRENDER LA SITUACIÓN INTERNA Y EXTERNA DE LA EMPRESA PARA TOMAR DECISIONES ESTRATÉGICAS.",
         },
         {
-        icon: <img src="/servicios/analisis_benchmarking/icons/benchmarking.webp" alt="Producción de pautas" className="w-full h-full object-contain" />,
+        icon: <img src="/servicios/analisis_benchmarking/icons/benchmarking.webp" alt="Icono de una computadora con gráfico color morado y fondo oscuro" className="w-full h-full object-contain" />,
         title: "BENCHMARKING",
         description:
             "IDENTIFICA ÁREAS DE MEJORA, ESTABLECE OBJETIVOS REALISTAS Y DESARROLLA PLANES DE ACCIÓN PARA OPTIMIZAR LA EFICIENCIA, REDUCIR COSTOS Y MEJORAR LA SATISFACCIÓN DEL CLIENTE.",

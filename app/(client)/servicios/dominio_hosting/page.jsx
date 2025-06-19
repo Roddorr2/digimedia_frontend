@@ -8,13 +8,13 @@ export default function UXUI() {
 
     const featuresuxui = [
     {
-     icon: <img src="/servicios/dominio_hosting/dominio.webp" alt="UX" className="w-full h-full stroke-1" />,
+     icon: <img src="/servicios/dominio_hosting/dominio.webp" alt="Icono de busqueda en la web y una lupa" className="w-full h-full stroke-1" />,
       title: "DOMINIO",
       description:
         "ES COMO LA DIRECCIÓN DE TU CASA EN INTERNET. ES EL NOMBRE ÚNICO Y FÁCIL DE RECORDAR QUE LA GENTE ESCRIBE EN SU NAVEGADOR PARA ENCONTRAR TU SITIO WEB (POR EJEMPLO, [WWW.TUNOMBRE.COM](http://WWW.TUNOMBRE.COM)).",
     },
     {
-      icon: <img src="/servicios/dominio_hosting/hosting.webp" alt="UX" className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/dominio_hosting/hosting.webp" alt="Icono de un servidor en la nube" className="w-full h-full stroke-1" />,
       title: "HOSTING",
       description:
         "ES EL TERRENO DONDE CONSTRUYES TU CASA Y DONDE GUARDAS TODAS TUS COSAS (LOS ARCHIVOS DE TU SITIO WEB: TEXTOS, IMÁGENES, VIDEOS, ETC.). ES UN ESPACIO EN UN SERVIDOR (UNA COMPUTADORA POTENTE CONECTADA A INTERNET) QUE ALQUILAS PARA QUE TU SITIO WEB ESTÉ ACCESIBLE LAS 24 HORAS DEL DÍA.",

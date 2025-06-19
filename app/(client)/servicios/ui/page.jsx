@@ -19,14 +19,14 @@ export default function UXUI() {
 
     const featuresuxui = [
     {
-      icon: <img src="/servicios/DisenoUI/icons/UX.webp" alt="UX" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/DisenoUI/icons/UX.webp" alt="Web con diseño UX" className="w-full h-full object-contain" />,
       title: "Diseño de pautas",
       title: "UX",
       description:
         "EL DISEÑO UX (EXPERIENCIA DE USUARIO) SE CENTRA EN ENTENDER A LAS PERSONAS QUE USARÁN UN PRODUCTO DIGITAL (WEB, APP, ETC.) PARA CREAR UNA EXPERIENCIA EFECTIVA, INTUITIVA Y SATISFACTORIA. INVESTIGA SUS NECESIDADES, COMPORTAMIENTOS Y FRUSTRACIONES PARA DEFINIR LA ESTRUCTURA Y LA FUNCIONALIDAD DEL PRODUCTO.",
     },
     {
-      icon: <img src="/servicios/DisenoUI/icons/UI.webp" alt="UI" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/DisenoUI/icons/UI.webp" alt="Web con diseño UI" className="w-full h-full object-contain" />,
       title: "UI",
       description:
         "EL DISEÑO UI (INTERFAZ DE USUARIO) SE ENCARGA DE LA PARTE VISUAL, CREANDO UNA INTERFAZ ATRACTIVA, COHERENTE Y FÁCIL DE NAVEGAR. UTILIZA ELEMENTOS COMO COLORES, TIPOGRAFÍA E IMÁGENES PARA COMUNICAR LA MARCA Y GUIAR AL USUARIO DE MANERA EFICIENTE.",

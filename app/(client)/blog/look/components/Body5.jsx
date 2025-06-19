@@ -62,7 +62,7 @@ export default function Body5() {
                                                   <div className="relative">
                                                       <img
                                                           src="/blog/blog-1.webp"
-                                                              alt="Imagen principal"
+                                                              alt="Persona viendo estadísticas en su celular y computadora"
                                                           className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative z-10"
                                                       />
                                                   </div>

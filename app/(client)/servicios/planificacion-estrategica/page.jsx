@@ -9,7 +9,7 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function PlanificacionEstrategica() {
     const features = [
     {
-      icon: <img src="/servicios/planificacion-estrategica/icons/planificacion.webp" alt="Planificación" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/planificacion-estrategica/icons/planificacion.webp" alt="Hoja de planificación" className="w-full h-full object-contain" />,
       title: "PLANIFICACIÓN",
       description:
         'Implica analizar la situación actual e identificar oportunidades y amenazas, y asignar recursos para lograr la visión a largo plazo. ',

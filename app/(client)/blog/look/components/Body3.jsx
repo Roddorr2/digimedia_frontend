@@ -60,7 +60,7 @@ export default function Body3() {
                             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                                 <img
                                     src="/blog/blog-11.webp"
-                                        alt="Imagen principal"
+                                        alt="Muchas interacciones en redes sociales"
                                     className="w-[22rem] h-[22rem] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110 rounded-2xl shadow-lg object-cover relative z-10"
                                 />
                             </div>

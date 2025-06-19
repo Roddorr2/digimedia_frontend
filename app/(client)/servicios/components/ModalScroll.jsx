@@ -118,7 +118,7 @@ export default function ModalScroll({ text, fondo, title, serviceName }) {
           <img
             className="absolute top-4 left-4"
             src="/servicios/logo-modal.webp"
-            alt=""
+            alt="Logo de digimedia marketing de color rosado y azul"
           />
           <p className="absolute hidden md:block bottom-10 right-6 text-2xl font-semibold text-right">
             {text}
