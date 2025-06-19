@@ -52,14 +52,14 @@ export default function Page() {
 
       <Main
         title="MARKETING Y GESTIÓN DIGITAL"
-        subtitle="¡Impulsa tu marca al éxito digital!"
-        text="Creamos campañas que no solo se ven, sino que se sienten. Potenciamos tu presencia online con tácticas personalizadas, llevándote al siguiente nivel con resultados medibles y un impacto real. Tu éxito digital comienza aquí."
+        subtitle="!Has despegar tu marca al éxito digital!"
+        text="Conecta, Impacta y Crece: El poder de de despegar tu marca con el Marketing y la Gestion Digital en la era online."
         image="/servicios/marketing/img-main.webp"
       />
 
       <Description
-        title="Marketing y Gestión Digital"
-        text="El marketing y la gestión digital son tus aliados para potenciar el éxito de tu marca en el mundo digital. Te ayudarán a destacar en línea, alcanzar a una audiencia más amplia, captar clientes potenciales y fortalecer la relación con tus clientes. Todo esto se traduce en un impulso signiﬁcativo para aumentar las ventas y el crecimiento de tu negocio."
+          title="¿QUE ES?"
+        text="El Marketing Digital consiste en planificar, ejecutar y optimizar estrategias comerciales utilizando herramientas digitales para conectar con el público y alcanzar objetivos de negocio."
       />
 
       <Servicios servicios={servicios} />

@@ -22,13 +22,13 @@ export default function Page() {
     },
     {
       title: 'DOMINIO Y HOSTING',
-      text: 'mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.',
+      text: 'aseguramos que tu presencia online sea, segura, rápida y eFICIENTE PARA LA disponibILIDAD DE tus clientes.',
       icon: '/servicios/desarrollo/icon3.svg',
       ruta: '/servicios/dominio_hosting/'
     },
     {
       title: 'SEO',
-      text: 'Impulsamos tu sitio al tope de los resultados de búsqueda con estrategias efectivas.',
+      text: 'mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.',
       icon: '/servicios/desarrollo/icon4.svg',
       ruta: '/servicios/seo/'
     },
