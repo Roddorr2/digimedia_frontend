@@ -72,9 +72,12 @@ export default function Footer() {
                     Libro de reclamaciones
                   </Link>
                 </li>
-                <Link href="/nosotros">
-                <li>Trabaja con nosotros</li>
-                </Link>
+                
+                <li>
+                  <Link href="/nosotros">
+                  Trabaja con nosotros
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="redesFooter listaFooter">
