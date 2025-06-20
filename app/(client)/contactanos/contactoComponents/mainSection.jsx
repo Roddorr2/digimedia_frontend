@@ -25,7 +25,7 @@ const MainSection = () => (
         transition={{ duration: 1.5, delay: 0.2 }}
         style={{ overflow: "hidden" }}
       >
-        <img src="/contactanos/srta.webp" alt="srta" />
+        <img src="/contactanos/srta.webp" alt="srta hablando por telefono" />
       </motion.div>
     </div>
     <br />

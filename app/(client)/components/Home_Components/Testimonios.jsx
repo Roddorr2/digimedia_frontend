@@ -11,12 +11,7 @@ export default function Testimonios() {
         </p>
       </div>
       <div className="w-full md:w-1/2">
-        <img
-          className="h-full object-cover"
-          src="/image-home/opinions.webp"
-          alt="imagen de testimonios"
-          loading="lazy"
-        />
+        <img src="/image-home/opinions.webp" alt="imagen de un grupo de personas conversando en una mesa en un dia soleado " className="h-full object-cover" loading="lazy"/>
       </div>
     </section>
   );

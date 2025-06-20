@@ -9,7 +9,7 @@ const HeaderSection = () => (
     {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div> */}
     <img
       src="/blog/blog-6.webp"
-      alt="Imagen principal"
+     alt="Mujer vestida formalmente sonriendo mientras habla por teléfono y sostiene una laptop"
       className="absolute inset-0 w-full h-full object-cover"
     />
     <div className="relative z-20 h-full flex flex-col justify-end p-8">

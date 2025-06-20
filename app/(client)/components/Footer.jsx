@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="imgFooter my-4">
               <img
                 src="/headerFooter/logoFooter.webp"
-                alt="Digimedia"
+                alt="Logo DigiMedia Marketing con fondo oscuro"
                 width="250px"
                 height="120px"
                 loading="lazy"
@@ -23,7 +23,7 @@ export default function Footer() {
                   <Link href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios." target="_blank">
                     <img
                       src="/headerFooter/phone.webp"
-                      alt="Celular"
+                      alt="Icono de teléfono de color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -34,7 +34,7 @@ export default function Footer() {
                   <Link href="mailto:digimediamkt@gmail.com" target="_blank">
                     <img
                       src="/headerFooter/correo.webp"
-                      alt="Correo"
+                      alt="Icono de correo color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -45,7 +45,7 @@ export default function Footer() {
                   <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
                     <img
                       src="/headerFooter/location.webp"
-                      alt="Ubicacion"
+                      alt="Icono de Ubicación color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -90,7 +90,7 @@ export default function Footer() {
                   >
                     <img
                       src="/headerFooter/tiktok.webp"
-                      alt="tiktok"
+                      alt="Icono de TikTok color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -103,7 +103,7 @@ export default function Footer() {
                   >
                     <img
                       src="/headerFooter/instagram.webp"
-                      alt="Instagram"
+                      alt="Icono de Instagram color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -116,7 +116,7 @@ export default function Footer() {
                   >
                     <img
                       src="/headerFooter/youtube.webp"
-                      alt="YouTube"
+                      alt="Icono de YouTube color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -129,7 +129,7 @@ export default function Footer() {
                   >
                     <img
                       src="/headerFooter/linkedin.webp"
-                      alt="Linkedin"
+                      alt="Icono de Linkedin color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -142,7 +142,7 @@ export default function Footer() {
                   >
                     <img
                       src="/headerFooter/facebook.webp"
-                      alt="Facebook"
+                      alt="Icono de Facebook color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />

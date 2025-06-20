@@ -49,7 +49,7 @@ export default function Body2() {
             <div className="relative h-[300px] md:h-[400px] overflow-hidden">
                 <img
                     src="/blog/body2_titulo.webp"
-                    alt="Imagen principal"
+                    alt="Trabajando en un proyecto de diseño web"
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>

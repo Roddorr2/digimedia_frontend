@@ -12,25 +12,25 @@ function services() {
                 <div className="services-4">
                     <div className="services">
                         <Link href="/servicios/desing-desarrollo" className="service">
-                            <img src="/image-home/icon1.svg" alt="Diseño y Desarrollo Web" />
+                            <img src="/image-home/icon1.svg" alt="Icono de una computadora con un pincel de color morado con fondo oscuro" />
                             <h3>Diseño y Desarrollo Web</h3>
                             <p>"Creamos sitios atractivos y funcionales que representan tu marca"</p>
                         </Link>
 
                         <Link href="/servicios/gestion-redes" className="service">
-                            <img src="/image-home/icon2.svg" alt="Gestión de Redes Sociales" />
+                            <img src="/image-home/icon2.svg" alt="Icono de una mano con círculos de like, corazón y play color morado con fondo oscuro" />
                             <h3>Gestión de Redes Sociales</h3>
                             <p>"Aumenta tu presencia online y conectamos con tu audiencia"</p>
                         </Link>
 
                         <Link href="/servicios/branding-desing" className="service">
-                            <img src="/image-home/icon3.svg" alt="Branding y Diseño" />
+                            <img src="/image-home/icon3.svg" alt="Icono de grafico a la alza color morado con fondo oscuro" />
                             <h3>Branding y Diseño</h3>
                             <p>"Construimos una identidad visual fuerte y memorable"</p>
                         </Link>
 
                         <Link href="/servicios/marketing-gestion" className="service">
-                            <img src="/image-home/icon4.svg" alt="Marketing y Gestión Digital" />
+                            <img src="/image-home/icon4.svg" alt="Icono de un círculo con un lápiz y una regla en cruz de color morado y fondo oscuro" />
                             <h3>Marketing y Gestión Digital</h3>
                             <p>"Aumenta tu presencia en redes sociales y con marketing digital"</p>
                         </Link>

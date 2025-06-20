@@ -29,7 +29,7 @@ export default function Body1() {
                 <div className="absolute inset-0 z-10"></div>
                 <img
                     src="/blog/blog-4.webp"
-                    alt="Imagen principal"
+                    alt="Reunion de un equipo de trabajo"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
             <div className="relative z-20 h-full flex flex-col justify-end p-8">

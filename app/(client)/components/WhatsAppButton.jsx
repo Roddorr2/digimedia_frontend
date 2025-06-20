@@ -14,7 +14,7 @@ const WhatsAppButton = () => {
     >
       <img 
         src="/image-home/whatsapp-icon.svg"  // Ruta actualizada
-        alt="WhatsApp"
+        alt="Icono de WhatsApp color blanco con fondo oscuro"
         width="40"
         height="40"
       />

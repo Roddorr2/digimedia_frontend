@@ -9,7 +9,7 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function DisenoPauta() {
     const features = [
     {
-      icon: <img src="/servicios/gestion/diseno-pautas/icons/first.webp" alt="Planificación" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/gestion/diseno-pautas/icons/first.webp" alt="Icono de una hoja con un lápiz" className="w-full h-full object-contain" />,
       title: "PLANIFICACIÓN",
       description:
         'En el área de Gestión de Redes Sociales, el término "Diseño de pautas" se refiere a la creación visual y estratégica de los anuncios pagados (también llamados "pautas publicitarias")',

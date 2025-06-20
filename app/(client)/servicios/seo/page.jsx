@@ -8,13 +8,13 @@ export default function UXUI() {
 
     const featuresuxui = [
     {
-      icon: <img src="/servicios/seo/seo_on.webp" alt="UX" className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/seo/seo_on.webp" alt="Lupa del seo " className="w-full h-full stroke-1" />,
       title: "SEO ON-PAGE",
       description:
         "SE REFIERE A LA OPTIMIZACIÓN DE LOS ELEMENTOS DENTRO DE TU PROPIO SITIO WEB PARA MEJORAR SU POSICIONAMIENTO.",
     },
     {
-      icon: <img src="/servicios/seo/seo_off.webp" alt="UX" className="w-full h-full stroke-1" />,
+      icon: <img src="/servicios/seo/seo_off.webp" alt="Lupa del seo buscando en la red" className="w-full h-full stroke-1" />,
       title: "SEO OFF-PAGE",
       description:
         "SE CENTRA EN LAS ACCIONES QUE REALIZAS FUERA DE TU PROPIO SITIO WEB PARA INFLUIR EN SU POSICIONAMIENTO. LA CONSTRUCCIÓN DE ENLACES (LINK BUILDING) ES UN COMPONENTE CRUCIAL.",
