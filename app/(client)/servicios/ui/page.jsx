@@ -4,6 +4,15 @@ import './globals.css';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+
+export default function UXUIPageWrapper() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Cargando...</div>}>
+      <UXUI />
+    </Suspense>
+  );
+}
 
 export default function UXUI() {
 
