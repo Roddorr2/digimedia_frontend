@@ -14,7 +14,7 @@ export default function UXUIPageWrapper() {
   );
 }
 
-export default function UXUI() {
+function UXUI() {
 
     const searchParams = useSearchParams();
     const from = searchParams.get('from');
