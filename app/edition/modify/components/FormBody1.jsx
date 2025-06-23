@@ -808,8 +808,7 @@ export default function FormBody1(props) {
                   />
                   <div className="w-full flex justify-end">
                     <BotonAñadirLink
-                      texto={item.descripcion}
-                      item={item.palabra}
+                      item={item}
                       index={index}
                       servicios={servicios}
                       handleChange={handleChangeMap}

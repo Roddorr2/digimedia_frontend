@@ -810,8 +810,14 @@ function renderDescripcion(texto, palabraClave, enlace) {
                                     <ValidationMessage error={errorsInfoBody[index]?.descripcion || { isValid: null, message: '' }} />
 
                                 </div>
-                                                  <div className="w-full flex justify-end"> <BotonAñadirLink  item={item} index={index} servicios={servicios} handleChange={handleChangeMap}/></div>
-                                        
+                                    <div className="w-full flex justify-end"> 
+                                        <BotonAñadirLink  
+                                        item={item} 
+                                        index={index} 
+                                        servicios={servicios} 
+                                        handleChange={handleChangeMap}
+                                        />
+                                    </div>    
                             </div>
                         ))}
                     </form>

@@ -785,8 +785,7 @@ export default function FormBody2(props) {
                         </div>
                         <div className="w-full justify-end">
                          <BotonAñadirLink
-                            texto={section.descripcion}
-                            item={section.palabra}
+                            item={section}
                             index={index}
                             servicios={servicios}
                             handleChange={handleChangeMap}
