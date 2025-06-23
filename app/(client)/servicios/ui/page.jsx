@@ -4,8 +4,9 @@ import './globals.css';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function UXUI() {
+function UXUIComponent() {
 
     const searchParams = useSearchParams();
     const from = searchParams.get('from');
@@ -36,7 +37,7 @@ export default function UXUI() {
   return (
 
    <div>
-      <UxUiSection 
+     <UxUiSection 
       features={featuresuxui} 
       mainDescription='EL DISEÑO UX SE PREOCUPA POR LA EXPERIENCIA GLOBAL DEL USUARIO, MIENTRAS QUE EL DISEÑO UI SE ENFOCA EN LOS DETALLES VISUALES DE LA INTERFAZ. AMBOS TRABAJAN JUNTOS PARA CREAR PRODUCTOS DIGITALES EXITOSOS.'
       backgroundImage={backgroundImage}
@@ -52,8 +53,18 @@ export default function UXUI() {
         text="Consolida tu presencia web, diseña con nosotros tu página web"
         iconLeft="/servicios/desarrollo/icon-left.svg"
         iconRight="/servicios/desarrollo/icon-right.svg"
-      /> 
+      />        
    </div>
    
   );
+}
+
+
+
+export default function UXUI() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Cargando...</div>}>
+           <UXUIComponent/>
+        </Suspense>
+    );
 }
