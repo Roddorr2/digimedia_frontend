@@ -65,7 +65,7 @@ export default function RootLayout({ children }) {
 
           <div className="flex w-full overflow-hidden h-screen">
             <div className="flex flex-col shrink-0 p-2 bg-[#e8e8e8] dark:bg-gray-800 text-black dark:text-white justify-between">
-              <nav className='mt-3'>
+              <nav className='flex-1 overflow-y-auto mt-3 pr-1'>
                 <ul className="flex flex-col gap-1">
                   
                   <TableLink title="Sección Principal" href="/dashboard/main" />
