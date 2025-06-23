@@ -16,7 +16,7 @@ export default function Clientes() {
     { src: "/image-home/tami.svg", alt: "Tami logo" },
     { src: "/image-home/yuntas.svg", alt: "Yuntas logo" },
     { src: "/image-home/prevemedic.svg", alt: "prevemedic logo" },
-    { src: "/image-home/mj_eventos.svg", alt: "MJ eventos logo" },
+    { src: "/image-home/mj-eventos.svg", alt: "MJ eventos logo" },
     { src: "/image-home/asden.svg", alt: "Asden logo" },
   ];
 
