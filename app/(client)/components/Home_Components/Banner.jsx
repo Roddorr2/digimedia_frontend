@@ -1,15 +1,23 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import './Home.css';
+import Image from 'next/image';
 
 export default function Banner() {
   return (
     <>
      <Head>
         <link rel="preload" href="/image-home/inicio.webp" as="image" />
-      </Head>
+     </Head>
     
-    <main className="bg-[url(/image-home/inicio.webp)] bg-cover bg-[30%] h-[calc(100vh-67px)]">
+    <main className="relative bg-cover bg-[30%] h-[calc(100vh-67px)]">
+     <Image
+      src="/image-home/inicio.webp"
+      alt="Inicio"
+      fill
+      priority
+      className="object-cover absolute object-[30%]"
+     />
       <div className="flex flex-col items-center justify-center h-full mx-4 md:justify-end md:items-start md:mx-0">
         <div className="bg-[rgba(123,34,179,0.5)] text-center py-4 px-10 rounded-xl md:[clip-path:polygon(0_0,100%_0,80%_100%,0_100%)] md:px-24 md:text-left">
           <h1 className="text-white font-bold text-4xl md:text-6xl max-w-xl">
