@@ -23,15 +23,6 @@ export default function RootLayout({ children }) {
   return (
  
     <>
-       <Head>
-        {/* Preconnect a Google Fonts para mejorar la conexión */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link 
-          rel="preload" 
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" 
-          as="style" 
-        />
-      </Head>
         <Header/>
         {children}
         <Footer/>
