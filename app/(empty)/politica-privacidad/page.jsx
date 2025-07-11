@@ -1,4 +1,3 @@
-import './politicas.css';
 import Image from "next/image";
 import logoLegales from "@/public/headerFooter/logoFooter.webp";
 

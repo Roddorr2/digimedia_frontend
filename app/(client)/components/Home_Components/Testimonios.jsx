@@ -13,7 +13,7 @@ export default function Testimonios() {
         </p>
       </div>
       <div className="w-full md:w-1/2">
-             <Image
+                <Image
   src="/image-home/opinions.webp"
     alt="imagen de un grupo de personas conversando en una mesa en un dia soleado "
   width={600}

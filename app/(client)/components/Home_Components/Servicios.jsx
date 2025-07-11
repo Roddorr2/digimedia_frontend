@@ -1,6 +1,6 @@
 import React from 'react';
-import './services.css'
 import Link from 'next/link';
+
 function services() {
     return (
         <section id="services">

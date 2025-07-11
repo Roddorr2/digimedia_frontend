@@ -1,6 +1,5 @@
 'use client';
 import Contactanos from '../components/Contactanos';
-import './globals.css';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 import { useSearchParams } from 'next/navigation';

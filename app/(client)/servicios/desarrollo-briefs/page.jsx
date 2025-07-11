@@ -1,6 +1,5 @@
 
 import Contactanos from '../components/Contactanos';
-import '../ui/globals.css';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 
