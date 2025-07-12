@@ -1,12 +1,6 @@
 import Contactanos from "../components/Contactanos";
-import Description from "../components/Description";
-import Main from "../components/Main";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
-import Servicios from "../components/Servicios";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 import { UxUiSection } from "../components/uxui-section"
-import "./globales.css";
+
 
 export default function Web() {
     const featuresuxui = [

@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
+import "../../styles/globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Head from "next/head";
@@ -24,13 +24,15 @@ export default function RootLayout({ children }) {
  
     <>
        <Head>
-        {/* Preconnect a Google Fonts para mejorar la conexión */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link 
-          rel="preload" 
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" 
-          as="style" 
-        />
+        {/* ✅ Preconexión a Google Fonts */}
+        <link rel="preload" href="/image-home/inicio.webp" as="image" />
+    
+
+        {/* ✅ Fuente Montserrat con display=swap */}
+    
+
+        {/* ✅ Fuente Telegraf si la usas desde cdnfonts */}
+      
       </Head>
         <Header/>
         {children}

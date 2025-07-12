@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import "./page.css";
 
 const Nosotros = () => {
     const mensaje = "Hola, vengo de la pagina web de Digimedia, deseo mas información! 👌";

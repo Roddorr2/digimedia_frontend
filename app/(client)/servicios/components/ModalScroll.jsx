@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import './modal.css';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";

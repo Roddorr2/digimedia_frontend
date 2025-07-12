@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import './Header.css';
+
+import Image from 'next/image';
 import { useEffect } from 'react'; // ya lo tienes, pero si no, importa useEffect también.
 
 export default function Header2() {

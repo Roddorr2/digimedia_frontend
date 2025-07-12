@@ -1,6 +1,5 @@
 
 import Contactanos from '../components/Contactanos';
-import '../ui/globals.css';
 import { UxUiSection } from "../components/uxui-section"
 import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react"
 
