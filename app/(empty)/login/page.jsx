@@ -94,7 +94,7 @@ export default function LoginPage() {
             Accede a tu cuenta para gestionar tus recursos y servicios
           </p>
           <img
-            src="/login/sesion.png"
+            src="/login/sesion.webp"
             alt="Inicio de sesión"
             className="w-64 lg:w-80 h-auto mx-auto animate-float"
           />

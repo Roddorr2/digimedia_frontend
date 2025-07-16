@@ -1,5 +1,4 @@
 'use client';
-import '../globals.css';
 import Link from 'next/link';
 import AuthGuard from './components/AuthGuard';
 import auth_service from './users/services/auth.service';
@@ -57,7 +56,7 @@ export default function RootLayout({ children }) {
       <AuthGuard>
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
           <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2">
-            <img src="/dashboard/logo.png" className="h-full" alt="Logo" />
+            <img src="/dashboard/logo.webp" className="h-full" alt="Logo" />
             <h1 className="text-3xl text-white font-semibold">
               SECCIÓN: {pathname.slice(pathname.indexOf('/', 1) + 1, -1).toUpperCase()}
             </h1>
@@ -65,7 +64,7 @@ export default function RootLayout({ children }) {
 
           <div className="flex w-full overflow-hidden h-screen">
             <div className="flex flex-col shrink-0 p-2 bg-[#e8e8e8] dark:bg-gray-800 text-black dark:text-white justify-between">
-              <nav className='mt-3'>
+              <nav className='flex-1 overflow-y-auto mt-3 pr-1'>
                 <ul className="flex flex-col gap-1">
                   
                   <TableLink title="Sección Principal" href="/dashboard/main" />

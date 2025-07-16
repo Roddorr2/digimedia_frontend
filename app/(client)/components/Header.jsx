@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import './Header.css';
+
+import Image from 'next/image';
 import { useEffect } from 'react'; // ya lo tienes, pero si no, importa useEffect también.
 
 export default function Header2() {
@@ -39,7 +40,7 @@ export default function Header2() {
           <Link href="/" onClick={closeMenu}>
             <img
               src="/headerFooter/logoblanco.webp"
-              alt="Digimedia"
+              alt="Logo de digimedia color blanco con fondo oscuro"
               width="190px"
               height="65px"
               className="my-auto"
@@ -50,7 +51,7 @@ export default function Header2() {
         <div className="seccionesHeader">
           <input type="checkbox" id="menucheckbox" checked={menuOpen} onChange={() => setMenuOpen(!menuOpen)} />
           <label htmlFor="menucheckbox">
-            <img src="/headerFooter/menu.webp" alt="menú" className="menuIcono" width="25" height="25" />
+            <img src="/headerFooter/menu.webp" alt="menú" className="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
           </label>
           <ul className="menuHorizontal">
             <li className={isActive('/') ? 'active' : ''} onClick={closeMenu}>

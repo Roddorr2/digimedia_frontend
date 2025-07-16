@@ -16,7 +16,7 @@ export default function Clientes() {
     { src: "/image-home/tami.svg", alt: "Tami logo" },
     { src: "/image-home/yuntas.svg", alt: "Yuntas logo" },
     { src: "/image-home/prevemedic.svg", alt: "prevemedic logo" },
-    { src: "/image-home/mj_eventos.svg", alt: "MJ eventos logo" },
+    { src: "/image-home/mj-eventos.svg", alt: "MJ eventos logo" },
     { src: "/image-home/asden.svg", alt: "Asden logo" },
   ];
 
@@ -109,13 +109,13 @@ export default function Clientes() {
               key={index}
               className={`flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-56 px-2`}
             >
-              <a href={cliente.link} target="_blank" rel="noopener noreferrer">
+              {/* <a href={cliente.link} target="_blank" rel="noopener noreferrer"> */}
                 <img
                   src={cliente.src}
                   alt={cliente.alt}
                   className="block w-full h-full object-contain"
                 />
-              </a>
+              {/* </a> */}
             </div>
           ))}
         </div>
@@ -133,6 +133,7 @@ export default function Clientes() {
                 handleManualChange(index);
                 resetAutoSlide();
               }}
+              aria-label={`Ir al slide ${index + 1}`}
             />
           ))}
         </div>

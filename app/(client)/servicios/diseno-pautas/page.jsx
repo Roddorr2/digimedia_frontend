@@ -9,7 +9,7 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 export default function DisenoPauta() {
     const features = [
     {
-      icon: <img src="/servicios/gestion/diseno-pautas/icons/first.webp" alt="Planificación" className="w-full h-full object-contain" />,
+      icon: <img src="/servicios/gestion/diseno-pautas/icons/first.webp" alt="Icono de una hoja con un lápiz" className="w-full h-full object-contain" />,
       title: "PLANIFICACIÓN",
       description:
         'En el área de Gestión de Redes Sociales, el término "Diseño de pautas" se refiere a la creación visual y estratégica de los anuncios pagados (también llamados "pautas publicitarias")',
@@ -22,7 +22,7 @@ export default function DisenoPauta() {
       <UxUiSection 
       features={features} 
       mainDescription='Es el proceso de crear piezas gráficas o audiovisuales atractivas y efectivas que serán utilizadas en campañas de publicidad digital. Estas piezas están dirigidas a públicos segmentados y tienen un objetivo específico.'
-      backgroundImage='/servicios/gestion/diseno-pautas/Diseno-de-Pautas---Digimedia.jpg'
+      backgroundImage='/servicios/gestion/diseno-pautas/Diseno-de-Pautas---Digimedia.webp'
       heroTitle="DISEÑO DE PAUTAS"
       heroBulletPoints={[
         "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import './Footer.css';
+
 
 export default function Footer() {
   return (
@@ -10,20 +10,20 @@ export default function Footer() {
             <div className="imgFooter my-4">
               <img
                 src="/headerFooter/logoFooter.webp"
-                alt="Digimedia"
+                alt="Logo DigiMedia Marketing con fondo oscuro"
                 width="250px"
                 height="120px"
                 loading="lazy"
-              />
+              /> 
             </div>
             <div className="contactoFooter listaFooter">
               <h3>Contacto</h3>
               <ul>
                 <li>
-                  <Link href="https://wa.me/936910425" target="_blank">
+                  <Link href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios." target="_blank">
                     <img
-                      src="/headerFooter/phone.png"
-                      alt="Celular"
+                      src="/headerFooter/phone.webp"
+                      alt="Icono de teléfono de color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -33,8 +33,8 @@ export default function Footer() {
                 <li>
                   <Link href="mailto:digimediamkt@gmail.com" target="_blank">
                     <img
-                      src="/headerFooter/correo.png"
-                      alt="Correo"
+                      src="/headerFooter/correo.webp"
+                      alt="Icono de correo color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -44,8 +44,8 @@ export default function Footer() {
                 <li>
                   <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
                     <img
-                      src="/headerFooter/location.png"
-                      alt="Ubicacion"
+                      src="/headerFooter/location.webp"
+                      alt="Icono de Ubicación color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -72,9 +72,12 @@ export default function Footer() {
                     Libro de reclamaciones
                   </Link>
                 </li>
-                <Link href="/nosotros">
-                <li>Trabaja con nosotros</li>
-                </Link>
+                
+                <li>
+                  <Link href="/nosotros">
+                  Trabaja con nosotros
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="redesFooter listaFooter">
@@ -86,8 +89,8 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/tiktok.png"
-                      alt="tiktok"
+                      src="/headerFooter/tiktok.webp"
+                      alt="Icono de TikTok color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -99,8 +102,8 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/instagram.png"
-                      alt="Instagram"
+                      src="/headerFooter/instagram.webp"
+                      alt="Icono de Instagram color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -112,8 +115,8 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/youtube.png"
-                      alt="YouTube"
+                      src="/headerFooter/youtube.webp"
+                      alt="Icono de YouTube color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -125,8 +128,8 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/linkedin.png"
-                      alt="Linkedin"
+                      src="/headerFooter/linkedin.webp"
+                      alt="Icono de Linkedin color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />
@@ -138,8 +141,8 @@ export default function Footer() {
                     target="_blank"
                   >
                     <img
-                      src="/headerFooter/facebook.png"
-                      alt="Facebook"
+                      src="/headerFooter/facebook.webp"
+                      alt="Icono de Facebook color blanco con fondo oscuro"
                       width="24px"
                       height="24px"
                     />

@@ -626,7 +626,7 @@ export default function FormBody2(props) {
                       ) : (
                         <>
                           {formEncabezadoBody.public_image1 !==
-                          "/blog/blog-4.jpg" ? (
+                          "/blog/blog-4.webp" ? (
                             <>
                               <Image className="w-5 h-5 mr-2 text-purple-400" />
                               <span className="text-sm">Cambiar imagen</span>
@@ -777,8 +777,8 @@ export default function FormBody2(props) {
                         <div className="w-full flex justify-end">
                           {" "}
                           <BotonAñadirLink
-                            texto={section.descripcion}
-                            item={section.palabra}
+                            // texto={section.descripcion}
+                            item={section}
                             index={index}
                             servicios={servicios}
                             handleChange={handleChangeMap}
@@ -905,12 +905,12 @@ export default function FormBody2(props) {
                 {[
                   {
                     id: 2,
-                    url: formGaleryBody.public_image2 || "/blog/blog-10.jpg",
+                    url: formGaleryBody.public_image2 || "/blog/blog-10.webp",
                     title: "Imagen destacada 1",
                   },
                   {
                     id: 3,
-                    url: formGaleryBody.public_image3 || "/blog/blog-1.jpg",
+                    url: formGaleryBody.public_image3 || "/blog/blog-1.webp",
                     title: "Imagen destacada 2",
                   },
                 ].map((image, index) => (
@@ -949,7 +949,7 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {image.url !== "/blog/blog-4.jpg" ? (
+                              {image.url !== "/blog/blog-4.webp" ? (
                                 <>
                                   <Image className="w-5 h-5 mr-2 text-purple-400" />
                                   <span className="text-sm">

@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import "./page.css";
 
 const Nosotros = () => {
     const mensaje = "Hola, vengo de la pagina web de Digimedia, deseo mas información! 👌";
@@ -16,7 +15,7 @@ const Nosotros = () => {
             <div className="relative h-[400px] overflow-hidden">
                 <img
                     src="/Img-nosotros/NOSOTROS_1680_1050.webp"
-                    alt="Background"
+                    alt="grupo juntando sus manos"
                     className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-[#7B22B3] bg-opacity-50"></div>
@@ -85,7 +84,7 @@ const Nosotros = () => {
             <div className="flex justify-center pt-2 pb-16">
                 <img
                     src="/Img-nosotros/infoNosotros.webp"
-                    alt="Información adicional"
+                    alt="Equipo trabajando en la computadora"
                     className="w-full max-w-3xl h-auto rounded-lg shadow-lg"
                 />
             </div>

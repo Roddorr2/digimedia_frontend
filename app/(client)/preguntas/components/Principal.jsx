@@ -31,7 +31,7 @@ export default function Principal() {
                             placeholder="Buscar una pregunta..."
                             className="w-full py-4 px-6 pr-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
                         />
-                        <button className="absolute right-4 top-1/2 -translate-y-1/2">
+                        <button title="search" className="absolute right-4 top-1/2 -translate-y-1/2">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5 text-slate-400"

@@ -38,7 +38,7 @@ const PageContent = () => {
     setFileFooterFile1(null);
     setFormFooter(prev => ({ 
       ...prev, 
-      public_image1: "/blog/blog-10.jpg", 
+      public_image1: "/blog/blog-10.webp", 
       url_image1: ""
     }));
   };
@@ -46,7 +46,7 @@ const PageContent = () => {
     setFileFooterFile2(null);
     setFormFooter(prev => ({ 
       ...prev, 
-      public_image2: "/blog/blog-10.jpg", 
+      public_image2: "/blog/blog-10.webp", 
       url_image2: "" 
     }));
   };
@@ -54,7 +54,7 @@ const PageContent = () => {
     setFileFooterFile3(null);
     setFormFooter(prev => ({ 
       ...prev, 
-      public_image3: "/blog/blog-10.jpg", 
+      public_image3: "/blog/blog-10.webp", 
       url_image3: "" 
     }));
   };
@@ -63,7 +63,7 @@ const PageContent = () => {
     setFileHeader(null);
     setDataHeader(prev => ({
       ...prev,
-      public_image: "/blog/fondo_blog_extend.png",
+      public_image: "/blog/fondo_blog_extend.webp",
       url_image: ""
     }));
   };
@@ -72,7 +72,7 @@ const PageContent = () => {
     setFileBodyHeader(null);
     setFormEncabezadoBody(prev => ({
       ...prev,
-      public_image1: "/blog/blog-4.jpg",
+      public_image1: "/blog/blog-4.webp",
       url_image1: ""
     }));
   };
@@ -81,7 +81,7 @@ const PageContent = () => {
     setFileBodyFile1(null);
     setFormGaleryBody(prev => ({
       ...prev,
-      public_image2: "/blog/blog-2.jpg",
+      public_image2: "/blog/blog-2.webp",
       url_image2: ""
     }));
   };
@@ -90,41 +90,53 @@ const PageContent = () => {
     setFileBodyFile2(null);
     setFormGaleryBody(prev => ({
       ...prev,
-      public_image3: "/blog/blog-2.jpg",
+      public_image3: "/blog/blog-2.webp",
       url_image3: ""
     }));
   };
 
-  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
-
+  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1;
+  
+  /**
+   * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
+   */
   const [formFooter, setFormFooter] = useState({
     titulo: "Titulo Footer",
     descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-    public_image1: "/blog/blog-10.jpg",
+    public_image1: "/blog/blog-10.webp",
     url_image1: "", //por esta vez url es la ruta para eliminar
-    public_image2: "/blog/blog-10.jpg",
+    public_image2: "/blog/blog-10.webp",
     url_image2: "",
-    public_image3: "/blog/blog-10.jpg",
+    public_image3: "/blog/blog-10.webp",
     url_image3: "",
   });
 
+  /**
+   * Estado inicial del encabezado del blog. Contiene campos para título, texto atractivo, descripción y una imagen pública.
+   */
   const [dataHeader, setDataHeader] = useState({
     titulo: "Titulo Header",
     texto_frase: "Texto atractivo y llamativo para el cliente",
     texto_descripcion: "Texto destacado y secundario para el titulo",
-    public_image: "/blog/fondo_blog_extend.png",
+    public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog. Contiene campos para el título, descripción, fecha y una imagen pública.
+   */
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: "Titulo del Blog",
     descripcion:
       "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
     fecha: '2025-03-31',
-    public_image1: "/blog/blog-4.jpg",
+    public_image1: "/blog/blog-4.webp",
     url_image1: "",
   });
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene la información de tarjetas informativas del blog.
+   */
   const [formInfoBody, setFormInfoBody] = useState([
     {
       titulo: "El Factor Sorpresa y Distinción",
@@ -152,6 +164,9 @@ const PageContent = () => {
     }
   ]);
 
+  /**
+   * Estado inicial del cuerpo del blog que contiene tarjetas de comentario del blog.
+   */
   const [formCommendBody, setFormCommendBody] = useState({
     titulo: "Consejos para Elegir el Letrero Perfecto",
     texto1:
@@ -167,9 +182,9 @@ const PageContent = () => {
   });
 
   const [formGaleryBody, setFormGaleryBody] = useState({
-    public_image2: "/blog/blog-2.jpg",
+    public_image2: "/blog/blog-2.webp",
     url_image2: "",
-    public_image3: "/blog/blog-2.jpg",
+    public_image3: "/blog/blog-2.webp",
     url_image3: "",
   });
 
@@ -527,11 +542,11 @@ async function SaveImage(file, ruta, name = null) {
       setFormFooter({
         titulo: "Titulo Footer",
         descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-        public_image1: "/blog/blog-10.jpg",
+        public_image1: "/blog/blog-10.webp",
         url_image1: "", //por esta vez url es la ruta para elimianr
-        public_image2: "/blog/blog-10.jpg",
+        public_image2: "/blog/blog-10.webp",
         url_image2: "",
-        public_image3: "/blog/blog-10.jpg",
+        public_image3: "/blog/blog-10.webp",
         url_image3: "",
       });
 
@@ -539,7 +554,7 @@ async function SaveImage(file, ruta, name = null) {
         titulo: "Titulo Header",
         texto_frase: "Texto atractivo y llamativo para el cliente",
         texto_descripcion: "Texto destacado y secundario para el titulo",
-        public_image: "/blog/fondo_blog_extend.png",
+        public_image: "/blog/fondo_blog_extend.webp",
         url_image: "",
       });
 
@@ -548,7 +563,7 @@ async function SaveImage(file, ruta, name = null) {
         descripcion:
           "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
         fecha: '2025-03-31',
-        public_image1:  "/blog/blog-4.jpg",
+        public_image1:  "/blog/blog-4.webp",
         url_image1: "",
       });
 
@@ -591,9 +606,9 @@ async function SaveImage(file, ruta, name = null) {
       });
 
       setFormGaleryBody({
-        public_image2: "/blog/blog-2.jpg",
+        public_image2: "/blog/blog-2.webp",
         url_image2: "",
-        public_image3: "/blog/blog-2.jpg",
+        public_image3: "/blog/blog-2.webp",
         url_image3: "",
       });
 

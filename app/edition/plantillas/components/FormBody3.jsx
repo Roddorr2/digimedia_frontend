@@ -413,8 +413,8 @@ export default function FormBody3(props) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                formGaleryBody.public_image2 || "/blog/blog-10.jpg",
-                formGaleryBody.public_image3 || "/blog/blog-1.jpg",
+                formGaleryBody.public_image2 || "/blog/blog-10.webp",
+                formGaleryBody.public_image3 || "/blog/blog-1.webp",
               ].map((src, index) => (
                 <div
                   key={index}
@@ -584,7 +584,7 @@ export default function FormBody3(props) {
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                 ) : (
                   <>
-                    {formEncabezadoBody.public_image1 !== "/blog/blog-4.jpg" ? (
+                    {formEncabezadoBody.public_image1 !== "/blog/blog-4.webp" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -656,7 +656,7 @@ export default function FormBody3(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {formGaleryBody.public_image2 !== "/blog/blog-2.jpg" ? (
+                      {formGaleryBody.public_image2 !== "/blog/blog-2.webp" ? (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">Cambiar imagen</span>
@@ -709,7 +709,7 @@ export default function FormBody3(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {formGaleryBody.public_image3 !== "/blog/blog-2.jpg" ? (
+                      {formGaleryBody.public_image3 !== "/blog/blog-2.webp" ? (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">Cambiar imagen</span>
@@ -872,8 +872,8 @@ export default function FormBody3(props) {
                 <div className="w-full flex justify-end">
                   {" "}
                   <BotonAñadirLink
-                    texto={item.descripcion}
-                    item={item.palabra}
+                    // texto={item.descripcion}
+                    item={item}
                     index={index}
                     servicios={servicios}
                     handleChange={handleChangeMap}

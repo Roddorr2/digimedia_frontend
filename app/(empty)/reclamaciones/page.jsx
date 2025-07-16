@@ -1,6 +1,5 @@
 "use client";
 
-import './reclamaciones.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';

@@ -14,8 +14,8 @@ export const MobileVersion = () => {
       </button>
       <div className="border-4 border-white rounded-lg overflow-hidden">
         <img
-          src="/servicios/planificacion/planificacion_imagen2.png"
-          alt="Imagen con gradiente"
+          src="/servicios/planificacion/planificacion_imagen2.webp"
+          alt="Señorita sonriendo con su laptop"
           className="object-cover w-full h-auto"
         />
       </div>

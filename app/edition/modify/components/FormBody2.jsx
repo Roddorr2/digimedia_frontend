@@ -1,4 +1,5 @@
 "use client";
+"use client";
 import React from "react";
 import {
   CheckCircle,
@@ -14,8 +15,10 @@ import {
   Trash2,
   BookType,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Importar useEffect
 import BotonAñadirLink from "../../plantillas/components/BotonAñadirLink";
+import Swal from "sweetalert2"; // Importar Swal
+
 export default function FormBody2(props) {
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(false);
@@ -64,6 +67,23 @@ export default function FormBody2(props) {
     },
     { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
   ];
+
+  // Nuevos estados para las URLs de previsualización
+  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(props.formGaleryBody.public_image2 || "/blog/blog-10.webp");
+  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(props.formGaleryBody.public_image3 || "/blog/blog-1.webp");
+
+  useEffect(() => {
+    setPreviewImageHeaderUrl(props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+  }, [props.formEncabezadoBody.public_image1]);
+
+  useEffect(() => {
+    setPreviewImageBody2Url(props.formGaleryBody.public_image2 || "/blog/blog-10.webp");
+  }, [props.formGaleryBody.public_image2]);
+
+  useEffect(() => {
+    setPreviewImageBody3Url(props.formGaleryBody.public_image3 || "/blog/blog-1.webp");
+  }, [props.formGaleryBody.public_image3]);
 
   const [commendErrors, setCommendErrors] = useState({
     titulo: { message: "Máximo 40 caracteres", isValid: null },
@@ -307,10 +327,7 @@ export default function FormBody2(props) {
       setUploading(true);
 
       const tempUrl = URL.createObjectURL(file);
-      setFormEncabezadoBody((prev) => ({
-        ...prev,
-        ["public_image1"]: tempUrl,
-      }));
+      setPreviewImageHeaderUrl(tempUrl); // Usar el nuevo estado para la previsualización
 
       setFileBodyHeader(file);
     } catch (error) {
@@ -376,14 +393,11 @@ export default function FormBody2(props) {
       setUploading(true);
 
       const tempUrl = URL.createObjectURL(file);
-      setFormGaleryBody((prev) => ({
-        ...prev,
-        [name]: tempUrl,
-      }));
-
       if (name === "public_image2") {
+        setPreviewImageBody2Url(tempUrl); // Usar el nuevo estado para la previsualización
         setFileBodyFile1(file);
       } else if (name === "public_image3") {
+        setPreviewImageBody3Url(tempUrl); // Usar el nuevo estado para la previsualización
         setFileBodyFile2(file);
       }
     } catch (error) {
@@ -534,7 +548,7 @@ export default function FormBody2(props) {
 
           <div className="relative w-[850px] h-[300px] md:h-[400px] overflow-hidden">
             <img
-              src={formEncabezadoBody.public_image1}
+              src={previewImageHeaderUrl} // Usar el nuevo estado de previsualización
               alt={formEncabezadoBody.titulo}
               className="w-full h-full object-cover"
             />
@@ -609,56 +623,56 @@ export default function FormBody2(props) {
                     <h1 className="ml-3 mt-1 text-xs">980x450 píxeles</h1>
                   </label>
                   <div className="relative flex flex-column justify-center">
-                    <label
-                      className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                        uploading
-                          ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                          : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                      }`}
-                    >
-                      {uploading ? (
-                        <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
-                      ) : (
-                        <>
-                          {formEncabezadoBody.public_image1 !==
-                          "/blog/blog-4.jpg" ? (
-                            <>
-                              <Image className="w-5 h-5 mr-2 text-purple-400" />
-                              <span className="text-sm">Cambiar imagen</span>
-                            </>
-                          ) : (
-                            <>
-                              <Image className="w-5 h-5 mr-2 text-purple-400" />
-                              <span className="text-sm">
-                                Seleccionar imagen
-                              </span>
-                            </>
-                          )}
-                        </>
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        name="image"
-                        className="hidden"
-                        onChange={handleImageHeader}
-                        disabled={uploading}
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      onClick={props.onDeleteBodyHeaderImage}
-                      className="ml-2 p-2 rounded-full hover:bg-red-100"
-                      title="Eliminar imagen principal"
-                    >
-                      <Trash2 className="w-5 h-5 text-red-500" />
-                    </button>
-                  </div>
+                  <label
+                    className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                      uploading
+                        ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                        : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                    }`}
+                  >
+                    {uploading ? (
+                      <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                    ) : (
+                      <>
+                        {previewImageHeaderUrl !==
+                        "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
+                          <>
+                            <Image className="w-5 h-5 mr-2 text-purple-400" />
+                            <span className="text-sm">Cambiar imagen</span>
+                          </>
+                        ) : (
+                          <>
+                            <Image className="w-5 h-5 mr-2 text-purple-400" />
+                            <span className="text-sm">
+                              Seleccionar imagen
+                            </span>
+                          </>
+                        )}
+                      </>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="image"
+                      className="hidden"
+                      onChange={handleImageHeader}
+                      disabled={uploading}
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={props.onDeleteBodyHeaderImage}
+                    className="ml-2 p-2 rounded-full hover:bg-red-100"
+                    title="Eliminar imagen principal"
+                  >
+                    <Trash2 className="w-5 h-5 text-red-500" />
+                  </button>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
+      </div>
       </div>
 
       <div className="px-6 md:px-10 pb-8">
@@ -770,10 +784,8 @@ export default function FormBody2(props) {
                           ></textarea>
                         </div>
                         <div className="w-full justify-end">
-                          {" "}
-                          <BotonAñadirLink
-                            texto={section.descripcion}
-                            item={section.palabra}
+                         <BotonAñadirLink
+                            item={section}
                             index={index}
                             servicios={servicios}
                             handleChange={handleChangeMap}
@@ -900,12 +912,12 @@ export default function FormBody2(props) {
                 {[
                   {
                     id: 2,
-                    url: formGaleryBody.public_image2 || "/blog/blog-10.jpg",
+                    url: formGaleryBody.public_image2 || "/blog/blog-10.webp",
                     title: "Imagen destacada 1",
                   },
                   {
                     id: 3,
-                    url: formGaleryBody.public_image3 || "/blog/blog-1.jpg",
+                    url: formGaleryBody.public_image3 || "/blog/blog-1.webp",
                     title: "Imagen destacada 2",
                   },
                 ].map((image, index) => (
@@ -915,7 +927,7 @@ export default function FormBody2(props) {
                   >
                     <div className="relative h-64 bg-slate-100">
                       <img
-                        src={image.url}
+                        src={image.id === 2 ? previewImageBody2Url : previewImageBody3Url} // Usar el nuevo estado de previsualización
                         alt={`${image.title}`}
                         className="w-full h-64 object-cover"
                       />
@@ -944,7 +956,7 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {image.url !== "/blog/blog-4.jpg" ? (
+                              {(image.id === 2 ? previewImageBody2Url : previewImageBody3Url) !== "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
                                 <>
                                   <Image className="w-5 h-5 mr-2 text-purple-400" />
                                   <span className="text-sm">

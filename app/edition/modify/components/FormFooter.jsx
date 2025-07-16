@@ -1,8 +1,27 @@
 "use client"
 import { Image, Type, AlignLeft, Image as IconImage, Loader2, Trash2 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react" // Importar useEffect
+import Swal from "sweetalert2"; // Importar Swal
 
 export default function FormFooter({ formFooter, setFormData, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3, onDeleteFooterFile1, onDeleteFooterFile2, onDeleteFooterFile3, setValidacionFooter }) {
+    const [uploading, setUploading] = useState(false);
+    // Nuevos estados para las URLs de previsualización
+    const [previewImage1Url, setPreviewImage1Url] = useState(formFooter.public_image1 || "/blog/blog-10.webp");
+    const [previewImage2Url, setPreviewImage2Url] = useState(formFooter.public_image2 || "/blog/blog-10.webp");
+    const [previewImage3Url, setPreviewImage3Url] = useState(formFooter.public_image3 || "/blog/blog-10.webp");
+
+    useEffect(() => {
+        setPreviewImage1Url(formFooter.public_image1 || "/blog/blog-10.webp");
+    }, [formFooter.public_image1]);
+
+    useEffect(() => {
+        setPreviewImage2Url(formFooter.public_image2 || "/blog/blog-10.webp");
+    }, [formFooter.public_image2]);
+
+    useEffect(() => {
+        setPreviewImage3Url(formFooter.public_image3 || "/blog/blog-10.webp");
+    }, [formFooter.public_image3]);
+
     const handleChange = (e) => {
         const { name, value } = e.target
 
@@ -50,8 +69,6 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
         descripcion: { message: 'Máximo 300 caracteres', isValid: null },
     });
 
-    const [uploading, setUploading] = useState(false);
-
     const handleImagenFooter = async (e) => {
         const file = e.target.files[0];
         const name = e.target.name;
@@ -63,21 +80,18 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
 
             console.log("Ahora su file: ", name, tempUrl);
 
-            setFormData((prev) => ({
-                ...prev,
-                [name]: tempUrl,
-            }));
-
             if (name === "public_image1") {
+                setPreviewImage1Url(tempUrl); // Usar el nuevo estado para la previsualización
                 setFileFooterFile1(file);
             }
-            else
-                if (name === "public_image2") {
-                    setFileFooterFile2(file);
-                }
-                else {
-                    setFileFooterFile3(file);
-                }
+            else if (name === "public_image2") {
+                setPreviewImage2Url(tempUrl); // Usar el nuevo estado para la previsualización
+                setFileFooterFile2(file);
+            }
+            else {
+                setPreviewImage3Url(tempUrl); // Usar el nuevo estado para la previsualización
+                setFileFooterFile3(file);
+            }
 
         } catch (error) {
             console.error("Error al subir imagen:", error);
@@ -113,7 +127,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
 
                 {(formFooter.public_image1 || formFooter.public_image2 || formFooter.public_image3) && (
                     <div className="flex flex-wrap justify-center gap-3 mt-6">
-                        {[formFooter.public_image1, formFooter.public_image2, formFooter.public_image3].map((image, index) => {
+                        {[previewImage1Url, previewImage2Url, previewImage3Url].map((image, index) => { // Usar los nuevos estados de previsualización
                             const imageUrl = image
 
                             return (
@@ -194,7 +208,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                                 <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                             ) : (
                                                 <>
-                                                    {formFooter[`public_image${num}`] !== "/blog/blog-10.jpg" ? (
+                                                    {(num === "1" ? previewImage1Url : num === "2" ? previewImage2Url : previewImage3Url) !== "/blog/blog-10.webp" ? ( // Usar el nuevo estado de previsualización
                                                         <>
                                                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                             <span className="text-sm">Cambiar imagen</span>

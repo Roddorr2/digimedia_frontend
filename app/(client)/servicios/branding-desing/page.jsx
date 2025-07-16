@@ -24,11 +24,14 @@ export default function Page() {
       title: 'NAMING, LOGO Y SLOGAN',
       text: 'Creamos elementos clave que representen tu marca y conecten con tu audencia.',
       icon: '/servicios/branding/icon3.svg',
+      ruta: '/servicios/naming-logo-slogan/'
     },
     {
       title: 'MANUAL DE MARCA',
       text: 'Definimos las reglas que guiarán todas las estrategias para tu marca.',
       icon: '/servicios/branding/icon4.svg',
+      ruta: '/servicios/manual-marca/'
+
     },
   ];
 
@@ -52,7 +55,7 @@ export default function Page() {
         title="BRANDING Y DISEÑO"
         subtitle="La Voz y la Cara de tu Marca"
         text="Creamos marcas que hablan, emocionan y conectan. Desde una identidad visual memorable hasta mensajes que resuenan profundamente, hacemos que tu empresa sea tan única como inolvidable."
-        image="/servicios/branding/img-main.png"
+        image="/servicios/branding/img-main.webp"
       />
 
       <Description

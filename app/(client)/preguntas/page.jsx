@@ -102,9 +102,9 @@ export default function Page() {
           <p className="text-teal-50 mb-8 max-w-2xl mx-auto">
             Estamos aquí para ayudarte. Contáctanos directamente y un especialista responderá todas tus dudas.
           </p>
-          <button className="bg-white text-teal-600 px-8 py-3 rounded-full font-medium hover:bg-teal-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <a href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio." className="bg-white text-teal-600 px-8 py-3 rounded-full font-medium hover:bg-teal-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
             Contáctanos
-          </button>
+          </a>
         </div>
       </div>
     </div>

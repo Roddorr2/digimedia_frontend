@@ -61,8 +61,8 @@ export default function Body5() {
                                                   <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
                                                   <div className="relative">
                                                       <img
-                                                          src="/blog/blog-1.jpg"
-                                                              alt="Imagen principal"
+                                                          src="/blog/blog-1.webp"
+                                                              alt="Persona viendo estadísticas en su celular y computadora"
                                                           className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative z-10"
                                                       />
                                                   </div>
@@ -84,7 +84,7 @@ export default function Body5() {
                                           </div>
                       
                                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                              {["/blog/blog-2.jpg", "/blog/blog-9.jpg"].map((src, index) => (
+                                              {["/blog/blog-2.webp", "/blog/blog-9.webp"].map((src, index) => (
                                                   <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg">
                                                       <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                       <img

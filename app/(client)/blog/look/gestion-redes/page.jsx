@@ -7,7 +7,7 @@ import Body3 from '../components/Body3'
 export default function Page() {
     return (
         <div>
-            <Header url_image={"/blog/blog-13.jpg   "} 
+            <Header url_image={"/blog/blog-13.webp"} 
             tituloPrincipal="Gestion de redes sociales"
             tituloSecundario='Experimenta el contenido con las redes sociales'
             descripcion='Explora las tendencias emergentes en las redes sociales, con las nuevas aplicaciones y contenidos '/>
@@ -18,9 +18,9 @@ export default function Page() {
                 <Body3 />
 
                 <Footer 
-                url_image1={"/blog/blog-14.jpg"} 
-                url_image2={"/blog/blog-15.jpg"} 
-                url_image3={"/blog/blog-16.jpg"} 
+                url_image1={"/blog/blog-14.webp"} 
+                url_image2={"/blog/blog-15.webp"} 
+                url_image3={"/blog/blog-16.webp"} 
                 descripcion={"Al comprender las tendencias, el comportamiento del consumidor y las mejores prácticas de cada plataforma, podemos ayudarte a posicionar tu marca de manera efectiva. Invertir en una gestión profesional de redes sociales es esencial para mantener una presencia digital activa, relevante y rentable."}
                 />
 

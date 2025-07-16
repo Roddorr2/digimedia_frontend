@@ -4,17 +4,17 @@ export default function Principal() {
             <div className="relative w-[100%] h-[calc(100vh-67px)] object-cover overflow-hidden">
                 <img
                     src="/blog/fondo.webp"
-                    alt="Logo de la pagina"
+                    alt="Logo de digimedia"
                     className="hidden lg:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover w-[100%] inset-0 z-0"
                 />
                 <img
                     src="/blog/fondo-tablet.webp"
-                    alt="Logo de la pagina"
+                    alt="Logo de digimedia"
                     className="hidden sm:block lg:hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover w-[100%] inset-0 z-0"
                 />
                 <img
                     src="/blog/fondo-mobiles.webp"
-                    alt="Logo de la pagina"
+                    alt="Logo de digimedia"
                     className="block sm:hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover h-full w-[100%] inset-0 z-0"
                 />
 

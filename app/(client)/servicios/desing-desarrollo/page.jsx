@@ -22,13 +22,15 @@ export default function Page() {
     },
     {
       title: 'DOMINIO Y HOSTING',
-      text: 'mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.',
+      text: 'aseguramos que tu presencia online sea, segura, rápida y eFICIENTE PARA LA disponibILIDAD DE tus clientes.',
       icon: '/servicios/desarrollo/icon3.svg',
+      ruta: '/servicios/dominio_hosting/'
     },
     {
       title: 'SEO',
-      text: 'Impulsamos tu sitio al tope de los resultados de búsqueda con estrategias efectivas.',
+      text: 'mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.',
       icon: '/servicios/desarrollo/icon4.svg',
+      ruta: '/servicios/seo/'
     },
   ];
 
@@ -50,9 +52,14 @@ export default function Page() {
 
       <Main
         title="DISEÑO Y DESARROLLO WEB"
-        subtitle="¡Convierte clics en clientes con un sitio web que impacta!"
+         subtitle={
+        <>
+          ¡Convierte clics en clientes con<br />
+          un sitio web que impacta!
+        </>
+  }
         text="Diseñamos y desarrollamos sitios web que capturan la atención desde el primer clic. Modernos, rápidos y visualmente impactantes, pensados para que tu marca destaque y FIDELIZAR A TUS clientes."
-        image="/servicios/desarrollo/img-main.png"
+        image="/servicios/desarrollo/img-main.webp"
       />
 
       <Description

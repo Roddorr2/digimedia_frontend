@@ -130,7 +130,7 @@ function EnlacesForm() {
                                                 <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">{card.descripcion}</p>
 
                                                 <a
-                                                    href={`/blog/plantillas/plantilla${card.id_plantilla}/${card.blog?.link}`}
+                                                    href={`/blog/plantilla${card.id_plantilla}/?blog=${card.blog?.link}`}
                                                     target="_blank"
                                                     className="group flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300 mt-auto"
                                                     rel="noreferrer"
@@ -208,7 +208,7 @@ function EnlacesForm() {
                                         value={searchTerm}
                                         onChange={(e) => {
                                             setSearchTerm(e.target.value)
-                                            router.push("?page=1")
+                                            router.push("?page=1", { scroll: false })
                                         }}
                                     />
                                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />

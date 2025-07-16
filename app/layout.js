@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import '../styles/globals.css'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,30 +13,16 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: ".:: Digimedia ::.",
-  description: "Líderes innovadores en marketing digital. Conectamos tu marca con las audiencias del futuro, impulsando tu presencia online hacia el éxito.orres",
+  description:
+    "Líderes innovadores en marketing digital. Conectamos tu marca con las audiencias del futuro, impulsando tu presencia online hacia el éxito.",
 };
-
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
-        {/* Preconnect a Google Fonts para mejorar el tiempo de conexión */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-
-         {/* Preload de las fuentes para cargarlas rápidamente */}
-         <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
-          as="style"
-        />
-        <link
-          rel="preload"
-          href="https://fonts.cdnfonts.com/css/telegraf"
-          as="style"
-        />
+      
       </head>
-
-      <body className={`  ${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className="antialiased">
         {children}
       </body>
     </html>

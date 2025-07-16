@@ -5,7 +5,7 @@ export default function Servicios({ servicios }) {
     <section className="p-4 max-w-6xl m-auto md:py-16">
       {/* Título principal */}
       <h3 className="font-bold text-3xl md:text-4xl text-center mb-12 mt-10 md:mt-2 text-[#523194] font-title relative uppercase">
-        Nuestros Servicios
+        Nuestros Subservicios
         <span className="absolute bottom-0 left-1/2 w-[20rem] md:w-[27rem] h-1 md:h-1.5 bg-[#FF037F] transform -translate-x-1/2 rounded-full"></span>
       </h3>
 
