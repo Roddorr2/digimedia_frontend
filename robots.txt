@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+Disallow: /dashboard/
+Disallow: /dashboard*
+
+Disallow: /login/
+Disallow: /login*
+
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.env$
+Disallow: /.env*
+Disallow: /api/
+Disallow: /admin/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.next/
+Disallow: /.git/
+
+Allow: /public/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /blog/
+Allow: /servicios/
+Allow: /nosotros/
+Allow: /contactanos/
+
+# Sitemap
+Sitemap: https://digimediamkt.com/sitemap.xml
