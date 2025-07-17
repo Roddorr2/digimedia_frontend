@@ -25,7 +25,7 @@ export default function Banner() {
       style={{ clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0 100%)', willChange: 'clip-path' }}
     >
       <h1 className="text-white font-bold text-4xl md:text-6xl max-w-xl">
-        ¿No sabes por dónde empezar?
+        ¿No sabes por dónde empezar?xd
       </h1>
       <p className="text-[#FCEE21] text-2xl max-w-96 m-auto md:m-0">
         Impulsa tu marca al siguiente nivel con nosotros
