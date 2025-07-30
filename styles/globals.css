@@ -1,14 +1,14 @@
 /* @import url('https://fonts.cdnfonts.com/css/telegraf');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap'); */
 /* ==== COMPONENTES GLOBALES ==== */
-@import './client/components/Header.css';
-@import './client/components/Footer.css';
+/*@import './client/components/Header.css';*/
+/*@import './client/components/Footer.css';*/
 /* Footer realmente está en edition/components, no en client/components */
-@import './edition/components/Footer.css';
+/*@import './edition/components/Footer.css';*/
 
 /* ==== HOME Y SERVICIOS ==== */
-@import './client/components/Home_Components/Home.css';
-@import './client/components/Home_Components/services.css';
+/*@import './client/components/Home_Components/Home.css';*/
+/*@import './client/components/Home_Components/services.css';*/
 
 /* ==== PÁGINAS ==== */
 @import './client/contactanos/contacto.css';
