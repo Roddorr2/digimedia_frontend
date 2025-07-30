@@ -281,7 +281,7 @@ export default function Page() {
           </div>
         </CardHeader>
 
-        <CardContent className="p-6 dark:bg-gray-800 overflow-y-auto max-h-[470px]">
+        <CardContent className="p-6 dark:bg-gray-800 overflow-y-auto max-h-full">
           {/* Filtros y controles */}
           <div className="mb-6 space-y-4">
             <div className="flex flex-col sm:flex-row gap-3 justify-between items-center">
