@@ -5,7 +5,7 @@ import styles from "../contacto.module.css";
 
 const Banner = () => (
   <div className={styles.banner}>
-    <img id="bannerImg" src="/contactanos/banner.webp" alt="Dos personas trabajando en la computadora" />
+    <img className={styles.bannerImg} src="/contactanos/banner.webp" alt="Dos personas trabajando en la computadora" />
     <div className={styles.overlay}>
       <img
         className={styles.iconBanner}
