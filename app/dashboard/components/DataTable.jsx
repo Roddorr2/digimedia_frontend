@@ -233,7 +233,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50"
-                          onClick={() => onUpdate(dataRow.id)}
+                          onClick={() => onUpdate(dataRow.id_empleado)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -245,7 +245,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
-                          onClick={() => onDelete(dataRow.id)}
+                          onClick={() => onDelete(dataRow.id_empleado)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
