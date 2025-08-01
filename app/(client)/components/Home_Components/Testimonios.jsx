@@ -20,8 +20,7 @@ export default function Testimonios() {
           />
           <img
             src="/image-home/opinions.webp"
-            alt="imagen de un grupo de personas conversando en una mesa en un dia soleado "
-            fill
+            alt="imagen de un grupo de personas conversando en una mesa en un dia soleado"
             className="w-full h-full object-cover"
             loading="eager"
             fetchPriority="high"
