@@ -13,15 +13,21 @@ export default function Testimonios() {
         </p>
       </div>
       <div className="w-full md:w-1/2">
-                <Image
-  src="/image-home/opinions.webp"
-    alt="imagen de un grupo de personas conversando en una mesa en un dia soleado "
-  width={600}
-  height={300}
-  sizes="(max-width: 768px) 100vw, 50vw"
-  className="w-full h-full object-cover"
-  loading="lazy"
-/>
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet="/image-home/opinions_mobile.webp"
+          />
+          <img
+            src="/image-home/opinions.webp"
+            alt="imagen de un grupo de personas conversando en una mesa en un dia soleado "
+            fill
+            className="w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
     </section>
   );
