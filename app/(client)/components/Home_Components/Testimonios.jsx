@@ -31,7 +31,6 @@ export default function Testimonios() {
     </section>
   );
 }
-<<<<<<< HEAD
 
 /* <picture>
         <source media="(max-width: 767px)" srcSet={slide.imgSrcMobile} />
@@ -47,5 +46,3 @@ export default function Testimonios() {
         />
       </picture>
 */
-=======
->>>>>>> origin/rama_produccion
