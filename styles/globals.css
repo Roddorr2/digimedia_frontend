@@ -11,10 +11,8 @@
 @import './client/components/Home_Components/services.css';
 
 /* ==== PÁGINAS ==== */
-@import './client/contactanos/contacto.css';
-@import './client/servicios/desarrollo-webs/globales.css';
-@import './client/servicios/dominio_hosting/globals.css';
-@import './client/servicios/seo/globals.css';
+/* @import './client/contactanos/contacto.css'; */
+
 
 
 @font-face {

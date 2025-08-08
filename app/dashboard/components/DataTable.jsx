@@ -48,6 +48,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
   }
 
   console.log("Empleado autenticado:", empleadoAutenticado)
+  console.log("puntos de jerarquía:", AuthHierarchy)
   
   const toggleRowExpansion = (index) => {
     setExpandedRow(expandedRow === index ? null : index)
@@ -220,7 +221,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-[#8c52ff] hover:text-[#6c3dbf] hover:bg-[#f0ebff]"
-                          onClick={() => onShow(dataRow.id)}
+                          onClick={() => onShow(dataRow.id_empleado)}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -232,7 +233,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50"
-                          onClick={() => onUpdate(dataRow.id)}
+                          onClick={() => onUpdate(dataRow.id_empleado)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -244,7 +245,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
-                          onClick={() => onDelete(dataRow.id)}
+                          onClick={() => onDelete(dataRow.id_empleado)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

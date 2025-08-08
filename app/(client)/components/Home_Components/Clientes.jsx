@@ -9,6 +9,7 @@ export default function Clientes() {
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
 
+  // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
     { src: "/image-home/contigo_voy.svg", alt: "Contigo Voy logo" },
     { src: "/image-home/digimedia.svg", alt: "Digimedia logo" },
