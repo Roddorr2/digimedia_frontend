@@ -1,36 +1,36 @@
 // Componentes
-import Servicios from '../components/Servicios';
-import Contactanos from '../components/Contactanos';
-import Description from '../components/Description';
-import Main from '../components/Main';
-import ModalScroll from '../components/ModalScroll';
-import ModalButton from '../components/ModalButton';
+import Servicios from "../components/Servicios";
+import Contactanos from "../components/Contactanos";
+import Description from "../components/Description";
+import Main from "../components/Main";
+import ModalScroll from "../components/ModalScroll";
+import ModalButton from "../components/ModalButton";
 
 export default function Page() {
   const servicios = [
     {
-      title: 'ANÁLISIS Y BENCHMARKING',
-      text: 'evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.',
-      icon: '/servicios/marketing/icon1.svg',
-      ruta: '/servicios/analisis-y-benchmarking/'
+      title: "Análisis de marca y posicionamiento actual",
+      text: "evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.",
+      icon: "/servicios/marketing/icon1.svg",
+      ruta: "/servicios/analisis-y-benchmarking/",
     },
     {
-      title: 'PLANIFICACIÓN ESTRATÉGICA',
-      text: 'definimos las  estrategias, con objetivos claros, segmetación precisa y tácticas eficaces para alcanzar tus metas de negocio.',
-      icon: '/servicios/marketing/icon2.svg',
-      ruta: '/servicios/planificacion-estrategica/'
+      title: "Naming creativo + diseño de logo y slogan",
+      text: "definimos las  estrategias, con objetivos claros, segmetación precisa y tácticas eficaces para alcanzar tus metas de negocio.",
+      icon: "/servicios/marketing/icon2.svg",
+      ruta: "/servicios/planificacion-estrategica/",
     },
     {
-      title: 'PUBLICIDAD DIGITAL',
-      text: 'Desarrollamos campañas digitales de alto impacto para aumentar la visibilidad, captar audencias y maximizar conversiones .',
-      icon: '/servicios/marketing/icon3.svg',
-      ruta: '/servicios/publicidad-digital/'
+      title: "Identidad visual completa (colores, tipografías, estilo visual)",
+      text: "Desarrollamos campañas digitales de alto impacto para aumentar la visibilidad, captar audencias y maximizar conversiones .",
+      icon: "/servicios/marketing/icon3.svg",
+      ruta: "/servicios/publicidad-digital/",
     },
     {
-      title: 'MONITOREO Y REPORTING',
-      text: 'Hacemos seguimiento continuo del avance,  gestionando los proyectos,  programas y actividades  de forma efectiva',
-      icon: '/servicios/marketing/icon4.svg',
-      ruta: '/servicios/monitoreo-y-reporting/'
+      title: "Manual de uso de marca (para equipos y diseño constante)",
+      text: "Hacemos seguimiento continuo del avance,  gestionando los proyectos,  programas y actividades  de forma efectiva",
+      icon: "/servicios/marketing/icon4.svg",
+      ruta: "/servicios/monitoreo-y-reporting/",
     },
   ];
 
@@ -58,7 +58,7 @@ export default function Page() {
       />
 
       <Description
-          title="¿QUE ES?"
+        title="¿QUE ES?"
         text="El Marketing Digital consiste en planificar, ejecutar y optimizar estrategias comerciales utilizando herramientas digitales para conectar con el público y alcanzar objetivos de negocio."
       />
 

@@ -1,37 +1,36 @@
 // Componentes
-import Servicios from '../components/Servicios';
-import Contactanos from '../components/Contactanos';
-import Description from '../components/Description';
-import Main from '../components/Main';
-import ModalScroll from '../components/ModalScroll';
-import ModalButton from '../components/ModalButton';
+import Servicios from "../components/Servicios";
+import Contactanos from "../components/Contactanos";
+import Description from "../components/Description";
+import Main from "../components/Main";
+import ModalScroll from "../components/ModalScroll";
+import ModalButton from "../components/ModalButton";
 
 export default function Page() {
   const servicios = [
     {
-      title: 'DESARROLLO DE BRIEF',
-      text: 'El brief nos permite entender tu empresa para crear y definir tu marca.',
-      icon: '/servicios/branding/icon1.svg',
-      ruta: '/servicios/desarrollo-briefs/'
+      title: "Auditoría digital completa + análisis de competencia",
+      text: "El brief nos permite entender tu empresa para crear y definir tu marca.",
+      icon: "/servicios/branding/icon1.svg",
+      ruta: "/servicios/desarrollo-briefs/",
     },
     {
-      title: 'IDENTIDAD VISUAL CORPORATIVA',
-      text: 'Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.',
-      icon: '/servicios/branding/icon2.svg',
-      ruta: '/servicios/identidad-visual/'
+      title: "Estrategia de marketing digital personalizada",
+      text: "Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.",
+      icon: "/servicios/branding/icon2.svg",
+      ruta: "/servicios/identidad-visual/",
     },
     {
-      title: 'NAMING, LOGO Y SLOGAN',
-      text: 'Creamos elementos clave que representen tu marca y conecten con tu audencia.',
-      icon: '/servicios/branding/icon3.svg',
-      ruta: '/servicios/naming-logo-slogan/'
+      title: "Publicidad digital efectiva en Meta Ads y Google Ads",
+      text: "Creamos elementos clave que representen tu marca y conecten con tu audencia.",
+      icon: "/servicios/branding/icon3.svg",
+      ruta: "/servicios/naming-logo-slogan/",
     },
     {
-      title: 'MANUAL DE MARCA',
-      text: 'Definimos las reglas que guiarán todas las estrategias para tu marca.',
-      icon: '/servicios/branding/icon4.svg',
-      ruta: '/servicios/manual-marca/'
-
+      title: "Monitoreo constante + reportes de resultados claros",
+      text: "Definimos las reglas que guiarán todas las estrategias para tu marca.",
+      icon: "/servicios/branding/icon4.svg",
+      ruta: "/servicios/manual-marca/",
     },
   ];
 
