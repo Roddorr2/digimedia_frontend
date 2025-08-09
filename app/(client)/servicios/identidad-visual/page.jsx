@@ -28,7 +28,6 @@ export default function UXUI() {
         "PERMITE MANTENER UNA IMAGEN COHERENTE EN TODOS LOS SOPORTES DE COMUNICACIÓN.",
         "PERMITE QUE LA EMPRESA SE DESTAQUE EN EL MERCADO Y SEA PERCIBIDA DE MANERA ÚNICA.",
       ]}
-
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

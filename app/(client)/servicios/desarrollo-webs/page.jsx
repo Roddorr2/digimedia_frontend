@@ -31,7 +31,8 @@ export default function Web() {
           "DISEÑO: CREAR LA APARIENCIA VISUAL Y LA EXPERIENCIA DE USUARIO (UX/UI).",
           "DESARROLLO FRONT-END: ESCRIBIR EL CÓDIGO PARA LA INTERFAZ DE USUARIO.",
         ]}
-  
+        alt="Diseño web, desarrollo web, sitios responsive, optimización SEO, maquetación"
+        title="Diseño y Desarrollo Web - Digimedia"
         />
         <Contactanos
           text="Consolida tu presencia web, diseña con nosotros tu página web"

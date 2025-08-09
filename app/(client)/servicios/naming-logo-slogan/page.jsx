@@ -38,8 +38,9 @@ export default function UXUI() {
       mainDescription='EL NAMING, EL LOGO Y EL ESLOGAN SON ELEMENTOS FUNDAMENTALES DE LA IDENTIDAD DE UNA MARCA. CADA UNO CUMPLE UN ROL ESPECÍFICO, PERO JUNTOS CONSTRUYEN LA PERCEPCIÓN Y EL RECONOCIMIENTO DE UNA EMPRESA, PRODUCTO O SERVICIO EN LA MENTE DEL PÚBLICO.'
       backgroundImage='/servicios/DisenoUI/branding4.webp'
       heroTitle="NAMING, LOGO Y SLOGAN"
-      heroBulletPoints={[]}
-
+      heroBulletPoints={[]} 
+      alt="Naming, logo, slogan, piezas gráficas, redes sociales, aplicaciones digitales, señalética, merchandising, lenguaje visual, tono y voz de marca"
+      title="Branding y diseño, Manual de marca, Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

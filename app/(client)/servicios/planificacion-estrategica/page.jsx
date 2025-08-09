@@ -30,7 +30,8 @@ export default function PlanificacionEstrategica() {
         "Mejora la comunicación y el compromiso de los empleados.",
         "Ayuda a anticipar cambios en el entorno y adaptarte a ellos."
       ]}
-      
+      alt="Planificación estratégica de contenido con cronogramas visuales para redes sociales y campañas digitales."
+      title="Organización de contenido y planificación digital con cronograma – Digimedia Marketing."
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

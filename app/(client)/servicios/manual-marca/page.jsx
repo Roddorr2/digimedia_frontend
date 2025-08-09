@@ -38,7 +38,8 @@ export default function UXUI() {
       backgroundImage='/servicios/DisenoUI/branding3.webp'
       heroTitle="MANUAL DE MARCA"
       heroBulletPoints={[ ]}
-
+      alt="Piezas gráficas, Redes sociales, Aplicaciones digitales, Señalética, Merchandising, Lenguaje visual, Tono y voz de marca"
+      title="Branding y diseño - Manual de marca - Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

@@ -30,7 +30,8 @@ export default function DisenoPauta() {
         "Permiten medir resultados y ajustar campañas en tiempo real.",
         "Atraer la atención del público objetivo rápidamente."
       ]}
-      
+      alt="Gestión de redes sociales, Diseño de pautas, Publicidad digital, Estrategia en redes, Social media marketing, Meta Ads, Facebook Ads, Anuncios para Instagram, Marketing digital, Community manager"
+      title="Gestión de redes sociales, diseño de pautas, Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
