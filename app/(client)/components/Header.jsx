@@ -99,7 +99,7 @@ export default function Header2() {
                 <li className={isActive('/login') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/login">Ingresar</Link>
               </li>
-               )} 
+              )} 
           </ul>
         </div>
       </div>
