@@ -38,7 +38,7 @@ export function UxUiSection({
       alt={alt}
       titulos={title}/>
       <FeaturesSection 
-      features={features} />
+      features={features}/>
     </div>
   )
 }
