@@ -23,7 +23,7 @@ export default function DisenoPauta() {
       features={features} 
       mainDescription='Es el proceso de crear piezas gráficas o audiovisuales atractivas y efectivas que serán utilizadas en campañas de publicidad digital. Estas piezas están dirigidas a públicos segmentados y tienen un objetivo específico.'
       backgroundImage='public/servicios/gestion/diseño-pautas/Diseno-de-Pautas---Digimedia.jpg'
-      heroimage="/servicios/gestion/diseño-pautas/Diseno-de-Pautas---Digimedia-jpg"
+      heroimage="public/servicios/gestion/diseño-pautas/Diseno-de-Pautas---Digimedia.jpg"
       heroTitle="DISEÑO DE PAUTAS"
       heroBulletPoints={[
         "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
