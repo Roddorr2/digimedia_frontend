@@ -30,7 +30,8 @@ export default function ProduccionPautas() {
             "PERMITE TOMAR DECISIONES INFORMADAS, IMPLEMENTAR MEDIDAS CORRECTIVAS Y OPTIMIZAR LA GESTIÓN DEL PROYECTO.",
             "FACILITA LA TOMA DE DECISIONES, LA COMUNICACIÓN DE LOS RESULTADOS Y LA MEJORA CONTINUA DEL PROCESO."
             ]}
-        
+            alt = "Monitoreo de campañas, reporting digital, análisis de datos, seguimiento de métricas, visualización de informes, medición de resultados, dashboards, rendimiento digital, KPIs, optimización de estrategias, Digimedia"
+            title= "Monitoreo y reporting, gestión digital, agencia de marketing digimedia"
         />
         <Contactanos
             text="Consolida tu presencia web, diseña con nosotros tu página web"
