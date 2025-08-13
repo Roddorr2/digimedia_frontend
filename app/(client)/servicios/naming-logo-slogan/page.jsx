@@ -39,7 +39,8 @@ export default function UXUI() {
       backgroundImage='/servicios/DisenoUI/branding4.webp'
       heroTitle="NAMING, LOGO Y SLOGAN"
       heroBulletPoints={[]}
-
+      alt="Naming, logo, slogan, piezas gráficas, redes sociales, aplicaciones digitales, señalética, merchandising, lenguaje visual, tono y voz de marca"
+      title= "Branding y diseño, Manual de marca, Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

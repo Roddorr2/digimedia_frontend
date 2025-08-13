@@ -49,10 +49,9 @@ export default function Header2() {
         </div>
 
         <div className={styles.seccionesHeader}>
-          <input type="checkbox" id="menucheckbox" checked={menuOpen} onChange={() => setMenuOpen(!menuOpen)} />
-          <label htmlFor="menucheckbox">
-            <img src="/headerFooter/menu.webp" alt="menú" className="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25"  />
-          </label>
+          <input type="checkbox" className={styles.menucheckbox} checked={menuOpen} onChange={() => setMenuOpen(!menuOpen)}/><label onClick={() => setMenuOpen(!menuOpen)}>
+        <img src="/headerFooter/menu.webp" alt="menú" className="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25"/>
+        </label>
           <ul className={styles.menuHorizontal}>
             <li className={isActive('/') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/">Inicio</Link>
@@ -100,7 +99,7 @@ export default function Header2() {
                 <li className={isActive('/login') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/login">Ingresar</Link>
               </li>
-               )} 
+              )} 
           </ul>
         </div>
       </div>
