@@ -48,8 +48,6 @@ function UXUIComponent() {
         "AUMENTO DE LA USABILIDAD: FACILITA LA NAVEGACIÓN Y LA REALIZACIÓN DE TAREAS, REDUCIENDO LA FRUSTRACIÓN.",
         "MEJORA DE LA ACCESIBILIDAD: PERMITE QUE PERSONAS CON DIVERSAS CAPACIDADES PUEDAN UTILIZAR EL PRODUCTO O SERVICIO.",
       ]}
-      alt="Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital."
-      title="Diseño UX/UI para mejorar la experiencia del cliente – Digimedia Marketing."
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
