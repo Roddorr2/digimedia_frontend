@@ -28,6 +28,8 @@ export default function UXUI() {
       mainDescription='EL DOMINIO ES TU DIRECCIÓN ÚNICA Y TU IDENTIDAD EN INTERNET, FACILITANDO QUE LOS USUARIOS TE ENCUENTREN Y FORTALECIENDO TU MARCA. EL HOSTING ES LA INFRAESTRUCTURA ESENCIAL QUE PERMITE QUE TU SITIO WEB EXISTA, ESTÉ DISPONIBLE Y FUNCIONE CORRECTAMENTE EN LA WEB. AMBOS SON PILARES FUNDAMENTALES PARA CUALQUIER PRESENCIA ONLINE EXITOSA.'
       backgroundImage='/servicios/dominio_hosting/dominio_hosting_principal.webp'
       heroTitle="DOMINIO Y HOSTING"
+      alt="Dominio web, hosting profesional, hosting optimizado, alojamiento web, servidor seguro, mantenimiento web, seguridad web"
+      title="Diseño y desarrollo web, Dominio y Hosting, Digimedia.webp"
       heroBulletPoints={[
         "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET."
       ]}

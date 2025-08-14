@@ -26,6 +26,8 @@ export default function ProduccionPautas() {
             mainDescription='AL COMBINAR AMBOS ENFOQUES, LAS EMPRESAS PUEDEN LOGRAR UNA MEJORA CONTINUA Y UNA VENTAJA COMPETITIVA SOSTENIBLE.'
             backgroundImage='/servicios/analisis_benchmarking/analisis_benchmarking_principal.webp'
             heroTitle="ANALISIS Y BENCHMARKING"
+            alt = "Marketing digital, Análisis de datos, Benchmarking, Estrategias de marketing, Comparación de métricas, Estudio de mercado, Optimización de resultados, Métricas de rendimiento, Informes de Marketing, Gestión digital"
+            title = "Marketing y gestión digital, análisis y benchmarking, Digimedia.webp"
             heroBulletPoints={[
             "IDENTIFICACIÓN DE ÁREAS DE MEJORA Y ESTABLECIMIENTO DE OBJETIVOS REALISTAS.",
             "IDENTIFICACIÓN DE PROCESOS INEFICIENTES Y OPORTUNIDADES DE OPTIMIZACIÓN.",

@@ -1,13 +1,13 @@
 import Link from 'next/link';
-
+import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
     <>
       <footer>
-        <div className="mainFooter">
-          <div className="footerContenido">
-            <div className="imgFooter my-4">
+        <div className={styles.mainFooter}>
+          <div className={styles.footerContenido}>
+            <div className={`${styles.imgFooter} my-4`}>
               <img
                 src="/headerFooter/logoFooter.webp"
                 alt="Logo DigiMedia Marketing con fondo oscuro"
@@ -16,7 +16,7 @@ export default function Footer() {
                 loading="lazy"
               /> 
             </div>
-            <div className="contactoFooter listaFooter">
+            <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
               <h3>Contacto</h3>
               <ul>
                 <li>
@@ -54,7 +54,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className="legalesFooter listaFooter">
+            <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
               <h3>Legales</h3>
               <ul>
                 <li>
@@ -80,7 +80,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className="redesFooter listaFooter">
+            <div className={`${styles.redesFooter}  ${styles.listaFooter}`}>
               <h3>Redes Sociales</h3>
               <ul>
                 <li>
@@ -151,14 +151,14 @@ export default function Footer() {
               </ul>
             </div>
           </div>
-          <div className="barraFooter">
+          <div className={styles.barraFooter}>
             <hr />
           </div>
-          <div className="rucFooter text-white">
-            <div className="ruc">
+          <div className={`${styles.rucFooter}  text-white`}>
+            <div className={styles.ruc}>
               <p>RUC: 20605116559</p>
             </div>
-            <div className="derechosFooter">
+            <div className={styles.derechosFooter}>
               <p>@digimedia.com. Derechos reservados</p>
             </div>
           </div>

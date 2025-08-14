@@ -26,7 +26,7 @@ export function UxUiSection({
   //       "EL DISEÑO UI (INTERFAZ DE USUARIO) SE ENCARGA DE CREAR Y DESARROLLAR UNA INTERFAZ ATRACTIVA, COHERENTE Y FÁCIL DE NAVEGAR. UTILIZA ELEMENTOS VISUALES COMO BOTONES E ICONOS PARA COMUNICAR LA MARCA Y GUIAR AL USUARIO DE MANERA EFICIENTE.",
   //   },
   // ],
-  backgroundImage, heroTitle, mainDescription, heroBulletPoints, features = [],alt,title,
+  backgroundImage, heroTitle, mainDescription, heroBulletPoints, features = [], alt , title
 }) {
   return (
     <div>
@@ -35,7 +35,7 @@ export function UxUiSection({
       mainDescription={mainDescription}
       bulletPoints={heroBulletPoints} 
       backgroundImageUrl={backgroundImage} 
-      alt={alt}
+      alts={alt}
       titulos={title}/>
       <FeaturesSection 
       features={features}/>

@@ -24,6 +24,8 @@ export default function PlanificacionEstrategica() {
       mainDescription='Es el proceso sistemático para definir la dirección de una organización, establecer objetivos y desarrollar estrategias para alcanzarlos.'
       backgroundImage='/servicios/planificacion-estrategica/planificacion-estrategica-main.webp'
       heroTitle="PLANIFICACIÓN ESTRATÉGICA"
+      alt = "Planificación estratégica, marketing digital, gestión digital, toma de decisiones, posicionamiento de marca, análisis de mercado, estructura de campañas, crecimiento digital, estrategia de contenidos, agencia Digimedia"
+      title="Planificación estratégica, gestión digital, agencia de marketing digimedia"
       heroBulletPoints={[
         "Ayuda a las organizaciones a ser más eficientes y competitivas.",
         "Facilita la toma de decisiones estratégicas.",
