@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "DIGIMEDIA: Agencia de marketing Digital | Estrategias de marketing  y gestión de redes",
+  title: "Marketing Digital para Aumentar Ventas y Visibilidad Online | DigiMedia",
   description:
-    "Descubre nuestros servicios de marketing digital: desde el desarrollo de una web profesional hasta la gestión de redes sociales que convierten.",
+    "Potencia tu negocio con nuestras soluciones de marketing y gestión digital. Conviértete en un líder en el entorno online y alcanza el éxito deseado.",
 };
