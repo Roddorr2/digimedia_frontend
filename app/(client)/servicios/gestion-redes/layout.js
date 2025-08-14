@@ -17,6 +17,6 @@ export const metadata = {
   },
 };
 
-export default function BlogLayout({ children }) {
+export default function gestionLayout({ children }) {
   return <>{children}</>;
 }

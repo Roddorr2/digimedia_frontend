@@ -35,8 +35,6 @@ export default function UXUI() {
         "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
         "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
       ]}
-      alt="Posicionamiento web,  SEO on page, SEO off page, auditoría SEO, optimización web, herramienta SEO"
-      title="Diseño y desarrollo web, SEO, Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

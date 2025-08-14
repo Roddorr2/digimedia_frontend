@@ -33,8 +33,6 @@ export default function UXUI() {
       heroBulletPoints={[
         "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET."
       ]}
-      alt="Dominio web, hosting profesional, hosting optimizado, alojamiento web, servidor seguro, mantenimiento web, seguridad web"
-      title="Diseño y desarrollo web, Dominio y Hosting, Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
