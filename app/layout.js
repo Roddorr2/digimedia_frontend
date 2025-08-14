@@ -1,15 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import '../styles/globals.css'
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import "../styles/globals.css";
 
 export const metadata = {
   title: ".:: Digimedia ::.",
@@ -19,12 +8,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <head>
-      
-      </head>
-      <body className="antialiased">
-        {children}
-      </body>
+      <head></head>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

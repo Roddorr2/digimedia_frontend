@@ -33,7 +33,6 @@ export default function UXUI() {
       heroBulletPoints={[
         "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET."
       ]}
-
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

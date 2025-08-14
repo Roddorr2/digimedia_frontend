@@ -33,7 +33,8 @@ export default function ProduccionPautas() {
             "Asegurar que los anuncios sean visualmente atractivos y técnicamente óptimos.",
             "Maximizar el rendimiento de las campañas en redes sociales.",
             ]}
-        
+            alt="Producción de anuncios gráficos y textos publicitarios listos para campañas en Meta Ads y redes sociales."
+            title="Producción creativa de pautas para campañas publicitarias – Digimedia Marketing."
         />
         <Contactanos
             text="Consolida tu presencia web, diseña con nosotros tu página web"

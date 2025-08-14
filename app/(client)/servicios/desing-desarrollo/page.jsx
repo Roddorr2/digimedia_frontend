@@ -1,36 +1,36 @@
 // Componentes
-import Servicios from '../components/Servicios';
-import Contactanos from '../components/Contactanos';
-import Description from '../components/Description';
-import Main from '../components/Main';
-import ModalScroll from '../components/ModalScroll';
-import ModalButton from '../components/ModalButton';
+import Servicios from "../components/Servicios";
+import Contactanos from "../components/Contactanos";
+import Description from "../components/Description";
+import Main from "../components/Main";
+import ModalScroll from "../components/ModalScroll";
+import ModalButton from "../components/ModalButton";
 
 export default function Page() {
   const servicios = [
     {
-      title: 'DISEÑOS UX Y UI',
-      text: 'Ccreamos experiencias digitales que atrapan, CAUTIVAN y convierten visitantes en clientes fieles.',
-      icon: '/servicios/desarrollo/icon1.svg',
-      ruta: '/servicios/ui/?from=disenoDesarrollo'
+      title: "Diseño visual y experiencia del usuario (UX/UI)",
+      text: "Ccreamos experiencias digitales que atrapan, CAUTIVAN y convierten visitantes en clientes fieles.",
+      icon: "/servicios/desarrollo/icon1.svg",
+      ruta: "/servicios/ui/?from=disenoDesarrollo",
     },
     {
-      title: 'DESARROLLO WEB',
-      text: 'MAS modernos, funcionales y personalizados que impulsEn tu negocio y destaQUE frente a la competencia.',
-      icon: '/servicios/desarrollo/icon2.svg',
-      ruta: '/servicios/desarrollo-webs/'
+      title: "Creación y desarrollo web personalizado",
+      text: "MAS modernos, funcionales y personalizados que impulsEn tu negocio y destaQUE frente a la competencia.",
+      icon: "/servicios/desarrollo/icon2.svg",
+      ruta: "/servicios/desarrollo-webs/",
     },
     {
-      title: 'DOMINIO Y HOSTING',
-      text: 'aseguramos que tu presencia online sea, segura, rápida y eFICIENTE PARA LA disponibILIDAD DE tus clientes.',
-      icon: '/servicios/desarrollo/icon3.svg',
-      ruta: '/servicios/dominio_hosting/'
+      title: "Dominio y Hosting (publicación web)",
+      text: "aseguramos que tu presencia online sea, segura, rápida y eFICIENTE PARA LA disponibILIDAD DE tus clientes.",
+      icon: "/servicios/desarrollo/icon3.svg",
+      ruta: "/servicios/dominio_hosting/",
     },
     {
-      title: 'SEO',
-      text: 'mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.',
-      icon: '/servicios/desarrollo/icon4.svg',
-      ruta: '/servicios/seo/'
+      title: "Optimización básica para Google (SEO)",
+      text: "mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.",
+      icon: "/servicios/desarrollo/icon4.svg",
+      ruta: "/servicios/seo/",
     },
   ];
 
@@ -52,12 +52,13 @@ export default function Page() {
 
       <Main
         title="DISEÑO Y DESARROLLO WEB"
-         subtitle={
-        <>
-          ¡Convierte clics en clientes con<br />
-          un sitio web que impacta!
-        </>
-  }
+        subtitle={
+          <>
+            ¡Convierte clics en clientes con
+            <br />
+            un sitio web que impacta!
+          </>
+        }
         text="Diseñamos y desarrollamos sitios web que capturan la atención desde el primer clic. Modernos, rápidos y visualmente impactantes, pensados para que tu marca destaque y FIDELIZAR A TUS clientes."
         image="/servicios/desarrollo/img-main.webp"
       />

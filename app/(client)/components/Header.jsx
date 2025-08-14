@@ -60,7 +60,7 @@ export default function Header2() {
               <p>Servicios &#9660;</p>
               {isServiceOpen && (
                 <ul className={styles.menuVertical}>
-                  <li className={isActive('/servicios/desing-desarrollo') ? styles["active-sub"] : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/desing-desarrollo') ? styles["active-sub"]: ''} onClick={closeMenu}>
                     <Link href="/servicios/desing-desarrollo">Diseño y Desarrollo Web</Link>
                   </li>
                   <li className={isActive('/servicios/gestion-redes') ? styles["active-sub"] : ''} onClick={closeMenu}>

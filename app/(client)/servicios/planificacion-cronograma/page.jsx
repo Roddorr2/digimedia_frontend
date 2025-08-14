@@ -35,7 +35,6 @@ export default function PlanificacionCronograma() {
         "Ayudan a evaluar resultados y hacer ajustes estratégicos.",
         "Facilitan el trabajo colaborativo entre equipos de diseño, redacción y marketing."
       ]}
-      
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

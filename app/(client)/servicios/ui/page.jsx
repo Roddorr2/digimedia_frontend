@@ -48,7 +48,6 @@ function UXUIComponent() {
         "AUMENTO DE LA USABILIDAD: FACILITA LA NAVEGACIÓN Y LA REALIZACIÓN DE TAREAS, REDUCIENDO LA FRUSTRACIÓN.",
         "MEJORA DE LA ACCESIBILIDAD: PERMITE QUE PERSONAS CON DIVERSAS CAPACIDADES PUEDAN UTILIZAR EL PRODUCTO O SERVICIO.",
       ]}
-
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
