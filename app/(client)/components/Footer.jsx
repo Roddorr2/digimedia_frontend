@@ -16,7 +16,7 @@ export default function Footer() {
                 loading="lazy"
               /> 
             </div>
-            <div className={`${styles.contactoFooter} listaFooter`}>
+            <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
               <h3>Contacto</h3>
               <ul>
                 <li>
@@ -54,7 +54,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className={`${styles.legalesFooter} listaFooter`}>
+            <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
               <h3>Legales</h3>
               <ul>
                 <li>
@@ -80,7 +80,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className={`${styles.redesFooter} listaFooter`}>
+            <div className={`${styles.redesFooter}  ${styles.listaFooter}`}>
               <h3>Redes Sociales</h3>
               <ul>
                 <li>
@@ -158,7 +158,7 @@ export default function Footer() {
             <div className={styles.ruc}>
               <p>RUC: 20605116559</p>
             </div>
-            <div className={styles.derecho}>
+            <div className={styles.derechosFooter}>
               <p>@digimedia.com. Derechos reservados</p>
             </div>
           </div>
