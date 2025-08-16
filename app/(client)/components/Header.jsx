@@ -60,16 +60,16 @@ export default function Header2() {
               <p>Servicios &#9660;</p>
               {isServiceOpen && (
                 <ul className={styles.menuVertical}>
-                  <li className={isActive('/servicios/desing-desarrollo') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/desing-desarrollo') ? styles["active-sub"]: ''} onClick={closeMenu}>
                     <Link href="/servicios/desing-desarrollo">Diseño y Desarrollo Web</Link>
                   </li>
-                  <li className={isActive('/servicios/gestion-redes') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/gestion-redes') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/gestion-redes">Gestión de Redes Sociales</Link>
                   </li>
-                  <li className={isActive('/servicios/marketing-gestion') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/marketing-gestion') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/marketing-gestion">Marketing y Gestión Digital</Link>
                   </li>
-                  <li className={isActive('/servicios/branding-desing') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/branding-desing') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/branding-desing">Branding y Diseño</Link>
                   </li>
                 </ul>
@@ -83,13 +83,13 @@ export default function Header2() {
               <p>Más &#9660;</p>
               {isMoreOpen && (
                 <ul className="menuVertical">
-                  <li className={isActive('/blog') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/blog') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/blog">Blog</Link>
                   </li>
-                  <li className={isActive('/preguntas') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/preguntas') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/preguntas">Preguntas Frecuentes</Link>
                   </li>
-                  <li className={isActive('/contactanos') ? styles.active-sub : ''} onClick={closeMenu}>
+                  <li className={isActive('/contactanos') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/contactanos">Contacto</Link>
                   </li>
                 </ul>

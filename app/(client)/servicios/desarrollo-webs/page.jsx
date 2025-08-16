@@ -33,7 +33,6 @@ export default function Web() {
           "DISEÑO: CREAR LA APARIENCIA VISUAL Y LA EXPERIENCIA DE USUARIO (UX/UI).",
           "DESARROLLO FRONT-END: ESCRIBIR EL CÓDIGO PARA LA INTERFAZ DE USUARIO.",
         ]}
-  
         />
         <Contactanos
           text="Consolida tu presencia web, diseña con nosotros tu página web"

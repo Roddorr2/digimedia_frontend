@@ -35,7 +35,6 @@ export default function UXUI() {
         "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
         "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
       ]}
-
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
