@@ -432,7 +432,7 @@ export default function Page() {
                               title="Emails y WhatsApp"
                               className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
                             >
-                              <Link href={`./mails?id_modal=${modal.id_modalservicio}`} >
+                              <Link href={`/mails?id_modal=${modal.id_modalservicio}`} >
                                 <Contact size={17} />
                               </Link>
                             </button>
