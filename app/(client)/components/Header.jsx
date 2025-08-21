@@ -57,7 +57,7 @@ export default function Header2() {
             <li className={isActive('/') ? styles.active : ""} onClick={closeMenu}>
               <Link href="/">Inicio</Link>
             </li>
-            <li className={isActive('/servicios') ? styles.active : ''} onClick={() => setIsServiceOpen(!isServiceOpen)}>
+            <li className={`cursor-pointer ${isActive('/servicios') ? styles.active : ''}`} onClick={() => setIsServiceOpen(!isServiceOpen)}>
               <p>Servicios &#9660;</p>
               {isServiceOpen && (
                 <ul className={styles.menuVertical}>
@@ -79,7 +79,7 @@ export default function Header2() {
             <li className={isActive('/nosotros') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/nosotros">Nosotros</Link>
             </li>
-            <li className={isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? styles.active : ''} 
+            <li className={`cursor-pointer ${isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? styles.active : ''}`} 
                 onClick={() => setIsMoreOpen(!isMoreOpen)}>
               <p>Más &#9660;</p>
               {isMoreOpen && (
