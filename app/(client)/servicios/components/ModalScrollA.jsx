@@ -1,12 +1,12 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect,  useState } from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
 import url from '../../../../api/url';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
+import styles from './modal.module.css'
 
 const URL_API = `${url}/api/modales`;
 
@@ -90,7 +90,7 @@ export default function ModalScrollA({data, time}) {
       <div
         
         onClick={(e) => e.stopPropagation()}
-        className={cn(open ? "modal-content":"","bg-black flex w-[95%] md:w-auto relative text-white rounded-2xl overflow-hidden")}
+        className={cn(open ? styles["modal-content"]:"","bg-black flex w-[95%] md:w-auto relative text-white rounded-2xl overflow-hidden")}
       >
         <button onClick={()=> setOpen(false)} className="absolute top-4 right-4">
           X

@@ -4,9 +4,10 @@ import Swal from "sweetalert2"
 import { Search, ArrowRight, Loader2, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Fetch from "../services/fetch"
+import styles from "./enlaces.module.css"
 
 const ITEMS_PER_PAGE = 4
-
+ 
 function EnlacesForm() {
 
     const router = useRouter()
@@ -126,7 +127,7 @@ function EnlacesForm() {
                                             </div>
 
                                             <div className="p-5 flex flex-col flex-grow">
-                                                <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">{card.titulo}</h3>
+                                                <h3 className={`text-lg font-semibold text-gray-800 mb-3 ${styles["line-clamp-2"]}`}>{card.titulo}</h3>
                                                 <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">{card.descripcion}</p>
 
                                                 <a
