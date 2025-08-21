@@ -1,15 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './services.module.css'
+
 function services() {
     return (
         <section id="services">
-            <div className={styles['services-main']}>
-                <div className={styles['services-text']}>
+            <div className={styles["services-main"]}>
+                <div className={styles["services-text"]}>
                     <h2>NUESTROS SERVICIOS</h2>
                     <p>Digimedia es una empresa de marketing digital, que se enfoca en potenciar tu empredimiento a nivel online. Ademas, le brinda a tu empredimiento estrategias que ayuden a cumplir los objetivos de manera eficaz. Somos un grupo de personas comprometidas con el desarollo de cada marca que nos contacta.</p>
                 </div>
-                <div className={styles['services-4']}>
+                <div className={styles["services-4"]}>
                     <div className={styles.services}>
                         <Link href="/servicios/desing-desarrollo" className={styles.service}>
                             <img src="/image-home/icon1.svg" alt="Icono de una computadora con un pincel de color morado con fondo oscuro" />

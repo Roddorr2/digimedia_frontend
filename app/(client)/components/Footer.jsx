@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from './Footer.module.css'
+import styles from "./Footer.module.css"
 
 export default function Footer() {
   return (
@@ -80,7 +80,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className={`${styles.redesFooter}  ${styles.listaFooter}`}>
+            <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
               <h3>Redes Sociales</h3>
               <ul>
                 <li>
@@ -154,8 +154,8 @@ export default function Footer() {
           <div className={styles.barraFooter}>
             <hr />
           </div>
-          <div className={`${styles.rucFooter}  text-white`}>
-            <div className={styles.ruc}>
+          <div className={`${styles.rucFooter} text-white`}>
+            <div className={`${styles.ruc}`}>
               <p>RUC: 20605116559</p>
             </div>
             <div className={styles.derechosFooter}>

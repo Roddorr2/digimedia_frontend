@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import styles from './Header.module.css';
-import Image from 'next/image';
-import { useEffect } from 'react'; // ya lo tienes, pero si no, importa useEffect también.
+import styles from "./Header.module.css"
+
+import { useEffect } from 'react';
 
 export default function Header2() {
   const pathname = usePathname();
@@ -49,18 +49,19 @@ export default function Header2() {
         </div>
 
         <div className={styles.seccionesHeader}>
-          <input type="checkbox" className={styles.menucheckbox} checked={menuOpen} onChange={() => setMenuOpen(!menuOpen)}/><label onClick={() => setMenuOpen(!menuOpen)}>
-        <img src="/headerFooter/menu.webp" alt="menú" className="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25"/>
-        </label>
+          <input type="checkbox" className={styles.menucheckbox} onClick={()=>menuOpen()} onChange={() => setMenuOpen(!menuOpen)} />
+          <label htmlFor="menucheckbox">
+            <img src="/headerFooter/menu.webp"  alt="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
+          </label>
           <ul className={styles.menuHorizontal}>
-            <li className={isActive('/') ? styles.active : ''} onClick={closeMenu}>
+            <li className={isActive('/') ? styles.active : ""} onClick={closeMenu}>
               <Link href="/">Inicio</Link>
             </li>
             <li className={isActive('/servicios') ? styles.active : ''} onClick={() => setIsServiceOpen(!isServiceOpen)}>
               <p>Servicios &#9660;</p>
               {isServiceOpen && (
                 <ul className={styles.menuVertical}>
-                  <li className={isActive('/servicios/desing-desarrollo') ? styles["active-sub"]: ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/desing-desarrollo') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/desing-desarrollo">Diseño y Desarrollo Web</Link>
                   </li>
                   <li className={isActive('/servicios/gestion-redes') ? styles["active-sub"] : ''} onClick={closeMenu}>
@@ -75,14 +76,14 @@ export default function Header2() {
                 </ul>
               )}
             </li>
-            <li className={isActive('/nosotros') ? 'active' : ''} onClick={closeMenu}>
+            <li className={isActive('/nosotros') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/nosotros">Nosotros</Link>
             </li>
-            <li className={isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? 'active' : ''} 
+            <li className={isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? styles.active : ''} 
                 onClick={() => setIsMoreOpen(!isMoreOpen)}>
               <p>Más &#9660;</p>
               {isMoreOpen && (
-                <ul className="menuVertical">
+                <ul className={styles.menuVertical}>
                   <li className={isActive('/blog') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/blog">Blog</Link>
                   </li>
