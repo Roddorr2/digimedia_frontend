@@ -10,15 +10,12 @@ const ITEMS_PER_PAGE = 4
  
 function EnlacesForm() {
 
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const currentPage = Number(searchParams.get("page") || 1)
-
     const [data, setDataResponse] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
     const [filteredData, setFilteredData] = useState([])
     const [totalPages, setTotalPages] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
 
     async function fetchData(){
         try{
@@ -54,8 +51,9 @@ function EnlacesForm() {
             setFilteredData(filtered)
             setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE))
         }
+        setCurrentPage(1) // Reinicia a la primera página al buscar
     }, [searchTerm, data])
-    
+
     const getCurrentPageItems = () => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
         const endIndex = startIndex + ITEMS_PER_PAGE
@@ -64,7 +62,7 @@ function EnlacesForm() {
 
     const handlePageChange = (page) => {
         if (page < 1 || page > totalPages) return
-        router.push(`?page=${page}`)
+        setCurrentPage(page)
     }
 
     const categories = [
@@ -209,7 +207,6 @@ function EnlacesForm() {
                                         value={searchTerm}
                                         onChange={(e) => {
                                             setSearchTerm(e.target.value)
-                                            router.push("?page=1", { scroll: false })
                                         }}
                                     />
                                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
