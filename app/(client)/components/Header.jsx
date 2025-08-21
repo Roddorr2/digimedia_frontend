@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import styles from "./Header.module.css"
 
-import Image from 'next/image';
-import { useEffect } from 'react'; // ya lo tienes, pero si no, importa useEffect también.
+import { useEffect } from 'react';
 
 export default function Header2() {
   const pathname = usePathname();
@@ -34,9 +34,9 @@ export default function Header2() {
   }, []);
 
   return (
-    <header className="header">
-      <div className="contenidoHeader">
-        <div className="logoHeader flex items-center">
+    <header className={styles.header}>
+      <div className={styles.contenidoHeader}>
+        <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <img
               src="/headerFooter/logoblanco.webp"
@@ -48,59 +48,59 @@ export default function Header2() {
           </Link>
         </div>
 
-        <div className="seccionesHeader">
-          <input type="checkbox" id="menucheckbox" checked={menuOpen} onChange={() => setMenuOpen(!menuOpen)} />
+        <div className={styles.seccionesHeader}>
+          <input type="checkbox" id="menucheckbox" className={styles.menucheckbox} onChange={() => setMenuOpen(!menuOpen)} />
           <label htmlFor="menucheckbox">
-            <img src="/headerFooter/menu.webp" alt="menú" className="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
+            <img src="/headerFooter/menu.webp"  alt="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
           </label>
-          <ul className="menuHorizontal">
-            <li className={isActive('/') ? 'active' : ''} onClick={closeMenu}>
+          <ul className={styles.menuHorizontal}>
+            <li className={isActive('/') ? styles.active : ""} onClick={closeMenu}>
               <Link href="/">Inicio</Link>
             </li>
-            <li className={isActive('/servicios') ? 'active' : ''} onClick={() => setIsServiceOpen(!isServiceOpen)}>
+            <li className={`cursor-pointer ${isActive('/servicios') ? styles.active : ''}`} onClick={() => setIsServiceOpen(!isServiceOpen)}>
               <p>Servicios &#9660;</p>
               {isServiceOpen && (
-                <ul className="menuVertical">
-                  <li className={isActive('/servicios/desing-desarrollo') ? 'active-sub' : ''} onClick={closeMenu}>
+                <ul className={styles.menuVertical}>
+                  <li className={isActive('/servicios/desing-desarrollo') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/desing-desarrollo">Diseño y Desarrollo Web</Link>
                   </li>
-                  <li className={isActive('/servicios/gestion-redes') ? 'active-sub' : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/gestion-redes') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/gestion-redes">Gestión de Redes Sociales</Link>
                   </li>
-                  <li className={isActive('/servicios/marketing-gestion') ? 'active-sub' : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/marketing-gestion') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/marketing-gestion">Marketing y Gestión Digital</Link>
                   </li>
-                  <li className={isActive('/servicios/branding-desing') ? 'active-sub' : ''} onClick={closeMenu}>
+                  <li className={isActive('/servicios/branding-desing') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/servicios/branding-desing">Branding y Diseño</Link>
                   </li>
                 </ul>
               )}
             </li>
-            <li className={isActive('/nosotros') ? 'active' : ''} onClick={closeMenu}>
+            <li className={isActive('/nosotros') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/nosotros">Nosotros</Link>
             </li>
-            <li className={isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? 'active' : ''} 
+            <li className={`cursor-pointer ${isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? styles.active : ''}`} 
                 onClick={() => setIsMoreOpen(!isMoreOpen)}>
               <p>Más &#9660;</p>
               {isMoreOpen && (
-                <ul className="menuVertical">
-                  <li className={isActive('/blog') ? 'active-sub' : ''} onClick={closeMenu}>
+                <ul className={styles.menuVertical}>
+                  <li className={isActive('/blog') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/blog">Blog</Link>
                   </li>
-                  <li className={isActive('/preguntas') ? 'active-sub' : ''} onClick={closeMenu}>
+                  <li className={isActive('/preguntas') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/preguntas">Preguntas Frecuentes</Link>
                   </li>
-                  <li className={isActive('/contactanos') ? 'active-sub' : ''} onClick={closeMenu}>
+                  <li className={isActive('/contactanos') ? styles["active-sub"] : ''} onClick={closeMenu}>
                     <Link href="/contactanos">Contacto</Link>
                   </li>
                 </ul>
               )}
             </li>
             {!isMobile && (
-                <li className={isActive('/login') ? 'active' : ''} onClick={closeMenu}>
+                <li className={isActive('/login') ? styles.active : ''} onClick={closeMenu}>
               <Link href="/login">Ingresar</Link>
               </li>
-               )} 
+              )} 
           </ul>
         </div>
       </div>

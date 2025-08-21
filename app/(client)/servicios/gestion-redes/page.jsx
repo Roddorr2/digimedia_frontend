@@ -33,15 +33,20 @@ export default function Page() {
       ruta: "/servicios/ui/?from=gestionRedes",
     },
   ];
+    const modales = {
+    modalA: {
+      text: "GESTIÓN DE REDES SOCIALES",
+      fondo: "/servicios/gestion/modal-scroll/fondo.webp",
+      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      serviceName: "2",
+    },
+  };
+
+
 
   return (
     <>
-      <ModalScroll
-        text="GESTIÓN DE REDES SOCIALES"
-        fondo="/servicios/gestion/modal-scroll/fondo.webp"
-        title="SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!"
-        serviceName="2"
-      />
+          <ModalScroll data={modales} />
 
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"

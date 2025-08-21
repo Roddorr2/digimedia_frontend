@@ -90,9 +90,10 @@
 
 /* RESPONSIVE */
 
-#menucheckbox {
+.menucheckbox {
   display: none;
 }
+
 
 .menuIcono {
   width: 25px;
@@ -131,7 +132,7 @@
     align-items: center;
   }
 
-  #menucheckbox:checked ~ .menuHorizontal {
+  .menucheckbox:checked ~ .menuHorizontal {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);

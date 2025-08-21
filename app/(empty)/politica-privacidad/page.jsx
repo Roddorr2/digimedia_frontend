@@ -9,7 +9,7 @@ export default function Page() {
         <Image src={logoLegales} className='my-10' alt="Digimedia" width={160} height={120} />
       </div>
       {/* Section text */}
-      <section className='flex-grow grid mx-0 p-10 justify-items-center bg-legales'>
+      <section className='flex-grow grid mx-0 p-10 justify-items-center bg-white h-full'>
         <div className='w-full md:w-2/3 border-b mb-4 text-center md:text-left py-4'>
           <h1 className='text-4xl pb-2'>Politicas de Privacidad</h1>
           <p>
