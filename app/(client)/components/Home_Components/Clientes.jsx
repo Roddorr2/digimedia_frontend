@@ -67,6 +67,7 @@ export default function Clientes() {
     setActiveIndex(index);
   };
 
+
   const startAutoSlide = () => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {

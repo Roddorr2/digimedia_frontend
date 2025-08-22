@@ -3,8 +3,8 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-import ModalScroll from "../components/ModalScroll";
 import ModalButton from "../components/ModalButton";
+import ModalScroll from "../components/ModalScroll";
 
 export default function Page() {
   const servicios = [
@@ -34,14 +34,25 @@ export default function Page() {
     },
   ];
 
+  const modales = {
+    modalA: {
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/fondo.webp",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
+    },
+  };
+
   return (
     <>
-      <ModalScroll
+      <ModalScroll data={modales} />
+
+      {/* <ModalScroll
         text="BRANDING Y DISEÑO"
         fondo="/servicios/branding/modal-scroll/fondo.webp"
         title="TU PRIMERA CONSULTA ¡ES GRATIS!"
         serviceName="4"
-      />
+      /> */}
 
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"

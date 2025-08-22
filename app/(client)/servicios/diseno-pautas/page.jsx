@@ -22,7 +22,7 @@ export default function DisenoPauta() {
       <UxUiSection 
       features={features} 
       mainDescription='Es el proceso de crear piezas gráficas o audiovisuales atractivas y efectivas que serán utilizadas en campañas de publicidad digital. Estas piezas están dirigidas a públicos segmentados y tienen un objetivo específico.'
-      backgroundImage='/servicios/gestion/diseno-pautas/Diseno-de-Pautas---Digimedia.webp'
+      backgroundImage='/servicios/gestion/diseno-pautas/Diseño-de-Pautas-Digimedia.webp'
       heroTitle="DISEÑO DE PAUTAS"
       heroBulletPoints={[
         "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
@@ -30,7 +30,8 @@ export default function DisenoPauta() {
         "Permiten medir resultados y ajustar campañas en tiempo real.",
         "Atraer la atención del público objetivo rápidamente."
       ]}
-      
+      alt="Gestión de redes sociales, Diseño de pautas, Publicidad digital, Estrategia en redes, Social media marketing, Meta Ads, Facebook Ads, Anuncios para Instagram, Marketing digital, Community manager"
+      title="Gestión de redes sociales, diseño de pautas, Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

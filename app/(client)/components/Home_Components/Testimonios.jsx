@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Testimonios() {
   return (
     <section className="flex flex-col md:flex-row">
@@ -31,18 +29,3 @@ export default function Testimonios() {
     </section>
   );
 }
-
-/* <picture>
-        <source media="(max-width: 767px)" srcSet={slide.imgSrcMobile} />
-        <Image
-          src={slide.imgSrc}
-          alt={slide.altText}
-          fill
-          priority
-          fetchPriority="high"
-          decoding="async"
-          className="object-cover object-center"
-          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 80vw, 60vw"
-        />
-      </picture>
-*/

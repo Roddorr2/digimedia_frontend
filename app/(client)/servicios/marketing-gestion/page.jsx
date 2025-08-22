@@ -33,15 +33,19 @@ export default function Page() {
       ruta: "/servicios/monitoreo-y-reporting/",
     },
   ];
-
+ const modales = {
+    modalA: {
+      text: "MARKETING Y GESTIÓN DIGITAL",
+      fondo: "/servicios/marketing/modal-scroll/fondo.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      serviceName: "23",
+    },
+  };
   return (
     <>
-      <ModalScroll
-        text="MARKETING Y GESTIÓN DIGITAL"
-        fondo="/servicios/marketing/modal-scroll/fondo.webp"
-        title="HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!"
-        serviceName="3"
-      />
+    
+
+       <ModalScroll data={modales} />
 
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"

@@ -34,14 +34,19 @@ export default function Page() {
     },
   ];
 
+  const modales = {
+    modalA: {
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/fondo.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
+    },
+  };
+
   return (
     <>
-      <ModalScroll
-        text="DISEÑO Y DESARROLLO WEB"
-        fondo="/servicios/desarrollo/modal-scroll/fondo.webp"
-        title="OBTÉN UNA ASESORÍA ¡GRATIS!"
-        serviceName="1"
-      />
+     <ModalScroll data={modales} />
+   
 
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
