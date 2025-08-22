@@ -66,7 +66,7 @@ const PageContent = () => {
 
   const [dataHeader, setDataHeader] = useState({
     titulo: "Titulo Header",
-    texto_frase: "Texto atractivo y llamativo para el cliente",
+    texto_frase: " y llamativo para el cliente",
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
@@ -603,7 +603,7 @@ const PageContent = () => {
 
       await Swal.fire({
         title: "Actualizado Correctamente",
-        text: "¡Tu blog ha sido actualizado exitosamente!",
+        text: "¡Tu blog ha sido actualizado exitosamente!", 
         icon: "success",
         confirmButtonText: "OK",
       });

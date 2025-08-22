@@ -604,15 +604,26 @@ const PageContent= () => {
       if (FileFooterFile3) {
         await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${id_card}`, "image3"), "No se pudo guardar la imagen footer3");
       }
+ await Swal.fire({
+  title: "Actualizado Correctamente",
+  text: "Tu blog ha sido actualizado exitosamente",
+  icon: "success",
+  showCancelButton: true,
+  showDenyButton: true, 
+  confirmButtonText: "OK",
+  cancelButtonText: "Cerrar",
+  denyButtonText: "Ver Blog", 
+}).then((result) => {
+  if (result.isConfirmed) {
+    router.push("/dashboard/blogs/");
+  } else if (result.isDenied) {
+   
+    router.push("/blog/");
+  }
+ 
+});
 
-      await Swal.fire({
-        title: "Actualizado Correctamente",
-        text: "¡Tu blog ha sido actualizado exitosamente!",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
 
-      router.push("/dashboard/blogs/");
 
     } catch (error) {
       console.error("Error al guardar:", error.message);

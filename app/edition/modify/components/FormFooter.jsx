@@ -4,24 +4,6 @@ import { useState, useEffect } from "react" // Importar useEffect
 import Swal from "sweetalert2"; // Importar Swal
 
 export default function FormFooter({ formFooter, setFormData, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3, onDeleteFooterFile1, onDeleteFooterFile2, onDeleteFooterFile3, setValidacionFooter }) {
-    const [uploading, setUploading] = useState(false);
-    // Nuevos estados para las URLs de previsualización
-    const [previewImage1Url, setPreviewImage1Url] = useState(formFooter.public_image1 || "/blog/blog-10.webp");
-    const [previewImage2Url, setPreviewImage2Url] = useState(formFooter.public_image2 || "/blog/blog-10.webp");
-    const [previewImage3Url, setPreviewImage3Url] = useState(formFooter.public_image3 || "/blog/blog-10.webp");
-
-    useEffect(() => {
-        setPreviewImage1Url(formFooter.public_image1 || "/blog/blog-10.webp");
-    }, [formFooter.public_image1]);
-
-    useEffect(() => {
-        setPreviewImage2Url(formFooter.public_image2 || "/blog/blog-10.webp");
-    }, [formFooter.public_image2]);
-
-    useEffect(() => {
-        setPreviewImage3Url(formFooter.public_image3 || "/blog/blog-10.webp");
-    }, [formFooter.public_image3]);
-
     const handleChange = (e) => {
         const { name, value } = e.target
 
@@ -69,6 +51,8 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
         descripcion: { message: 'Máximo 300 caracteres', isValid: null },
     });
 
+    const [uploading, setUploading] = useState(false);
+
     const handleImagenFooter = async (e) => {
         const file = e.target.files[0];
         const name = e.target.name;
@@ -80,18 +64,21 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
 
             console.log("Ahora su file: ", name, tempUrl);
 
+            setFormData((prev) => ({
+                ...prev,
+                [name]: tempUrl
+            }));
+
             if (name === "public_image1") {
-                setPreviewImage1Url(tempUrl); // Usar el nuevo estado para la previsualización
                 setFileFooterFile1(file);
             }
-            else if (name === "public_image2") {
-                setPreviewImage2Url(tempUrl); // Usar el nuevo estado para la previsualización
-                setFileFooterFile2(file);
-            }
-            else {
-                setPreviewImage3Url(tempUrl); // Usar el nuevo estado para la previsualización
-                setFileFooterFile3(file);
-            }
+            else
+                if (name === "public_image2") {
+                    setFileFooterFile2(file);
+                }
+                else {
+                    setFileFooterFile3(file);
+                }
 
         } catch (error) {
             console.error("Error al subir imagen:", error);
@@ -104,14 +91,6 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
         } finally {
             setUploading(false);
         }
-    }
-
-    if (!formFooter) {
-        return (
-            <div className="w-full h-screen md:h-[80vh] flex items-center justify-center text-center">
-                <h1 className="text-2xl font-bold text-gray-500">Cargando...</h1>
-            </div>
-        );
     }
 
 
@@ -127,30 +106,40 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
 
                 {(formFooter.public_image1 || formFooter.public_image2 || formFooter.public_image3) && (
                     <div className="flex flex-wrap justify-center gap-3 mt-6">
-                        {[previewImage1Url, previewImage2Url, previewImage3Url].map((image, index) => { // Usar los nuevos estados de previsualización
+                        {[formFooter.public_image1, formFooter.public_image2, formFooter.public_image3].map((image, index) => {
                             const imageUrl = image
+                            const altText = index === 0 ? formFooter.image1_alt : 
+                                          index === 1 ? formFooter.image2_alt : formFooter.image3_alt;
+                            const titleText = index === 0 ? formFooter.image1_title : 
+                                            index === 1 ? formFooter.image2_title : formFooter.image3_title;
 
-                            return (
-                                <div key={index} className="relative group">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          return (
+                    <div 
+                    key={index} 
+                    className="relative group mb-16" 
+                    >
+                   <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
+                   <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
 
-                                    <img
-                                        src={imageUrl || "/placeholder.svg"}
-                                        alt={"Imagenes" + (index + 1)}
-                                        className="w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
-                                </div>
-                            )
+             <img
+            src={imageUrl || "/placeholder.svg"}
+            alt={altText || `Imagen ${index + 1} del footer`}
+           title={titleText}
+         className="w-64 h-44 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10" 
+     
+        loading="lazy"
+        />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
+  </div>
+)
+
                         })}
                     </div>
                 )}
             </div>
 
-            <div className="relative w-full md:w-[450px] h-auto p-6">
+            <div className="relative w-full md:w-[500px] h-auto p-6">
                 <div className="bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
                     <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
                         Editar Pie de Página
@@ -196,7 +185,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                 <h1 className="ml-3 mt-1 text-xs">200x170 píxeles</h1>
                             </label>
                             {["1", "2", "3"].map((num, index) => (
-                                <div key={index} className="relative w-full mb-2">
+                                <div key={index} className="relative w-full mb-4">
                                     <div className="relative flex flex-row">
                                         <label
                                             className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
@@ -208,7 +197,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                                 <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                                             ) : (
                                                 <>
-                                                    {(num === "1" ? previewImage1Url : num === "2" ? previewImage2Url : previewImage3Url) !== "/blog/blog-10.webp" ? ( // Usar el nuevo estado de previsualización
+                                                    {formFooter[`public_image${num}`] !== "/blog/blog-10.webp" ? (
                                                         <>
                                                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                                                             <span className="text-sm">Cambiar imagen</span>
@@ -236,15 +225,50 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                                 onClick={
                                                     num === "1"
                                                         ? onDeleteFooterFile1
-                                                        : num === "2"
+                                                        : (num === "2"
                                                             ? onDeleteFooterFile2
-                                                            : onDeleteFooterFile3
+                                                            : onDeleteFooterFile3)
                                                 }
                                                 className="ml-2 p-2 rounded-full hover:bg-red-100"
                                                 title={`Eliminar imagen ${num}`}
                                             >
                                                 <Trash2 className="w-5 h-5 text-red-500" />
                                             </button>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* CAMPOS ALT Y TITLE PARA CADA IMAGEN */}
+                                    <div className="space-y-2 mt-3">
+                                        <div>
+                                            <label className="block text-gray-300 text-xs font-medium mb-1">
+                                                Texto Alternativo (Alt)
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name={`image${num}_alt`}
+                                                value={formFooter[`image${num}_alt`] || ""}
+                                                onChange={handleChange}
+                                                maxLength={100}
+                                                autoComplete="off"
+                                                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                                                placeholder="Descripción para accesibilidad"
+                                            />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className="block text-gray-300 text-xs font-medium mb-1">
+                                                Título de la Imagen
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name={`image${num}_title`}
+                                                value={formFooter[`image${num}_title`] || ""}
+                                                onChange={handleChange}
+                                                maxLength={100}
+                                                autoComplete="off"
+                                                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                                                placeholder="Título al pasar el mouse"
+                                            />
                                         </div>
                                     </div>
                                 </div>

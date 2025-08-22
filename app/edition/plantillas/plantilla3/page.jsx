@@ -41,7 +41,9 @@ const PageContent = () => {
     setFormFooter(prev => ({
       ...prev,
       public_image1: "/blog/blog-10.webp",
-      url_image1: ""
+      url_image1: "",
+      image1_alt: "",
+      image1_title: ""
     }));
   };
   const deleteFooterFile2 = () => {
@@ -49,7 +51,9 @@ const PageContent = () => {
     setFormFooter(prev => ({
       ...prev,
       public_image2: "/blog/blog-10.webp",
-      url_image2: ""
+      url_image2: "",
+      image2_alt: "",
+      image2_title: ""
     }));
   };
   const deleteFooterFile3 = () => {
@@ -57,7 +61,9 @@ const PageContent = () => {
     setFormFooter(prev => ({
       ...prev,
       public_image3: "/blog/blog-10.webp",
-      url_image3: ""
+      url_image3: "",
+      image3_alt: "",
+      image3_title: ""
     }));
   };
 
@@ -66,7 +72,9 @@ const PageContent = () => {
     setDataHeader(prev => ({
       ...prev,
       public_image: "/blog/fondo_blog_extend.webp",
-      url_image: ""
+      url_image: "",
+      image_alt: "",
+      image_title: ""
     }));
   };
 
@@ -75,7 +83,9 @@ const PageContent = () => {
     setFormEncabezadoBody(prev => ({
       ...prev,
       public_image1: "/blog/blog-4.webp",
-      url_image1: ""
+      url_image1: "",
+      image1_alt: "",
+      image1_title: ""
     }));
   };
 
@@ -84,7 +94,9 @@ const PageContent = () => {
     setFormGaleryBody(prev => ({
       ...prev,
       public_image2: "/blog/blog-2.webp",
-      url_image2: ""
+      url_image2: "",
+      image2_alt: "",
+      image2_title: ""
     }));
   };
 
@@ -93,7 +105,9 @@ const PageContent = () => {
     setFormGaleryBody(prev => ({
       ...prev,
       public_image3: "/blog/blog-2.webp",
-      url_image3: ""
+      url_image3: "",
+      image3_alt: "",
+      image3_title: ""
     }));
   };
 
@@ -107,10 +121,16 @@ const PageContent = () => {
     descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
     public_image1: "/blog/blog-10.webp",
     url_image1: "", //por esta vez url es la ruta para eliminar
+    image1_alt: "",
+    image1_title: "",
     public_image2: "/blog/blog-10.webp",
     url_image2: "",
+    image2_alt: "",
+    image2_title: "",
     public_image3: "/blog/blog-10.webp",
     url_image3: "",
+    image3_alt: "",
+    image3_title: "",
   });
 
   /**
@@ -122,6 +142,8 @@ const PageContent = () => {
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
+    image_alt: "",
+    image_title: "",
   });
 
   /**
@@ -134,6 +156,8 @@ const PageContent = () => {
     fecha: getCurrentDate(),
     public_image1: "/blog/blog-4.webp",
     url_image1: "",
+    image1_alt: "",
+    image1_title: "",
   });
 
   /**
@@ -186,8 +210,12 @@ const PageContent = () => {
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: "/blog/blog-2.webp",
     url_image2: "",
+    image2_alt: "",
+    image2_title: "",
     public_image3: "/blog/blog-2.webp",
     url_image3: "",
+    image3_alt: "",
+    image3_title: "",
   });
 
   useEffect(() => {
@@ -245,10 +273,16 @@ const PageContent = () => {
       id_commend_tarjeta: id_commend_tarjeta,
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
+      image1_alt: formEncabezadoBody.image1_alt,
+      image1_title: formEncabezadoBody.image1_title,
       public_image2: formGaleryBody.public_image2,
       url_image2: formGaleryBody.url_image2,
+      image2_alt: formGaleryBody.image2_alt,
+      image2_title: formGaleryBody.image2_title,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
+      image3_alt: formGaleryBody.image3_alt,
+      image3_title: formGaleryBody.image3_title,
       service_url: serviceRedirectUrl,
     }
 
@@ -313,6 +347,8 @@ const PageContent = () => {
       descripcion: formEncabezadoBody.descripcion,
       public_image: dataHeader.public_image,
       url_image: dataHeader.url_image,
+      image_alt: dataHeader.image_alt,
+      image_title: dataHeader.image_title,
       id_plantilla: 3,
       id_empleado: id_empleado,
     }
@@ -490,66 +526,107 @@ const PageContent = () => {
   }
 
   async function HandleSave() {
-    try {
+  try {
+    setLoading(true);
 
-      setLoading(true);
+    const id_commend_tarjeta = await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
 
-      const id_commend_tarjeta = await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
+    const id_blog_body = await executionFunction(() => guardarBody(id_commend_tarjeta), "No se pudo guardar el contenido del blog");
 
-      const id_blog_body = await executionFunction(() => guardarBody(id_commend_tarjeta), "No se pudo guardar el contenido del blog");
+    await executionFunction(() => guardarTarjetas(id_blog_body), "No se pudo guardar las tarjetas informativas");
 
-      await executionFunction(() => guardarTarjetas(id_blog_body), "No se pudo guardar las tarjetas informativas");
+    const id_blog_head = await executionFunction(() => guardarHeader(), "No se pudo guardar el encabezado");
+    const id_blog_footer = await executionFunction(() => guardarFooter(), "No se pudo guardar el pie de página");
 
-      const id_blog_head = await executionFunction(() => guardarHeader(), "No se pudo guardar el encabezado");
-      const id_blog_footer = await executionFunction(() => guardarFooter(), "No se pudo guardar el pie de página");
+    const id_blog = await executionFunction(() => guardarBlog(id_blog_head, id_blog_footer, id_blog_body), "No se pudo guardar el blog");
+    const id_card = await executionFunction(() => guardarCard(id_blog, id_empleado), "No se pudo guardar la card");
 
-      const id_blog = await executionFunction(() => guardarBlog(id_blog_head, id_blog_footer, id_blog_body), "No se pudo guardar el blog");
-      const id_card = await executionFunction(() => guardarCard(id_blog, id_empleado), "No se pudo guardar la card");
+    if (fileHeader) {
+      await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${id_card}`), "No se pudo guardar la imagen");
+    }
 
-      if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${id_card}`), "No se pudo guardar la imagen");
+    if (FileBodyHeader) {
+      await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen");
+    }
+
+    if (FileBodyFile1) {
+      await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen");
+    }
+
+    if (FileBodyFile2) {
+      await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${id_card}`, "image3"), "No se pudo guardar la imagen");
+    }
+
+    if (FileFooterFile1) {
+      await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen");
+    }
+
+    if (FileFooterFile2) {
+      await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen");
+    }
+
+    if (FileFooterFile3) {
+      await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${id_card}`, "image3"), "No se pudo guardar la imagen");
+    }
+
+    // MOSTRAR INFORMACIÓN DE TÍTULO E IMAGEN ALT AL GUARDAR
+    const imageInfo = dataHeader.image_title && dataHeader.image_alt 
+      ? `\n\n📸 Información de la imagen:\n• Título: ${dataHeader.image_title}\n• Texto alternativo: ${dataHeader.image_alt}` 
+      : '';
+
+    const result = await Swal.fire({
+      title: "¡Blog Guardado Correctamente! 🎉",
+      html: `
+        <div style="text-align: left; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+            <h3 style="margin: 0; font-size: 18px; font-weight: bold;">📝 ${dataHeader.titulo}</h3>
+          </div>
+          
+          ${dataHeader.image_title && dataHeader.image_alt ? `
+          <div style="background: #f8f9ff; border-left: 4px solid #667eea; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+            <h4 style="margin: 0 0 10px 0; color: #4c51bf; font-size: 14px; font-weight: 600;">📸 Información de la Imagen:</h4>
+            <p style="margin: 5px 0; color: #555; font-size: 13px;"><strong>Título:</strong> ${dataHeader.image_title}</p>
+            <p style="margin: 5px 0; color: #555; font-size: 13px;"><strong>Texto alternativo:</strong> ${dataHeader.image_alt}</p>
+          </div>
+          ` : ''}
+          
+          <div style="background: #f0fff4; border: 1px solid #9ae6b4; padding: 12px; border-radius: 5px; color: #2f855a;">
+            <p style="margin: 0; font-size: 13px;">✅ Tu blog ya está disponible en la sección de blogs de la página principal</p>
+          </div>
+        </div>
+      `,
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonText: "¡Perfecto!",
+      cancelButtonText: "Cerrar",
+      confirmButtonColor: "#667eea",
+      cancelButtonColor: "#6b7280",
+      
+      width: '500px',
+      customClass: {
+        htmlContainer: 'swal-html-container'
       }
+      
+    });
 
-      if (FileBodyHeader) {
-        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen");
-      }
-
-      if (FileBodyFile1) {
-        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen");
-      }
-
-      if (FileBodyFile2) {
-        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${id_card}`, "image3"), "No se pudo guardar la imagen");
-      }
-
-      if (FileFooterFile1) {
-        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen");
-      }
-
-      if (FileFooterFile2) {
-        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen");
-      }
-
-      if (FileFooterFile3) {
-        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${id_card}`, "image3"), "No se pudo guardar la imagen");
-      }
-
-      await Swal.fire({
-        title: "Guardado Correctamente",
-        text: "¡Podrás ver tu blog en la sección de blogs de la página principal!",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-
+    // Solo ejecutar las acciones de reseteo y redirección si el usuario hizo click en "¡Perfecto!"
+    if (result.isConfirmed) {
+      // Resetear formularios
       setFormFooter({
         titulo: "Titulo Footer",
         descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: "/blog/blog-10.webp",
-        url_image1: "", //por esta vez url es la ruta para elimianr
+        url_image1: "",
+        image1_alt: "",
+        image1_title: "",
         public_image2: "/blog/blog-10.webp",
         url_image2: "",
+        image2_alt: "",
+        image2_title: "",
         public_image3: "/blog/blog-10.webp",
         url_image3: "",
+        image3_alt: "",
+        image3_title: "",
       });
 
       setDataHeader({
@@ -558,6 +635,8 @@ const PageContent = () => {
         texto_descripcion: "Texto destacado y secundario para el titulo",
         public_image: "/blog/fondo_blog_extend.webp",
         url_image: "",
+        image_alt: "",
+        image_title: "",
       });
 
       setFormEncabezadoBody({
@@ -567,53 +646,58 @@ const PageContent = () => {
         fecha: getCurrentDate(),
         public_image1: "/blog/blog-4.webp",
         url_image1: "",
+        image1_alt: "",
+        image1_title: "",
       });
 
       setFormInfoBody([
         {
           titulo: "El Factor Sorpresa y Distinción",
-          descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",palabra:"",
-      enlace:"",
+          descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+          palabra:"",
+          enlace:"",
         },
-
         {
           titulo: "Ambiente y Experiencia Visual",
-          descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",palabra:"",
-      enlace:"",
+          descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+          palabra:"",
+          enlace:"",
         },
         {
           titulo: "Eficiencia Energética y Durabilidad",
-          descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",palabra:"",
-      enlace:"",
+          descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+          palabra:"",
+          enlace:"",
         },
         {
           titulo: "Marketing y Atracción de Clientes",
-          descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",palabra:"",
-      enlace:"",
+          descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+          palabra:"",
+          enlace:"",
         }
       ]);
 
       setFormCommendBody({
         titulo: "Consejos para Elegir el Letrero Perfecto",
-        texto1:
-          "Opta por colores que reflejen la personalidad de tu bar.",
-        texto2:
-          "Elige un diseño legible y atractivo.",
-        texto3:
-          "Considera el lugar de instalación para maximizar su impacto.",
-        texto4:
-          "",
-        texto5:
-          "",
+        texto1: "Opta por colores que reflejen la personalidad de tu bar.",
+        texto2: "Elige un diseño legible y atractivo.",
+        texto3: "Considera el lugar de instalación para maximizar su impacto.",
+        texto4: "",
+        texto5: "",
       });
 
       setFormGaleryBody({
         public_image2: "/blog/blog-2.webp",
         url_image2: "",
+        image2_alt: "",
+        image2_title: "",
         public_image3: "/blog/blog-2.webp",
         url_image3: "",
+        image3_alt: "",
+        image3_title: "",
       });
 
+      // Limpiar archivos
       setFileHeader(null);
       setFileBodyHeader(null);
       setFileBodyFile1(null);
@@ -623,15 +707,16 @@ const PageContent = () => {
       setFileFooterFile3(null);
 
       router.push("/dashboard/blogs/")
-
       window.open("/blog", "_blank");
-
-    } catch (error) {
-      console.error("Error al guardar:", error.message);
-    } finally {
-      setLoading(false);
     }
+    // Si el usuario hace click en "Cancelar", no se hace nada y simplemente se cierra el modal
+
+  } catch (error) {
+    console.error("Error al guardar:", error.message);
+  } finally {
+    setLoading(false);
   }
+}
 
 
   return (
