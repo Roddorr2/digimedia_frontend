@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 import Image from 'next/image';
 import { useEffect } from 'react'; // ya lo tienes, pero si no, importa useEffect también.
@@ -58,7 +59,9 @@ export default function Header2() {
               <Link href="/">Inicio</Link>
             </li>
             <li className={isActive('/servicios') ? 'active' : ''} onClick={() => setIsServiceOpen(!isServiceOpen)}>
-              <p>Servicios &#9660;</p>
+              <p className="flex items-center gap-1" style={{ display: 'flex !important', alignItems: 'center !important' }}>
+                Servicios <ChevronDown className="w-4 h-4" style={{ display: 'inline-block', verticalAlign: 'middle' }} />
+              </p>
               {isServiceOpen && (
                 <ul className="menuVertical">
                   <li className={isActive('/servicios/desing-desarrollo') ? 'active-sub' : ''} onClick={closeMenu}>
@@ -81,7 +84,9 @@ export default function Header2() {
             </li>
             <li className={isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? 'active' : ''} 
                 onClick={() => setIsMoreOpen(!isMoreOpen)}>
-              <p>Más &#9660;</p>
+              <p className="flex items-center gap-1" style={{ display: 'flex !important', alignItems: 'center !important' }}>
+                Más <ChevronDown className="w-4 h-4" style={{ display: 'inline-block', verticalAlign: 'middle' }} />
+              </p>
               {isMoreOpen && (
                 <ul className="menuVertical">
                   <li className={isActive('/blog') ? 'active-sub' : ''} onClick={closeMenu}>
