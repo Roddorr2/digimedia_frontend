@@ -59,7 +59,7 @@ export default function Header2() {
               <Link href="/">Inicio</Link>
             </li>
             <li className={`cursor-pointer ${isActive('/servicios') ? styles.active : ''}`} onClick={() => setIsServiceOpen(!isServiceOpen)}>
-              <p className="flex items-center gap-1" style={{ display: 'flex !important', alignItems: 'center !important' }}>
+              <p className="flex justify-center items-center gap-1" style={{ display: 'flex !important', alignItems: 'center !important' }}>
                 Servicios <ChevronDown className="w-4 h-4" style={{ display: 'inline-block', verticalAlign: 'middle' }} />
               </p>
               {isServiceOpen && (
@@ -84,7 +84,7 @@ export default function Header2() {
             </li>
             <li className={`cursor-pointer ${isActive('/blog') || isActive('/preguntas') || isActive('/contactanos') ? styles.active : ''}`} 
                 onClick={() => setIsMoreOpen(!isMoreOpen)}>
-              <p className="flex items-center gap-1" style={{ display: 'flex !important', alignItems: 'center !important' }}>
+              <p className="flex justify-center items-center gap-1" style={{ display: 'flex !important', alignItems: 'center !important' }}>
                 Más <ChevronDown className="w-4 h-4" style={{ display: 'inline-block', verticalAlign: 'middle' }} />
               </p>
               {isMoreOpen && (
