@@ -83,6 +83,53 @@ export default function FormBody2(props) {
     { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
   ];
 
+  // Función para generar alt text automático
+  const generateAltText = (titulo, tipo = 'principal') => {
+    if (!titulo || titulo.trim() === '') {
+      switch (tipo) {
+        case 'principal':
+          return 'Imagen principal del artículo';
+        case 'galeria1':
+          return 'Primera imagen de la galería del artículo';
+        case 'galeria2':
+          return 'Segunda imagen de la galería del artículo';
+        default:
+          return 'Imagen relacionada con el contenido';
+      }
+    }
+    
+    const tituloLimpio = titulo.trim();
+    switch (tipo) {
+      case 'principal':
+        return `Imagen principal: ${tituloLimpio}`;
+      case 'galeria1':
+        return `Galería - Primera imagen: ${tituloLimpio}`;
+      case 'galeria2':
+        return `Galería - Segunda imagen: ${tituloLimpio}`;
+      default:
+        return `Imagen: ${tituloLimpio}`;
+    }
+  };
+
+  // Función para generar title automático
+  const generateTitle = (titulo, tipo = 'principal') => {
+    if (!titulo || titulo.trim() === '') {
+      switch (tipo) {
+        case 'principal':
+          return 'Ver imagen principal en tamaño completo';
+        case 'galeria1':
+          return 'Ver primera imagen de la galería en tamaño completo';
+        case 'galeria2':
+          return 'Ver segunda imagen de la galería en tamaño completo';
+        default:
+          return 'Ver imagen en tamaño completo';
+      }
+    }
+    
+    const tituloLimpio = titulo.trim();
+    return `Ver imagen: ${tituloLimpio}`;
+  };
+
   function renderDescripcion(texto, palabraClave, enlace) {
     if (!palabraClave || !enlace) {
       return texto;
@@ -96,7 +143,9 @@ export default function FormBody2(props) {
           key={i}
           href={enlace}
           target="_blank"
+          rel="noopener noreferrer"
           className="text-blue-400 font-bold underline hover:text-blue-200"
+          title={`Enlace externo: ${palabraClave}`}
         >
           {palabraClave}
         </a>
@@ -528,10 +577,18 @@ export default function FormBody2(props) {
               <span>{formEncabezadoBody.fecha}</span>
             </div>
             <div className="flex space-x-3">
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <button 
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                title="Guardar artículo"
+                aria-label="Guardar artículo en favoritos"
+              >
                 <Bookmark className="w-5 h-5 text-teal-600" />
               </button>
-              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <button 
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                title="Compartir artículo"
+                aria-label="Compartir este artículo"
+              >
                 <Share2 className="w-5 h-5 text-teal-600" />
               </button>
             </div>
@@ -540,7 +597,8 @@ export default function FormBody2(props) {
           <div className="relative w-[600px] h-[300px] md:h-[400px] overflow-hidden">
             <img
               src={formEncabezadoBody.public_image1}
-              alt={formEncabezadoBody.titulo}
+              alt={generateAltText(formEncabezadoBody.titulo, 'principal')}
+              title={generateTitle(formEncabezadoBody.titulo, 'principal')}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -556,7 +614,7 @@ export default function FormBody2(props) {
             {formEncabezadoBody.descripcion}
           </div>
         </div>
-        <div className="relative mt-28 w-full p-6">
+        <div className="relative mt-14 w-full p-6">
           <div className="">
             <div className="bg-black/90 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
               <form className="grid gap-5">
@@ -574,6 +632,7 @@ export default function FormBody2(props) {
                     onChange={handleChange(setFormEncabezadoBody)}
                     className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                     placeholder="Título del pie de página"
+                    title="Ingresa el título principal del artículo"
                   />
                 </div>
                 <div className="mb-3">
@@ -591,6 +650,7 @@ export default function FormBody2(props) {
                     rows={3}
                     className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
                     placeholder="Descripción corta"
+                    title="Ingresa una descripción breve del artículo"
                   ></textarea>
                 </div>
                 <div className="mb-3 mt-3">
@@ -605,6 +665,7 @@ export default function FormBody2(props) {
                     onChange={handleEncabezadoBodyChange}
                     className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                     placeholder="Fecha de Creación página"
+                    title="Selecciona la fecha de publicación del artículo"
                   />
                 </div>
                 <div className="">
@@ -613,13 +674,14 @@ export default function FormBody2(props) {
                     Fondo
                     <h1 className="ml-3 mt-1 text-xs">980x450 píxeles</h1>
                   </label>
-                  <div className="relative flex flex-column justify-center">
+                  <div className="relative flex flex-column justify-center mb-3">
                     <label
                       className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                         uploading
                           ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
                           : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
                       }`}
+                      title={uploading ? "Subiendo imagen..." : "Seleccionar imagen principal del artículo"}
                     >
                       {uploading ? (
                         <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -648,6 +710,7 @@ export default function FormBody2(props) {
                         className="hidden"
                         onChange={handleImageHeader}
                         disabled={uploading}
+                        title="Seleccionar archivo de imagen"
                       />
                     </label>
                     <button
@@ -655,9 +718,45 @@ export default function FormBody2(props) {
                       onClick={props.onDeleteBodyHeaderImage}
                       className="ml-2 p-2 rounded-full hover:bg-red-100"
                       title="Eliminar imagen principal"
+                      aria-label="Eliminar imagen principal del artículo"
                     >
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
+                  </div>
+                  
+                  {/* Campos para texto alternativo y título de imagen principal */}
+                  <div className="mb-3">
+                    <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+                      <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto Alternativo (Alt)
+                    </label>
+                    <input
+                      type="text"
+                      name="image_alt"
+                      maxLength={125}
+                      value={formEncabezadoBody.image_alt || generateAltText(formEncabezadoBody.titulo, 'principal')}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="Descripción de la imagen para lectores de pantalla"
+                      title="Texto alternativo que describe la imagen para accesibilidad"
+                    />
+                    <small className="text-gray-500 text-xs">Máximo 125 caracteres - Describe qué se ve en la imagen</small>
+                  </div>
+                  
+                  <div className="mb-3">
+                    <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+                      <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título de Imagen
+                    </label>
+                    <input
+                      type="text"
+                      name="image_title"
+                      maxLength={100}
+                      value={formEncabezadoBody.image_title || generateTitle(formEncabezadoBody.titulo, 'principal')}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      placeholder="Título que aparece al pasar el mouse sobre la imagen"
+                      title="Título que se muestra como tooltip al hacer hover sobre la imagen"
+                    />
+                    <small className="text-gray-500 text-xs">Máximo 100 caracteres - Información adicional sobre la imagen</small>
                   </div>
                 </div>
               </form>
@@ -675,6 +774,8 @@ export default function FormBody2(props) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => setActiveTab("info")}
+            title="Ver sección de información"
+            aria-label="Mostrar pestaña de información"
           >
             Información
           </button>
@@ -685,6 +786,8 @@ export default function FormBody2(props) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => setActiveTab("tips")}
+            title="Ver sección de consejos"
+            aria-label="Mostrar pestaña de consejos"
           >
             Consejos
           </button>
@@ -695,6 +798,8 @@ export default function FormBody2(props) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
             onClick={() => setActiveTab("gallery")}
+            title="Ver galería de imágenes"
+            aria-label="Mostrar pestaña de galería"
           >
             Galería
           </button>
@@ -746,6 +851,7 @@ export default function FormBody2(props) {
                             }
                             className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                             placeholder="Título del pie de página"
+                            title={`Título de la información relevante ${index + 1}`}
                           />
                         </div>
                         <div className="mb-3">
@@ -772,6 +878,7 @@ export default function FormBody2(props) {
                             rows={3}
                             className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
                             placeholder="Descripción corta"
+                            title={`Descripción de la información relevante ${index + 1}`}
                           ></textarea>
                         </div>
                         <div className="w-full flex justify-end">
@@ -859,6 +966,7 @@ export default function FormBody2(props) {
                         onChange={handleChange(setFormCommendBody)}
                         className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 text-sm transition-all duration-200 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white"
                         placeholder="Ej: Consejos útiles"
+                        title="Título de la sección de consejos"
                       />
 
                       <BookType className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -880,6 +988,7 @@ export default function FormBody2(props) {
                           onChange={handleChange(setFormCommendBody)}
                           className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 text-sm transition-all duration-200 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white"
                           placeholder={`Consejo #${num}`}
+                          title={`Consejo número ${num}`}
                         />
                         <ValidationMessage
                           error={commendErrors.textos[index]}
@@ -921,11 +1030,16 @@ export default function FormBody2(props) {
                     <div className="relative h-64 bg-slate-100">
                       <img
                         src={image.url}
-                        alt={`${image.title}`}
+                        alt={generateAltText(formEncabezadoBody.titulo, image.id === 2 ? 'galeria1' : 'galeria2')}
+                        title={generateTitle(formEncabezadoBody.titulo, image.id === 2 ? 'galeria1' : 'galeria2')}
                         className="w-full h-64 object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">
-                        <button className="bg-white/90 p-2 rounded-full shadow-lg">
+                        <button 
+                          className="bg-white/90 p-2 rounded-full shadow-lg"
+                          title={`Ver ${image.title.toLowerCase()} en tamaño completo`}
+                          aria-label={`Ver ${image.title.toLowerCase()} ampliada`}
+                        >
                           <Eye className="w-4 h-4 text-slate-700" />
                         </button>
                       </div>
@@ -944,6 +1058,7 @@ export default function FormBody2(props) {
                               ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
                               : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
                           }`}
+                          title={uploading ? "Subiendo imagen..." : `Seleccionar ${image.title.toLowerCase()}`}
                         >
                           {uploading ? (
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -973,6 +1088,7 @@ export default function FormBody2(props) {
                             className="hidden"
                             onChange={handleImageBody}
                             disabled={uploading}
+                            title={`Seleccionar archivo para ${image.title.toLowerCase()}`}
                           />
                         </label>
                         <button
@@ -983,7 +1099,8 @@ export default function FormBody2(props) {
                               : props.onDeleteBodyFile2
                           }
                           className="ml-2 p-2 rounded-full hover:bg-red-100"
-                          title={image.title}
+                          title={`Eliminar ${image.title.toLowerCase()}`}
+                          aria-label={`Eliminar ${image.title.toLowerCase()}`}
                         >
                           <Trash2 className="w-5 h-5 text-red-500" />
                         </button>
@@ -1003,6 +1120,8 @@ export default function FormBody2(props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-800 hover:shadow-xl"
+                title="Conocer más sobre nuestro servicio"
+                aria-label="Enlace para conocer más sobre nuestros servicios"
               >
                 Conoce nuestro servicio
               </a>
@@ -1017,6 +1136,7 @@ export default function FormBody2(props) {
               className="w-full p-3 rounded text-white bg-gray-900 border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               value={serviceRedirectUrl}
               onChange={handleServiceChange}
+              title="Seleccionar servicio para el botón de redirección"
             >
               <option value="">-- Ninguno --</option>
               {servicios.map((serv) => (
