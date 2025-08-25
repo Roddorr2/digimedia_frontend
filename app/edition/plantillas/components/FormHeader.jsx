@@ -83,7 +83,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
   const [showImagePreview, setShowImagePreview] = useState(false);
 
   const [errors, setErrors] = useState({
-    titulo: { message: 'Entre 10-30 caracteres', isValid: null },
+    titulo: { message: 'Entre 10-80 caracteres', isValid: null },
     texto_frase: { message: 'Entre 10-50 caracteres', isValid: null },
     texto_descripcion: { message: 'Entre 10-80 caracteres', isValid: null },
     image_alt: { message: 'Entre 5-100 caracteres', isValid: null },
@@ -114,7 +114,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
     
     switch (name) {
       case 'titulo':
-        isValid = value.trim() !== '' && value.length <= 30 && value.length >= 10;
+        isValid = value.trim() !== '' && value.length <= 80 && value.length >= 10;
         setIsValid_titulo(isValid);
         setErrors(prev => ({
           ...prev,
@@ -336,7 +336,7 @@ export default function FormHeader({ dataHeader, setFormData, setFile, onDeleteI
                   value={dataHeader?.titulo}
                   onChange={handleChange}
                   error={errors.titulo}
-                  maxLength={30}
+                  maxLength={80}
                   minLength={10}
                   placeholder="Título principal"
                   required
