@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import styles from './modal.module.css'
 
 const URL_API = `${url}/api/modales`
+const URL_WHASAPP=`${process.env.NEXT_PUBLIC_API_URL_WHATSAPP}/api/send-message`;
 
 export default function ModalClick({ text, fondo, title, serviceName }) {
   const modalRef = useRef(null);
@@ -50,6 +51,13 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { nombre, telefono, correo, id_servicio: serviceName };
+
+      const rawPhone = data.telefono;
+      const phoneWithPrefix = `51${rawPhone}`;
+      const fecha = new Date();
+      const fechaActual = fecha.toISOString().split("T")[0];
+      const horaActual = fecha.toTimeString().slice(0, 5);
+
     setLoading(true);
     try{
       const response = await axios.post(`${URL_API}`, data, {
@@ -59,6 +67,17 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
           'Content-Type': 'application/json',
         },
       });
+
+      await axios.post(URL_WHASAPP, {
+
+      telefono: phoneWithPrefix,
+      nombre:data.nombre,
+      fecha: fechaActual,
+      hora: horaActual,
+      templateOption: 'cita_gratis'
+
+    });
+
       hideModal();
       if (response.status === 201) {
         Swal.fire({
