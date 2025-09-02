@@ -58,6 +58,20 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
       const fechaActual = fecha.toISOString().split("T")[0];
       const horaActual = fecha.toTimeString().slice(0, 5);
 
+
+      if (telefono.length!==9) {
+      
+        hideModal();
+  
+        Swal.fire({
+            title: "Error",
+            text: "El número de teléfono debe ser 9 digitos.",
+                icon: "error",
+            confirmButtonText: "OK",
+          });
+        return ;
+      }
+
     setLoading(true);
     try{
       const response = await axios.post(`${URL_API}`, data, {
