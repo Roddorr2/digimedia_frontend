@@ -51,6 +51,19 @@ export default function ModalScrollA({data, time}) {
       const horaActual = fecha.toTimeString().slice(0, 5);
 
 
+    if (formData.telefono.length!==9) {
+
+      setOpen(false)
+
+      Swal.fire({
+          title: "Error",
+          text: "El número de teléfono debe ser 9 digitos.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      return ;
+    }
+
       const response = await axios.post(`${URL_API}`, {
         ...formData,
         // telefono: rawPhone,
