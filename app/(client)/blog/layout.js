@@ -18,8 +18,19 @@ export const metadata = {
 };
 
 export default function blogLayout({ children }) {
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Digimedia Marketing",
+    "url": "https://digimedia-marketing.com/blog/",
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
       {children}
     </>
   );
