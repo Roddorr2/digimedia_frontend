@@ -18,19 +18,35 @@ export const metadata = {
 };
 
 export default function blogLayout({ children }) {
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Digimedia Marketing",
-    "url": "https://digimedia-marketing.com/blog/",
-  };
-
-  return (
+    return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-      />
+      {/* Insertar Schema Markup para SEO */}
+      <script type="application/ld+json">
+        {`
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Digimedia",
+          "url": "https://digimedia-marketing.com/blog/",
+          "telephone": "+51 983 027 828",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jr. Paruro 1401",
+            "addressLocality": "Lima",
+            "postalCode": "15001",
+            "addressCountry": "PE"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -12.0447395,
+            "longitude": -77.0217899
+          },
+          "image": "https://digimedia-marketin",
+          "sameAs": "https://digimedia-marketing.com/"
+        }
+        `}
+      </script>
+
       {children}
     </>
   );
