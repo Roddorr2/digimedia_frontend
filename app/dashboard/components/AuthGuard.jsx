@@ -85,4 +85,4 @@ export default function AuthGuard({ children, requiredRole = null }) {
   }
 
   return <>{children}</>;
-}
+} 
