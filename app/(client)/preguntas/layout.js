@@ -13,7 +13,7 @@ export const metadata = {
         type: "website",
     },
     alternates: {
-        canonical: "https://digimedia-marketing.com/blog/",
+        canonical: "https://digimedia-marketing.com/preguntas/",
     },
 };
 

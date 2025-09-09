@@ -1,4 +1,4 @@
-import ContactPage from './contactoComponents/contactPage'
+import ContactPage from "./contactoComponents/contactPage";
 
 const Contactanos = () => <ContactPage />;
 
