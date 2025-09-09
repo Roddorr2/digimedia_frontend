@@ -18,5 +18,35 @@ export const metadata = {
 };
 
 export default function gestionLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script type="application/ld+json">
+        {`
+        {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "Digimedia",
+          "url": "https://digimedia-marketing.com/servicios/gestion-redes/",
+          "telephone": "+51 983 027 828",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jr. Paruro 1401",
+            "addressLocality": "Lima",
+            "postalCode": "15001",
+            "addressCountry": "PE"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -12.0447395,
+            "longitude": -77.0217899
+          },
+          "image": "https://digimedia-marketing.com/logo.png",
+          "sameAs": "https://digimedia-marketing.com/"
+        }
+        `}
+      </script>
+
+      {children}
+    </>
+  );
 }

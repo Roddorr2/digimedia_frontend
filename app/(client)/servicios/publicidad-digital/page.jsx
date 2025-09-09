@@ -31,8 +31,6 @@ export default function DisenoPauta() {
         "PERMITE DIRIGIR LOS MENSAJES A GRUPOS ESPECÍFICOS DE PERSONAS CON INTERESES Y COMPORTAMIENTOS SIMILARES.",
         "PUEDE GENERAR UN MAYOR NÚMERO DE LEADS Y VENTAS, ESPECIALMENTE CUANDO SE IMPLEMENTA UNA ESTRATEGIA DE MARKETING DIGITAL EFECTIVA."
       ]}
-      alt="Representación visual de estrategias de branding digital con iconos de creatividad, redes sociales, análisis de datos y posicionamiento online, parte de los servicios que ofrece Digimedia agencia de marketing Digital"
-      title="Publicidad Digital, gestión digital, Agencia de Marketing Digimedia "
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
