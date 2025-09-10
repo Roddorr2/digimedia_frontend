@@ -3,9 +3,24 @@ import Footer from "./components/Footer";
 import Head from "next/head";
 
 export const metadata = {
-  title: "DIGIMEDIA: Agencia de marketing Digital | Estrategias de marketing  y gestión de redes",
+  title:
+    "Marketing Digital DigiMedia",
   description:
-    "Descubre nuestros servicios de marketing digital: desde el desarrollo de una web profesional hasta la gestión de redes sociales que convierten.",
+    "¿No sabes por dónde empezar? Impulsa tu marca al siguiente nivel con nosotros",
+  openGraph: {
+    title:
+      "Marketing Digital DigiMedia",
+    description:
+      "¿No sabes por dónde empezar? Impulsa tu marca al siguiente nivel con nosotros",
+    url: "https://digimedia-marketing.com/",
+    siteName: "Digimedia Marketing",
+    images: [], // se mantiene vacío por tu preferencia
+    locale: "es_PE",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://digimedia-marketing.com/",
+  },
 };
 
 export default function RootLayout({ children }) {
