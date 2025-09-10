@@ -17,20 +17,28 @@ function EnlacesForm() {
     const [totalPages, setTotalPages] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
 
-    async function fetchData(){
-        try{
-            setIsLoading(true);
-            const response = await Fetch.fetchCards();
-            setDataResponse(response);
-        }catch(error){
+    async function fetchData() {
+        try {
+            setIsLoading(true)
+            const response = await Fetch.fetchCards()
+        
+            if (Array.isArray(response)) {
+                setDataResponse(response)
+            } else if (response && Array.isArray(response.data)) {
+                setDataResponse(response.data)
+            } else {
+                setDataResponse([]) 
+            }
+        } catch (error) {
             console.log(error)
-            Swal.fire({title: "Error", 
-                text: "Ocurrió un error inesperado.", 
-                icon: "error", 
-                confirmButtonText: "OK"
+            Swal.fire({
+                title: "Error",
+                text: "Ocurrió un error inesperado.",
+                icon: "error",
+                confirmButtonText: "OK",
             })
-        }finally{
-            setIsLoading(false);
+        } finally {
+            setIsLoading(false)
         }
     }
 

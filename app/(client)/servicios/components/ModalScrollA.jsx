@@ -145,18 +145,21 @@ console.log(formData)
         <button onClick={()=> setOpen(false)} className="absolute top-4 right-4">
           X
         </button>
-        <div className="relative w-[30%] md:w-64 overflow-hidden justify-center flex">
+       
+        <div className="hidden md:flex relative md:w-64 overflow-hidden justify-center">
           <img className="w-full object-cover" src={fondo} alt="" />
           <img
             className="absolute top-4 left-4"
             src="/servicios/logo-modal.webp"
             alt="Logo de digimedia marketing de color rosado y azul"
           />
-          <p className="absolute hidden md:block bottom-10 right-6 text-2xl font-semibold text-right">
+          <p className="absolute bottom-10 right-6 text-2xl font-semibold text-right">
             {text}
           </p>
         </div>
-        <div className="p-8 flex flex-col w-[70%] md:w-96 justify-between  gap-8 bg-gradient-to-b from-[#0095ff] to-[#ff037f]">
+
+        <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#0095ff] to-[#ff037f]">
+
           <p className="text-3xl text-center font-bold">{title}</p>
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <Input
