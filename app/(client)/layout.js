@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
           {`
             {
               "@context": "https://schema.org",
-              "@type": "FAQ Page",
+              "@type": "LocalBusiness",
               "name": "Digimedia",
               "url": "https://digimedia-marketing.com",
               "logo": "https://digimedia-marketing.com/logo.png",

@@ -25,7 +25,7 @@ export default function blogLayout({ children }) {
         {`
         {
           "@context": "https://schema.org",
-          "@type": "FAQ Page",
+          "@type": "Article",
           "name": "Digimedia",
           "url": "https://digimedia-marketing.com/blog/",
           "telephone": "+51 983 027 828",
