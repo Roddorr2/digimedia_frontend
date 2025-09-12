@@ -25,7 +25,7 @@ export default function contactoLayout({ children }) {
         {`
         {
           "@context": "https://schema.org",
-          "@type": "Organization",
+          "@type": "FAQ Page",
           "name": "Digimedia",
           "url": "https://digimedia-marketing.com/contactanos",
           "telephone": "+51 983 027 828",
