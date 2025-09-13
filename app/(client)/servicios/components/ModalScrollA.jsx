@@ -1,13 +1,13 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client';
+import { useEffect,  useState } from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-import url from "../../../../api/url";
-import url_whasapp from "@/api/url_whasapp";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import styles from "./modal.module.css";
+import url from '../../../../api/url';
+import url_whasapp from '@/api/url_whasapp';
+import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import styles from './modal.module.css'
 
 const URL_API = `${url}/api/modales`;
 const URL_WHASAPP = `${url_whasapp}/api/send-message`;
@@ -19,9 +19,9 @@ export default function ModalScrollA({ data, time }) {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    nombre: "",
-    telefono: "",
-    correo: "",
+    nombre: '',
+    telefono: '',
+    correo: '',
     id_servicio: serviceName,
   });
 
