@@ -31,8 +31,6 @@ export default function UXUI() {
         "GUIAR CADA DECISIÓN DE DISEÑO PARA QUE SEA COHERENTE CON LOS VALORES Y OBJETIVOS DE MARCA.",
         "AYUDA A JUSTIFICAR LAS DECISIONES CREATIVAS ANTE EL CLIENTE."
       ]}
-      alt="Branding, Diseño gráfico, Identidad visual, Desarrollo de marca, Manual de marca, Brief creativo, Comunicación visual, Estrategia de marca, Diseño corporativo, Posicionamiento"
-      title="Branding y diseño - desarrollo de brief - Digimedia.webp"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

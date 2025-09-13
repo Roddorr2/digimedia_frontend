@@ -6,17 +6,16 @@ export const metadata = {
     title: "Listo para transformar tu negocio Contáctanos hoy",
     description:
       "Recibe una asesoria gratutita, ofrecemos diseño web, marketing digital y branding.Recibe una asesoria gratutita, ofrecemos diseño web, marketing digital y branding.",
-    url: "https://digimedia-marketing.com/blog/",
+    url: "https://digimedia-marketing.com/contactanos/",
     siteName: "Digimedia Marketing",
     images: [],
     locale: "es_PE",
     type: "website",
   },
   alternates: {
-    canonical: "https://digimedia-marketing.com/blog/",
+    canonical: "https://digimedia-marketing.com/contactanos/",
   },
 };
-
 export default function contactoLayout({ children }) {
   return (
     <>
@@ -41,7 +40,7 @@ export default function contactoLayout({ children }) {
             "latitude": -12.0447395,
             "longitude": -77.0217899
           },
-          "image": "https://digimedia-marketin",
+          "image": "https://digimedia-marketing.com/headerFooter/logoblanco.webp",
           "sameAs": "https://digimedia-marketing.com/"
         }
         `}

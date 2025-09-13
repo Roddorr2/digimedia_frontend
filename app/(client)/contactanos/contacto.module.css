@@ -341,7 +341,8 @@
 .red {
     border-radius: 8px;
     padding: 20px;
-    width: 200px;
+    width: 100%;        
+    max-width: 200px;   
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -349,6 +350,7 @@
     text-align: center;
     border: 2px solid #004080;
 }
+
 
 /* Íconos y texto dentro de cada red */
 .red a {
@@ -374,17 +376,27 @@
     color: #00264d; /* Azul aún más oscuro en hover */
 }
 
+@media (max-width: 1020px) and (min-width: 721px) {
+  .red {
+    max-width: 100%;  
+  }
+}
+
 /* Estilo responsivo para tarjetas */
 @media (max-width: 768px) {
     .contenedor-redes {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        
     }
 }
 
 @media (max-width: 480px) {
-    .contenedor-redes {
-        grid-template-columns: 1fr;
+    .red {
+        max-width: 100%; 
+        padding: 15px;   
+    }
+    .contenedor-redes .red:nth-child(5) {
+        grid-column: span 1; 
     }
 }
 

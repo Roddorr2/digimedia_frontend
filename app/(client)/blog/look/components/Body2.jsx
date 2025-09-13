@@ -140,9 +140,7 @@ export default function Body2() {
                                         className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                        <button className="bg-white/90 p-3 rounded-full">
-                                            <Eye className="w-6 h-6 text-teal-600" />
-                                        </button>
+                
                                     </div>
                                 </div>
                             ))}

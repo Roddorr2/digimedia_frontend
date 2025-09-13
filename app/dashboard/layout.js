@@ -86,7 +86,9 @@ export default function RootLayout({ children }) {
                   {auth_service.hasRole('administrador') && (
                     <TableLink title="Roles y Permisos" href="/dashboard/role-permission" />
                   )} 
-
+                  {/* {auth_service.hasRole('administrador') && userData.email==process.env.NEXT_PUBLIC_ADMIN_WHASAPP &&(
+                    <TableLink title="Autenticación WhatsApp" href="/dashboard/autenticacion-whasapp" />
+                  )}  */}
                 </ul>
               </nav>
 

@@ -32,11 +32,21 @@ export default function Body1() {
                     alt="Reunion de un equipo de trabajo"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
-            <div className="relative z-20 h-full flex flex-col justify-end p-8">
-                <p className="text-red-300 mb-2 bg-black bg-opacity-60 inline w-fit">{"2025-03-31"}</p>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 bg-black bg-opacity-60 inline w-fit">TU BAR EN LA MIRA</h2>
-                    <p className='text-lg leading-relaxed bg-black bg-opacity-60 w-fit  text-white'>Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.</p>
-                </div>
+            <div className="relative z-20 h-full flex flex-col justify-end p-4 sm:p-8">
+            <div className="bg-black/80 p-4 sm:p-6 rounded-lg max-w-3xl border border-gray-500 shadow-lg">
+                <p className="text-red-300 mb-2 text-sm sm:text-sm md:text-base">
+                {"2025-03-31"}
+                </p>
+                <h2 className="text-lg sm:text-2xl md:text-5xl font-extrabold text-white mb-4">
+                TU BAR EN LA MIRA
+                </h2>
+                <p className="text-sm sm:text-sm md:text-lg leading-relaxed text-gray-200">
+                Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad.
+                No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio.
+                En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.
+                </p>
+            </div>
+            </div>
             </div>
 
             
@@ -89,11 +99,12 @@ export default function Body1() {
                 </div>
 
                 <div className="relative">
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-                        <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-                            Información Importante
+                    <div className="flex justify-center -mt-6">
+                        <div className="inline-block px-6 py-2 bg-blue-500 text-white text-lg md:text-xl font-bold rounded-full shadow-lg">
+                        Información Importante
                         </div>
                     </div>
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
                         {

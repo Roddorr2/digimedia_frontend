@@ -41,7 +41,7 @@ export default function nostrosLayout({ children }) {
             "latitude": -12.0447395,
             "longitude": -77.0217899
           },
-          "image": "https://digimedia-marketin",
+          "image": "https://digimedia-marketing.com/headerFooter/logoblanco.webp",
           "sameAs": "https://digimedia-marketing.com/"
         }
         `}
