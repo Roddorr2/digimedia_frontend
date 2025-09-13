@@ -1,7 +1,7 @@
 
 "use client"
 
-import { CheckCircle, Calendar, ArrowDownCircle, ExternalLink } from "lucide-react"
+import { CheckCircle, Calendar, ArrowDownCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function Body3() {
@@ -84,20 +84,22 @@ export default function Body3() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {["/blog/blog-12.webp", "/blog/blog-1.webp"].map((src, index) => (
                             <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg">
-                                <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <img
-                                    src={src}
-                                    alt={`Imagen ${index + 1} del artículo`}
-                                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg">
-                                        <ExternalLink className="w-6 h-6 text-indigo-600" />
-                                    </div>
-                                </div>
+                            
+                            {/* Overlay degradado */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            {/* Imagen con efecto zoom */}
+                            <img
+                                src={src}
+                                alt={`Imagen ${index + 1} del artículo`}
+                                className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+                            {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg"></div>
+                            </div> */}
                             </div>
                         ))}
-                    </div>
+                        </div>
+
                 </div>
 
                 <div className="mb-16">

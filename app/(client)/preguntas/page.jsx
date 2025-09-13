@@ -67,7 +67,7 @@ export default function Page() {
       <Principal />
     
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex overflow-x-auto py-4 scrollbar-hide gap-3 justify-center">
+       <div className="flex overflow-x-auto py-4 scrollbar-hide gap-3 px-4 lg:justify-center">
           {categories.map((category, index) => (
             <button
               key={index}
