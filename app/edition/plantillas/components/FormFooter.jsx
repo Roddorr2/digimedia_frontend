@@ -107,28 +107,38 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                     <div className="flex flex-wrap justify-center gap-3 mt-6">
                         {[formFooter.public_image1, formFooter.public_image2, formFooter.public_image3].map((image, index) => {
                             const imageUrl = image
+                            const altText = index === 0 ? formFooter.image1_alt : 
+                                          index === 1 ? formFooter.image2_alt : formFooter.image3_alt;
+                            const titleText = index === 0 ? formFooter.image1_title : 
+                                            index === 1 ? formFooter.image2_title : formFooter.image3_title;
 
-                            return (
-                                <div key={index} className="relative group">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          return (
+                    <div 
+                    key={index} 
+                    className="relative group mb-16" 
+                    >
+                   <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                                    <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
+                   <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
 
-                                    <img
-                                        src={imageUrl || "/placeholder.svg"}
-                                        alt={"Imagenes" + (index + 1)}
-                                        className="w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
-                                </div>
-                            )
+             <img
+            src={imageUrl || "/placeholder.svg"}
+            alt={altText || `Imagen ${index + 1} del footer`}
+           title={titleText}
+         className="w-64 h-44 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10" 
+     
+        loading="lazy"
+        />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
+  </div>
+)
+
                         })}
                     </div>
                 )}
             </div>
 
-            <div className="relative w-full md:w-[450px] h-auto p-6">
+            <div className="relative w-full md:w-[500px] h-auto p-6">
                 <div className="bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
                     <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
                         Editar Pie de Página
@@ -174,7 +184,7 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                 <h1 className="ml-3 mt-1 text-xs">200x170 píxeles</h1>
                             </label>
                             {["1", "2", "3"].map((num, index) => (
-                                <div key={index} className="relative w-full mb-2">
+                                <div key={index} className="relative w-full mb-4">
                                     <div className="relative flex flex-row">
                                         <label
                                             className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
@@ -223,6 +233,41 @@ export default function FormFooter({ formFooter, setFormData, setFileFooterFile1
                                             >
                                                 <Trash2 className="w-5 h-5 text-red-500" />
                                             </button>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* CAMPOS ALT Y TITLE PARA CADA IMAGEN */}
+                                    <div className="space-y-2 mt-3">
+                                        <div>
+                                            <label className="block text-gray-300 text-xs font-medium mb-1">
+                                                Texto Alternativo (Alt)
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name={`image${num}_alt`}
+                                                value={formFooter[`image${num}_alt`] || ""}
+                                                onChange={handleChange}
+                                                maxLength={100}
+                                                autoComplete="off"
+                                                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                                                placeholder="Descripción para accesibilidad"
+                                            />
+                                        </div>
+                                        
+                                        <div>
+                                            <label className="block text-gray-300 text-xs font-medium mb-1">
+                                                Título de la Imagen
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name={`image${num}_title`}
+                                                value={formFooter[`image${num}_title`] || ""}
+                                                onChange={handleChange}
+                                                maxLength={100}
+                                                autoComplete="off"
+                                                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                                                placeholder="Título al pasar el mouse"
+                                            />
                                         </div>
                                     </div>
                                 </div>

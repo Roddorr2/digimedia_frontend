@@ -126,8 +126,10 @@ function EnlacesForm() {
                                             <div className="relative overflow-hidden">
                                                 <img
                                                     src={`${card.public_image}`}
-                                                    alt={card.titulo}
+                                                    alt={card.image_alt || card.titulo || "Imagen del artículo"}
+                                                    title={card.image_title || card.titulo || ""}
                                                     className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
+                                                    loading="lazy"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                                             </div>
@@ -253,4 +255,3 @@ export default function Page(){
         </Suspense>
     );
 }
-
