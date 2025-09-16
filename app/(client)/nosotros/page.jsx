@@ -14,7 +14,7 @@ const Nosotros = () => {
         <div className="min-h-screen bg-white">
             <div className="relative h-[400px] overflow-hidden">
                 <img
-                    src="/Img-nosotros/NOSOTROS_1680_1050.webp"
+                    src="/Img-nosotros/NOSOTROS_1680_1050.avif"
                     alt="grupo juntando sus manos"
                     className="w-full h-full object-cover object-center"
                 />
@@ -83,7 +83,7 @@ const Nosotros = () => {
             </a>
             <div className="flex justify-center pt-2 pb-16">
                 <img
-                    src="/Img-nosotros/infoNosotros.webp"
+                    src="/Img-nosotros/infoNosotros.avif"
                     alt="Equipo trabajando en la computadora"
                     className="w-full max-w-3xl h-auto rounded-lg shadow-lg"
                 />

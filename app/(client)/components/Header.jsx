@@ -52,7 +52,7 @@ export default function Header2() {
         <div className={styles.seccionesHeader}>
           <input type="checkbox" id="menucheckbox" className={styles.menucheckbox} onChange={() => setMenuOpen(!menuOpen)} />
           <label htmlFor="menucheckbox">
-            <img src="/headerFooter/menu.webp"  alt="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
+            <img src="/headerFooter/menu.avif"  alt="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
           </label>
           <ul className={styles.menuHorizontal}>
             <li className={isActive('/') ? styles.active : ""} onClick={closeMenu}>
