@@ -13,9 +13,20 @@ export default function Pregunta({ question, answer }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="p-6 cursor-pointer flex justify-between items-start" onClick={() => setIsOpen(!isOpen)}>
-        <h3 className="font-medium text-xl text-slate-800 pr-8">{question}</h3>
-        <div className={`text-teal-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
+      <div
+        className="p-6 cursor-pointer flex justify-between items-start"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {/* Pregunta como h3 */}
+        <h3 className="font-semibold text-lg sm:text-xl text-slate-800 pr-8">
+          {question}
+        </h3>
+
+        <div
+          className={`text-teal-500 transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -49,4 +60,3 @@ export default function Pregunta({ question, answer }) {
     </motion.div>
   )
 }
-
