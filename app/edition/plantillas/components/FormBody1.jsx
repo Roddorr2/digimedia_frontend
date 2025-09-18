@@ -38,31 +38,70 @@ export default function FormBody1(props) {
     setServiceRedirectUrl,
   } = props;
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Configuracion de emcabezado
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+  const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
+  const [isValidTitle_image1, setIsValidTitle_image1] = useState(true);
+
+  // Sección consejos
+  // Se reutiliza el titulo del encabezado
   const [isValidTexto1, setIsValidTexto1] = useState(true);
   const [isValidTexto2, setIsValidTexto2] = useState(true);
   const [isValidTexto3, setIsValidTexto3] = useState(true);
 
+  // Galeria de Imagemes
+  const [isValidAlt_image2, setIsValidAlt_image2] = useState(true);
+  const [isValidAlt_image3, setIsValidAlt_image3] = useState(true);
+  const [isValidTitle_image2, setIsValidTitle_image2] = useState(true);
+  const [isValidTitle_image3, setIsValidTitle_image3] = useState(true);
+
+  // Seccion de información
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
-
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
   const [isValidInfoDescripcion2, setIsValidInfoDescripcion2] = useState(true);
-
   const [isValidInfoTitulo3, setIsValidInfoTitulo3] = useState(true);
   const [isValidInfoDescripcion3, setIsValidInfoDescripcion3] = useState(true);
-
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
   const [errors, setErrors] = useState({
+    // Encabezado
     titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
+    descripcion: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+
+    // Consejos (no se guarda pero se validan)
     texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    descripcion: {
-      message: "Debe tener entre 10 y 400 caracteres",
+
+    // Galeria de Imagenes
+    alt_image1: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    title_image1: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    alt_image2: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    title_image2: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    alt_image3: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    title_image3: {
+      message: "Debe tener entre 3 y 50 caracteres",
       isValid: null,
     },
   });
@@ -113,9 +152,11 @@ export default function FormBody1(props) {
     let isValid = true;
 
     switch (name) {
+      //-------------------------------------
+      // Encabezado
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -124,6 +165,7 @@ export default function FormBody1(props) {
           },
         }));
         break;
+
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidDescripcion(isValid);
@@ -135,6 +177,82 @@ export default function FormBody1(props) {
           },
         }));
         break;
+
+      // CORREGIDO: Unificar validaciones para alt y title
+      case "alt_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      // Galería de imágenes - CORREGIDO
+      case "alt_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidAlt_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidTitle_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidAlt_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidTitle_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      // Consejos
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -146,6 +264,7 @@ export default function FormBody1(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -157,6 +276,7 @@ export default function FormBody1(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -173,11 +293,17 @@ export default function FormBody1(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidTitle_image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
+      isValidAlt_image2 &&
+      isValidTitle_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image3 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
       isValidInfoTitulo2 &&
@@ -192,10 +318,13 @@ export default function FormBody1(props) {
       setValidacionBody(false);
     }
 
-    setter((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setter((prev) => {
+      const newState = {
+        ...prev,
+        [name]: value,
+      };
+      return newState;
+    });
   };
 
   const ValidationMessage = ({ error }) => (
@@ -219,6 +348,7 @@ export default function FormBody1(props) {
         message: "Debe tener entre 10 y 400 caracteres",
         isValid: null,
       },
+
     }))
   );
 
@@ -240,8 +370,8 @@ export default function FormBody1(props) {
         } else if (index === 3) {
           setIsValidInfoTitulo4(isValid);
         }
-
         break;
+
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
 
@@ -254,18 +384,54 @@ export default function FormBody1(props) {
         } else if (index === 3) {
           setIsValidInfoDescripcion4(isValid);
         }
-
         break;
+
+      case "alt_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image1(isValid);
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image1(isValid);
+        break;
+
+      case "alt_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image2(isValid);
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image2(isValid);
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image3(isValid);
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image3(isValid);
+        break;
+
       default:
         break;
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidTitle_image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
+      isValidAlt_image2 &&
+      isValidTitle_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image3 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
       isValidInfoTitulo2 &&
@@ -365,8 +531,16 @@ export default function FormBody1(props) {
           <div className="relative h-[400px] overflow-hidden">
             <img
               src={formEncabezadoBody.public_image1}
-              alt={formEncabezadoBody.image_alt || formEncabezadoBody.titulo || "Imagen principal"}
-              title={formEncabezadoBody.image_title || formEncabezadoBody.titulo || "Imagen principal"}
+              alt={
+                formEncabezadoBody.alt_image1 ||
+                formEncabezadoBody.titulo ||
+                "Imagen principal"
+              }
+              title={
+                formEncabezadoBody.title_image1 ||
+                formEncabezadoBody.titulo ||
+                "Imagen principal"
+              }
               className="absolute w-full h-full object-cover"
             />
             <div className="relative h-full flex flex-col justify-end p-8 bg-black/70 backdrop-blur-sm">
@@ -392,7 +566,7 @@ export default function FormBody1(props) {
         {/* Formulario de Encabezado */}
         <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <h3 className="text-lg font-bold text-purple-400 mb-4 border-b border-gray-700 pb-2">
-             Configuración de Encabezado
+            Configuración de Encabezado
           </h3>
           <form className="space-y-6">
             <div>
@@ -426,7 +600,8 @@ export default function FormBody1(props) {
 
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
-                <AlignLeft className="w-5 h-5 mr-2 text-purple-400" /> Descripción
+                <AlignLeft className="w-5 h-5 mr-2 text-purple-400" />{" "}
+                Descripción
                 <ValidationMessage error={errors.descripcion} />
               </label>
               <textarea
@@ -453,15 +628,20 @@ export default function FormBody1(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {formEncabezadoBody.public_image1 !== "/blog/blog-4.webp" ? (
+                      {formEncabezadoBody.public_image1 !==
+                      "/blog/blog-4.webp" ? (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                          <span className="text-sm">Cambiar imagen principal</span>
+                          <span className="text-sm">
+                            Cambiar imagen principal
+                          </span>
                         </>
                       ) : (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                          <span className="text-sm">Seleccionar imagen principal</span>
+                          <span className="text-sm">
+                            Seleccionar imagen principal
+                          </span>
                         </>
                       )}
                     </>
@@ -489,12 +669,13 @@ export default function FormBody1(props) {
               <div className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
-                    <FileText className="w-4 h-4 mr-2 text-green-400" /> Texto Alternativo (Alt)
+                    <FileText className="w-4 h-4 mr-2 text-green-400" /> Texto
+                    Alternativo (Alt)
                   </label>
                   <input
                     type="text"
-                    name="image_alt"
-                    value={formEncabezadoBody.image_alt || ''}
+                    name="alt_image1"
+                    value={formEncabezadoBody.alt_image1 || ""}
                     onChange={handleChange(setFormEncabezadoBody)}
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Descripción de la imagen para accesibilidad"
@@ -502,12 +683,13 @@ export default function FormBody1(props) {
                 </div>
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
-                    <Tag className="w-4 h-4 mr-2 text-yellow-400" /> Título de Imagen
+                    <Tag className="w-4 h-4 mr-2 text-yellow-400" /> Título de
+                    Imagen
                   </label>
                   <input
                     type="text"
-                    name="image_title"
-                    value={formEncabezadoBody.image_title || ''}
+                    name="title_image1"
+                    value={formEncabezadoBody.title_image1 || ""}
                     onChange={handleChange(setFormEncabezadoBody)}
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Título que aparece al pasar el mouse"
@@ -520,19 +702,18 @@ export default function FormBody1(props) {
       </div>
 
       {/* SECCIÓN 2: CONSEJOS */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start"> 
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
         {/* Contenido de Consejos */}
         <div className="p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
-          <div className="flex items-center justify-center mb-4"> 
-            <div className="h-0.5 w-12 bg-green-400 mr-4"></div> 
+          <div className="flex items-center justify-center mb-4">
+            <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
             <h3 className="text-2xl font-bold text-green-400">
               {formCommendBody.titulo || "Consejos"}
             </h3>
-            <div className="h-0.5 w-12 bg-green-400 ml-4"></div> 
+            <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
           </div>
 
           <ul className="list-none text-black-600 space-y-24 max-w-2xl mx-auto">
-
             {formCommendBody &&
               [
                 formCommendBody.texto1,
@@ -555,10 +736,10 @@ export default function FormBody1(props) {
         {/* Formulario de Consejos */}
         <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <h3 className="text-lg font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">
-             Sección de Consejos
+            Sección de Consejos
           </h3>
           <form className="space-y-6">
-            <div> 
+            <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <Type className="w-5 h-5 mr-2 text-purple-400" /> Título
                 <ValidationMessage error={errors.titulo} />
@@ -574,7 +755,7 @@ export default function FormBody1(props) {
               />
             </div>
 
-            <div>  
+            <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <Quote className="w-5 h-5 mr-2 text-purple-400" /> Consejo 1
                 <ValidationMessage error={errors.texto1} />
@@ -632,14 +813,14 @@ export default function FormBody1(props) {
           {[
             {
               src: formGaleryBody.public_image2 || "/blog/blog-10.webp",
-              alt: formGaleryBody.image2_alt || "Imagen 2 del artículo",
-              title: formGaleryBody.image2_title || "Imagen 2 del artículo"
+              alt: formGaleryBody.alt_image2 || "Imagen 2 del artículo",
+              title: formGaleryBody.title_image2 || "Imagen 2 del artículo",
             },
             {
               src: formGaleryBody.public_image3 || "/blog/blog-1.webp",
-              alt: formGaleryBody.image3_alt || "Imagen 3 del artículo",
-              title: formGaleryBody.image3_title || "Imagen 3 del artículo"
-            }
+              alt: formGaleryBody.alt_image3 || "Imagen 3 del artículo",
+              title: formGaleryBody.title_image3 || "Imagen 3 del artículo",
+            },
           ].map((image, index) => (
             <div
               key={index}
@@ -665,7 +846,7 @@ export default function FormBody1(props) {
         {/* Formulario de Galería */}
         <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <h3 className="text-lg font-bold text-blue-400 mb-4 border-b border-gray-700 pb-2">
-             Galería de Imágenes
+            Galería de Imágenes
           </h3>
           <form className="space-y-8">
             {/* Imagen 2 */}
@@ -673,7 +854,9 @@ export default function FormBody1(props) {
               <div>
                 <label className="flex items-center text-white text-sm font-medium mb-2">
                   <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 2
-                  <span className="ml-3 text-xs text-gray-400">250x310 píxeles</span>
+                  <span className="ml-3 text-xs text-gray-400">
+                    250x310 píxeles
+                  </span>
                 </label>
 
                 <div className="relative flex justify-center">
@@ -688,7 +871,8 @@ export default function FormBody1(props) {
                       <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                     ) : (
                       <>
-                        {formGaleryBody.public_image2 !== "/blog/blog-2.webp" ? (
+                        {formGaleryBody.public_image2 !==
+                        "/blog/blog-2.webp" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen 2</span>
@@ -696,7 +880,9 @@ export default function FormBody1(props) {
                         ) : (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Seleccionar imagen 2</span>
+                            <span className="text-sm">
+                              Seleccionar imagen 2
+                            </span>
                           </>
                         )}
                       </>
@@ -725,12 +911,13 @@ export default function FormBody1(props) {
               <div className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
-                    <FileText className="w-4 h-4 mr-2 text-green-400" /> Texto Alternativo (Alt)
+                    <FileText className="w-4 h-4 mr-2 text-green-400" /> Texto
+                    Alternativo (Alt)
                   </label>
                   <input
                     type="text"
-                    name="image2_alt"
-                    value={formGaleryBody.image2_alt || ''}
+                    name="alt_image2"
+                    value={formGaleryBody.alt_image2 || ""}
                     onChange={handleChange(setFormGaleryBody)}
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Descripción de la imagen 2"
@@ -738,12 +925,13 @@ export default function FormBody1(props) {
                 </div>
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
-                    <Tag className="w-4 h-4 mr-2 text-yellow-400" /> Título de Imagen
+                    <Tag className="w-4 h-4 mr-2 text-yellow-400" /> Título de
+                    Imagen
                   </label>
                   <input
                     type="text"
-                    name="image2_title"
-                    value={formGaleryBody.image2_title || ''}
+                    name="title_image2"
+                    value={formGaleryBody.title_image2 || ""}
                     onChange={handleChange(setFormGaleryBody)}
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Título para imagen 2"
@@ -757,7 +945,9 @@ export default function FormBody1(props) {
               <div>
                 <label className="flex items-center text-white text-sm font-medium mb-2">
                   <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 3
-                  <span className="ml-3 text-xs text-gray-400">250x310 píxeles</span>
+                  <span className="ml-3 text-xs text-gray-400">
+                    250x310 píxeles
+                  </span>
                 </label>
 
                 <div className="relative flex justify-center">
@@ -772,7 +962,8 @@ export default function FormBody1(props) {
                       <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                     ) : (
                       <>
-                        {formGaleryBody.public_image3 !== "/blog/blog-2.webp" ? (
+                        {formGaleryBody.public_image3 !==
+                        "/blog/blog-2.webp" ? (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                             <span className="text-sm">Cambiar imagen 3</span>
@@ -780,7 +971,9 @@ export default function FormBody1(props) {
                         ) : (
                           <>
                             <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Seleccionar imagen 3</span>
+                            <span className="text-sm">
+                              Seleccionar imagen 3
+                            </span>
                           </>
                         )}
                       </>
@@ -809,12 +1002,13 @@ export default function FormBody1(props) {
               <div className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
-                    <FileText className="w-4 h-4 mr-2 text-green-400" /> Texto Alternativo (Alt)
+                    <FileText className="w-4 h-4 mr-2 text-green-400" /> Texto
+                    Alternativo (Alt)
                   </label>
                   <input
                     type="text"
-                    name="image3_alt"
-                    value={formGaleryBody.image3_alt || ''}
+                    name="alt_image3"
+                    value={formGaleryBody.alt_image3 || ""}
                     onChange={handleChange(setFormGaleryBody)}
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Descripción de la imagen 3"
@@ -822,12 +1016,13 @@ export default function FormBody1(props) {
                 </div>
                 <div>
                   <label className="flex items-center text-white text-sm font-medium mb-2">
-                    <Tag className="w-4 h-4 mr-2 text-yellow-400" /> Título de Imagen
+                    <Tag className="w-4 h-4 mr-2 text-yellow-400" /> Título de
+                    Imagen
                   </label>
                   <input
                     type="text"
-                    name="image3_title"
-                    value={formGaleryBody.image3_title || ''}
+                    name="title_image3"
+                    value={formGaleryBody.title_image3 || ""}
                     onChange={handleChange(setFormGaleryBody)}
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     placeholder="Título para imagen 3"
@@ -849,8 +1044,7 @@ export default function FormBody1(props) {
             </div>
           </div>
 
-         <div className="grid grid-cols-1 gap-60 pt-32">
-
+          <div className="grid grid-cols-1 gap-60 pt-32">
             {formInfoBody.map((section, index) => {
               const styles = [
                 "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-blue-400",
@@ -885,18 +1079,21 @@ export default function FormBody1(props) {
         {/* Formulario de Información Importante */}
         <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <h3 className="text-lg font-bold text-orange-400 mb-4 border-b border-gray-700 pb-2">
-             Secciones de Información
+            Secciones de Información
           </h3>
           <form className="space-y-8">
             {formInfoBody.map((item, index) => (
-              <div key={index} className="p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+              <div
+                key={index}
+                className="p-4 bg-gray-800/50 rounded-lg border border-gray-700"
+              >
                 <h4 className="text-md font-semibold text-white mb-4 flex items-center">
                   <span className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">
                     {index + 1}
                   </span>
                   Sección {index + 1}
                 </h4>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -924,7 +1121,8 @@ export default function FormBody1(props) {
 
                   <div>
                     <label className="flex items-center text-white text-sm font-medium mb-2">
-                      <Quote className="w-5 h-5 mr-2 text-purple-400" /> Descripción
+                      <Quote className="w-5 h-5 mr-2 text-purple-400" />{" "}
+                      Descripción
                       <ValidationMessage
                         error={
                           errorsInfoBody[index]?.descripcion || {
@@ -997,7 +1195,8 @@ export default function FormBody1(props) {
               ))}
             </select>
             <p className="text-xs text-gray-400 mt-2">
-              Este botón aparecerá al final del artículo si seleccionas un servicio
+              Este botón aparecerá al final del artículo si seleccionas un
+              servicio
             </p>
           </div>
         </div>
