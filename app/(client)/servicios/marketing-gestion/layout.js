@@ -1,9 +1,29 @@
 export const metadata = {
-  title: "Marketing Digital para Aumentar Ventas y Visibilidad Online | DigiMedia",
+  title: "Marketing y Gestion Digital  - DigiMedia",
   description:
     "Potencia tu negocio con nuestras soluciones de marketing y gestión digital. Conviértete en un líder en el entorno online y alcanza el éxito deseado.",
-  openGraph: {
-    title: "Marketing Digital para Aumentar Ventas y Visibilidad Online | DigiMedia",
+        keywords: [
+      "Marketing digital", 
+      "gestión digital", 
+      "estrategias digitales", 
+      "posicionamiento de marca", 
+      "identidad visual", 
+      "naming creativo", 
+      "diseño de logo", 
+      "diseño de slogan", 
+      "manual de uso de marca", 
+      "crecimiento online", 
+      "campañas digitales", 
+      "optimización de estrategias", 
+      "rendimiento de marca", 
+      "seguimiento continuo",  
+      "servicios de marketing", 
+      "ventas con marketing digital", 
+      "Lima", 
+      "Perú"
+      ],
+    openGraph: {
+    title: "Marketing y Gestion Digital  - DigiMedia",
     description:
       "Potencia tu negocio con nuestras soluciones de marketing y gestión digital. Conviértete en un líder en el entorno online y alcanza el éxito deseado.",
     url: "https://digimedia-marketing.com/servicios/marketing-gestion/",
