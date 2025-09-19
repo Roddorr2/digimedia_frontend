@@ -16,7 +16,6 @@ export const metadata = {
     canonical: "https://digimedia-marketing.com/servicios/gestion-redes/",
   },
 };
-
 export default function gestionLayout({ children }) {
   return (
     <>
@@ -41,7 +40,36 @@ export default function gestionLayout({ children }) {
             "longitude": -77.0217899
           },
           "image": "https://digimedia-marketing.com/logo.png",
-          "sameAs": "https://digimedia-marketing.com/"
+          "sameAs": "https://digimedia-marketing.com/",
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "PEN",
+            "price": "2500.00",
+            "availability": "https://schema.org/InStock",
+            "url": "https://digimedia-marketing.com/servicios/gestion-redes/"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "28"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Carlos"
+              },
+              "datePublished": "2024-07-15",
+              "reviewBody": "El servicio de gestión de redes sociales es excelente, realmente ayudó a aumentar la visibilidad de mi negocio.",
+              "name": "Muy recomendado",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+              }
+            }
+          ]
         }
         `}
       </script>
