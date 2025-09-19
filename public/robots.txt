@@ -26,4 +26,4 @@ Allow: /nosotros/
 Allow: /contactanos/
 
 # Sitemap
-Sitemap: https://digimediamkt.com/sitemap.xml
+Sitemap: https://digimedia-marketing.com/sitemap.xml

@@ -76,11 +76,12 @@ const Nosotros = () => {
                     </div>
                 </div>
             </div>
-            <a href={linkWhatsApp} target="_blank" rel="noopener noreferrer">
+            {/* Botón flotante de WhatsApp (no se está utilizando por el momento, lo dejo comentado por si acaso)*/}
+            {/*<a href={linkWhatsApp} target="_blank" rel="noopener noreferrer">
                 <div className="fixed bottom-4 right-4 bg-green-500 p-4 rounded-full shadow-lg cursor-pointer">
                     <i className="fab fa-whatsapp text-white text-3xl"></i>
                 </div>
-            </a>
+            </a>*/}
             <div className="flex justify-center pt-2 pb-16">
                 <img
                     src="/Img-nosotros/infoNosotros.avif"

@@ -1,9 +1,17 @@
 export const metadata = {
-  title: "Diseño y Desarrollo Web Profesional con Digimedia para potenciar tu empresa",
+  title: "Diseño y Desarrollo Web Profesional - DigiMedia",
   description:
     "Descubre nuestros servicios de marketing digital: desde el desarrollo de una web profesional hasta la gestión de redes sociales que convierten.",
+  keywords: [
+    "diseño y desarrollo web",
+    "diseño web profesional",
+    "desarrollo web personalizado",
+    "creación de páginas web",
+    "agencia de diseño web",
+    "páginas web modernas",
+  ],
   openGraph: {
-    title: "Diseño y Desarrollo Web Profesional con Digimedia para potenciar tu empresa",
+    title: "Diseño y Desarrollo Web Profesional - DigiMedia",
     description:
       "Descubre nuestros servicios de marketing digital: desde el desarrollo de una web profesional hasta la gestión de redes sociales que convierten.",
     url: "https://digimedia-marketing.com/servicios/desing-desarrollo/",
