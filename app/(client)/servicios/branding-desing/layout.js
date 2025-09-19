@@ -56,8 +56,37 @@ export default function BrandingLayout({ children }) {
             "latitude": -12.0447395,
             "longitude": -77.0217899
           },
-          "image": "https://digimedia-marketin",
-          "sameAs": "https://digimedia-marketing.com/"
+          "image": "https://digimedia-marketing.com/logo.png",
+          "sameAs": "https://digimedia-marketing.com/",
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "PEN",
+            "price": "1800.00",
+            "availability": "https://schema.org/InStock",
+            "url": "https://digimedia-marketing.com/servicios/branding-desing/"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "34"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "María"
+              },
+              "datePublished": "2024-08-10",
+              "reviewBody": "El servicio de branding de DigiMedia nos ayudó a construir una identidad de marca sólida y coherente.",
+              "name": "Excelente trabajo en diseño de marca",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+              }
+            }
+          ]
         }
         `}
       </script>
