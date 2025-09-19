@@ -255,6 +255,8 @@ const PageContent= () => {
         texto_descripcion: responseHeader.texto_descripcion || "",
         public_image: responseHeader.public_image || "/blog/fondo_blog_extend.webp",
         url_image: responseHeader.url_image || "",
+        alt: responseHeader.alt || "",
+        title: responseHeader.title || "",
       });
 
       setFormFooter({
@@ -263,10 +265,16 @@ const PageContent= () => {
         descripcion: responseFooter.descripcion || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
         url_image1: responseFooter.url_image1 || "",
+        alt_image1: responseFooter.alt_image1 || "",
+        title_image1: responseFooter.title_image1 || "",
         public_image2: responseFooter.public_image2 || "/blog/blog-10.webp",
         url_image2: responseFooter.url_image2 || "",
+        alt_image2: responseFooter.alt_image2 || "",
+        title_image2: responseFooter.title_image2 || "",
         public_image3: responseFooter.public_image3 || "/blog/blog-10.webp",
         url_image3: responseFooter.url_image3 || "",
+        alt_image3: responseFooter.alt_image3 || "",
+        title_image3: responseFooter.title_image3 || "",
       });
 
       // Formatear fecha correctamente
@@ -280,13 +288,19 @@ const PageContent= () => {
         fecha: fechaFormateada,
         public_image1: responseBody.public_image1 || "/blog/blog-4.webp",
         url_image1: responseBody.url_image1 || "",
+        alt_image1: responseBody.alt_image1 || "",
+        title_image1: responseBody.title_image1 || "",
       });
 
       setFormGaleryBody({
         public_image2: responseBody.public_image2 || "/blog/blog-2.webp",
         url_image2: responseBody.url_image2 || "",
+        alt_image2: responseBody.alt_image2 || "",
+        title_image2: responseBody.title_image2 || "",
         public_image3: responseBody.public_image3 || "/blog/blog-2.webp",
         url_image3: responseBody.url_image3 || "",
+        alt_image3: responseBody.alt_image3 || "",
+        title_image3: responseBody.title_image3 || "",
       });
 
       // Cargar tarjetas de información

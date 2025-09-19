@@ -1,33 +1,41 @@
-'use client'
-import FormBody2 from '../../components/FormBody2'
-import FormFooter from '../../components/FormFooter'
-import FormHeader from '../../components/FormHeader'
-import { useState, useEffect, Suspense } from 'react';
-import { Save } from "lucide-react"
-import Swal from 'sweetalert2';
+"use client";
+import FormBody2 from "../../components/FormBody2";
+import FormFooter from "../../components/FormFooter";
+import FormHeader from "../../components/FormHeader";
+import { useState, useEffect, Suspense } from "react";
+import { Save } from "lucide-react";
+import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { getCookie } from 'cookies-next';
-import { useSearchParams } from "next/navigation"
-import Fetch from "../../services/fetch"
-import { Loader2 } from "lucide-react"
+import { getCookie } from "cookies-next";
+import { useSearchParams } from "next/navigation";
+import Fetch from "../../services/fetch";
+import { Loader2 } from "lucide-react";
 
 const Page = () => {
   return (
-    <Suspense fallback={<div className="flex justify-center items-center h-screen text-gray-700">Cargando...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen text-gray-700">
+          Cargando...
+        </div>
+      }
+    >
       <PageContent />
     </Suspense>
-  )
-}
+  );
+};
 
-const PageContent= () => {
+const PageContent = () => {
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const id_blog = searchParams.get("id_blog")
-  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1;
+  const searchParams = useSearchParams();
+  const id_blog = searchParams.get("id_blog");
+  const id_empleado = getCookie("empleado")
+    ? JSON.parse(getCookie("empleado")).id_empleado
+    : -1;
 
   const [loading, setLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [fileHeader, setFileHeader] = useState(null);
   const [FileBodyHeader, setFileBodyHeader] = useState(null);
@@ -43,19 +51,20 @@ const PageContent= () => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
-  
+
   // Estados de datos originales (para mantener referencia)
   const [originalData, setOriginalData] = useState({
     blog: null,
     header: null,
     body: null,
-    footer: null
+    footer: null,
   });
-  
+
   // Estados de formularios (igual que en creación)
   const [formFooter, setFormFooter] = useState({
     titulo: "Titulo Footer",
-    descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+    descripcion:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
     public_image1: "/blog/blog-10.webp",
     url_image1: "",
     public_image2: "/blog/blog-10.webp",
@@ -74,8 +83,9 @@ const PageContent= () => {
 
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: "Titulo del Blog",
-    descripcion: "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
-    fecha: '2025-03-31',
+    descripcion:
+      "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
+    fecha: "2025-03-31",
     public_image1: "/blog/blog-4.webp",
     url_image1: "",
   });
@@ -83,28 +93,32 @@ const PageContent= () => {
   const [formInfoBody, setFormInfoBody] = useState([
     {
       titulo: "El Factor Sorpresa y Distinción",
-      descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+      descripcion:
+        "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
       palabra: "",
       enlace: "",
     },
     {
       titulo: "Ambiente y Experiencia Visual",
-      descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+      descripcion:
+        "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
       palabra: "",
       enlace: "",
     },
     {
       titulo: "Eficiencia Energética y Durabilidad",
-      descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+      descripcion:
+        "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
       palabra: "",
       enlace: "",
     },
     {
       titulo: "Marketing y Atracción de Clientes",
-      descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+      descripcion:
+        "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
       palabra: "",
       enlace: "",
-    }
+    },
   ]);
 
   const [formCommendBody, setFormCommendBody] = useState({
@@ -126,64 +140,65 @@ const PageContent= () => {
   // Funciones de eliminación de imágenes
   const deleteFooterFile1 = () => {
     setFileFooterFile1(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
       public_image1: originalData.footer?.public_image1 || "/blog/blog-10.webp",
-      url_image1: ""
+      url_image1: "",
     }));
   };
 
   const deleteFooterFile2 = () => {
     setFileFooterFile2(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
       public_image2: originalData.footer?.public_image2 || "/blog/blog-10.webp",
-      url_image2: ""
+      url_image2: "",
     }));
   };
 
   const deleteFooterFile3 = () => {
     setFileFooterFile3(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
       public_image3: originalData.footer?.public_image3 || "/blog/blog-10.webp",
-      url_image3: ""
+      url_image3: "",
     }));
   };
 
   const deleteHeaderImage = () => {
     setFileHeader(null);
-    setDataHeader(prev => ({
+    setDataHeader((prev) => ({
       ...prev,
-      public_image: originalData.header?.public_image || "/blog/fondo_blog_extend.webp",
-      url_image: ""
+      public_image:
+        originalData.header?.public_image || "/blog/fondo_blog_extend.webp",
+      url_image: "",
     }));
   };
 
   const deleteBodyHeaderImage = () => {
     setFileBodyHeader(null);
-    setFormEncabezadoBody(prev => ({
+    setFormEncabezadoBody((prev) => ({
       ...prev,
       public_image1: originalData.body?.public_image1 || "/blog/blog-4.webp",
-      url_image1: ""
+      url_image1: "",
     }));
   };
 
   const deleteBodyFile1 = () => {
     setFileBodyFile1(null);
-    setFormGaleryBody(prev => ({
+    setFormGaleryBody((prev) => ({
       ...prev,
       public_image2: originalData.body?.public_image2 || "/blog/blog-2.webp",
-      url_image2: ""
+      url_image2: "",
     }));
   };
 
   const deleteBodyFile2 = () => {
     setFileBodyFile2(null);
-    setFormGaleryBody(prev => ({
+    setFormGaleryBody((prev) => ({
       ...prev,
       public_image3: originalData.body?.public_image3 || "/blog/blog-2.webp",
-      url_image3: ""
+      url_image3: "",
     }));
   };
 
@@ -195,7 +210,7 @@ const PageContent= () => {
   // Effect para estilos
   useEffect(() => {
     const sections = document.querySelectorAll("#header, #body, #footer");
-    sections.forEach(section => {
+    sections.forEach((section) => {
       section.style.scrollMargin = "50px";
       if (section.id === "body" && section.clientHeight < 300) {
         section.style.minHeight = "300px";
@@ -210,7 +225,9 @@ const PageContent= () => {
     }
   }, [id_blog]);
 
-  {/* Aqui se obtiene toda la información del blog creado segun su id */ }
+  {
+    /* Aqui se obtiene toda la información del blog creado segun su id */
+  }
   async function fetchDataTotal() {
     try {
       setIsLoading(true);
@@ -234,7 +251,9 @@ const PageContent= () => {
       }
 
       // Cargar footer
-      const responseFooter = await Fetch.fetchBlogFooter(response.id_blog_footer);
+      const responseFooter = await Fetch.fetchBlogFooter(
+        response.id_blog_footer
+      );
       if (!responseFooter) {
         throw new Error("No se pudo cargar el pie de página");
       }
@@ -244,7 +263,7 @@ const PageContent= () => {
         blog: response,
         header: responseHeader,
         body: responseBody,
-        footer: responseFooter
+        footer: responseFooter,
       });
 
       // Setear datos en formularios
@@ -253,14 +272,17 @@ const PageContent= () => {
         titulo: responseHeader.titulo || "",
         texto_frase: responseHeader.texto_frase || "",
         texto_descripcion: responseHeader.texto_descripcion || "",
-        public_image: responseHeader.public_image || "/blog/fondo_blog_extend.webp",
+        public_image:
+          responseHeader.public_image || "/blog/fondo_blog_extend.webp",
         url_image: responseHeader.url_image || "",
       });
 
       setFormFooter({
         ...responseFooter,
         titulo: responseFooter.titulo || "Titulo Footer",
-        descripcion: responseFooter.descripcion || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+        descripcion:
+          responseFooter.descripcion ||
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
         url_image1: responseFooter.url_image1 || "",
         public_image2: responseFooter.public_image2 || "/blog/blog-10.webp",
@@ -270,9 +292,9 @@ const PageContent= () => {
       });
 
       // Formatear fecha correctamente
-      const fechaFormateada = responseBody.fecha 
-        ? new Date(responseBody.fecha).toISOString().split('T')[0]
-        : new Date().toISOString().split('T')[0];
+      const fechaFormateada = responseBody.fecha
+        ? new Date(responseBody.fecha).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0];
 
       setFormEncabezadoBody({
         titulo: responseBody.titulo || "Titulo del Blog",
@@ -290,21 +312,26 @@ const PageContent= () => {
       });
 
       // Cargar tarjetas de información
-      const tarjetas = Array.isArray(responseBody.tarjetas) ? responseBody.tarjetas : [];
+      const tarjetas = Array.isArray(responseBody.tarjetas)
+        ? responseBody.tarjetas
+        : [];
       if (tarjetas.length > 0) {
-        setFormInfoBody(tarjetas.map(tarjeta => ({
-          id_tarjeta: tarjeta.id_tarjeta || null,
-          titulo: tarjeta.titulo || "",
-          descripcion: tarjeta.descripcion || "",
-          palabra: tarjeta.palabra || "",
-          enlace: tarjeta.enlace || "",
-        })));
+        setFormInfoBody(
+          tarjetas.map((tarjeta) => ({
+            id_tarjeta: tarjeta.id_tarjeta || null,
+            titulo: tarjeta.titulo || "",
+            descripcion: tarjeta.descripcion || "",
+            palabra: tarjeta.palabra || "",
+            enlace: tarjeta.enlace || "",
+          }))
+        );
       }
 
       // Cargar tarjeta de comentarios
       const commendTarjeta = responseBody.commend_tarjeta || {};
       setFormCommendBody({
-        titulo: commendTarjeta.titulo || "Consejos para Elegir el Letrero Perfecto",
+        titulo:
+          commendTarjeta.titulo || "Consejos para Elegir el Letrero Perfecto",
         texto1: commendTarjeta.texto1 || "",
         texto2: commendTarjeta.texto2 || "",
         texto3: commendTarjeta.texto3 || "",
@@ -314,7 +341,6 @@ const PageContent= () => {
 
       // Setear service URL si existe
       setServiceRedirectUrl(responseBody.service_url || "");
-
     } catch (error) {
       console.error("Error al cargar datos:", error);
       setError(error.message);
@@ -332,9 +358,12 @@ const PageContent= () => {
   async function guardarHeader() {
     console.log("🔄 Enviando datos:", dataHeader);
     console.log("🔄 ID a actualizar:", originalData.header.id_blog_head);
-    
-    const response = await Fetch.updateHeader(originalData.header.id_blog_head, dataHeader);
-    
+
+    const response = await Fetch.updateHeader(
+      originalData.header.id_blog_head,
+      dataHeader
+    );
+
     console.log("📥 RESPUESTA COMPLETA:", {
       response,
       type: typeof response,
@@ -345,11 +374,14 @@ const PageContent= () => {
       equals1: response === 1,
       equalsTrue: response === true,
       hasStatus: response?.status,
-      hasSuccess: response?.success
+      hasSuccess: response?.success,
     });
 
     // Tu validación actual
-    if (response.status && (response.status === 200 || response.status === 201)) {
+    if (
+      response.status &&
+      (response.status === 200 || response.status === 201)
+    ) {
       return response.id;
     } else {
       return "error";
@@ -357,11 +389,13 @@ const PageContent= () => {
   }
 
   async function guardarFooter() {
-    const id = await Fetch.updateFooter(originalData.footer.id_blog_footer, formFooter);
+    const id = await Fetch.updateFooter(
+      originalData.footer.id_blog_footer,
+      formFooter
+    );
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el pie de página",
@@ -401,7 +435,10 @@ const PageContent= () => {
   }
 
   async function guardarCommendTarjeta() {
-    const id = await Fetch.updateCommendTarjeta(originalData.body.id_commend_tarjeta, formCommendBody);
+    const id = await Fetch.updateCommendTarjeta(
+      originalData.body.id_commend_tarjeta,
+      formCommendBody
+    );
     if (id && id > 0) {
       return id;
     } else {
@@ -502,7 +539,7 @@ const PageContent= () => {
   async function executionFunction(functionSave, mensajeError) {
     try {
       const resultado = await functionSave();
-      
+
       if (!resultado || resultado === "error") {
         throw new Error(mensajeError);
       }
@@ -510,9 +547,9 @@ const PageContent= () => {
     } catch (error) {
       console.error(`❌ Error en executionFunction:`, {
         error: error.message,
-        mensajeError
+        mensajeError,
       });
-      
+
       Swal.fire({
         title: "Error",
         text: mensajeError,
@@ -538,22 +575,24 @@ const PageContent= () => {
       if (name) formData.append("name", name);
 
       const response = await Fetch.saveImage(formData, ruta);
-      
+
       if (!response) {
         throw new Error("No se recibió respuesta del servidor");
       }
 
       // Manejo simplificado de respuestas
-      if (response.status && (response.status === 200 || response.status === 201)) {
+      if (
+        response.status &&
+        (response.status === 200 || response.status === 201)
+      ) {
         return "ok";
       }
 
-      if (typeof response === 'object' && !response.status) {
+      if (typeof response === "object" && !response.status) {
         return "ok";
       }
 
       throw new Error("Error al subir imagen");
-
     } catch (error) {
       console.error("❌ Error en SaveImage:", error.message);
       throw error;
@@ -565,45 +604,117 @@ const PageContent= () => {
     try {
       setLoading(true);
 
-      const id_commend_tarjeta = await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
+      const id_commend_tarjeta = await executionFunction(
+        guardarCommendTarjeta,
+        "No se pudo guardar la tarjeta de comentarios"
+      );
 
-      const id_blog_body = await executionFunction(() => guardarBody(id_commend_tarjeta), "No se pudo guardar el contenido del blog");
+      const id_blog_body = await executionFunction(
+        () => guardarBody(id_commend_tarjeta),
+        "No se pudo guardar el contenido del blog"
+      );
 
-      await executionFunction(() => guardarTarjetas(id_blog_body), "No se pudo guardar las tarjetas informativas");
+      await executionFunction(
+        () => guardarTarjetas(id_blog_body),
+        "No se pudo guardar las tarjetas informativas"
+      );
 
-      const id_blog_head = await executionFunction(() => guardarHeader(), "No se pudo guardar el encabezado");
-      const id_blog_footer = await executionFunction(() => guardarFooter(), "No se pudo guardar el pie de página");
+      const id_blog_head = await executionFunction(
+        () => guardarHeader(),
+        "No se pudo guardar el encabezado"
+      );
+      const id_blog_footer = await executionFunction(
+        () => guardarFooter(),
+        "No se pudo guardar el pie de página"
+      );
 
-      const id_blog = await executionFunction(() => guardarBlog(id_blog_head, id_blog_footer, id_blog_body), "No se pudo guardar el blog");
-      const id_card = await executionFunction(() => guardarCard(id_blog, id_empleado), "No se pudo guardar la card");
+      const id_blog = await executionFunction(
+        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body),
+        "No se pudo guardar el blog"
+      );
+      const id_card = await executionFunction(
+        () => guardarCard(id_blog, id_empleado),
+        "No se pudo guardar la card"
+      );
 
       // Subir imágenes si existen
       if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${id_card}`), "No se pudo guardar la imagen head");
+        await executionFunction(
+          () => SaveImage(fileHeader, `card/blog/image_head/${id_card}`),
+          "No se pudo guardar la imagen head"
+        );
       }
 
       if (FileBodyHeader) {
-        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen body1");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyHeader,
+              `card/blog/images_body/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen body1"
+        );
       }
 
       if (FileBodyFile1) {
-        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen body2");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile1,
+              `card/blog/images_body/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen body2"
+        );
       }
 
       if (FileBodyFile2) {
-        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${id_card}`, "image3"), "No se pudo guardar la imagen body3");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile2,
+              `card/blog/images_body/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen body3"
+        );
       }
 
       if (FileFooterFile1) {
-        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen footer1");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile1,
+              `card/blog/images_footer/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen footer1"
+        );
       }
 
       if (FileFooterFile2) {
-        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen footer2");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile2,
+              `card/blog/images_footer/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen footer2"
+        );
       }
 
       if (FileFooterFile3) {
-        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${id_card}`, "image3"), "No se pudo guardar la imagen footer3");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile3,
+              `card/blog/images_footer/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen footer3"
+        );
       }
 
       await Swal.fire({
@@ -614,7 +725,6 @@ const PageContent= () => {
       });
 
       router.push("/dashboard/blogs/");
-
     } catch (error) {
       console.error("Error al guardar:", error.message);
     } finally {
@@ -628,9 +738,8 @@ const PageContent= () => {
         <Loader2 className="h-12 w-12 text-gray-700 animate-spin" />
         <p className="text-gray-700 ml-3">Cargando blog...</p>
       </div>
-    )
+    );
   }
-
 
   if (error) {
     return (
@@ -638,7 +747,10 @@ const PageContent= () => {
         <div className="bg-white p-8 rounded-xl shadow-xl max-w-md w-full text-center">
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
           <h1 className="text-2xl font-bold text-gray-800 mb-3">{error}</h1>
-          <p className="text-gray-600 mb-6">No pudimos cargar el contenido del blog. Por favor, intenta nuevamente.</p>
+          <p className="text-gray-600 mb-6">
+            No pudimos cargar el contenido del blog. Por favor, intenta
+            nuevamente.
+          </p>
           <button
             onClick={() => window.location.reload()}
             className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
@@ -647,50 +759,45 @@ const PageContent= () => {
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-      <>
-        <div id="header" className="section-container mb-8">
-          <FormHeader
-            dataHeader={dataHeader}
-            setFormData={setDataHeader}
-            setFile={setFileHeader}
-            onDeleteImage={deleteHeaderImage}
-            setValidacionHeader={setValidacionHeader}
-          />
-        </div>
-      
-        <div id="body" className="section-container my-8 bg-gradient-to-r text-black w-full">
-          <FormBody2
-            formCommendBody={formCommendBody}
-            setFormCommendBody={setFormCommendBody}
+    <>
+      <div id="header" className="section-container mb-8">
+        <FormHeader
+          dataHeader={dataHeader}
+          setFormData={setDataHeader}
+          setFile={setFileHeader}
+          onDeleteImage={deleteHeaderImage}
+          setValidacionHeader={setValidacionHeader}
+        />
+      </div>
 
-            formInfoBody={formInfoBody}
-            setFormInfoBody={setFormInfoBody}
-
-            formGaleryBody={formGaleryBody}
-            setFormGaleryBody={setFormGaleryBody}
-
-            setFileBodyHeader={setFileBodyHeader}
-            onDeleteBodyHeaderImage={deleteBodyHeaderImage}
-
-            setFileBodyFile1={setFileBodyFile1}
-            onDeleteBodyFile1={deleteBodyFile1}
-
-            setFileBodyFile2={setFileBodyFile2}
-            onDeleteBodyFile2={deleteBodyFile2}
-
-            formEncabezadoBody={formEncabezadoBody}
-            setFormEncabezadoBody={setFormEncabezadoBody}
-
-            setValidacionBody={setValidacionBody}
-
-            serviceRedirectUrl={serviceRedirectUrl}
-            setServiceRedirectUrl={setServiceRedirectUrl}
-          />
-        </div>
+      <div
+        id="body"
+        className="section-container my-8 bg-gradient-to-r text-black w-full"
+      >
+        <FormBody2
+          formCommendBody={formCommendBody}
+          setFormCommendBody={setFormCommendBody}
+          formInfoBody={formInfoBody}
+          setFormInfoBody={setFormInfoBody}
+          formGaleryBody={formGaleryBody}
+          setFormGaleryBody={setFormGaleryBody}
+          setFileBodyHeader={setFileBodyHeader}
+          onDeleteBodyHeaderImage={deleteBodyHeaderImage}
+          setFileBodyFile1={setFileBodyFile1}
+          onDeleteBodyFile1={deleteBodyFile1}
+          setFileBodyFile2={setFileBodyFile2}
+          onDeleteBodyFile2={deleteBodyFile2}
+          formEncabezadoBody={formEncabezadoBody}
+          setFormEncabezadoBody={setFormEncabezadoBody}
+          setValidacionBody={setValidacionBody}
+          serviceRedirectUrl={serviceRedirectUrl}
+          setServiceRedirectUrl={setServiceRedirectUrl}
+        />
+      </div>
 
       <div id="footer" className="section-container mt-8">
         <FormFooter
@@ -698,10 +805,8 @@ const PageContent= () => {
           setFormData={setFormFooter}
           setFileFooterFile1={setFileFooterFile1}
           onDeleteFooterFile1={deleteFooterFile1}
-
           setFileFooterFile2={setFileFooterFile2}
           onDeleteFooterFile2={deleteFooterFile2}
-
           setFileFooterFile3={setFileFooterFile3}
           onDeleteFooterFile3={deleteFooterFile3}
           setValidacionFooter={setValidacionFooter}
@@ -711,8 +816,11 @@ const PageContent= () => {
         <button
           onClick={HandleSave}
           disabled={loading || isDisabled}
-          className={`text-white rounded-xl flex items-center justify-center w-full transition-all duration-300 px-5 py-3 shadow-lg shadow-emerald-900/20 ${loading ? "bg-emerald-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"
-            }`}
+          className={`text-white rounded-xl flex items-center justify-center w-full transition-all duration-300 px-5 py-3 shadow-lg shadow-emerald-900/20 ${
+            loading
+              ? "bg-emerald-400 cursor-not-allowed"
+              : "bg-emerald-600 hover:bg-emerald-500"
+          }`}
         >
           {loading ? (
             <>
@@ -722,7 +830,14 @@ const PageContent= () => {
                 fill="none"
                 viewBox="0 0 24 24"
               >
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
                 <path
                   className="opacity-75"
                   fill="currentColor"
@@ -739,7 +854,7 @@ const PageContent= () => {
           )}
         </button>
       </div>
-      </>
+    </>
   );
 };
 

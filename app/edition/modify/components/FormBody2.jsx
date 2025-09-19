@@ -43,6 +43,13 @@ export default function FormBody2(props) {
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
+  const [isValidAltImage1, setIsValidAltImage1] = useState(true);
+  const [isValidTitleImage1, setIsValidTitleImage1] = useState(true);
+  const [isValidAltImage2, setIsValidAltImage2] = useState(true);
+  const [isValidTitleImage2, setIsValidTitleImage2] = useState(true);
+  const [isValidAltImage3, setIsValidAltImage3] = useState(true);
+  const [isValidTitleImage3, setIsValidTitleImage3] = useState(true);
+
   const {
     formCommendBody,
     setFormCommendBody,
@@ -69,21 +76,72 @@ export default function FormBody2(props) {
   ];
 
   // Nuevos estados para las URLs de previsualización
-  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
-  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(props.formGaleryBody.public_image2 || "/blog/blog-10.webp");
-  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(props.formGaleryBody.public_image3 || "/blog/blog-1.webp");
+  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(
+    props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
+  );
+  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(
+    props.formGaleryBody.public_image2 || "/blog/blog-10.webp"
+  );
+  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(
+    props.formGaleryBody.public_image3 || "/blog/blog-1.webp"
+  );
 
   useEffect(() => {
-    setPreviewImageHeaderUrl(props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+    setPreviewImageHeaderUrl(
+      props.formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
+    );
   }, [props.formEncabezadoBody.public_image1]);
 
   useEffect(() => {
-    setPreviewImageBody2Url(props.formGaleryBody.public_image2 || "/blog/blog-10.webp");
+    setPreviewImageBody2Url(
+      props.formGaleryBody.public_image2 || "/blog/blog-10.webp"
+    );
   }, [props.formGaleryBody.public_image2]);
 
   useEffect(() => {
-    setPreviewImageBody3Url(props.formGaleryBody.public_image3 || "/blog/blog-1.webp");
+    setPreviewImageBody3Url(
+      props.formGaleryBody.public_image3 || "/blog/blog-1.webp"
+    );
   }, [props.formGaleryBody.public_image3]);
+
+  useEffect(() => {
+    // Sincronizar validaciones iniciales con los datos de las props
+    setIsValidTituloPrincipal(
+      formEncabezadoBody.titulo.trim().length >= 10 &&
+        formEncabezadoBody.titulo.length <= 50
+    );
+    setIsValidDescripcion(
+      formEncabezadoBody.descripcion.trim().length >= 10 &&
+        formEncabezadoBody.descripcion.length <= 400
+    );
+    setIsValidTexto1(
+      formCommendBody.texto1.trim().length >= 10 &&
+        formCommendBody.texto1.length <= 150
+    );
+    setIsValidTexto2(
+      formCommendBody.texto2.trim().length >= 10 &&
+        formCommendBody.texto2.length <= 150
+    );
+    setIsValidTexto3(
+      formCommendBody.texto3.trim().length >= 10 &&
+        formCommendBody.texto3.length <= 150
+    );
+
+    // Validar campos alt y title de las imágenes
+    setIsValidAltImage1(formEncabezadoBody.alt_image1?.trim().length > 0);
+    setIsValidTitleImage1(formEncabezadoBody.title_image1?.trim().length > 0);
+
+    // Actualizar validación general
+    setValidacionBody(
+      isValidTituloPrincipal &&
+        isValidDescripcion &&
+        isValidTexto1 &&
+        isValidTexto2 &&
+        isValidTexto3 &&
+        isValidAltImage1 &&
+        isValidTitleImage1
+    );
+  }, [formEncabezadoBody, formCommendBody]);
 
   const [commendErrors, setCommendErrors] = useState({
     titulo: { message: "Máximo 40 caracteres", isValid: null },
@@ -207,6 +265,30 @@ export default function FormBody2(props) {
           },
         }));
         break;
+      case "alt_image1":
+        isValid = value.trim().length > 0;
+        setIsValidAltImage1(isValid);
+        break;
+      case "title_image1":
+        isValid = value.trim().length > 0;
+        setIsValidTitleImage1(isValid);
+        break;
+      case "alt_image2":
+        isValid = value.trim().length > 0;
+        setIsValidAltImage2(isValid);
+        break;
+      case "title_image2":
+        isValid = value.trim().length > 0;
+        setIsValidTitleImage2(isValid);
+        break;
+      case "alt_image3":
+        isValid = value.trim().length > 0;
+        setIsValidAltImage3(isValid);
+        break;
+      case "title_image3":
+        isValid = value.trim().length > 0;
+        setIsValidTitleImage3(isValid);
+        break;
       default:
         break;
     }
@@ -294,7 +376,13 @@ export default function FormBody2(props) {
       isValidInfoTitulo3 &&
       isValidInfoDescripcion3 &&
       isValidInfoTitulo4 &&
-      isValidInfoDescripcion4
+      isValidInfoDescripcion4 &&
+      sValidAltImage1 &&
+      isValidTitleImage1 &&
+      isValidAltImage2 &&
+      isValidTitleImage2 &&
+      isValidAltImage3 &&
+      isValidTitleImage3
     ) {
       setValidacionBody(true);
     } else {
@@ -623,56 +711,55 @@ export default function FormBody2(props) {
                     <h1 className="ml-3 mt-1 text-xs">980x450 píxeles</h1>
                   </label>
                   <div className="relative flex flex-column justify-center">
-                  <label
-                    className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                      uploading
-                        ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                        : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                    }`}
-                  >
-                    {uploading ? (
-                      <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
-                    ) : (
-                      <>
-                        {previewImageHeaderUrl !==
-                        "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
-                          <>
-                            <Image className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Cambiar imagen</span>
-                          </>
-                        ) : (
-                          <>
-                            <Image className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">
-                              Seleccionar imagen
-                            </span>
-                          </>
-                        )}
-                      </>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="image"
-                      className="hidden"
-                      onChange={handleImageHeader}
-                      disabled={uploading}
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    onClick={props.onDeleteBodyHeaderImage}
-                    className="ml-2 p-2 rounded-full hover:bg-red-100"
-                    title="Eliminar imagen principal"
-                  >
-                    <Trash2 className="w-5 h-5 text-red-500" />
-                  </button>
+                    <label
+                      className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                        uploading
+                          ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                          : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                      }`}
+                    >
+                      {uploading ? (
+                        <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                      ) : (
+                        <>
+                          {previewImageHeaderUrl !== "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
+                            <>
+                              <Image className="w-5 h-5 mr-2 text-purple-400" />
+                              <span className="text-sm">Cambiar imagen</span>
+                            </>
+                          ) : (
+                            <>
+                              <Image className="w-5 h-5 mr-2 text-purple-400" />
+                              <span className="text-sm">
+                                Seleccionar imagen
+                              </span>
+                            </>
+                          )}
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="image"
+                        className="hidden"
+                        onChange={handleImageHeader}
+                        disabled={uploading}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={props.onDeleteBodyHeaderImage}
+                      className="ml-2 p-2 rounded-full hover:bg-red-100"
+                      title="Eliminar imagen principal"
+                    >
+                      <Trash2 className="w-5 h-5 text-red-500" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <div className="px-6 md:px-10 pb-8">
@@ -784,7 +871,7 @@ export default function FormBody2(props) {
                           ></textarea>
                         </div>
                         <div className="w-full justify-end">
-                         <BotonAñadirLink
+                          <BotonAñadirLink
                             item={section}
                             index={index}
                             servicios={servicios}
@@ -927,7 +1014,11 @@ export default function FormBody2(props) {
                   >
                     <div className="relative h-64 bg-slate-100">
                       <img
-                        src={image.id === 2 ? previewImageBody2Url : previewImageBody3Url} // Usar el nuevo estado de previsualización
+                        src={
+                          image.id === 2
+                            ? previewImageBody2Url
+                            : previewImageBody3Url
+                        } // Usar el nuevo estado de previsualización
                         alt={`${image.title}`}
                         className="w-full h-64 object-cover"
                       />
@@ -956,7 +1047,10 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {(image.id === 2 ? previewImageBody2Url : previewImageBody3Url) !== "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
+                              {(image.id === 2
+                                ? previewImageBody2Url
+                                : previewImageBody3Url) !==
+                              "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
                                 <>
                                   <Image className="w-5 h-5 mr-2 text-purple-400" />
                                   <span className="text-sm">
