@@ -10,13 +10,11 @@ import { cn } from '@/lib/utils';
 import styles from './modal.module.css'
 
 const URL_API = `${url}/api/modales`;
-const URL_WHASAPP=`${url_whasapp}/api/send-message`;
+const URL_WHASAPP = `${url_whasapp}/api/send-message`;
 
-
-export default function ModalScrollA({data, time}) {
-
-  const[open, setOpen] = useState(false)
-  const {text,fondo,title,serviceName} = data;
+export default function ModalScrollA({ data, time }) {
+  const [open, setOpen] = useState(false);
+  const { text, fondo, title, serviceName } = data;
 
   const [loading, setLoading] = useState(false);
 
@@ -27,18 +25,18 @@ export default function ModalScrollA({data, time}) {
     id_servicio: serviceName,
   });
 
-
-  useEffect(()=>{
-    setTimeout(()=>{setOpen(true)},time * 1000)
-  },[])
-
+  useEffect(() => {
+    setTimeout(() => {
+      setOpen(true);
+    }, time * 1000);
+  }, []);
 
   const handleChange = (e) => {
     let { name, value } = e.target;
 
     if (name === "telefono") {
-      value = value.replace(/\D/g, ""); 
-      if (value.length > 9) value = value.slice(0, 9); 
+      value = value.replace(/\D/g, "");
+      if (value.length > 9) value = value.slice(0, 9);
     }
 
     setFormData({
@@ -47,11 +45,10 @@ export default function ModalScrollA({data, time}) {
     });
   };
   const handleSubmit = async (e) => {
- 
     setLoading(true);
     e.preventDefault();
-    
-    try{
+
+    try {
       const rawPhone = formData.telefono;
       const phoneWithPrefix = `51${rawPhone}`;
       const fecha = new Date();
@@ -60,43 +57,43 @@ export default function ModalScrollA({data, time}) {
 
       const horaActual = fecha.toTimeString().slice(0, 5);
 
+      if (formData.telefono.length !== 9) {
+        setOpen(false);
 
-    if (formData.telefono.length!==9) {
-
-      setOpen(false)
-
-      Swal.fire({
+        Swal.fire({
           title: "Error",
           text: "El número de teléfono debe ser 9 digitos.",
           icon: "error",
           confirmButtonText: "OK",
         });
-      return ;
-    }
-console.log(formData)
-      const response = await axios.post(`${URL_API}`, {
-        ...formData,
-        // telefono: rawPhone,
-      }, {
-        headers: {
-          Authorization: `Bearer ${getCookie('token')}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+        return;
+      }
+      console.log(formData);
+      const response = await axios.post(
+        `${URL_API}`,
+        {
+          ...formData,
+          // telefono: rawPhone,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const responseWhasapp = await axios.post(URL_WHASAPP, {
+        telefono: phoneWithPrefix,
+        nombre: formData.nombre,
+        fecha: fechaActual,
+        hora: horaActual,
+        // templateOption: data.text
+        templateOption: "cita_gratis",
       });
 
-    const responseWhasapp=await axios.post(URL_WHASAPP, {
-
-      telefono: phoneWithPrefix,
-      nombre:formData.nombre,
-      fecha: fechaActual,
-      hora: horaActual,
-      // templateOption: data.text
-      templateOption: 'cita_gratis'
-
-    });
-
-    setOpen(false)
+      setOpen(false);
       if (response.status === 201) {
         Swal.fire({
           title: "Modal enviado Correctamente",
@@ -112,7 +109,7 @@ console.log(formData)
           confirmButtonText: "OK",
         });
       }
-    }catch(error){
+    } catch (error) {
       Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",
@@ -120,12 +117,12 @@ console.log(formData)
         confirmButtonText: "OK",
       });
       console.log(error);
-    }finally{
+    } finally {
       setLoading(false);
       setFormData({
-        nombre: '',
-        telefono: '',
-        correo: '',
+        nombre: "",
+        telefono: "",
+        correo: "",
         id_servicio: serviceName,
       });
     }
@@ -133,16 +130,23 @@ console.log(formData)
 
   return (
     <div
-     
-      onClick={()=> setOpen(false)}
-      className={cn(open ? "fade-in flex":"hidden","seccionA bg-[rgba(0,0,0,0.43)] w-screen h-screen items-center justify-center fixed top-0 left-0 z-[9998]")}
+      onClick={() => setOpen(false)}
+      className={cn(
+        open ? "fade-in flex" : "hidden",
+        "seccionA bg-[rgba(0,0,0,0.43)] w-screen h-screen items-center justify-center fixed top-0 left-0 z-[9998]"
+      )}
     >
       <div
-        
         onClick={(e) => e.stopPropagation()}
-        className={cn(open ? styles["modal-content"]:"","bg-black flex w-[95%] md:w-auto relative text-white rounded-2xl overflow-hidden")}
+        className={cn(
+          open ? styles["modal-content"] : "",
+          "flex w-[65%] md:w-[600px] relative text-white rounded-2xl overflow-hidden"
+        )}
       >
-        <button onClick={()=> setOpen(false)} className="absolute top-4 right-4">
+        <button
+          onClick={() => setOpen(false)}
+          className="absolute top-3 right-3 z-50 text-white text-lg font-bold"
+        >
           X
         </button>
        
@@ -189,7 +193,7 @@ console.log(formData)
               value={formData.correo}
               onChange={handleChange}
               required
-              pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" 
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
               placeholder="ejemplo@correo.com"
             />
             <input
@@ -198,13 +202,19 @@ console.log(formData)
               value={formData.id_servicio}
               readOnly
             />
-            <button disabled={loading} className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4" type="submit"
-              title={loading ? 'Guardando...' : 'Enviar Mensaje'}>
-            {loading ? (
-            <span className="flex items-center">
-              <Loader2 className="animate-spin h-4 w-4 mx-auto" />
-            </span>
-            ) : 'HAZLO YA'}
+            <button
+              disabled={loading}
+              className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4"
+              type="submit"
+              title={loading ? "Guardando..." : "Enviar Mensaje"}
+            >
+              {loading ? (
+                <span className="flex items-center">
+                  <Loader2 className="animate-spin h-4 w-4 mx-auto" />
+                </span>
+              ) : (
+                "HAZLO YA"
+              )}
             </button>
           </form>
         </div>
@@ -213,7 +223,7 @@ console.log(formData)
   );
 }
 
-function Input({ label, type, name, value, onChange,...props }) {
+function Input({ label, type, name, value, onChange, ...props }) {
   return (
     <div className="flex flex-col gap-1">
       <label className="font-semibold" htmlFor={name}>

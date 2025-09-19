@@ -14,7 +14,7 @@ export default function Testimonios() {
         <picture>
           <source
             media="(max-width: 767px)"
-            srcSet="/image-home/opinions_mobile.webp"
+            srcSet="/image-home/opinions_mobile.avif"
           />
           <img
             src="/image-home/opinions.webp"

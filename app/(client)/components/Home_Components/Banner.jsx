@@ -5,7 +5,7 @@ export default function Banner() {
         <picture>
           <source
             media="(max-width: 767px)"
-            srcSet="/image-home/inicio_mobile.webp"
+            srcSet="/image-home/inicio_mobile.avif"
           />
           <img
             src="/image-home/inicio.webp"
