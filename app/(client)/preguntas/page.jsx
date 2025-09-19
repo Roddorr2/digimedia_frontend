@@ -4,6 +4,7 @@ import { useState } from "react"
 import Principal from "./components/Principal"
 import Pregunta from "./components/Pregunta"
 
+
 export default function Page() {
   const data = [
     {
@@ -51,6 +52,7 @@ export default function Page() {
       answer: "La publicidad online ofrece una serie de ventajas sobre otros medios publicitarios convencionales, como la televisión, la radio o el periódico. Pero las principales son: Es más económica la publicidad online. Permite llegar a clientes potencialmente más eficientemente. Puedes medir el impacto de las campañas y ajustarlas en función de los resultados."
     }
   ]
+  
 
   // Group questions into categories for better organization
   const categories = [
@@ -83,8 +85,13 @@ export default function Page() {
           ))}
         </div>
       </div>
-      
+
+      {/* Agreagamos el titulo de cada categoría */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-8 text-center">
+          {categories[activeCategory].name}
+        </h2>
+
         <div className="grid grid-cols-1 gap-8">
           {categories[activeCategory].items.map((itemIndex) => (
             <Pregunta 
@@ -95,6 +102,7 @@ export default function Page() {
           ))}
         </div>
       </section>
+      
       
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-2xl p-8 sm:p-12 shadow-xl text-center">

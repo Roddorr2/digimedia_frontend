@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Banner() {
   return (
     <>
@@ -7,19 +8,14 @@ export default function Banner() {
             media="(max-width: 767px)"
             srcSet="/image-home/inicio_mobile.avif"
           />
-          <img
+          <Image
             src="/image-home/inicio.webp"
             alt="Inicio"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            className="w-full h-full object-cover object-[30%]"
-            style={{
-              objectPosition: "30% center",
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
+            priority
+            fill
+            sizes="100vw"
+            className="object-cover object-[30%]"
+            style={{ objectPosition: "30% center" }}
           />
         </picture>
 
