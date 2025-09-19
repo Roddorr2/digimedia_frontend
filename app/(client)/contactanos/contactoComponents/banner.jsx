@@ -12,7 +12,7 @@ const Banner = () => (
         src="/contactanos/iconContact.svg"
         alt="Icono de contacto"
       />
-      <h2 className={styles.titleBanner}>CONTÁCTANOS AHORA</h2>
+      <h1 className={styles.titleBanner}>CONTÁCTANOS AHORA</h1>
     </div>
   </div>
 );

@@ -1,9 +1,18 @@
 export const metadata = {
-  title: "Gestión de Redes Sociales Efectiva con Digimedia Marketing para tu negocio",
+  title: "Gestión de Redes Sociales - DigiMedia Marketing",
   description:
     "Aumenta tu presencia en redes sociales con Digimedia. Estrategias personalizadas para conectar con tu audiencia y crecer online. ¡Potencia tu marca hoy!",
+  keywords: [
+    "gestión de redes sociales",
+    "marketing en redes sociales",
+    "agencia de redes sociales",
+    "estrategias en redes sociales",
+    "Community management",
+    "aumentar presencia online",
+    "crecer en redes sociales"
+  ],
   openGraph: {
-    title: "Gestión de Redes Sociales Efectiva con Digimedia Marketing para tu negocio",
+    title: "Gestión de Redes Sociales - DigiMedia Marketing",
     description:
       "Aumenta tu presencia en redes sociales con Digimedia. Estrategias personalizadas para conectar con tu audiencia y crecer online. ¡Potencia tu marca hoy!",
     url: "https://digimedia-marketing.com/servicios/gestion-redes/",
