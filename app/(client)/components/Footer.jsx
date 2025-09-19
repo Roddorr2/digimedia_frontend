@@ -17,7 +17,7 @@ export default function Footer() {
               /> 
             </div>
             <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
-              <h3>Contacto</h3>
+              <h2>Contacto</h2>
               <ul>
                 <li>
                   <Link href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios." target="_blank">
@@ -55,7 +55,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-              <h3>Legales</h3>
+              <h2>Legales</h2>
               <ul>
                 <li>
                   <Link href="/politica-privacidad">

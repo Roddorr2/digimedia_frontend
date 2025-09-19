@@ -88,7 +88,7 @@ export default function Page() {
 
       {/* Agreagamos el titulo de cada categoría */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-8 text-center">
+        <h2 className="text-2xl sm:text-3xl font-medium text-slate-800 mb-8 text-center">
           {categories[activeCategory].name}
         </h2>
 

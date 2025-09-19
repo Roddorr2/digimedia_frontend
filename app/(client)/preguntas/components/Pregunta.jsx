@@ -18,7 +18,7 @@ export default function Pregunta({ question, answer }) {
         onClick={() => setIsOpen(!isOpen)}
       >
         {/* Pregunta como h3 */}
-        <h3 className="font-semibold text-lg sm:text-xl text-slate-800 pr-8">
+        <h3 className="font-medium text-lg sm:text-xl text-slate-800 pr-8">
           {question}
         </h3>
 

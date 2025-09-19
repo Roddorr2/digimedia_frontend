@@ -4,14 +4,23 @@ import Head from "next/head";
 
 export const metadata = {
   title:
-    "Marketing Digital DigiMedia",
+    "Marketing Digital DigiMedia en Lima - DigiMedia",
   description:
-    "¿No sabes por dónde empezar? Impulsa tu marca al siguiente nivel con nosotros",
+    "Impulsa tu marca al siguiente nivel con DigiMedia. Somos expertos en marketing digital, posicionamiento web y estrategias que generan resultados reales en Lima.",
+  keywords: [
+    "marketing digital",
+    "estrategias digitales",
+    "posicionamiento web",
+    "marketing online",
+    "agencia digital Lima",
+    "crecimiento de marca",
+    "gestión digital"
+  ],
   openGraph: {
     title:
       "Marketing Digital DigiMedia",
     description:
-      "¿No sabes por dónde empezar? Impulsa tu marca al siguiente nivel con nosotros",
+      "Impulsa tu marca al siguiente nivel con DigiMedia. Somos expertos en marketing digital, posicionamiento web y estrategias que generan resultados reales en Lima.",
     url: "https://digimedia-marketing.com/",
     siteName: "Digimedia Marketing",
     images: [], // se mantiene vacío por tu preferencia

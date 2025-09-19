@@ -95,7 +95,7 @@ export default function Clientes() {
 
   return (
     <section className="my-6 mx-12">
-      <h3 className="text-2xl text-[#752E75]">NUESTROS CLIENTES</h3>
+      <h2 className="text-2xl text-[#752E75]">NUESTROS CLIENTES</h2>
 
       <div className="relative w-full overflow-hidden" data-carousel="slide">
         <div
