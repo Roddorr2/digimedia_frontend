@@ -1,9 +1,20 @@
 export const metadata = { 
-  title: "Quiénes Somos | Digimedia Agencia de Marketing Digital",
+  title: "Quiénes Somos - Digimedia Agencia de Marketing Digital",
   description:
     "Digimedia Marketing ayuda a marcas y emprendedores a través de SEO, redes sociales, diseño web y estrategias digitales con resultados medibles y auténticos.",
+  keywords: [
+  "Marketing digital", 
+  "transformación digital", 
+  "posicionamiento digital", 
+  "estrategias digitales", 
+  "contenido estratégico", 
+  "emprendimiento", 
+  "objetivos de negocio", 
+  "desarrollo de marca",   
+  "PYME Peru",
+  ],
     openGraph: {
-        title: "Quiénes Somos | Digimedia Agencia de Marketing Digital",
+        title: "Quiénes Somos - Digimedia Agencia de Marketing Digital",
         description:
         "Digimedia Marketing ayuda a marcas y emprendedores a través de SEO, redes sociales, diseño web y estrategias digitales con resultados medibles y auténticos.",
         url: "https://digimedia-marketing.com/nosotros/",
