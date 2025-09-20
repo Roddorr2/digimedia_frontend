@@ -48,6 +48,12 @@ export default function FormBody2(props) {
   const [isValidTexto4, setIsValidTexto4] = useState(true);
   const [isValidTexto5, setIsValidTexto5] = useState(true);
 
+  // Galeria de Imagenes
+  const [isValidAlt_Image2, setIsValidAlt_Image2] = useState(true);
+  const [isValidTitle_Image2, setIsValidTitle_Image2] = useState(true);
+  const [isValidAlt_Image3, setIsValidAlt_Image3] = useState(true);
+  const [isValidTitle_Image3, setIsValidTitle_Image3] = useState(true);
+
   const {
     formCommendBody,
     setFormCommendBody,
@@ -207,6 +213,23 @@ export default function FormBody2(props) {
           },
         }));
         break;
+      case "alt_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
 
       case "title_image1":
         isValid = value.trim().length >= 10 && value.length <= 400;
@@ -217,6 +240,24 @@ export default function FormBody2(props) {
             ...prev[name],
             isValid: isValid,
           },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
         }));
         break;
 
@@ -287,6 +328,8 @@ export default function FormBody2(props) {
       isValidTitulo &&
       isValidDescripcion &&
       isValidAlt_Image1 &&
+      isValidAlt_Image2 &&
+      isValidAlt_Image3 &&
       isValidTitle_Image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
@@ -1094,16 +1137,19 @@ export default function FormBody2(props) {
                     <div className="relative h-64 bg-slate-100">
                       <img
                         src={image.url}
-                        alt={generateAltText(
-                          formEncabezadoBody.titulo,
-                          image.id === 2 ? "galeria1" : "galeria2"
-                        )}
-                        title={generateTitle(
-                          formEncabezadoBody.titulo,
-                          image.id === 2 ? "galeria1" : "galeria2"
-                        )}
+                        alt={
+                          image.id === 2
+                            ? formGaleryBody.alt_image2 || "Imagen galería 1"
+                            : formGaleryBody.alt_image3 || "Imagen galería 2"
+                        }
+                        title={
+                          image.id === 2
+                            ? formGaleryBody.title_image2 || ""
+                            : formGaleryBody.title_image3 || ""
+                        }
                         className="w-full h-64 object-cover"
                       />
+                      {/* Botón para ver imagen */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">
                         <button
                           className="bg-white/90 p-2 rounded-full shadow-lg"
@@ -1114,13 +1160,47 @@ export default function FormBody2(props) {
                         </button>
                       </div>
                     </div>
+
                     <div className="p-4">
+                      {/* Label original */}
                       <label className="text-sm font-medium text-slate-700 mb-3 flex items-center">
                         <Type className="w-4 h-4 mr-1.5 text-slate-400" />
                         {image.title}
                         <h1 className="ml-3 mt-1 text-xs">250x450 píxeles</h1>
                       </label>
 
+                      {/* NUEVOS INPUTS para ALT y TITLE */}
+                      <div className="flex flex-col gap-3 mb-4">
+                        <input
+                          type="text"
+                          name={image.id === 2 ? "alt_image2" : "alt_image3"}
+                          value={
+                            image.id === 2
+                              ? formGaleryBody.alt_image2 || ""
+                              : formGaleryBody.alt_image3 || ""
+                          }
+                          onChange={handleChange(setFormGaleryBody)}
+                          placeholder="Texto alternativo (alt)"
+                          className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                        />
+
+                        <input
+                          type="text"
+                          name={
+                            image.id === 2 ? "title_image2" : "title_image3"
+                          }
+                          value={
+                            image.id === 2
+                              ? formGaleryBody.title_image2 || ""
+                              : formGaleryBody.title_image3 || ""
+                          }
+                          onChange={handleChange(setFormGaleryBody)}
+                          placeholder="Título de la imagen"
+                          className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                        />
+                      </div>
+
+                      {/* Input para cambiar imagen */}
                       <div className="relative flex flex-row">
                         <label
                           className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
@@ -1138,21 +1218,12 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {image.url !== "/blog/blog-4.webp" ? (
-                                <>
-                                  <Image className="w-5 h-5 mr-2 text-purple-400" />
-                                  <span className="text-sm">
-                                    Cambiar imagen
-                                  </span>
-                                </>
-                              ) : (
-                                <>
-                                  <Image className="w-5 h-5 mr-2 text-purple-400" />
-                                  <span className="text-sm">
-                                    Seleccionar imagen
-                                  </span>
-                                </>
-                              )}
+                              <Image className="w-5 h-5 mr-2 text-purple-400" />
+                              <span className="text-sm">
+                                {image.url !== "/blog/blog-4.webp"
+                                  ? "Cambiar imagen"
+                                  : "Seleccionar imagen"}
+                              </span>
                             </>
                           )}
                           <input
@@ -1165,6 +1236,8 @@ export default function FormBody2(props) {
                             title={`Seleccionar archivo para ${image.title.toLowerCase()}`}
                           />
                         </label>
+
+                        {/* Botón eliminar */}
                         <button
                           type="button"
                           onClick={
