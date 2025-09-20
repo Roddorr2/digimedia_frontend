@@ -78,6 +78,8 @@ const PageContent= () => {
     fecha: '2025-03-31',
     public_image1: "/blog/blog-4.webp",
     url_image1: "",
+    alt_image1: "",
+    title_image1: "",
   });
 
   const [formInfoBody, setFormInfoBody] = useState([
