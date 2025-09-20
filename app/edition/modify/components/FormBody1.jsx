@@ -1,5 +1,4 @@
 "use client";
-"use client";
 import {
   Type,
   AlignLeft,
@@ -53,6 +52,52 @@ export default function FormBody1(props) {
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
+  const [isValidAltImage1, setIsValidAltImage1] = useState(true);
+  const [isValidTitleImage1, setIsValidTitleImage1] = useState(true);
+  const [isValidAltImage2, setIsValidAltImage2] = useState(true);
+  const [isValidTitleImage2, setIsValidTitleImage2] = useState(true);
+  const [isValidAltImage3, setIsValidAltImage3] = useState(true);
+  const [isValidTitleImage3, setIsValidTitleImage3] = useState(true);
+
+  useEffect(() => {
+    // Sincronizar validaciones iniciales con los datos de las props
+    setIsValidTituloPrincipal(
+      formEncabezadoBody.titulo.trim().length >= 10 &&
+        formEncabezadoBody.titulo.length <= 50
+    );
+    setIsValidDescripcion(
+      formEncabezadoBody.descripcion.trim().length >= 10 &&
+        formEncabezadoBody.descripcion.length <= 400
+    );
+    setIsValidTexto1(
+      formCommendBody.texto1.trim().length >= 10 &&
+        formCommendBody.texto1.length <= 150
+    );
+    setIsValidTexto2(
+      formCommendBody.texto2.trim().length >= 10 &&
+        formCommendBody.texto2.length <= 150
+    );
+    setIsValidTexto3(
+      formCommendBody.texto3.trim().length >= 10 &&
+        formCommendBody.texto3.length <= 150
+    );
+
+    // Validar campos alt y title de las imágenes
+    setIsValidAltImage1(formEncabezadoBody.alt_image1?.trim().length > 0);
+    setIsValidTitleImage1(formEncabezadoBody.title_image1?.trim().length > 0);
+
+    // Actualizar validación general
+    setValidacionBody(
+      isValidTituloPrincipal &&
+        isValidDescripcion &&
+        isValidTexto1 &&
+        isValidTexto2 &&
+        isValidTexto3 &&
+        isValidAltImage1 &&
+        isValidTitleImage1
+    );
+  }, [formEncabezadoBody, formCommendBody]);
+
   const [errors, setErrors] = useState({
     titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
     texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
@@ -62,24 +107,42 @@ export default function FormBody1(props) {
       message: "Debe tener entre 10 y 400 caracteres",
       isValid: null,
     },
+    image1_alt: { message: "El campo Alt es obligatorio", isValid: null },
+    image1_title: { message: "El campo Title es obligatorio", isValid: null },
+    image2_alt: { message: "El campo Alt es obligatorio", isValid: null },
+    image2_title: { message: "El campo Title es obligatorio", isValid: null },
+    image3_alt: { message: "El campo Alt es obligatorio", isValid: null },
+    image3_title: { message: "El campo Title es obligatorio", isValid: null },
   });
 
   const [uploading, setUploading] = useState(false);
   // Nuevos estados para las URLs de previsualización
-  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
-  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(formGaleryBody.public_image2 || "/blog/blog-2.webp");
-  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(formGaleryBody.public_image3 || "/blog/blog-1.webp");
+  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(
+    formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
+  );
+  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(
+    formGaleryBody.public_image2 || "/blog/blog-2.webp"
+  );
+  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(
+    formGaleryBody.public_image3 || "/blog/blog-1.webp"
+  );
 
   useEffect(() => {
-    setPreviewImageHeaderUrl(formEncabezadoBody.public_image1 || "/blog/blog-4.webp");
+    setPreviewImageHeaderUrl(
+      formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
+    );
   }, [formEncabezadoBody.public_image1]);
 
   useEffect(() => {
-    setPreviewImageBody2Url(formGaleryBody.public_image2 || "/blog/blog-2.webp");
+    setPreviewImageBody2Url(
+      formGaleryBody.public_image2 || "/blog/blog-2.webp"
+    );
   }, [formGaleryBody.public_image2]);
 
   useEffect(() => {
-    setPreviewImageBody3Url(formGaleryBody.public_image3 || "/blog/blog-1.webp");
+    setPreviewImageBody3Url(
+      formGaleryBody.public_image3 || "/blog/blog-1.webp"
+    );
   }, [formGaleryBody.public_image3]);
 
   const servicios = [
@@ -174,6 +237,30 @@ export default function FormBody1(props) {
             isValid: isValid,
           },
         }));
+        break;
+      case "alt_image1":
+        isValid = value.trim().length > 0;
+        setIsValidAltImage1(isValid);
+        break;
+      case "title_image1":
+        isValid = value.trim().length > 0;
+        setIsValidTitleImage1(isValid);
+        break;
+      case "alt_image2":
+        isValid = value.trim().length > 0;
+        setIsValidAltImage2(isValid);
+        break;
+      case "title_image2":
+        isValid = value.trim().length > 0;
+        setIsValidTitleImage2(isValid);
+        break;
+      case "alt_image3":
+        isValid = value.trim().length > 0;
+        setIsValidAltImage3(isValid);
+        break;
+      case "title_image3":
+        isValid = value.trim().length > 0;
+        setIsValidTitleImage3(isValid);
         break;
       default:
         break;
@@ -280,7 +367,13 @@ export default function FormBody1(props) {
       isValidInfoTitulo3 &&
       isValidInfoDescripcion3 &&
       isValidInfoTitulo4 &&
-      isValidInfoDescripcion4
+      isValidInfoDescripcion4 &&
+      isValidAltImage1 &&
+      isValidTitleImage1 &&
+      isValidAltImage2 &&
+      isValidTitleImage2 &&
+      isValidAltImage3 &&
+      isValidTitleImage3
     ) {
       setValidacionBody(true);
     } else {
@@ -581,6 +674,35 @@ export default function FormBody1(props) {
                 placeholder="Frase Secundaria"
               />
             </div>
+            <div>
+              <label className="flex items-center text-white text-sm font-medium mb-2">
+                Alt de Imagen
+                <ValidationMessage error={errors.image1_alt} />
+              </label>
+              <input
+                type="text"
+                name="alt_image1"
+                value={formEncabezadoBody.alt_image1}
+                onChange={handleChange(setFormEncabezadoBody)}
+                className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3"
+                placeholder="Texto alternativo de la imagen"
+              />
+            </div>
+
+            <div>
+              <label className="flex items-center text-white text-sm font-medium mb-2">
+                Title de Imagen
+                <ValidationMessage error={errors.image1_title} />
+              </label>
+              <input
+                type="text"
+                name="title_image1"
+                value={formEncabezadoBody.title_image1}
+                onChange={handleChange(setFormEncabezadoBody)}
+                className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3"
+                placeholder="Título de la imagen"
+              />
+            </div>
           </form>
         </div>
 
@@ -703,11 +825,40 @@ export default function FormBody1(props) {
                   <Trash2 className="w-5 h-5 text-red-500" />
                 </button>
               </div>
+              <div>
+                <label className="flex items-center text-white text-sm font-medium mb-2">
+                  Alt de Imagen 2
+                  <ValidationMessage error={errors.image2_alt} />
+                </label>
+                <input
+                  type="text"
+                  name="alt_image2"
+                  value={formGaleryBody.alt_image2}
+                  onChange={handleChange(setFormGaleryBody)}
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3"
+                  placeholder="Texto alternativo de la imagen"
+                />
+              </div>
+
+              <div>
+                <label className="flex items-center text-white text-sm font-medium mb-2">
+                  Title de Imagen 2
+                  <ValidationMessage error={errors.image2_title} />
+                </label>
+                <input
+                  type="text"
+                  name="title_image2"
+                  value={formGaleryBody.title_image2}
+                  onChange={handleChange(setFormGaleryBody)}
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3"
+                  placeholder="Título de la imagen"
+                />
+              </div>
             </div>
 
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
-                <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 2
+                <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 3
                 <h1 className="ml-3 mt-1 text-xs">250x310 píxeles</h1>
               </label>
 
@@ -753,6 +904,35 @@ export default function FormBody1(props) {
                 >
                   <Trash2 className="w-5 h-5 text-red-500" />
                 </button>
+              </div>
+              <div>
+                <label className="flex items-center text-white text-sm font-medium mb-2">
+                  Alt de Imagen 3
+                  <ValidationMessage error={errors.image3_alt} />
+                </label>
+                <input
+                  type="text"
+                  name="alt_image3"
+                  value={formGaleryBody.alt_image3}
+                  onChange={handleChange(setFormGaleryBody)}
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3"
+                  placeholder="Texto alternativo de la imagen"
+                />
+              </div>
+
+              <div>
+                <label className="flex items-center text-white text-sm font-medium mb-2">
+                  Title de Imagen 3
+                  <ValidationMessage error={errors.image3_title} />
+                </label>
+                <input
+                  type="text"
+                  name="title_image3"
+                  value={formGaleryBody.title_image3}
+                  onChange={handleChange(setFormGaleryBody)}
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3"
+                  placeholder="Título de la imagen"
+                />
               </div>
             </div>
           </form>

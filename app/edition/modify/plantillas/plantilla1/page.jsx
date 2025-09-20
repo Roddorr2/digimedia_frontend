@@ -623,7 +623,11 @@ const PageContent = () => {
 
       const response = await Fetch.Image(formData, ruta);
 
-      console.log("📦 Respuesta de saveImage:", response?.status, response?.data);
+      console.log(
+        "📦 Respuesta de saveImage:",
+        response?.status,
+        response?.data
+      );
 
       if (!response) {
         throw new Error("No se recibió respuesta del servidor");

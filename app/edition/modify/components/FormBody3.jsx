@@ -838,10 +838,8 @@ export default function FormBody3(props) {
                   <input
                     type="text"
                     name="alt_image2"
-                    value={formGaleryBody.alt_image2 || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    maxLength={100}
-                    autoComplete="off"
+                    value={formGaleryBody.alt_image2}
+                    onChange={handleChange(setFormGaleryBody)}                    
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder="Descripción de la imagen para accesibilidad"
                   />
@@ -854,10 +852,8 @@ export default function FormBody3(props) {
                   <input
                     type="text"
                     name="title_image2"
-                    value={formGaleryBody.title_image2 || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    maxLength={100}
-                    autoComplete="off"
+                    value={formGaleryBody.title_image2}
+                    onChange={handleChange(setFormGaleryBody)}                    
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder="Título que aparece al pasar el mouse"
                   />
@@ -926,10 +922,8 @@ export default function FormBody3(props) {
                   <input
                     type="text"
                     name="alt_image3"
-                    value={formGaleryBody.alt_image3 || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    maxLength={100}
-                    autoComplete="off"
+                    value={formGaleryBody.alt_image3}
+                    onChange={handleChange(setFormGaleryBody)}                
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder="Descripción de la imagen para accesibilidad"
                   />
@@ -942,10 +936,8 @@ export default function FormBody3(props) {
                   <input
                     type="text"
                     name="title_image3"
-                    value={formGaleryBody.title_image3 || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    maxLength={100}
-                    autoComplete="off"
+                    value={formGaleryBody.title_image3}
+                    onChange={handleChange(setFormGaleryBody)}                  
                     className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                     placeholder="Título que aparece al pasar el mouse"
                   />

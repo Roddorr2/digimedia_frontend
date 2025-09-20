@@ -148,6 +148,10 @@ const PageContent = () => {
     url_image2: "",
     public_image3: "/blog/blog-2.webp",
     url_image3: "",
+    alt_image2: "",
+    title_image2: "",
+    alt_image3: "",
+    title_image3: "",
   });
 
   // Funciones de eliminación de imágenes

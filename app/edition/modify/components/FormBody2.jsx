@@ -377,7 +377,7 @@ export default function FormBody2(props) {
       isValidInfoDescripcion3 &&
       isValidInfoTitulo4 &&
       isValidInfoDescripcion4 &&
-      sValidAltImage1 &&
+      isValidAltImage1 &&
       isValidTitleImage1 &&
       isValidAltImage2 &&
       isValidTitleImage2 &&
@@ -746,6 +746,7 @@ export default function FormBody2(props) {
                         disabled={uploading}
                       />
                     </label>
+
                     <button
                       type="button"
                       onClick={props.onDeleteBodyHeaderImage}
@@ -755,6 +756,34 @@ export default function FormBody2(props) {
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
                   </div>
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-300 mb-1">
+                    Texto alternativo (alt)
+                  </label>
+                  <input
+                    type="text"
+                    name="alt_image1"
+                    value={formEncabezadoBody.alt_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Describe la imagen (para accesibilidad y SEO)"
+                  />
+                </div>
+
+                {/* Campo TITLE */}
+                <div>
+                  <label className="block text-xs text-gray-300 mb-1">
+                    Título de la imagen
+                  </label>
+                  <input
+                    type="text"
+                    name="title_image1"
+                    value={formEncabezadoBody.title_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Título que aparece al pasar el cursor"
+                  />
                 </div>
               </form>
             </div>
@@ -1088,6 +1117,34 @@ export default function FormBody2(props) {
                         >
                           <Trash2 className="w-5 h-5 text-red-500" />
                         </button>
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-1">
+                          Texto alternativo (alt)
+                        </label>
+                        <input
+                          type="text"
+                          name={`alt_image${image.id}`}
+                          value={formGaleryBody[`alt_image${image.id}`] || ""}
+                          onChange={handleChange(setFormGaleryBody)}
+                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                          placeholder="Describe la imagen (para accesibilidad y SEO)"
+                        />
+                      </div>
+
+                      {/* Campo TITLE */}
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-1">
+                          Título de la imagen
+                        </label>
+                        <input
+                          type="text"
+                          name={`title_image${image.id}`}
+                          value={formGaleryBody[`title_image${image.id}`] || ""}
+                          onChange={handleChange(setFormGaleryBody)}
+                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                          placeholder="Título que aparece al pasar el cursor"
+                        />
                       </div>
                     </div>
                   </div>
