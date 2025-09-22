@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import styles from "./Header.module.css"
 import { ChevronDown } from 'lucide-react';
+import Image from 'next/image';
 
 import { useEffect } from 'react';
 
