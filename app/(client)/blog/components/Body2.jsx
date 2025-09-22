@@ -69,7 +69,7 @@ export default function Body2({ id_blog_body, fecha }) {
     if (!previewImageUrl) return fallback;
 
     if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl; // No concatenamos nada
+      return previewImageUrl; 
     }
 
     return `${previewImageUrl}?v=${Date.now()}`; 
