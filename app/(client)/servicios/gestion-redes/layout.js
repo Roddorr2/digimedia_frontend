@@ -1,9 +1,18 @@
 export const metadata = {
-  title: "Gestión de Redes Sociales Efectiva con Digimedia Marketing para tu negocio",
+  title: "Gestión de Redes Sociales - DigiMedia Marketing",
   description:
     "Aumenta tu presencia en redes sociales con Digimedia. Estrategias personalizadas para conectar con tu audiencia y crecer online. ¡Potencia tu marca hoy!",
+  keywords: [
+    "gestión de redes sociales",
+    "marketing en redes sociales",
+    "agencia de redes sociales",
+    "estrategias en redes sociales",
+    "Community management",
+    "aumentar presencia online",
+    "crecer en redes sociales"
+  ],
   openGraph: {
-    title: "Gestión de Redes Sociales Efectiva con Digimedia Marketing para tu negocio",
+    title: "Gestión de Redes Sociales - DigiMedia Marketing",
     description:
       "Aumenta tu presencia en redes sociales con Digimedia. Estrategias personalizadas para conectar con tu audiencia y crecer online. ¡Potencia tu marca hoy!",
     url: "https://digimedia-marketing.com/servicios/gestion-redes/",
@@ -16,7 +25,6 @@ export const metadata = {
     canonical: "https://digimedia-marketing.com/servicios/gestion-redes/",
   },
 };
-
 export default function gestionLayout({ children }) {
   return (
     <>
@@ -41,7 +49,36 @@ export default function gestionLayout({ children }) {
             "longitude": -77.0217899
           },
           "image": "https://digimedia-marketing.com/logo.png",
-          "sameAs": "https://digimedia-marketing.com/"
+          "sameAs": "https://digimedia-marketing.com/",
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "PEN",
+            "price": "2500.00",
+            "availability": "https://schema.org/InStock",
+            "url": "https://digimedia-marketing.com/servicios/gestion-redes/"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "28"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Carlos"
+              },
+              "datePublished": "2024-07-15",
+              "reviewBody": "El servicio de gestión de redes sociales es excelente, realmente ayudó a aumentar la visibilidad de mi negocio.",
+              "name": "Muy recomendado",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+              }
+            }
+          ]
         }
         `}
       </script>

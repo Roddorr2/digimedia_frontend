@@ -1,11 +1,23 @@
 export const metadata = {
-  title: "Listo para transformar tu negocio Contáctanos hoy",
+  title: "Listo para transformar tu negocio Contáctanos – DigiMedia",
   description:
-    "Recibe una asesoria gratutita, ofrecemos diseño web, marketing digital y branding.",
+     "Recibe una asesoría gratuita en diseño web, marketing digital y branding. Contáctanos hoy y lleva tu negocio al siguiente nivel con estrategias efectivas.",
+  keywords: [
+    "Contacto DigiMedia",
+    "Asesoría marketing digital",
+    "Diseño web",
+    "Branding",
+    "Transformación digital",
+    "Consultoría online",
+    "Estrategia digital",
+    "Marketing para negocios",
+    "Servicios de marketing",
+    "Optimización de negocio"
+  ],
   openGraph: {
-    title: "Listo para transformar tu negocio Contáctanos hoy",
+    title: "Listo para transformar tu negocio Contáctanos – DigiMedia",
     description:
-      "Recibe una asesoria gratutita, ofrecemos diseño web, marketing digital y branding.Recibe una asesoria gratutita, ofrecemos diseño web, marketing digital y branding.",
+      "Recibe una asesoría gratuita en diseño web, marketing digital y branding. Contáctanos hoy y lleva tu negocio al siguiente nivel con estrategias efectivas.",
     url: "https://digimedia-marketing.com/contactanos/",
     siteName: "Digimedia Marketing",
     images: [],
