@@ -856,8 +856,8 @@ export default function FormBody3(props) {
                 <input
                   type="text"
                   name="alt_image2"
-                  value={formEncabezadoBody.alt_image2 || ""}
-                  onChange={handleChange(setFormEncabezadoBody)}
+                  value={formGaleryBody.alt_image2 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
                   maxLength={100}
                   autoComplete="off"
                   className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -872,8 +872,8 @@ export default function FormBody3(props) {
                 <input
                   type="text"
                   name="title_image2"
-                  value={formEncabezadoBody.title_image2 || ""}
-                  onChange={handleChange(setFormEncabezadoBody)}
+                  value={formGaleryBody.title_image2 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
                   maxLength={100}
                   autoComplete="off"
                   className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -941,8 +941,8 @@ export default function FormBody3(props) {
                 <input
                   type="text"
                   name="alt_image3"
-                  value={formEncabezadoBody.alt_image3 || ""}
-                  onChange={handleChange(setFormEncabezadoBody)}
+                  value={formGaleryBody.alt_image3 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
                   maxLength={100}
                   autoComplete="off"
                   className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -957,8 +957,8 @@ export default function FormBody3(props) {
                 <input
                   type="text"
                   name="title_image3"
-                  value={formEncabezadoBody.title_image3 || ""}
-                  onChange={handleChange(setFormEncabezadoBody)}
+                  value={formGaleryBody.title_image3 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
                   maxLength={100}
                   autoComplete="off"
                   className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
@@ -966,6 +966,7 @@ export default function FormBody3(props) {
                 />
               </div>
             </div>
+            
           </form>
         </div>
 

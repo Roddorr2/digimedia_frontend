@@ -707,7 +707,7 @@ export default function FormBody2(props) {
         }));
         break;
 
-        case "alt_image2":
+      case "alt_image2":
         isValid = value.trim().length <= 125;
         setIsValidAlt_Image2(isValid);
         setErrors((prev) => ({
@@ -731,7 +731,7 @@ export default function FormBody2(props) {
         }));
         break;
 
-        case "alt_image3":
+      case "alt_image3":
         isValid = value.trim().length <= 125;
         setIsValidAlt_Image3(isValid);
         setErrors((prev) => ({

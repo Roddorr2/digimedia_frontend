@@ -21,15 +21,15 @@ export default function FormBody2(props) {
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(false);
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Seccion Informacion
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
-  const [isValidTexto1, setIsValidTexto1] = useState(true);
-  const [isValidTexto2, setIsValidTexto2] = useState(true);
-  const [isValidTexto3, setIsValidTexto3] = useState(true);
-  const [isValidTexto4, setIsValidTexto4] = useState(true);
-  const [isValidTexto5, setIsValidTexto5] = useState(true);
+  const [isValidAlt_Image1, setIsValidAlt_Image1] = useState(true);
+  const [isValidTitle_Image1, setIsValidTitle_Image1] = useState(true);
 
+  // Seccion de Informacion
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
+
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
 
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
@@ -39,7 +39,21 @@ export default function FormBody2(props) {
   const [isValidInfoDescripcion3, setIsValidInfoDescripcion3] = useState(true);
 
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
+
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
+
+  // Seccion de Consejos
+  const [isValidTexto1, setIsValidTexto1] = useState(true);
+  const [isValidTexto2, setIsValidTexto2] = useState(true);
+  const [isValidTexto3, setIsValidTexto3] = useState(true);
+  const [isValidTexto4, setIsValidTexto4] = useState(true);
+  const [isValidTexto5, setIsValidTexto5] = useState(true);
+
+  // Galeria
+  const [isValidAlt_Image2, setIsValidAlt_Image2] = useState(true);
+  const [isValidTitle_Image2, setIsValidTitle_Image2] = useState(true);
+  const [isValidAlt_Image3, setIsValidAlt_Image3] = useState(true);
+  const [isValidTitle_Image3, setIsValidTitle_Image3] = useState(true);
 
   const {
     formCommendBody,
@@ -117,7 +131,7 @@ export default function FormBody2(props) {
     switch (name) {
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -137,6 +151,31 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
+      case "alt_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -148,6 +187,7 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -159,6 +199,7 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -194,13 +235,68 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
+      case "alt_image2":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
       default:
         break;
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_Image1 &&
+      isValidAlt_Image2 &&
+      isValidAlt_Image3 &&
+      isValidTitle_Image1 &&
+      isValidTitle_Image2 &&
+      isValidTitle_Image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -269,11 +365,19 @@ export default function FormBody2(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_Image1 &&
+      isValidAlt_Image2 &&
+      isValidAlt_Image3 &&
+      isValidTitle_Image1 &&
+      isValidTitle_Image2 &&
+      isValidTitle_Image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
+      isValidTexto4 &&
+      isValidTexto5 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
       isValidInfoTitulo2 &&
@@ -500,6 +604,138 @@ export default function FormBody2(props) {
         isValid = selectedDate <= today;
         break;
 
+      case "alt_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto1":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto2":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto3":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto4":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto4(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto5":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto5(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image2":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
       default:
         break;
     }
@@ -659,6 +895,46 @@ export default function FormBody2(props) {
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
                   </div>
+                </div>
+                {/* Texto Alternativo (Alt) */}
+                <div>
+                  <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                    <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                    Alternativo (Alt)
+                  </label>
+                  <input
+                    type="text"
+                    name="alt_image1"
+                    maxLength={125}
+                    value={formEncabezadoBody.alt_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Imagen principal: Título del Blog"
+                  />
+                  <p className="text-gray-400 text-xs mt-1">
+                    Máximo 125 caracteres - Describe qué se ve en la imagen
+                  </p>
+                </div>
+
+                {/* Título de Imagen */}
+                <div>
+                  <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                    <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título de
+                    Imagen
+                  </label>
+                  <input
+                    type="text"
+                    name="title_image1"
+                    maxLength={100}
+                    value={formEncabezadoBody.title_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Ver imagen: Título del Blog"
+                  />
+                  <p className="text-gray-400 text-xs mt-1">
+                    Máximo 100 caracteres - Información adicional sobre la
+                    imagen
+                  </p>
                 </div>
               </form>
             </div>
@@ -988,6 +1264,41 @@ export default function FormBody2(props) {
                           <Trash2 className="w-5 h-5 text-red-500" />
                         </button>
                       </div>
+
+                      {/* Inputs ALT y TITLE */}
+                      <label className="flex items-center text-gray-600 text-sm font-semibold mb-2 mt-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" />
+                        Texto Alternativo (Alt)
+                      </label>
+                      <input
+                        type="text"
+                        name={`alt_image${image.id}`}
+                        value={formGaleryBody[`alt_image${image.id}`]}
+                        onChange={handleChange(setFormGaleryBody)}
+                        placeholder="Descripción de la imagen para lectores de pantalla"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        title="Texto alternativo (accesibilidad)"
+                      />
+                      <p className="text-gray-800 text-xs mt-1">
+                        Máximo 125 caracteres - Describe qué se ve en la imagen
+                      </p>
+                      <label className="flex items-center text-gray-600 text-sm font-semibold mb-2 mt-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" />
+                        Titulo de la Imagen
+                      </label>
+                      <input
+                        type="text"
+                        name={`title_image${image.id}`}
+                        value={formGaleryBody[`title_image${image.id}`]}
+                        onChange={handleChange(setFormGaleryBody)}
+                        placeholder="Título que aparece al pasar el mouse sobre la imagen"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        title="Título de la imagen (tooltip al hacer hover)"
+                      />
+                      <p className="text-gray-800 text-xs mt-1">
+                        Máximo 100 caracteres - Información adicional sobre la
+                        imagen
+                      </p>
                     </div>
                   </div>
                 ))}

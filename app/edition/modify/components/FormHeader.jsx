@@ -141,7 +141,15 @@ export default function FormHeader({
         break;
     }
 
-    if (isValid_titulo && isValid_texto_frase && isValid_texto_descripcion && isValid_alt && isValid_title && isValid_meta_title && isValid_meta_descripcion) {
+    if (
+      isValid_titulo &&
+      isValid_texto_frase &&
+      isValid_texto_descripcion &&
+      isValid_alt &&
+      isValid_title &&
+      isValid_meta_title &&
+      isValid_meta_descripcion
+    ) {
       setValidacionHeader(true);
     } else {
       setValidacionHeader(false);
@@ -153,7 +161,7 @@ export default function FormHeader({
     }));
   };
 
-    // Mensajes de validación pero no se usa
+  // Mensajes de validación pero no se usa
   const ValidationMessage = ({ error }) => (
     <h1
       className={`text-xs mt-1 ml-3 ${
@@ -384,6 +392,8 @@ export default function FormHeader({
                   />
                 </div>
               </div>
+
+              {/* Información SEO */}
               <div className="space-y-4 p-4 bg-green-900/20 rounded-lg border border-green-500/30">
                 <h4 className="text-sm font-semibold text-green-300 mb-2">
                   Información SEO
