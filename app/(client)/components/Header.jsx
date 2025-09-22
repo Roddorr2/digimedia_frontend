@@ -22,6 +22,11 @@ export default function Header2() {
     setMenuOpen(false);
     setIsServiceOpen(false);
     setIsMoreOpen(false);
+
+    const menucheckbox = document.getElementById("menucheckbox");
+    if(menucheckbox){
+      menucheckbox.checked = false;
+    }
   };
 
   useEffect(() => {
