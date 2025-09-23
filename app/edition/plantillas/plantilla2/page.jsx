@@ -129,10 +129,10 @@ const PageContent = () => {
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
-    alt: "",
-    title: "",
+    alt_image: "",
+    title_image: "",
     meta_title: "",
-    meta_descripcion: "",
+    meta_description: "",
   });
 
   /**
@@ -204,6 +204,10 @@ const PageContent = () => {
     url_image3: "",
     alt_image3: "",
     title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   useEffect(() => {
@@ -267,9 +271,9 @@ const PageContent = () => {
       url_image3: formGaleryBody.url_image3,
       alt_image3: formGaleryBody.alt_image3,
       title_image3: formGaleryBody.title_image3,
-      flag_galeria: 1,
-      flag_consejos: 1,
-      flag_informacion: 1,
+      flag_galeria: formGaleryBody.flag_galeria,
+      flag_consejos: formGaleryBody.flag_consejos,
+      flag_informacion: formGaleryBody.flag_informacion,
       service_url: serviceRedirectUrl,
     };
 
@@ -647,11 +651,18 @@ const PageContent = () => {
         descripcion:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: "/blog/blog-10.webp",
-        url_image1: "", //por esta vez url es la ruta para elimianr
+        url_image1: "", //por esta vez url es la ruta para eliminar
+        alt_image1: "",
+        title_image1: "",
         public_image2: "/blog/blog-10.webp",
         url_image2: "",
+        alt_image2: "",
+        title_image2: "",
         public_image3: "/blog/blog-10.webp",
         url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        estado: 1,
       });
 
       setDataHeader({
@@ -660,6 +671,10 @@ const PageContent = () => {
         texto_descripcion: "Texto destacado y secundario para el titulo",
         public_image: "/blog/fondo_blog_extend.webp",
         url_image: "",
+        alt_image: "",
+        title_image: "",
+        meta_title: "",
+        meta_description: "",
       });
 
       setFormEncabezadoBody({
@@ -669,6 +684,8 @@ const PageContent = () => {
         fecha: getCurrentDate(),
         public_image1: "/blog/blog-4.webp",
         url_image1: "",
+        alt_image1: "",
+        title_image1: "",
       });
 
       setFormInfoBody([
@@ -715,8 +732,16 @@ const PageContent = () => {
       setFormGaleryBody({
         public_image2: "/blog/blog-2.webp",
         url_image2: "",
+        alt_image2: "",
+        title_image2: "",
         public_image3: "/blog/blog-2.webp",
         url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        flag_galeria: 1,
+        flag_consejos: 1,
+        flag_informacion: 1,
+        service_url: "",
       });
 
       setFileHeader(null);

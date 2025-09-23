@@ -4,7 +4,7 @@ import FormFooter from "../components/FormFooter";
 import FormHeader from "../components/FormHeader";
 import { useState, useEffect } from "react";
 import Service from "../../services/Service";
-import { Flag, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
@@ -33,18 +33,12 @@ const PageContent = () => {
 
   const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
 
-  const [showGallery, setShowGallery] = useState(true);
-  const [showAdvice, setShowAdvice] = useState(true);
-  const [showDetailedInfo, setShowDetailedInfo] = useState(true);
-
   const deleteFooterFile1 = () => {
     setFileFooterFile1(null);
     setFormFooter((prev) => ({
       ...prev,
       public_image1: "/blog/blog-10.webp",
       url_image1: "",
-      image1_alt: "",
-      image1_title: "",
     }));
   };
   const deleteFooterFile2 = () => {
@@ -53,8 +47,6 @@ const PageContent = () => {
       ...prev,
       public_image2: "/blog/blog-10.webp",
       url_image2: "",
-      image2_alt: "",
-      image2_title: "",
     }));
   };
   const deleteFooterFile3 = () => {
@@ -63,8 +55,6 @@ const PageContent = () => {
       ...prev,
       public_image3: "/blog/blog-10.webp",
       url_image3: "",
-      image3_alt: "",
-      image3_title: "",
     }));
   };
 
@@ -74,8 +64,6 @@ const PageContent = () => {
       ...prev,
       public_image: "/blog/fondo_blog_extend.webp",
       url_image: "",
-      image_alt: "",
-      image_title: "",
     }));
   };
 
@@ -85,8 +73,6 @@ const PageContent = () => {
       ...prev,
       public_image1: "/blog/blog-4.webp",
       url_image1: "",
-      image1_alt: "",
-      image1_title: "",
     }));
   };
 
@@ -96,8 +82,6 @@ const PageContent = () => {
       ...prev,
       public_image2: "/blog/blog-2.webp",
       url_image2: "",
-      image2_alt: "",
-      image2_title: "",
     }));
   };
 
@@ -107,8 +91,6 @@ const PageContent = () => {
       ...prev,
       public_image3: "/blog/blog-2.webp",
       url_image3: "",
-      image3_alt: "",
-      image3_title: "",
     }));
   };
 
@@ -147,10 +129,10 @@ const PageContent = () => {
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
-    alt: "",
-    title: "",
+    alt_image: "",
+    title_image: "",
     meta_title: "",
-    meta_descripcion: "",
+    meta_description: "",
   });
 
   /**
@@ -223,6 +205,10 @@ const PageContent = () => {
     url_image3: "",
     alt_image3: "",
     title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   useEffect(() => {
@@ -286,9 +272,9 @@ const PageContent = () => {
       url_image3: formGaleryBody.url_image3,
       alt_image3: formGaleryBody.alt_image3,
       title_image3: formGaleryBody.title_image3,
-      flag_galeria: showGallery ? 1 : 0,
-      flag_consejos: showAdvice ? 1 : 0,
-      flag_informacion: showDetailedInfo ? 1 : 0,
+      flag_galeria: formGaleryBody.flag_galeria,
+      flag_consejos: formGaleryBody.flag_consejos,
+      flag_informacion: formGaleryBody.flag_informacion,
       service_url: serviceRedirectUrl,
     };
 
@@ -690,111 +676,106 @@ const PageContent = () => {
         </div>
       `,
         icon: "success",
-        showCancelButton: true,
-        confirmButtonText: "¡Perfecto!",
-        cancelButtonText: "Cerrar",
-        confirmButtonColor: "#667eea",
-        cancelButtonColor: "#6b7280",
-
-        width: "500px",
-        customClass: {
-          htmlContainer: "swal-html-container",
-        },
+        confirmButtonText: "OK",
       });
 
-      // Solo ejecutar las acciones de reseteo y redirección si el usuario hizo click en "¡Perfecto!"
-      if (result.isConfirmed) {
-        // Resetear formularios
-        setFormFooter({
-          titulo: "Titulo Footer",
+      setFormFooter({
+        titulo: "Titulo Footer",
+        descripcion:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+        public_image1: "/blog/blog-10.webp",
+        url_image1: "", //por esta vez url es la ruta para eliminar
+        alt_image1: "",
+        title_image1: "",
+        public_image2: "/blog/blog-10.webp",
+        url_image2: "",
+        alt_image2: "",
+        title_image2: "",
+        public_image3: "/blog/blog-10.webp",
+        url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        estado: 1,
+      });
+
+      setDataHeader({
+        titulo: "Titulo Header",
+        texto_frase: "Texto atractivo y llamativo para el cliente",
+        texto_descripcion: "Texto destacado y secundario para el titulo",
+        public_image: "/blog/fondo_blog_extend.webp",
+        url_image: "",
+        alt_image: "",
+        title_image: "",
+        meta_title: "",
+        meta_description: "",
+      });
+
+      setFormEncabezadoBody({
+        titulo: "Titulo del Blog",
+        descripcion:
+          "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
+        fecha: getCurrentDate(),
+        public_image1: "/blog/blog-4.webp",
+        url_image1: "",
+        alt_image1: "",
+        title_image1: "",
+      });
+
+      setFormInfoBody([
+        {
+          titulo: "El Factor Sorpresa y Distinción",
           descripcion:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
-          public_image1: "/blog/blog-10.webp",
-          url_image1: "",
-          image1_alt: "",
-          image1_title: "",
-          public_image2: "/blog/blog-10.webp",
-          url_image2: "",
-          image2_alt: "",
-          image2_title: "",
-          public_image3: "/blog/blog-10.webp",
-          url_image3: "",
-          image3_alt: "",
-          image3_title: "",
-        });
+            "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+          palabra: "",
+          enlace: "",
+        },
 
-        setDataHeader({
-          titulo: "Titulo Header",
-          texto_frase: "Texto atractivo y llamativo para el cliente",
-          texto_descripcion: "Texto destacado y secundario para el titulo",
-          public_image: "/blog/fondo_blog_extend.webp",
-          url_image: "",
-          image_alt: "",
-          image_title: "",
-        });
-
-        setFormEncabezadoBody({
-          titulo: "Titulo del Blog",
+        {
+          titulo: "Ambiente y Experiencia Visual",
           descripcion:
-            "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
-          fecha: getCurrentDate(),
-          public_image1: "/blog/blog-4.webp",
-          url_image1: "",
-          image1_alt: "",
-          image1_title: "",
-        });
+            "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+          palabra: "",
+          enlace: "",
+        },
+        {
+          titulo: "Eficiencia Energética y Durabilidad",
+          descripcion:
+            "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+          palabra: "",
+          enlace: "",
+        },
+        {
+          titulo: "Marketing y Atracción de Clientes",
+          descripcion:
+            "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+          palabra: "",
+          enlace: "",
+        },
+      ]);
 
-        setFormInfoBody([
-          {
-            titulo: "El Factor Sorpresa y Distinción",
-            descripcion:
-              "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-            palabra: "",
-            enlace: "",
-          },
-          {
-            titulo: "Ambiente y Experiencia Visual",
-            descripcion:
-              "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-            palabra: "",
-            enlace: "",
-          },
-          {
-            titulo: "Eficiencia Energética y Durabilidad",
-            descripcion:
-              "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-            palabra: "",
-            enlace: "",
-          },
-          {
-            titulo: "Marketing y Atracción de Clientes",
-            descripcion:
-              "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-            palabra: "",
-            enlace: "",
-          },
-        ]);
+      setFormCommendBody({
+        titulo: "Consejos para Elegir el Letrero Perfecto",
+        texto1: "Opta por colores que reflejen la personalidad de tu bar.",
+        texto2: "Elige un diseño legible y atractivo.",
+        texto3: "Considera el lugar de instalación para maximizar su impacto.",
+        texto4: "",
+        texto5: "",
+      });
 
-        setFormCommendBody({
-          titulo: "Consejos para Elegir el Letrero Perfecto",
-          texto1: "Opta por colores que reflejen la personalidad de tu bar.",
-          texto2: "Elige un diseño legible y atractivo.",
-          texto3:
-            "Considera el lugar de instalación para maximizar su impacto.",
-          texto4: "",
-          texto5: "",
-        });
-
-        setFormGaleryBody({
-          public_image2: "/blog/blog-2.webp",
-          url_image2: "",
-          image2_alt: "",
-          image2_title: "",
-          public_image3: "/blog/blog-2.webp",
-          url_image3: "",
-          image3_alt: "",
-          image3_title: "",
-        });
+      setFormGaleryBody({
+        public_image2: "/blog/blog-2.webp",
+        url_image2: "",
+        alt_image2: "",
+        title_image2: "",
+        public_image3: "/blog/blog-2.webp",
+        url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        flag_galeria: 1,
+        flag_consejos: 1,
+        flag_informacion: 1,
+        service_url: "",
+      });
 
         // Limpiar archivos
         setFileHeader(null);
@@ -805,10 +786,9 @@ const PageContent = () => {
         setFileFooterFile2(null);
         setFileFooterFile3(null);
 
-        router.push("/dashboard/blogs/");
-        window.open("/blog", "_blank");
-      }
-      // Si el usuario hace click en "Cancelar", no se hace nada y simplemente se cierra el modal
+      router.push("/dashboard/blogs/");
+
+      window.open("/blog", "_blank");
     } catch (error) {
       console.error("Error al guardar:", error.message);
     } finally {

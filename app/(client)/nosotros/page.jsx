@@ -14,7 +14,7 @@ const Nosotros = () => {
         <div className="min-h-screen bg-white">
             <div className="relative h-[400px] overflow-hidden">
                 <img
-                    src="/Img-nosotros/NOSOTROS_1680_1050.webp"
+                    src="/Img-nosotros/NOSOTROS_1680_1050.avif"
                     alt="grupo juntando sus manos"
                     className="w-full h-full object-cover object-center"
                 />
@@ -26,7 +26,7 @@ const Nosotros = () => {
                             <div className="w-8 h-8 bg-white rounded-full -ml-2 opacity-80"></div>
                         </div>
                         <h1 className="text-5xl font-bold text-white tracking-wider shadow-lg">
-                            ¿QUIÉNES SOMOS?
+                            ¿Quiénes Somos?
                         </h1>
                     </div>
                 </div>
@@ -50,7 +50,7 @@ const Nosotros = () => {
                         onClick={() => setShowVision(!showVision)}
                     >
                         <h3 className="text-2xl font-bold mb-4 text-gray-800 text-center">
-                            <span className="text-purple-600">VISIÓN</span>
+                            <span className="text-purple-600">Visión</span>
                         </h3>
                         {showVision && (
                             <p className="text-gray-600 text-justify leading-relaxed">
@@ -66,7 +66,7 @@ const Nosotros = () => {
                         onClick={() => setShowMision(!showMision)}
                     >
                         <h3 className="text-2xl font-bold mb-4 text-gray-800 text-center">
-                            <span className="text-purple-600">MISIÓN</span>
+                            <span className="text-purple-600">Misión</span>
                         </h3>
                         {showMision && (
                             <p className="text-gray-600 text-justify leading-relaxed">
@@ -76,14 +76,15 @@ const Nosotros = () => {
                     </div>
                 </div>
             </div>
-            <a href={linkWhatsApp} target="_blank" rel="noopener noreferrer">
+            {/* Botón flotante de WhatsApp (no se está utilizando por el momento, lo dejo comentado por si acaso)*/}
+            {/*<a href={linkWhatsApp} target="_blank" rel="noopener noreferrer">
                 <div className="fixed bottom-4 right-4 bg-green-500 p-4 rounded-full shadow-lg cursor-pointer">
                     <i className="fab fa-whatsapp text-white text-3xl"></i>
                 </div>
-            </a>
+            </a>*/}
             <div className="flex justify-center pt-2 pb-16">
                 <img
-                    src="/Img-nosotros/infoNosotros.webp"
+                    src="/Img-nosotros/infoNosotros.avif"
                     alt="Equipo trabajando en la computadora"
                     className="w-full max-w-3xl h-auto rounded-lg shadow-lg"
                 />

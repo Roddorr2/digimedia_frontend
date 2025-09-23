@@ -26,73 +26,111 @@ export default function FormBody3(props) {
     setFileBodyFile1,
     setFileBodyFile2,
     setValidacionBody,
-    serviceRedirectUrl,
-    setServiceRedirectUrl,
   } = props;
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Contenido Principal
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
+  const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
+  const [isValidTitle_image1, setIsValidTitle_image1] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+
+  // Galeria de Imagenes
+  const [isValidAlt_image2, setIsValidAlt_image2] = useState(true);
+  const [isValidTitle_image2, setIsValidTitle_image2] = useState(true);
+  const [isValidAlt_image3, setIsValidAlt_image3] = useState(true);
+  const [isValidTitle_image3, setIsValidTitle_image3] = useState(true);
+
+  // Consejos
   const [isValidTexto1, setIsValidTexto1] = useState(true);
   const [isValidTexto2, setIsValidTexto2] = useState(true);
   const [isValidTexto3, setIsValidTexto3] = useState(true);
 
+  // Información Detallada
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
-
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
   const [isValidInfoDescripcion2, setIsValidInfoDescripcion2] = useState(true);
-
   const [isValidInfoTitulo3, setIsValidInfoTitulo3] = useState(true);
   const [isValidInfoDescripcion3, setIsValidInfoDescripcion3] = useState(true);
-
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
-  const [isValidAltImage1, setIsValidAltImage1] = useState(true);
-  const [isValidTitleImage1, setIsValidTitleImage1] = useState(true);
-  const [isValidAltImage2, setIsValidAltImage2] = useState(true);
-  const [isValidTitleImage2, setIsValidTitleImage2] = useState(true);
-  const [isValidAltImage3, setIsValidAltImage3] = useState(true);
-  const [isValidTitleImage3, setIsValidTitleImage3] = useState(true);
+  const [errors, setErrors] = useState({
+    titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
+    descripcion: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+
+    alt_image1: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image2: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image3: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image1: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image2: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image3: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+  });
+
+  const [uploading, setUploading] = useState(false);
+
+  // Nuevos estados para las URLs de previsualización
+  const [previewImageHeaderUrl, setPreviewImageHeaderUrl] = useState(
+    formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
+  );
+  const [previewImageBody2Url, setPreviewImageBody2Url] = useState(
+    formGaleryBody.public_image2 || "/blog/blog-10.webp"
+  );
+  const [previewImageBody3Url, setPreviewImageBody3Url] = useState(
+    formGaleryBody.public_image3 || "/blog/blog-1.webp"
+  );
 
   useEffect(() => {
-    // Sincronizar validaciones iniciales con los datos de las props
-    setIsValidTituloPrincipal(
-      formEncabezadoBody.titulo.trim().length >= 10 &&
-        formEncabezadoBody.titulo.length <= 50
+    setPreviewImageHeaderUrl(
+      formEncabezadoBody.public_image1 || "/blog/blog-4.webp"
     );
-    setIsValidDescripcion(
-      formEncabezadoBody.descripcion.trim().length >= 10 &&
-        formEncabezadoBody.descripcion.length <= 400
-    );
-    setIsValidTexto1(
-      formCommendBody.texto1.trim().length >= 10 &&
-        formCommendBody.texto1.length <= 150
-    );
-    setIsValidTexto2(
-      formCommendBody.texto2.trim().length >= 10 &&
-        formCommendBody.texto2.length <= 150
-    );
-    setIsValidTexto3(
-      formCommendBody.texto3.trim().length >= 10 &&
-        formCommendBody.texto3.length <= 150
-    );
+  }, [formEncabezadoBody.public_image1]);
 
-    // Validar campos alt y title de las imágenes
-    setIsValidAltImage1(formEncabezadoBody.alt_image1?.trim().length > 0);
-    setIsValidTitleImage1(formEncabezadoBody.title_image1?.trim().length > 0);
-
-    // Actualizar validación general
-    setValidacionBody(
-      isValidTituloPrincipal &&
-        isValidDescripcion &&
-        isValidTexto1 &&
-        isValidTexto2 &&
-        isValidTexto3 &&
-        isValidAltImage1 &&
-        isValidTitleImage1
+  useEffect(() => {
+    setPreviewImageBody2Url(
+      formGaleryBody.public_image2 || "/blog/blog-10.webp"
     );
-  }, [formEncabezadoBody, formCommendBody]);
+  }, [formGaleryBody.public_image2]);
+
+  useEffect(() => {
+    setPreviewImageBody3Url(
+      formGaleryBody.public_image3 || "/blog/blog-1.webp"
+    );
+  }, [formGaleryBody.public_image3]);
+
+  const servicios = [
+    { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
+    { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
+    {
+      label: "Marketing de Gestión Digital",
+      url: "/servicios/marketing-gestion/",
+    },
+    { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
+  ];
 
   function renderDescripcion(texto, palabraClave, enlace) {
     if (!palabraClave || !enlace) {
@@ -117,40 +155,6 @@ export default function FormBody3(props) {
     });
   }
 
-  const [errors, setErrors] = useState({
-    titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
-    texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    descripcion: {
-      message: "Debe tener entre 10 y 400 caracteres",
-      isValid: null,
-    },
-    image1_alt: { message: "El campo Alt es obligatorio", isValid: null },
-    image1_title: { message: "El campo Title es obligatorio", isValid: null },
-    image2_alt: { message: "El campo Alt es obligatorio", isValid: null },
-    image2_title: { message: "El campo Title es obligatorio", isValid: null },
-    image3_alt: { message: "El campo Alt es obligatorio", isValid: null },
-    image3_title: { message: "El campo Title es obligatorio", isValid: null },
-  });
-
-  const [uploading, setUploading] = useState(false);
-
-  const servicios = [
-    { label: "Diseño y Desarrollo Web", url: "/servicios/desing-desarrollo/" },
-    { label: "Gestión de Redes Sociales", url: "/servicios/gestion-redes/" },
-    {
-      label: "Marketing de Gestión Digital",
-      url: "/servicios/marketing-gestion/",
-    },
-    { label: "Branding y Diseño", url: "/servicios/branding-desing/" },
-  ];
-
-  const handleServiceChange = (e) => {
-    const url = e.target.value;
-    setServiceRedirectUrl(url);
-  };
-
   //HANDLE CHANGE
   const handleChange = (setter) => (e) => {
     const { name, value } = e.target;
@@ -159,7 +163,7 @@ export default function FormBody3(props) {
     switch (name) {
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -168,6 +172,7 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidDescripcion(isValid);
@@ -179,6 +184,61 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
+      case "alt_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "alt_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -190,6 +250,7 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -201,6 +262,7 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -212,36 +274,19 @@ export default function FormBody3(props) {
           },
         }));
         break;
-      case "alt_image1":
-        isValid = value.trim().length > 0;
-        setIsValidAltImage1(isValid);
-        break;
-      case "title_image1":
-        isValid = value.trim().length > 0;
-        setIsValidTitleImage1(isValid);
-        break;
-      case "alt_image2":
-        isValid = value.trim().length > 0;
-        setIsValidAltImage2(isValid);
-        break;
-      case "title_image2":
-        isValid = value.trim().length > 0;
-        setIsValidTitleImage2(isValid);
-        break;
-      case "alt_image3":
-        isValid = value.trim().length > 0;
-        setIsValidAltImage3(isValid);
-        break;
-      case "title_image3":
-        isValid = value.trim().length > 0;
-        setIsValidTitleImage3(isValid);
-        break;
+
       default:
         break;
     }
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidAlt_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image1 &&
+      isValidTitle_image2 &&
+      isValidTitle_image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -296,6 +341,7 @@ export default function FormBody3(props) {
 
   const handleChangeMap = (e, index, field) => {
     const { value } = e.target;
+    console.log(field, value);
     const name = field;
     let isValid = true;
 
@@ -333,19 +379,25 @@ export default function FormBody3(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidAlt_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image1 &&
+      isValidTitle_image2 &&
+      isValidTitle_image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
-      isValidAltImage1 &&
-      isValidTitleImage1 &&
-      isValidAltImage2 &&
-      isValidTitleImage2 &&
-      isValidAltImage3 &&
-      isValidTitleImage3
+      isValidInfoTitulo2 &&
+      isValidInfoDescripcion2 &&
+      isValidInfoTitulo3 &&
+      isValidInfoDescripcion3 &&
+      isValidInfoTitulo4 &&
+      isValidInfoDescripcion4
     ) {
       setValidacionBody(true);
     } else {
@@ -381,10 +433,7 @@ export default function FormBody3(props) {
       setUploading(true);
 
       const tempUrl = URL.createObjectURL(file);
-      setFormEncabezadoBody((prev) => ({
-        ...prev,
-        ["public_image1"]: tempUrl,
-      }));
+      setPreviewImageHeaderUrl(tempUrl); // Usar el nuevo estado para la previsualización
 
       setFileBodyHeader(file);
     } catch (error) {
@@ -400,6 +449,15 @@ export default function FormBody3(props) {
     }
   };
 
+  const handleDeleteHeaderImage = () => {
+    setFormEncabezadoBody((prev) => ({
+      ...prev,
+      public_image1: "/blog/blog-4.webp",
+    }));
+
+    setFileBodyHeader(null);
+  };
+
   const handleImageBody = async (e) => {
     const file = e.target.files[0];
     const name = e.target.name;
@@ -408,10 +466,11 @@ export default function FormBody3(props) {
       setUploading(true);
 
       const tempUrl = URL.createObjectURL(file);
-      setFormGaleryBody((prev) => ({
-        ...prev,
-        [name]: tempUrl,
-      }));
+      if (name === "public_image2") {
+        setPreviewImageBody2Url(tempUrl); // Usar el nuevo estado para la previsualización
+      } else if (name === "public_image3") {
+        setPreviewImageBody3Url(tempUrl); // Usar el nuevo estado para la previsualización
+      }
 
       if (name === "public_image2") {
         setFileBodyFile1(file);
@@ -465,13 +524,10 @@ export default function FormBody3(props) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
                 <div className="relative">
                   <img
-                    src={formEncabezadoBody.public_image1}
-                    alt={
-                      formEncabezadoBody.alt_image1 ||
-                      formEncabezadoBody.titulo ||
-                      "Imagen principal"
+                    src={
+                      previewImageHeaderUrl // Usar el nuevo estado de previsualización
                     }
-                    title={formEncabezadoBody.title_image1}
+                    alt={formEncabezadoBody.titulo || "Imagen principal"}
                     className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative "
                   />
                 </div>
@@ -494,10 +550,10 @@ export default function FormBody3(props) {
               <div className="h-px flex-grow bg-indigo-200 ml-4"></div>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                formGaleryBody.public_image2 || "/blog/blog-10.webp",
-                formGaleryBody.public_image3 || "/blog/blog-1.webp",
+                previewImageBody2Url || "/blog/blog-10.webp", // Usar el nuevo estado de previsualización
+                previewImageBody3Url || "/blog/blog-1.webp", // Usar el nuevo estado de previsualización
               ].map((src, index) => (
                 <div
                   key={index}
@@ -506,18 +562,8 @@ export default function FormBody3(props) {
                   <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <img
                     src={src.startsWith("http") ? src : `${src}`}
-                    alt={
-                      index === 0
-                        ? formGaleryBody.alt_image2
-                        : formGaleryBody.alt_image3 ||
-                          `Imagen ${index + 1} del artículo`
-                    }
-                    title={
-                      index === 0
-                        ? formGaleryBody.title_image2
-                        : formGaleryBody.title_image3
-                    }
-                    className="w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-110"
+                    alt={`Imagen ${index + 1} del artículo`}
+                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg">
@@ -540,9 +586,8 @@ export default function FormBody3(props) {
               <div className="h-px flex-grow bg-green-200 ml-4"></div>
             </div>
 
-            {/* 🔹 Contenedor un poquito más grande */}
-            <div className="bg-gradient-to-br from-green-50 to-indigo-50 rounded-xl p-12 shadow-lg w-full max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-9">
+            <div className="bg-gradient-to-br from-green-50 to-indigo-50 rounded-xl p-6 shadow-md">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {formCommendBody &&
                   [
                     formCommendBody.texto1,
@@ -553,20 +598,16 @@ export default function FormBody3(props) {
                     .map((text, index) => (
                       <div
                         key={`commend-${index}`}
-                        className="flex items-start p-6 bg-white rounded-lg shadow-sm border-l-4 border-green-500 hover:shadow-md transition-shadow"
+                        className="flex items-start p-4 bg-white rounded-lg shadow-sm border-l-4 border-green-500 hover:shadow-md transition-shadow"
                       >
                         <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5 mr-3" />
-                        <p className="text-gray-700 text-base leading-relaxed">
-                          {text}
-                        </p>
+                        <p className="text-gray-700">{text}</p>
                       </div>
                     ))}
               </div>
             </div>
           </div>
 
-          <br></br>
-          <br></br>
           <div>
             <div className="flex items-center mb-8">
               <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3">
@@ -575,7 +616,7 @@ export default function FormBody3(props) {
               <h2 className="text-2xl font-bold text-blue-600">
                 Información Detallada
               </h2>
-              <div className="h-px flex-grow bg-blue-200 ml-4 "></div>
+              <div className="h-px flex-grow bg-blue-200 ml-4"></div>
             </div>
 
             <div className="relative">
@@ -590,26 +631,23 @@ export default function FormBody3(props) {
                     return (
                       <div
                         key={`tarjeta-${index}`}
-                        className={`mb-16 flex flex-col ${
+                        className={`mb-8 flex flex-col ${
                           isEven ? "md:flex-row" : "md:flex-row-reverse"
-                        } bg-white rounded-2xl overflow-hidden shadow-lg`}
+                        } bg-white rounded-xl overflow-hidden shadow-md`}
                       >
-                        {/* 🔹 Lado izquierdo (título) */}
                         <div
                           className={`md:w-1/3 bg-gradient-to-br ${
                             isEven
                               ? "from-blue-600 to-indigo-700"
                               : "from-indigo-700 to-purple-800"
-                          } p-8 flex items-center justify-center`}
+                          } p-6 flex items-center justify-center`}
                         >
-                          <h3 className="text-3xl font-bold text-white text-center">
+                          <h3 className="text-2xl font-bold text-white text-center">
                             {section.titulo}
                           </h3>
                         </div>
-
-                        {/* 🔹 Lado derecho (contenido) */}
-                        <div className="md:w-2/3 p-8">
-                          <p className="text-gray-700 text-lg leading-relaxed">
+                        <div className="md:w-2/3 p-6">
+                          <p className="text-gray-700 leading-relaxed">
                             {renderDescripcion(
                               section.descripcion,
                               section.palabra,
@@ -623,27 +661,14 @@ export default function FormBody3(props) {
               </div>
             </div>
           </div>
-
-          <div className="display flex justify-center items-center my-8">
-            {serviceRedirectUrl && (
-              <a
-                href={serviceRedirectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-800 hover:shadow-xl"
-              >
-                Conoce nuestro servicio
-              </a>
-            )}
-          </div>
         </div>
 
         <div className="h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
       </div>
 
       <div className="w-[420px] flex flex-col justify-center gap-5 p-5">
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-240">
-          <form className="space-y-62">
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-24">
+          <form className="space-y-6">
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <Type className="w-5 h-5 mr-2 text-purple-400" /> Título
@@ -674,7 +699,7 @@ export default function FormBody3(props) {
               />
             </div>
 
-            <div className="relative">
+            <div className="relative flex flex-column justify-center">
               <label
                 className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                   uploading
@@ -686,8 +711,7 @@ export default function FormBody3(props) {
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                 ) : (
                   <>
-                    {formEncabezadoBody.public_image1 !==
-                    "/blog/blog-4.webp" ? (
+                    {previewImageHeaderUrl !== "/blog/blog-4.webp" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -709,18 +733,15 @@ export default function FormBody3(props) {
                   disabled={uploading}
                 />
               </label>
-              <div className="flex justify-center mt-2">
-                <button
-                  type="button"
-                  onClick={props.onDeleteBodyHeaderImage}
-                  className="ml-2 p-2 rounded-full hover:bg-red-100"
-                  title="Eliminar imagen principal"
-                >
-                  <Trash2 className="w-5 h-5 text-red-500" />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleDeleteHeaderImage}
+                className="ml-2 p-2 rounded-full hover:bg-red-100"
+                title="Eliminar imagen principal"
+              >
+                <Trash2 className="w-5 h-5 text-red-500" />
+              </button>
             </div>
-
             {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
             <div className="space-y-3">
               <div>
@@ -755,7 +776,6 @@ export default function FormBody3(props) {
                 />
               </div>
             </div>
-
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <AlignLeft className="w-5 h-5 mr-2 text-purple-400" />{" "}
@@ -775,7 +795,7 @@ export default function FormBody3(props) {
           </form>
         </div>
 
-        <div className="my-20 bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg h-30 overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-280">
+        <div className="my-20 bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-28">
           <form className="space-y-6">
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -783,7 +803,7 @@ export default function FormBody3(props) {
                 <h1 className="ml-3 mt-1 text-xs">250x310 píxeles</h1>
               </label>
 
-              <div className="relative">
+              <div className="relative flex flex-column justify-center">
                 <label
                   className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                     uploading
@@ -795,7 +815,7 @@ export default function FormBody3(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {formGaleryBody.public_image2 !== "/blog/blog-2.webp" ? (
+                      {previewImageBody2Url !== "/blog/blog-2.webp" ? (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">Cambiar imagen</span>
@@ -817,47 +837,48 @@ export default function FormBody3(props) {
                     disabled={uploading}
                   />
                 </label>
-                <div className="flex justify-center mt-2">
-                  <button
-                    type="button"
-                    onClick={props.onDeleteBodyFile1} //  Aca se puede Eliminar
-                    className="ml-2 p-2 rounded-full hover:bg-red-100"
-                    title="Eliminar imagen galeria 1"
-                  >
-                    <Trash2 className="w-5 h-5 text-red-500" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={props.onDeleteBodyFile1} //  Aca se puede Eliminar
+                  className="ml-2 p-2 rounded-full hover:bg-red-100"
+                  title="Eliminar imagen galeria 1"
+                >
+                  <Trash2 className="w-5 h-5 text-red-500" />
+                </button>
+              </div>
+            </div>
+            {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+            <div className="space-y-3">
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Texto Alternativo (Alt)
+                </label>
+                <input
+                  type="text"
+                  name="alt_image2"
+                  value={formGaleryBody.alt_image2 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
+                  maxLength={100}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Descripción de la imagen para accesibilidad"
+                />
               </div>
 
-              {/* CAMPOS ALT Y TITLE PARA IMAGEN 2 */}
-              <div className="space-y-3 mt-4">
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Texto Alternativo (Alt)
-                  </label>
-                  <input
-                    type="text"
-                    name="alt_image2"
-                    value={formGaleryBody.alt_image2}
-                    onChange={handleChange(setFormGaleryBody)}                    
-                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Descripción de la imagen para accesibilidad"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Título de la Imagen
-                  </label>
-                  <input
-                    type="text"
-                    name="title_image2"
-                    value={formGaleryBody.title_image2}
-                    onChange={handleChange(setFormGaleryBody)}                    
-                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Título que aparece al pasar el mouse"
-                  />
-                </div>
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Título de la Imagen
+                </label>
+                <input
+                  type="text"
+                  name="title_image2"
+                  value={formGaleryBody.title_image2 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
+                  maxLength={100}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Título que aparece al pasar el mouse"
+                />
               </div>
             </div>
 
@@ -867,7 +888,7 @@ export default function FormBody3(props) {
                 <h1 className="ml-3 mt-1 text-xs">250x310 píxeles</h1>
               </label>
 
-              <div className="relative">
+              <div className="relative flex flex-column justify-center">
                 <label
                   className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                     uploading
@@ -879,7 +900,7 @@ export default function FormBody3(props) {
                     <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                   ) : (
                     <>
-                      {formGaleryBody.public_image3 !== "/blog/blog-2.webp" ? (
+                      {previewImageBody3Url !== "/blog/blog-2.webp" ? (
                         <>
                           <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                           <span className="text-sm">Cambiar imagen</span>
@@ -901,53 +922,55 @@ export default function FormBody3(props) {
                     disabled={uploading}
                   />
                 </label>
-                <div className="flex justify-center mt-2">
-                  <button
-                    type="button"
-                    onClick={props.onDeleteBodyFile2} //  Aca se puede Eliminar
-                    className="ml-2 p-2 rounded-full hover:bg-red-100"
-                    title="Eliminar imagen de galeria 2"
-                  >
-                    <Trash2 className="w-5 h-5 text-red-500" />
-                  </button>
-                </div>
-              </div>
-
-              {/* CAMPOS ALT Y TITLE PARA IMAGEN 3 */}
-              <div className="space-y-3 mt-4">
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Texto Alternativo (Alt)
-                  </label>
-                  <input
-                    type="text"
-                    name="alt_image3"
-                    value={formGaleryBody.alt_image3}
-                    onChange={handleChange(setFormGaleryBody)}                
-                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Descripción de la imagen para accesibilidad"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white text-sm font-medium mb-2">
-                    Título de la Imagen
-                  </label>
-                  <input
-                    type="text"
-                    name="title_image3"
-                    value={formGaleryBody.title_image3}
-                    onChange={handleChange(setFormGaleryBody)}                  
-                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Título que aparece al pasar el mouse"
-                  />
-                </div>
+                <button
+                  type="button"
+                  onClick={props.onDeleteBodyFile2} //  Aca se puede Eliminar
+                  className="ml-2 p-2 rounded-full hover:bg-red-100"
+                  title="Eliminar imagen de galeria 2"
+                >
+                  <Trash2 className="w-5 h-5 text-red-500" />
+                </button>
               </div>
             </div>
+            {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+            <div className="space-y-3">
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Texto Alternativo (Alt)
+                </label>
+                <input
+                  type="text"
+                  name="alt_image3"
+                  value={formGaleryBody.alt_image3 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
+                  maxLength={100}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Descripción de la imagen para accesibilidad"
+                />
+              </div>
+
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Título de la Imagen
+                </label>
+                <input
+                  type="text"
+                  name="title_image3"
+                  value={formGaleryBody.title_image3 || ""}
+                  onChange={handleChange(setFormGaleryBody)}
+                  maxLength={100}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Título que aparece al pasar el mouse"
+                />
+              </div>
+            </div>
+            
           </form>
         </div>
 
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 -mt-12">
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <form className="space-y-6">
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -1018,9 +1041,9 @@ export default function FormBody3(props) {
             </div>
           </form>
         </div>
-        <br></br>
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 mt-6">
-          <form className="space-y-6 ">
+
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+          <form className="space-y-6">
             {formInfoBody.map((item, index) => (
               <div key={index}>
                 <div className="pb-4">
@@ -1069,11 +1092,8 @@ export default function FormBody3(props) {
                     }
                   />
                 </div>
-
                 <div className="w-full flex justify-end">
-                  {" "}
                   <BotonAñadirLink
-                    // texto={item.descripcion}
                     item={item}
                     index={index}
                     servicios={servicios}
@@ -1083,24 +1103,6 @@ export default function FormBody3(props) {
               </div>
             ))}
           </form>
-        </div>
-        {/* NUEVO SELECT para elegir servicio */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-          <label className="block mb-2 font-semibold text-white">
-            Selecciona servicio para el botón
-          </label>
-          <select
-            className="w-full p-3 rounded text-white bg-gray-900 border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            value={serviceRedirectUrl}
-            onChange={handleServiceChange}
-          >
-            <option value="">-- Ninguno --</option>
-            {servicios.map((serv) => (
-              <option key={serv.url} value={serv.url}>
-                {serv.label}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
     </div>

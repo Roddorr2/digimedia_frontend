@@ -1,10 +1,10 @@
-"use client";
-import FormBody2 from "../../components/FormBody2";
-import FormFooter from "../../components/FormFooter";
-import FormHeader from "../../components/FormHeader";
-import { useState, useEffect, Suspense } from "react";
-import { Save } from "lucide-react";
-import Swal from "sweetalert2";
+'use client'
+import FormBody2 from '../../components/FormBody2'
+import FormFooter from '../../components/FormFooter'
+import FormHeader from '../../components/FormHeader'
+import { useState, useEffect, Suspense } from 'react';
+import { Flag, Save } from "lucide-react"
+import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
 import { useSearchParams } from "next/navigation";
@@ -67,16 +67,16 @@ const PageContent = () => {
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
     public_image1: "/blog/blog-10.webp",
     url_image1: "",
-    alt_image1: "",
-    title_image1: "",
+    alt_image1: "Alt de la imagen 1",
+    title_image1: "Título de la imagen 1",
     public_image2: "/blog/blog-10.webp",
     url_image2: "",
-    alt_image2: "",
-    title_image2: "",
+    alt_image2: "Alt de la imagen 2",
+    title_image2: "Título de la imagen 2",
     public_image3: "/blog/blog-10.webp",
     url_image3: "",
-    alt_image3: "",
-    title_image3: "",
+    alt_image3: "Alt de la imagen 3",
+    title_image3: "Título de la imagen 3",
     estado: 1,
   });
 
@@ -86,10 +86,10 @@ const PageContent = () => {
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
-    alt: "",
-    title: "",
-    meta_title: "",
-    meta_descripcion: "",
+    alt: "Imagen de encabezado del blog",
+    title: "Imagen de encabezado del blog",
+    meta_title: "Meta Title del Blog",
+    meta_descripcion: "Meta Description del Blog",
   });
 
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
@@ -99,8 +99,8 @@ const PageContent = () => {
     fecha: new Date().toISOString().split("T")[0],
     public_image1: "/blog/blog-4.webp",
     url_image1: "",
-    alt_image1: "",
-    title_image1: "",
+    alt_image1: "Alt de la imagen 1",
+    title_image1: "Título de la imagen 1",
   });
 
   const [formInfoBody, setFormInfoBody] = useState([
@@ -146,12 +146,16 @@ const PageContent = () => {
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: "/blog/blog-2.webp",
     url_image2: "",
-    alt_image2: "",
-    title_image2: "",
+    alt_image2: "Alt de la imagen 2",
+    title_image2: "Título de la imagen 2",
     public_image3: "/blog/blog-2.webp",
     url_image3: "",
-    alt_image3: "",
-    title_image3: "",
+    alt_image3: "Alt de la imagen 3",
+    title_image3: "Título de la imagen 3",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    services_url: "",
   });
 
   // Funciones de eliminación de imágenes
@@ -292,10 +296,10 @@ const PageContent = () => {
         public_image:
           responseHeader.public_image || "/blog/fondo_blog_extend.webp",
         url_image: responseHeader.url_image || "",
-        alt: responseHeader.alt || "",
-        title: responseHeader.title || "",
-        meta_title: responseHeader.meta_title || "",
-        meta_descripcion: responseHeader.meta_descripcion || "",
+        alt: responseHeader.alt || "Imagen de encabezado del blog",
+        title: responseHeader.title || "Imagen de encabezado del blog",
+        meta_title: responseHeader.meta_title || "Meta Title del Blog",
+        meta_descripcion: responseHeader.meta_descripcion || "Meta Description del Blog",
       });
 
       setFormFooter({
@@ -306,16 +310,16 @@ const PageContent = () => {
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
         url_image1: responseFooter.url_image1 || "",
-        alt_image1: responseFooter.alt_image1 || "",
-        title_image1: responseFooter.title_image1 || "",
+        alt_image1: responseFooter.alt_image1 || "Alt de la imagen 1",
+        title_image1: responseFooter.title_image1 || "Título de la imagen 1",
         public_image2: responseFooter.public_image2 || "/blog/blog-10.webp",
         url_image2: responseFooter.url_image2 || "",
-        alt_image2: responseFooter.alt_image2 || "",
-        title_image2: responseFooter.title_image2 || "",
+        alt_image2: responseFooter.alt_image2 || "Alt de la imagen 2",
+        title_image2: responseFooter.title_image2 || "Título de la imagen 2",
         public_image3: responseFooter.public_image3 || "/blog/blog-10.webp",
         url_image3: responseFooter.url_image3 || "",
-        alt_image3: responseFooter.alt_image3 || "",
-        title_image3: responseFooter.title_image3 || "",
+        alt_image3: responseFooter.alt_image3 || "Alt de la imagen 3",
+        title_image3: responseFooter.title_image3 || "Título de la imagen 3",
         estado: responseFooter.estado || 1,
       });
 
@@ -330,19 +334,23 @@ const PageContent = () => {
         fecha: fechaFormateada,
         public_image1: responseBody.public_image1 || "/blog/blog-4.webp",
         url_image1: responseBody.url_image1 || "",
-        alt_image1: responseBody.alt_image1 || "",
-        title_image1: responseBody.title_image1 || "",
+        alt_image1: responseBody.alt_image1 || "Alt de la imagen 1",
+        title_image1: responseBody.title_image1 || "Título de la imagen 1",
       });
 
       setFormGaleryBody({
         public_image2: responseBody.public_image2 || "/blog/blog-2.webp",
         url_image2: responseBody.url_image2 || "",
+        alt_image2: responseBody.alt_image2 || "Alt de la imagen 2",
+        title_image2: responseBody.title_image2 || "Título de la imagen 2",
         public_image3: responseBody.public_image3 || "/blog/blog-2.webp",
         url_image3: responseBody.url_image3 || "",
-        alt_image2: responseBody.alt_image2 || "",
-        title_image2: responseBody.title_image2 || "",
-        alt_image3: responseBody.alt_image3 || "",
-        title_image3: responseBody.title_image3 || "",
+        alt_image3: responseBody.alt_image3 || "Alt de la imagen 3",
+        title_image3: responseBody.title_image3 || "Título de la imagen 3",
+        flag_galeria: responseBody.flag_galeria || 1,
+        flag_consejos: responseBody.flag_consejos || 1,
+        flag_informacion: responseBody.flag_informacion || 1,
+        services_url: responseBody.services_url || "",
       });
 
       // Cargar tarjetas de información
@@ -447,6 +455,7 @@ const PageContent = () => {
       id_commend_tarjeta: id_commend_tarjeta,
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
+      fecha: formEncabezadoBody.fecha,
       alt_image1: formEncabezadoBody.alt_image1,
       title_image1: formEncabezadoBody.title_image1,
       public_image2: formGaleryBody.public_image2,
@@ -457,6 +466,9 @@ const PageContent = () => {
       url_image3: formGaleryBody.url_image3,
       alt_image3: formGaleryBody.alt_image3,
       title_image3: formGaleryBody.title_image3,
+      flag_galeria: formGaleryBody.flag_galeria,
+      flag_consejos: formGaleryBody.flag_consejos,
+      flag_informacion: formGaleryBody.flag_informacion,
       service_url: serviceRedirectUrl,
     };
 

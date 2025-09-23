@@ -160,13 +160,6 @@ export default function FormBody3(props) {
     setShowDetailedInfo,
   } = props;
 
-  // Estados para títulos editables
-  const [galleryTitle, setGalleryTitle] = useState("Galería");
-  const [adviceTitle, setAdviceTitle] = useState("Consejos");
-  const [detailedInfoTitle, setDetailedInfoTitle] = useState(
-    "Información Detallada"
-  );
-
   // Contenido Principal
   const [isValidTitulo, setIsValidTitulo] = useState(true);
   const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
@@ -226,13 +219,14 @@ export default function FormBody3(props) {
 
   const [errors, setErrors] = useState({
     titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
-    texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     descripcion: {
       message: "Debe tener entre 10 y 400 caracteres",
       isValid: null,
     },
+    texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+    texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
+
     alt_image1: {
       message: "Debe tener entre 10 y 400 caracteres",
       isValid: null,
@@ -347,6 +341,33 @@ export default function FormBody3(props) {
       case "title_image3":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidTitle_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "texto1":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "texto2":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "texto3":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto3(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: { ...prev[name], isValid: isValid },
@@ -893,7 +914,7 @@ export default function FormBody3(props) {
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                 ) : (
                   <>
-                    {formEncabezadoBody?.public_image1 !==
+                    {formEncabezadoBody.public_image1 !==
                     "/blog/blog-4.webp" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
@@ -926,42 +947,41 @@ export default function FormBody3(props) {
                   <Trash2 className="w-5 h-5 text-red-500" />
                 </button>
               </div>
-            </div>
+              {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Texto Alternativo (Alt)
+                  </label>
+                  <input
+                    type="text"
+                    name="alt_image1"
+                    value={formEncabezadoBody.alt_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Descripción de la imagen para accesibilidad"
+                  />
+                </div>
 
-            <div className="space-y-3">
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  Texto Alternativo (Alt)
-                </label>
-                <input
-                  type="text"
-                  name="alt_image1"
-                  value={formEncabezadoBody?.alt_image1 || ""}
-                  onChange={handleChange(setFormEncabezadoBody)}
-                  maxLength={100}
-                  autoComplete="off"
-                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                  placeholder="Descripción de la imagen para accesibilidad"
-                />
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Título de la Imagen
+                  </label>
+                  <input
+                    type="text"
+                    name="title_image1"
+                    value={formEncabezadoBody.title_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Título que aparece al pasar el mouse"
+                  />
+                </div>
               </div>
-
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  Título de la Imagen
-                </label>
-                <input
-                  type="text"
-                  name="title_image1"
-                  value={formEncabezadoBody?.title_image1 || ""}
-                  onChange={handleChange(setFormEncabezadoBody)}
-                  maxLength={100}
-                  autoComplete="off"
-                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                  placeholder="Título que aparece al pasar el mouse"
-                />
-              </div>
             </div>
-
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <AlignLeft className="w-5 h-5 mr-2 text-purple-400" />
@@ -999,54 +1019,52 @@ export default function FormBody3(props) {
                 </label>
                 <p className="text-xs text-gray-400 mb-2">250x310 píxeles</p>
 
-                <div className="relative">
-                  <label
-                    className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                      uploading
-                        ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                        : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                    }`}
+              <div className="relative">
+                <label
+                  className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                    uploading
+                      ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                      : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                  }`}
+                >
+                  {uploading ? (
+                    <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                  ) : (
+                    <>
+                      {formGaleryBody.public_image2 !== "/blog/blog-2.webp" ? (
+                        <>
+                          <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                          <span className="text-sm">Cambiar imagen</span>
+                        </>
+                      ) : (
+                        <>
+                          <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                          <span className="text-sm">Seleccionar imagen</span>
+                        </>
+                      )}
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="public_image2"
+                    className="hidden"
+                    onChange={handleImageBody}
+                    disabled={uploading}
+                  />
+                </label>
+                <div className="flex justify-center mt-2">
+                  <button
+                    type="button"
+                    onClick={props.onDeleteBodyFile1} //  Aca se puede Eliminar
+                    className="ml-2 p-2 rounded-full hover:bg-red-100"
+                    title="Eliminar imagen galeria 1"
                   >
-                    {uploading ? (
-                      <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
-                    ) : (
-                      <>
-                        {formGaleryBody?.public_image2 !==
-                        "/blog/blog-2.webp" ? (
-                          <>
-                            <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Cambiar imagen</span>
-                          </>
-                        ) : (
-                          <>
-                            <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Seleccionar imagen</span>
-                          </>
-                        )}
-                      </>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="public_image2"
-                      className="hidden"
-                      onChange={handleImageBody}
-                      disabled={uploading}
-                    />
-                  </label>
-                  <div className="flex justify-center mt-2">
-                    <button
-                      type="button"
-                      onClick={props.onDeleteBodyFile1}
-                      className="ml-2 p-2 rounded-full hover:bg-red-100"
-                      title="Eliminar imagen galeria 1"
-                    >
-                      <Trash2 className="w-5 h-5 text-red-500" />
-                    </button>
-                  </div>
+                    <Trash2 className="w-5 h-5 text-red-500" />
+                  </button>
                 </div>
-
-                <div className="space-y-3 mt-4">
+                {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+                <div className="space-y-3">
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">
                       Texto Alternativo (Alt)
@@ -1054,7 +1072,7 @@ export default function FormBody3(props) {
                     <input
                       type="text"
                       name="alt_image2"
-                      value={formGaleryBody?.alt_image2 || ""}
+                      value={formGaleryBody.alt_image2 || ""}
                       onChange={handleChange(setFormGaleryBody)}
                       maxLength={100}
                       autoComplete="off"
@@ -1070,7 +1088,7 @@ export default function FormBody3(props) {
                     <input
                       type="text"
                       name="title_image2"
-                      value={formGaleryBody?.title_image2 || ""}
+                      value={formGaleryBody.title_image2 || ""}
                       onChange={handleChange(setFormGaleryBody)}
                       maxLength={100}
                       autoComplete="off"
@@ -1080,6 +1098,7 @@ export default function FormBody3(props) {
                   </div>
                 </div>
               </div>
+            </div>
 
               <div>
                 <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -1088,69 +1107,88 @@ export default function FormBody3(props) {
                 </label>
                 <p className="text-xs text-gray-400 mb-2">250x310 píxeles</p>
 
-                <div className="relative">
-                  <label
-                    className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                      uploading
-                        ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                        : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                    }`}
+              <div className="relative">
+                <label
+                  className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                    uploading
+                      ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                      : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                  }`}
+                >
+                  {uploading ? (
+                    <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                  ) : (
+                    <>
+                      {formGaleryBody.public_image3 !== "/blog/blog-2.webp" ? (
+                        <>
+                          <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                          <span className="text-sm">Cambiar imagen</span>
+                        </>
+                      ) : (
+                        <>
+                          <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                          <span className="text-sm">Seleccionar imagen</span>
+                        </>
+                      )}
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="public_image3"
+                    className="hidden"
+                    onChange={handleImageBody}
+                    disabled={uploading}
+                  />
+                </label>
+                <div className="flex justify-center mt-2">
+                  <button
+                    type="button"
+                    onClick={props.onDeleteBodyFile2} //  Aca se puede Eliminar
+                    className="ml-2 p-2 rounded-full hover:bg-red-100"
+                    title="Eliminar imagen de galeria 2"
                   >
-                    {uploading ? (
-                      <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
-                    ) : (
-                      <>
-                        {formGaleryBody?.public_image3 !==
-                        "/blog/blog-2.webp" ? (
-                          <>
-                            <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Cambiar imagen</span>
-                          </>
-                        ) : (
-                          <>
-                            <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                            <span className="text-sm">Seleccionar imagen</span>
-                          </>
-                        )}
-                      </>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="public_image3"
-                      className="hidden"
-                      onChange={handleImageBody}
-                      disabled={uploading}
-                    />
+                    <Trash2 className="w-5 h-5 text-red-500" />
+                  </button>
+                </div>
+              </div>
+              {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Texto Alternativo (Alt)
                   </label>
-                  <div className="flex justify-center mt-2">
-                    <button
-                      type="button"
-                      onClick={props.onDeleteBodyFile2}
-                      className="ml-2 p-2 rounded-full hover:bg-red-100"
-                      title="Eliminar imagen de galeria 2"
-                    >
-                      <Trash2 className="w-5 h-5 text-red-500" />
-                    </button>
-                  </div>
+                  <input
+                    type="text"
+                    name="alt_image3"
+                    value={formGaleryBody.alt_image3 || ""}
+                    onChange={handleChange(setFormGaleryBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Descripción de la imagen para accesibilidad"
+                  />
                 </div>
 
-                <div className="space-y-3 mt-4">
-                  <div>
-                    <label className="block text-white text-sm font-medium mb-2">
-                      Texto Alternativo (Alt)
-                    </label>
-                    <input
-                      type="text"
-                      name="alt_image3"
-                      value={formGaleryBody?.alt_image3 || ""}
-                      onChange={handleChange(setFormGaleryBody)}
-                      maxLength={100}
-                      autoComplete="off"
-                      className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                      placeholder="Descripción de la imagen para accesibilidad"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Título de la Imagen
+                  </label>
+                  <input
+                    type="text"
+                    name="title_image3"
+                    value={formGaleryBody.title_image3 || ""}
+                    onChange={handleChange(setFormGaleryBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Título que aparece al pasar el mouse"
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
 
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">

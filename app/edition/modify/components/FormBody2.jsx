@@ -23,15 +23,15 @@ export default function FormBody2(props) {
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(false);
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Seccion Informacion
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
-  const [isValidTexto1, setIsValidTexto1] = useState(true);
-  const [isValidTexto2, setIsValidTexto2] = useState(true);
-  const [isValidTexto3, setIsValidTexto3] = useState(true);
-  const [isValidTexto4, setIsValidTexto4] = useState(true);
-  const [isValidTexto5, setIsValidTexto5] = useState(true);
+  const [isValidAlt_Image1, setIsValidAlt_Image1] = useState(true);
+  const [isValidTitle_Image1, setIsValidTitle_Image1] = useState(true);
 
+  // Seccion de Informacion
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
+
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
 
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
@@ -41,14 +41,21 @@ export default function FormBody2(props) {
   const [isValidInfoDescripcion3, setIsValidInfoDescripcion3] = useState(true);
 
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
+
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
-  const [isValidAltImage1, setIsValidAltImage1] = useState(true);
-  const [isValidTitleImage1, setIsValidTitleImage1] = useState(true);
-  const [isValidAltImage2, setIsValidAltImage2] = useState(true);
-  const [isValidTitleImage2, setIsValidTitleImage2] = useState(true);
-  const [isValidAltImage3, setIsValidAltImage3] = useState(true);
-  const [isValidTitleImage3, setIsValidTitleImage3] = useState(true);
+  // Seccion de Consejos
+  const [isValidTexto1, setIsValidTexto1] = useState(true);
+  const [isValidTexto2, setIsValidTexto2] = useState(true);
+  const [isValidTexto3, setIsValidTexto3] = useState(true);
+  const [isValidTexto4, setIsValidTexto4] = useState(true);
+  const [isValidTexto5, setIsValidTexto5] = useState(true);
+
+  // Galeria
+  const [isValidAlt_Image2, setIsValidAlt_Image2] = useState(true);
+  const [isValidTitle_Image2, setIsValidTitle_Image2] = useState(true);
+  const [isValidAlt_Image3, setIsValidAlt_Image3] = useState(true);
+  const [isValidTitle_Image3, setIsValidTitle_Image3] = useState(true);
 
   const {
     formCommendBody,
@@ -188,7 +195,7 @@ export default function FormBody2(props) {
     switch (name) {
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -208,6 +215,31 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
+      case "alt_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -219,6 +251,7 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -230,6 +263,7 @@ export default function FormBody2(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -265,37 +299,68 @@ export default function FormBody2(props) {
           },
         }));
         break;
-      case "alt_image1":
-        isValid = value.trim().length > 0;
-        setIsValidAltImage1(isValid);
-        break;
-      case "title_image1":
-        isValid = value.trim().length > 0;
-        setIsValidTitleImage1(isValid);
-        break;
+
       case "alt_image2":
-        isValid = value.trim().length > 0;
-        setIsValidAltImage2(isValid);
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
         break;
+
       case "title_image2":
-        isValid = value.trim().length > 0;
-        setIsValidTitleImage2(isValid);
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
         break;
+
       case "alt_image3":
-        isValid = value.trim().length > 0;
-        setIsValidAltImage3(isValid);
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
         break;
+
       case "title_image3":
-        isValid = value.trim().length > 0;
-        setIsValidTitleImage3(isValid);
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
         break;
+
       default:
         break;
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_Image1 &&
+      isValidAlt_Image2 &&
+      isValidAlt_Image3 &&
+      isValidTitle_Image1 &&
+      isValidTitle_Image2 &&
+      isValidTitle_Image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -364,11 +429,19 @@ export default function FormBody2(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_Image1 &&
+      isValidAlt_Image2 &&
+      isValidAlt_Image3 &&
+      isValidTitle_Image1 &&
+      isValidTitle_Image2 &&
+      isValidTitle_Image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
+      isValidTexto4 &&
+      isValidTexto5 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
       isValidInfoTitulo2 &&
@@ -595,6 +668,138 @@ export default function FormBody2(props) {
         isValid = selectedDate <= today;
         break;
 
+      case "alt_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto1":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto2":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto3":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto4":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto4(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "texto5":
+        isValid = value.trim().length >= 10 && value.length <= 150;
+        setIsValidTexto5(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image2":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length <= 125;
+        setIsValidAlt_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length <= 125;
+        setIsValidTitle_Image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
       default:
         break;
     }
@@ -617,9 +822,12 @@ export default function FormBody2(props) {
 
   return (
     <div className="relative bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden">
-      <div className="flex gap-4">
-        <div>
-          <div className="top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+      {/* Layout principal con formulario a la derecha */}
+      <div className="flex">
+        {/* Columna izquierda - Vista previa */}
+        <div className="flex-1 min-w-0">
+          {/* Header con título y controles */}
+          <div className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2 text-gray-500 text-sm">
               <Clock className="w-4 h-4" />
               <span>{formEncabezadoBody.fecha}</span>
@@ -634,9 +842,10 @@ export default function FormBody2(props) {
             </div>
           </div>
 
-          <div className="relative w-[850px] h-[300px] md:h-[400px] overflow-hidden">
+          {/* Imagen hero con título */}
+          <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden">
             <img
-              src={previewImageHeaderUrl} // Usar el nuevo estado de previsualización
+              src={previewImageHeaderUrl}
               alt={formEncabezadoBody.titulo}
               className="w-full h-full object-cover"
             />
@@ -649,16 +858,24 @@ export default function FormBody2(props) {
             </div>
           </div>
 
-          <div className="mx-10 my-5 text-lg text-gray-700 leading-relaxed">
+          {/* Descripción */}
+          <div className="px-6 md:px-10 py-6 text-lg text-gray-700 leading-relaxed">
             {formEncabezadoBody.descripcion}
           </div>
         </div>
-        <div className="relative mt-28 w-full p-6">
-          <div className="">
+
+        {/* Columna derecha - Formulario de edición */}
+        <div className="w-[450px] flex-shrink-0 bg-gray-50 border-l border-gray-200">
+          <div className="p-6 h-full overflow-y-auto">
             <div className="bg-black/90 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
-              <form className="grid gap-5">
-                <div className="mb-3">
-                  <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+              <h3 className="text-white text-lg font-semibold mb-4 flex items-center">
+                <Type className="w-5 h-5 mr-2 text-blue-400" />
+                Editar Encabezado
+              </h3>
+
+              <form className="space-y-4">
+                <div>
+                  <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
                     <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título
                     <ValidationMessage error={errors.titulo} />
                   </label>
@@ -669,12 +886,13 @@ export default function FormBody2(props) {
                     minLength={5}
                     value={formEncabezadoBody.titulo}
                     onChange={handleChange(setFormEncabezadoBody)}
-                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="Título del pie de página"
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    placeholder="Título del artículo"
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+
+                <div>
+                  <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
                     <AlignLeft className="w-4 h-4 mr-1.5 text-blue-400" />{" "}
                     Descripción
                     <ValidationMessage error={errors.descripcion} />
@@ -685,13 +903,14 @@ export default function FormBody2(props) {
                     onChange={handleChange(setFormEncabezadoBody)}
                     maxLength={310}
                     minLength={10}
-                    rows={3}
-                    className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
-                    placeholder="Descripción corta"
+                    rows={4}
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
+                    placeholder="Descripción del artículo"
                   ></textarea>
                 </div>
-                <div className="mb-3 mt-3">
-                  <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+
+                <div>
+                  <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
                     <Clock1 className="w-4 h-4 mr-1.5 text-blue-400" /> Fecha
                     <ValidationMessage error={errors.fecha} />
                   </label>
@@ -700,41 +919,36 @@ export default function FormBody2(props) {
                     name="fecha"
                     value={formEncabezadoBody.fecha}
                     onChange={handleEncabezadoBodyChange}
-                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="Fecha de Creación página"
+                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
                   />
                 </div>
-                <div className="">
-                  <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+
+                <div>
+                  <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
                     <Image className="w-4 h-4 mr-1.5 text-blue-400" /> Imagen de
                     Fondo
-                    <h1 className="ml-3 mt-1 text-xs">980x450 píxeles</h1>
+                    <span className="ml-2 text-xs text-gray-400">
+                      980x450px
+                    </span>
                   </label>
-                  <div className="relative flex flex-column justify-center">
+                  <div className="space-y-2">
                     <label
-                      className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                      className={`w-full flex items-center justify-center p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                         uploading
                           ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
                           : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
                       }`}
                     >
                       {uploading ? (
-                        <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                        <Loader2 className="w-4 h-4 animate-spin text-purple-400 mr-2" />
                       ) : (
                         <>
-                          {previewImageHeaderUrl !== "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
-                            <>
-                              <Image className="w-5 h-5 mr-2 text-purple-400" />
-                              <span className="text-sm">Cambiar imagen</span>
-                            </>
-                          ) : (
-                            <>
-                              <Image className="w-5 h-5 mr-2 text-purple-400" />
-                              <span className="text-sm">
-                                Seleccionar imagen
-                              </span>
-                            </>
-                          )}
+                          <Image className="w-4 h-4 mr-2 text-purple-400" />
+                          <span className="text-xs">
+                            {previewImageHeaderUrl !== "/blog/blog-4.webp"
+                              ? "Cambiar imagen"
+                              : "Seleccionar imagen"}
+                          </span>
                         </>
                       )}
                       <input
@@ -746,44 +960,58 @@ export default function FormBody2(props) {
                         disabled={uploading}
                       />
                     </label>
-
                     <button
                       type="button"
                       onClick={props.onDeleteBodyHeaderImage}
-                      className="ml-2 p-2 rounded-full hover:bg-red-100"
-                      title="Eliminar imagen principal"
+                      className="w-full p-2 rounded-lg hover:bg-red-500/20 transition-colors flex items-center justify-center"
+                      title="Eliminar imagen"
                     >
-                      <Trash2 className="w-5 h-5 text-red-500" />
+                      <Trash2 className="w-4 h-4 text-red-500 mr-2" />
+                      <span className="text-red-500 text-xs">
+                        Eliminar imagen
+                      </span>
                     </button>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-300 mb-1">
-                    Texto alternativo (alt)
-                  </label>
-                  <input
-                    type="text"
-                    name="alt_image1"
-                    value={formEncabezadoBody.alt_image1 || ""}
-                    onChange={handleChange(setFormEncabezadoBody)}
-                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="Describe la imagen (para accesibilidad y SEO)"
-                  />
-                </div>
+                    {/* Texto Alternativo (Alt) */}
+                    <div>
+                      <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                        Alternativo (Alt)
+                      </label>
+                      <input
+                        type="text"
+                        name="alt_image1"
+                        maxLength={125}
+                        value={formEncabezadoBody.alt_image1 || ""}
+                        onChange={handleChange(setFormEncabezadoBody)}
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        placeholder="Imagen principal: Título del Blog"
+                      />
+                      <p className="text-gray-400 text-xs mt-1">
+                        Máximo 125 caracteres - Describe qué se ve en la imagen
+                      </p>
+                    </div>
 
-                {/* Campo TITLE */}
-                <div>
-                  <label className="block text-xs text-gray-300 mb-1">
-                    Título de la imagen
-                  </label>
-                  <input
-                    type="text"
-                    name="title_image1"
-                    value={formEncabezadoBody.title_image1 || ""}
-                    onChange={handleChange(setFormEncabezadoBody)}
-                    className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                    placeholder="Título que aparece al pasar el cursor"
-                  />
+                    {/* Título de Imagen */}
+                    <div>
+                      <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                        <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título
+                        de Imagen
+                      </label>
+                      <input
+                        type="text"
+                        name="title_image1"
+                        maxLength={100}
+                        value={formEncabezadoBody.title_image1 || ""}
+                        onChange={handleChange(setFormEncabezadoBody)}
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        placeholder="Ver imagen: Título del Blog"
+                      />
+                      <p className="text-gray-400 text-xs mt-1">
+                        Máximo 100 caracteres - Información adicional sobre la
+                        imagen
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </form>
             </div>
@@ -791,6 +1019,7 @@ export default function FormBody2(props) {
         </div>
       </div>
 
+      {/* Tabs y contenido adicional */}
       <div className="px-6 md:px-10 pb-8">
         <div className="flex border-b border-gray-200 mb-8">
           <button
@@ -824,13 +1053,14 @@ export default function FormBody2(props) {
             Galería
           </button>
         </div>
+
         <div className="mb-10">
           {activeTab === "info" && (
-            <div className="space-y-6 ">
+            <div className="space-y-6">
               {formInfoBody &&
                 formInfoBody.map((section, index) => (
                   <div className="flex gap-5" key={`tarjeta-${index}`}>
-                    <div className="bg-gradient-to-r w-full  from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-gradient-to-r w-full from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                       <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
                       <div className="p-6">
                         <h3 className="text-xl font-bold mb-3 text-teal-700">
@@ -849,7 +1079,7 @@ export default function FormBody2(props) {
                       <form className="grid gap-5">
                         <div className="mb-3">
                           <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
-                            <Type className="w-4 h-4 mr-1.5 text-blue-400" />{" "}
+                            <Type className="w-4 h-4 mr-1.5 text-blue-400" />
                             {"Info Relevante " + (index + 1)}
                             <ValidationMessage
                               error={
@@ -870,12 +1100,12 @@ export default function FormBody2(props) {
                               handleChangeMap(e, index, "titulo")
                             }
                             className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                            placeholder="Título del pie de página"
+                            placeholder="Título de la sección"
                           />
                         </div>
                         <div className="mb-3">
                           <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
-                            <AlignLeft className="w-4 h-4 mr-1.5 text-blue-400" />{" "}
+                            <AlignLeft className="w-4 h-4 mr-1.5 text-blue-400" />
                             {"Descripción " + (index + 1)}
                             <ValidationMessage
                               error={
@@ -896,7 +1126,7 @@ export default function FormBody2(props) {
                             minLength={10}
                             rows={3}
                             className="w-full h-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent resize-none"
-                            placeholder="Descripción corta"
+                            placeholder="Descripción de la sección"
                           ></textarea>
                         </div>
                         <div className="w-full justify-end">
@@ -916,7 +1146,7 @@ export default function FormBody2(props) {
 
           {activeTab === "tips" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100 ">
+              <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100">
                 <h3 className="text-2xl font-semibold mb-8 text-slate-800 text-center">
                   {formCommendBody.titulo || "Consejos"}
                 </h3>
@@ -962,14 +1192,14 @@ export default function FormBody2(props) {
                 )}
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm p-8 border border-slate-100 ">
+              <div className="bg-white rounded-xl shadow-sm p-8 border border-slate-100">
                 <h4 className="text-lg font-medium text-slate-800 mb-6 pb-2 border-b border-slate-100">
                   Editar consejos
                 </h4>
 
                 <form className="space-y-5">
                   <div>
-                    <label className="flex text-sm font-medium text-slate-700 mb-1.5 ">
+                    <label className="flex text-sm font-medium text-slate-700 mb-1.5">
                       Título de la sección
                       <ValidationMessage error={commendErrors.titulo} />
                     </label>
@@ -983,7 +1213,6 @@ export default function FormBody2(props) {
                         className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 text-sm transition-all duration-200 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 focus:bg-white"
                         placeholder="Ej: Consejos útiles"
                       />
-
                       <BookType className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     </div>
                   </div>
@@ -1041,14 +1270,21 @@ export default function FormBody2(props) {
                     key={index}
                     className="bg-white rounded-lg shadow-sm overflow-hidden"
                   >
+                    {/* Imagen preview */}
                     <div className="relative h-64 bg-slate-100">
                       <img
                         src={
                           image.id === 2
                             ? previewImageBody2Url
                             : previewImageBody3Url
-                        } // Usar el nuevo estado de previsualización
-                        alt={`${image.title}`}
+                        }
+                        alt={
+                          formGaleryBody[`alt_image${image.id}`] || image.title
+                        }
+                        title={
+                          formGaleryBody[`title_image${image.id}`] ||
+                          image.title
+                        }
                         className="w-full h-64 object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">
@@ -1057,16 +1293,21 @@ export default function FormBody2(props) {
                         </button>
                       </div>
                     </div>
-                    <div className="p-4">
-                      <label className="text-sm font-medium text-slate-700 mb-3 flex items-center">
+
+                    {/* Controles */}
+                    <div className="p-4 space-y-3">
+                      <label className="text-sm font-medium text-slate-700 flex items-center">
                         <Type className="w-4 h-4 mr-1.5 text-slate-400" />
                         {image.title}
-                        <h1 className="ml-3 mt-1 text-xs">250x450 píxeles</h1>
+                        <span className="ml-3 text-xs text-slate-400">
+                          250x450px
+                        </span>
                       </label>
 
-                      <div className="relative flex flex-row">
+                      {/* Subir / eliminar imagen */}
+                      <div className="flex items-center gap-2">
                         <label
-                          className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                          className={`flex-1 flex items-center justify-center p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                             uploading
                               ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
                               : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
@@ -1076,24 +1317,15 @@ export default function FormBody2(props) {
                             <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                           ) : (
                             <>
-                              {(image.id === 2
-                                ? previewImageBody2Url
-                                : previewImageBody3Url) !==
-                              "/blog/blog-4.webp" ? ( // Usar el nuevo estado de previsualización
-                                <>
-                                  <Image className="w-5 h-5 mr-2 text-purple-400" />
-                                  <span className="text-sm">
-                                    Cambiar imagen
-                                  </span>
-                                </>
-                              ) : (
-                                <>
-                                  <Image className="w-5 h-5 mr-2 text-purple-400" />
-                                  <span className="text-sm">
-                                    Seleccionar imagen
-                                  </span>
-                                </>
-                              )}
+                              <Image className="w-5 h-5 mr-2 text-purple-400" />
+                              <span className="text-sm">
+                                {(image.id === 2
+                                  ? previewImageBody2Url
+                                  : previewImageBody3Url) !==
+                                "/blog/blog-4.webp"
+                                  ? "Cambiar"
+                                  : "Seleccionar"}
+                              </span>
                             </>
                           )}
                           <input
@@ -1108,42 +1340,34 @@ export default function FormBody2(props) {
                         <button
                           type="button"
                           onClick={
-                            image.id == 2
+                            image.id === 2
                               ? props.onDeleteBodyFile1
                               : props.onDeleteBodyFile2
                           }
-                          className="ml-2 p-2 rounded-full hover:bg-red-100"
-                          title={image.title}
+                          className="p-2 rounded-full hover:bg-red-100 transition-colors"
+                          title={`Eliminar ${image.title}`}
                         >
                           <Trash2 className="w-5 h-5 text-red-500" />
                         </button>
                       </div>
-                      <div>
-                        <label className="block text-xs text-gray-300 mb-1">
-                          Texto alternativo (alt)
-                        </label>
+
+                      {/* Inputs ALT y TITLE */}
+                      <div className="grid gap-2">
                         <input
                           type="text"
                           name={`alt_image${image.id}`}
-                          value={formGaleryBody[`alt_image${image.id}`] || ""}
+                          value={formGaleryBody[`alt_image${image.id}`]}
                           onChange={handleChange(setFormGaleryBody)}
-                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                          placeholder="Describe la imagen (para accesibilidad y SEO)"
+                          placeholder="Descripción de la imagen para lectores de pantalla"
+                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-teal-400 focus:border-transparent"
                         />
-                      </div>
-
-                      {/* Campo TITLE */}
-                      <div>
-                        <label className="block text-xs text-gray-300 mb-1">
-                          Título de la imagen
-                        </label>
                         <input
                           type="text"
                           name={`title_image${image.id}`}
-                          value={formGaleryBody[`title_image${image.id}`] || ""}
+                          value={formGaleryBody[`title_image${image.id}`]}
                           onChange={handleChange(setFormGaleryBody)}
-                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
-                          placeholder="Título que aparece al pasar el cursor"
+                          placeholder="Título que aparece al pasar el mouse sobre la imagen"
+                          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-teal-400 focus:border-transparent"
                         />
                       </div>
                     </div>
@@ -1154,6 +1378,8 @@ export default function FormBody2(props) {
           )}
         </div>
       </div>
+
+      {/* Footer */}
       <div className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-6 text-center">
         <p className="text-sm">
           © {new Date().getFullYear()} - Todos los derechos reservados

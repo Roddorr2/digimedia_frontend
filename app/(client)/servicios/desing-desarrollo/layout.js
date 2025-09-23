@@ -1,14 +1,22 @@
 export const metadata = {
-  title: "Diseño y Desarrollo Web Profesional con Digimedia para potenciar tu empresa",
+  title: "Diseño y Desarrollo Web Profesional - DigiMedia",
   description:
     "Descubre nuestros servicios de marketing digital: desde el desarrollo de una web profesional hasta la gestión de redes sociales que convierten.",
+  keywords: [
+    "diseño y desarrollo web",
+    "diseño web profesional",
+    "desarrollo web personalizado",
+    "creación de páginas web",
+    "agencia de diseño web",
+    "páginas web modernas",
+  ],
   openGraph: {
-    title: "Diseño y Desarrollo Web Profesional con Digimedia para potenciar tu empresa",
+    title: "Diseño y Desarrollo Web Profesional - DigiMedia",
     description:
       "Descubre nuestros servicios de marketing digital: desde el desarrollo de una web profesional hasta la gestión de redes sociales que convierten.",
     url: "https://digimedia-marketing.com/servicios/desing-desarrollo/",
     siteName: "Digimedia Marketing",
-    images: [], // se mantiene vacío por tu preferencia
+    images: [],
     locale: "es_PE",
     type: "website",
   },
@@ -41,7 +49,36 @@ export default function desingLayout({ children }) {
             "longitude": -77.0217899
           },
           "image": "https://digimedia-marketing.com/logo.png",
-          "sameAs": "https://digimedia-marketing.com/"
+          "sameAs": "https://digimedia-marketing.com/",
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "PEN",
+            "price": "2500.00",
+            "availability": "https://schema.org/InStock",
+            "url": "https://digimedia-marketing.com/servicios/desing-desarrollo/"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "28"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Carlos"
+              },
+              "datePublished": "2024-07-15",
+              "reviewBody": "El servicio de desarrollo web de Digimedia superó mis expectativas, mi empresa ahora tiene una web profesional y moderna.",
+              "name": "Muy recomendado",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+              }
+            }
+          ]
         }
         `}
       </script>

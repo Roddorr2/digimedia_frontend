@@ -5,10 +5,10 @@ export default function Servicios({ servicios }) {
   return (
     <section className="p-4 max-w-6xl m-auto md:py-16">
       {/* Título principal */}
-      <h3 className="font-bold text-3xl md:text-4xl text-center mb-12 mt-10 md:mt-2 text-[#523194] font-title relative uppercase">
+      <h2 className="font-bold text-3xl md:text-4xl text-center mb-12 mt-10 md:mt-2 text-[#523194] font-title relative uppercase">
         Nuestros Subservicios
         <span className="absolute bottom-0 left-1/2 w-[20rem] md:w-[27rem] h-1 md:h-1.5 bg-[#FF037F] transform -translate-x-1/2 rounded-full"></span>
-      </h3>
+      </h2>
 
       {/* Contenedor de los servicios */}
       <div className="flex flex-wrap justify-center gap-8">
@@ -48,9 +48,9 @@ function Servicio({ title, text, icon, ruta }) {
 
         {/* Título con altura fija y truncamiento */}
         <div className="w-full h-full flex flex-col items-center justify-center">
-          <h4 className="font-bold text-lg text-center font-title relative z-10 flex items-center justify-center">
+          <h3 className="font-bold text-lg text-center font-title relative z-10 flex items-center justify-center">
             {title}
-          </h4>
+          </h3>
         </div>
         <span className="block text-center w-full h-1 bg-[#FF037F] mt-1 rounded-full justify-center"></span>
 

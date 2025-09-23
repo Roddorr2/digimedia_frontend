@@ -3,7 +3,7 @@ import FormBody1 from "../../components/FormBody1";
 import FormFooter from "../../components/FormFooter";
 import FormHeader from "../../components/FormHeader";
 import { useState, useEffect, Suspense } from "react";
-import { Flag, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
@@ -67,16 +67,16 @@ const PageContent = () => {
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
     public_image1: "/blog/blog-10.webp",
     url_image1: "",
-    alt_image1: "",
-    title_image1: "",
+    alt_image1: "Alt de la imagen 1",
+    title_image1: "Título de la imagen 1",
     public_image2: "/blog/blog-10.webp",
     url_image2: "",
-    alt_image2: "",
-    title_image2: "",
+    alt_image2: "Alt de la imagen 2",
+    title_image2: "Título de la imagen 2",
     public_image3: "/blog/blog-10.webp",
     url_image3: "",
-    alt_image3: "",
-    title_image3: "",
+    alt_image3: "Alt de la imagen 3",
+    title_image3: "Título de la imagen 3",
     estado: 1,
   });
 
@@ -86,21 +86,21 @@ const PageContent = () => {
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
-    alt: "",
-    title: "",
-    meta_title: "",
-    meta_descripcion: "",
+    alt: "Imagen de encabezado del blog",
+    title: "Imagen de encabezado del blog",
+    meta_title: "Meta Title del Blog",
+    meta_descripcion: "Meta Descripcion del Blog",
   });
 
   const [formEncabezadoBody, setFormEncabezadoBody] = useState({
     titulo: "Titulo del Blog",
     descripcion:
       "Las luces neón LED se han convertido en un elemento diferenciador en el mundo de la hospitalidad. No solo son visualmente atractivos, sino que también refuerzan la identidad de tu negocio. En este artículo, exploraremos cómo las letras luminosas pueden marcar la diferencia en la experiencia de tus clientes.",
-    fecha: new Date().toISOString().split("T")[0],
+    fecha: "2025-03-31",
     public_image1: "/blog/blog-4.webp",
     url_image1: "",
-    alt_image1: "",
-    title_image1: "",
+    alt_image1: "Alt de la imagen 1",
+    title_image1: "Título de la imagen 1",
   });
 
   const [formInfoBody, setFormInfoBody] = useState([
@@ -146,12 +146,16 @@ const PageContent = () => {
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: "/blog/blog-2.webp",
     url_image2: "",
-    alt_image2: "",
-    title_image2: "",
+    alt_image2: "Alt de la imagen 2",
+    title_image2: "Título de la imagen 2",
     public_image3: "/blog/blog-2.webp",
     url_image3: "",
-    alt_image3: "",
-    title_image3: "",
+    alt_image3: "Alt de la imagen 3",
+    title_image3: "Título de la imagen 3",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    services_url: "",
   });
 
   // Funciones de eliminación de imágenes
@@ -289,10 +293,10 @@ const PageContent = () => {
         public_image:
           responseHeader.public_image || "/blog/fondo_blog_extend.webp",
         url_image: responseHeader.url_image || "",
-        alt: responseHeader.alt || "",
-        title: responseHeader.title || "",
-        meta_title: responseHeader.meta_title || "",
-        meta_descripcion: responseHeader.meta_descripcion || "",
+        alt: responseHeader.alt || "Imagen de encabezado del blog",
+        title: responseHeader.title || "Imagen de encabezado del blog",
+        meta_title: responseHeader.meta_title || "Meta Title del Blog",
+        meta_descripcion: responseHeader.meta_descripcion || "Meta Descripcion del Blog",
       });
 
       setFormFooter({
@@ -303,16 +307,16 @@ const PageContent = () => {
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: responseFooter.public_image1 || "/blog/blog-10.webp",
         url_image1: responseFooter.url_image1 || "",
-        alt_image1: responseFooter.alt_image1 || "",
-        title_image1: responseFooter.title_image1 || "",
+        alt_image1: responseFooter.alt_image1 || "Alt de la imagen 1",
+        title_image1: responseFooter.title_image1 || "Título de la imagen 1",
         public_image2: responseFooter.public_image2 || "/blog/blog-10.webp",
         url_image2: responseFooter.url_image2 || "",
-        alt_image2: responseFooter.alt_image2 || "",
-        title_image2: responseFooter.title_image2 || "",
+        alt_image2: responseFooter.alt_image2 || "Alt de la imagen 2",
+        title_image2: responseFooter.title_image2 || "Título de la imagen 2",
         public_image3: responseFooter.public_image3 || "/blog/blog-10.webp",
         url_image3: responseFooter.url_image3 || "",
-        alt_image3: responseFooter.alt_image3 || "",
-        title_image3: responseFooter.title_image3 || "",
+        alt_image3: responseFooter.alt_image3 || "Alt de la imagen 3",
+        title_image3: responseFooter.title_image3 || "Título de la imagen 3",
         estado: responseFooter.estado || 1,
       });
 
@@ -327,19 +331,23 @@ const PageContent = () => {
         fecha: fechaFormateada,
         public_image1: responseBody.public_image1 || "/blog/blog-4.webp",
         url_image1: responseBody.url_image1 || "",
-        alt_image1: responseBody.alt_image1 || "",
-        title_image1: responseBody.title_image1 || "",
+        alt_image1: responseBody.alt_image1 || "Alt de la imagen 1",
+        title_image1: responseBody.title_image1 || "Título de la imagen 1",
       });
 
       setFormGaleryBody({
         public_image2: responseBody.public_image2 || "/blog/blog-2.webp",
         url_image2: responseBody.url_image2 || "",
+        alt_image2: responseBody.alt_image2 || "Alt de la imagen 2",
+        title_image2: responseBody.title_image2 || "Título de la imagen 2",
         public_image3: responseBody.public_image3 || "/blog/blog-2.webp",
         url_image3: responseBody.url_image3 || "",
-        alt_image2: responseBody.alt_image2 || "",
-        title_image2: responseBody.title_image2 || "",
-        alt_image3: responseBody.alt_image3 || "",
-        title_image3: responseBody.title_image3 || "",
+        alt_image3: responseBody.alt_image3 || "Alt de la imagen 3",
+        title_image3: responseBody.title_image3 || "Título de la imagen 3",
+        flag_galeria: responseBody.flag_galeria || 1,
+        flag_consejos: responseBody.flag_consejos || 1,
+        flag_informacion: responseBody.flag_informacion || 1,
+        services_url: responseBody.service_url || "",
       });
 
       // Cargar tarjetas de información
@@ -447,27 +455,20 @@ const PageContent = () => {
       // Imagen principal
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
+      fecha: formEncabezadoBody.fecha,
       alt_image1: formEncabezadoBody.alt_image1,
       title_image1: formEncabezadoBody.title_image1,
-
-      // Imagen 2
       public_image2: formGaleryBody.public_image2,
       url_image2: formGaleryBody.url_image2,
       alt_image2: formGaleryBody.alt_image2,
       title_image2: formGaleryBody.title_image2,
-
-      // Imagen 3
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
       alt_image3: formGaleryBody.alt_image3,
       title_image3: formGaleryBody.title_image3,
-
-      // Flags
-      flag_galeria: 1,
-      flag_consejos: 1,
-      flag_informacion: 1,
-
-      // Botón de servicio
+      flag_galeria: formGaleryBody.flag_galeria,
+      flag_consejos: formGaleryBody.flag_consejos,
+      flag_informacion: formGaleryBody.flag_informacion,
       service_url: serviceRedirectUrl,
     };
 
@@ -621,24 +622,24 @@ const PageContent = () => {
       formData.append("file", file);
       if (name) formData.append("name", name);
 
-      const response = await Fetch.Image(formData, ruta);
-
-      console.log(
-        "📦 Respuesta de saveImage:",
-        response?.status,
-        response?.data
-      );
+      const response = await Fetch.saveImage(formData, ruta);
 
       if (!response) {
         throw new Error("No se recibió respuesta del servidor");
       }
 
-      // Acepta cualquier 2xx como éxito
-      if (response.status >= 200 && response.status < 300) {
+      // Manejo simplificado de respuestas
+      if (
+        response.status &&
+        (response.status === 200 || response.status === 201)
+      ) {
         return "ok";
       }
 
-      console.error("Respuesta inesperada:", response);
+      if (typeof response === "object" && !response.status) {
+        return "ok";
+      }
+
       throw new Error("Error al subir imagen");
     } catch (error) {
       console.error("Error en SaveImage:", error.message);
@@ -685,85 +686,85 @@ const PageContent = () => {
         "No se pudo guardar la card"
       );
 
-      // ESTA VALIDACION ROMPE EL CODIGO AL MOMENTO DE ACTUALIZAR LA IMAGEN
-      // if (fileHeader) {
-      //   await executionFunction(
-      //     () => SaveImage(fileHeader, `card/blog/image_head/${id_card}`),
-      //     "No se pudo guardar la imagen head"
-      //   );
-      // }
+      // Subir imágenes si existen
+      if (fileHeader) {
+        await executionFunction(
+          () => SaveImage(fileHeader, `card/blog/image_head/${id_card}`),
+          "No se pudo guardar la imagen head"
+        );
+      }
 
-      // if (FileBodyHeader) {
-      //   await executionFunction(
-      //     () =>
-      //       SaveImage(
-      //         FileBodyHeader,
-      //         `card/blog/images_body/${id_card}`,
-      //         "image1"
-      //       ),
-      //     "No se pudo guardar la imagen body1"
-      //   );
-      // }
+      if (FileBodyHeader) {
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyHeader,
+              `card/blog/images_body/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen body1"
+        );
+      }
 
-      // if (FileBodyFile1) {
-      //   await executionFunction(
-      //     () =>
-      //       SaveImage(
-      //         FileBodyFile1,
-      //         `card/blog/images_body/${id_card}`,
-      //         "image2"
-      //       ),
-      //     "No se pudo guardar la imagen body2"
-      //   );
-      // }
+      if (FileBodyFile1) {
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile1,
+              `card/blog/images_body/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen body2"
+        );
+      }
 
-      // if (FileBodyFile2) {
-      //   await executionFunction(
-      //     () =>
-      //       SaveImage(
-      //         FileBodyFile2,
-      //         `card/blog/images_body/${id_card}`,
-      //         "image3"
-      //       ),
-      //     "No se pudo guardar la imagen body3"
-      //   );
-      // }
+      if (FileBodyFile2) {
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile2,
+              `card/blog/images_body/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen body3"
+        );
+      }
 
-      // if (FileFooterFile1) {
-      //   await executionFunction(
-      //     () =>
-      //       SaveImage(
-      //         FileFooterFile1,
-      //         `card/blog/images_footer/${id_card}`,
-      //         "image1"
-      //       ),
-      //     "No se pudo guardar la imagen footer1"
-      //   );
-      // }
+      if (FileFooterFile1) {
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile1,
+              `card/blog/images_footer/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen footer1"
+        );
+      }
 
-      // if (FileFooterFile2) {
-      //   await executionFunction(
-      //     () =>
-      //       SaveImage(
-      //         FileFooterFile2,
-      //         `card/blog/images_footer/${id_card}`,
-      //         "image2"
-      //       ),
-      //     "No se pudo guardar la imagen footer2"
-      //   );
-      // }
+      if (FileFooterFile2) {
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile2,
+              `card/blog/images_footer/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen footer2"
+        );
+      }
 
-      // if (FileFooterFile3) {
-      //   await executionFunction(
-      //     () =>
-      //       SaveImage(
-      //         FileFooterFile3,
-      //         `card/blog/images_footer/${id_card}`,
-      //         "image3"
-      //       ),
-      //     "No se pudo guardar la imagen footer3"
-      //   );
-      // }
+      if (FileFooterFile3) {
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile3,
+              `card/blog/images_footer/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen footer3"
+        );
+      }
 
       await Swal.fire({
         title: "Actualizado Correctamente",

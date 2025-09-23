@@ -1,13 +1,25 @@
 export const metadata = {
   title:
-    "Preguntas Frecuentes | Diseño Web, Redes Sociales y Branding – DigiMedia",
+    "Preguntas Frecuentes | Diseño Web, Redes Sociales y Branding",
   description:
-    "Resuelve todas tus dudas sobre diseño web, gestión de redes sociales y branding. Te damos la información clave para que tomes la mejor decisión.",
-  openGraph: {
+    "Resolvemos tus dudas más comunes sobre diseño web, redes sociales y branding. Accede a respuestas rápidas y claras para mejorar tu presencia digital.",
+  keywords: [
+    "Preguntas Frecuentes",
+    "Marketing digital",
+    "Diseño web",
+    "Redes sociales",
+    "Branding",
+    "Gestión digital",
+    "Estrategia digital",
+    "Identidad de marca",
+    "Transformación digital",
+    "Copywriting"
+  ],
+    openGraph: {
     title:
-      "Preguntas Frecuentes | Diseño Web, Redes Sociales y Branding – DigiMedia",
+      "Preguntas Frecuentes | Diseño Web, Redes Sociales y Branding",
     description:
-      "Resuelve todas tus dudas sobre diseño web, gestión de redes sociales y branding. Te damos la información clave para que tomes la mejor decisión.",
+      "Resolvemos tus dudas más comunes sobre diseño web, redes sociales y branding. Accede a respuestas rápidas y claras para mejorar tu presencia digital.",
     url: "https://digimedia-marketing.com/preguntas/",
     siteName: "Digimedia Marketing",
     images: [],

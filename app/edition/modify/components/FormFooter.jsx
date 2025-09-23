@@ -21,6 +21,30 @@ export default function FormFooter({
   onDeleteFooterFile3,
   setValidacionFooter,
 }) {
+  const [uploading, setUploading] = useState(false);
+  // Nuevos estados para las URLs de previsualización
+  const [previewImage1Url, setPreviewImage1Url] = useState(
+    formFooter.public_image1 || "/blog/blog-10.webp"
+  );
+  const [previewImage2Url, setPreviewImage2Url] = useState(
+    formFooter.public_image2 || "/blog/blog-10.webp"
+  );
+  const [previewImage3Url, setPreviewImage3Url] = useState(
+    formFooter.public_image3 || "/blog/blog-10.webp"
+  );
+
+  useEffect(() => {
+    setPreviewImage1Url(formFooter.public_image1 || "/blog/blog-10.webp");
+  }, [formFooter.public_image1]);
+
+  useEffect(() => {
+    setPreviewImage2Url(formFooter.public_image2 || "/blog/blog-10.webp");
+  }, [formFooter.public_image2]);
+
+  useEffect(() => {
+    setPreviewImage3Url(formFooter.public_image3 || "/blog/blog-10.webp");
+  }, [formFooter.public_image3]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -74,6 +98,7 @@ export default function FormFooter({
           value.trim() !== "" && value.length <= 300 && value.length >= 10;
         setValidacionFooter(isValid);
         break;
+
       default:
         break;
     }
@@ -108,15 +133,13 @@ export default function FormFooter({
   const [errors, setErrors] = useState({
     titulo: { message: "Máximo 30 caracteres", isValid: null },
     descripcion: { message: "Máximo 300 caracteres", isValid: null },
-    alt_image1: { message: "Máximo 50 caracteres", isValid: null },
-    title_image1: { message: "Máximo 50 caracteres", isValid: null },
-    alt_image2: { message: "Máximo 50 caracteres", isValid: null },
-    title_image2: { message: "Máximo 50 caracteres", isValid: null },
-    alt_image3: { message: "Máximo 50 caracteres", isValid: null },
-    title_image3: { message: "Máximo 50 caracteres", isValid: null },
+    alt_image1: { message: "Máximo 100 caracteres", isValid: null },
+    title_image1: { message: "Máximo 100 caracteres", isValid: null },
+    alt_image2: { message: "Máximo 100 caracteres", isValid: null },
+    title_image2: { message: "Máximo 100 caracteres", isValid: null },
+    alt_image3: { message: "Máximo 100 caracteres", isValid: null },
+    title_image3: { message: "Máximo 100 caracteres", isValid: null },
   });
-
-  const [uploading, setUploading] = useState(false);
 
   const handleImagenFooter = async (e) => {
     const file = e.target.files[0];
@@ -129,16 +152,14 @@ export default function FormFooter({
 
       console.log("Ahora su file: ", name, tempUrl);
 
-      setFormData((prev) => ({
-        ...prev,
-        [name]: tempUrl,
-      }));
-
       if (name === "public_image1") {
+        setPreviewImage1Url(tempUrl); // Usar el nuevo estado para la previsualización
         setFileFooterFile1(file);
       } else if (name === "public_image2") {
+        setPreviewImage2Url(tempUrl); // Usar el nuevo estado para la previsualización
         setFileFooterFile2(file);
       } else {
+        setPreviewImage3Url(tempUrl); // Usar el nuevo estado para la previsualización
         setFileFooterFile3(file);
       }
     } catch (error) {
@@ -154,6 +175,14 @@ export default function FormFooter({
     }
   };
 
+  if (!formFooter) {
+    return (
+      <div className="w-full h-screen md:h-[80vh] flex items-center justify-center text-center">
+        <h1 className="text-2xl font-bold text-gray-500">Cargando...</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="relative mt-12 flex flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-lg overflow-hidden p-6 gap-6">
       <div className="relative flex-1 p-6 md:p-8 min-w-0">
@@ -168,47 +197,33 @@ export default function FormFooter({
           formFooter.public_image2 ||
           formFooter.public_image3) && (
           <div className="flex flex-wrap justify-center gap-3 mt-6">
-            {[
-              formFooter.public_image1,
-              formFooter.public_image2,
-              formFooter.public_image3,
-            ].map((image, index) => {
-              const imageUrl = image;
-              const altText =
-                index === 0
-                  ? formFooter.alt_image1
-                  : index === 1
-                  ? formFooter.alt_image2
-                  : formFooter.alt_image3;
-              const titleText =
-                index === 0
-                  ? formFooter.title_image1
-                  : index === 1
-                  ? formFooter.title_image2
-                  : formFooter.title_image3;
+            {[previewImage1Url, previewImage2Url, previewImage3Url].map(
+              (image, index) => {
+                // Usar los nuevos estados de previsualización
+                const imageUrl = image;
 
-              return (
-                <div key={index} className="relative group mb-16">
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                return (
+                  <div key={index} className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
 
-                  <img
-                    src={imageUrl || "/placeholder.svg"}
-                    alt={altText || `Imagen ${index + 1} del footer`}
-                    title={titleText}
-                    className="w-64 h-44 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
-                </div>
-              );
-            })}
+                    <img
+                      src={imageUrl || "/placeholder.svg"}
+                      alt={"Imagenes" + (index + 1)}
+                      className="w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
+                  </div>
+                );
+              }
+            )}
           </div>
         )}
       </div>
 
-      <div className="relative w-full md:w-[500px] h-auto p-6">
+      <div className="relative w-full md:w-[450px] h-auto p-6">
         <div className="bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
           <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
             Editar Pie de Página
@@ -232,7 +247,7 @@ export default function FormFooter({
               />
             </div>
             <div className="mb-3">
-              <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-3">
                 <AlignLeft className="w-4 h-4 mr-1.5 text-yellow-400" />{" "}
                 Descripción
                 <ValidationMessage error={errors.descripcion} />
@@ -254,6 +269,7 @@ export default function FormFooter({
                 <Image className="w-4 h-4 mr-1.5 text-yellow-400" /> Imágenes
                 <h1 className="ml-3 mt-1 text-xs">200x170 píxeles</h1>
               </label>
+
               {["1", "2", "3"].map((num, index) => (
                 <div key={index} className="relative w-full mb-4">
                   <div className="relative flex flex-row">

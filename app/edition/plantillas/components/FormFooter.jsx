@@ -38,7 +38,6 @@ export default function FormFooter({
         setValidacionFooter(isValid);
         break;
 
-      // Imagen 1
       case "alt_image1":
         isValid =
           value.trim() !== "" && value.length <= 300 && value.length >= 10;
@@ -51,7 +50,6 @@ export default function FormFooter({
         setValidacionFooter(isValid);
         break;
 
-      // Imagen 2
       case "alt_image2":
         isValid =
           value.trim() !== "" && value.length <= 300 && value.length >= 10;
@@ -64,7 +62,6 @@ export default function FormFooter({
         setValidacionFooter(isValid);
         break;
 
-      // Imagen 3
       case "alt_image3":
         isValid =
           value.trim() !== "" && value.length <= 300 && value.length >= 10;
@@ -76,6 +73,7 @@ export default function FormFooter({
           value.trim() !== "" && value.length <= 300 && value.length >= 10;
         setValidacionFooter(isValid);
         break;
+
       default:
         break;
     }
@@ -110,12 +108,12 @@ export default function FormFooter({
   const [errors, setErrors] = useState({
     titulo: { message: "Máximo 30 caracteres", isValid: null },
     descripcion: { message: "Máximo 300 caracteres", isValid: null },
-    alt_image1: { message: "Máximo 20 caracteres", isValid: null },
-    alt_image2: { message: "Máximo 20 caracteres", isValid: null },
-    alt_image3: { message: "Máximo 20 caracteres", isValid: null },
-    title_image1: { message: "Máximo 20 caracteres", isValid: null },
-    title_image2: { message: "Máximo 20 caracteres", isValid: null },
-    title_image3: { message: "Máximo 20 caracteres", isValid: null },
+    alt_image1: { message: "Máximo 100 caracteres", isValid: null },
+    title_image1: { message: "Máximo 100 caracteres", isValid: null },
+    alt_image2: { message: "Máximo 100 caracteres", isValid: null },
+    title_image2: { message: "Máximo 100 caracteres", isValid: null },
+    alt_image3: { message: "Máximo 100 caracteres", isValid: null },
+    title_image3: { message: "Máximo 100 caracteres", isValid: null },
   });
 
   const [uploading, setUploading] = useState(false);
@@ -176,30 +174,17 @@ export default function FormFooter({
               formFooter.public_image3,
             ].map((image, index) => {
               const imageUrl = image;
-              const altText =
-                index === 0
-                  ? formFooter.alt_image1
-                  : index === 1
-                  ? formFooter.alt_image2
-                  : formFooter.alt_image3;
-              const titleText =
-                index === 0
-                  ? formFooter.title_image1
-                  : index === 1
-                  ? formFooter.title_image2
-                  : formFooter.title_image3;
 
               return (
-                <div key={index} className="relative group mb-16">
+                <div key={index} className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
 
                   <img
                     src={imageUrl || "/placeholder.svg"}
-                    alt={altText || `Imagen ${index + 1} del footer`}
-                    title={titleText}
-                    className="w-64 h-44 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
+                    alt={"Imagenes" + (index + 1)}
+                    className="w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
@@ -210,7 +195,7 @@ export default function FormFooter({
         )}
       </div>
 
-      <div className="relative w-full md:w-[500px] h-auto p-6">
+      <div className="relative w-full md:w-[450px] h-auto p-6">
         <div className="bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg">
           <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
             Editar Pie de Página
@@ -257,7 +242,7 @@ export default function FormFooter({
                 <h1 className="ml-3 mt-1 text-xs">200x170 píxeles</h1>
               </label>
               {["1", "2", "3"].map((num, index) => (
-                <div key={index} className="relative w-full mb-4">
+                <div key={index} className="relative w-full mb-2">
                   <div className="relative flex flex-row">
                     <label
                       className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
@@ -312,7 +297,6 @@ export default function FormFooter({
                       </button>
                     </div>
                   </div>
-
                   {/* CAMPOS ALT Y TITLE PARA CADA IMAGEN */}
                   <div className="space-y-2 mt-3">
                     <div>
@@ -342,7 +326,7 @@ export default function FormFooter({
                         onChange={handleChange}
                         maxLength={100}
                         autoComplete="off"
-                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                        className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-xs focus:ring-2 mb-4 focus:ring-yellow-400 focus:border-transparent"
                         placeholder="Título al pasar el mouse"
                       />
                     </div>
