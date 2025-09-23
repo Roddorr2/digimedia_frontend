@@ -172,32 +172,24 @@ export default function FormHeader({
   const handleImage = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    // Validar tipo de archivo
-    if (!file.type.startsWith("image/")) {
-      alert("Por favor selecciona un archivo de imagen válido");
-      return;
-    }
-
-    // Validar tamaño (máximo 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert("La imagen es muy grande. Máximo 5MB");
-      return;
-    }
-
     try {
       setUploading(true);
 
       const tempUrl = URL.createObjectURL(file);
       setFormData((prev) => ({
         ...prev,
-        public_image: tempUrl,
+        ["public_image"]: tempUrl,
       }));
 
       setFile(file);
     } catch (error) {
       console.error("Error al subir imagen:", error);
-      alert("Ocurrió un error al subir la imagen");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error al subir la imagen",
+        confirmButtonColor: "#8c52ff",
+      });
     } finally {
       setUploading(false);
     }
@@ -208,26 +200,14 @@ export default function FormHeader({
       (error) => error.isValid === true
     );
     setIsDisabled && setIsDisabled(!allValid);
-  }, [
-    isValid_titulo,
-    isValid_texto_frase,
-    isValid_texto_descripcion,
-    isValid_alt,
-    isValid_title,
-    isValid_meta_titulo,
-    isValid_meta_descripcion,
-    hasCustomImage,
-    setIsDisabled,
-  ]);
+  }, [errors]);
 
   return (
     <div
       className="w-full h-[120vh] md:h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat"
       id="file-name"
       style={{
-        backgroundImage: `url(${
-          dataHeader?.public_image || "/blog/fondo_blog_extend.webp"
-        })`,
+        backgroundImage: `url(${dataHeader.public_image})`,
         backgroundSize: "cover",
       }}
     >
@@ -236,13 +216,13 @@ export default function FormHeader({
       <div className="relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center max-w-xl">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">
-            {dataHeader?.titulo || "Título del Blog"}
+            {dataHeader.titulo || "Título del Blog"}
           </h1>
           <h2 className="text-2xl md:text-xl font-bold mb-4">
-            {dataHeader?.texto_frase || "Frase destacada"}
+            {dataHeader.texto_frase || "Frase destacada"}
           </h2>
           <p className="text-lg text-gray-300 font-light">
-            {dataHeader?.texto_descripcion || "Descripción del blog"}
+            {dataHeader.texto_descripcion || "Descripción del blog"}
           </p>
         </div>
         {/* Panel de edicion scrollable */}
@@ -262,11 +242,12 @@ export default function FormHeader({
                 <input
                   type="text"
                   name="titulo"
-                  value={dataHeader?.titulo}
+                  value={dataHeader.titulo || ""}
                   onChange={handleChange}
-                  error={errors.titulo}
-                  maxLength={80}
-                  minLength={10}
+                  maxLength={30}
+                  minLength={5}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                   placeholder="Título principal"
                   required
                 />
@@ -282,11 +263,11 @@ export default function FormHeader({
                 <input
                   type="text"
                   name="texto_frase"
-                  value={dataHeader?.texto_frase}
+                  value={dataHeader.texto_frase || ""}
                   onChange={handleChange}
-                  error={errors.texto_frase}
                   maxLength={50}
-                  minLength={10}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                   placeholder="Frase destacada"
                   required
                 />
@@ -301,68 +282,23 @@ export default function FormHeader({
                 </label>
                 <input
                   name="texto_descripcion"
-                  value={dataHeader?.texto_descripcion}
+                  value={dataHeader.texto_descripcion || ""}
                   onChange={handleChange}
-                  error={errors.texto_descripcion}
+                  rows={4}
                   maxLength={80}
-                  minLength={10}
+                  autoComplete="off"
+                  className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
                   placeholder="Frase Secundaria"
                   required
                 />
               </div>
-
-              {/* Campos de SEO */}
-              <div className="space-y-4 p-4 bg-green-900/20 rounded-lg border border-green-500/30">
-                <h4 className="text-sm font-semibold text-green-300 mb-2">
-                  {" "}
-                  SEO Meta Tags
-                </h4>
-
-                <FormInput
-                  icon={Search}
-                  label="Meta Título"
-                  name="meta_title"
-                  value={dataHeader?.meta_title}
-                  onChange={handleChange}
-                  onInput={(e) => {
-                    e.target.value = sanitizeInput(e.target.value);
-                  }}
-                  error={errors.title}
-                  maxLength={60}
-                  minLength={30}
-                  placeholder="Título optimizado para SEO"
-                  helpText="Aparece en los resultados de búsqueda y pestañas del navegador"
-                  required
-                />
-
-                <FormInput
-                  icon={FileText}
-                  label="Meta Descripción"
-                  name="meta_descripcion"
-                  value={dataHeader?.meta_descripcion}
-                  onChange={handleChange}
-                  onInput={(e) => {
-                    e.target.value = sanitizeInput(e.target.value);
-                  }}
-                  error={errors.meta_descripcion}
-                  maxLength={160}
-                  minLength={120}
-                  placeholder="Descripción que aparecerá en los resultados de búsqueda"
-                  helpText="Resumen atractivo que invite a hacer clic desde Google"
-                  as="textarea"
-                  rows={3}
-                  requireds
-                />
-              </div>
-
-              {/* Campo de imagen */}
               <div>
                 <label className="flex items-center text-white text-sm font-medium mb-2">
                   <IconImage className="w-5 h-5 mr-2 text-purple-400" /> Imagen
                   Principal
                   <h1 className="ml-3 mt-1 text-xs">1080x520 píxeles</h1>
                 </label>
-                <div className="relative flex flex-row gap-2">
+                <div className="relative flex flex-row">
                   <label
                     className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
                       uploading
@@ -407,54 +343,6 @@ export default function FormHeader({
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
                   </div>
-                )}
-              </div>
-
-              {/* Resumen de validación */}
-              <div className="mt-6 p-3 bg-gray-900/50 rounded-lg border border-gray-600">
-                <h5 className="text-xs font-semibold text-gray-300 mb-2">
-                  {" "}
-                  Estado del formulario:
-                </h5>
-                <div className="text-xs space-y-1">
-                  <p
-                    className={
-                      isValid_titulo &&
-                      isValid_texto_frase &&
-                      isValid_texto_descripcion
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }
-                  >
-                    • Contenido principal.{" "}
-                    {isValid_titulo &&
-                    isValid_texto_frase &&
-                    isValid_texto_descripcion
-                      ? ""
-                      : ""}
-                  </p>
-                  <p
-                    className={
-                      isValid_meta_titulo && isValid_meta_descripcion
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }
-                  >
-                    • SEO Meta Tags.{" "}
-                    {isValid_meta_titulo && isValid_meta_descripcion ? "" : ""}
-                  </p>
-                  <p
-                    className={
-                      !hasCustomImage || (isValid_alt && isValid_title)
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }
-                  >
-                    • Información de imagen.{" "}
-                    {!hasCustomImage || (isValid_alt && isValid_title)
-                      ? ""
-                      : ""}
-                  </p>
                 </div>
               </div>
               {/* Campos adicionales SEO */}

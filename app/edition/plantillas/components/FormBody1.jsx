@@ -7,8 +7,6 @@ import {
   Trash2,
   Clock1,
   Clock,
-  FileText,
-  Tag,
 } from "lucide-react";
 import {
   Loader2,
@@ -67,7 +65,6 @@ export default function FormBody1(props) {
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
   const [errors, setErrors] = useState({
-    // Encabezado
     titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
     descripcion: {
       message: "Debe tener entre 10 y 400 caracteres",
@@ -149,8 +146,6 @@ export default function FormBody1(props) {
     let isValid = true;
 
     switch (name) {
-      //-------------------------------------
-      // Encabezado
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
         setIsValidTitulo(isValid);
@@ -162,7 +157,6 @@ export default function FormBody1(props) {
           },
         }));
         break;
-
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidDescripcion(isValid);
@@ -314,13 +308,10 @@ export default function FormBody1(props) {
       setValidacionBody(false);
     }
 
-    setter((prev) => {
-      const newState = {
-        ...prev,
-        [name]: value,
-      };
-      return newState;
-    });
+    setter((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const ValidationMessage = ({ error }) => (
@@ -344,7 +335,6 @@ export default function FormBody1(props) {
         message: "Debe tener entre 10 y 400 caracteres",
         isValid: null,
       },
-
     }))
   );
 
@@ -411,32 +401,6 @@ export default function FormBody1(props) {
         isValid = value.trim().length >= 3 && value.length <= 50;
         setIsValidTitle_image3(isValid);
         break;
-
-      case "title_image1":
-        isValid = value.trim().length >= 3 && value.length <= 50;
-        setIsValidTitle_image1(isValid);
-        break;
-
-      case "alt_image2":
-        isValid = value.trim().length >= 3 && value.length <= 50;
-        setIsValidAlt_image2(isValid);
-        break;
-
-      case "title_image2":
-        isValid = value.trim().length >= 3 && value.length <= 50;
-        setIsValidTitle_image2(isValid);
-        break;
-
-      case "alt_image3":
-        isValid = value.trim().length >= 3 && value.length <= 50;
-        setIsValidAlt_image3(isValid);
-        break;
-
-      case "title_image3":
-        isValid = value.trim().length >= 3 && value.length <= 50;
-        setIsValidTitle_image3(isValid);
-        break;
-
       default:
         break;
     }
@@ -544,51 +508,144 @@ export default function FormBody1(props) {
   };
 
   return (
-    <div className="space-y-8 p-4">
-      {/* SECCIÓN 1: IMAGEN PRINCIPAL Y ENCABEZADO */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
-        {/* Contenido Principal */}
-        <div className="relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
-          <div className="relative h-[400px] overflow-hidden">
-            <img
-              src={formEncabezadoBody.public_image1}
-              alt={
-                formEncabezadoBody.alt_image1 ||
-                formEncabezadoBody.titulo ||
-                "Imagen principal"
-              }
-              title={
-                formEncabezadoBody.title_image1 ||
-                formEncabezadoBody.titulo ||
-                "Imagen principal"
-              }
-              className="absolute w-full h-full object-cover"
-            />
-            <div className="relative h-full flex flex-col justify-end p-8 bg-black/70 backdrop-blur-sm">
-              <p className="text-gray-400 mb-2 font-bold">
-                {formEncabezadoBody.fecha}
-              </p>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
-                {formEncabezadoBody.titulo}
-              </h2>
-            </div>
-          </div>
-
-          <div className="bg-black/5 p-8">
-            <div className="relative mb-8 bg-white p-6 rounded-lg shadow-md -mt-12">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500"></div>
-              <p className="text-lg leading-relaxed text-gray-700">
-                {formEncabezadoBody.descripcion}
-              </p>
-            </div>
+    <div className="relative p-0 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden flex flex-row my-5 justify-center">
+      <div className="w-[700px]">
+        <div className="relative h-[400px] overflow-hidden">
+          <div className="absolute bg-black/70"></div>
+          <img
+            src={formEncabezadoBody.public_image1}
+            alt={formEncabezadoBody.titulo || "Imagen principal"}
+            className="absolute w-full h-full object-cover"
+          />
+          <div className="relative h-full flex flex-col justify-end p-8 bg-black/70 backdrop-blur-sm">
+            <p className="text-gray-400 mb-2 font-bold">
+              {formEncabezadoBody.fecha}
+            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
+              {formEncabezadoBody.titulo}
+            </h2>
           </div>
         </div>
 
-        {/* Formulario de Encabezado */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-          <h3 className="text-lg font-bold text-purple-400 mb-4 border-b border-gray-700 pb-2">
-            Configuración de Encabezado
-          </h3>
+        <div className="bg-black/5 p-8">
+          <div className="relative mb-16 bg-white p-6 rounded-lg shadow-md -mt-12">
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500"></div>
+            <p className="text-lg leading-relaxed text-gray-700">
+              {formEncabezadoBody.descripcion}
+            </p>
+          </div>
+
+          <div className="mb-[100px]  p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
+            <div className="flex items-center justify-center mb-4">
+              <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
+              <h3 className="text-2xl font-bold text-green-400">
+                {formCommendBody.titulo || "Consejos"}
+              </h3>
+              <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
+            </div>
+
+            <ul className="list-none text-black-600 space-y-3 max-w-2xl mx-auto">
+              {formCommendBody &&
+                [
+                  formCommendBody.texto1,
+                  formCommendBody.texto2,
+                  formCommendBody.texto3,
+                ]
+                  .filter((text) => text)
+                  .map((text, index) => (
+                    <li
+                      key={`commend-${index}`}
+                      className="flex items-center gap-3 bg-gray-800/50 p-3 rounded-lg"
+                    >
+                      <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+                      <span className="text-left">{text}</span>
+                    </li>
+                  ))}
+            </ul>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+            {[
+              formGaleryBody.public_image2 || "/blog/blog-10.webp",
+              formGaleryBody.public_image3 || "/blog/blog-1.webp",
+            ].map((src, index) => (
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-xl shadow-xl"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img
+                  src={src}
+                  alt={`Imagen ${index + 1} del artículo`}
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
+                  <div className="flex items-center justify-center">
+                    <span className="text-sm font-medium">Ver detalle</span>
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="relative">
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
+              <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+                Información Importante
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-28 pt-8">
+              {formInfoBody.map((section, index) => {
+                const styles = [
+                  "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-blue-400",
+                  "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-red-400",
+                  "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-green-400",
+                  "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-purple-400",
+                ];
+
+                return (
+                  <div
+                    key={`tarjeta-${index}`}
+                    className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+                      styles[index % styles.length]
+                    }`}
+                  >
+                    <h3 className="text-xl font-bold mb-3 text-blue-400">
+                      {section.titulo}
+                    </h3>
+                    <p className="text-gray-100">
+                      {renderDescripcion(
+                        section.descripcion,
+                        section.palabra,
+                        section.enlace
+                      )}
+                    </p>
+                    {/* <p className="text-gray-100">{section.descripcion}</p> */}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="display flex justify-center items-center my-8">
+            {serviceRedirectUrl && (
+              <a
+                href={serviceRedirectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-800 hover:shadow-xl"
+              >
+                Conoce nuestro servicio
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="w-[420px] flex flex-col justify-center gap-5 p-5">
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <form className="space-y-6">
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -605,7 +662,6 @@ export default function FormBody1(props) {
                 placeholder="Título principal"
               />
             </div>
-
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <Clock1 className="w-4 h-4 mr-1.5 text-blue-400" /> Fecha
@@ -720,45 +776,8 @@ export default function FormBody1(props) {
             </div>
           </form>
         </div>
-      </div>
 
-      {/* SECCIÓN 2: CONSEJOS */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
-        {/* Contenido de Consejos */}
-        <div className="p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
-            <h3 className="text-2xl font-bold text-green-400">
-              {formCommendBody.titulo || "Consejos"}
-            </h3>
-            <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
-          </div>
-
-          <ul className="list-none text-black-600 space-y-24 max-w-2xl mx-auto">
-            {formCommendBody &&
-              [
-                formCommendBody.texto1,
-                formCommendBody.texto2,
-                formCommendBody.texto3,
-              ]
-                .filter((text) => text)
-                .map((text, index) => (
-                  <li
-                    key={`commend-${index}`}
-                    className="flex items-center gap-3 bg-gray-800/50 p-3 rounded-lg"
-                  >
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
-                    <span className="text-left">{text}</span>
-                  </li>
-                ))}
-          </ul>
-        </div>
-
-        {/* Formulario de Consejos */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-          <h3 className="text-lg font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">
-            Sección de Consejos
-          </h3>
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           <form className="space-y-6">
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
@@ -772,13 +791,13 @@ export default function FormBody1(props) {
                 maxLength={50}
                 onChange={handleChange(setFormCommendBody)}
                 className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                placeholder="Título de consejos"
+                placeholder="Título principal"
               />
             </div>
 
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
-                <Quote className="w-5 h-5 mr-2 text-purple-400" /> Consejo 1
+                <Quote className="w-5 h-5 mr-2 text-purple-400" /> Texto1
                 <ValidationMessage error={errors.texto1} />
               </label>
               <input
@@ -788,13 +807,13 @@ export default function FormBody1(props) {
                 value={formCommendBody.texto1}
                 onChange={handleChange(setFormCommendBody)}
                 className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                placeholder="Primer consejo"
+                placeholder="texto1"
               />
             </div>
 
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
-                <Quote className="w-5 h-5 mr-2 text-purple-400" /> Consejo 2
+                <Quote className="w-5 h-5 mr-2 text-purple-400" /> Texto2
                 <ValidationMessage error={errors.texto2} />
               </label>
               <input
@@ -804,13 +823,13 @@ export default function FormBody1(props) {
                 value={formCommendBody.texto2}
                 onChange={handleChange(setFormCommendBody)}
                 className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                placeholder="Segundo consejo"
+                placeholder="texto2"
               />
             </div>
 
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
-                <Quote className="w-5 h-5 mr-2 text-purple-400" /> Consejo 3
+                <Quote className="w-5 h-5 mr-2 text-purple-400" /> Texto3
                 <ValidationMessage error={errors.texto3} />
               </label>
               <input
@@ -820,65 +839,19 @@ export default function FormBody1(props) {
                 value={formCommendBody.texto3}
                 onChange={handleChange(setFormCommendBody)}
                 className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                placeholder="Tercer consejo"
+                placeholder="texto3"
               />
             </div>
           </form>
         </div>
-      </div>
 
-      {/* SECCIÓN 3: GALERÍA DE IMÁGENES */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
-        {/* Contenido de Galería */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 gap-6">
-          {[
-            {
-              src: formGaleryBody.public_image2 || "/blog/blog-10.webp",
-              alt: formGaleryBody.alt_image2 || "Imagen 2 del artículo",
-              title: formGaleryBody.title_image2 || "Imagen 2 del artículo",
-            },
-            {
-              src: formGaleryBody.public_image3 || "/blog/blog-1.webp",
-              alt: formGaleryBody.alt_image3 || "Imagen 3 del artículo",
-              title: formGaleryBody.title_image3 || "Imagen 3 del artículo",
-            },
-          ].map((image, index) => (
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-xl shadow-xl"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-              <img
-                src={image.src}
-                alt={image.alt}
-                title={image.title}
-                className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
-                <div className="flex items-center justify-center">
-                  <span className="text-sm font-medium">Ver detalle</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Formulario de Galería */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-          <h3 className="text-lg font-bold text-blue-400 mb-4 border-b border-gray-700 pb-2">
-            Galería de Imágenes
-          </h3>
-          <form className="space-y-8">
-            {/* Imagen 2 */}
-            <div className="space-y-4">
-              <div>
-                <label className="flex items-center text-white text-sm font-medium mb-2">
-                  <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 2
-                  <span className="ml-3 text-xs text-gray-400">
-                    250x310 píxeles
-                  </span>
-                </label>
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+          <form className="space-y-6">
+            <div>
+              <label className="flex items-center text-white text-sm font-medium mb-2">
+                <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 2
+                <h1 className="ml-3 mt-1 text-xs">250x310 píxeles</h1>
+              </label>
 
               <div className="relative flex flex-column justify-center">
                 <label
@@ -1057,93 +1030,35 @@ export default function FormBody1(props) {
             </div>
           </form>
         </div>
-      </div>
 
-      {/* SECCIÓN 4: INFORMACIÓN IMPORTANTE */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
-        {/* Contenido de Información Importante */}
-        <div className="relative">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-            <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-              Información Importante
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-60 pt-32">
-            {formInfoBody.map((section, index) => {
-              const styles = [
-                "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-blue-400",
-                "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-red-400",
-                "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-green-400",
-                "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-purple-400",
-              ];
-
-              return (
-                <div
-                  key={`tarjeta-${index}`}
-                  className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
-                    styles[index % styles.length]
-                  }`}
-                >
-                  <h3 className="text-xl font-bold mb-3 text-blue-400">
-                    {section.titulo}
-                  </h3>
-                  <p className="text-gray-100">
-                    {renderDescripcion(
-                      section.descripcion,
-                      section.palabra,
-                      section.enlace
-                    )}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Formulario de Información Importante */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-          <h3 className="text-lg font-bold text-orange-400 mb-4 border-b border-gray-700 pb-2">
-            Secciones de Información
-          </h3>
-          <form className="space-y-8">
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+          <form className="space-y-6">
             {formInfoBody.map((item, index) => (
-              <div
-                key={index}
-                className="p-4 bg-gray-800/50 rounded-lg border border-gray-700"
-              >
-                <h4 className="text-md font-semibold text-white mb-4 flex items-center">
-                  <span className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">
-                    {index + 1}
-                  </span>
-                  Sección {index + 1}
-                </h4>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="flex items-center text-white text-sm font-medium mb-2">
-                      <Type className="w-5 h-5 mr-2 text-purple-400" /> Título
-                      <ValidationMessage
-                        error={
-                          errorsInfoBody[index]?.titulo || {
-                            isValid: null,
-                            message: "",
-                          }
+              <div key={index}>
+                <div className="pb-4">
+                  <label className="flex items-center text-white text-sm font-medium mb-2">
+                    <Type className="w-5 h-5 mr-2 text-purple-400" /> Título
+                    <ValidationMessage
+                      error={
+                        errorsInfoBody[index]?.titulo || {
+                          isValid: null,
+                          message: "",
                         }
-                      />
-                    </label>
-                    <input
-                      type="text"
-                      name="titulo"
-                      value={item.titulo}
-                      maxLength={50}
-                      onChange={(e) => handleChangeMap(e, index, "titulo")}
-                      className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                      placeholder="Título de la sección"
-                      required
+                      }
                     />
-                  </div>
-
+                  </label>
+                  <input
+                    type="text"
+                    name="titulo"
+                    value={item.titulo}
+                    maxLength={50}
+                    onChange={(e) => handleChangeMap(e, index, "titulo")}
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Título principal"
+                    required
+                  />
+                </div>
+                <div>
                   <div>
                     <label className="flex items-center text-white text-sm font-medium mb-2">
                       <Quote className="w-5 h-5 mr-2 text-purple-400" />{" "}
@@ -1162,68 +1077,42 @@ export default function FormBody1(props) {
                       value={item.descripcion}
                       maxLength={400}
                       onChange={(e) => handleChangeMap(e, index, "descripcion")}
-                      className="w-full resize-none h-[100px] bg-gray-900 text-white border border-gray-700 rounded-lg p-3 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                      placeholder="Descripción de la sección"
+                      className="w-full resize-none h-[100px] bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm"
+                      placeholder="Descripción"
                     />
-                  </div>
-
-                  <div className="w-full flex justify-end">
-                    <BotonAñadirLink
-                      item={item}
-                      index={index}
-                      servicios={servicios}
-                      handleChange={handleChangeMap}
-                    />
+                    <div className="w-full flex justify-end">
+                      <BotonAñadirLink
+                        // texto={item.descripcion}
+                        item={item}
+                        index={index}
+                        servicios={servicios}
+                        handleChange={handleChangeMap}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </form>
         </div>
-      </div>
 
-      {/* SECCIÓN 5: BOTÓN DE SERVICIO */}
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-center">
-        {/* Contenido del Botón */}
-        <div className="flex justify-center items-center">
-          {serviceRedirectUrl && (
-            <a
-              href={serviceRedirectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:from-blue-600 hover:to-blue-800 hover:shadow-xl"
-            >
-              Conoce nuestro servicio
-            </a>
-          )}
-        </div>
-
-        {/* Formulario de Configuración de Servicio */}
-        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-          <h3 className="text-lg font-bold text-red-400 mb-4 border-b border-gray-700 pb-2">
-            🔗 Configuración de Botón de Servicio
-          </h3>
-          <div>
-            <label className="block mb-2 font-semibold text-white">
-              Selecciona servicio para el botón
-            </label>
-            <select
-              className="w-full p-3 rounded text-white bg-gray-900 border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-              value={serviceRedirectUrl}
-              onChange={handleServiceChange}
-            >
-              <option value="">-- Ninguno --</option>
-              {servicios.map((serv) => (
-                <option key={serv.url} value={serv.url}>
-                  {serv.label}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-gray-400 mt-2">
-              Este botón aparecerá al final del artículo si seleccionas un
-              servicio
-            </p>
-          </div>
+        {/* NUEVO SELECT para elegir servicio */}
+        <div className="bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+          <label className="block mb-2 font-semibold text-white">
+            Selecciona servicio para el botón
+          </label>
+          <select
+            className="w-full p-3 rounded text-white bg-gray-900 border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            value={serviceRedirectUrl}
+            onChange={handleServiceChange}
+          >
+            <option value="">-- Ninguno --</option>
+            {servicios.map((serv) => (
+              <option key={serv.url} value={serv.url}>
+                {serv.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>
