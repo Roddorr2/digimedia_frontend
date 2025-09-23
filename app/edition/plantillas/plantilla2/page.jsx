@@ -1,19 +1,17 @@
 "use client";
-import FormBody2 from '../components/FormBody2';
-import FormFooter from '../components/FormFooter'
-import FormHeader from '../components/FormHeader'
-import { useState, useEffect } from 'react';
-import Service from "../../services/Service"
-import { Save } from "lucide-react"
-import Swal from 'sweetalert2';
+import FormBody2 from "../components/FormBody2";
+import FormFooter from "../components/FormFooter";
+import FormHeader from "../components/FormHeader";
+import { useState, useEffect } from "react";
+import Service from "../../services/Service";
+import { Save } from "lucide-react";
+import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { getCookie } from 'cookies-next';
+import { getCookie } from "cookies-next";
 
-import { getCurrentDate } from '../../utils';
+import { getCurrentDate } from "../../utils";
 
 const PageContent = () => {
-
-
   const [validacionHeader, setValidacionHeader] = useState(true);
   const [validacionBody, setValidacionBody] = useState(true);
   const [validacionFooter, setValidacionFooter] = useState(true);
@@ -22,8 +20,7 @@ const PageContent = () => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  
-  
+
   const [fileHeader, setFileHeader] = useState(null);
 
   const [FileBodyHeader, setFileBodyHeader] = useState(null);
@@ -35,82 +32,92 @@ const PageContent = () => {
   const [FileFooterFile3, setFileFooterFile3] = useState(null);
 
   const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
-  
+
   const deleteFooterFile1 = () => {
     setFileFooterFile1(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
       public_image1: "/blog/blog-10.webp",
-      url_image1: ""
+      url_image1: "",
     }));
   };
   const deleteFooterFile2 = () => {
     setFileFooterFile2(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
       public_image2: "/blog/blog-10.webp",
-      url_image2: ""
+      url_image2: "",
     }));
   };
   const deleteFooterFile3 = () => {
     setFileFooterFile3(null);
-    setFormFooter(prev => ({
+    setFormFooter((prev) => ({
       ...prev,
       public_image3: "/blog/blog-10.webp",
-      url_image3: ""
+      url_image3: "",
     }));
   };
 
   const deleteHeaderImage = () => {
     setFileHeader(null);
-    setDataHeader(prev => ({
+    setDataHeader((prev) => ({
       ...prev,
       public_image: "/blog/fondo_blog_extend.webp",
-      url_image: ""
+      url_image: "",
     }));
   };
 
   const deleteBodyHeaderImage = () => {
     setFileBodyHeader(null);
-    setFormEncabezadoBody(prev => ({
+    setFormEncabezadoBody((prev) => ({
       ...prev,
       public_image1: "/blog/blog-4.webp",
-      url_image1: ""
+      url_image1: "",
     }));
   };
 
   const deleteBodyFile1 = () => {
     setFileBodyFile1(null);
-    setFormGaleryBody(prev => ({
+    setFormGaleryBody((prev) => ({
       ...prev,
       public_image2: "/blog/blog-2.webp",
-      url_image2: ""
+      url_image2: "",
     }));
   };
 
   const deleteBodyFile2 = () => {
     setFileBodyFile2(null);
-    setFormGaleryBody(prev => ({
+    setFormGaleryBody((prev) => ({
       ...prev,
       public_image3: "/blog/blog-2.webp",
-      url_image3: ""
+      url_image3: "",
     }));
   };
 
-  const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
-    
+  const id_empleado = getCookie("empleado")
+    ? JSON.parse(getCookie("empleado")).id_empleado
+    : -1;
+
   /**
    * Estado inicial del formulario de pie de página del blog. Contiene campos para título, descripción y tres imágenes públicas.
    */
   const [formFooter, setFormFooter] = useState({
     titulo: "Titulo Footer",
-    descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+    descripcion:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
     public_image1: "/blog/blog-10.webp",
     url_image1: "", //por esta vez url es la ruta para eliminar
+    alt_image1: "",
+    title_image1: "",
     public_image2: "/blog/blog-10.webp",
     url_image2: "",
+    alt_image2: "",
+    title_image2: "",
     public_image3: "/blog/blog-10.webp",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
+    estado: 1,
   });
 
   /**
@@ -122,6 +129,10 @@ const PageContent = () => {
     texto_descripcion: "Texto destacado y secundario para el titulo",
     public_image: "/blog/fondo_blog_extend.webp",
     url_image: "",
+    alt_image: "",
+    title_image: "",
+    meta_title: "",
+    meta_description: "",
   });
 
   /**
@@ -134,6 +145,8 @@ const PageContent = () => {
     fecha: getCurrentDate(),
     public_image1: "/blog/blog-4.webp",
     url_image1: "",
+    alt_image1: "",
+    title_image1: "",
   });
 
   /**
@@ -142,28 +155,32 @@ const PageContent = () => {
   const [formInfoBody, setFormInfoBody] = useState([
     {
       titulo: "El Factor Sorpresa y Distinción",
-      descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-      palabra:"",
-      enlace:"",
+      descripcion:
+        "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+      palabra: "",
+      enlace: "",
     },
     {
       titulo: "Ambiente y Experiencia Visual",
-      descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
-      palabra:"",
-      enlace:"",
+      descripcion:
+        "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+      palabra: "",
+      enlace: "",
     },
     {
       titulo: "Eficiencia Energética y Durabilidad",
-      descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
-      palabra:"",
-      enlace:"",
+      descripcion:
+        "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+      palabra: "",
+      enlace: "",
     },
     {
       titulo: "Marketing y Atracción de Clientes",
-      descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
-      palabra:"",
-      enlace:"",
-    }
+      descripcion:
+        "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+      palabra: "",
+      enlace: "",
+    },
   ]);
 
   /**
@@ -171,28 +188,31 @@ const PageContent = () => {
    */
   const [formCommendBody, setFormCommendBody] = useState({
     titulo: "Consejos para Elegir el Letrero Perfecto",
-    texto1:
-      "Opta por colores que reflejen la personalidad de tu bar.",
-    texto2:
-      "Elige un diseño legible y atractivo.",
-    texto3:
-      "Considera el lugar de instalación para maximizar su impacto.",
-    texto4:
-      "",
-    texto5:
-      "",
+    texto1: "Opta por colores que reflejen la personalidad de tu bar.",
+    texto2: "Elige un diseño legible y atractivo.",
+    texto3: "Considera el lugar de instalación para maximizar su impacto.",
+    texto4: "",
+    texto5: "",
   });
-  
+
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: "/blog/blog-2.webp",
     url_image2: "",
+    alt_image2: "",
+    title_image2: "",
     public_image3: "/blog/blog-2.webp",
     url_image3: "",
+    alt_image3: "",
+    title_image3: "",
+    flag_galeria: 1,
+    flag_consejos: 1,
+    flag_informacion: 1,
+    service_url: "",
   });
 
   useEffect(() => {
     const sections = document.querySelectorAll("#header, #body, #footer");
-    sections.forEach(section => {
+    sections.forEach((section) => {
       section.style.scrollMargin = "50px";
       if (section.id === "body" && section.clientHeight < 300) {
         section.style.minHeight = "300px";
@@ -201,16 +221,14 @@ const PageContent = () => {
   }, []);
 
   useEffect(() => {
-    setIsDisabled((validacionHeader && validacionFooter && validacionBody));
+    setIsDisabled(validacionHeader && validacionFooter && validacionBody);
   }, [validacionHeader, validacionFooter, validacionBody]);
-  
-  
+
   async function guardarHeader() {
     const id = await Service.saveHeader(dataHeader);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el encabezado",
@@ -220,13 +238,12 @@ const PageContent = () => {
       return "error";
     }
   }
-  
+
   async function guardarFooter() {
     const id = await Service.saveFooter(formFooter);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el pie de página",
@@ -236,27 +253,34 @@ const PageContent = () => {
       return "error";
     }
   }
-  
-  async function guardarBody(id_commend_tarjeta) {
 
+  async function guardarBody(id_commend_tarjeta) {
     const formBody = {
       titulo: formEncabezadoBody.titulo,
       descripcion: formEncabezadoBody.descripcion,
       id_commend_tarjeta: id_commend_tarjeta,
       public_image1: formEncabezadoBody.public_image1,
       url_image1: formEncabezadoBody.url_image1,
+      alt_image1: formEncabezadoBody.alt_image1,
+      title_image1: formEncabezadoBody.title_image1,
       public_image2: formGaleryBody.public_image2,
       url_image2: formGaleryBody.url_image2,
+      alt_image2: formGaleryBody.alt_image2,
+      title_image2: formGaleryBody.title_image2,
       public_image3: formGaleryBody.public_image3,
       url_image3: formGaleryBody.url_image3,
+      alt_image3: formGaleryBody.alt_image3,
+      title_image3: formGaleryBody.title_image3,
+      flag_galeria: formGaleryBody.flag_galeria,
+      flag_consejos: formGaleryBody.flag_consejos,
+      flag_informacion: formGaleryBody.flag_informacion,
       service_url: serviceRedirectUrl,
-    }
+    };
 
     const id = await Service.saveBody(formBody);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el contenido",
@@ -271,8 +295,7 @@ const PageContent = () => {
     const id = await Service.saveCommendTarjeta(formCommendBody);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar la tarjeta de comentarios",
@@ -282,20 +305,18 @@ const PageContent = () => {
       return "error";
     }
   }
-  
-  async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body) {
 
+  async function guardarBlog(id_blog_head, id_blog_footer, id_blog_body) {
     const formBlog = {
       id_blog_head: id_blog_head,
       id_blog_footer: id_blog_footer,
       id_blog_body: id_blog_body,
       fecha: formEncabezadoBody.fecha,
-    }
+    };
     const id = await Service.saveBlog(formBlog);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar el blog",
@@ -305,7 +326,7 @@ const PageContent = () => {
       return "error";
     }
   }
-  
+
   async function guardarCard(id_blog, id_empleado) {
     const formCard = {
       id_blog: id_blog,
@@ -315,13 +336,12 @@ const PageContent = () => {
       url_image: dataHeader.url_image,
       id_plantilla: 2,
       id_empleado: id_empleado,
-    }
+    };
 
     const id = await Service.saveCard(formCard);
     if (id && id > 0) {
       return id;
-    }
-    else {
+    } else {
       Swal.fire({
         title: "Error",
         text: "No se pudo guardar la tarjeta",
@@ -331,7 +351,7 @@ const PageContent = () => {
       return "error";
     }
   }
-  
+
   async function guardarTarjetas(id_blog_body) {
     try {
       const resultados = await Promise.all(
@@ -340,8 +360,8 @@ const PageContent = () => {
             id_blog_body: id_blog_body,
             titulo: section.titulo,
             descripcion: section.descripcion,
-            palabra:section.palabra,
-            enlace:section.enlace,
+            palabra: section.palabra,
+            enlace: section.enlace,
           };
           const id = await Service.saveTarjeta(formTarjeta);
           if (!id || id <= 0) throw new Error("Error al guardar tarjeta");
@@ -359,7 +379,7 @@ const PageContent = () => {
       return "error";
     }
   }
-  
+
   async function executionFunction(functionSave, mensajeError) {
     try {
       const resultado = await functionSave();
@@ -371,7 +391,7 @@ const PageContent = () => {
     } catch (error) {
       console.error(`❌ Error en executionFunction:`, {
         error: error.message,
-        mensajeError
+        mensajeError,
       });
 
       Swal.fire({
@@ -383,13 +403,12 @@ const PageContent = () => {
       throw error;
     }
   }
-  
-    /* 
+
+  /* 
       storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/head/image.jpeg
       storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/body/image.webp
       storage/app/public/images/templates/plantilla{id_plantilla}/blog{id_blog}/footer/image.webp
     */
-  
 
   async function SaveImage(file, ruta, name = null) {
     try {
@@ -398,7 +417,7 @@ const PageContent = () => {
       const formData = new FormData();
       formData.append("file", file);
       if (name) formData.append("name", name);
-  
+
       const response = await Service.saveImage(formData, ruta);
 
       // si la respuesta es undefined pero no hay error, consideramos éxito
@@ -413,7 +432,7 @@ const PageContent = () => {
 
       let jsonData = null;
 
-      if (typeof response === 'string') {
+      if (typeof response === "string") {
         const jsonMatch = response.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           try {
@@ -421,19 +440,25 @@ const PageContent = () => {
           } catch (parseError) {
             console.warn("⚠️ Error al parsear JSON.");
             // si contiene "success" o "200", lo consideramos exitoso
-            if (response.toLowerCase().includes('success') || response.includes('200')) {
+            if (
+              response.toLowerCase().includes("success") ||
+              response.includes("200")
+            ) {
               return "ok";
             }
           }
         } else {
           // si no hay JSON pero contiene indicadores de éxito
-          if (response.toLowerCase().includes('success') || response.includes('200')) {
+          if (
+            response.toLowerCase().includes("success") ||
+            response.includes("200")
+          ) {
             return "ok";
           }
         }
       } else if (response?.data) {
         // si tiene propiedad data
-        if (typeof response.data === 'string') {
+        if (typeof response.data === "string") {
           const jsonMatch = response.data.match(/\{[\s\S]*\}/);
           if (jsonMatch) {
             try {
@@ -445,93 +470,173 @@ const PageContent = () => {
         } else {
           jsonData = response.data;
         }
-      } else if (typeof response === 'object') {
+      } else if (typeof response === "object") {
         // si es un objeto directo
         jsonData = response;
       }
 
       // verificar éxito por diferentes criterios
-      const isSuccess = jsonData?.status === 200 || 
-                      jsonData?.status === "200" ||
-                      jsonData?.success === true ||
-                      jsonData?.message?.toLowerCase().includes('success') ||
-                      jsonData?.message?.includes('guardado') ||
-                      jsonData?.message?.includes('subido') ||
-                      (response && typeof response === 'object' && !jsonData?.error);
+      const isSuccess =
+        jsonData?.status === 200 ||
+        jsonData?.status === "200" ||
+        jsonData?.success === true ||
+        jsonData?.message?.toLowerCase().includes("success") ||
+        jsonData?.message?.includes("guardado") ||
+        jsonData?.message?.includes("subido") ||
+        (response && typeof response === "object" && !jsonData?.error);
 
       if (isSuccess) {
         return "ok";
       }
 
       // si llegamos aquí y no hay error explícito, consideramos éxito
-      if (!jsonData?.error && !jsonData?.message?.toLowerCase().includes('error')) {
+      if (
+        !jsonData?.error &&
+        !jsonData?.message?.toLowerCase().includes("error")
+      ) {
         return "ok";
       }
 
       // solo lanzar error si hay indicadores claros de fallo
-      const errorMessage = jsonData?.message || jsonData?.error || 'Error desconocido en el servidor';
+      const errorMessage =
+        jsonData?.message ||
+        jsonData?.error ||
+        "Error desconocido en el servidor";
       throw new Error(`Error al subir imagen: ${errorMessage}`);
-
     } catch (error) {
       console.error("❌ Error en SaveImage:", {
         error: error.message,
         ruta,
         name,
-        file: file ? file.name : 'no file'
+        file: file ? file.name : "no file",
       });
-      
+
       // si el error es de red o de parsing, pero no del servidor, podríamos asumir éxito
-      if (error.message.includes('JSON') || error.message.includes('undefined')) {
-        return "ok"; 
+      if (
+        error.message.includes("JSON") ||
+        error.message.includes("undefined")
+      ) {
+        return "ok";
       }
-      
+
       throw error;
     }
   }
-  
+
   async function HandleSave() {
     try {
-
       setLoading(true);
 
-      const id_commend_tarjeta = await executionFunction(guardarCommendTarjeta, "No se pudo guardar la tarjeta de comentarios");
+      const id_commend_tarjeta = await executionFunction(
+        guardarCommendTarjeta,
+        "No se pudo guardar la tarjeta de comentarios"
+      );
 
-      const id_blog_body = await executionFunction(() => guardarBody(id_commend_tarjeta), "No se pudo guardar el contenido del blog");
+      const id_blog_body = await executionFunction(
+        () => guardarBody(id_commend_tarjeta),
+        "No se pudo guardar el contenido del blog"
+      );
 
-      await executionFunction(() => guardarTarjetas(id_blog_body), "No se pudo guardar las tarjetas informativas");
+      await executionFunction(
+        () => guardarTarjetas(id_blog_body),
+        "No se pudo guardar las tarjetas informativas"
+      );
 
-      const id_blog_head = await executionFunction(() => guardarHeader(), "No se pudo guardar el encabezado");
-      const id_blog_footer = await executionFunction(() => guardarFooter(), "No se pudo guardar el pie de página");
+      const id_blog_head = await executionFunction(
+        () => guardarHeader(),
+        "No se pudo guardar el encabezado"
+      );
+      const id_blog_footer = await executionFunction(
+        () => guardarFooter(),
+        "No se pudo guardar el pie de página"
+      );
 
-      const id_blog = await executionFunction(() => guardarBlog(id_blog_head, id_blog_footer, id_blog_body), "No se pudo guardar el blog");
-      const id_card = await executionFunction(() => guardarCard(id_blog, id_empleado), "No se pudo guardar la card");
+      const id_blog = await executionFunction(
+        () => guardarBlog(id_blog_head, id_blog_footer, id_blog_body),
+        "No se pudo guardar el blog"
+      );
+      const id_card = await executionFunction(
+        () => guardarCard(id_blog, id_empleado),
+        "No se pudo guardar la card"
+      );
 
       if (fileHeader) {
-        await executionFunction(() => SaveImage(fileHeader, `card/blog/image_head/${id_card}`), "No se pudo guardar la imagen head");
+        await executionFunction(
+          () => SaveImage(fileHeader, `card/blog/image_head/${id_card}`),
+          "No se pudo guardar la imagen head"
+        );
       }
 
       if (FileBodyHeader) {
-        await executionFunction(() => SaveImage(FileBodyHeader, `card/blog/images_body/${id_card}`, "image1"), "No se pudo guardar la imagen body1");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyHeader,
+              `card/blog/images_body/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen body1"
+        );
       }
 
       if (FileBodyFile1) {
-        await executionFunction(() => SaveImage(FileBodyFile1, `card/blog/images_body/${id_card}`, "image2"), "No se pudo guardar la imagen body2");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile1,
+              `card/blog/images_body/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen body2"
+        );
       }
 
       if (FileBodyFile2) {
-        await executionFunction(() => SaveImage(FileBodyFile2, `card/blog/images_body/${id_card}`, "image3"), "No se pudo guardar la imagen body3");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileBodyFile2,
+              `card/blog/images_body/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen body3"
+        );
       }
 
       if (FileFooterFile1) {
-        await executionFunction(() => SaveImage(FileFooterFile1, `card/blog/images_footer/${id_card}`, "image1"), "No se pudo guardar la imagen footer1");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile1,
+              `card/blog/images_footer/${id_card}`,
+              "image1"
+            ),
+          "No se pudo guardar la imagen footer1"
+        );
       }
 
       if (FileFooterFile2) {
-        await executionFunction(() => SaveImage(FileFooterFile2, `card/blog/images_footer/${id_card}`, "image2"), "No se pudo guardar la imagen footer2");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile2,
+              `card/blog/images_footer/${id_card}`,
+              "image2"
+            ),
+          "No se pudo guardar la imagen footer2"
+        );
       }
 
       if (FileFooterFile3) {
-        await executionFunction(() => SaveImage(FileFooterFile3, `card/blog/images_footer/${id_card}`, "image3"), "No se pudo guardar la imagen footer3");
+        await executionFunction(
+          () =>
+            SaveImage(
+              FileFooterFile3,
+              `card/blog/images_footer/${id_card}`,
+              "image3"
+            ),
+          "No se pudo guardar la imagen footer3"
+        );
       }
 
       await Swal.fire({
@@ -543,13 +648,21 @@ const PageContent = () => {
 
       setFormFooter({
         titulo: "Titulo Footer",
-        descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
+        descripcion:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, voluptate.",
         public_image1: "/blog/blog-10.webp",
-        url_image1: "", //por esta vez url es la ruta para elimianr
+        url_image1: "", //por esta vez url es la ruta para eliminar
+        alt_image1: "",
+        title_image1: "",
         public_image2: "/blog/blog-10.webp",
         url_image2: "",
+        alt_image2: "",
+        title_image2: "",
         public_image3: "/blog/blog-10.webp",
         url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        estado: 1,
       });
 
       setDataHeader({
@@ -558,6 +671,10 @@ const PageContent = () => {
         texto_descripcion: "Texto destacado y secundario para el titulo",
         public_image: "/blog/fondo_blog_extend.webp",
         url_image: "",
+        alt_image: "",
+        title_image: "",
+        meta_title: "",
+        meta_description: "",
       });
 
       setFormEncabezadoBody({
@@ -567,48 +684,64 @@ const PageContent = () => {
         fecha: getCurrentDate(),
         public_image1: "/blog/blog-4.webp",
         url_image1: "",
+        alt_image1: "",
+        title_image1: "",
       });
 
       setFormInfoBody([
         {
           titulo: "El Factor Sorpresa y Distinción",
-          descripcion: "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
-          palabra:"",enlace:""
+          descripcion:
+            "Las letras de neón LED permiten personalizar la imagen de tu local, haciendo que el nombre de tu bar sea visible desde lejos. Un diseño llamativo puede convertirse en un sello distintivo y en un punto de referencia para los clientes.",
+          palabra: "",
+          enlace: "",
         },
 
         {
           titulo: "Ambiente y Experiencia Visual",
-          descripcion: "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",palabra:"",enlace:""
+          descripcion:
+            "La iluminación juega un papel crucial en la atmósfera de un bar. Los colores vibrantes y cálidos del neón LED pueden transformar un espacio ordinario en un entorno acogedor e instagrameable.",
+          palabra: "",
+          enlace: "",
         },
         {
           titulo: "Eficiencia Energética y Durabilidad",
-          descripcion: "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",palabra:"",enlace:""
+          descripcion:
+            "A diferencia del neón tradicional, las luces LED son más eficientes, consumen menos energía y tienen una vida útil más prolongada.",
+          palabra: "",
+          enlace: "",
         },
         {
           titulo: "Marketing y Atracción de Clientes",
-          descripcion: "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",palabra:"",enlace:""
-        }
+          descripcion:
+            "Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local.",
+          palabra: "",
+          enlace: "",
+        },
       ]);
 
       setFormCommendBody({
         titulo: "Consejos para Elegir el Letrero Perfecto",
-        texto1:
-          "Opta por colores que reflejen la personalidad de tu bar.",
-        texto2:
-          "Elige un diseño legible y atractivo.",
-        texto3:
-          "Considera el lugar de instalación para maximizar su impacto.",
-        texto4:
-          "",
-        texto5:
-          "",
+        texto1: "Opta por colores que reflejen la personalidad de tu bar.",
+        texto2: "Elige un diseño legible y atractivo.",
+        texto3: "Considera el lugar de instalación para maximizar su impacto.",
+        texto4: "",
+        texto5: "",
       });
 
       setFormGaleryBody({
         public_image2: "/blog/blog-2.webp",
         url_image2: "",
+        alt_image2: "",
+        title_image2: "",
         public_image3: "/blog/blog-2.webp",
         url_image3: "",
+        alt_image3: "",
+        title_image3: "",
+        flag_galeria: 1,
+        flag_consejos: 1,
+        flag_informacion: 1,
+        service_url: "",
       });
 
       setFileHeader(null);
@@ -619,17 +752,15 @@ const PageContent = () => {
       setFileFooterFile2(null);
       setFileFooterFile3(null);
 
-      router.push("/dashboard/blogs/")
+      router.push("/dashboard/blogs/");
 
       window.open("/blog", "_blank");
-
     } catch (error) {
       console.error("Error al guardar:", error.message);
     } finally {
       setLoading(false);
     }
   }
-
 
   return (
     <>
@@ -643,30 +774,26 @@ const PageContent = () => {
         />
       </div>
 
-      <div id="body" className="section-container my-8 bg-gradient-to-r text-black  w-full">
+      <div
+        id="body"
+        className="section-container my-8 bg-gradient-to-r text-black  w-full"
+      >
         <FormBody2
           formCommendBody={formCommendBody}
           setFormCommendBody={setFormCommendBody}
-
           formInfoBody={formInfoBody}
           setFormInfoBody={setFormInfoBody}
-
           formGaleryBody={formGaleryBody}
           setFormGaleryBody={setFormGaleryBody}
-
           setFileBodyHeader={setFileBodyHeader}
           onDeleteBodyHeaderImage={deleteBodyHeaderImage}
-
-          setFileBodyFile1 = {setFileBodyFile1}
+          setFileBodyFile1={setFileBodyFile1}
           onDeleteBodyFile1={deleteBodyFile1}
-
-          setFileBodyFile2 = {setFileBodyFile2}
+          setFileBodyFile2={setFileBodyFile2}
           onDeleteBodyFile2={deleteBodyFile2}
-
           formEncabezadoBody={formEncabezadoBody}
           setFormEncabezadoBody={setFormEncabezadoBody}
           setValidacionBody={setValidacionBody}
-
           serviceRedirectUrl={serviceRedirectUrl}
           setServiceRedirectUrl={setServiceRedirectUrl}
         />
@@ -678,10 +805,8 @@ const PageContent = () => {
           setFormData={setFormFooter}
           setFileFooterFile1={setFileFooterFile1}
           onDeleteFooterFile1={deleteFooterFile1}
-
           setFileFooterFile2={setFileFooterFile2}
           onDeleteFooterFile2={deleteFooterFile2}
-
           setFileFooterFile3={setFileFooterFile3}
           onDeleteFooterFile3={deleteFooterFile3}
           setValidacionFooter={setValidacionFooter}
@@ -689,48 +814,58 @@ const PageContent = () => {
       </div>
 
       <div className="bottom-0 left-0 fixed p-6 border-t border-slate-700/50 bg-slate-900/50 backdrop-blur-sm">
-          {isDisabled?(
-            <button
+        {isDisabled ? (
+          <button
             onClick={HandleSave}
-            disabled={loading }
-            className={`text-white rounded-xl flex items-center justify-center w-full transition-all duration-300 px-5 py-3 shadow-lg shadow-emerald-900/20 ${loading ? "bg-emerald-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"
-              }`}
+            disabled={loading}
+            className={`text-white rounded-xl flex items-center justify-center w-full transition-all duration-300 px-5 py-3 shadow-lg shadow-emerald-900/20 ${
+              loading
+                ? "bg-emerald-400 cursor-not-allowed"
+                : "bg-emerald-600 hover:bg-emerald-500"
+            }`}
           >
-              {loading ? (
-                <>
-                  <svg
-                    className="animate-spin mr-2 h-4 w-4 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    ></path>
-                  </svg>
-                  Guardando...
-                  </>
-                
-              ) : (
-                <>
-                  <Save className="mr-2 h-4 w-4 text-blue-950" />
-                  Guardar Cambios
-                </>
-              )}
-            </button>
-          ):(
-            <button disabled className="flex items-center px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed rounded">
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin mr-2 h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
+                Guardando...
+              </>
+            ) : (
               <>
                 <Save className="mr-2 h-4 w-4 text-blue-950" />
                 Guardar Cambios
               </>
-            </button>
-
-          )}
-          
+            )}
+          </button>
+        ) : (
+          <button
+            disabled
+            className="flex items-center px-4 py-2 bg-gray-300 text-gray-500 cursor-not-allowed rounded"
+          >
+            <>
+              <Save className="mr-2 h-4 w-4 text-blue-950" />
+              Guardar Cambios
+            </>
+          </button>
+        )}
       </div>
     </>
   );
