@@ -12,6 +12,7 @@ export default function Banner() {
             src="/image-home/inicio.webp"
             alt="Inicio"
             priority
+            fetchPriority="high"
             fill
             sizes="100vw"
             className="object-cover object-[30%]"
