@@ -21,7 +21,6 @@ function EnlacesForm() {
         try {
             setIsLoading(true)
             const response = await Fetch.fetchCards()
-        
             if (Array.isArray(response)) {
                 setDataResponse(response)
             } else if (response && Array.isArray(response.data)) {
@@ -125,8 +124,9 @@ function EnlacesForm() {
                                         >
                                             <div className="relative overflow-hidden">
                                                 <img
-                                                    src={`${card.public_image}`}
-                                                    alt={card.titulo}
+                                                    src={`${card.public_image}?v=${Date.now()}`}
+                                                    alt={card.blog.head.alt || card.titulo}
+                                                    title={card.blog.head.title || card.titulo}
                                                     className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>

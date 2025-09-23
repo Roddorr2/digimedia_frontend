@@ -36,31 +36,66 @@ export default function FormBody1(props) {
     setServiceRedirectUrl,
   } = props;
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Configuracion de emcabezado
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+  const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
+  const [isValidTitle_image1, setIsValidTitle_image1] = useState(true);
+
+  // Sección consejos
+  // Se reutiliza el titulo del encabezado
   const [isValidTexto1, setIsValidTexto1] = useState(true);
   const [isValidTexto2, setIsValidTexto2] = useState(true);
   const [isValidTexto3, setIsValidTexto3] = useState(true);
 
+  // Galeria de Imagemes
+  const [isValidAlt_image2, setIsValidAlt_image2] = useState(true);
+  const [isValidAlt_image3, setIsValidAlt_image3] = useState(true);
+  const [isValidTitle_image2, setIsValidTitle_image2] = useState(true);
+  const [isValidTitle_image3, setIsValidTitle_image3] = useState(true);
+
+  // Seccion de información
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
-
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
   const [isValidInfoDescripcion2, setIsValidInfoDescripcion2] = useState(true);
-
   const [isValidInfoTitulo3, setIsValidInfoTitulo3] = useState(true);
   const [isValidInfoDescripcion3, setIsValidInfoDescripcion3] = useState(true);
-
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
   const [errors, setErrors] = useState({
     titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
+    descripcion: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
     texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    descripcion: {
-      message: "Debe tener entre 10 y 400 caracteres",
+    // Galeria de Imagenes
+    alt_image1: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    title_image1: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    alt_image2: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    title_image2: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    alt_image3: {
+      message: "Debe tener entre 3 y 50 caracteres",
+      isValid: null,
+    },
+    title_image3: {
+      message: "Debe tener entre 3 y 50 caracteres",
       isValid: null,
     },
   });
@@ -113,7 +148,7 @@ export default function FormBody1(props) {
     switch (name) {
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -133,6 +168,81 @@ export default function FormBody1(props) {
           },
         }));
         break;
+      // CORREGIDO: Unificar validaciones para alt y title
+      case "alt_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      // Galería de imágenes - CORREGIDO
+      case "alt_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidAlt_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidTitle_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidAlt_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50; // Consistente
+        setIsValidTitle_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            isValid: isValid,
+          },
+        }));
+        break;
+
+      // Consejos
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -144,6 +254,7 @@ export default function FormBody1(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -155,6 +266,7 @@ export default function FormBody1(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -171,11 +283,17 @@ export default function FormBody1(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidTitle_image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
+      isValidAlt_image2 &&
+      isValidTitle_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image3 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
       isValidInfoTitulo2 &&
@@ -238,8 +356,8 @@ export default function FormBody1(props) {
         } else if (index === 3) {
           setIsValidInfoTitulo4(isValid);
         }
-
         break;
+
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
 
@@ -252,18 +370,53 @@ export default function FormBody1(props) {
         } else if (index === 3) {
           setIsValidInfoDescripcion4(isValid);
         }
+        break;
 
+      case "alt_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image1(isValid);
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image1(isValid);
+        break;
+
+      case "alt_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image2(isValid);
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image2(isValid);
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidAlt_image3(isValid);
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 3 && value.length <= 50;
+        setIsValidTitle_image3(isValid);
         break;
       default:
         break;
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidTitle_image1 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
+      isValidAlt_image2 &&
+      isValidTitle_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image3 &&
       isValidInfoTitulo1 &&
       isValidInfoDescripcion1 &&
       isValidInfoTitulo2 &&
@@ -533,7 +686,8 @@ export default function FormBody1(props) {
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                 ) : (
                   <>
-                    {formEncabezadoBody.public_image1 !== "/blog/blog-4.webp" ? (
+                    {formEncabezadoBody.public_image1 !==
+                    "/blog/blog-4.webp" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -564,6 +718,47 @@ export default function FormBody1(props) {
                 <Trash2 className="w-5 h-5 text-red-500" />
               </button>
             </div>
+
+            {/* Alt Text para imagen principal */}
+            <div>
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                Alternativo (Alt)
+              </label>
+              <input
+                type="text"
+                name="alt_image1"
+                maxLength={125}
+                value={formEncabezadoBody.alt_image1 || ""}
+                onChange={handleChange(setFormEncabezadoBody)}
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Imagen principal: Título del Blog"
+              />
+              <p className="text-gray-400 text-xs mt-1">
+                Máximo 125 caracteres - Describe qué se ve en la imagen
+              </p>
+            </div>
+
+            {/* Title para imagen principal */}
+            <div>
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título de
+                Imagen
+              </label>
+              <input
+                type="text"
+                name="title_image1"
+                maxLength={100}
+                value={formEncabezadoBody.title_image1 || ""}
+                onChange={handleChange(setFormEncabezadoBody)}
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Ver imagen: Título del Blog"
+              />
+              <p className="text-gray-400 text-xs mt-1">
+                Máximo 100 caracteres - Información adicional sobre la imagen
+              </p>
+            </div>
+
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <AlignLeft className="w-5 h-5 mr-2 text-purple-400" />{" "}
@@ -703,6 +898,46 @@ export default function FormBody1(props) {
               </div>
             </div>
 
+            {/* Alt Text para imagen principal */}
+            <div>
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                Alternativo (Alt)
+              </label>
+              <input
+                type="text"
+                name="alt_image2"
+                maxLength={125}
+                value={formGaleryBody.alt_image2 || ""}
+                onChange={handleChange(setFormGaleryBody)}
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Imagen principal: Título del Blog"
+              />
+              <p className="text-gray-400 text-xs mt-1">
+                Máximo 125 caracteres - Describe qué se ve en la imagen
+              </p>
+            </div>
+
+            {/* Title para imagen principal */}
+            <div>
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título de
+                Imagen
+              </label>
+              <input
+                type="text"
+                name="title_image2"
+                maxLength={100}
+                value={formGaleryBody.title_image2 || ""}
+                onChange={handleChange(setFormGaleryBody)}
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Ver imagen: Título del Blog"
+              />
+              <p className="text-gray-400 text-xs mt-1">
+                Máximo 100 caracteres - Información adicional sobre la imagen
+              </p>
+            </div>
+
             <div>
               <label className="flex items-center text-white text-sm font-medium mb-2">
                 <Image className="w-5 h-5 mr-2 text-purple-400" /> Imagen 2
@@ -752,6 +987,46 @@ export default function FormBody1(props) {
                   <Trash2 className="w-5 h-5 text-red-500" />
                 </button>
               </div>
+            </div>
+
+            {/* Alt Text para imagen principal */}
+            <div>
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Texto
+                Alternativo (Alt)
+              </label>
+              <input
+                type="text"
+                name="alt_image3"
+                maxLength={125}
+                value={formGaleryBody.alt_image3 || ""}
+                onChange={handleChange(setFormGaleryBody)}
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Imagen principal: Título del Blog"
+              />
+              <p className="text-gray-400 text-xs mt-1">
+                Máximo 125 caracteres - Describe qué se ve en la imagen
+              </p>
+            </div>
+
+            {/* Title para imagen principal */}
+            <div>
+              <label className="flex items-center text-gray-300 text-xs font-medium mb-2">
+                <Type className="w-4 h-4 mr-1.5 text-blue-400" /> Título de
+                Imagen
+              </label>
+              <input
+                type="text"
+                name="title_image3"
+                maxLength={100}
+                value={formGaleryBody.title_image3 || ""}
+                onChange={handleChange(setFormGaleryBody)}
+                className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="Ver imagen: Título del Blog"
+              />
+              <p className="text-gray-400 text-xs mt-1">
+                Máximo 100 caracteres - Información adicional sobre la imagen
+              </p>
             </div>
           </form>
         </div>

@@ -65,6 +65,30 @@ export default function Body2({ id_blog_body, fecha }) {
     fetchBlogData();
   }, [id_blog_body]);
 
+  const getImageUrl = (previewImageUrl, fallback) => {
+    if (!previewImageUrl) return fallback;
+
+    if (previewImageUrl.startsWith("blob:")) {
+      return previewImageUrl; 
+    }
+
+    return `${previewImageUrl}?v=${Date.now()}`; 
+  };
+  useEffect(() => {
+    if (data) {
+      if (data.flag_informacion !== 0) {
+        setActiveTab("info");
+      } else if (data.flag_consejos !== 0) {
+        setActiveTab("tips");
+      } else if (data.flag_galeria !== 0) {
+        setActiveTab("gallery");
+      } else {
+        setActiveTab(null); 
+      }
+    }
+  }, [data]);
+
+
   if (isLoading) {
     return (
       <div className="relative lg:mx-48 p-6 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.15)] animate-pulse">
@@ -140,6 +164,7 @@ export default function Body2({ id_blog_body, fecha }) {
     );
   }
 
+
   return (
     <div className="relative lg:mx-48 bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden">
       <div className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
@@ -159,8 +184,11 @@ export default function Body2({ id_blog_body, fecha }) {
 
       <div className="relative h-[300px] md:h-[400px] overflow-hidden">
         <img
-          src={data.public_image1}
-          alt={data.titulo || "Imagen principal"}
+          // src={data.public_image1}
+          src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
+          // alt={data.titulo || "Imagen principal"}
+          alt={data.alt_image1 || data.titulo}
+          title={data.title_image1}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -178,40 +206,52 @@ export default function Body2({ id_blog_body, fecha }) {
         </div>
 
         <div className="flex border-b border-gray-200 mb-8">
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              activeTab === "info"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setActiveTab("info")}
-          >
-            Información
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              activeTab === "tips"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setActiveTab("tips")}
-          >
-            Consejos
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              activeTab === "gallery"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setActiveTab("gallery")}
-          >
-            Galería
-          </button>
+          {data.flag_informacion!==0 && (
+
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "info"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("info")}
+            >
+              Información
+            </button>
+
+          )}
+          {data.flag_consejos!==0 && (
+
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "tips"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("tips")}
+            >
+              Consejos
+            </button>
+
+          )}
+          {data.flag_galeria!==0 && (
+
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "gallery"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("gallery")}
+            >
+              Galería
+            </button>
+
+          )}
         </div>
 
         <div className="mb-10">
-          {activeTab === "info" && (
+          {activeTab === "info" && data.flag_informacion !== 0 && (
             <div className="space-y-6">
               {data.tarjetas &&
                 data.tarjetas.map((section, index) => (
@@ -238,7 +278,7 @@ export default function Body2({ id_blog_body, fecha }) {
             </div>
           )}
 
-          {activeTab === "tips" && (
+          {activeTab === "tips" && data.flag_consejos !== 0 && (
             <div className="bg-gradient-to-br from-teal-50 to-gray-50 rounded-xl p-6">
               <h3 className="text-2xl font-bold mb-6 text-teal-700 text-center">
                 {data.commend_tarjeta?.titulo || "Consejos"}
@@ -270,19 +310,31 @@ export default function Body2({ id_blog_body, fecha }) {
             </div>
           )}
 
-          {activeTab === "gallery" && (
+          {activeTab === "gallery" && data.flag_galeria !== 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                data.public_image2 || "/blog/blog-10.webp",
-                data.public_image3 || "/blog/blog-1.webp",
-              ].map((src, index) => (
+                // data.public_image2 || "/blog/blog-10.webp",
+                // data.public_image3 || "/blog/blog-1.webp",
+                { 
+                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), 
+                  alt: data.alt_image2 || data.titulo, 
+                  title: data.title_image2 || "" 
+                },
+                { 
+                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"), 
+                  alt: data.alt_image3 || data.titulo, 
+                  title: data.title_image3 || "" 
+                },
+              ].map((image, index) => (
                 <div
                   key={index}
                   className="group relative rounded-xl overflow-hidden shadow-md"
                 >
                   <img
-                    src={src}
-                    alt={`Imagen ${index + 1} del artículo`}
+                    src={image.src}
+                    // alt={`Imagen ${index + 1} del artículo`}
+                    alt={image.alt}
+                    title={image.title}
                     className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
