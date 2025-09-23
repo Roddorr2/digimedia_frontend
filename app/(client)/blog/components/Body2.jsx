@@ -74,6 +74,19 @@ export default function Body2({ id_blog_body, fecha }) {
 
     return `${previewImageUrl}?v=${Date.now()}`; 
   };
+  useEffect(() => {
+    if (data) {
+      if (data.flag_informacion !== 0) {
+        setActiveTab("info");
+      } else if (data.flag_consejos !== 0) {
+        setActiveTab("tips");
+      } else if (data.flag_galeria !== 0) {
+        setActiveTab("gallery");
+      } else {
+        setActiveTab(null); 
+      }
+    }
+  }, [data]);
 
 
   if (isLoading) {
@@ -151,6 +164,7 @@ export default function Body2({ id_blog_body, fecha }) {
     );
   }
 
+
   return (
     <div className="relative lg:mx-48 bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden">
       <div className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
@@ -192,40 +206,52 @@ export default function Body2({ id_blog_body, fecha }) {
         </div>
 
         <div className="flex border-b border-gray-200 mb-8">
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              activeTab === "info"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setActiveTab("info")}
-          >
-            Información
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              activeTab === "tips"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setActiveTab("tips")}
-          >
-            Consejos
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm ${
-              activeTab === "gallery"
-                ? "text-teal-600 border-b-2 border-teal-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-            onClick={() => setActiveTab("gallery")}
-          >
-            Galería
-          </button>
+          {data.flag_informacion!==0 && (
+
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "info"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("info")}
+            >
+              Información
+            </button>
+
+          )}
+          {data.flag_consejos!==0 && (
+
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "tips"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("tips")}
+            >
+              Consejos
+            </button>
+
+          )}
+          {data.flag_galeria!==0 && (
+
+            <button
+              className={`px-4 py-2 font-medium text-sm ${
+                activeTab === "gallery"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+              onClick={() => setActiveTab("gallery")}
+            >
+              Galería
+            </button>
+
+          )}
         </div>
 
         <div className="mb-10">
-          {activeTab === "info" && (
+          {activeTab === "info" && data.flag_informacion !== 0 && (
             <div className="space-y-6">
               {data.tarjetas &&
                 data.tarjetas.map((section, index) => (
@@ -252,7 +278,7 @@ export default function Body2({ id_blog_body, fecha }) {
             </div>
           )}
 
-          {activeTab === "tips" && (
+          {activeTab === "tips" && data.flag_consejos !== 0 && (
             <div className="bg-gradient-to-br from-teal-50 to-gray-50 rounded-xl p-6">
               <h3 className="text-2xl font-bold mb-6 text-teal-700 text-center">
                 {data.commend_tarjeta?.titulo || "Consejos"}
@@ -284,7 +310,7 @@ export default function Body2({ id_blog_body, fecha }) {
             </div>
           )}
 
-          {activeTab === "gallery" && (
+          {activeTab === "gallery" && data.flag_galeria !== 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 // data.public_image2 || "/blog/blog-10.webp",
