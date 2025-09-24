@@ -28,21 +28,30 @@ export default function FormBody3(props) {
     setServiceRedirectUrl,
   } = props;
 
-  const [isValidTituloPrincipal, setIsValidTituloPrincipal] = useState(true);
+  // Contenido Principal
+  const [isValidTitulo, setIsValidTitulo] = useState(true);
+  const [isValidAlt_image1, setIsValidAlt_image1] = useState(true);
+  const [isValidTitle_image1, setIsValidTitle_image1] = useState(true);
   const [isValidDescripcion, setIsValidDescripcion] = useState(true);
+
+  // Galeria de Imagenes
+  const [isValidAlt_image2, setIsValidAlt_image2] = useState(true);
+  const [isValidTitle_image2, setIsValidTitle_image2] = useState(true);
+  const [isValidAlt_image3, setIsValidAlt_image3] = useState(true);
+  const [isValidTitle_image3, setIsValidTitle_image3] = useState(true);
+
+  // Consejos
   const [isValidTexto1, setIsValidTexto1] = useState(true);
   const [isValidTexto2, setIsValidTexto2] = useState(true);
   const [isValidTexto3, setIsValidTexto3] = useState(true);
 
+  // Información Detallada
   const [isValidInfoTitulo1, setIsValidInfoTitulo1] = useState(true);
   const [isValidInfoDescripcion1, setIsValidInfoDescripcion1] = useState(true);
-
   const [isValidInfoTitulo2, setIsValidInfoTitulo2] = useState(true);
   const [isValidInfoDescripcion2, setIsValidInfoDescripcion2] = useState(true);
-
   const [isValidInfoTitulo3, setIsValidInfoTitulo3] = useState(true);
   const [isValidInfoDescripcion3, setIsValidInfoDescripcion3] = useState(true);
-
   const [isValidInfoTitulo4, setIsValidInfoTitulo4] = useState(true);
   const [isValidInfoDescripcion4, setIsValidInfoDescripcion4] = useState(true);
 
@@ -71,10 +80,35 @@ export default function FormBody3(props) {
 
   const [errors, setErrors] = useState({
     titulo: { message: "Debe tener entre 10 y 50 caracteres", isValid: null },
+    descripcion: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
     texto1: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto2: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
     texto3: { message: "Debe tener entre 10 y 150 caracteres", isValid: null },
-    descripcion: {
+
+    alt_image1: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image2: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    alt_image3: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image1: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image2: {
+      message: "Debe tener entre 10 y 400 caracteres",
+      isValid: null,
+    },
+    title_image3: {
       message: "Debe tener entre 10 y 400 caracteres",
       isValid: null,
     },
@@ -105,7 +139,7 @@ export default function FormBody3(props) {
     switch (name) {
       case "titulo":
         isValid = value.trim().length >= 10 && value.length <= 50;
-        setIsValidTituloPrincipal(isValid);
+        setIsValidTitulo(isValid);
         setErrors((prev) => ({
           ...prev,
           [name]: {
@@ -114,6 +148,7 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       case "descripcion":
         isValid = value.trim().length >= 10 && value.length <= 400;
         setIsValidDescripcion(isValid);
@@ -125,6 +160,61 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
+      case "alt_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "alt_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "alt_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidAlt_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image1":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image1(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image2":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image2(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
+      case "title_image3":
+        isValid = value.trim().length >= 10 && value.length <= 400;
+        setIsValidTitle_image3(isValid);
+        setErrors((prev) => ({
+          ...prev,
+          [name]: { ...prev[name], isValid: isValid },
+        }));
+        break;
+
       case "texto1":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto1(isValid);
@@ -136,6 +226,7 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       case "texto2":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto2(isValid);
@@ -147,6 +238,7 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       case "texto3":
         isValid = value.trim().length >= 10 && value.length <= 150;
         setIsValidTexto3(isValid);
@@ -158,12 +250,19 @@ export default function FormBody3(props) {
           },
         }));
         break;
+
       default:
         break;
     }
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidAlt_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image1 &&
+      isValidTitle_image2 &&
+      isValidTitle_image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -255,8 +354,14 @@ export default function FormBody3(props) {
     }
 
     if (
-      isValidTituloPrincipal &&
+      isValidTitulo &&
       isValidDescripcion &&
+      isValidAlt_image1 &&
+      isValidAlt_image2 &&
+      isValidAlt_image3 &&
+      isValidTitle_image1 &&
+      isValidTitle_image2 &&
+      isValidTitle_image3 &&
       isValidTexto1 &&
       isValidTexto2 &&
       isValidTexto3 &&
@@ -584,7 +689,8 @@ export default function FormBody3(props) {
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
                 ) : (
                   <>
-                    {formEncabezadoBody.public_image1 !== "/blog/blog-4.webp" ? (
+                    {formEncabezadoBody.public_image1 !==
+                    "/blog/blog-4.webp" ? (
                       <>
                         <IconImage className="w-5 h-5 mr-2 text-purple-400" />
                         <span className="text-sm">Cambiar imagen</span>
@@ -615,6 +721,40 @@ export default function FormBody3(props) {
                 >
                   <Trash2 className="w-5 h-5 text-red-500" />
                 </button>
+              </div>
+              {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Texto Alternativo (Alt)
+                  </label>
+                  <input
+                    type="text"
+                    name="alt_image1"
+                    value={formEncabezadoBody.alt_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Descripción de la imagen para accesibilidad"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Título de la Imagen
+                  </label>
+                  <input
+                    type="text"
+                    name="title_image1"
+                    value={formEncabezadoBody.title_image1 || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Título que aparece al pasar el mouse"
+                  />
+                </div>
               </div>
             </div>
             <div>
@@ -688,6 +828,40 @@ export default function FormBody3(props) {
                     <Trash2 className="w-5 h-5 text-red-500" />
                   </button>
                 </div>
+                {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-white text-sm font-medium mb-2">
+                      Texto Alternativo (Alt)
+                    </label>
+                    <input
+                      type="text"
+                      name="alt_image2"
+                      value={formGaleryBody.alt_image2 || ""}
+                      onChange={handleChange(setFormGaleryBody)}
+                      maxLength={100}
+                      autoComplete="off"
+                      className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      placeholder="Descripción de la imagen para accesibilidad"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-white text-sm font-medium mb-2">
+                      Título de la Imagen
+                    </label>
+                    <input
+                      type="text"
+                      name="title_image2"
+                      value={formGaleryBody.title_image2 || ""}
+                      onChange={handleChange(setFormGaleryBody)}
+                      maxLength={100}
+                      autoComplete="off"
+                      className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      placeholder="Título que aparece al pasar el mouse"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -740,6 +914,40 @@ export default function FormBody3(props) {
                   >
                     <Trash2 className="w-5 h-5 text-red-500" />
                   </button>
+                </div>
+              </div>
+              {/* CAMPOS ALT Y TITLE PARA IMAGEN PRINCIPAL */}
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Texto Alternativo (Alt)
+                  </label>
+                  <input
+                    type="text"
+                    name="alt_image3"
+                    value={formGaleryBody.alt_image3 || ""}
+                    onChange={handleChange(setFormGaleryBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Descripción de la imagen para accesibilidad"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Título de la Imagen
+                  </label>
+                  <input
+                    type="text"
+                    name="title_image3"
+                    value={formGaleryBody.title_image3 || ""}
+                    onChange={handleChange(setFormGaleryBody)}
+                    maxLength={100}
+                    autoComplete="off"
+                    className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    placeholder="Título que aparece al pasar el mouse"
+                  />
                 </div>
               </div>
             </div>

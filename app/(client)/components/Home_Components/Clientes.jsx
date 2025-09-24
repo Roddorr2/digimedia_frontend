@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 export default function Clientes() {
   const [activeIndex, setActiveIndex] = useState(0); // Comienza en la primera imagen
@@ -112,11 +113,16 @@ export default function Clientes() {
               className={`flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-56 px-2`}
             >
               {/* <a href={cliente.link} target="_blank" rel="noopener noreferrer"> */}
-                <img
-                  src={cliente.src}
-                  alt={cliente.alt}
-                  className="block w-full h-full object-contain"
-                />
+              <Image
+                src={cliente.src}
+                alt={cliente.alt}
+                width={200} 
+                height={100} 
+                className="object-contain w-full h-full"
+                loading="lazy"
+                decoding="async"
+                priority={false} 
+              />
               {/* </a> */}
             </div>
           ))}

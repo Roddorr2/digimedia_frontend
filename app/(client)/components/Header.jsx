@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import styles from "./Header.module.css"
 import { ChevronDown } from 'lucide-react';
+import Image from 'next/image';
 
 import { useEffect } from 'react';
 
@@ -21,6 +22,11 @@ export default function Header2() {
     setMenuOpen(false);
     setIsServiceOpen(false);
     setIsMoreOpen(false);
+
+    const menucheckbox = document.getElementById("menucheckbox");
+    if(menucheckbox){
+      menucheckbox.checked = false;
+    }
   };
 
   useEffect(() => {
@@ -39,12 +45,14 @@ export default function Header2() {
       <div className={styles.contenidoHeader}>
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
-            <img
+            <Image
               src="/headerFooter/logoblanco.webp"
               alt="Logo de digimedia color blanco con fondo oscuro"
-              width="190px"
-              height="65px"
+              width={190}
+              height={65}
               className="my-auto"
+              loading='lazy'
+              decoding='async'
             />
           </Link>
         </div>
@@ -52,7 +60,13 @@ export default function Header2() {
         <div className={styles.seccionesHeader}>
           <input type="checkbox" id="menucheckbox" className={styles.menucheckbox} onChange={() => setMenuOpen(!menuOpen)} />
           <label htmlFor="menucheckbox">
-            <img src="/headerFooter/menu.avif"  alt="Icono de menu de 3 lineas color blanco y fondo oscuro" width="25" height="25" />
+            <Image 
+            src="/headerFooter/menu.avif"  
+            alt="Icono de menu de 3 lineas color blanco y fondo oscuro" 
+            width={25} 
+            height={25} 
+            priority
+            />
           </label>
           <ul className={styles.menuHorizontal}>
             <li className={isActive('/') ? styles.active : ""} onClick={closeMenu}>
