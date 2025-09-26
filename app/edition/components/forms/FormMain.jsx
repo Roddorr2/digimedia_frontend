@@ -1,0 +1,772 @@
+"use client";
+import { useState, useEffect, useCallback } from "react";
+import {
+  Save,
+  RefreshCw,
+  Eye,
+  AlertCircle,
+  CheckCircle,
+  Loader2,
+  ArrowLeft,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+
+// Hooks y componentes
+import useBlogData from "../../hooks/useBlogData";
+import FormHeader from "./FormHeader";
+import FormBody from "./FormBody";
+import FormFooter from "./FormFooter";
+
+// Configuración de plantillas
+import { PLANTILLA_IDS } from "../../config/index";
+
+/**
+ * FormMain - Componente orquestador del workflow completo de blogs
+ *
+ * @param {number} plantillaId - ID de la plantilla seleccionada (1, 2, 3)
+ * @param {string|null} blogId - ID del blog para edición (null para creación)
+ * @param {string} mode - Modo del formulario: 'create' | 'edit'
+ * @param {function} onSuccess - Callback ejecutado al guardar exitosamente
+ * @param {function} onCancel - Callback ejecutado al cancelar
+ * @param {function} onPreview - Callback ejecutado al hacer preview
+ * @param {boolean} showPreview - Si mostrar botón de preview
+ * @param {boolean} showCancel - Si mostrar botón de cancelar
+ * @param {string} className - Clases CSS adicionales
+ */
+export default function FormMain({
+  // Props de configuración
+  plantillaId = PLANTILLA_IDS.CLASICA,
+  blogId = null,
+  mode = "create",
+
+  // Props de callbacks
+  onSuccess,
+  onCancel,
+  onPreview,
+  onPlantillaChange, // Nuevo callback para cambio de plantilla
+
+  // Props de UI
+  showPreview = true,
+  showCancel = true,
+  showTemplateSelector: showTemplateSelectorProp = false, // Mostrar selector de plantillas
+  className = "",
+
+  // Props adicionales
+  autoSave = false,
+  autoSaveInterval = 30000, // 30 segundos
+}) {
+  const router = useRouter();
+
+  // Hook centralizado con compatibilidad total
+  const {
+    // Configuración
+    plantillaConfig,
+    isCreateMode,
+    isEditMode,
+
+    // Estados principales
+    loading,
+    error,
+    isDirty,
+    isFormValid,
+
+    // Estados de formularios (compatibilidad completa)
+    formEncabezadoHeader,
+    setFormEncabezadoHeader,
+    formImagenHeader,
+    setFormImagenHeader,
+
+    formEncabezadoBody,
+    setFormEncabezadoBody,
+    formCommendBody,
+    setFormCommendBody,
+    formGaleryBody,
+    setFormGaleryBody,
+    formInfoBody,
+    setFormInfoBody,
+
+    formEncabezadoFooter,
+    setFormEncabezadoFooter,
+    formImagenFooter,
+    setFormImagenFooter,
+
+    // Estados de archivos
+    fileHeader,
+    setFileHeader,
+    fileBodyHeader,
+    setFileBodyHeader,
+    fileBodyFile1,
+    setFileBodyFile1,
+    fileBodyFile2,
+    setFileBodyFile2,
+    fileFooterFile1,
+    setFileFooterFile1,
+    fileFooterFile2,
+    setFileFooterFile2,
+    fileFooterFile3,
+    setFileFooterFile3,
+
+    // Estados de validación
+    validacionHeader,
+    setValidacionHeader,
+    validacionBody,
+    setValidacionBody,
+    validacionFooter,
+    setValidacionFooter,
+
+    // Servicios
+    serviceRedirectUrl,
+    setServiceRedirectUrl,
+    servicios,
+
+    // Acciones
+    saveBlog,
+    resetForm,
+    uploadImage,
+    deleteImage,
+
+    // Utilidades
+    setError,
+    clearError,
+    setLoading,
+  } = useBlogData(plantillaId, blogId, mode);
+
+  // Estados locales del componente
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [autoSaveTimer, setAutoSaveTimer] = useState(null);
+
+  // Estados para el sistema de preview
+  const [viewMode, setViewMode] = useState("edit"); // 'edit' | 'preview' | 'template-select'
+  const [selectedPlantilla, setSelectedPlantilla] = useState(plantillaId);
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+
+  // Generar datos consolidados para preview
+  const getBlogDataForPreview = useCallback(() => {
+    return {
+      header: {
+        ...formEncabezadoHeader,
+        ...formImagenHeader,
+      },
+      body: {
+        header: {
+          ...formEncabezadoBody,
+          // Incluir flags de secciones
+          flag_consejos: formEncabezadoBody?.flag_consejos ?? true,
+          flag_galeria: formEncabezadoBody?.flag_galeria ?? true,
+          flag_informacion: formEncabezadoBody?.flag_informacion ?? true,
+        },
+        consejos: formCommendBody || {},
+        galeria: formGaleryBody || {},
+        informacion: formInfoBody || [],
+      },
+      footer: {
+        ...formEncabezadoFooter,
+        ...formImagenFooter,
+        estado: formEncabezadoFooter?.estado ?? false,
+      },
+    };
+  }, [
+    formEncabezadoHeader,
+    formImagenHeader,
+    formEncabezadoBody,
+    formCommendBody,
+    formGaleryBody,
+    formInfoBody,
+    formEncabezadoFooter,
+    formImagenFooter,
+  ]);
+
+  // Auto-guardado periódico
+  useEffect(() => {
+    if (!autoSave || !isDirty || !isFormValid) return;
+
+    const timer = setTimeout(async () => {
+      try {
+        await saveBlog();
+        console.log("Auto-guardado exitoso");
+      } catch (err) {
+        console.error("Error en auto-guardado:", err);
+      }
+    }, autoSaveInterval);
+
+    setAutoSaveTimer(timer);
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [autoSave, isDirty, isFormValid, autoSaveInterval, saveBlog]);
+
+  // Limpiar timer al desmontar
+  useEffect(() => {
+    return () => {
+      if (autoSaveTimer) clearTimeout(autoSaveTimer);
+    };
+  }, [autoSaveTimer]);
+
+  // Handlers para FormHeader - Compatibilidad completa con blog_heads
+  const handleHeaderChange = useCallback(
+    ({ name, value }) => {
+      if (["public_image", "alt", "title"].includes(name)) {
+        setFormImagenHeader((prev) => ({ ...prev, [name]: value }));
+      } else {
+        setFormEncabezadoHeader((prev) => ({ ...prev, [name]: value }));
+      }
+    },
+    [setFormEncabezadoHeader, setFormImagenHeader]
+  );
+
+  const handleHeaderImageChange = useCallback(
+    async (imageData) => {
+      try {
+        setLoading(true);
+        const result = await uploadImage(imageData.file, "upload_header");
+
+        setFormImagenHeader((prev) => ({
+          ...prev,
+          public_image: result.secure_url,
+          alt: imageData.alt || "",
+          title: imageData.title || "",
+        }));
+
+        setFileHeader(imageData.file);
+      } catch (err) {
+        setError("Error al subir imagen del header");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [uploadImage, setFormImagenHeader, setFileHeader, setLoading, setError]
+  );
+
+  const handleHeaderImageDelete = useCallback(async () => {
+    try {
+      if (formImagenHeader.public_image) {
+        await deleteImage(formImagenHeader.public_image);
+      }
+
+      setFormImagenHeader((prev) => ({
+        ...prev,
+        public_image: "",
+        alt: "",
+        title: "",
+      }));
+
+      setFileHeader(null);
+    } catch (err) {
+      setError("Error al eliminar imagen del header");
+    }
+  }, [
+    deleteImage,
+    formImagenHeader.public_image,
+    setFormImagenHeader,
+    setFileHeader,
+    setError,
+  ]);
+
+  // Handler para validación del header
+  const handleHeaderValidation = useCallback(
+    (isValid) => {
+      setValidacionHeader(isValid);
+    },
+    [setValidacionHeader]
+  );
+
+  // Handlers para FormBody - Compatibilidad completa con servicios
+  const handleBodyCommendChange = useCallback(
+    (newCommendBody) => {
+      setFormCommendBody(newCommendBody);
+    },
+    [setFormCommendBody]
+  );
+
+  const handleBodyInfoChange = useCallback(
+    (newInfoBody) => {
+      setFormInfoBody(newInfoBody);
+    },
+    [setFormInfoBody]
+  );
+
+  const handleBodyEncabezadoChange = useCallback(
+    (newEncabezadoBody) => {
+      setFormEncabezadoBody(newEncabezadoBody);
+    },
+    [setFormEncabezadoBody]
+  );
+
+  const handleBodyGaleryChange = useCallback(
+    (newGaleryBody) => {
+      setFormGaleryBody(newGaleryBody);
+    },
+    [setFormGaleryBody]
+  );
+
+  const handleBodyValidation = useCallback(
+    (isValid) => {
+      setValidacionBody(isValid);
+    },
+    [setValidacionBody]
+  );
+
+  // Handlers para FormFooter - Compatibilidad completa
+  const handleFooterChange = useCallback(
+    ({ name, value }) => {
+      if (["public_image1", "public_image2", "public_image3"].includes(name)) {
+        setFormImagenFooter((prev) => ({ ...prev, [name]: value }));
+      } else {
+        setFormEncabezadoFooter((prev) => ({ ...prev, [name]: value }));
+      }
+    },
+    [setFormEncabezadoFooter, setFormImagenFooter]
+  );
+
+  const handleFooterImagesChange = useCallback(
+    async (imageData) => {
+      try {
+        setLoading(true);
+        const { imageIndex, file } = imageData;
+
+        if (file) {
+          const result = await uploadImage(file, "upload_footer");
+          const fieldName = `public_image${imageIndex}`;
+
+          setFormImagenFooter((prev) => ({
+            ...prev,
+            [fieldName]: result.secure_url,
+          }));
+
+          // Actualizar archivo correspondiente
+          if (imageIndex === 1) setFileFooterFile1(file);
+          else if (imageIndex === 2) setFileFooterFile2(file);
+          else if (imageIndex === 3) setFileFooterFile3(file);
+        }
+      } catch (err) {
+        setError("Error al subir imagen del footer");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      uploadImage,
+      setFormImagenFooter,
+      setFileFooterFile1,
+      setFileFooterFile2,
+      setFileFooterFile3,
+      setLoading,
+      setError,
+    ]
+  );
+
+  const handleFooterImageDelete = useCallback(
+    async (imageIndex) => {
+      try {
+        const fieldName = `public_image${imageIndex}`;
+        const imageUrl = formImagenFooter[fieldName];
+
+        if (imageUrl) {
+          await deleteImage(imageUrl);
+        }
+
+        setFormImagenFooter((prev) => ({
+          ...prev,
+          [fieldName]: "",
+        }));
+
+        // Limpiar archivo correspondiente
+        if (imageIndex === 1) setFileFooterFile1(null);
+        else if (imageIndex === 2) setFileFooterFile2(null);
+        else if (imageIndex === 3) setFileFooterFile3(null);
+      } catch (err) {
+        setError("Error al eliminar imagen del footer");
+      }
+    },
+    [
+      deleteImage,
+      formImagenFooter,
+      setFormImagenFooter,
+      setFileFooterFile1,
+      setFileFooterFile2,
+      setFileFooterFile3,
+      setError,
+    ]
+  );
+
+  const handleFooterValidation = useCallback(
+    (isValid) => {
+      setValidacionFooter(isValid);
+    },
+    [setValidacionFooter]
+  );
+
+  // Handler principal para guardar
+  const handleSave = useCallback(async () => {
+    if (!isFormValid) {
+      setError("Por favor completa todos los campos obligatorios");
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      clearError();
+
+      const result = await saveBlog();
+
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+
+      // Notificar éxito al componente padre
+      onSuccess?.(result);
+
+      // En modo creación, redirigir o actualizar URL
+      if (isCreateMode && result.id) {
+        // Opcional: redirigir a modo edición
+        // router.push(`/edition/modify/${result.id}`);
+      }
+    } catch (err) {
+      console.error("Error al guardar blog:", err);
+      setError("No se pudo guardar el blog. Intenta nuevamente.");
+    } finally {
+      setIsSaving(false);
+    }
+  }, [isFormValid, saveBlog, onSuccess, isCreateMode, setError, clearError]);
+
+  // Handler para cancelar
+  const handleCancel = useCallback(() => {
+    if (isDirty) {
+      const confirm = window.confirm(
+        "¿Estás seguro? Los cambios no guardados se perderán."
+      );
+      if (!confirm) return;
+    }
+
+    resetForm();
+    onCancel?.();
+  }, [isDirty, resetForm, onCancel]);
+
+  // Handler para preview
+  const handlePreview = useCallback(() => {
+    if (viewMode === "preview") {
+      setViewMode("edit");
+    } else {
+      setViewMode("preview");
+    }
+  }, [viewMode]);
+
+  // Handler para cambio de plantilla
+  const handlePlantillaChange = useCallback((newPlantillaId) => {
+    if (newPlantillaId !== selectedPlantilla) {
+      setSelectedPlantilla(newPlantillaId);
+      // Solo actualizar si es modo creación
+      if (isCreateMode && onPlantillaChange) {
+        onPlantillaChange(newPlantillaId);
+      }
+    }
+    setShowTemplateSelector(false);
+    setViewMode("edit");
+  }, [selectedPlantilla, isCreateMode, onPlantillaChange]);
+
+  // Handler para mostrar selector de plantillas
+  const handleShowTemplateSelector = useCallback(() => {
+    setShowTemplateSelector(true);
+    setViewMode("template-select");
+  }, []);
+
+  // Handler para cancelar selección de plantilla
+  const handleCancelTemplateSelection = useCallback(() => {
+    setShowTemplateSelector(false);
+    setViewMode("edit");
+  }, []);
+
+  // Estados de carga
+  if (loading && isEditMode) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        <span className="ml-3 text-gray-600">Cargando blog...</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`max-w-7xl mx-auto ${className}`}>
+      {/* Header de estado y acciones */}
+      <div className="mb-8 bg-white rounded-lg shadow-sm border p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <h1 className="text-2xl font-bold text-gray-900">
+              {isCreateMode ? "Crear Nuevo Blog" : "Editar Blog"}
+            </h1>
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-500">Plantilla:</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
+                {plantillaConfig.name}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            {/* Estado de validación */}
+            <div className="flex items-center space-x-2">
+              {isFormValid ? (
+                <>
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span className="text-sm text-green-600">
+                    Formulario válido
+                  </span>
+                </>
+              ) : (
+                <>
+                  <AlertCircle className="w-5 h-5 text-orange-500" />
+                  <span className="text-sm text-orange-500">
+                    Completa los campos
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* Indicador de cambios */}
+            {isDirty && (
+              <div className="flex items-center space-x-1 text-sm text-blue-600">
+                <RefreshCw className="w-4 h-4" />
+                <span>Cambios sin guardar</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Mensaje de error global */}
+        {error && (
+          <div className="mt-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700">
+            <div className="flex items-center">
+              <AlertCircle className="w-5 h-5 mr-2" />
+              <span>{error}</span>
+              <button
+                onClick={clearError}
+                className="ml-auto text-red-500 hover:text-red-700"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Mensaje de éxito */}
+        {saveSuccess && (
+          <div className="mt-4 p-3 bg-green-50 border-l-4 border-green-500 text-green-700">
+            <div className="flex items-center">
+              <CheckCircle className="w-5 h-5 mr-2" />
+              <span>Blog guardado exitosamente</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Tabs de navegación */}
+      <div className="mb-8 bg-white rounded-lg shadow-sm border">
+        <div className="flex border-b border-gray-200">
+          <button
+            onClick={() => setViewMode("edit")}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+              viewMode === "edit"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+            }`}
+          >
+            <div className="flex items-center justify-center space-x-2">
+              <span>✏️ Editar Blog</span>
+            </div>
+          </button>
+
+          <button
+            onClick={handlePreview}
+            disabled={!isFormValid}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+              viewMode === "preview"
+                ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                : !isFormValid
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+            }`}
+          >
+            <div className="flex items-center justify-center space-x-2">
+              <Eye className="w-4 h-4" />
+              <span>Vista Previa</span>
+            </div>
+          </button>
+
+          {isCreateMode && showTemplateSelectorProp && (
+            <button
+              onClick={handleShowTemplateSelector}
+              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+                viewMode === "template-select"
+                  ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+              }`}
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <span>🎨 Cambiar Plantilla</span>
+              </div>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Contenido según el modo */}
+      {viewMode === "edit" && (
+        <div className="space-y-8">
+          {/* FormHeader */}
+          <FormHeader
+            data={{ ...formEncabezadoHeader, ...formImagenHeader }}
+            mode={mode}
+            onChange={handleHeaderChange}
+            onImageChange={handleHeaderImageChange}
+            onImageDelete={handleHeaderImageDelete}
+            onValidationChange={handleHeaderValidation}
+            validationConfig={plantillaConfig.validationConfig}
+            isUploading={loading}
+            showValidationMessages={true}
+          />
+
+          {/* FormBody */}
+          <FormBody
+            formCommendBody={formCommendBody}
+            formInfoBody={formInfoBody}
+            formEncabezadoBody={formEncabezadoBody}
+            formGaleryBody={formGaleryBody}
+            setFormCommendBody={handleBodyCommendChange}
+            setFormInfoBody={handleBodyInfoChange}
+            setFormEncabezadoBody={handleBodyEncabezadoChange}
+            setFormGaleryBody={handleBodyGaleryChange}
+            setValidacionBody={handleBodyValidation}
+            setFileBodyHeader={setFileBodyHeader}
+            setFileBodyFile1={setFileBodyFile1}
+            setFileBodyFile2={setFileBodyFile2}
+            serviceRedirectUrl={serviceRedirectUrl}
+            setServiceRedirectUrl={setServiceRedirectUrl}
+            servicios={servicios}
+            plantillaId={plantillaId}
+            mode={mode}
+            isUploading={loading}
+            showValidationMessages={true}
+          />
+
+          {/* FormFooter */}
+          <FormFooter
+            data={{ ...formEncabezadoFooter, ...formImagenFooter }}
+            mode={mode}
+            onChange={handleFooterChange}
+            onImagesChange={handleFooterImagesChange}
+            onImageDelete={handleFooterImageDelete}
+            onValidationChange={handleFooterValidation}
+            validationConfig={plantillaConfig.validationConfig.footer}
+            isUploading={loading}
+            showValidationMessages={true}
+          />
+        </div>
+      )}
+
+      {/* Vista Previa */}
+      {viewMode === "preview" && (
+        <div className="bg-gray-50 rounded-lg p-6 min-h-screen">
+          <TemplateRenderer
+            plantillaId={selectedPlantilla}
+            blogData={getBlogDataForPreview()}
+            mode="preview"
+            showPlaceholders={true}
+            className="shadow-lg bg-white rounded-lg"
+          />
+        </div>
+      )}
+
+      {/* Selector de Plantillas */}
+      {viewMode === "template-select" && isCreateMode && (
+        <div className="bg-gray-50 rounded-lg p-6">
+          <TemplateSelector
+            currentPlantilla={selectedPlantilla}
+            onTemplateSelect={handlePlantillaChange}
+            onCancel={handleCancelTemplateSelection}
+            showComparison={true}
+            mode="selection"
+          />
+        </div>
+      )}
+
+      {/* Panel de acciones */}
+      <div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            {showCancel && (
+              <button
+                onClick={handleCancel}
+                className="flex items-center space-x-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                disabled={loading || isSaving}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Cancelar</span>
+              </button>
+            )}
+
+            {showPreview && (
+              <button
+                onClick={handlePreview}
+                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+                  viewMode === "preview"
+                    ? "text-blue-700 border-blue-300 bg-blue-50"
+                    : "text-blue-700 border-blue-300 hover:bg-blue-50"
+                }`}
+                disabled={loading || isSaving || !isFormValid}
+              >
+                <Eye className="w-4 h-4" />
+                <span>{viewMode === "preview" ? "Ocultar Preview" : "Vista Previa"}</span>
+              </button>
+            )}
+
+            {/* Botón para cambiar plantilla (solo en modo create) */}
+            {isCreateMode && showTemplateSelectorProp && (
+              <button
+                onClick={handleShowTemplateSelector}
+                className="flex items-center space-x-2 px-4 py-2 text-purple-700 border border-purple-300 rounded-lg hover:bg-purple-50 transition-colors"
+                disabled={loading || isSaving}
+              >
+                <span>🎨</span>
+                <span>Cambiar Plantilla</span>
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center space-x-3">
+            {/* Información de auto-guardado */}
+            {autoSave && isDirty && (
+              <span className="text-sm text-gray-500">
+                Auto-guardado en {Math.round(autoSaveInterval / 1000)}s
+              </span>
+            )}
+
+            {/* Botón de guardar */}
+            <button
+              onClick={handleSave}
+              disabled={loading || isSaving || !isFormValid}
+              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${
+                isFormValid && !loading && !isSaving
+                  ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Guardando...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  <span>{isCreateMode ? "Crear Blog" : "Actualizar Blog"}</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
