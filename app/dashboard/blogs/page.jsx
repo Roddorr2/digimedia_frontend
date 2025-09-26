@@ -239,7 +239,7 @@ export default function Page() {
                         Ver
                     </Link>
                     <Link
-                        href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                        href={`/edition/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
                         className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors text-sm"
                         title="Editar blog"
                     >
