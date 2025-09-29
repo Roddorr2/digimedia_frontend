@@ -18,19 +18,19 @@ export default function Page() {
       title: "Estrategia de marketing digital personalizada",
       text: "Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.",
       icon: "/servicios/branding/icon2.svg",
-      ruta: "/servicios/identidad-visual/",
+      ruta: "/servicios/planificacion-estrategica/",
     },
     {
       title: "Publicidad digital efectiva en Meta Ads y Google Ads",
       text: "Creamos elementos clave que representen tu marca y conecten con tu audencia.",
       icon: "/servicios/branding/icon3.svg",
-      ruta: "/servicios/naming-logo-slogan/",
+      ruta: "/servicios/publicidad-digital/",
     },
     {
       title: "Monitoreo constante + reportes de resultados claros",
       text: "Definimos las reglas que guiarán todas las estrategias para tu marca.",
       icon: "/servicios/branding/icon4.svg",
-      ruta: "/servicios/manual-marca/",
+      ruta: "/servicios/monitoreo-y-reporting/",
     },
   ];
 
