@@ -46,7 +46,7 @@ export default function Header2() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/logoblanco.webp"
+              src="/headerFooter/logoblanco1.webp"
               alt="Logo de digimedia color blanco con fondo oscuro"
               width={190}
               height={65}
