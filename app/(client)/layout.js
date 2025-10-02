@@ -16,6 +16,24 @@ export const metadata = {
     "crecimiento de marca",
     "gestión digital"
   ],
+robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  authors: [
+    {
+      name: "DigiMedia-Marketing",
+      url: "https://digimedia-marketing.com",
+    },
+  ],
+  publisher: "DigiMedia-Marketing",
   openGraph: {
     title:
       "Marketing Digital DigiMedia",
@@ -41,6 +59,9 @@ export default function RootLayout({ children }) {
         <link rel="preload" href="/image-home/inicio.webp" as="image" />
 
         {/* ✅ Fuente Montserrat con display=swap */}
+        <meta name="author" content="DigiMedia-Marketing" />
+        <meta name="publisher" content="DigiMedia-Marketing" />
+        <meta name="robots" content="index, follow" />
         {/* Agrega aquí tus fuentes si las necesitas */}
         
         {/* ✅ Fuente Telegraf si la usas desde cdnfonts */}

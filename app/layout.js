@@ -28,8 +28,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-             <head>
-        {/* Google Tag Manager */}
+      {/* <head>
+        Google Tag Manager
         <Script id="gtm-script" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -39,17 +39,17 @@ export default function RootLayout({ children }) {
             })(window,document,'script','dataLayer','GTM-MR2MC9SB');
           `}
         </Script>
-        {/* End Google Tag Manager */}
-      </head>
+        End Google Tag Manager
+      </head> */}
       <body className={`${montserrat.variable} ${telegraf.variable} antialiased`}>
-        <noscript>
+        {/* <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
-        </noscript>
+        </noscript> */}
         {children}
       </body>
     </html>
