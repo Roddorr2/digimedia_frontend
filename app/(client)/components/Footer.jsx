@@ -1,5 +1,6 @@
-import Link from 'next/link';
-import styles from "./Footer.module.css"
+import Link from "next/link";
+import styles from "./Footer.module.css";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -8,46 +9,48 @@ export default function Footer() {
         <div className={styles.mainFooter}>
           <div className={styles.footerContenido}>
             <div className={`${styles.imgFooter} my-4`}>
-              <img
+              <Image
                 src="/headerFooter/logoFooter.webp"
                 alt="Logo DigiMedia Marketing con fondo oscuro"
-                width="250px"
-                height="120px"
-                loading="lazy"
-              /> 
+                width={250}
+                height={120}
+              />
             </div>
             <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
               <h2>Contacto</h2>
               <ul>
                 <li>
-                  <Link href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios." target="_blank">
-                    <img
+                  <Link
+                    href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios."
+                    target="_blank"
+                  >
+                    <Image
                       src="/headerFooter/phone.webp"
                       alt="Icono de teléfono de color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                     983 027 828
                   </Link>
                 </li>
                 <li>
                   <Link href="mailto:digimediamkt@gmail.com" target="_blank">
-                    <img
+                    <Image
                       src="/headerFooter/correo.webp"
                       alt="Icono de correo color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                     digimediamkt@gmail.com
                   </Link>
                 </li>
                 <li>
                   <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
-                    <img
+                    <Image
                       src="/headerFooter/location.webp"
                       alt="Icono de Ubicación color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                     Jr. Paruro 1401, Cercado de Lima - Lima
                   </Link>
@@ -68,15 +71,11 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/reclamaciones">
-                    Libro de reclamaciones
-                  </Link>
+                  <Link href="/reclamaciones">Libro de reclamaciones</Link>
                 </li>
-                
+
                 <li>
-                  <Link href="/nosotros">
-                  Trabaja con nosotros
-                  </Link>
+                  <Link href="/nosotros">Trabaja con nosotros</Link>
                 </li>
               </ul>
             </div>
@@ -88,11 +87,11 @@ export default function Footer() {
                     href="https://www.tiktok.com/@digimediamkt"
                     target="_blank"
                   >
-                    <img
+                    <Image
                       src="/headerFooter/tiktok.webp"
                       alt="Icono de TikTok color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                   </Link>
                 </li>
@@ -101,11 +100,11 @@ export default function Footer() {
                     href="https://www.instagram.com/digimediamkt/"
                     target="_blank"
                   >
-                    <img
+                    <Image
                       src="/headerFooter/instagram.webp"
                       alt="Icono de Instagram color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                   </Link>
                 </li>
@@ -114,11 +113,11 @@ export default function Footer() {
                     href="https://www.youtube.com/@digimediamarketing"
                     target="_blank"
                   >
-                    <img
+                    <Image
                       src="/headerFooter/youtube.webp"
                       alt="Icono de YouTube color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                   </Link>
                 </li>
@@ -127,11 +126,11 @@ export default function Footer() {
                     href="https://www.linkedin.com/company/digimedia-mkt/"
                     target="_blank"
                   >
-                    <img
+                    <Image
                       src="/headerFooter/linkedin.webp"
                       alt="Icono de Linkedin color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                   </Link>
                 </li>
@@ -140,11 +139,11 @@ export default function Footer() {
                     href="https://www.facebook.com/DigiMedia.Marketing1"
                     target="_blank"
                   >
-                    <img
+                    <Image
                       src="/headerFooter/facebook.webp"
                       alt="Icono de Facebook color blanco con fondo oscuro"
-                      width="24px"
-                      height="24px"
+                      width={24}
+                      height={24}
                     />
                   </Link>
                 </li>

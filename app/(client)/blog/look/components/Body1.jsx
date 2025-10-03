@@ -1,5 +1,6 @@
 
 import { ArrowRight, CheckCircle} from "lucide-react"
+import Image from "next/image"
 
 export default function Body1() {
 
@@ -27,10 +28,12 @@ export default function Body1() {
         <div className="relative lg:mx-48 p-0 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
             <div className="relative h-[400px] overflow-hidden">
                 <div className="absolute inset-0 z-10"></div>
-                <img
+                <Image
                     src="/blog/blog-4.webp"
                     alt="Reunion de un equipo de trabajo"
                     className="absolute inset-0 w-full h-full object-cover"
+                    width={400}
+                    height={400}
                 />
             <div className="relative z-20 h-full flex flex-col justify-end p-4 sm:p-8">
             <div className="bg-black/80 p-4 sm:p-6 rounded-lg max-w-3xl border border-gray-500 shadow-lg">
@@ -83,10 +86,12 @@ export default function Body1() {
                     {["/blog/blog-10.webp", "/blog/blog-1.webp"].map((src, index) => (
                         <div key={index} className="group relative overflow-hidden rounded-xl shadow-xl">
                             <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                            <img
+                            <Image
                                 src={src}
                                 alt={`Imagen ${index + 1} del artículo`}
                                 className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                                width={400}
+                                height={400}
                             />
                             <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
                                 <div className="flex items-center justify-center">

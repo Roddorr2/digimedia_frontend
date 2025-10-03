@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 const Nosotros = () => {
@@ -83,10 +84,12 @@ const Nosotros = () => {
                 </div>
             </a>*/}
             <div className="flex justify-center pt-2 pb-16">
-                <img
+                <Image
                     src="/Img-nosotros/infoNosotros.avif"
                     alt="Equipo trabajando en la computadora"
                     className="w-full max-w-3xl h-auto rounded-lg shadow-lg"
+                    width={500}
+                    height={500}
                 />
             </div>
         </div>
