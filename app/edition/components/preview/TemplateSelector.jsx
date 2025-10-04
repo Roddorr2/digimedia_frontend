@@ -8,7 +8,8 @@ import {
   ArrowRight,
   CheckCircle,
   Sparkles,
-  Tab,
+  ArrowRightFromLine ,
+  Quote,
 } from "lucide-react";
 
 // Configuración de plantillas
@@ -159,7 +160,7 @@ export default function TemplateSelector({
                           : "bg-purple-500 text-white"
                       }`}>
                         {config.layoutType === "tabs" ? (
-                          <Tab className="w-3 h-3 inline mr-1" />
+                          <ArrowRightFromLine  className="w-3 h-3 inline mr-1" />
                         ) : (
                           <Layout className="w-3 h-3 inline mr-1" />
                         )}

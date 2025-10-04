@@ -189,7 +189,7 @@ export default function Page() {
             <h3 className="text-lg font-medium text-slate-800 mb-2">No hay blogs disponibles</h3>
             <p className="text-slate-500 max-w-md mb-6">{message}</p>
             <Link
-                href="/dashboard/blogs/create"
+                href="/edition"
                 className="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
             >
                 <Plus className="w-4 h-4 mr-2" />
@@ -239,7 +239,7 @@ export default function Page() {
                         Ver
                     </Link>
                     <Link
-                        href={`/edition/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                        href={`/edition?mode=edit&id=${blog.id_blog}`}
                         className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors text-sm"
                         title="Editar blog"
                     >
@@ -326,7 +326,7 @@ export default function Page() {
                             </button>
 
                             <Link
-                                href="/dashboard/blogs/create"
+                                href="/edition"
                                 className="flex items-center gap-2 px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
                             >
                                 <PlusCircleIcon className="w-4 h-4" />
@@ -428,7 +428,7 @@ export default function Page() {
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
                                                     <Link
-                                                        href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                                                        href={`/edition?mode=edit&id=${blog.id_blog}`}
                                                         className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
                                                         title="Editar blog"
                                                     >
