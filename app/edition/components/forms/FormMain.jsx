@@ -11,14 +11,24 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-// Hooks y componentes
+//        } else {
+          // MODO EDICIÓN: Solo guardar archivo para subir al guardar (igual que creación)s y componentes
 import useBlogData from "../../hooks/useBlogData";
 import FormHeader from "./FormHeader";
 import FormBody from "./FormBody";
 import FormFooter from "./FormFooter";
 
 // Configuración de plantillas
-import { PLANTILLA_IDS } from "../../config/index";
+import {
+  PLANTILLA_IDS,
+  DEFAULT_HEADER_VALIDATION_CONFIG,
+  DEFAULT_FOOTER_VALIDATION_CONFIG,
+  DEFAULT_BODY_VALIDATION_CONFIG,
+} from "../../config/index";
+
+// Componentes de preview
+import TemplateSelector from "../preview/TemplateSelector";
+import TemplateRenderer from "../preview/TemplateRenderer";
 
 /**
  * FormMain - Componente orquestador del workflow completo de blogs
@@ -123,6 +133,7 @@ export default function FormMain({
     saveBlog,
     resetForm,
     uploadImage,
+    uploadImageViaCard,
     deleteImage,
 
     // Utilidades
@@ -184,7 +195,6 @@ export default function FormMain({
     const timer = setTimeout(async () => {
       try {
         await saveBlog();
-        console.log("Auto-guardado exitoso");
       } catch (err) {
         console.error("Error en auto-guardado:", err);
       }
@@ -207,7 +217,7 @@ export default function FormMain({
   // Handlers para FormHeader - Compatibilidad completa con blog_heads
   const handleHeaderChange = useCallback(
     ({ name, value }) => {
-      if (["public_image", "alt", "title"].includes(name)) {
+      if (["public_image", "url_image", "alt", "title"].includes(name)) {
         setFormImagenHeader((prev) => ({ ...prev, [name]: value }));
       } else {
         setFormEncabezadoHeader((prev) => ({ ...prev, [name]: value }));
@@ -220,49 +230,59 @@ export default function FormMain({
     async (imageData) => {
       try {
         setLoading(true);
-        const result = await uploadImage(imageData.file, "upload_header");
 
-        setFormImagenHeader((prev) => ({
-          ...prev,
-          public_image: result.secure_url,
-          alt: imageData.alt || "",
-          title: imageData.title || "",
-        }));
+        if (isCreateMode) {
+          // MODO CREACIÓN: Solo guardar archivo para subir después via CardController
 
-        setFileHeader(imageData.file);
+          // Actualizar preview con blob URL temporal
+          setFormImagenHeader((prev) => ({
+            ...prev,
+            public_image: imageData.tempUrl,
+            alt: imageData.alt || "",
+            title: imageData.title || "",
+          }));
+
+          // Guardar archivo para subir en saveBlog
+          setFileHeader(imageData.file);
+        } else {
+          // MODO EDICIÓN: Solo guardar archivo para subir al guardar (igual que creación)
+
+          // Actualizar preview con blob URL temporal
+          setFormImagenHeader((prev) => ({
+            ...prev,
+            public_image: imageData.tempUrl,
+            alt: imageData.alt || "",
+            title: imageData.title || "",
+          }));
+
+          // Guardar archivo para subir cuando se guarde el blog
+          setFileHeader(imageData.file);
+        }
       } catch (err) {
-        setError("Error al subir imagen del header");
+        console.error("Error al manejar imagen del header:", err);
+        setError("Error al procesar imagen del header");
       } finally {
         setLoading(false);
       }
     },
-    [uploadImage, setFormImagenHeader, setFileHeader, setLoading, setError]
+    [isCreateMode, setFormImagenHeader, setFileHeader, setLoading, setError]
   );
 
   const handleHeaderImageDelete = useCallback(async () => {
     try {
-      if (formImagenHeader.public_image) {
-        await deleteImage(formImagenHeader.public_image);
-      }
-
       setFormImagenHeader((prev) => ({
         ...prev,
-        public_image: "",
+        public_image: "/blog/fondo_blog_extend.webp", // Volver a imagen por defecto
         alt: "",
         title: "",
       }));
 
       setFileHeader(null);
     } catch (err) {
-      setError("Error al eliminar imagen del header");
+      console.error("Error al limpiar imagen del header:", err);
+      setError("Error al limpiar imagen del header");
     }
-  }, [
-    deleteImage,
-    formImagenHeader.public_image,
-    setFormImagenHeader,
-    setFileHeader,
-    setError,
-  ]);
+  }, [setFormImagenHeader, setFileHeader, setError]);
 
   // Handler para validación del header
   const handleHeaderValidation = useCallback(
@@ -411,6 +431,9 @@ export default function FormMain({
 
       const result = await saveBlog();
 
+      // El hook ya actualiza los estados con URLs reales después de subir
+      // Las URLs blob temporales se han reemplazado con URLs de Cloudinary
+      
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
 
@@ -453,17 +476,20 @@ export default function FormMain({
   }, [viewMode]);
 
   // Handler para cambio de plantilla
-  const handlePlantillaChange = useCallback((newPlantillaId) => {
-    if (newPlantillaId !== selectedPlantilla) {
-      setSelectedPlantilla(newPlantillaId);
-      // Solo actualizar si es modo creación
-      if (isCreateMode && onPlantillaChange) {
-        onPlantillaChange(newPlantillaId);
+  const handlePlantillaChange = useCallback(
+    (newPlantillaId) => {
+      if (newPlantillaId !== selectedPlantilla) {
+        setSelectedPlantilla(newPlantillaId);
+        // Solo actualizar si es modo creación
+        if (isCreateMode && onPlantillaChange) {
+          onPlantillaChange(newPlantillaId);
+        }
       }
-    }
-    setShowTemplateSelector(false);
-    setViewMode("edit");
-  }, [selectedPlantilla, isCreateMode, onPlantillaChange]);
+      setShowTemplateSelector(false);
+      setViewMode("edit");
+    },
+    [selectedPlantilla, isCreateMode, onPlantillaChange]
+  );
 
   // Handler para mostrar selector de plantillas
   const handleShowTemplateSelector = useCallback(() => {
@@ -622,7 +648,7 @@ export default function FormMain({
             onImageChange={handleHeaderImageChange}
             onImageDelete={handleHeaderImageDelete}
             onValidationChange={handleHeaderValidation}
-            validationConfig={plantillaConfig.validationConfig}
+            validationConfig={DEFAULT_HEADER_VALIDATION_CONFIG}
             isUploading={loading}
             showValidationMessages={true}
           />
@@ -658,7 +684,7 @@ export default function FormMain({
             onImagesChange={handleFooterImagesChange}
             onImageDelete={handleFooterImageDelete}
             onValidationChange={handleFooterValidation}
-            validationConfig={plantillaConfig.validationConfig.footer}
+            validationConfig={DEFAULT_FOOTER_VALIDATION_CONFIG}
             isUploading={loading}
             showValidationMessages={true}
           />
@@ -717,7 +743,9 @@ export default function FormMain({
                 disabled={loading || isSaving || !isFormValid}
               >
                 <Eye className="w-4 h-4" />
-                <span>{viewMode === "preview" ? "Ocultar Preview" : "Vista Previa"}</span>
+                <span>
+                  {viewMode === "preview" ? "Ocultar Preview" : "Vista Previa"}
+                </span>
               </button>
             )}
 

@@ -101,7 +101,8 @@ export default function FormFooter({
     for (let i = 1; i <= maxImages; i++) {
       const imageKey = `public_image${i}`;
       const imageUrl = data[imageKey];
-      if (imageUrl && imageUrl !== defaultImage) {
+      // Solo mostrar imágenes que no sean blob URLs y que no sean la imagen por defecto
+      if (imageUrl && imageUrl !== defaultImage && !imageUrl.startsWith('blob:')) {
         initPreviews.push({
           id: i,
           url: imageUrl,
@@ -164,32 +165,17 @@ export default function FormFooter({
     (enabled) => {
       setFooterEnabled(enabled);
 
-      // Si se deshabilita el footer, limpiar datos opcionales pero mantener el estado
+      // Solo notificar el cambio de estado, NO limpiar los campos
+      // Los campos mantienen sus valores para evitar errores 400 en el backend
+      // El backend usa el campo 'estado' para determinar si mostrar el footer
+      onChange?.({ name: "estado", value: enabled });
+
+      // Si se deshabilita, limpiar solo las previsualizaciones de UI
       if (!enabled) {
-        // Limpiar imágenes
         setImagesPreviews([]);
-
-        // Notificar cambios al padre
-        onChange?.({ name: "estado", value: false });
-
-        // Limpiar campos opcionales
-        const fieldsToReset = ["titulo", "descripcion"];
-        for (let i = 1; i <= maxImages; i++) {
-          fieldsToReset.push(
-            `public_image${i}`,
-            `alt_image${i}`,
-            `title_image${i}`
-          );
-        }
-
-        fieldsToReset.forEach((field) => {
-          onChange?.({ name: field, value: "" });
-        });
-      } else {
-        onChange?.({ name: "estado", value: true });
       }
     },
-    [onChange, maxImages]
+    [onChange]
   );
 
   // Manejar cambios en los campos
@@ -220,6 +206,16 @@ export default function FormFooter({
 
       try {
         setUploading(true);
+        
+        // Limpiar blob URL anterior si existe
+        setImagesPreviews((prev) => {
+          const existing = prev.find((img) => img.id === imageIndex);
+          if (existing?.url && existing.url.startsWith('blob:')) {
+            URL.revokeObjectURL(existing.url);
+          }
+          return prev;
+        });
+
         const tempUrl = URL.createObjectURL(file);
 
         // Actualizar preview
@@ -266,11 +262,44 @@ export default function FormFooter({
   // Manejar eliminación de imagen
   const handleImageDelete = useCallback(
     (imageIndex) => {
-      setImagesPreviews((prev) => prev.filter((img) => img.id !== imageIndex));
+      setImagesPreviews((prev) => {
+        const imageToDelete = prev.find((img) => img.id === imageIndex);
+        if (imageToDelete?.url && imageToDelete.url.startsWith('blob:')) {
+          URL.revokeObjectURL(imageToDelete.url);
+        }
+        return prev.filter((img) => img.id !== imageIndex);
+      });
       onImageDelete?.(imageIndex);
     },
     [onImageDelete]
   );
+
+  // Validar datos iniciales (especialmente importante en modo edición)
+  useEffect(() => {
+    if (!data || !validationConfig) return;
+
+    const initialValidations = {};
+    const fieldsToValidate = ['titulo', 'descripcion'];
+    
+    fieldsToValidate.forEach(fieldName => {
+      const value = data[fieldName] || "";
+      const validation = validateField(fieldName, value);
+      initialValidations[fieldName] = validation;
+    });
+
+    setFieldValidations(prev => ({ ...prev, ...initialValidations }));
+  }, [data, validateField, validationConfig]);
+
+  // Limpiar blob URLs al desmontar el componente
+  useEffect(() => {
+    return () => {
+      imagesPreviews.forEach(image => {
+        if (image.url && image.url.startsWith('blob:')) {
+          URL.revokeObjectURL(image.url);
+        }
+      });
+    };
+  }, [imagesPreviews]);
 
   // Notificar validación general (condicional según visibilidad)
   useEffect(() => {
@@ -282,11 +311,17 @@ export default function FormFooter({
       return;
     }
 
+    // En modo edición, considerar válido si no hay validaciones específicas pero hay datos
+    if (mode === "edit" && allValidations.length === 0 && data.titulo) {
+      onValidationChange?.(true);
+      return;
+    }
+
     // Si está habilitado, validar todos los campos requeridos
     const isFormValid =
       allValidations.length > 0 && allValidations.every((v) => v.isValid);
     onValidationChange?.(isFormValid);
-  }, [fieldValidations, footerEnabled, onValidationChange]);
+  }, [fieldValidations, footerEnabled, onValidationChange, mode, data.titulo]);
 
   // Componente de mensaje de validación
   const ValidationMessage = ({ fieldName }) => {

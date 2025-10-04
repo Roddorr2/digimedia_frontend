@@ -4,102 +4,25 @@ import {
   Type,
   AlignLeft,
   Quote,
-  Image,
-  Trash2,
+  Image,  
   Clock1,
-  Clock,
-  Loader2,
+  Clock,  
   CheckCircle,
   ArrowRight,
   Image as IconImage,
-  BookType,
   Eye,
   Bookmark,
   Share2,
+  Link2,
+  ExternalLink as ExternalLinkIcon,
 } from "lucide-react";
 
 // Importar configuraciones de plantillas
-import { getPlantillaConfig, DEFAULT_SERVICIOS } from "../../config/index.js";
-
-// Configuración por defecto de validación - compatible con campos originales
-const DEFAULT_VALIDATION_CONFIG = {
-  // Encabezado (formEncabezadoBody)
-  titulo: { min: 10, max: 50, required: true },
-  descripcion: { min: 10, max: 400, required: true },
-  fecha: { required: true },
-  alt_image1: { min: 3, max: 125, required: false },
-  title_image1: { min: 3, max: 100, required: false },
-
-  // Campos de control dinámico
-  flag_galeria: { required: true },
-  flag_consejos: { required: true },
-  flag_informacion: { required: true },
-  service_url: { required: false },
-
-  // Consejos (formCommendBody) - Plantilla 2 usa diferentes límites
-  texto1: { min: 10, max: 150, required: false },
-  texto2: { min: 10, max: 150, required: false },
-  texto3: { min: 10, max: 150, required: false },
-  texto4: { min: 10, max: 100, required: false }, // Plantilla 2
-  texto5: { min: 10, max: 100, required: false }, // Plantilla 2
-
-  // Galería (formGaleryBody)
-  alt_image2: { min: 3, max: 125, required: false },
-  title_image2: { min: 3, max: 100, required: false },
-  alt_image3: { min: 3, max: 125, required: false },
-  title_image3: { min: 3, max: 100, required: false },
-};
-
-// Configuración por defecto de estilos
-const DEFAULT_STYLES = {
-  // Layout general
-  container:
-    "relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
-
-  // Layouts específicos
-  linearLayout: "flex flex-row justify-center",
-  tabsLayout:
-    "bg-white rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden",
-
-  // Preview area
-  previewArea: "w-[600px]",
-  previewHeader: "relative h-[400px] overflow-hidden",
-  previewContent: "bg-black/5 p-8",
-
-  // Form panel
-  formPanel: "w-[420px] flex flex-col justify-center gap-5 p-5",
-  formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
-
-  // Tabs
-  tabsContainer: "flex border-b border-gray-200 mb-8",
-  activeTab:
-    "px-4 py-2 font-medium text-sm text-teal-600 border-b-2 border-teal-600",
-  inactiveTab:
-    "px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700",
-
-  // Sections
-  consejosSection:
-    "mb-[100px] p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100",
-  galeriaSection: "grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16",
-  informacionSection: "grid grid-cols-1 gap-28 pt-8",
-
-  // Form elements
-  input:
-    "w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all",
-  textarea:
-    "w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none",
-  label: "flex items-center text-white text-sm font-medium mb-2",
-  icon: "w-5 h-5 mr-2 text-purple-400",
-};
-
-// Configuración por defecto de secciones
-const DEFAULT_SECTIONS_CONFIG = {
-  header: { enabled: true, order: 1 },
-  consejos: { enabled: true, order: 2, maxItems: 5 },
-  galeria: { enabled: true, order: 3, maxImages: 2 },
-  informacion: { enabled: true, order: 4, maxItems: 4 },
-};
+import {
+  getPlantillaConfig,
+  DEFAULT_BODY_VALIDATION_CONFIG,
+  DEFAULT_SERVICIOS,
+} from "../../config/index.js";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -132,7 +55,6 @@ export default function FormBody({
   // Props de callbacks opcionales
   onChange,
   onImageChange,
-  onImageDelete,
   onValidationChange,
   onServiceChange,
 
@@ -157,10 +79,9 @@ export default function FormBody({
 
   // Obtener configuración de la plantilla especificada
   const plantillaConfig = getPlantillaConfig(plantillaId);
-  const validationConfig = plantillaConfig.validationConfig;
-  const mergedStyles = { ...DEFAULT_STYLES, ...plantillaConfig.styles };
+  const finalValidationConfig =  DEFAULT_BODY_VALIDATION_CONFIG;
+  const mergedStyles = { ...plantillaConfig.styles };
   const mergedSectionsConfig = {
-    ...DEFAULT_SECTIONS_CONFIG,
     ...plantillaConfig.sectionsConfig,
   };
   const layoutType = plantillaConfig.layoutType;
@@ -210,7 +131,11 @@ export default function FormBody({
   // Función de validación - usa nombres exactos de campos originales
   const validateField = useCallback(
     (fieldName, value, section = null) => {
-      const config = validationConfig[fieldName];
+      // Construir clave de validación con contexto si está disponible
+      const validationKey = section ? `${section}.${fieldName}` : fieldName;
+      let config =
+        finalValidationConfig[validationKey] || finalValidationConfig[fieldName];
+
       if (!config)
         return { isValid: true, message: `Campo ${fieldName} no configurado` };
 
@@ -241,29 +166,31 @@ export default function FormBody({
         message: `${trimmedValue.length}/${config.max} caracteres`,
       };
     },
-    [validationConfig]
+    [finalValidationConfig]
   );
 
   // Adaptar handleChange original - compatible con los setters existentes
   const handleChange = useCallback(
-    (setter) => (e) => {
-      const { name, value } = e.target;
-      const validation = validateField(name, value);
+    (setter, context = null) =>
+      (e) => {
+        const { name, value } = e.target;
+        const validation = validateField(name, value, context);
 
-      setFieldValidations((prev) => ({
-        ...prev,
-        [name]: validation,
-      }));
+        const validationKey = context ? `${context}.${name}` : name;
+        setFieldValidations((prev) => ({
+          ...prev,
+          [validationKey]: validation,
+        }));
 
-      // Actualizar estado usando el setter original
-      setter((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+        // Actualizar estado usando el setter original
+        setter((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
 
-      // Notificar al componente padre si existe callback
-      onChange?.({ fieldName: name, value, validation });
-    },
+        // Notificar al componente padre si existe callback
+        onChange?.({ fieldName: name, value, validation });
+      },
     [validateField, onChange]
   );
 
@@ -346,14 +273,30 @@ export default function FormBody({
         [fullFieldName]: validation,
       }));
 
-      // Actualizar formInfoBody
+      // Actualizar formInfoBody - asegurar que el array tenga suficientes elementos
       setFormInfoBody?.((prev) => {
         const updated = [...prev];
+        // Extender array si es necesario
+        while (updated.length <= index) {
+          updated.push({
+            titulo: "",
+            descripcion: "",
+            palabra: "",
+            enlace: "",
+          });
+        }
         updated[index] = { ...updated[index], [field]: value };
         return updated;
       });
+
+      // Notificar al padre
+      onChange?.({
+        fieldName: fullFieldName,
+        value,
+        validation,
+      });
     },
-    [validateField, setFormInfoBody]
+    [validateField, setFormInfoBody, onChange]
   );
 
   // Manejar cambio de servicio
@@ -395,6 +338,10 @@ export default function FormBody({
         });
       } catch (error) {
         console.error("Error al subir imagen:", error);
+        // Limpiar blob URL en caso de error
+        if (tempUrl) {
+          URL.revokeObjectURL(tempUrl);
+        }
       } finally {
         setUploading(false);
       }
@@ -436,6 +383,10 @@ export default function FormBody({
         });
       } catch (error) {
         console.error("Error al subir imagen:", error);
+        // Limpiar blob URL en caso de error
+        if (tempUrl) {
+          URL.revokeObjectURL(tempUrl);
+        }
       } finally {
         setUploading(false);
       }
@@ -443,12 +394,70 @@ export default function FormBody({
     [onImageChange, setFormGaleryBody, setFileBodyFile1, setFileBodyFile2]
   );
 
+  // Funciones para limpiar imágenes y evitar memory leaks
+  const handleDeleteHeaderImage = useCallback(() => {
+    // Limpiar blob URL si existe
+    if (formEncabezadoBody?.public_image1?.startsWith('blob:')) {
+      URL.revokeObjectURL(formEncabezadoBody.public_image1);
+    }
+    
+    setFormEncabezadoBody?.(prev => ({
+      ...prev,
+      public_image1: "/blog/blog-4.webp", // Imagen por defecto
+      url_image1: "",
+    }));
+    setFileBodyHeader?.(null);
+  }, [formEncabezadoBody?.public_image1, setFormEncabezadoBody, setFileBodyHeader]);
+
+  const handleDeleteGalleryImage = useCallback((imageName) => {
+    // Limpiar blob URL si existe
+    const currentImage = formGaleryBody?.[imageName];
+    if (currentImage?.startsWith('blob:')) {
+      URL.revokeObjectURL(currentImage);
+    }
+
+    const defaultImage = imageName === "public_image2" ? "/blog/blog-10.webp" : "/blog/blog-1.webp";
+    
+    setFormGaleryBody?.(prev => ({
+      ...prev,
+      [imageName]: defaultImage,
+      [`url_${imageName.split('_').slice(1).join('_')}`]: "", // url_image2 o url_image3
+    }));
+
+    // Limpiar archivo correspondiente
+    if (imageName === "public_image2") {
+      setFileBodyFile1?.(null);
+    } else if (imageName === "public_image3") {
+      setFileBodyFile2?.(null);
+    }
+  }, [formGaleryBody, setFormGaleryBody, setFileBodyFile1, setFileBodyFile2]);
+
+  // Limpiar blob URLs al desmontar el componente
+  useEffect(() => {
+    return () => {
+      // Limpiar todas las URLs blob para evitar memory leaks
+      if (formEncabezadoBody?.public_image1?.startsWith('blob:')) {
+        URL.revokeObjectURL(formEncabezadoBody.public_image1);
+      }
+      if (formGaleryBody?.public_image2?.startsWith('blob:')) {
+        URL.revokeObjectURL(formGaleryBody.public_image2);
+      }
+      if (formGaleryBody?.public_image3?.startsWith('blob:')) {
+        URL.revokeObjectURL(formGaleryBody.public_image3);
+      }
+    };
+  }, [formEncabezadoBody?.public_image1, formGaleryBody?.public_image2, formGaleryBody?.public_image3]);
+
   // Componente de mensaje de validación - compatible con estructura original
-  const ValidationMessage = ({ fieldName, index = null }) => {
+  const ValidationMessage = ({ fieldName, index = null, context = null }) => {
     if (!showValidationMessages) return null;
 
     const fullFieldName =
-      index !== null ? `informacion.${index}.${fieldName}` : fieldName;
+      index !== null
+        ? `informacion.${index}.${fieldName}`
+        : context
+        ? `${context}.${fieldName}`
+        : fieldName;
     const validation = fieldValidations[fullFieldName];
     if (!validation) return null;
 
@@ -912,6 +921,21 @@ export default function FormBody({
               />
             </div>
 
+            {/* URL externa imagen principal */}
+            <div>
+              <label className={mergedStyles.label}>
+                URL externa imagen principal
+              </label>
+              <input
+                type="url"
+                name="url_image1"
+                value={data.header.url_image1 || ""}
+                onChange={handleChange(setFormEncabezadoBody)}
+                className={mergedStyles.input}
+                placeholder="https://ejemplo.com/imagen.jpg"
+              />
+            </div>
+
             {/* Alt text for main image */}
             <div>
               <label className={mergedStyles.label}>
@@ -949,33 +973,60 @@ export default function FormBody({
         </div>
 
         {/* Consejos form */}
-        {mergedSectionsConfig.consejos.enabled && (
-          <div className={mergedStyles.formCard}>
-            <h4 className="text-md font-semibold text-white mb-4">Consejos</h4>
-            <div className="space-y-4">
-              {["texto1", "texto2", "texto3", "texto4", "texto5"]
-                .slice(0, mergedSectionsConfig.consejos.maxItems)
-                .map((campo, index) => (
-                  <div key={campo}>
+        {mergedSectionsConfig.consejos.enabled &&
+          sectionsVisibility.consejos && (
+            <div className={mergedStyles.formCard}>
+              <h4 className="text-md font-semibold text-white mb-4">
+                Consejos
+              </h4>
+              <div className="space-y-4">
+                {/* Título de consejos (especialmente para plantilla 2) */}
+                {plantillaId === 2 && (
+                  <div>
                     <label className={mergedStyles.label}>
-                      <Quote className="w-4 h-4 mr-2 text-purple-400" />
-                      Consejo {index + 1}
-                      <ValidationMessage fieldName={campo} />
+                      <Type className="w-4 h-4 mr-2 text-purple-400" />
+                      Título de la sección
+                      <ValidationMessage
+                        fieldName="titulo"
+                        context="consejos"
+                      />
                     </label>
                     <input
                       type="text"
-                      name={campo}
-                      maxLength={150}
-                      value={data.consejos[campo] || ""}
-                      onChange={handleChange(setFormCommendBody)}
+                      name="titulo"
+                      maxLength={100}
+                      value={data.consejos.titulo || ""}
+                      onChange={handleChange(setFormCommendBody, "consejos")}
                       className={mergedStyles.input}
-                      placeholder={`Consejo ${index + 1}`}
+                      placeholder="Ej: Consejos Útiles, Tips Importantes"
                     />
                   </div>
-                ))}
+                )}
+
+                {/* Campos de texto para consejos */}
+                {["texto1", "texto2", "texto3", "texto4", "texto5"]
+                  .slice(0, mergedSectionsConfig.consejos.maxItems)
+                  .map((campo, index) => (
+                    <div key={campo}>
+                      <label className={mergedStyles.label}>
+                        <Quote className="w-4 h-4 mr-2 text-purple-400" />
+                        Consejo {index + 1}
+                        <ValidationMessage fieldName={campo} />
+                      </label>
+                      <input
+                        type="text"
+                        name={campo}
+                        maxLength={150}
+                        value={data.consejos[campo] || ""}
+                        onChange={handleChange(setFormCommendBody)}
+                        className={mergedStyles.input}
+                        placeholder={`Consejo ${index + 1}`}
+                      />
+                    </div>
+                  ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
         {/* Galería form */}
         {mergedSectionsConfig.galeria.enabled && (
@@ -994,6 +1045,16 @@ export default function FormBody({
                     accept="image/*"
                     onChange={handleImageBody}
                     className={mergedStyles.input}
+                  />
+
+                  {/* URL externa */}
+                  <input
+                    type="url"
+                    name={`url_image${index + 2}`}
+                    value={data.galeria[`url_image${index + 2}`] || ""}
+                    onChange={handleChange(setFormGaleryBody)}
+                    className={mergedStyles.input}
+                    placeholder={`URL externa imagen ${index + 2}`}
                   />
 
                   {/* Alt text */}
@@ -1022,6 +1083,133 @@ export default function FormBody({
             </div>
           </div>
         )}
+
+        {/* Información/Tarjetas form */}
+        {mergedSectionsConfig.informacion.enabled &&
+          sectionsVisibility.informacion && (
+            <div className={mergedStyles.formCard}>
+              <h4 className="text-md font-semibold text-white mb-4">
+                Tarjetas de Información (
+                {mergedSectionsConfig.informacion.maxItems} máximo)
+              </h4>
+              <div className="space-y-6">
+                {Array.from(
+                  { length: mergedSectionsConfig.informacion.maxItems },
+                  (_, index) => {
+                    const infoItem = data.informacion[index] || {};
+                    return (
+                      <div
+                        key={index}
+                        className="p-4 bg-gray-800/30 rounded-lg border border-gray-700"
+                      >
+                        <h5 className="text-sm font-medium text-yellow-400 mb-3">
+                          Tarjeta {index + 1}
+                        </h5>
+
+                        {/* Título de la tarjeta */}
+                        <div className="mb-3">
+                          <label className={mergedStyles.label}>
+                            <Type className="w-4 h-4 mr-2 text-purple-400" />
+                            Título
+                            <ValidationMessage
+                              fieldName="titulo"
+                              index={index}
+                            />
+                          </label>
+                          <input
+                            type="text"
+                            name="titulo"
+                            maxLength={100}
+                            value={infoItem.titulo || ""}
+                            onChange={(e) =>
+                              handleChangeMap(e, index, "titulo")
+                            }
+                            className={mergedStyles.input}
+                            placeholder={`Título de la tarjeta ${index + 1}`}
+                          />
+                        </div>
+
+                        {/* Descripción de la tarjeta */}
+                        <div className="mb-3">
+                          <label className={mergedStyles.label}>
+                            <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
+                            Descripción
+                            <ValidationMessage
+                              fieldName="descripcion"
+                              index={index}
+                            />
+                          </label>
+                          <textarea
+                            name="descripcion"
+                            maxLength={300}
+                            value={infoItem.descripcion || ""}
+                            onChange={(e) =>
+                              handleChangeMap(e, index, "descripcion")
+                            }
+                            className={mergedStyles.textarea}
+                            rows={3}
+                            placeholder={`Descripción detallada de la tarjeta ${
+                              index + 1
+                            }`}
+                          />
+                        </div>
+
+                        {/* Palabra clave para enlace */}
+                        <div className="mb-3">
+                          <label className={mergedStyles.label}>
+                            <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                            Palabra clave (opcional)
+                            <ValidationMessage
+                              fieldName="palabra"
+                              index={index}
+                            />
+                          </label>
+                          <input
+                            type="text"
+                            name="palabra"
+                            maxLength={50}
+                            value={infoItem.palabra || ""}
+                            onChange={(e) =>
+                              handleChangeMap(e, index, "palabra")
+                            }
+                            className={mergedStyles.input}
+                            placeholder="Ej: 'Más información', 'Ver más'"
+                          />
+                        </div>
+
+                        {/* Enlace */}
+                        <div className="mb-3">
+                          <label className={mergedStyles.label}>
+                            <ExternalLinkIcon className="w-4 h-4 mr-2 text-purple-400" />
+                            Enlace (opcional)
+                            <ValidationMessage
+                              fieldName="enlace"
+                              index={index}
+                            />
+                          </label>
+                          <input
+                            type="url"
+                            name="enlace"
+                            value={infoItem.enlace || ""}
+                            onChange={(e) =>
+                              handleChangeMap(e, index, "enlace")
+                            }
+                            className={mergedStyles.input}
+                            placeholder="https://ejemplo.com o /ruta/interna"
+                          />
+                        </div>
+
+                        <p className="text-xs text-gray-500 mt-2">
+                          Si defines palabra clave y enlace, aparecerá un botón
+                          clickeable en la tarjeta.
+                        </p>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            </div>
+          )}
 
         {/* Selector de servicio */}
         <div className={mergedStyles.formCard}>
@@ -1149,9 +1337,34 @@ export default function FormBody({
     );
   };
 
+  // Validar datos iniciales (especialmente importante en modo edición)
+  useEffect(() => {
+    if (!formEncabezadoBody || !finalValidationConfig) return;
+
+    const initialValidations = {};
+    const fieldsToValidate = ['titulo', 'descripcion'];
+    
+    fieldsToValidate.forEach(fieldName => {
+      const value = formEncabezadoBody[fieldName] || "";
+      const validation = validateField(fieldName, value);
+      initialValidations[fieldName] = validation;
+    });
+
+    setFieldValidations(prev => ({ ...prev, ...initialValidations }));
+  }, [formEncabezadoBody, validateField, finalValidationConfig]);
+
   // Validación unificada - compatible con setValidacionBody original
   useEffect(() => {
     const allValidations = Object.values(fieldValidations);
+    
+    // En modo edición, considerar válido si no hay validaciones específicas pero hay datos requeridos
+    if (mode === "edit" && allValidations.length === 0 && formEncabezadoBody?.titulo) {
+      const isValid = true;
+      setValidacionBody?.(isValid);
+      onValidationChange?.(isValid);
+      return;
+    }
+    
     const isFormValid =
       allValidations.length > 0 && allValidations.every((v) => v.isValid);
 
@@ -1160,7 +1373,9 @@ export default function FormBody({
 
     // Notificar al componente padre si existe callback
     onValidationChange?.(isFormValid);
-  }, [fieldValidations, onValidationChange, setValidacionBody]);
+
+    // Debug validación
+  }, [fieldValidations, onValidationChange, setValidacionBody, mode, formEncabezadoBody?.titulo]);
 
   return renderMainContent();
 }

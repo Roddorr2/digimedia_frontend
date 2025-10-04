@@ -157,24 +157,80 @@ export default function FormHeader({
 
   // Manejar eliminación de imagen
   const handleImageDelete = useCallback(() => {
+    // Limpiar blob URL si existe para evitar memory leaks
+    if (previewImageUrl && previewImageUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(previewImageUrl);
+    }
     setPreviewImageUrl(defaultImage);
     onImageDelete?.();
-  }, [defaultImage, onImageDelete]);
+  }, [defaultImage, onImageDelete, previewImageUrl]);
 
   // Sincronizar imagen cuando cambie data.public_image (útil para modo edición)
   useEffect(() => {
-    if (mode === "edit" && data.public_image) {
-      setPreviewImageUrl(data.public_image);
+    if (data.public_image && data.public_image !== defaultImage) {
+      // Verificar si es un blob URL temporal, una URL de Cloudinary, o una URL normal
+      if (data.public_image.startsWith('blob:')) {
+        // Es un blob URL temporal, usarlo directamente para preview
+        setPreviewImageUrl(data.public_image);
+      } else if (
+        data.public_image.startsWith('http') || 
+        data.public_image.startsWith('/') ||
+        data.public_image.includes('cloudinary.com') ||
+        data.public_image.includes('res.cloudinary.com')
+      ) {
+        // Es una URL normal o de Cloudinary, usarla directamente  
+        setPreviewImageUrl(data.public_image);
+      } else {
+        // Fallback a imagen por defecto
+        setPreviewImageUrl(defaultImage);
+      }
+    } else {
+      // Si no hay imagen o es la por defecto, mostrar la por defecto
+      setPreviewImageUrl(defaultImage);
     }
-  }, [data.public_image, mode]);
+  }, [data.public_image, defaultImage]);
+
+  // Limpiar blob URLs al desmontar el componente para evitar memory leaks
+  useEffect(() => {
+    return () => {
+      if (previewImageUrl && previewImageUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewImageUrl);
+      }
+    };
+  }, [previewImageUrl]);
+
+  // Validar datos iniciales (especialmente importante en modo edición)
+  useEffect(() => {
+    if (!data || !validationConfig) return;
+
+    const initialValidations = {};
+    const fieldsToValidate = ['titulo', 'texto_frase', 'texto_descripcion'];
+    
+    fieldsToValidate.forEach(fieldName => {
+      const value = data[fieldName] || "";
+      const validation = validateField(fieldName, value);
+      initialValidations[fieldName] = validation;
+    });
+
+    setFieldValidations(initialValidations);
+  }, [data, validateField, validationConfig]);
 
   // Notificar validación general
   useEffect(() => {
     const allValidations = Object.values(fieldValidations);
+    
+    // En modo edición, considerar válido si no hay validaciones específicas pero hay datos
+    if (mode === "edit" && allValidations.length === 0 && data.titulo) {
+      onValidationChange?.(true);
+      return;
+    }
+    
     const isFormValid =
       allValidations.length > 0 && allValidations.every((v) => v.isValid);
     onValidationChange?.(isFormValid);
-  }, [fieldValidations, onValidationChange]);
+
+    // Debug validación
+  }, [fieldValidations, onValidationChange, mode, data.titulo]);
 
   // Componente de mensaje de validación
   const ValidationMessage = ({ fieldName }) => {
@@ -220,6 +276,11 @@ export default function FormHeader({
   ];
 
   const seoImageFields = [
+    {
+      name: "url_image",
+      label: "URL Externa de Imagen (opcional)",
+      placeholder: "https://ejemplo.com/imagen.jpg",
+    },
     {
       name: "alt",
       label: "Texto Alternativo (Alt)",
