@@ -1,35 +1,5 @@
 // Configuración específica para Plantilla 2 - Layout con tabs y diseño moderno
 
-// Configuración de validación específica
-export const PLANTILLA2_VALIDATION_CONFIG = {
-  // Encabezado (formEncabezadoBody) - Plantilla 2 usa límites diferentes
-  titulo: { min: 5, max: 30, required: true }, // Más restrictivo
-  descripcion: { min: 10, max: 310, required: true }, // Diferente máximo
-  fecha: { required: true },
-  alt_image1: { min: 0, max: 125, required: false }, // Plantilla 2 permite vacío
-  title_image1: { min: 0, max: 100, required: false },
-  
-  // Campos de control dinámico
-  flag_galeria: { required: true },
-  flag_consejos: { required: true },
-  flag_informacion: { required: true },
-  service_url: { required: false },
-
-  // Consejos (formCommendBody) - 5 consejos con límites más cortos
-  titulo: { min: 0, max: 40, required: false }, // Título de consejos (estandarizado)
-  texto1: { min: 0, max: 100, required: false }, // Plantilla 2 permite vacío
-  texto2: { min: 0, max: 100, required: false },
-  texto3: { min: 0, max: 100, required: false },
-  texto4: { min: 0, max: 100, required: false }, // Plantilla 2 tiene 5 consejos
-  texto5: { min: 0, max: 100, required: false },
-
-  // Galería (formGaleryBody)
-  alt_image2: { min: 0, max: 125, required: false },
-  title_image2: { min: 0, max: 100, required: false },
-  alt_image3: { min: 0, max: 125, required: false },
-  title_image3: { min: 0, max: 100, required: false },
-};
-
 // Configuración de estilos específica
 export const PLANTILLA2_STYLES = {
   // Layout general
@@ -90,7 +60,6 @@ export const PLANTILLA2_CONFIG = {
   name: "Plantilla 2 - Moderna con Tabs",
   description: "Layout con tabs, 5 consejos, diseño moderno y suave",
   layoutType: "tabs",
-  validationConfig: PLANTILLA2_VALIDATION_CONFIG,
   styles: PLANTILLA2_STYLES,
   sectionsConfig: PLANTILLA2_SECTIONS_CONFIG,
   features: {

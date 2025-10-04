@@ -1,32 +1,5 @@
 // Configuración específica para Plantilla 3 - Layout lineal con validación extendida
 
-// Configuración de validación específica
-export const PLANTILLA3_VALIDATION_CONFIG = {
-  // Encabezado (formEncabezadoBody)
-  titulo: { min: 10, max: 50, required: true },
-  descripcion: { min: 10, max: 400, required: true },
-  fecha: { required: true },
-  alt_image1: { min: 10, max: 400, required: false }, // Plantilla 3 usa rangos más amplios
-  title_image1: { min: 10, max: 400, required: false },
-  
-  // Campos de control dinámico
-  flag_galeria: { required: true },
-  flag_consejos: { required: true },
-  flag_informacion: { required: true },
-  service_url: { required: false },
-
-  // Consejos (formCommendBody) - Solo 3 consejos
-  texto1: { min: 10, max: 150, required: false },
-  texto2: { min: 10, max: 150, required: false },
-  texto3: { min: 10, max: 150, required: false },
-
-  // Galería (formGaleryBody) - Validación más estricta
-  alt_image2: { min: 10, max: 400, required: false }, // Plantilla 3 requiere mínimo 10
-  title_image2: { min: 10, max: 400, required: false },
-  alt_image3: { min: 10, max: 400, required: false },
-  title_image3: { min: 10, max: 400, required: false },
-};
-
 // Configuración de estilos específica
 export const PLANTILLA3_STYLES = {
   // Layout general
@@ -64,7 +37,7 @@ export const PLANTILLA3_STYLES = {
 // Configuración de secciones
 export const PLANTILLA3_SECTIONS_CONFIG = {
   header: { enabled: true, order: 1 },
-  consejos: { enabled: true, order: 2, maxItems: 3 }, // Solo 3 consejos como Plantilla 1
+  consejos: { enabled: true, order: 2, maxItems: 5 },
   galeria: { enabled: true, order: 3, maxImages: 2 },
   informacion: { enabled: true, order: 4, maxItems: 4 },
 };
@@ -76,7 +49,6 @@ export const PLANTILLA3_CONFIG = {
   description:
     "Layout lineal con validación extendida para alt/title de imágenes",
   layoutType: "linear",
-  validationConfig: PLANTILLA3_VALIDATION_CONFIG,
   styles: PLANTILLA3_STYLES,
   sectionsConfig: PLANTILLA3_SECTIONS_CONFIG,
   features: {
