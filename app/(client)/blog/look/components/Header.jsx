@@ -17,7 +17,7 @@ export default function Header({
       {/* Imagen como background */}
       <Image
         src={url_image}
-        alt="Fondo del header"
+        alt={tituloSecundario}
         fill
         priority
         className="object-cover object-center"

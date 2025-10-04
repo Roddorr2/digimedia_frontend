@@ -1,15 +1,26 @@
-export function HeroSection
-({ title,
-  mainDescription = "Descripción principal del servicio",
-   bulletPoints,
-    backgroundImageUrl = "/placeholder.svg?height=600&width=1200", alts = "", titulos = "" }) {
+import Image from "next/image";
 
-   return (
+export function HeroSection({
+  title,
+  mainDescription = "Descripción principal del servicio",
+  bulletPoints,
+  backgroundImageUrl = "/placeholder.svg?height=600&width=1200",
+  alts = "",
+  titulos = "",
+}) {
+  return (
     <section className="relative w-full overflow-hidden bg-purple-950 text-[#523194] uppercase font-bold">
       {/* Background image with gradient overlay */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/20 to-transparent z-10" />
-        <img src={backgroundImageUrl || "/placeholder.svg"} alt={alts} title={titulos} className="w-full h-full object-cover" />
+        <Image
+          src={backgroundImageUrl || "/placeholder.svg"}
+          alt={alts}
+          title={titulos}
+          className="w-full h-full object-cover"
+          width={1200}
+          height={600}
+        />
       </div>
 
       {/* Content */}
@@ -21,7 +32,9 @@ export function HeroSection
 
           <div className="space-y-4 mt-8">
             {/* Main description */}
-            <p className="text-base md:text-lg font-medium">{mainDescription}</p>
+            <p className="text-base md:text-lg font-medium">
+              {mainDescription}
+            </p>
 
             {/* Indented bullet points */}
             <div className="pl-6 space-y-4">
@@ -36,5 +49,5 @@ export function HeroSection
         </div>
       </div>
     </section>
-  )
+  );
 }
