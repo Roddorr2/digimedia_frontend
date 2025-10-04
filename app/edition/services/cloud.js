@@ -33,6 +33,31 @@ const Cloud = {
   // Eliminar carpeta de imágenes (endpoint original)
   deleteImagesCarpet: (id) =>
     apiClient.delete(`/delete_carpet/${id}`).then((r) => r.data),
+
+  // ========== ENDPOINTS DEL CARDCONTROLLER (CORRECTO) ==========
+  // Subir imagen del header usando CardController
+  uploadCardHeaderImage: (cardId, formData) =>
+    apiClient
+      .post(`/card/blog/image_head/${cardId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((r) => r.data),
+
+  // Subir imágenes del body usando CardController
+  uploadCardBodyImage: (cardId, formData) =>
+    apiClient
+      .post(`/card/blog/images_body/${cardId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((r) => r.data),
+
+  // Subir imágenes del footer usando CardController
+  uploadCardFooterImage: (cardId, formData) =>
+    apiClient
+      .post(`/card/blog/images_footer/${cardId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((r) => r.data),
 };
 
 export default Cloud;

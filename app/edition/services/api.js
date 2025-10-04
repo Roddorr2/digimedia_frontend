@@ -58,7 +58,7 @@ const Api = {
     apiClient.put(`/tarjeta/${id}`, formData).then((r) => r.data),
   deleteTarjeta: (id) => apiClient.delete(`/tarjeta/${id}`).then((r) => r.data),
 
-  // ---------- CARDS (Mantener compatibilidad) ----------
+  // ---------- CARDS (Mantener compatibilidad + CardController) ----------
   getCards: () => apiClient.get("/cards").then((r) => r.data),
   createCard: (formData) =>
     apiClient.post("/card", formData).then((r) => r.data),
