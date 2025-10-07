@@ -1,6 +1,7 @@
 import Script from "next/script";
 import "./globals.css";
 import localFont from "next/font/local";
+import { AuthProvider } from "./context/AuthContext";
 
 const montserrat = localFont({
   src: [
@@ -25,10 +26,11 @@ export const metadata = {
     google: "xhfnSm5zX45Ov_N5NO-py7sXFqI6VC5EDAb4FhYafNQ",
   },
 };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-             <head>
+      <head>
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="lazyOnload">
           {`
@@ -39,9 +41,14 @@ export default function RootLayout({ children }) {
             })(window,document,'script','dataLayer','GTM-MR2MC9SB');
           `}
         </Script>
-        {/* End Google Tag Manager */}
       </head>
       <body className={`${montserrat.variable} ${telegraf.variable} antialiased`}>
+        {/* El AuthProvider debe envolver todo el contenido */}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+
+        {/* Google Tag Manager (no-script) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"
@@ -50,7 +57,6 @@ export default function RootLayout({ children }) {
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
-        {children}
       </body>
     </html>
   );

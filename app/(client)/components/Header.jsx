@@ -8,6 +8,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 import { useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function Header2() {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function Header2() {
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { isAuthenticated, login, logout } = useAuth();
 
   const isActive = (path) => pathname === path || pathname === `${path}/`;
 
@@ -210,10 +212,18 @@ export default function Header2() {
             </li>
             {!isMobile && (
               <li
-                className={isActive("/login") ? styles.active : ""}
+                className={
+                  isActive("/login") || isActive("/dashboard/main")
+                    ? styles.active
+                    : ""
+                }
                 onClick={closeMenu}
               >
-                <Link href="/login">Ingresar</Link>
+                {isAuthenticated ? (
+                  <Link href="/dashboard/main">Panel</Link>
+                ) : (
+                  <Link href="/login">Ingresar</Link>
+                )}
               </li>
             )}
           </ul>
