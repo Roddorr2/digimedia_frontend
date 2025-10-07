@@ -8,8 +8,6 @@ export default function ModalScroll({ data }) {
       <ModalScrollA
         data={data.modalA}
         time={14}
-        width={data.width}
-        height={data.height}
       />
     </>
   );

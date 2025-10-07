@@ -157,8 +157,8 @@ export default function ModalScrollA({ data, time }) {
             className="absolute top-4 left-4"
             src="/servicios/logo-modal.webp"
             alt="Logo de digimedia marketing de color rosado y azul"
-            width={width || 60}
-            height={height || 40}
+            width={60}
+            height={40}
           />
           <p className="absolute bottom-10 right-6 text-2xl font-semibold text-right">
             {text}

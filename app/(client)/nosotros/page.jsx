@@ -14,10 +14,12 @@ const Nosotros = () => {
     return (
         <div className="min-h-screen bg-white">
             <div className="relative h-[400px] overflow-hidden">
-                <img
+                <Image
                     src="/Img-nosotros/NOSOTROS_1680_1050.avif"
                     alt="grupo juntando sus manos"
                     className="w-full h-full object-cover object-center"
+                    layout="fill"
+                    objectFit="cover"
                 />
                 <div className="absolute inset-0 bg-[#7B22B3] bg-opacity-50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">

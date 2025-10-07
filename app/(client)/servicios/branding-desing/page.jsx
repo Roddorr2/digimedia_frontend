@@ -40,8 +40,6 @@ export default function Page() {
       fondo: "/servicios/branding/modal-scroll/fondo.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
       serviceName: "4",
-      width: 256,
-      height: 144,
     },
   };
 
