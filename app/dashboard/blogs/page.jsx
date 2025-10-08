@@ -24,7 +24,6 @@ import {
 import auth_service from "../users/services/auth.service"
 
 export default function Page() {
-
     const [allBlogs, setAllBlogs] = useState([])
     const [myBlogs, setMyBlogs] = useState([])
     const [displayedBlogs, setDisplayedBlogs] = useState([])
@@ -79,7 +78,7 @@ export default function Page() {
 
     const handleFilterChange = (filter) => {
         setActiveFilter(filter)
-        setCurrentPage(1) 
+        setCurrentPage(1)
     }
 
     const handleSearch = (e) => {
@@ -183,9 +182,11 @@ export default function Page() {
 
     const EmptyState = ({ message, icon }) => (
         <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">{icon}</div>
-            <h3 className="text-lg font-medium text-slate-800 mb-2">No hay blogs disponibles</h3>
-            <p className="text-slate-500 max-w-md mb-6">{message}</p>
+            <div className="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
+                {icon}
+            </div>
+            <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-2">No hay blogs disponibles</h3>
+            <p className="text-slate-500 dark:text-slate-400 max-w-md mb-6">{message}</p>
             <Link
                 href="/dashboard/blogs/create"
                 className="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
@@ -197,12 +198,12 @@ export default function Page() {
     )
 
     return (
-        <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50">
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50 dark:bg-slate-900">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-6">
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-800 mb-1">Gestión de Blogs</h1>
-                        <p className="text-slate-500">Administra y visualiza todos los blogs de la plataforma</p>
+                        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-1">Gestión de Blogs</h1>
+                        <p className="text-slate-500 dark:text-slate-400">Administra y visualiza todos los blogs de la plataforma</p>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
@@ -212,13 +213,13 @@ export default function Page() {
                                 placeholder="Buscar por título..."
                                 value={searchQuery}
                                 onChange={handleSearch}
-                                className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                                className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                             />
                             <Search className="absolute left-3 top-1/3 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             {searchQuery && (
                                 <button
                                     onClick={clearSearch}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
@@ -228,10 +229,11 @@ export default function Page() {
                         <div className="flex gap-2">
                             <button
                                 onClick={() => handleFilterChange("all")}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "all"
-                                        ? "bg-sky-50 text-sky-600 border-sky-200"
-                                        : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-                                    }`}
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+                                    activeFilter === "all"
+                                        ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                }`}
                             >
                                 <FileText className="w-4 h-4" />
                                 <span>Todos</span>
@@ -239,10 +241,11 @@ export default function Page() {
 
                             <button
                                 onClick={() => handleFilterChange("mine")}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "mine"
-                                        ? "bg-sky-50 text-sky-600 border-sky-200"
-                                        : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-                                    }`}
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+                                    activeFilter === "mine"
+                                        ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                }`}
                             >
                                 <User className="w-4 h-4" />
                                 <span>Mis blogs</span>
@@ -251,8 +254,11 @@ export default function Page() {
                             <button
                                 onClick={fetchData}
                                 disabled={isRefreshing}
-                                className={`flex items-center gap-2 px-3 py-2 bg-white text-slate-600 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""
-                                    }`}
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+                                    isRefreshing
+                                        ? "opacity-70 cursor-not-allowed bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600"
+                                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                }`}
                                 title="Actualizar datos"
                             >
                                 {isRefreshing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
@@ -271,12 +277,12 @@ export default function Page() {
             </div>
 
             {isLoading ? (
-                <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl shadow-sm">
+                <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
                     <Loader2 className="h-10 w-10 text-sky-600 animate-spin mb-4" />
-                    <p className="text-slate-500 font-medium">Cargando blogs...</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Cargando blogs...</p>
                 </div>
             ) : filteredBlogs.length === 0 ? (
-                <div className="bg-white rounded-xl shadow-sm">
+                <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm">
                     <EmptyState
                         message={
                             activeFilter === "all"
@@ -294,27 +300,27 @@ export default function Page() {
                 </div>
             ) : (
                 <>
-                    <div className="bg-white rounded-xl shadow-sm overflow-y-auto mb-6">
+                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
                         <div className="overflow-x-auto">
                             <table className="w-full">
                                 <thead>
-                                    <tr className="bg-slate-50 border-b border-slate-100 text-center">
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    <tr className="bg-slate-50 dark:bg-slate-700 border-b border-slate-100 dark:border-slate-600 text-center">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             ID
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Título
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Descripción
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Imagen
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Autor
                                         </th>
-                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                             Acciones
                                         </th>
                                     </tr>
@@ -323,14 +329,23 @@ export default function Page() {
                                     {displayedBlogs.map((blog, index) => (
                                         <tr
                                             key={`blog-${blog.id_card}`}
-                                            className={`hover:bg-slate-50 transition-colors ${index !== displayedBlogs.length - 1 ? "border-b border-slate-100" : ""
-                                                }`}
+                                            className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${
+                                                index !== displayedBlogs.length - 1
+                                                    ? "border-b border-slate-100 dark:border-slate-700"
+                                                    : ""
+                                            }`}
                                         >
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700">{blog.id_card}</td>
-                                            <td className="px-6 py-4 text-sm text-slate-700 max-w-[200px] truncate">{blog.titulo}</td>
-                                            <td className="px-6 py-4 text-sm text-slate-700 max-w-[300px] truncate">{blog.descripcion}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
-                                                <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700 dark:text-slate-200">
+                                                {blog.id_card}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-200 max-w-[200px] truncate">
+                                                {blog.titulo}
+                                            </td>
+                                            <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-200 max-w-[300px] truncate">
+                                                {blog.descripcion}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-200">
+                                                <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
                                                     <img
                                                         src={blog.public_image || "/placeholder.svg"}
                                                         alt={blog.titulo}
@@ -338,7 +353,7 @@ export default function Page() {
                                                     />
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-200">
                                                 {blog.empleado.nombre || "Desconocido"}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -347,14 +362,14 @@ export default function Page() {
                                                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors"
+                                                        className="p-2 bg-sky-50 dark:bg-sky-900 text-sky-600 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-800 transition-colors"
                                                         title="Ver blog"
                                                     >
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
                                                     <Link
                                                         href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
-                                                        className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                                                        className="p-2 bg-amber-50 dark:bg-amber-900 text-amber-600 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-800 transition-colors"
                                                         title="Editar blog"
                                                     >
                                                         <Pencil className="w-4 h-4" />
@@ -363,7 +378,7 @@ export default function Page() {
                                                     {auth_service.hasRole("administrador") && (
                                                         <button
                                                             onClick={() => confirmDelete(blog.id_blog)}
-                                                            className="p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                                                            className="p-2 bg-rose-50 dark:bg-rose-900 text-rose-600 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-800 transition-colors"
                                                             title="Eliminar blog"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -377,8 +392,8 @@ export default function Page() {
                             </table>
                         </div>
                         {totalPages > 1 && (
-                            <div className="flex justify-between items-center bg-white rounded-xl shadow-sm p-4 sticky bottom-0">
-                                <div className="text-sm text-slate-500">
+                            <div className="flex justify-between items-center bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sticky bottom-0">
+                                <div className="text-sm text-slate-500 dark:text-slate-400">
                                     Mostrando <span className="font-medium">{displayedBlogs.length}</span> de{" "}
                                     <span className="font-medium">{filteredBlogs.length}</span> blogs
                                 </div>
@@ -387,10 +402,11 @@ export default function Page() {
                                     <button
                                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                         disabled={currentPage === 1}
-                                        className={`p-2 rounded-lg border ${currentPage === 1
-                                                ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                                            }`}
+                                        className={`p-2 rounded-lg border ${
+                                            currentPage === 1
+                                                ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                                                : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                        }`}
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </button>
@@ -399,10 +415,11 @@ export default function Page() {
                                         <button
                                             key={`page-${page}`}
                                             onClick={() => setCurrentPage(page)}
-                                            className={`w-9 h-9 rounded-lg border ${currentPage === page
-                                                    ? "bg-sky-50 text-sky-600 border-sky-200"
-                                                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                                                }`}
+                                            className={`w-9 h-9 rounded-lg border ${
+                                                currentPage === page
+                                                    ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                                                    : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                            }`}
                                         >
                                             {page}
                                         </button>
@@ -411,22 +428,20 @@ export default function Page() {
                                     <button
                                         onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                         disabled={currentPage === totalPages}
-                                        className={`p-2 rounded-lg border ${currentPage === totalPages
-                                                ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-                                            }`}
+                                        className={`p-2 rounded-lg border ${
+                                            currentPage === totalPages
+                                                ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                                                : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                        }`}
                                     >
                                         <ChevronRight className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>
-                         )}
+                        )}
                     </div>
-
                 </>
             )}
         </main>
     )
 }
-
-                           

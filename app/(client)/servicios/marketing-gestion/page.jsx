@@ -18,19 +18,19 @@ export default function Page() {
       title: "Naming creativo + diseño de logo y slogan",
       text: "definimos las  estrategias, con objetivos claros, segmetación precisa y tácticas eficaces para alcanzar tus metas de negocio.",
       icon: "/servicios/marketing/icon2.svg",
-      ruta: "/servicios/planificacion-estrategica/",
+      ruta: "/servicios/naming-logo-slogan/",
     },
     {
       title: "Identidad visual completa (colores, tipografías, estilo visual)",
       text: "Desarrollamos campañas digitales de alto impacto para aumentar la visibilidad, captar audencias y maximizar conversiones .",
       icon: "/servicios/marketing/icon3.svg",
-      ruta: "/servicios/publicidad-digital/",
+      ruta: "/servicios/identidad-visual/",
     },
     {
       title: "Manual de uso de marca (para equipos y diseño constante)",
       text: "Hacemos seguimiento continuo del avance,  gestionando los proyectos,  programas y actividades  de forma efectiva",
       icon: "/servicios/marketing/icon4.svg",
-      ruta: "/servicios/monitoreo-y-reporting/",
+      ruta: "/servicios/manual-marca/",
     },
   ];
  const modales = {
