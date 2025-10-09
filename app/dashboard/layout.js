@@ -1,25 +1,32 @@
-'use client';
-import Link from 'next/link';
-import AuthGuard from './components/AuthGuard';
-import auth_service from './users/services/auth.service';
-import { usePathname, useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
-import { useState, useEffect } from 'react';
-import PersonIcon from '@mui/icons-material/Person';
+"use client";
+import Link from "next/link";
+import AuthGuard from "./components/AuthGuard";
+import auth_service from "./users/services/auth.service";
+import { usePathname, useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
+import { useState, useEffect } from "react";
+import PersonIcon from "@mui/icons-material/Person";
 
-import { DisplayNameContext } from './components/DisplayNameContext';
-import AddIcon from '@mui/icons-material/Add';
+import { DisplayNameContext } from "./components/DisplayNameContext";
+import AddIcon from "@mui/icons-material/Add";
+import { dashboardLinks } from "./dashboardsLinks/dashboardsLinks";
 
 export default function RootLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
 
   // Info usuario y rol
-  const userRole = getCookie('rol') || 'Usuario';
-  const userData = getCookie('user') ? JSON.parse(getCookie('user')) : { name: 'Usuario' };
-  const empleadoData = getCookie('empleado') ? JSON.parse(getCookie('empleado')) : null;
-  
-  const [displayName, setDisplayName] = useState(empleadoData?.nombre || userData?.name || 'Usuario');
+  const userRole = getCookie("rol") || "Usuario";
+  const userData = getCookie("user")
+    ? JSON.parse(getCookie("user"))
+    : { name: "Usuario" };
+  const empleadoData = getCookie("empleado")
+    ? JSON.parse(getCookie("empleado"))
+    : null;
+
+  const [displayName, setDisplayName] = useState(
+    empleadoData?.nombre || userData?.name || "Usuario"
+  );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // Estado y lógica del Dark Mode
@@ -27,9 +34,9 @@ export default function RootLayout({ children }) {
     if (typeof window !== "undefined") {
       return localStorage.getItem("darkMode") === "true";
     }
-    return false; 
+    return false;
   });
-  
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -38,7 +45,6 @@ export default function RootLayout({ children }) {
     }
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
-  
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -52,51 +58,53 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <DisplayNameContext.Provider value={{ displayName, updateDisplayName: setDisplayName }}>
+    <DisplayNameContext.Provider
+      value={{ displayName, updateDisplayName: setDisplayName }}
+    >
       <AuthGuard>
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
           <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2">
             <img src="/dashboard/logo.webp" className="h-full" alt="Logo" />
             <h1 className="text-3xl text-white font-semibold">
-              SECCIÓN: {pathname.slice(pathname.indexOf('/', 1) + 1, -1).toUpperCase()}
+              SECCIÓN:{" "}
+              {pathname.slice(pathname.indexOf("/", 1) + 1, -1).toUpperCase()}
             </h1>
           </header>
 
           <div className="flex w-full overflow-hidden h-screen">
             <div className="flex flex-col shrink-0 p-2 bg-[#e8e8e8] dark:bg-gray-800 text-black dark:text-white justify-between">
-              <nav className='flex-1 overflow-y-auto mt-3 pr-1'>
+              <nav className="flex-1 overflow-y-auto mt-3 pr-1">
+                {/* Logica de links dinamicos en dashboards */}
                 <ul className="flex flex-col gap-1">
-                  
-                  <TableLink title="Sección Principal" href="/dashboard/main" />
-                  {auth_service.hasPermission('ver-empleados') && (
-                    <TableLink title="Empleados" href="/dashboard/empleados" />
-                  )}
-                  {auth_service.hasPermission('ver-contactos') && (
-                    <TableLink title="Contactanos" href="/dashboard/contactanos" />
-                  )}
-                  {auth_service.hasPermission('ver-modales') && (
-                    <TableLink title="Modales" href="/dashboard/modales"/>
-                  )}
-                  {auth_service.hasPermission('ver-reclamaciones') && (
-                    <TableLink title="Reclamaciones" href="/dashboard/reclamaciones" />
-                  )}
-                  {auth_service.hasPermission('crear-blogs') && (
-                    <TableLink title="Blogs" href="/dashboard/blogs"/>
-                  )}
-                  {auth_service.hasRole('administrador') && (
-                    <TableLink title="Roles y Permisos" href="/dashboard/role-permission" />
-                  )} 
+                  {dashboardLinks.map((item, index) => {
+                    const hasPermission =
+                      !item.permission ||
+                      auth_service.hasPermission(item.permission);
+
+                    const hasRole =
+                      !item.role || auth_service.hasRole(item.role);
+
+                    if (hasPermission && hasRole) {
+                      return (
+                        <TableLink
+                          key={index}
+                          title={item.title}
+                          href={item.href}
+                        />
+                      );
+                    }
+                  })}
                   {/* {auth_service.hasRole('administrador') && userData.email==process.env.NEXT_PUBLIC_ADMIN_WHASAPP &&(
                     <TableLink title="Autenticación WhatsApp" href="/dashboard/autenticacion-whasapp" />
                   )}  */}
                 </ul>
               </nav>
 
-              <button 
-                onClick={() => setDarkMode(!darkMode)} 
+              <button
+                onClick={() => setDarkMode(!darkMode)}
                 className="mt-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded-lg transition"
               >
-                {darkMode ? '🌙 Dark Mode' : '☀️ Light Mode'}
+                {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
               </button>
 
               <div>
@@ -104,7 +112,9 @@ export default function RootLayout({ children }) {
                   <PersonIcon className="text-[#8c52ff] dark:text-[#6b3acb] w-[50px]" />
                   <p className="font-bold">
                     Bienvenido
-                    <span className="font-normal block">{displayName} ({userRole})</span>
+                    <span className="font-normal block">
+                      {displayName} ({userRole})
+                    </span>
                   </p>
                 </div>
 
@@ -116,7 +126,10 @@ export default function RootLayout({ children }) {
                   >
                     {isLoggingOut ? (
                       <span className="flex items-center justify-center gap-2">
-                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <svg
+                          className="animate-spin h-5 w-5"
+                          viewBox="0 0 24 24"
+                        >
                           <circle
                             className="opacity-25"
                             cx="12"
@@ -135,13 +148,13 @@ export default function RootLayout({ children }) {
                         Cerrando sesión...
                       </span>
                     ) : (
-                      'Cerrar sesión'
+                      "Cerrar sesión"
                     )}
                   </button>
                 </div>
               </div>
             </div>
-            
+
             {children}
           </div>
         </div>
@@ -160,7 +173,7 @@ function TableLink({ href, title }) {
         href={href}
         className={`flex gap-2 items-center rounded-lg px-4 py-3 
           hover:bg-gray-300 dark:hover:bg-gray-700 
-          ${isActive ? 'bg-gray-400 dark:bg-gray-600 font-bold' : ''}`}
+          ${isActive ? "bg-gray-400 dark:bg-gray-600 font-bold" : ""}`}
       >
         <AddIcon className="text-[#8c52ff] dark:text-[#6b3acb] w-[50px]" />
         {title}

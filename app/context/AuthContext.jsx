@@ -19,26 +19,29 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = getCookie("token");
     setIsAuthenticated(!!token);
+
+    // En caso de estar logeado y esta en /login -> redirigir a /dashboard/main
+    if (token && pathname === "/login/") {
+      router.replace("/dashboard/main");
+    }
   }, [pathname]);
 
-  const login = (token) => {
-    document.cookie = `token=${token}; path=/;`;
-    setIsAuthenticated(true);
-    router.replace("/dashboard/main");
-  };
+  // EN CASO DE SER NECESARIO, DESCOMENTAR ESTAS FUNCIONES
 
-  const logout = () => {
-    deleteCookie("token");
-    setIsAuthenticated(false);
-    router.replace("/login");
-  };
+  // const login = (token) => {
+  //   document.cookie = `token=${token}; path=/;`;
+  //   setIsAuthenticated(true);
+  //   router.replace("/dashboard/main");
+  // };
 
-  if(isAuthenticated === null) {
-    return <div>Cargando...</div>;
-  }
+  // const logout = () => {
+  //   deleteCookie("token");
+  //   setIsAuthenticated(false);
+  //   router.replace("/login");
+  // };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
