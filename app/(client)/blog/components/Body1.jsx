@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
 import Fetch from "../services/fetch";
+import Image from "next/image";
 
 export default function Body1({ id_blog_body, fecha }) {
   const [data, setDataResponse] = useState(null);
@@ -146,7 +147,7 @@ export default function Body1({ id_blog_body, fecha }) {
     <div className="relative lg:mx-48 p-0 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
       <div className="relative h-[400px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
-        <img
+        <Image
           // src={
           //   data.public_image1
           //     ? data.public_image1.startsWith("http")
@@ -158,6 +159,8 @@ export default function Body1({ id_blog_body, fecha }) {
           alt={data.alt_image1 || data.titulo}
           title={data.title_image1}
           className="absolute inset-0 w-full h-full object-cover"
+          width={800}
+          height={400}
         />
         <div className="relative z-20 h-full flex flex-col justify-end p-8">
           <p className="text-red-300 mb-2">{fecha}</p>
@@ -233,12 +236,14 @@ export default function Body1({ id_blog_body, fecha }) {
                 className="group relative overflow-hidden rounded-xl shadow-xl"
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img
+                <Image
                   src={image.src}
                   // alt={`Imagen ${index + 1} del artículo`}
                   alt={image.alt}
                   title={image.title}
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  width={400}
+                  height={256}
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
                   <div className="flex items-center justify-center">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./servicios.module.css"
+import Image from "next/image";
 
 export default function Servicios({ servicios }) {
   return (
@@ -39,10 +40,12 @@ function Servicio({ title, text, icon, ruta }) {
 
         {/* Ícono con animación de rebote */}
         <figure className="flex h-full justify-center align-middle py-3">
-          <img
+          <Image
             className={`max-w-36 w-24 h-24 object-contain ${styles["animate-bounce-slow"]}`}
             src={icon || "/placeholder.svg"}
             alt={title}
+            width={96}
+            height={96}
           />
         </figure>
 

@@ -10,6 +10,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Fetch from "../services/fetch";
+import Image from "next/image";
 
 export default function Body3({ id_blog_body, fecha }) {
   const [data, setDataResponse] = useState(null);
@@ -149,10 +150,10 @@ export default function Body3({ id_blog_body, fecha }) {
     if (!previewImageUrl) return fallback;
 
     if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl; 
+      return previewImageUrl;
     }
 
-    return `${previewImageUrl}?v=${Date.now()}`; 
+    return `${previewImageUrl}?v=${Date.now()}`;
   };
 
   return (
@@ -192,14 +193,15 @@ export default function Body3({ id_blog_body, fecha }) {
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
               <div className="relative">
-                <img
+                <Image
                   // src={data.public_image1}
                   src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
                   // alt={data.titulo || "Imagen principal"}
                   alt={data.alt_image1 || data.titulo}
                   title={data.title_image1}
-
                   className="w-[22rem] h-[22rem] rounded-2xl shadow-lg object-cover relative z-10"
+                  width={350}
+                  height={350}
                 />
               </div>
               <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-indigo-100 rounded-full z-0"></div>
@@ -213,58 +215,56 @@ export default function Body3({ id_blog_body, fecha }) {
         id="content-details"
         className="p-8 md:p-12 bg-gradient-to-b from-white to-indigo-50"
       >
-        {data.flag_galeria!==0 && (
-
-            <div className="mb-16">
-              <div className="flex items-center mb-8">
-                <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold mr-3">
-                  G
-                </div>
-                <h2 className="text-2xl font-bold text-indigo-900">Galería</h2>
-                <div className="h-px flex-grow bg-indigo-200 ml-4"></div>
+        {data.flag_galeria !== 0 && (
+          <div className="mb-16">
+            <div className="flex items-center mb-8">
+              <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold mr-3">
+                G
               </div>
+              <h2 className="text-2xl font-bold text-indigo-900">Galería</h2>
+              <div className="h-px flex-grow bg-indigo-200 ml-4"></div>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {[
-                  // data.public_image2 || "/blog/blog-10.webp",
-                  // data.public_image3 || "/blog/blog-1.webp",
-                  { 
-                    src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), 
-                    alt: data.alt_image2 || data.titulo, 
-                    title: data.title_image2 || "" 
-                  },
-                  { 
-                    src: getImageUrl(data.public_image3, "/blog/blog-1.webp"), 
-                    alt: data.alt_image3 || data.titulo, 
-                    title: data.title_image3 || "" 
-                  },
-                ].map((image, index) => (
-                  <div
-                    key={index}
-                    className="group relative overflow-hidden rounded-xl shadow-lg"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <img
-                      src={image.src}
-                      // alt={`Imagen ${index + 1} del artículo`}
-                      alt={image.alt}
-                      title={image.title}
-                      className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg">
-                        <ExternalLink className="w-6 h-6 text-indigo-600" />
-                      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                // data.public_image2 || "/blog/blog-10.webp",
+                // data.public_image3 || "/blog/blog-1.webp",
+                {
+                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
+                  alt: data.alt_image2 || data.titulo,
+                  title: data.title_image2 || "",
+                },
+                {
+                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
+                  alt: data.alt_image3 || data.titulo,
+                  title: data.title_image3 || "",
+                },
+              ].map((image, index) => (
+                <div
+                  key={index}
+                  className="group relative overflow-hidden rounded-xl shadow-lg"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Image
+                    src={image.src}
+                    // alt={`Imagen ${index + 1} del artículo`}
+                    alt={image.alt}
+                    title={image.title}
+                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                    width={400}
+                    height={250}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg">
+                      <ExternalLink className="w-6 h-6 text-indigo-600" />
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          )
-
-        }
-        {data.flag_consejos!==0 && (
-
+          </div>
+        )}
+        {data.flag_consejos !== 0 && (
           <div className="mb-16">
             <div className="flex items-center mb-8">
               <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold mr-3">
@@ -299,11 +299,9 @@ export default function Body3({ id_blog_body, fecha }) {
               </div>
             </div>
           </div>
-          
         )}
 
-        {data.flag_informacion!==0 && (
-
+        {data.flag_informacion !== 0 && (
           <div>
             <div className="flex items-center mb-8">
               <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3">
@@ -358,7 +356,6 @@ export default function Body3({ id_blog_body, fecha }) {
               </div>
             </div>
           </div>
-
         )}
       </div>
 

@@ -8,13 +8,14 @@ import url_whasapp from '@/api/url_whasapp';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import styles from './modal.module.css'
+import Image from 'next/image';
 
 const URL_API = `${url}/api/modales`;
 const URL_WHASAPP = `${url_whasapp}/api/send-message`;
 
 export default function ModalScrollA({ data, time }) {
   const [open, setOpen] = useState(false);
-  const { text, fondo, title, serviceName } = data;
+  const { text, fondo, title, serviceName, width, height } = data;
 
   const [loading, setLoading] = useState(false);
 
@@ -151,11 +152,13 @@ export default function ModalScrollA({ data, time }) {
         </button>
        
         <div className="hidden md:flex relative md:w-64 overflow-hidden justify-center">
-          <img className="w-full object-cover" src={fondo} alt="" />
-          <img
+          <Image className="w-full object-cover" src={fondo} alt={title} width={width || 200} height={height || 100} />
+          <Image
             className="absolute top-4 left-4"
             src="/servicios/logo-modal.webp"
             alt="Logo de digimedia marketing de color rosado y azul"
+            width={60}
+            height={40}
           />
           <p className="absolute bottom-10 right-6 text-2xl font-semibold text-right">
             {text}

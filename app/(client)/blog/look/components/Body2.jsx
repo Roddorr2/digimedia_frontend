@@ -3,6 +3,7 @@
 import { CheckCircle, Clock, Bookmark, Share2, Eye } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 
 export default function Body2() {
@@ -47,10 +48,12 @@ export default function Body2() {
             </div>
 
             <div className="relative h-[300px] md:h-[400px] overflow-hidden">
-                <img
+                <Image
                     src="/blog/body2_titulo.webp"
                     alt="Trabajando en un proyecto de diseño web"
                     className="w-full h-full object-cover"
+                    width={400}
+                    height={400}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
@@ -134,10 +137,12 @@ export default function Body2() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {["/blog/body2_galeria1.webp", "/blog/body2_galeria2.webp"].map((src, index) => (
                                 <div key={index} className="group relative rounded-xl overflow-hidden shadow-md">
-                                    <img
+                                    <Image
                                         src={src}
                                         alt={`Imagen ${index + 1} del artículo`}
                                         className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                                        width={400}
+                                        height={400}
                                     />
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 
