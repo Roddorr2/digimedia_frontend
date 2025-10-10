@@ -6,12 +6,14 @@ import { User, Lock, ArrowLeft } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { login } = useAuth();
   const router = useRouter();
 
   const validateEmail = (email) => {
@@ -41,7 +43,7 @@ export default function LoginPage() {
       }
 
       // guardar token
-      setCookie("token", data.token, { maxAge: 30 * 24 * 60 * 60, path: "/" });
+      login(data.token);
 
       // obtener info del user con su rol
       const userData = await auth_service.me();

@@ -10,10 +10,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import { DisplayNameContext } from "./components/DisplayNameContext";
 import AddIcon from "@mui/icons-material/Add";
 import { dashboardLinks } from "./dashboardsLinks/dashboardsLinks";
+import { useAuth } from "../context/AuthContext";
 
 export default function RootLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
+  const {logout} = useAuth();
 
   // Info usuario y rol
   const userRole = getCookie("rol") || "Usuario";
@@ -45,17 +47,6 @@ export default function RootLayout({ children }) {
     }
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
-
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await auth_service.logout();
-      setTimeout(() => auth_service.logoutClient(router), 350);
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-      setTimeout(() => auth_service.logoutClient(router), 1000);
-    }
-  };
 
   return (
     <DisplayNameContext.Provider
@@ -120,7 +111,7 @@ export default function RootLayout({ children }) {
 
                 <div className="flex items-center justify-center">
                   <button
-                    onClick={handleLogout}
+                    onClick={logout}
                     disabled={isLoggingOut}
                     className="bg-[#ff037f] dark:bg-[#bf025f] text-white px-4 py-3 rounded-full my-3 transition-all duration-300 hover:bg-[#e0036f] dark:hover:bg-[#9c024d] disabled:opacity-70"
                   >

@@ -19,7 +19,7 @@ export default function Header2() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
 
   // Filtrar los links basados en permisos y roles
   const filterLinks = dashboardLinks.filter((item) => {
@@ -258,6 +258,16 @@ export default function Header2() {
                           <Link href={link.href}>{link.title}</Link>
                         </li>
                       ))}
+                      <li
+                        className={isActive("/login") ? styles["active-sub"] : ""}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          closeMenu();
+                          logout(); // viene del useAuth()
+                        }}
+                      >
+                        <Link href="#">Cerrar sesión</Link>
+                      </li>
                     </ul>
                   )}
                 </>

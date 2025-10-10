@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { deleteCookie, getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
+import { setCookie } from "cookies-next/client";
+import auth_service from "../dashboard/users/services/auth.service";
 
 // Creeacion del contexto
 const AuthContext = createContext();
@@ -26,22 +28,26 @@ export const AuthProvider = ({ children }) => {
     }
   }, [pathname]);
 
-  // EN CASO DE SER NECESARIO, DESCOMENTAR ESTAS FUNCIONES
+  const login = (token) => {
+    setCookie("token", token, { maxAge: 30 * 24 * 60 * 60, path: "/" });
+    setIsAuthenticated(true);
+    router.replace("/dashboard/main");
+  };
 
-  // const login = (token) => {
-  //   document.cookie = `token=${token}; path=/;`;
-  //   setIsAuthenticated(true);
-  //   router.replace("/dashboard/main");
-  // };
-
-  // const logout = () => {
-  //   deleteCookie("token");
-  //   setIsAuthenticated(false);
-  //   router.replace("/login");
-  // };
+  const logout = async () => {
+    try {
+      await auth_service.logout();
+    }catch(error){
+      console.error("Error al cerrar sesión:", error);
+    } finally {
+      deleteCookie("token");
+      setIsAuthenticated(false);
+      setTimeout(() => router.replace("/login"), 300); // Pequeño retraso para mejorar UX
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
