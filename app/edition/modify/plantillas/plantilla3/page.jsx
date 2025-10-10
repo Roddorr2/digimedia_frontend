@@ -468,7 +468,7 @@ const PageContent = () => {
       alt_image3: formGaleryBody.alt_image3,
       title_image3: formGaleryBody.title_image3,
       flag_galeria: formGaleryBody.flag_galeria,
-      flag_consejos: formConsejosBody.flag_consejos,
+      flag_consejos: formGaleryBody.flag_consejos,
       flag_informacion: formInfoBody.flag_informacion,
       service_url: serviceRedirectUrl,
     };
