@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
-import Header from "../components/Header";
 import Head from "next/head";
+import { Loader2 } from "lucide-react";
+import Header from "../components/Header";
 import Body3 from "../components/Body3";
 import Footer from "../components/Footer";
 import Fetch from "../services/fetch";
-import { Loader2 } from "lucide-react";
 
 const Page = () => {
+    
   return (
     <Suspense
       fallback={
@@ -25,9 +26,9 @@ const Page = () => {
 };
 
 const PageContent = () => {
-  const searchParams = useSearchParams();
-  const link = searchParams.get("blog");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const blog = searchParams.get("blog");
 
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +40,7 @@ const PageContent = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await Fetch.fetchBlogByLink(link);
+        const response = await Fetch.fetchBlogByLink(blog);
 
         if (response) {
           setData(response);
@@ -60,8 +61,52 @@ const PageContent = () => {
       }
     };
 
-    if (link) fetchBlog();
-  }, [link]);
+    if (blog) fetchBlog();
+  }, [blog]);
+  
+  useEffect(() => {
+        if (data) {
+          const title = data?.head?.meta_title || data?.titulo || "Mi Blog";
+          const description =
+            data?.head?.meta_descripcion || data?.descripcion || "Blog de DigiMedia";
+    
+          document.title = title;
+    
+          // Actualiza <meta name="description">
+          let metaDescription = document.querySelector("meta[name='description']");
+          if (!metaDescription) {
+            metaDescription = document.createElement("meta");
+            metaDescription.name = "description";
+            document.head.appendChild(metaDescription);
+          }
+          metaDescription.setAttribute("content", description);
+    
+          // Actualiza etiquetas OG
+          const ogTags = [
+            { property: "og:title", content: title },
+            { property: "og:description", content: description },
+            { property: "og:url", content: `https://digimedia-marketing.com/blog/${blog}` },
+          ];
+          ogTags.forEach(({ property, content }) => {
+            let tag = document.querySelector(`meta[property='${property}']`);
+            if (!tag) {
+              tag = document.createElement("meta");
+              tag.setAttribute("property", property);
+              document.head.appendChild(tag);
+            }
+            tag.setAttribute("content", content);
+          });
+    
+          // ✅ Actualiza o crea <link rel="canonical">
+          let canonicalLink = document.querySelector("link[rel='canonical']");
+          if (!canonicalLink) {
+            canonicalLink = document.createElement("link");
+            canonicalLink.rel = "canonical";
+            document.head.appendChild(canonicalLink);
+          }
+          canonicalLink.href = `https://digimedia-marketing.com/blog/${blog}`;
+        }
+  }, [data, blog]);
 
   if (error) {
     return (
@@ -117,14 +162,6 @@ const PageContent = () => {
 
   return (
     <>
-      <Head>
-        <title>{data.titulo} | Mi Blog</title>
-        <meta name="description" content={data.descripcion} />
-        <link
-          rel="canonical"
-          href={`https://midominio.com/blog/${data.link}`}
-        />
-      </Head>
       <div>
         <Header id_blog_head={data.id_blog_head} />
 

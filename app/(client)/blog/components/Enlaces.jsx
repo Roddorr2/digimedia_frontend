@@ -156,19 +156,21 @@ function EnlacesForm() {
                           {card.descripcion}
                         </p>
 
-                        <a
-                          href={`/blog/plantilla${card.id_plantilla}/?blog=${card.blog?.link}`}
-                          target="_blank"
-                          className="group flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300 mt-auto"
-                          rel="noreferrer"
-                        >
-                          Leer más
-                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </a>
-                      </div>
-                    </article>
-                  ))}
-                </div>
+                                                <a
+                                                    href={`/blog/plantilla${card.id_plantilla}?blog=${card.blog?.link}`}
+                                                    // href={`/blog/plantilla${card.id_plantilla}/${card.blog?.link}`}
+
+                                                    target="_blank"
+                                                    className="group flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300 mt-auto"
+                                                    rel="noreferrer"
+                                                >
+                                                    Leer más
+                                                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                                </a>
+                                            </div>
+                                        </article>
+                                    ))}
+                                </div>
 
                 {totalPages > 1 && (
                   <div className="flex justify-center items-center space-x-2 mt-8">
