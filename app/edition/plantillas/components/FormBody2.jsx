@@ -15,7 +15,7 @@ import {
   BookType,
 } from "lucide-react";
 import { useState } from "react";
-import BotonAñadirLink from "./BotonAnadirLink";
+import BotonAnadirLink from "./BotonAnadirLink";
 
 export default function FormBody2(props) {
   const [activeTab, setActiveTab] = useState("info");
@@ -1057,7 +1057,7 @@ export default function FormBody2(props) {
                         </div>
                         <div className="w-full flex justify-end">
                           {" "}
-                          <BotonAñadirLink
+                          <BotonAnadirLink
                             // texto={section.descripcion}
                             item={section}
                             index={index}

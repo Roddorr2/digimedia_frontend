@@ -9,7 +9,7 @@ import {
   ExternalLink,
   Image as IconImage,
 } from "lucide-react";
-import BotonAñadirLink from "../../plantillas/components/BotonAnadirLink";
+import BotonAnadirLink from "../../plantillas/components/BotonAnadirLink";
 import Swal from "sweetalert2"; // Importar Swal
 
 export default function FormBody3(props) {
@@ -1098,7 +1098,7 @@ export default function FormBody3(props) {
                   />
                 </div>
                 <div className="w-full flex justify-end">
-                  <BotonAñadirLink
+                  <BotonAnadirLink
                     item={item}
                     index={index}
                     servicios={servicios}

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 import { useState } from "react";
-import { BotonAnadirLink } from "./BotonAnadirLink";
+import  BotonAnadirLink  from "./BotonAnadirLink";
 
 export default function FormBody1(props) {
   const {

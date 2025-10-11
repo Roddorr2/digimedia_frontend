@@ -8,7 +8,7 @@ import {
   ExternalLink,
   Image as IconImage,
 } from "lucide-react";
-import BotonAñadirLink from "./BotonAnadirLink";
+import BotonAnadirLink from "./BotonAnadirLink";
 
 export default function FormBody3(props) {
   const {
@@ -1084,7 +1084,7 @@ export default function FormBody3(props) {
 
                 <div className="w-full flex justify-end">
                   {" "}
-                  <BotonAñadirLink
+                  <BotonAnadirLink
                     // texto={item.descripcion}
                     item={item}
                     index={index}

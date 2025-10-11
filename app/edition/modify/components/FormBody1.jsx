@@ -16,7 +16,7 @@ import {
   Image as IconImage,
 } from "lucide-react";
 import { useState, useEffect } from "react"; // Importar useEffect
-import  {BotonAnadirLink} from "../../plantillas/components/BotonAnadirLink";
+import  BotonAnadirLink from "../../plantillas/components/BotonAnadirLink";
 import Swal from "sweetalert2"; // Importar Swal
 
 export default function FormBody1(props) {

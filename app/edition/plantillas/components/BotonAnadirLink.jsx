@@ -4,7 +4,7 @@ import { Link, Trash2, XIcon } from "lucide-react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 
-export const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
+const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
   const [showModal, setShowModal] = useState(false);
   const [texto, setTexto] = useState(item.palabra || "");
   const [url, setUrl] = useState(item.enlace || "");
@@ -157,3 +157,5 @@ export const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
     </>
   );
 };
+
+export default BotonAnadirLink;
