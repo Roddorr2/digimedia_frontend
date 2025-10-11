@@ -8,13 +8,26 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 import { useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
+import { dashboardLinks } from "@/app/dashboard/dashboardsLinks/dashboardsLinks";
+import auth_service from "@/app/dashboard/users/services/auth.service";
 
 export default function Header2() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+
+  // Filtrar los links basados en permisos y roles
+  const filterLinks = dashboardLinks.filter((item) => {
+    const hasPermission =
+      !item.permission || auth_service.hasPermission(item.permission);
+    const hasRole = !item.role || auth_service.hasRole(item.role);
+    return hasPermission && hasRole;
+  });
 
   const isActive = (path) => pathname === path || pathname === `${path}/`;
 
@@ -22,6 +35,7 @@ export default function Header2() {
     setMenuOpen(false);
     setIsServiceOpen(false);
     setIsMoreOpen(false);
+    setIsPanelOpen(false);
 
     const menucheckbox = document.getElementById("menucheckbox");
     if (menucheckbox) {
@@ -208,14 +222,59 @@ export default function Header2() {
                 </ul>
               )}
             </li>
-            {!isMobile && (
-              <li
-                className={isActive("/login") ? styles.active : ""}
-                onClick={closeMenu}
-              >
+            {/* ----- Panel options ----- */}
+
+            <li
+              className={`cursor-pointer${
+                isActive("/login") || isActive("/dashboard/main")
+                  ? styles.active
+                  : ""
+              }`}
+              onClick={() => setIsPanelOpen(!isPanelOpen)}
+            >
+              {isAuthenticated ? (
+                <>
+                  <p className="flex items-center gap-1">
+                    Panel{" "}
+                    <ChevronDown
+                      className="w-4 h-4"
+                      style={{
+                        display: "inline-block",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                  </p>
+
+                  {isPanelOpen && (
+                    <ul className={styles.menuVertical}>
+                      {filterLinks.map((link) => (
+                        <li
+                          key={link.href}
+                          className={
+                            isActive(link.href) ? styles["active-sub"] : ""
+                          }
+                          onClick={closeMenu}
+                        >
+                          <Link href={link.href}>{link.title}</Link>
+                        </li>
+                      ))}
+                      <li
+                        className={isActive("/login") ? styles["active-sub"] : ""}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          closeMenu();
+                          logout(); // viene del useAuth()
+                        }}
+                      >
+                        <Link href="#">Cerrar sesión</Link>
+                      </li>
+                    </ul>
+                  )}
+                </>
+              ) : (
                 <Link href="/login">Ingresar</Link>
-              </li>
-            )}
+              )}
+            </li>
           </ul>
         </div>
       </div>
