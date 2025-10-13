@@ -15,7 +15,7 @@ import {
   BookType,
 } from "lucide-react";
 import { useState } from "react";
-import BotonAñadirLink from "./BotonAñadirLink";
+import BotonAnadirLink from "./BotonAnadirLink";
 
 export default function FormBody2(props) {
   const [activeTab, setActiveTab] = useState("info");
@@ -101,22 +101,27 @@ export default function FormBody2(props) {
     if (!palabraClave || !enlace) {
       return texto;
     }
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
-      return isMatch ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-        >
-          {palabraClave}
-        </a>
-      ) : (
-        <span key={i}>{" " + palabra + " "}</span>
-      );
+    // Buscar la frase completa (case insensitive)
+    const regex = new RegExp(`(${palabraClave})`, "gi");
+    const partes = texto.split(regex);
+
+    return partes.map((parte, i) => {
+      // Si coincide con la palabra clave (incluso con mayúsculas/minúsculas diferentes)
+      if (parte.toLowerCase() === palabraClave.toLowerCase()) {
+        return (
+          <a
+            key={i}
+            href={enlace}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
+          >
+            {parte}
+          </a>
+        );
+      }
+      return <span key={i}>{parte}</span>;
     });
   }
 
@@ -1052,7 +1057,7 @@ export default function FormBody2(props) {
                         </div>
                         <div className="w-full flex justify-end">
                           {" "}
-                          <BotonAñadirLink
+                          <BotonAnadirLink
                             // texto={section.descripcion}
                             item={section}
                             index={index}
