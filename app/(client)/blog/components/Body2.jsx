@@ -11,6 +11,7 @@ import {
   Eye,
 } from "lucide-react";
 import Fetch from "../services/fetch";
+import Image from "next/image";
 
 export default function Body2({ id_blog_body, fecha }) {
   const [data, setDataResponse] = useState(null);
@@ -22,22 +23,27 @@ export default function Body2({ id_blog_body, fecha }) {
     if (!palabraClave || !enlace) {
       return texto;
     }
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
-      return isMatch ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-        >
-          {palabraClave}
-        </a>
-      ) : (
-        <span key={i}>{" " + palabra + " "}</span>
-      );
+    // Buscar la frase completa (case insensitive)
+    const regex = new RegExp(`(${palabraClave})`, "gi");
+    const partes = texto.split(regex);
+
+    return partes.map((parte, i) => {
+      // Si coincide con la palabra clave (incluso con mayúsculas/minúsculas diferentes)
+      if (parte.toLowerCase() === palabraClave.toLowerCase()) {
+        return (
+          <a
+            key={i}
+            href={enlace}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
+          >
+            {parte}
+          </a>
+        );
+      }
+      return <span key={i}>{parte}</span>;
     });
   }
 
@@ -69,10 +75,10 @@ export default function Body2({ id_blog_body, fecha }) {
     if (!previewImageUrl) return fallback;
 
     if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl; 
+      return previewImageUrl;
     }
 
-    return `${previewImageUrl}?v=${Date.now()}`; 
+    return `${previewImageUrl}?v=${Date.now()}`;
   };
   useEffect(() => {
     if (data) {
@@ -83,11 +89,10 @@ export default function Body2({ id_blog_body, fecha }) {
       } else if (data.flag_galeria !== 0) {
         setActiveTab("gallery");
       } else {
-        setActiveTab(null); 
+        setActiveTab(null);
       }
     }
   }, [data]);
-
 
   if (isLoading) {
     return (
@@ -164,7 +169,6 @@ export default function Body2({ id_blog_body, fecha }) {
     );
   }
 
-
   return (
     <div className="relative lg:mx-48 bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden">
       <div className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
@@ -183,13 +187,15 @@ export default function Body2({ id_blog_body, fecha }) {
       </div>
 
       <div className="relative h-[300px] md:h-[400px] overflow-hidden">
-        <img
+        <Image
           // src={data.public_image1}
           src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
           // alt={data.titulo || "Imagen principal"}
           alt={data.alt_image1 || data.titulo}
           title={data.title_image1}
           className="w-full h-full object-cover"
+          width={800}
+          height={400}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
@@ -206,8 +212,7 @@ export default function Body2({ id_blog_body, fecha }) {
         </div>
 
         <div className="flex border-b border-gray-200 mb-8">
-          {data.flag_informacion!==0 && (
-
+          {data.flag_informacion !== 0 && (
             <button
               className={`px-4 py-2 font-medium text-sm ${
                 activeTab === "info"
@@ -218,10 +223,8 @@ export default function Body2({ id_blog_body, fecha }) {
             >
               Información
             </button>
-
           )}
-          {data.flag_consejos!==0 && (
-
+          {data.flag_consejos !== 0 && (
             <button
               className={`px-4 py-2 font-medium text-sm ${
                 activeTab === "tips"
@@ -232,10 +235,8 @@ export default function Body2({ id_blog_body, fecha }) {
             >
               Consejos
             </button>
-
           )}
-          {data.flag_galeria!==0 && (
-
+          {data.flag_galeria !== 0 && (
             <button
               className={`px-4 py-2 font-medium text-sm ${
                 activeTab === "gallery"
@@ -246,7 +247,6 @@ export default function Body2({ id_blog_body, fecha }) {
             >
               Galería
             </button>
-
           )}
         </div>
 
@@ -315,27 +315,29 @@ export default function Body2({ id_blog_body, fecha }) {
               {[
                 // data.public_image2 || "/blog/blog-10.webp",
                 // data.public_image3 || "/blog/blog-1.webp",
-                { 
-                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), 
-                  alt: data.alt_image2 || data.titulo, 
-                  title: data.title_image2 || "" 
+                {
+                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
+                  alt: data.alt_image2 || data.titulo,
+                  title: data.title_image2 || "",
                 },
-                { 
-                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"), 
-                  alt: data.alt_image3 || data.titulo, 
-                  title: data.title_image3 || "" 
+                {
+                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
+                  alt: data.alt_image3 || data.titulo,
+                  title: data.title_image3 || "",
                 },
               ].map((image, index) => (
                 <div
                   key={index}
                   className="group relative rounded-xl overflow-hidden shadow-md"
                 >
-                  <img
+                  <Image
                     src={image.src}
                     // alt={`Imagen ${index + 1} del artículo`}
                     alt={image.alt}
                     title={image.title}
                     className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                    width={400}
+                    height={300}
                   />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <button className="bg-white/90 p-3 rounded-full">

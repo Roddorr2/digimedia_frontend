@@ -1,6 +1,7 @@
 import Script from "next/script";
 import "./globals.css";
 import localFont from "next/font/local";
+import { AuthProvider } from "./context/AuthContext";
 
 const montserrat = localFont({
   src: [
@@ -25,12 +26,13 @@ export const metadata = {
     google: "xhfnSm5zX45Ov_N5NO-py7sXFqI6VC5EDAb4FhYafNQ",
   },
 };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      {/* <head>
-        Google Tag Manager
-        <Script id="gtm-script" strategy="lazyOnload">
+      <head>
+        {/* Google Tag Manager */}
+        <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -39,18 +41,22 @@ export default function RootLayout({ children }) {
             })(window,document,'script','dataLayer','GTM-MR2MC9SB');
           `}
         </Script>
-        End Google Tag Manager
-      </head> */}
+      </head>
       <body className={`${montserrat.variable} ${telegraf.variable} antialiased`}>
-        {/* <noscript>
+        {/* El AuthProvider debe envolver todo el contenido */}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+
+        {/* Google Tag Manager (no-script) */}
+        <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
-        </noscript> */}
-        {children}
+        </noscript>
       </body>
     </html>
   );

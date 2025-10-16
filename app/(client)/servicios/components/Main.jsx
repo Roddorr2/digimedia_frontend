@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Main({ title, subtitle, text, image, className = "" }) {
   return (
     <main
@@ -8,7 +10,7 @@ export default function Main({ title, subtitle, text, image, className = "" }) {
         <h2 className="text-[#ff037f] font-semibold text-1xl my-2 uppercase md:text-xl">{subtitle}</h2>
         <p className="text-justify font-bold uppercase text-2xs">{text}</p>
       </div>
-      <img className="max-w-[90%] md:max-w-[35%] mb-4 md:mb-0" src={image || "/placeholder.svg"} alt="" />
+      <Image className="mb-4 md:mb-0" src={image || "/placeholder.svg"} alt={`imagen de ${title}`} width={500} height={500} />
     </main>
   )
 }

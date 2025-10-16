@@ -16,7 +16,7 @@ import {
   Image as IconImage,
 } from "lucide-react";
 import { useState, useEffect } from "react"; // Importar useEffect
-import BotonAñadirLink from "../../plantillas/components/BotonAñadirLink";
+import  BotonAnadirLink from "../../plantillas/components/BotonAnadirLink";
 import Swal from "sweetalert2"; // Importar Swal
 
 export default function FormBody1(props) {
@@ -143,22 +143,27 @@ export default function FormBody1(props) {
     if (!palabraClave || !enlace) {
       return texto;
     }
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
 
-      return isMatch ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-        >
-          {palabraClave}
-        </a>
-      ) : (
-        <span key={i}>{" " + palabra + " "}</span>
-      );
+    // Buscar la frase completa (case insensitive)
+    const regex = new RegExp(`(${palabraClave})`, "gi");
+    const partes = texto.split(regex);
+
+    return partes.map((parte, i) => {
+      // Si coincide con la palabra clave (incluso con mayúsculas/minúsculas diferentes)
+      if (parte.toLowerCase() === palabraClave.toLowerCase()) {
+        return (
+          <a
+            key={i}
+            href={enlace}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
+          >
+            {parte}
+          </a>
+        );
+      }
+      return <span key={i}>{parte}</span>;
     });
   }
 
@@ -1094,7 +1099,7 @@ export default function FormBody1(props) {
                     placeholder="Descripción"
                   />
                   <div className="w-full flex justify-end">
-                    <BotonAñadirLink
+                    <BotonAnadirLink
                       item={item}
                       index={index}
                       servicios={servicios}

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Contactanos({ text, iconLeft, iconRight }) {
   return (
     <section className="bg-[#523194] text-white font-bold text-2xl uppercase text-center p-12 relative w-full left-1/2 -translate-x-1/2 ">
@@ -9,8 +11,20 @@ export default function Contactanos({ text, iconLeft, iconRight }) {
         CONTÁCTANOS AHORA
       </button>
 
-      <img className="absolute h-[160px] hidden md:block bottom-4 left-0" src={iconLeft} alt="" />
-      <img className="absolute h-[160px] hidden md:block bottom-4 right-0" src={iconRight} alt="" />
+      <Image
+        className="absolute h-[160px] hidden md:block bottom-4 left-0"
+        src={iconLeft}
+        alt=""
+        width={144}
+        height={36}
+      />
+      <Image
+        className="absolute h-[160px] hidden md:block bottom-4 right-0"
+        src={iconRight}
+        alt=""
+        width={144}
+        height={36}
+      />
     </section>
   );
 }

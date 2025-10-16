@@ -2,15 +2,18 @@
 
 import React from "react";
 import { ArrowRight, CheckCircle } from "lucide-react";
-import Link from "next/link"
+import Link from "next/link";
+import Image from "next/image";
 
 const HeaderSection = () => (
   <div className="relative h-[400px] overflow-hidden">
     {/* <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div> */}
-    <img
+    <Image
       src="/blog/blog-6.webp"
-     alt="Mujer vestida formalmente sonriendo mientras habla por teléfono y sostiene una laptop"
+      alt="Mujer vestida formalmente sonriendo mientras habla por teléfono y sostiene una laptop"
       className="absolute inset-0 w-full h-full object-cover"
+      width={400}
+      height={400}
     />
     <div className="relative z-20 h-full flex flex-col justify-end p-8">
       <p className="select-none text-blue-400 mb-2 font-medium">
@@ -69,7 +72,9 @@ const ImageGallery = ({ detailsImage }) => (
         className="group relative overflow-hidden rounded-xl shadow-xl"
       >
         <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
-        <img
+        <Image
+          width={400}
+          height={400}
           src={src}
           alt={`Imagen ${index + 1} del artículo`}
           className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
@@ -170,16 +175,15 @@ export default function Body4() {
 
         <BenefitCards cards={cards} borderColors={borderColors} />
       </div>
-      
-            <div className="flex justify-center mt-6 mb-10">
-                    <Link
-                        href="/servicios/branding-desing"
-                        className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-colors"
-                    >
-                        Ver más información
-                    </Link>
-                </div>
+
+      <div className="flex justify-center mt-6 mb-10">
+        <Link
+          href="/servicios/branding-desing"
+          className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-colors"
+        >
+          Ver más información
+        </Link>
+      </div>
     </div>
-    
   );
 }

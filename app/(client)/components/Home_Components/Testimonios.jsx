@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Testimonios() {
   return (
     <section className="flex flex-col md:flex-row">
@@ -16,13 +18,15 @@ export default function Testimonios() {
             media="(max-width: 767px)"
             srcSet="/image-home/opinions_mobile.avif"
           />
-          <img
+          <Image
             src="/image-home/opinions.webp"
             alt="imagen de un grupo de personas conversando en una mesa en un dia soleado"
             className="w-full h-full object-cover"
-            loading="eager"
             fetchPriority="high"
             decoding="async"
+            priority
+            width={600}
+            height={400}
           />
         </picture>
       </div>

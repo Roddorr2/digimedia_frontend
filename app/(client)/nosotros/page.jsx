@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 const Nosotros = () => {
@@ -13,10 +14,12 @@ const Nosotros = () => {
     return (
         <div className="min-h-screen bg-white">
             <div className="relative h-[400px] overflow-hidden">
-                <img
+                <Image
                     src="/Img-nosotros/NOSOTROS_1680_1050.avif"
                     alt="grupo juntando sus manos"
                     className="w-full h-full object-cover object-center"
+                    layout="fill"
+                    objectFit="cover"
                 />
                 <div className="absolute inset-0 bg-[#7B22B3] bg-opacity-50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -83,10 +86,12 @@ const Nosotros = () => {
                 </div>
             </a>*/}
             <div className="flex justify-center pt-2 pb-16">
-                <img
+                <Image
                     src="/Img-nosotros/infoNosotros.avif"
                     alt="Equipo trabajando en la computadora"
                     className="w-full max-w-3xl h-auto rounded-lg shadow-lg"
+                    width={500}
+                    height={500}
                 />
             </div>
         </div>

@@ -1,17 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { User, Lock, ArrowLeft } from 'lucide-react';
-import auth_service from '@/app/dashboard/users/services/auth.service';
-import { setCookie } from 'cookies-next';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { User, Lock, ArrowLeft } from "lucide-react";
+import auth_service from "@/app/dashboard/users/services/auth.service";
+import { setCookie } from "cookies-next";
+import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const { login } = useAuth();
   const router = useRouter();
 
   const validateEmail = (email) => {
@@ -23,11 +25,11 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError(false);
-    setErrorMessage('');
+    setErrorMessage("");
 
     if (!validateEmail(formData.email)) {
       setError(true);
-      setErrorMessage('Por favor, ingresa un email válido.');
+      setErrorMessage("Por favor, ingresa un email válido.");
       setLoading(false);
       return;
     }
@@ -40,33 +42,42 @@ export default function LoginPage() {
         throw new Error(data.message);
       }
 
-      // guardar token 
-      setCookie("token", data.token, { maxAge: 30 * 24 * 60 * 60, path: "/" });
-      
+      // guardar token
+      login(data.token);
+
       // obtener info del user con su rol
       const userData = await auth_service.me();
-      
+
       if (userData.error) {
-        throw new Error('Error al obtener información del usuario');
+        throw new Error("Error al obtener información del usuario");
       }
-      
+
       // guardar info en cookies
-      setCookie("user", JSON.stringify(userData.user), { maxAge: 30 * 24 * 60 * 60, path: "/" });
-      
+      setCookie("user", JSON.stringify(userData.user), {
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+      });
+
       if (userData.empleado) {
-        setCookie("empleado", JSON.stringify(userData.empleado), { maxAge: 30 * 24 * 60 * 60, path: "/" });
+        setCookie("empleado", JSON.stringify(userData.empleado), {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
       }
-      
+
       if (userData.rol) {
-        setCookie("rol", userData.rol, { maxAge: 30 * 24 * 60 * 60, path: "/" });
+        setCookie("rol", userData.rol, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
       }
 
       // redirección segun rol
       if (auth_service.isAdmin()) {
+        router.replace("/dashboard/main");
+      } else if (auth_service.hasRole("marketing")) {
         router.push("/dashboard/main");
-      } else if (auth_service.hasRole('marketing')) {
-        router.push("/dashboard/main");
-      } else if (auth_service.hasRole('ventas')) {
+      } else if (auth_service.hasRole("ventas")) {
         router.push("/dashboard/main");
       } else {
         // redirec default
@@ -74,7 +85,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       setError(true);
-      setErrorMessage(error.message || 'Email o contraseña incorrectos.');
+      setErrorMessage(error.message || "Email o contraseña incorrectos.");
     } finally {
       setLoading(false);
     }
@@ -89,7 +100,9 @@ export default function LoginPage() {
       {/* Sección izquierda con diseño mejorado */}
       <div className="lg:w-1/2 w-full bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex flex-col items-center justify-center p-8 relative overflow-hidden">
         <div className="relative z-10 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">¡Bienvenido!</h1>
+          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+            ¡Bienvenido!
+          </h1>
           <p className="text-white/90 text-lg mb-8 max-w-md">
             Accede a tu cuenta para gestionar tus recursos y servicios
           </p>
@@ -117,20 +130,26 @@ export default function LoginPage() {
             <h2 className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               Iniciar Sesión
             </h2>
-            <p className="text-gray-500 mt-2">Ingresa tus credenciales para continuar</p>
+            <p className="text-gray-500 mt-2">
+              Ingresa tus credenciales para continuar
+            </p>
           </div>
 
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
               <p className="text-red-700 text-sm">
-                {errorMessage || 'Usuario o contraseña incorrectos. Por favor, intenta nuevamente.'}
+                {errorMessage ||
+                  "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
               </p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Usuario
               </label>
               <div className="relative">
@@ -150,7 +169,10 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Contraseña
               </label>
               <div className="relative">
@@ -169,7 +191,10 @@ export default function LoginPage() {
               </div>
             </div>
             <div className="mt-4">
-              <Link href="./email/" className="text-sm text-blue-500 hover:underline">
+              <Link
+                href="./email/"
+                className="text-sm text-blue-500 hover:underline"
+              >
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
@@ -200,7 +225,7 @@ export default function LoginPage() {
                   Iniciando sesión...
                 </span>
               ) : (
-                'Iniciar Sesión'
+                "Iniciar Sesión"
               )}
             </button>
           </form>
@@ -209,8 +234,13 @@ export default function LoginPage() {
 
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
         }
         .animate-float {
           animation: float 6s ease-in-out infinite;

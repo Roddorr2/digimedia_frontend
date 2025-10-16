@@ -1,25 +1,36 @@
-'use client';
-import Link from 'next/link';
-import AuthGuard from './components/AuthGuard';
-import auth_service from './users/services/auth.service';
-import { usePathname, useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
-import { useState, useEffect } from 'react';
-import PersonIcon from '@mui/icons-material/Person';
-
-import { DisplayNameContext } from './components/DisplayNameContext';
-import AddIcon from '@mui/icons-material/Add';
+"use client";
+import Link from "next/link";
+import AuthGuard from "./components/AuthGuard";
+import auth_service from "./users/services/auth.service";
+import { usePathname, useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
+import { useState, useEffect } from "react";
+import PersonIcon from "@mui/icons-material/Person";
+import { DisplayNameContext } from "./components/DisplayNameContext";
+import { dashboardLinks } from "./dashboardsLinks/dashboardsLinks";
+import { useAuth } from "../context/AuthContext";
+import Image from "next/image";
+import { ArrowLeft, LogOut } from "lucide-react";
 
 export default function RootLayout({ children }) {
-  const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuth();
+
+  // Estado para el sidebar (abierto y cerrado)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Info usuario y rol
-  const userRole = getCookie('rol') || 'Usuario';
-  const userData = getCookie('user') ? JSON.parse(getCookie('user')) : { name: 'Usuario' };
-  const empleadoData = getCookie('empleado') ? JSON.parse(getCookie('empleado')) : null;
-  
-  const [displayName, setDisplayName] = useState(empleadoData?.nombre || userData?.name || 'Usuario');
+  const userRole = getCookie("rol") || "Usuario";
+  const userData = getCookie("user")
+    ? JSON.parse(getCookie("user"))
+    : { name: "Usuario" };
+  const empleadoData = getCookie("empleado")
+    ? JSON.parse(getCookie("empleado"))
+    : null;
+
+  const [displayName, setDisplayName] = useState(
+    empleadoData?.nombre || userData?.name || "Usuario"
+  );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // Estado y lógica del Dark Mode
@@ -27,9 +38,9 @@ export default function RootLayout({ children }) {
     if (typeof window !== "undefined") {
       return localStorage.getItem("darkMode") === "true";
     }
-    return false; 
+    return false;
   });
-  
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -38,110 +49,153 @@ export default function RootLayout({ children }) {
     }
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
-  
 
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await auth_service.logout();
-      setTimeout(() => auth_service.logoutClient(router), 350);
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-      setTimeout(() => auth_service.logoutClient(router), 1000);
-    }
-  };
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <DisplayNameContext.Provider value={{ displayName, updateDisplayName: setDisplayName }}>
+    <DisplayNameContext.Provider
+      value={{ displayName, updateDisplayName: setDisplayName }}
+    >
       <AuthGuard>
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
-          <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2">
-            <img src="/dashboard/logo.webp" className="h-full" alt="Logo" />
+          {/* HEADER */}
+          <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2 z-10">
+            <Link href="/">
+              <Image
+                src="/dashboard/logo.webp"
+                className="h-full"
+                alt="Logo"
+                width={200}
+                height={300}
+              />
+            </Link>
             <h1 className="text-3xl text-white font-semibold">
-              SECCIÓN: {pathname.slice(pathname.indexOf('/', 1) + 1, -1).toUpperCase()}
+              SECCIÓN:{" "}
+              {pathname.slice(pathname.indexOf("/", 1) + 1, -1).toUpperCase()}
             </h1>
           </header>
 
           <div className="flex w-full overflow-hidden h-screen">
-            <div className="flex flex-col shrink-0 p-2 bg-[#e8e8e8] dark:bg-gray-800 text-black dark:text-white justify-between">
-              <nav className='flex-1 overflow-y-auto mt-3 pr-1'>
-                <ul className="flex flex-col gap-1">
-                  
-                  <TableLink title="Sección Principal" href="/dashboard/main" />
-                  {auth_service.hasPermission('ver-empleados') && (
-                    <TableLink title="Empleados" href="/dashboard/empleados" />
-                  )}
-                  {auth_service.hasPermission('ver-contactos') && (
-                    <TableLink title="Contactanos" href="/dashboard/contactanos" />
-                  )}
-                  {auth_service.hasPermission('ver-modales') && (
-                    <TableLink title="Modales" href="/dashboard/modales"/>
-                  )}
-                  {auth_service.hasPermission('ver-reclamaciones') && (
-                    <TableLink title="Reclamaciones" href="/dashboard/reclamaciones" />
-                  )}
-                  {auth_service.hasPermission('crear-blogs') && (
-                    <TableLink title="Blogs" href="/dashboard/blogs"/>
-                  )}
-                  {auth_service.hasRole('administrador') && (
-                    <TableLink title="Roles y Permisos" href="/dashboard/role-permission" />
-                  )} 
-                  {/* {auth_service.hasRole('administrador') && userData.email==process.env.NEXT_PUBLIC_ADMIN_WHASAPP &&(
-                    <TableLink title="Autenticación WhatsApp" href="/dashboard/autenticacion-whasapp" />
-                  )}  */}
+            {/* SIDEBAR CON NUEVO DISEÑO */}
+            <div
+              className={`relative min-h-screen flex flex-col shrink-0 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-all duration-300 pt-5 ${
+                isSidebarOpen ? "w-64" : "w-20"
+              }`}
+            >
+              {/* Botón toggle circular */}
+              <button
+                onClick={toggleSidebar}
+                className={`absolute top-8 -right-[18px] h-8 w-8 rounded-full bg-[#8c52ff] dark:bg-[#6b3acb] shadow-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:shadow-xl z-20 ${
+                  isSidebarOpen ? "" : "rotate-180"
+                }`}
+              >
+                <ArrowLeft className="text-white text-lg" />
+              </button>
+
+              {/* Navegación principal */}
+              <nav className="mb-auto overflow-y-auto">
+                <ul className="flex flex-col">
+                  {dashboardLinks.map((item, index) => {
+                    const hasPermission =
+                      !item.permission ||
+                      auth_service.hasPermission(item.permission);
+
+                    const hasRole =
+                      !item.role || auth_service.hasRole(item.role);
+
+                    if (hasPermission && hasRole) {
+                      return (
+                        <SidebarLink
+                          key={index}
+                          title={item.title}
+                          href={item.href}
+                          icon={item.icon}
+                          isSidebarOpen={isSidebarOpen}
+                        />
+                      );
+                    }
+                  })}
                 </ul>
               </nav>
 
-              <button 
-                onClick={() => setDarkMode(!darkMode)} 
-                className="mt-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded-lg transition"
-              >
-                {darkMode ? '🌙 Dark Mode' : '☀️ Light Mode'}
-              </button>
+              {/* Divider */}
+              <div className="h-px w-full bg-gray-300 dark:bg-gray-700 my-2"></div>
 
-              <div>
-                <div className="flex mt-auto gap-2 items-center">
-                  <PersonIcon className="text-[#8c52ff] dark:text-[#6b3acb] w-[50px]" />
-                  <p className="font-bold">
-                    Bienvenido
-                    <span className="font-normal block">{displayName} ({userRole})</span>
-                  </p>
+              {/* Sección de usuario */}
+              <div className="px-[15%]">
+                <div className="flex items-center py-2 px-0 cursor-default">
+                  <div className="p-2 flex">
+                    <PersonIcon className="text-[#8c52ff] dark:text-[#6b3acb] !text-[25px]" />
+                  </div>
+                  <span
+                    className={`whitespace-nowrap transition-all duration-200 delay-200 ${
+                      isSidebarOpen
+                        ? "opacity-100 translate-x-0 max-w-[190px]"
+                        : "opacity-0 -translate-x-2 max-w-0 overflow-hidden"
+                    }`}
+                  >
+                    <span className="block font-normal text-sm">
+                      {displayName}
+                    </span>
+                    <span className="block text-xs text-gray-500 dark:text-gray-400">
+                      ({userRole})
+                    </span>
+                  </span>
                 </div>
 
-                <div className="flex items-center justify-center">
-                  <button
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    className="bg-[#ff037f] dark:bg-[#bf025f] text-white px-4 py-3 rounded-full my-3 transition-all duration-300 hover:bg-[#e0036f] dark:hover:bg-[#9c024d] disabled:opacity-70"
+                {/* Botón logout */}
+                <div
+                  onClick={logout}
+                  className="flex items-center py-2 px-0 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                >
+                  <div className="p-2 flex">
+                    <LogOut className="text-[#ff037f] dark:text-[#bf025f] text-[25px]" />
+                  </div>
+                  <span
+                    className={`whitespace-nowrap transition-all duration-200 delay-200 ${
+                      isSidebarOpen
+                        ? "opacity-100 translate-x-0 max-w-[190px]"
+                        : "opacity-0 -translate-x-2 max-w-0 overflow-hidden"
+                    }`}
                   >
-                    {isLoggingOut ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                            fill="none"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          />
-                        </svg>
-                        Cerrando sesión...
-                      </span>
-                    ) : (
-                      'Cerrar sesión'
-                    )}
-                  </button>
+                    {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="h-px w-full bg-gray-300 dark:bg-gray-700 my-6"></div>
+
+              {/* Selector de tema */}
+              <div className="flex items-center flex-col pb-24">
+                <span
+                  className={`block py-2 font-bold transition-all duration-300 ${
+                    isSidebarOpen
+                      ? "opacity-100"
+                      : "opacity-0 whitespace-nowrap overflow-hidden"
+                  }`}
+                >
+                  Dark Mode
+                </span>
+                <div
+                  className={`transition-all duration-300 ${
+                    isSidebarOpen ? "mx-10" : "mx-4"
+                  }`}
+                >
+                  <label className="relative inline-block w-[60px] h-[34px]">
+                    <input
+                      type="checkbox"
+                      className="opacity-0 w-0 h-0 peer"
+                      checked={darkMode}
+                      onChange={() => setDarkMode(!darkMode)}
+                    />
+                    <span className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-[#6b3acb] transition-all duration-400 rounded-[34px] before:content-['☀️'] before:absolute before:h-0 before:w-0 before:left-[-0px] before:top-[17px] before:leading-[0px] before:transition-all before:duration-400 peer-checked:before:content-['🌑'] peer-checked:before:translate-x-[26px] peer-checked:before:left-1"></span>
+                  </label>
                 </div>
               </div>
             </div>
-            
+
+            {/* CONTENIDO PRINCIPAL */}
             {children}
           </div>
         </div>
@@ -150,20 +204,43 @@ export default function RootLayout({ children }) {
   );
 }
 
-function TableLink({ href, title }) {
+function SidebarLink({ href, title, icon: Icon, isSidebarOpen }) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname.startsWith(href);
 
   return (
-    <li>
-      <Link
-        href={href}
-        className={`flex gap-2 items-center rounded-lg px-4 py-3 
-          hover:bg-gray-300 dark:hover:bg-gray-700 
-          ${isActive ? 'bg-gray-400 dark:bg-gray-600 font-bold' : ''}`}
-      >
-        <AddIcon className="text-[#8c52ff] dark:text-[#6b3acb] w-[50px]" />
-        {title}
+    <li
+      className={`my-2 px-[15%] transition-colors ${
+        isActive
+          ? "bg-purple-100 dark:bg-purple-900/30"
+          : "hover:bg-gray-200 dark:hover:bg-gray-700"
+      }`}
+    >
+      <Link href={href} className="flex items-center py-2 no-underline">
+        <div className="p-2 flex relative">
+          {Icon && (
+            <Icon
+              className={`text-[25px] ${
+                isActive
+                  ? "text-[#8c52ff] dark:text-[#a78bfa]"
+                  : "text-gray-600 dark:text-gray-300"
+              }`}
+            />
+          )}
+        </div>
+        <span
+          className={`whitespace-nowrap transition-all duration-200 delay-200 inline-block overflow-hidden ${
+            isSidebarOpen
+              ? "opacity-100 translate-x-0 max-w-[190px]"
+              : "opacity-0 -translate-x-2 max-w-0"
+          } ${
+            isActive
+              ? "font-semibold text-[#8c52ff] dark:text-[#a78bfa]"
+              : "text-gray-800 dark:text-white"
+          }`}
+        >
+          {title}
+        </span>
       </Link>
     </li>
   );

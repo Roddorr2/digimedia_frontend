@@ -4,6 +4,7 @@ import ContactForm from "./contactForm";
 import SocialMediaLinks from "./socialMediaLinks";
 import { motion } from "framer-motion";
 import styles from "../contacto.module.css";
+import Image from "next/image";
 
 const MainSection = () => (
   <section className={styles.mainSection}>
@@ -27,7 +28,7 @@ const MainSection = () => (
         transition={{ duration: 1.5, delay: 0.2 }}
         style={{ overflow: "hidden" }}
       >
-        <img src="/contactanos/srta.webp" alt="srta hablando por telefono" />
+        <Image src="/contactanos/srta.webp" alt="srta hablando por telefono" width={300} height={300} />
       </motion.div>
     </div>
 
