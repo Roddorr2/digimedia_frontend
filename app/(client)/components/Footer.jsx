@@ -158,7 +158,7 @@ export default function Footer() {
               <p>RUC: 20605116559</p>
             </div>
             <div className={styles.derechosFooter}>
-              <p>@digimedia.com. Derechos reservados</p>
+              <p>© {new Date().getFullYear()} Digimedia. Todos los derechos reservados.</p>
             </div>
           </div>
         </div>

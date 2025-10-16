@@ -8,7 +8,7 @@ export default function UXUI() {
     const featuresuxui = [
       {
         icon: <PencilRuler className="w-full h-full stroke-1" />,
-        title: "iconos web",
+        title: "logotipo y aplicaciones",
         description:
         "INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.",
         alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
@@ -16,7 +16,7 @@ export default function UXUI() {
 
     {
         icon: <Palette className="w-full h-full stroke-1" />,
-        title: "iconos web",
+        title: "paleta de colores",
         description:
         "DEFINICIÓN DE LOS COLORES PRIMARIOS Y SECUNDARIOS DE LA MARCA, INCLUYENDO SUS CÓDIGOS RGB, CMYK Y PANTONE PARA FACILITAR SU USO EN DIFERENTES SOPORTES.",
          alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
@@ -24,7 +24,7 @@ export default function UXUI() {
 
     {
         icon: <SpellCheck className="w-full h-full stroke-1" />,
-        title: "iconos web",
+        title: "tipografía",
         description:
         "SELECCIÓN DE FUENTES DE LETRA PRINCIPALES Y SECUNDARIAS, INCLUYENDO EJEMPLOS DE CÓMO USARLAS EN DIFERENTES TAMAÑOS Y ESTILOS PARA TITULARES Y CUERPOS DE TEXTO.",
          alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",

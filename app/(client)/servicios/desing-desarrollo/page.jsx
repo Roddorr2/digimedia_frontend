@@ -10,7 +10,7 @@ export default function Page() {
   const servicios = [
     {
       title: "Diseño visual y experiencia del usuario (UX/UI)",
-      text: "Ccreamos experiencias digitales que atrapan, CAUTIVAN y convierten visitantes en clientes fieles.",
+      text: "Creamos experiencias digitales que atrapan, CAUTIVAN y convierten visitantes en clientes fieles.",
       icon: "/servicios/desarrollo/icon1.svg",
       ruta: "/servicios/ui/?from=disenoDesarrollo",
     },
