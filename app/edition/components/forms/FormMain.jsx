@@ -132,9 +132,6 @@ export default function FormMain({
     // Acciones
     saveBlog,
     resetForm,
-    uploadImage,
-    uploadImageViaCard,
-    deleteImage,
 
     // Utilidades
     setError,
@@ -196,7 +193,7 @@ export default function FormMain({
       try {
         await saveBlog();
       } catch (err) {
-        console.error("Error en auto-guardado:", err);
+        // Error en auto-guardado - silencioso
       }
     }, autoSaveInterval);
 
@@ -259,7 +256,6 @@ export default function FormMain({
           setFileHeader(imageData.file);
         }
       } catch (err) {
-        console.error("Error al manejar imagen del header:", err);
         setError("Error al procesar imagen del header");
       } finally {
         setLoading(false);
@@ -279,54 +275,12 @@ export default function FormMain({
 
       setFileHeader(null);
     } catch (err) {
-      console.error("Error al limpiar imagen del header:", err);
       setError("Error al limpiar imagen del header");
     }
   }, [setFormImagenHeader, setFileHeader, setError]);
 
-  // Handler para validación del header
-  const handleHeaderValidation = useCallback(
-    (isValid) => {
-      setValidacionHeader(isValid);
-    },
-    [setValidacionHeader]
-  );
-
   // Handlers para FormBody - Compatibilidad completa con servicios
-  const handleBodyCommendChange = useCallback(
-    (newCommendBody) => {
-      setFormCommendBody(newCommendBody);
-    },
-    [setFormCommendBody]
-  );
-
-  const handleBodyInfoChange = useCallback(
-    (newInfoBody) => {
-      setFormInfoBody(newInfoBody);
-    },
-    [setFormInfoBody]
-  );
-
-  const handleBodyEncabezadoChange = useCallback(
-    (newEncabezadoBody) => {
-      setFormEncabezadoBody(newEncabezadoBody);
-    },
-    [setFormEncabezadoBody]
-  );
-
-  const handleBodyGaleryChange = useCallback(
-    (newGaleryBody) => {
-      setFormGaleryBody(newGaleryBody);
-    },
-    [setFormGaleryBody]
-  );
-
-  const handleBodyValidation = useCallback(
-    (isValid) => {
-      setValidacionBody(isValid);
-    },
-    [setValidacionBody]
-  );
+  // Los setters se pasan directamente a FormBody para evitar wrappers innecesarios
 
   // Handlers para FormFooter - Compatibilidad completa
   const handleFooterChange = useCallback(
@@ -340,76 +294,9 @@ export default function FormMain({
     [setFormEncabezadoFooter, setFormImagenFooter]
   );
 
-  const handleFooterImagesChange = useCallback(
-    async (imageData) => {
-      try {
-        setLoading(true);
-        const { imageIndex, file } = imageData;
-
-        if (file) {
-          const result = await uploadImage(file, "upload_footer");
-          const fieldName = `public_image${imageIndex}`;
-
-          setFormImagenFooter((prev) => ({
-            ...prev,
-            [fieldName]: result.secure_url,
-          }));
-
-          // Actualizar archivo correspondiente
-          if (imageIndex === 1) setFileFooterFile1(file);
-          else if (imageIndex === 2) setFileFooterFile2(file);
-          else if (imageIndex === 3) setFileFooterFile3(file);
-        }
-      } catch (err) {
-        setError("Error al subir imagen del footer");
-      } finally {
-        setLoading(false);
-      }
-    },
-    [
-      uploadImage,
-      setFormImagenFooter,
-      setFileFooterFile1,
-      setFileFooterFile2,
-      setFileFooterFile3,
-      setLoading,
-      setError,
-    ]
-  );
-
-  const handleFooterImageDelete = useCallback(
-    async (imageIndex) => {
-      try {
-        const fieldName = `public_image${imageIndex}`;
-        const imageUrl = formImagenFooter[fieldName];
-
-        if (imageUrl) {
-          await deleteImage(imageUrl);
-        }
-
-        setFormImagenFooter((prev) => ({
-          ...prev,
-          [fieldName]: "",
-        }));
-
-        // Limpiar archivo correspondiente
-        if (imageIndex === 1) setFileFooterFile1(null);
-        else if (imageIndex === 2) setFileFooterFile2(null);
-        else if (imageIndex === 3) setFileFooterFile3(null);
-      } catch (err) {
-        setError("Error al eliminar imagen del footer");
-      }
-    },
-    [
-      deleteImage,
-      formImagenFooter,
-      setFormImagenFooter,
-      setFileFooterFile1,
-      setFileFooterFile2,
-      setFileFooterFile3,
-      setError,
-    ]
-  );
+  // NOTA: handleFooterImagesChange y handleFooterImageDelete fueron eliminados
+  // Las imágenes del footer ahora se manejan a través del flujo principal de saveBlog
+  // que usa el orchestrator para coordinar todas las subidas de imágenes
 
   const handleFooterValidation = useCallback(
     (isValid) => {
@@ -446,7 +333,6 @@ export default function FormMain({
         // router.push(`/edition/modify/${result.id}`);
       }
     } catch (err) {
-      console.error("Error al guardar blog:", err);
       setError("No se pudo guardar el blog. Intenta nuevamente.");
     } finally {
       setIsSaving(false);
@@ -647,7 +533,7 @@ export default function FormMain({
             onChange={handleHeaderChange}
             onImageChange={handleHeaderImageChange}
             onImageDelete={handleHeaderImageDelete}
-            onValidationChange={handleHeaderValidation}
+            onValidationChange={setValidacionHeader}
             validationConfig={DEFAULT_HEADER_VALIDATION_CONFIG}
             isUploading={loading}
             showValidationMessages={true}
@@ -659,11 +545,11 @@ export default function FormMain({
             formInfoBody={formInfoBody}
             formEncabezadoBody={formEncabezadoBody}
             formGaleryBody={formGaleryBody}
-            setFormCommendBody={handleBodyCommendChange}
-            setFormInfoBody={handleBodyInfoChange}
-            setFormEncabezadoBody={handleBodyEncabezadoChange}
-            setFormGaleryBody={handleBodyGaleryChange}
-            setValidacionBody={handleBodyValidation}
+            setFormCommendBody={setFormCommendBody}
+            setFormInfoBody={setFormInfoBody}
+            setFormEncabezadoBody={setFormEncabezadoBody}
+            setFormGaleryBody={setFormGaleryBody}
+            setValidacionBody={setValidacionBody}
             setFileBodyHeader={setFileBodyHeader}
             setFileBodyFile1={setFileBodyFile1}
             setFileBodyFile2={setFileBodyFile2}
@@ -681,12 +567,13 @@ export default function FormMain({
             data={{ ...formEncabezadoFooter, ...formImagenFooter }}
             mode={mode}
             onChange={handleFooterChange}
-            onImagesChange={handleFooterImagesChange}
-            onImageDelete={handleFooterImageDelete}
             onValidationChange={handleFooterValidation}
             validationConfig={DEFAULT_FOOTER_VALIDATION_CONFIG}
             isUploading={loading}
             showValidationMessages={true}
+            setFileFooterFile1={setFileFooterFile1}
+            setFileFooterFile2={setFileFooterFile2}
+            setFileFooterFile3={setFileFooterFile3}
           />
         </div>
       )}
