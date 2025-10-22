@@ -99,6 +99,17 @@ export default function FormBody({
     formEncabezadoBody?.flag_informacion,
   ]);
 
+  // ✅ Garantizar que el título de consejos tenga valor por defecto
+  // El backend requiere el campo "titulo" en commend_tarjeta
+  useEffect(() => {
+    if (plantillaId !== 2 && formCommendBody && (!formCommendBody.titulo || formCommendBody.titulo.trim() === "")) {
+      setFormCommendBody?.((prev) => ({
+        ...prev,
+        titulo: "Consejos Importantes",
+      }));
+    }
+  }, [plantillaId, formCommendBody, setFormCommendBody]);
+
   // Manejar cambio de tab activo cuando se deshabilitan secciones
   useEffect(() => {
     if (layoutType === "tabs") {
@@ -337,7 +348,6 @@ export default function FormBody({
           action: "upload",
         });
       } catch (error) {
-        console.error("Error al subir imagen:", error);
         // Limpiar blob URL en caso de error
         if (tempUrl) {
           URL.revokeObjectURL(tempUrl);
@@ -382,7 +392,6 @@ export default function FormBody({
           action: "upload",
         });
       } catch (error) {
-        console.error("Error al subir imagen:", error);
         // Limpiar blob URL en caso de error
         if (tempUrl) {
           URL.revokeObjectURL(tempUrl);

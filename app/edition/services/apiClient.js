@@ -38,8 +38,7 @@ apiClient.interceptors.response.use(
       switch (status) {
         case 401:
           console.warn("Token expirado o inválido");
-          // Opcional: redirigir a login
-          // window.location.href = '/login';
+          window.location.href = "/login";
           break;
         case 403:
           console.warn("Sin permisos para esta acción");
