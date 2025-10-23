@@ -38,7 +38,7 @@ export default function Page() {
       text: "MARKETING Y GESTIÓN DIGITAL",
       fondo: "/servicios/marketing/modal-scroll/fondo.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
-      serviceName: "23",
+      serviceName: "3",
       width: 256,
       height: 144,
     },
