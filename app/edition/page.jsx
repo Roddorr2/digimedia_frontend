@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, AlertCircle } from "lucide-react";
 
@@ -12,14 +12,9 @@ import TemplateRenderer from "./components/preview/TemplateRenderer";
 import { PLANTILLA_IDS, getPlantillaConfig } from "./config/index";
 
 /**
- * Page - Entry point principal para la ruta /edition
- * 
- * Maneja tanto la creación como edición de blogs basado en query params:
- * - mode: 'create' | 'edit' (default: 'create')
- * - template: id de plantilla (solo para creación)  
- * - id o id_blog: id del blog (solo para edición)
+ * EditionContent - Componente que maneja la lógica con useSearchParams
  */
-export default function Page() {
+function EditionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -187,5 +182,30 @@ export default function Page() {
         </button>
       </div>
     </div>
+  );
+}
+
+/**
+ * Page - Entry point principal para la ruta /edition
+ * 
+ * Maneja tanto la creación como edición de blogs basado en query params:
+ * - mode: 'create' | 'edit' (default: 'create')
+ * - template: id de plantilla (solo para creación)  
+ * - id o id_blog: id del blog (solo para edición)
+ */
+export default function Page() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-4">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+            <p className="text-gray-600">Cargando editor de blogs...</p>
+          </div>
+        </div>
+      }
+    >
+      <EditionContent />
+    </Suspense>
   );
 }
