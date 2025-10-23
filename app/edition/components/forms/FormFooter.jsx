@@ -67,6 +67,11 @@ export default function FormFooter({
   onImageDelete,
   onValidationChange,
 
+  // Props de setters de archivo (para persistencia)
+  setFileFooterFile1,
+  setFileFooterFile2,
+  setFileFooterFile3,
+
   // Props de estado
   isUploading = false,
   showValidationMessages = false,
@@ -238,6 +243,15 @@ export default function FormFooter({
           }
         });
 
+        // Guardar archivo en el estado del hook (crítico para upload)
+        if (imageIndex === 1) {
+          setFileFooterFile1?.(file);
+        } else if (imageIndex === 2) {
+          setFileFooterFile2?.(file);
+        } else if (imageIndex === 3) {
+          setFileFooterFile3?.(file);
+        }
+
         // Notificar al componente padre
         onImagesChange?.({
           index: imageIndex,
@@ -246,7 +260,6 @@ export default function FormFooter({
           action: "upload",
         });
       } catch (error) {
-        console.error("Error al subir imagen:", error);
         onImagesChange?.({
           index: imageIndex,
           error,
@@ -256,7 +269,7 @@ export default function FormFooter({
         setUploading(false);
       }
     },
-    [onImagesChange]
+    [onImagesChange, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3]
   );
 
   // Manejar eliminación de imagen
@@ -269,9 +282,19 @@ export default function FormFooter({
         }
         return prev.filter((img) => img.id !== imageIndex);
       });
+
+      // Limpiar archivo del estado
+      if (imageIndex === 1) {
+        setFileFooterFile1?.(null);
+      } else if (imageIndex === 2) {
+        setFileFooterFile2?.(null);
+      } else if (imageIndex === 3) {
+        setFileFooterFile3?.(null);
+      }
+
       onImageDelete?.(imageIndex);
     },
-    [onImageDelete]
+    [onImageDelete, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3]
   );
 
   // Validar datos iniciales (especialmente importante en modo edición)

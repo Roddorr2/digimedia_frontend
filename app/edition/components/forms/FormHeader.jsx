@@ -145,7 +145,6 @@ export default function FormHeader({
         // Notificar al componente padre
         onImageChange?.({ file, tempUrl });
       } catch (error) {
-        console.error("Error al subir imagen:", error);
         // El manejo de errores lo deja al componente padre
         onImageChange?.({ error });
       } finally {
