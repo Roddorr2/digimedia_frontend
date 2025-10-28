@@ -4,9 +4,8 @@ import {
   Type,
   AlignLeft,
   Quote,
-  Image,  
   Clock1,
-  Clock,  
+  Clock,
   CheckCircle,
   ArrowRight,
   Image as IconImage,
@@ -15,7 +14,13 @@ import {
   Share2,
   Link2,
   ExternalLink as ExternalLinkIcon,
+  FileText,
 } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 // Importar configuraciones de plantillas
 import {
@@ -79,7 +84,7 @@ export default function FormBody({
 
   // Obtener configuración de la plantilla especificada
   const plantillaConfig = getPlantillaConfig(plantillaId);
-  const finalValidationConfig =  DEFAULT_BODY_VALIDATION_CONFIG;
+  const finalValidationConfig = DEFAULT_BODY_VALIDATION_CONFIG;
   const mergedStyles = { ...plantillaConfig.styles };
   const mergedSectionsConfig = {
     ...plantillaConfig.sectionsConfig,
@@ -102,7 +107,11 @@ export default function FormBody({
   // ✅ Garantizar que el título de consejos tenga valor por defecto
   // El backend requiere el campo "titulo" en commend_tarjeta
   useEffect(() => {
-    if (plantillaId !== 2 && formCommendBody && (!formCommendBody.titulo || formCommendBody.titulo.trim() === "")) {
+    if (
+      plantillaId !== 2 &&
+      formCommendBody &&
+      (!formCommendBody.titulo || formCommendBody.titulo.trim() === "")
+    ) {
       setFormCommendBody?.((prev) => ({
         ...prev,
         titulo: "Consejos Importantes",
@@ -116,7 +125,7 @@ export default function FormBody({
       const currentTabVisible =
         (activeTab === "info" && sectionsVisibility.informacion) ||
         (activeTab === "tips" && sectionsVisibility.consejos) ||
-        (activeTab === "gallery" && sectionsVisibility.galeria);
+        (activeTab === "galeria" && sectionsVisibility.galeria);
 
       if (!currentTabVisible) {
         // Cambiar a la primera tab disponible
@@ -125,7 +134,7 @@ export default function FormBody({
         } else if (sectionsVisibility.consejos) {
           setActiveTab("tips");
         } else if (sectionsVisibility.galeria) {
-          setActiveTab("gallery");
+          setActiveTab("galeria");
         }
       }
     }
@@ -145,7 +154,8 @@ export default function FormBody({
       // Construir clave de validación con contexto si está disponible
       const validationKey = section ? `${section}.${fieldName}` : fieldName;
       let config =
-        finalValidationConfig[validationKey] || finalValidationConfig[fieldName];
+        finalValidationConfig[validationKey] ||
+        finalValidationConfig[fieldName];
 
       if (!config)
         return { isValid: true, message: `Campo ${fieldName} no configurado` };
@@ -403,59 +413,25 @@ export default function FormBody({
     [onImageChange, setFormGaleryBody, setFileBodyFile1, setFileBodyFile2]
   );
 
-  // Funciones para limpiar imágenes y evitar memory leaks
-  const handleDeleteHeaderImage = useCallback(() => {
-    // Limpiar blob URL si existe
-    if (formEncabezadoBody?.public_image1?.startsWith('blob:')) {
-      URL.revokeObjectURL(formEncabezadoBody.public_image1);
-    }
-    
-    setFormEncabezadoBody?.(prev => ({
-      ...prev,
-      public_image1: "/blog/blog-4.webp", // Imagen por defecto
-      url_image1: "",
-    }));
-    setFileBodyHeader?.(null);
-  }, [formEncabezadoBody?.public_image1, setFormEncabezadoBody, setFileBodyHeader]);
-
-  const handleDeleteGalleryImage = useCallback((imageName) => {
-    // Limpiar blob URL si existe
-    const currentImage = formGaleryBody?.[imageName];
-    if (currentImage?.startsWith('blob:')) {
-      URL.revokeObjectURL(currentImage);
-    }
-
-    const defaultImage = imageName === "public_image2" ? "/blog/blog-10.webp" : "/blog/blog-1.webp";
-    
-    setFormGaleryBody?.(prev => ({
-      ...prev,
-      [imageName]: defaultImage,
-      [`url_${imageName.split('_').slice(1).join('_')}`]: "", // url_image2 o url_image3
-    }));
-
-    // Limpiar archivo correspondiente
-    if (imageName === "public_image2") {
-      setFileBodyFile1?.(null);
-    } else if (imageName === "public_image3") {
-      setFileBodyFile2?.(null);
-    }
-  }, [formGaleryBody, setFormGaleryBody, setFileBodyFile1, setFileBodyFile2]);
-
   // Limpiar blob URLs al desmontar el componente
   useEffect(() => {
     return () => {
       // Limpiar todas las URLs blob para evitar memory leaks
-      if (formEncabezadoBody?.public_image1?.startsWith('blob:')) {
+      if (formEncabezadoBody?.public_image1?.startsWith("blob:")) {
         URL.revokeObjectURL(formEncabezadoBody.public_image1);
       }
-      if (formGaleryBody?.public_image2?.startsWith('blob:')) {
+      if (formGaleryBody?.public_image2?.startsWith("blob:")) {
         URL.revokeObjectURL(formGaleryBody.public_image2);
       }
-      if (formGaleryBody?.public_image3?.startsWith('blob:')) {
+      if (formGaleryBody?.public_image3?.startsWith("blob:")) {
         URL.revokeObjectURL(formGaleryBody.public_image3);
       }
     };
-  }, [formEncabezadoBody?.public_image1, formGaleryBody?.public_image2, formGaleryBody?.public_image3]);
+  }, [
+    formEncabezadoBody?.public_image1,
+    formGaleryBody?.public_image2,
+    formGaleryBody?.public_image3,
+  ]);
 
   // Componente de mensaje de validación - compatible con estructura original
   const ValidationMessage = ({ fieldName, index = null, context = null }) => {
@@ -523,7 +499,7 @@ export default function FormBody({
       <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
           {data.header.titulo || "Título del Blog"}
-        </h1>
+        </h1>        
         <div className="w-16 h-1 bg-teal-500 mb-4"></div>
         {layoutType === "tabs" && (
           <div className="flex items-center space-x-2 text-gray-300 text-sm">
@@ -741,6 +717,140 @@ export default function FormBody({
     );
   };
 
+  // Renderizar controles de visibilidad de secciones
+  const renderSectionControls = () => {
+    return (
+      <div className="mb-6 p-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-lg border border-yellow-500/30 shadow-lg">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          {/* Título del controlador */}
+          <div className="flex items-center">
+            <Eye className="w-5 h-5 mr-2 text-yellow-400" />
+            <h4 className="text-sm font-semibold text-yellow-400">
+              Control de Secciones del Blog
+            </h4>
+          </div>
+
+          {/* Toggles en fila horizontal en desktop */}
+          <div className="flex flex-col sm:flex-row gap-3 lg:gap-6">
+            {/* Toggle Consejos */}
+            {mergedSectionsConfig.consejos.enabled && (
+              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+                <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
+                  <Quote className="w-4 h-4 mr-2 text-purple-400" />
+                  Consejos
+                </span>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={sectionsVisibility.consejos}
+                    onChange={(e) =>
+                      handleSectionToggle("consejos", e.target.checked)
+                    }
+                    className="sr-only"
+                  />
+                  <div
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
+                      sectionsVisibility.consejos
+                        ? "bg-yellow-500"
+                        : "bg-gray-600"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        sectionsVisibility.consejos
+                          ? "translate-x-6"
+                          : "translate-x-1"
+                      }`}
+                    />
+                  </div>
+                </label>
+              </div>
+            )}
+
+            {/* Toggle Galería */}
+            {mergedSectionsConfig.galeria.enabled && (
+              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+                <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
+                  <IconImage className="w-4 h-4 mr-2 text-blue-400" />
+                  Galería
+                </span>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={sectionsVisibility.galeria}
+                    onChange={(e) =>
+                      handleSectionToggle("galeria", e.target.checked)
+                    }
+                    className="sr-only"
+                  />
+                  <div
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
+                      sectionsVisibility.galeria
+                        ? "bg-yellow-500"
+                        : "bg-gray-600"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        sectionsVisibility.galeria
+                          ? "translate-x-6"
+                          : "translate-x-1"
+                      }`}
+                    />
+                  </div>
+                </label>
+              </div>
+            )}
+
+            {/* Toggle Información */}
+            {mergedSectionsConfig.informacion.enabled && (
+              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+                <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
+                  <FileText className="w-4 h-4 mr-2 text-teal-400" />
+                  Información
+                </span>
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={sectionsVisibility.informacion}
+                    onChange={(e) =>
+                      handleSectionToggle("informacion", e.target.checked)
+                    }
+                    className="sr-only"
+                  />
+                  <div
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
+                      sectionsVisibility.informacion
+                        ? "bg-yellow-500"
+                        : "bg-gray-600"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        sectionsVisibility.informacion
+                          ? "translate-x-6"
+                          : "translate-x-1"
+                      }`}
+                    />
+                  </div>
+                </label>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Tooltip informativo */}
+        <div className="mt-3 pt-3 border-t border-gray-700/50">
+          <p className="text-xs text-gray-400 flex items-start">
+            <span className="mr-1">💡</span>
+            Controla qué secciones se muestran en la plantilla. Los datos se
+            limpian automáticamente al deshabilitar.
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   // Renderizar formularios de edición - compatible con handlers originales
   const renderEditForms = () => {
     return (
@@ -748,123 +858,8 @@ export default function FormBody({
         <div className={mergedStyles.formCard}>
           <form className="space-y-6">
             <h3 className="text-lg font-semibold text-white mb-4">
-              Editar Contenido
+              Editar Contenido del Header
             </h3>
-
-            {/* Controles de Visibilidad de Secciones */}
-            <div className="mb-6 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
-              <h4 className="text-sm font-semibold text-yellow-400 mb-3 flex items-center">
-                <Eye className="w-4 h-4 mr-2" />
-                Control de Secciones
-              </h4>
-              <div className="space-y-3">
-                {/* Toggle Consejos */}
-                {mergedSectionsConfig.consejos.enabled && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-300">
-                      Sección de Consejos
-                    </span>
-                    <label className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={sectionsVisibility.consejos}
-                        onChange={(e) =>
-                          handleSectionToggle("consejos", e.target.checked)
-                        }
-                        className="sr-only"
-                      />
-                      <div
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-                          sectionsVisibility.consejos
-                            ? "bg-yellow-500"
-                            : "bg-gray-600"
-                        }`}
-                      >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            sectionsVisibility.consejos
-                              ? "translate-x-6"
-                              : "translate-x-1"
-                          }`}
-                        />
-                      </div>
-                    </label>
-                  </div>
-                )}
-
-                {/* Toggle Galería */}
-                {mergedSectionsConfig.galeria.enabled && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-300">
-                      Sección de Galería
-                    </span>
-                    <label className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={sectionsVisibility.galeria}
-                        onChange={(e) =>
-                          handleSectionToggle("galeria", e.target.checked)
-                        }
-                        className="sr-only"
-                      />
-                      <div
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-                          sectionsVisibility.galeria
-                            ? "bg-yellow-500"
-                            : "bg-gray-600"
-                        }`}
-                      >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            sectionsVisibility.galeria
-                              ? "translate-x-6"
-                              : "translate-x-1"
-                          }`}
-                        />
-                      </div>
-                    </label>
-                  </div>
-                )}
-
-                {/* Toggle Información */}
-                {mergedSectionsConfig.informacion.enabled && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-300">
-                      Sección de Información
-                    </span>
-                    <label className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={sectionsVisibility.informacion}
-                        onChange={(e) =>
-                          handleSectionToggle("informacion", e.target.checked)
-                        }
-                        className="sr-only"
-                      />
-                      <div
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-                          sectionsVisibility.informacion
-                            ? "bg-yellow-500"
-                            : "bg-gray-600"
-                        }`}
-                      >
-                        <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            sectionsVisibility.informacion
-                              ? "translate-x-6"
-                              : "translate-x-1"
-                          }`}
-                        />
-                      </div>
-                    </label>
-                  </div>
-                )}
-              </div>
-              <p className="mt-2 text-xs text-gray-500">
-                Controla qué secciones se muestran en la plantilla. Los datos se
-                limpian automáticamente al deshabilitar.
-              </p>
-            </div>
 
             {/* Header form fields - usa formEncabezadoBody */}
             <div>
@@ -1012,84 +1007,235 @@ export default function FormBody({
                   </div>
                 )}
 
-                {/* Campos de texto para consejos */}
-                {["texto1", "texto2", "texto3", "texto4", "texto5"]
-                  .slice(0, mergedSectionsConfig.consejos.maxItems)
-                  .map((campo, index) => (
-                    <div key={campo}>
-                      <label className={mergedStyles.label}>
-                        <Quote className="w-4 h-4 mr-2 text-purple-400" />
-                        Consejo {index + 1}
-                        <ValidationMessage fieldName={campo} />
-                      </label>
-                      <input
-                        type="text"
-                        name={campo}
-                        maxLength={150}
-                        value={data.consejos[campo] || ""}
-                        onChange={handleChange(setFormCommendBody)}
-                        className={mergedStyles.input}
-                        placeholder={`Consejo ${index + 1}`}
-                      />
-                    </div>
-                  ))}
+                {/* Swiper para campos de consejos */}
+                <div className="relative">
+                  <Swiper
+                    modules={[Navigation, Pagination]}
+                    spaceBetween={20}
+                    slidesPerView={1}
+                    navigation={{
+                      nextEl: ".swiper-button-next-consejos",
+                      prevEl: ".swiper-button-prev-consejos",
+                    }}
+                    pagination={{
+                      clickable: true,
+                      el: ".swiper-pagination-consejos",
+                    }}
+                    className="consejos-swiper"
+                    style={{ paddingBottom: "40px" }}
+                  >
+                    {["texto1", "texto2", "texto3", "texto4", "texto5"]
+                      .slice(0, mergedSectionsConfig.consejos.maxItems)
+                      .map((campo, index) => (
+                        <SwiperSlide key={campo}>
+                          <div className="p-4 bg-gray-800/30 rounded-lg border border-purple-500/30">
+                            <label className={mergedStyles.label}>
+                              <Quote className="w-4 h-4 mr-2 text-purple-400" />
+                              Consejo {index + 1}
+                              <ValidationMessage fieldName={campo} />
+                            </label>
+                            <input
+                              type="text"
+                              name={campo}
+                              maxLength={150}
+                              value={data.consejos[campo] || ""}
+                              onChange={handleChange(setFormCommendBody)}
+                              className={mergedStyles.input}
+                              placeholder={`Consejo ${index + 1}`}
+                            />
+                            <p className="text-xs text-gray-400 mt-2">
+                              Slide {index + 1} de{" "}
+                              {mergedSectionsConfig.consejos.maxItems}
+                            </p>
+                          </div>
+                        </SwiperSlide>
+                      ))}
+                  </Swiper>
+
+                  {/* Paginación personalizada */}
+                  <div className="swiper-pagination-consejos flex justify-center gap-2 mt-4"></div>
+                </div>
+
+                {/* Indicador de ayuda */}
+                <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                  <Eye className="w-4 h-4 text-purple-400" />
+                  <span>
+                    Usa las flechas o los puntos para navegar entre los consejos
+                  </span>
+                </div>
               </div>
+
+              {/* Estilos personalizados para la paginación */}
+              <style jsx global>{`
+                .swiper-pagination-consejos .swiper-pagination-bullet {
+                  background: #9333ea;
+                  opacity: 0.5;
+                  width: 10px;
+                  height: 10px;
+                  transition: all 0.3s ease;
+                }
+                .swiper-pagination-consejos .swiper-pagination-bullet-active {
+                  opacity: 1;
+                  width: 30px;
+                  border-radius: 5px;
+                }
+              `}</style>
             </div>
           )}
 
         {/* Galería form */}
-        {mergedSectionsConfig.galeria.enabled && (
+        {mergedSectionsConfig.galeria.enabled &&
+          sectionsVisibility.galeria && (
           <div className={mergedStyles.formCard}>
             <h4 className="text-md font-semibold text-white mb-4">Galería</h4>
-            <div className="space-y-4">
-              {["public_image2", "public_image3"].map((campo, index) => (
-                <div key={campo} className="space-y-2">
-                  <label className={mergedStyles.label}>
-                    <IconImage className="w-4 h-4 mr-2 text-purple-400" />
-                    Imagen {index + 2}
-                  </label>
-                  <input
-                    type="file"
-                    name={campo}
-                    accept="image/*"
-                    onChange={handleImageBody}
-                    className={mergedStyles.input}
-                  />
 
-                  {/* URL externa */}
-                  <input
-                    type="url"
-                    name={`url_image${index + 2}`}
-                    value={data.galeria[`url_image${index + 2}`] || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    className={mergedStyles.input}
-                    placeholder={`URL externa imagen ${index + 2}`}
-                  />
+            {/* Swiper para galería */}
+            <div className="relative">
+              <Swiper
+                modules={[Navigation, Pagination]}
+                spaceBetween={20}
+                slidesPerView={1}
+                navigation={{
+                  nextEl: ".swiper-button-next-galeria",
+                  prevEl: ".swiper-button-prev-galeria",
+                }}
+                pagination={{
+                  clickable: true,
+                  el: ".swiper-pagination-galeria",
+                }}
+                className="galeria-swiper"
+                style={{ paddingBottom: "40px" }}
+              >
+                {["public_image2", "public_image3"].map((campo, index) => (
+                  <SwiperSlide key={campo}>
+                    <div className="p-4 bg-gray-800/30 rounded-lg border border-blue-500/30">
+                      <h5 className="text-sm font-medium text-blue-400 mb-4 flex items-center">
+                        <IconImage className="w-5 h-5 mr-2" />
+                        Imagen {index + 2} de la Galería
+                      </h5>
 
-                  {/* Alt text */}
-                  <input
-                    type="text"
-                    name={`alt_image${index + 2}`}
-                    maxLength={125}
-                    value={data.galeria[`alt_image${index + 2}`] || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    className={mergedStyles.input}
-                    placeholder={`Alt text imagen ${index + 2}`}
-                  />
+                      <div className="space-y-3">
+                        {/* Upload de archivo */}
+                        <div>
+                          <label className={mergedStyles.label}>
+                            <IconImage className="w-4 h-4 mr-2 text-purple-400" />
+                            Subir imagen
+                          </label>
+                          <input
+                            type="file"
+                            name={campo}
+                            accept="image/*"
+                            onChange={handleImageBody}
+                            className={mergedStyles.input}
+                          />
+                        </div>
 
-                  {/* Title text */}
-                  <input
-                    type="text"
-                    name={`title_image${index + 2}`}
-                    maxLength={100}
-                    value={data.galeria[`title_image${index + 2}`] || ""}
-                    onChange={handleChange(setFormGaleryBody)}
-                    className={mergedStyles.input}
-                    placeholder={`Título imagen ${index + 2}`}
-                  />
-                </div>
-              ))}
+                        {/* URL externa */}
+                        <div>
+                          <label className={mergedStyles.label}>
+                            <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                            URL externa (opcional)
+                          </label>
+                          <input
+                            type="url"
+                            name={`url_image${index + 2}`}
+                            value={data.galeria[`url_image${index + 2}`] || ""}
+                            onChange={handleChange(setFormGaleryBody)}
+                            className={mergedStyles.input}
+                            placeholder={`https://ejemplo.com/imagen${
+                              index + 2
+                            }.jpg`}
+                          />
+                        </div>
+
+                        {/* Alt text */}
+                        <div>
+                          <label className={mergedStyles.label}>
+                            <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
+                            Texto alternativo
+                          </label>
+                          <input
+                            type="text"
+                            name={`alt_image${index + 2}`}
+                            maxLength={125}
+                            value={data.galeria[`alt_image${index + 2}`] || ""}
+                            onChange={handleChange(setFormGaleryBody)}
+                            className={mergedStyles.input}
+                            placeholder={`Descripción de la imagen ${
+                              index + 2
+                            }`}
+                          />
+                        </div>
+
+                        {/* Title text */}
+                        <div>
+                          <label className={mergedStyles.label}>
+                            <Type className="w-4 h-4 mr-2 text-purple-400" />
+                            Título de imagen
+                          </label>
+                          <input
+                            type="text"
+                            name={`title_image${index + 2}`}
+                            maxLength={100}
+                            value={
+                              data.galeria[`title_image${index + 2}`] || ""
+                            }
+                            onChange={handleChange(setFormGaleryBody)}
+                            className={mergedStyles.input}
+                            placeholder={`Título imagen ${index + 2}`}
+                          />
+                        </div>
+
+                        {/* Preview de la imagen si existe */}
+                        {data.galeria[campo] && (
+                          <div className="mt-3 rounded-lg overflow-hidden border border-gray-700">
+                            <img
+                              src={data.galeria[campo]}
+                              alt={
+                                data.galeria[`alt_image${index + 2}`] ||
+                                `Preview ${index + 2}`
+                              }
+                              className="w-full h-48 object-cover"
+                            />
+                          </div>
+                        )}
+
+                        <p className="text-xs text-gray-400 mt-2">
+                          Slide {index + 1} de 2
+                        </p>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+
+              {/* Paginación personalizada */}
+              <div className="swiper-pagination-galeria flex justify-center gap-2 mt-4"></div>
             </div>
+
+            {/* Indicador de ayuda */}
+            <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+              <Eye className="w-4 h-4 text-blue-400" />
+              <span>
+                Navega entre las imágenes de la galería usando los puntos
+              </span>
+            </div>
+
+            {/* Estilos personalizados para la paginación */}
+            <style jsx global>{`
+              .swiper-pagination-galeria .swiper-pagination-bullet {
+                background: #2563eb;
+                opacity: 0.5;
+                width: 10px;
+                height: 10px;
+                transition: all 0.3s ease;
+              }
+              .swiper-pagination-galeria .swiper-pagination-bullet-active {
+                opacity: 1;
+                width: 30px;
+                border-radius: 5px;
+              }
+            `}</style>
           </div>
         )}
 
@@ -1101,122 +1247,175 @@ export default function FormBody({
                 Tarjetas de Información (
                 {mergedSectionsConfig.informacion.maxItems} máximo)
               </h4>
-              <div className="space-y-6">
-                {Array.from(
-                  { length: mergedSectionsConfig.informacion.maxItems },
-                  (_, index) => {
-                    const infoItem = data.informacion[index] || {};
-                    return (
-                      <div
-                        key={index}
-                        className="p-4 bg-gray-800/30 rounded-lg border border-gray-700"
-                      >
-                        <h5 className="text-sm font-medium text-yellow-400 mb-3">
-                          Tarjeta {index + 1}
-                        </h5>
 
-                        {/* Título de la tarjeta */}
-                        <div className="mb-3">
-                          <label className={mergedStyles.label}>
-                            <Type className="w-4 h-4 mr-2 text-purple-400" />
-                            Título
-                            <ValidationMessage
-                              fieldName="titulo"
-                              index={index}
-                            />
-                          </label>
-                          <input
-                            type="text"
-                            name="titulo"
-                            maxLength={100}
-                            value={infoItem.titulo || ""}
-                            onChange={(e) =>
-                              handleChangeMap(e, index, "titulo")
-                            }
-                            className={mergedStyles.input}
-                            placeholder={`Título de la tarjeta ${index + 1}`}
-                          />
-                        </div>
+              {/* Swiper para tarjetas de información */}
+              <div className="relative">
+                <Swiper
+                  modules={[Navigation, Pagination]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  navigation={{
+                    nextEl: ".swiper-button-next-info",
+                    prevEl: ".swiper-button-prev-info",
+                  }}
+                  pagination={{
+                    clickable: true,
+                    el: ".swiper-pagination-info",
+                  }}
+                  className="informacion-swiper"
+                  style={{ paddingBottom: "40px" }}
+                >
+                  {Array.from(
+                    { length: mergedSectionsConfig.informacion.maxItems },
+                    (_, index) => {
+                      const infoItem = data.informacion[index] || {};
+                      return (
+                        <SwiperSlide key={index}>
+                          <div className="p-4 bg-gray-800/30 rounded-lg border border-yellow-500/30">
+                            <h5 className="text-sm font-medium text-yellow-400 mb-4">
+                              Tarjeta {index + 1}
+                            </h5>
 
-                        {/* Descripción de la tarjeta */}
-                        <div className="mb-3">
-                          <label className={mergedStyles.label}>
-                            <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
-                            Descripción
-                            <ValidationMessage
-                              fieldName="descripcion"
-                              index={index}
-                            />
-                          </label>
-                          <textarea
-                            name="descripcion"
-                            maxLength={300}
-                            value={infoItem.descripcion || ""}
-                            onChange={(e) =>
-                              handleChangeMap(e, index, "descripcion")
-                            }
-                            className={mergedStyles.textarea}
-                            rows={3}
-                            placeholder={`Descripción detallada de la tarjeta ${
-                              index + 1
-                            }`}
-                          />
-                        </div>
+                            {/* Título de la tarjeta */}
+                            <div className="mb-3">
+                              <label className={mergedStyles.label}>
+                                <Type className="w-4 h-4 mr-2 text-purple-400" />
+                                Título
+                                <ValidationMessage
+                                  fieldName="titulo"
+                                  index={index}
+                                />
+                              </label>
+                              <input
+                                type="text"
+                                name="titulo"
+                                maxLength={100}
+                                value={infoItem.titulo || ""}
+                                onChange={(e) =>
+                                  handleChangeMap(e, index, "titulo")
+                                }
+                                className={mergedStyles.input}
+                                placeholder={`Título de la tarjeta ${
+                                  index + 1
+                                }`}
+                              />
+                            </div>
 
-                        {/* Palabra clave para enlace */}
-                        <div className="mb-3">
-                          <label className={mergedStyles.label}>
-                            <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                            Palabra clave (opcional)
-                            <ValidationMessage
-                              fieldName="palabra"
-                              index={index}
-                            />
-                          </label>
-                          <input
-                            type="text"
-                            name="palabra"
-                            maxLength={50}
-                            value={infoItem.palabra || ""}
-                            onChange={(e) =>
-                              handleChangeMap(e, index, "palabra")
-                            }
-                            className={mergedStyles.input}
-                            placeholder="Ej: 'Más información', 'Ver más'"
-                          />
-                        </div>
+                            {/* Descripción de la tarjeta */}
+                            <div className="mb-3">
+                              <label className={mergedStyles.label}>
+                                <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
+                                Descripción
+                                <ValidationMessage
+                                  fieldName="descripcion"
+                                  index={index}
+                                />
+                              </label>
+                              <textarea
+                                name="descripcion"
+                                maxLength={300}
+                                value={infoItem.descripcion || ""}
+                                onChange={(e) =>
+                                  handleChangeMap(e, index, "descripcion")
+                                }
+                                className={mergedStyles.textarea}
+                                rows={3}
+                                placeholder={`Descripción detallada de la tarjeta ${
+                                  index + 1
+                                }`}
+                              />
+                            </div>
 
-                        {/* Enlace */}
-                        <div className="mb-3">
-                          <label className={mergedStyles.label}>
-                            <ExternalLinkIcon className="w-4 h-4 mr-2 text-purple-400" />
-                            Enlace (opcional)
-                            <ValidationMessage
-                              fieldName="enlace"
-                              index={index}
-                            />
-                          </label>
-                          <input
-                            type="url"
-                            name="enlace"
-                            value={infoItem.enlace || ""}
-                            onChange={(e) =>
-                              handleChangeMap(e, index, "enlace")
-                            }
-                            className={mergedStyles.input}
-                            placeholder="https://ejemplo.com o /ruta/interna"
-                          />
-                        </div>
+                            {/* Palabra clave para enlace */}
+                            <div className="mb-3">
+                              <label className={mergedStyles.label}>
+                                <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                                Palabra clave (opcional)
+                                <ValidationMessage
+                                  fieldName="palabra"
+                                  index={index}
+                                />
+                              </label>
+                              <input
+                                type="text"
+                                name="palabra"
+                                maxLength={50}
+                                value={infoItem.palabra || ""}
+                                onChange={(e) =>
+                                  handleChangeMap(e, index, "palabra")
+                                }
+                                className={mergedStyles.input}
+                                placeholder="Ej: 'Más información', 'Ver más'"
+                              />
+                            </div>
 
-                        <p className="text-xs text-gray-500 mt-2">
-                          Si defines palabra clave y enlace, aparecerá un botón
-                          clickeable en la tarjeta.
-                        </p>
-                      </div>
-                    );
-                  }
-                )}
+                            {/* Enlace */}
+                            <div className="mb-3">
+                              <label className={mergedStyles.label}>
+                                <ExternalLinkIcon className="w-4 h-4 mr-2 text-purple-400" />
+                                Enlace (opcional)
+                                <ValidationMessage
+                                  fieldName="enlace"
+                                  index={index}
+                                />
+                              </label>
+                              <input
+                                type="url"
+                                name="enlace"
+                                value={infoItem.enlace || ""}
+                                onChange={(e) =>
+                                  handleChangeMap(e, index, "enlace")
+                                }
+                                className={mergedStyles.input}
+                                placeholder="https://ejemplo.com o /ruta/interna"
+                              />
+                            </div>
+
+                            {/* Nota informativa */}
+                            <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-4">
+                              <p className="text-xs text-gray-400">
+                                💡 Si defines palabra clave y enlace, aparecerá
+                                un botón clickeable en la tarjeta.
+                              </p>
+                            </div>
+
+                            {/* Indicador de slide */}
+                            <p className="text-xs text-gray-400 mt-3 text-center">
+                              Tarjeta {index + 1} de{" "}
+                              {mergedSectionsConfig.informacion.maxItems}
+                            </p>
+                          </div>
+                        </SwiperSlide>
+                      );
+                    }
+                  )}
+                </Swiper>
+
+                {/* Paginación personalizada */}
+                <div className="swiper-pagination-info flex justify-center gap-2 mt-4"></div>
               </div>
+
+              {/* Indicador de ayuda */}
+              <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                <Eye className="w-4 h-4 text-yellow-400" />
+                <span>Navega entre las tarjetas usando los puntos</span>
+              </div>
+
+              {/* Estilos personalizados para la paginación */}
+              <style jsx global>{`
+                .swiper-pagination-info .swiper-pagination-bullet {
+                  background: #ca8a04;
+                  opacity: 0.5;
+                  width: 10px;
+                  height: 10px;
+                  transition: all 0.3s ease;
+                }
+                .swiper-pagination-info .swiper-pagination-bullet-active {
+                  opacity: 1;
+                  width: 30px;
+                  border-radius: 5px;
+                }
+              `}</style>
             </div>
           )}
 
@@ -1251,95 +1450,111 @@ export default function FormBody({
 
     if (layoutType === "linear") {
       return (
-        <div className={`${containerClass} ${className}`}>
-          <div className={mergedStyles.previewArea}>
-            {renderHeaderSection()}
-            <div className={mergedStyles.previewContent}>
-              {mergedSectionsConfig.consejos.enabled &&
-                sectionsVisibility.consejos &&
-                renderConsejosSection()}
-              {mergedSectionsConfig.galeria.enabled &&
-                sectionsVisibility.galeria &&
-                renderGaleriaSection()}
-              {mergedSectionsConfig.informacion.enabled &&
-                sectionsVisibility.informacion &&
-                renderInformacionSection()}
-            </div>
+        <div className={`${className}`}>
+          {/* Controles de secciones - por encima de todo */}
+          <div className="w-full mb-6">
+            {renderSectionControls()}
           </div>
-          {renderEditForms()}
+
+          {/* Contenido en dos columnas: preview + forms */}
+          <div className={containerClass}>
+            <div className={mergedStyles.previewArea}>
+              {renderHeaderSection()}
+              <div className={mergedStyles.previewContent}>
+                {mergedSectionsConfig.consejos.enabled &&
+                  sectionsVisibility.consejos &&
+                  renderConsejosSection()}
+                {mergedSectionsConfig.galeria.enabled &&
+                  sectionsVisibility.galeria &&
+                  renderGaleriaSection()}
+                {mergedSectionsConfig.informacion.enabled &&
+                  sectionsVisibility.informacion &&
+                  renderInformacionSection()}
+              </div>
+            </div>
+            {renderEditForms()}
+          </div>
         </div>
       );
     }
 
     return (
-      <div className={`${containerClass} ${className}`}>
-        <div className="flex gap-4">
-          <div className={mergedStyles.previewArea}>
-            {/* Header con controles */}
-            <div className="top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-              <div className="flex items-center space-x-2 text-gray-500 text-sm">
-                <Clock className="w-4 h-4" />
-                <span>{data.header.fecha}</span>
-              </div>
-              <div className="flex space-x-3">
-                <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                  <Bookmark className="w-5 h-5 text-teal-600" />
-                </button>
-                <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                  <Share2 className="w-5 h-5 text-teal-600" />
-                </button>
-              </div>
-            </div>
-
-            {renderHeaderSection()}
-
-            {/* Descripción */}
-            <div className="mx-10 my-5 text-lg text-gray-700 leading-relaxed">
-              {data.header.descripcion}
-            </div>
-          </div>
-
-          {renderEditForms()}
+      <div className={`${className}`}>
+        {/* Controles de secciones - por encima de todo */}
+        <div className="w-full mb-6">
+          {renderSectionControls()}
         </div>
 
-        {/* Tabs content */}
-        <div className="px-6 md:px-10 pb-8">
-          <div className={mergedStyles.tabsContainer}>
-            {["info", "tips", "gallery"]
-              .filter((tab) => {
-                // Filtrar tabs según visibilidad de secciones
-                if (tab === "info") return sectionsVisibility.informacion;
-                if (tab === "tips") return sectionsVisibility.consejos;
-                if (tab === "gallery") return sectionsVisibility.galeria;
-                return true;
-              })
-              .map((tab) => (
-                <button
-                  key={tab}
-                  className={
-                    activeTab === tab
-                      ? mergedStyles.activeTab
-                      : mergedStyles.inactiveTab
-                  }
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab === "info" && "Información"}
-                  {tab === "tips" && "Consejos"}
-                  {tab === "gallery" && "Galería"}
-                </button>
-              ))}
+        {/* Contenido en dos columnas */}
+        <div className={containerClass}>
+          <div className="flex gap-4">
+            <div className={mergedStyles.previewArea}>
+              {/* Header con controles */}
+              <div className="top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <div className="flex items-center space-x-2 text-gray-500 text-sm">
+                  <Clock className="w-4 h-4" />
+                  <span>{data.header.fecha}</span>
+                </div>
+                <div className="flex space-x-3">
+                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <Bookmark className="w-5 h-5 text-teal-600" />
+                  </button>
+                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <Share2 className="w-5 h-5 text-teal-600" />
+                  </button>
+                </div>
+              </div>
+
+              {renderHeaderSection()}
+
+              {/* Descripción */}
+              <div className="mx-10 my-5 text-lg text-gray-700 leading-relaxed">
+                {data.header.descripcion}
+              </div>
+            </div>
+
+            {renderEditForms()}
           </div>
 
-          <div className="mb-10">
-            {activeTab === "info" &&
-              sectionsVisibility.informacion &&
-              renderInformacionSection()}
-            {activeTab === "tips" &&
-              sectionsVisibility.consejos &&
-              renderConsejosSection()}
-            {activeTab === "gallery" &&
-              sectionsVisibility.galeria &&
-              renderGaleriaSection()}
+          {/* Tabs content */}
+          <div className="px-6 md:px-10 pb-8">
+            <div className={mergedStyles.tabsContainer}>
+              {["info", "tips", "gallery"]
+                .filter((tab) => {
+                  // Filtrar tabs según visibilidad de secciones
+                  if (tab === "info") return sectionsVisibility.informacion;
+                  if (tab === "tips") return sectionsVisibility.consejos;
+                  if (tab === "gallery") return sectionsVisibility.galeria;
+                  return true;
+                })
+                .map((tab) => (
+                  <button
+                    key={tab}
+                    className={
+                      activeTab === tab
+                        ? mergedStyles.activeTab
+                        : mergedStyles.inactiveTab
+                    }
+                    onClick={() => setActiveTab(tab)}
+                  >
+                    {tab === "info" && "Información"}
+                    {tab === "tips" && "Consejos"}
+                    {tab === "gallery" && "Galería"}
+                  </button>
+                ))}
+            </div>
+
+            <div className="mb-10">
+              {activeTab === "info" &&
+                sectionsVisibility.informacion &&
+                renderInformacionSection()}
+              {activeTab === "tips" &&
+                sectionsVisibility.consejos &&
+                renderConsejosSection()}
+              {activeTab === "gallery" &&
+                sectionsVisibility.galeria &&
+                renderGaleriaSection()}
+            </div>
           </div>
         </div>
       </div>
@@ -1351,29 +1566,33 @@ export default function FormBody({
     if (!formEncabezadoBody || !finalValidationConfig) return;
 
     const initialValidations = {};
-    const fieldsToValidate = ['titulo', 'descripcion'];
-    
-    fieldsToValidate.forEach(fieldName => {
+    const fieldsToValidate = ["titulo", "descripcion"];
+
+    fieldsToValidate.forEach((fieldName) => {
       const value = formEncabezadoBody[fieldName] || "";
       const validation = validateField(fieldName, value);
       initialValidations[fieldName] = validation;
     });
 
-    setFieldValidations(prev => ({ ...prev, ...initialValidations }));
+    setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
   }, [formEncabezadoBody, validateField, finalValidationConfig]);
 
   // Validación unificada - compatible con setValidacionBody original
   useEffect(() => {
     const allValidations = Object.values(fieldValidations);
-    
+
     // En modo edición, considerar válido si no hay validaciones específicas pero hay datos requeridos
-    if (mode === "edit" && allValidations.length === 0 && formEncabezadoBody?.titulo) {
+    if (
+      mode === "edit" &&
+      allValidations.length === 0 &&
+      formEncabezadoBody?.titulo
+    ) {
       const isValid = true;
       setValidacionBody?.(isValid);
       onValidationChange?.(isValid);
       return;
     }
-    
+
     const isFormValid =
       allValidations.length > 0 && allValidations.every((v) => v.isValid);
 
@@ -1384,7 +1603,13 @@ export default function FormBody({
     onValidationChange?.(isFormValid);
 
     // Debug validación
-  }, [fieldValidations, onValidationChange, setValidacionBody, mode, formEncabezadoBody?.titulo]);
+  }, [
+    fieldValidations,
+    onValidationChange,
+    setValidacionBody,
+    mode,
+    formEncabezadoBody?.titulo,
+  ]);
 
   return renderMainContent();
 }

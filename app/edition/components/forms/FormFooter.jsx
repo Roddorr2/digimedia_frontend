@@ -7,8 +7,17 @@ import {
   Loader2,
   Trash2,
   Plus,
+  Link2,
+  Eye,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+
+// Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 // Configuración centralizada
 import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
@@ -95,7 +104,7 @@ export default function FormFooter({
     setFooterEnabled(data.estado || false);
   }, [data.estado]);
 
-  // Inicializar previews de imágenes solo si el footer está habilitado
+  // Inicializar y actualizar previews de imágenes en tiempo real
   useEffect(() => {
     if (!footerEnabled) {
       setImagesPreviews([]);
@@ -106,8 +115,8 @@ export default function FormFooter({
     for (let i = 1; i <= maxImages; i++) {
       const imageKey = `public_image${i}`;
       const imageUrl = data[imageKey];
-      // Solo mostrar imágenes que no sean blob URLs y que no sean la imagen por defecto
-      if (imageUrl && imageUrl !== defaultImage && !imageUrl.startsWith('blob:')) {
+
+      if (imageUrl && imageUrl.trim() !== "") {
         initPreviews.push({
           id: i,
           url: imageUrl,
@@ -116,8 +125,9 @@ export default function FormFooter({
         });
       }
     }
+
     setImagesPreviews(initPreviews);
-  }, [data, maxImages, defaultImage, footerEnabled]);
+  }, [data, maxImages, footerEnabled]);
 
   // Función de validación condicional
   const validateField = useCallback(
@@ -211,37 +221,16 @@ export default function FormFooter({
 
       try {
         setUploading(true);
-        
+
         // Limpiar blob URL anterior si existe
-        setImagesPreviews((prev) => {
-          const existing = prev.find((img) => img.id === imageIndex);
-          if (existing?.url && existing.url.startsWith('blob:')) {
-            URL.revokeObjectURL(existing.url);
-          }
-          return prev;
-        });
+        const existingImage = imagesPreviews.find(
+          (img) => img.id === imageIndex
+        );
+        if (existingImage?.url && existingImage.url.startsWith("blob:")) {
+          URL.revokeObjectURL(existingImage.url);
+        }
 
         const tempUrl = URL.createObjectURL(file);
-
-        // Actualizar preview
-        setImagesPreviews((prev) => {
-          const existing = prev.find((img) => img.id === imageIndex);
-          if (existing) {
-            return prev.map((img) =>
-              img.id === imageIndex ? { ...img, url: tempUrl } : img
-            );
-          } else {
-            return [
-              ...prev,
-              {
-                id: imageIndex,
-                url: tempUrl,
-                alt: "",
-                title: "",
-              },
-            ];
-          }
-        });
 
         // Guardar archivo en el estado del hook (crítico para upload)
         if (imageIndex === 1) {
@@ -252,7 +241,14 @@ export default function FormFooter({
           setFileFooterFile3?.(file);
         }
 
-        // Notificar al componente padre
+        // ✅ CRÍTICO: Notificar al componente padre para actualizar el estado data
+        // Esto actualizará formImagenFooter con la blob URL
+        onChange?.({
+          name: `public_image${imageIndex}`,
+          value: tempUrl,
+        });
+
+        // Notificar evento de imagen
         onImagesChange?.({
           index: imageIndex,
           file,
@@ -260,6 +256,7 @@ export default function FormFooter({
           action: "upload",
         });
       } catch (error) {
+        console.error("Error al cargar imagen:", error);
         onImagesChange?.({
           index: imageIndex,
           error,
@@ -269,19 +266,24 @@ export default function FormFooter({
         setUploading(false);
       }
     },
-    [onImagesChange, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3]
+    [
+      imagesPreviews,
+      onChange,
+      onImagesChange,
+      setFileFooterFile1,
+      setFileFooterFile2,
+      setFileFooterFile3,
+    ]
   );
 
   // Manejar eliminación de imagen
   const handleImageDelete = useCallback(
     (imageIndex) => {
-      setImagesPreviews((prev) => {
-        const imageToDelete = prev.find((img) => img.id === imageIndex);
-        if (imageToDelete?.url && imageToDelete.url.startsWith('blob:')) {
-          URL.revokeObjectURL(imageToDelete.url);
-        }
-        return prev.filter((img) => img.id !== imageIndex);
-      });
+      // Limpiar blob URL si existe
+      const imageToDelete = imagesPreviews.find((img) => img.id === imageIndex);
+      if (imageToDelete?.url && imageToDelete.url.startsWith("blob:")) {
+        URL.revokeObjectURL(imageToDelete.url);
+      }
 
       // Limpiar archivo del estado
       if (imageIndex === 1) {
@@ -292,9 +294,24 @@ export default function FormFooter({
         setFileFooterFile3?.(null);
       }
 
+      onChange?.({
+        name: `public_image${imageIndex}`,
+        value: mode === "create" ? defaultImage : "",
+      });
+
+      // Notificar evento de eliminación
       onImageDelete?.(imageIndex);
     },
-    [onImageDelete, setFileFooterFile1, setFileFooterFile2, setFileFooterFile3]
+    [
+      imagesPreviews,
+      defaultImage,
+      mode,
+      onChange,
+      onImageDelete,
+      setFileFooterFile1,
+      setFileFooterFile2,
+      setFileFooterFile3,
+    ]
   );
 
   // Validar datos iniciales (especialmente importante en modo edición)
@@ -302,22 +319,22 @@ export default function FormFooter({
     if (!data || !validationConfig) return;
 
     const initialValidations = {};
-    const fieldsToValidate = ['titulo', 'descripcion'];
-    
-    fieldsToValidate.forEach(fieldName => {
+    const fieldsToValidate = ["titulo", "descripcion"];
+
+    fieldsToValidate.forEach((fieldName) => {
       const value = data[fieldName] || "";
       const validation = validateField(fieldName, value);
       initialValidations[fieldName] = validation;
     });
 
-    setFieldValidations(prev => ({ ...prev, ...initialValidations }));
+    setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
   }, [data, validateField, validationConfig]);
 
   // Limpiar blob URLs al desmontar el componente
   useEffect(() => {
     return () => {
-      imagesPreviews.forEach(image => {
-        if (image.url && image.url.startsWith('blob:')) {
+      imagesPreviews.forEach((image) => {
+        if (image.url && image.url.startsWith("blob:")) {
           URL.revokeObjectURL(image.url);
         }
       });
@@ -364,106 +381,6 @@ export default function FormFooter({
     );
   };
 
-  // Renderizar campo de imagen
-  const renderImageField = useCallback(
-    (imageNumber) => {
-      const fieldBaseName = `public_image${imageNumber}`;
-      const altFieldName = `alt_image${imageNumber}`;
-      const titleFieldName = `title_image${imageNumber}`;
-
-      const hasImage = imagesPreviews.some((img) => img.id === imageNumber);
-
-      return (
-        <div key={imageNumber} className="relative w-full mb-4">
-          <div className="relative flex flex-row">
-            <label
-              className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                uploading
-                  ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                  : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-              }`}
-            >
-              {uploading ? (
-                <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
-              ) : (
-                <>
-                  <IconImage className="w-5 h-5 mr-2 text-purple-400" />
-                  <span className="text-sm">
-                    {hasImage ? "Cambiar imagen" : "Seleccionar imagen"}
-                  </span>
-                </>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                name={fieldBaseName}
-                className="hidden"
-                onChange={handleImageUpload}
-                disabled={uploading}
-              />
-            </label>
-            <div className="flex justify-center mt-2">
-              <button
-                type="button"
-                onClick={() => handleImageDelete(imageNumber)}
-                className="ml-2 p-2 rounded-full hover:bg-red-100"
-                title={`Eliminar imagen ${imageNumber}`}
-              >
-                <Trash2 className="w-5 h-5 text-red-500" />
-              </button>
-            </div>
-          </div>
-
-          {/* Campos SEO para cada imagen */}
-          <div className="space-y-2 mt-3">
-            <div>
-              <label className="block text-gray-300 text-xs font-medium mb-1">
-                Texto Alternativo (Alt)
-              </label>
-              <input
-                type="text"
-                name={altFieldName}
-                value={data[altFieldName] || ""}
-                onChange={handleFieldChange}
-                maxLength={validationConfig.alt_image?.max || 100}
-                autoComplete="off"
-                className={mergedStyles.input}
-                placeholder={mergedPlaceholders.alt_image}
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-300 text-xs font-medium mb-1">
-                Título de la Imagen
-              </label>
-              <input
-                type="text"
-                name={titleFieldName}
-                value={data[titleFieldName] || ""}
-                onChange={handleFieldChange}
-                maxLength={validationConfig.title_image?.max || 100}
-                autoComplete="off"
-                className={mergedStyles.input}
-                placeholder={mergedPlaceholders.title_image}
-              />
-            </div>
-          </div>
-        </div>
-      );
-    },
-    [
-      imagesPreviews,
-      uploading,
-      handleImageUpload,
-      handleImageDelete,
-      handleFieldChange,
-      data,
-      validationConfig,
-      mergedStyles.input,
-      mergedPlaceholders,
-    ]
-  );
-
   // Loading state
   if (!data && mode === "edit") {
     return (
@@ -487,7 +404,7 @@ export default function FormFooter({
             </p>
 
             {/* Galería de imágenes */}
-            {imagesPreviews.length > 0 && (
+            {imagesPreviews.length > 0 ? (
               <div className={mergedStyles.gallery}>
                 {imagesPreviews.map((image) => (
                   <div key={image.id} className={mergedStyles.imageItem}>
@@ -504,6 +421,18 @@ export default function FormFooter({
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
                   </div>
                 ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8 mt-4">
+                <div className="w-12 h-12 rounded-full bg-gray-700/50 flex items-center justify-center mb-3">
+                  <IconImage className="w-6 h-6 text-gray-400" />
+                </div>
+                <p className="text-gray-400 text-sm">
+                  No hay imágenes en el footer
+                </p>
+                <p className="text-gray-500 text-xs mt-1">
+                  Agrega hasta {maxImages} imágenes desde el panel de edición
+                </p>
               </div>
             )}
           </>
@@ -605,19 +534,196 @@ export default function FormFooter({
                   />
                 </div>
 
-                {/* Imágenes */}
+                {/* Imágenes con Swiper */}
                 <div className="mb-3">
                   <label className={mergedStyles.label}>
                     <Image className={mergedStyles.icon} />
-                    Imágenes
+                    Imágenes del Footer
                     <span className="ml-3 text-xs">{imageRecommendedSize}</span>
                   </label>
 
-                  {/* Renderizar campos de imagen dinámicamente */}
-                  {Array.from({ length: maxImages }, (_, index) =>
-                    renderImageField(index + 1)
-                  )}
+                  {/* Swiper para imágenes del footer */}
+                  <div className="relative">
+                    <Swiper
+                      modules={[Navigation, Pagination]}
+                      spaceBetween={20}
+                      slidesPerView={1}
+                      navigation={{
+                        nextEl: ".swiper-button-next-footer",
+                        prevEl: ".swiper-button-prev-footer",
+                      }}
+                      pagination={{
+                        clickable: true,
+                        el: ".swiper-pagination-footer",
+                      }}
+                      className="footer-swiper"
+                      style={{ paddingBottom: "40px" }}
+                    >
+                      {Array.from({ length: maxImages }, (_, index) => {
+                        const imageNumber = index + 1;
+                        const fieldBaseName = `public_image${imageNumber}`;
+                        const altFieldName = `alt_image${imageNumber}`;
+                        const titleFieldName = `title_image${imageNumber}`;
+                        const hasImage = imagesPreviews.some(
+                          (img) => img.id === imageNumber
+                        );
+                        const imagePreview = imagesPreviews.find(
+                          (img) => img.id === imageNumber
+                        );
+
+                        return (
+                          <SwiperSlide key={imageNumber}>
+                            <div className="p-4 bg-gray-800/30 rounded-lg border border-yellow-500/30">
+                              <h5 className="text-sm font-medium text-yellow-400 mb-4 flex items-center">
+                                <IconImage className="w-5 h-5 mr-2" />
+                                Imagen {imageNumber} del Footer
+                              </h5>
+
+                              <div className="space-y-3">
+                                {/* Upload de archivo */}
+                                <div>
+                                  <label className={mergedStyles.label}>
+                                    <IconImage className="w-4 h-4 mr-2 text-yellow-400" />
+                                    Subir imagen
+                                  </label>
+                                  <label
+                                    className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                                      uploading
+                                        ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                                        : "border-gray-700 bg-gray-900 hover:border-yellow-500 hover:bg-gray-800"
+                                    }`}
+                                  >
+                                    {uploading ? (
+                                      <Loader2 className="w-5 h-5 animate-spin text-yellow-400 mr-2" />
+                                    ) : (
+                                      <>
+                                        <IconImage className="w-5 h-5 mr-2 text-yellow-400" />
+                                        <span className="text-sm">
+                                          {hasImage
+                                            ? "Cambiar imagen"
+                                            : "Seleccionar imagen"}
+                                        </span>
+                                      </>
+                                    )}
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      name={fieldBaseName}
+                                      className="hidden"
+                                      onChange={handleImageUpload}
+                                      disabled={uploading}
+                                    />
+                                  </label>
+                                </div>
+
+                                {/* Botón de eliminar */}
+                                {hasImage && (
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      handleImageDelete(imageNumber)
+                                    }
+                                    className="w-full flex items-center justify-center p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 transition-colors"
+                                    title={`Eliminar imagen ${imageNumber}`}
+                                  >
+                                    <Trash2 className="w-4 h-4 mr-2" />
+                                    Eliminar imagen
+                                  </button>
+                                )}
+
+                                {/* Alt text */}
+                                <div>
+                                  <label className={mergedStyles.label}>
+                                    <AlignLeft className="w-4 h-4 mr-2 text-yellow-400" />
+                                    Texto alternativo (Alt)
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name={altFieldName}
+                                    value={data[altFieldName] || ""}
+                                    onChange={handleFieldChange}
+                                    maxLength={
+                                      validationConfig.alt_image?.max || 100
+                                    }
+                                    autoComplete="off"
+                                    className={mergedStyles.input}
+                                    placeholder={`Descripción de la imagen ${imageNumber}`}
+                                  />
+                                </div>
+
+                                {/* Title text */}
+                                <div>
+                                  <label className={mergedStyles.label}>
+                                    <Type className="w-4 h-4 mr-2 text-yellow-400" />
+                                    Título de imagen
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name={titleFieldName}
+                                    value={data[titleFieldName] || ""}
+                                    onChange={handleFieldChange}
+                                    maxLength={
+                                      validationConfig.title_image?.max || 100
+                                    }
+                                    autoComplete="off"
+                                    className={mergedStyles.input}
+                                    placeholder={`Título imagen ${imageNumber}`}
+                                  />
+                                </div>
+
+                                {/* Preview de la imagen si existe */}
+                                {imagePreview && (
+                                  <div className="mt-3 rounded-lg overflow-hidden border border-yellow-500/30">
+                                    <img
+                                      src={imagePreview.url}
+                                      alt={
+                                        imagePreview.alt ||
+                                        `Preview ${imageNumber}`
+                                      }
+                                      className="w-full h-48 object-cover"
+                                    />
+                                  </div>
+                                )}
+
+                                <p className="text-xs text-gray-400 mt-2">
+                                  Imagen {imageNumber} de {maxImages}
+                                </p>
+                              </div>
+                            </div>
+                          </SwiperSlide>
+                        );
+                      })}
+                    </Swiper>
+
+                    {/* Paginación personalizada */}
+                    <div className="swiper-pagination-footer flex justify-center gap-2 mt-4"></div>
+                  </div>
+
+                  {/* Indicador de ayuda */}
+                  <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                    <Eye className="w-4 h-4 text-yellow-400" />
+                    <span>
+                      Navega entre las imágenes del footer usando los puntos o
+                      desliza en dispositivos táctiles
+                    </span>
+                  </div>
                 </div>
+
+                {/* Estilos personalizados para la paginación */}
+                <style jsx global>{`
+                  .swiper-pagination-footer .swiper-pagination-bullet {
+                    background: #eab308;
+                    opacity: 0.5;
+                    width: 10px;
+                    height: 10px;
+                    transition: all 0.3s ease;
+                  }
+                  .swiper-pagination-footer .swiper-pagination-bullet-active {
+                    opacity: 1;
+                    width: 30px;
+                    border-radius: 5px;
+                  }
+                `}</style>
               </>
             )}
           </form>
