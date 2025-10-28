@@ -62,11 +62,11 @@ export const PLANTILLA_IDS = {
 
 // Servicios por defecto (común a todas las plantillas)
 export const DEFAULT_SERVICIOS = [
-  { 
+  {
     label: "Diseño y Desarrollo Web",
     url: "/servicios/desing-desarrollo/",
   },
-  { 
+  {
     label: "Gestión de Redes Sociales",
     url: "/servicios/gestion-redes/",
   },
@@ -74,8 +74,8 @@ export const DEFAULT_SERVICIOS = [
     label: "Marketing de Gestión Digital",
     url: "/servicios/marketing-gestion/",
   },
-  { 
-    label: "Branding y Diseño", 
+  {
+    label: "Branding y Diseño",
     url: "/servicios/branding-desing/",
   },
 ];

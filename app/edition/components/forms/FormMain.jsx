@@ -9,10 +9,6 @@ import {
   Loader2,
   ArrowLeft,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-
-//        } else {
-          // MODO EDICIÓN: Solo guardar archivo para subir al guardar (igual que creación)s y componentes
 import useBlogData from "../../hooks/useBlogData";
 import FormHeader from "./FormHeader";
 import FormBody from "./FormBody";
@@ -32,19 +28,8 @@ import TemplateRenderer from "../preview/TemplateRenderer";
 
 /**
  * FormMain - Componente orquestador del workflow completo de blogs
- *
- * @param {number} plantillaId - ID de la plantilla seleccionada (1, 2, 3)
- * @param {string|null} blogId - ID del blog para edición (null para creación)
- * @param {string} mode - Modo del formulario: 'create' | 'edit'
- * @param {function} onSuccess - Callback ejecutado al guardar exitosamente
- * @param {function} onCancel - Callback ejecutado al cancelar
- * @param {function} onPreview - Callback ejecutado al hacer preview
- * @param {boolean} showPreview - Si mostrar botón de preview
- * @param {boolean} showCancel - Si mostrar botón de cancelar
- * @param {string} className - Clases CSS adicionales
  */
 export default function FormMain({
-  // Props de configuración
   plantillaId = PLANTILLA_IDS.CLASICA,
   blogId = null,
   mode = "create",
@@ -53,7 +38,7 @@ export default function FormMain({
   onSuccess,
   onCancel,
   onPreview,
-  onPlantillaChange, // Nuevo callback para cambio de plantilla
+  onPlantillaChange,
 
   // Props de UI
   showPreview = true,
@@ -65,9 +50,6 @@ export default function FormMain({
   autoSave = false,
   autoSaveInterval = 30000, // 30 segundos
 }) {
-  const router = useRouter();
-
-  // Hook centralizado con compatibilidad total
   const {
     // Configuración
     plantillaConfig,
@@ -100,28 +82,16 @@ export default function FormMain({
     formImagenFooter,
     setFormImagenFooter,
 
-    // Estados de archivos
-    fileHeader,
     setFileHeader,
-    fileBodyHeader,
     setFileBodyHeader,
-    fileBodyFile1,
     setFileBodyFile1,
-    fileBodyFile2,
     setFileBodyFile2,
-    fileFooterFile1,
     setFileFooterFile1,
-    fileFooterFile2,
     setFileFooterFile2,
-    fileFooterFile3,
     setFileFooterFile3,
 
-    // Estados de validación
-    validacionHeader,
     setValidacionHeader,
-    validacionBody,
     setValidacionBody,
-    validacionFooter,
     setValidacionFooter,
 
     // Servicios
@@ -229,9 +199,6 @@ export default function FormMain({
         setLoading(true);
 
         if (isCreateMode) {
-          // MODO CREACIÓN: Solo guardar archivo para subir después via CardController
-
-          // Actualizar preview con blob URL temporal
           setFormImagenHeader((prev) => ({
             ...prev,
             public_image: imageData.tempUrl,
@@ -242,9 +209,6 @@ export default function FormMain({
           // Guardar archivo para subir en saveBlog
           setFileHeader(imageData.file);
         } else {
-          // MODO EDICIÓN: Solo guardar archivo para subir al guardar (igual que creación)
-
-          // Actualizar preview con blob URL temporal
           setFormImagenHeader((prev) => ({
             ...prev,
             public_image: imageData.tempUrl,
@@ -252,7 +216,6 @@ export default function FormMain({
             title: imageData.title || "",
           }));
 
-          // Guardar archivo para subir cuando se guarde el blog
           setFileHeader(imageData.file);
         }
       } catch (err) {
@@ -317,21 +280,11 @@ export default function FormMain({
       clearError();
 
       const result = await saveBlog();
-
-      // El hook ya actualiza los estados con URLs reales después de subir
-      // Las URLs blob temporales se han reemplazado con URLs de Cloudinary
-      
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
 
       // Notificar éxito al componente padre
       onSuccess?.(result);
-
-      // En modo creación, redirigir o actualizar URL
-      if (isCreateMode && result.id) {
-        // Opcional: redirigir a modo edición
-        // router.push(`/edition/modify/${result.id}`);
-      }
     } catch (err) {
       setError("No se pudo guardar el blog. Intenta nuevamente.");
     } finally {
@@ -361,12 +314,10 @@ export default function FormMain({
     }
   }, [viewMode]);
 
-  // Handler para cambio de plantilla
   const handlePlantillaChange = useCallback(
     (newPlantillaId) => {
       if (newPlantillaId !== selectedPlantilla) {
         setSelectedPlantilla(newPlantillaId);
-        // Solo actualizar si es modo creación
         if (isCreateMode && onPlantillaChange) {
           onPlantillaChange(newPlantillaId);
         }
