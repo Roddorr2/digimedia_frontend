@@ -19,30 +19,102 @@ export const AuthProvider = ({ children }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const token = getCookie("token");
-    setIsAuthenticated(!!token);
+    const verifyToken = async () => {
+      const token = getCookie("token");
 
-    // En caso de estar logeado y esta en /login -> redirigir a /dashboard/main
-    if (token && pathname === "/login/") {
+      // Si no existe un token - Usuario no autenticado
+      if (!token) {
+        setIsAuthenticated(false);
+        return;
+      }
+
+      try {
+        // Llama al endpoint protegido para verificar el token
+        const res = await auth_service.me();
+
+        if (res && res.user) {
+          setIsAuthenticated(true);
+
+          // Si el usuario esta en /login y ya esta autenticado, rederigir a dashboard
+          if (pathname === "/login/") {
+            router.replace("/dashboard/main");
+          }
+        } else {
+          // Si el token no es valido, desauntenticar al usuario
+          setIsAuthenticated(false);
+          auth_service.clearAuthCookies();
+          router.replace("/login");
+        }
+      } catch (error) {
+        // Si el back devuelve un error, considerar al token invalido
+        console.error("Error al verificar el token:", error);
+        setIsAuthenticated(false);
+        deleteCookie("token");
+      }
+    };
+    verifyToken();
+  }, []);
+
+  const login = async (formData) => {
+    try {
+      // Llamada al servicio de login
+      const data = await auth_service.login(formData);
+
+      if (data.error) {
+        throw new Error(data.message);
+      }
+
+      // Guardamos el token
+      setCookie("token", data.token, {
+        maxAge: 300 * 60, // 300 minutos - 5 horas (horas de trabajo/turno)
+        path: "/",
+      });
+
+      // Obtner informacion del usuario
+      const userData = await auth_service.me();
+
+      if (userData.error) {
+        throw new Error("Error al obtener información del usuario");
+      }
+
+      // Guardar info del usuario en cookies
+      setCookie("user", JSON.stringify(userData.user), {
+        maxAge: 300 * 60, // 300 minutos - 5 horas (horas de trabajo/turno)
+        path: "/",
+      });
+
+      // Guardamos el rol en caso de existir
+      if (userData.rol) {
+        setCookie("rol", userData.rol, {
+          maxAge: 300 * 60, // 300 minutos - 5 horas (horas de trabajo/turno)
+          path: "/",
+        });
+      }
+
+      // Actualizamos el estado
+      setIsAuthenticated(true);
+
+      // Redireccion al dashboard
       router.replace("/dashboard/main");
-    }
-  }, [pathname]);
 
-  const login = (token) => {
-    setCookie("token", token, { maxAge: 30 * 24 * 60 * 60, path: "/" });
-    setIsAuthenticated(true);
-    router.replace("/dashboard/main");
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message || "Usuario o contraseña incorrectos.",
+      };
+    }
   };
 
   const logout = async () => {
     try {
       await auth_service.logout();
-    }catch(error){
-      console.error("Error al cerrar sesión:", error);
+    } catch (error) {
+      console.error("Error al cerrar sesion:", error);
     } finally {
-      deleteCookie("token");
+      auth_service.clearAuthCookies();
       setIsAuthenticated(false);
-      setTimeout(() => router.replace("/login"), 300); // Pequeño retraso para mejorar UX
+      setTimeout(() => router.replace("/login/"), 300); // Pequeño retraso para mejorar UX
     }
   };
 

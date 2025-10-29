@@ -7,6 +7,7 @@ import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
+import { Login } from "@mui/icons-material";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -27,68 +28,14 @@ export default function LoginPage() {
     setError(false);
     setErrorMessage("");
 
-    if (!validateEmail(formData.email)) {
+    // Llamada a la funcion login del servicio de autenticacion
+    const result = await login(formData);
+
+    if (!result.success) {
       setError(true);
-      setErrorMessage("Por favor, ingresa un email válido.");
-      setLoading(false);
-      return;
+      setErrorMessage(result.error);
     }
-
-    try {
-      // auth service
-      const data = await auth_service.login(formData);
-
-      if (data.error) {
-        throw new Error(data.message);
-      }
-
-      // guardar token
-      login(data.token);
-
-      // obtener info del user con su rol
-      const userData = await auth_service.me();
-
-      if (userData.error) {
-        throw new Error("Error al obtener información del usuario");
-      }
-
-      // guardar info en cookies
-      setCookie("user", JSON.stringify(userData.user), {
-        maxAge: 30 * 24 * 60 * 60,
-        path: "/",
-      });
-
-      if (userData.empleado) {
-        setCookie("empleado", JSON.stringify(userData.empleado), {
-          maxAge: 30 * 24 * 60 * 60,
-          path: "/",
-        });
-      }
-
-      if (userData.rol) {
-        setCookie("rol", userData.rol, {
-          maxAge: 30 * 24 * 60 * 60,
-          path: "/",
-        });
-      }
-
-      // redirección segun rol
-      if (auth_service.isAdmin()) {
-        router.replace("/dashboard/main");
-      } else if (auth_service.hasRole("marketing")) {
-        router.push("/dashboard/main");
-      } else if (auth_service.hasRole("ventas")) {
-        router.push("/dashboard/main");
-      } else {
-        // redirec default
-        router.push("/dashboard/main");
-      }
-    } catch (error) {
-      setError(true);
-      setErrorMessage(error.message || "Email o contraseña incorrectos.");
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   const handleChange = (e) => {

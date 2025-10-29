@@ -253,26 +253,34 @@ export default function Header2() {
                           className={
                             isActive(link.href) ? styles["active-sub"] : ""
                           }
-                          onClick={closeMenu}
+                          // onClick={closeMenu}
                         >
-                          <Link href={link.href}>{link.title}</Link>
+                          <Link href={link.href} onClick={closeMenu}>
+                            {link.title}
+                          </Link>
                         </li>
                       ))}
                       <li
-                        className={isActive("/login") ? styles["active-sub"] : ""}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          closeMenu();
-                          logout(); // viene del useAuth()
-                        }}
+                        className={
+                          isActive("/login") ? styles["active-sub"] : ""
+                        }
                       >
-                        <Link href="#">Cerrar sesión</Link>
+                        <Link
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            closeMenu();
+                            logout(); // viene del useAuth()
+                          }}
+                        >
+                          Cerrar sesión
+                        </Link>
                       </li>
                     </ul>
                   )}
                 </>
               ) : (
-                <Link href="/login">Ingresar</Link>
+                <Link href="/login/">Ingresar</Link>
               )}
             </li>
           </ul>
