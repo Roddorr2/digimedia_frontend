@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Save,
   RefreshCw,
@@ -94,9 +94,7 @@ export default function FormMain({
     setValidacionBody,
     setValidacionFooter,
 
-    // Servicios
-    serviceRedirectUrl,
-    setServiceRedirectUrl,
+    // Servicios (solo para enlaces en tarjetas)
     servicios,
 
     // Acciones
@@ -118,6 +116,11 @@ export default function FormMain({
   const [viewMode, setViewMode] = useState("edit"); // 'edit' | 'preview' | 'template-select'
   const [selectedPlantilla, setSelectedPlantilla] = useState(plantillaId);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+
+  //Referencias para scroll a secciones
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
+  const footerRef = useRef(null);
 
   // Generar datos consolidados para preview
   const getBlogDataForPreview = useCallback(() => {
@@ -181,6 +184,36 @@ export default function FormMain({
     };
   }, [autoSaveTimer]);
 
+  // Manejar clics del menú lateral para hacer scroll
+  useEffect(() => {
+    const handleNavClick = (event) => {
+      const target = event.target.closest("[data-scroll-to]");
+      if (!target) return;
+
+      const section = target.getAttribute("data-scroll-to");
+      event.preventDefault();
+
+      const sectionRef =
+        section === "header"
+          ? headerRef
+          : section === "body"
+          ? bodyRef
+          : section === "footer"
+          ? footerRef
+          : null;
+
+      if (sectionRef?.current) {
+        sectionRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    document.addEventListener("click", handleNavClick);
+    return () => document.removeEventListener("click", handleNavClick);
+  }, []);
+
   // Handlers para FormHeader - Compatibilidad completa con blog_heads
   const handleHeaderChange = useCallback(
     ({ name, value }) => {
@@ -231,7 +264,7 @@ export default function FormMain({
     try {
       setFormImagenHeader((prev) => ({
         ...prev,
-        public_image: "/blog/fondo_blog_extend.webp", // Volver a imagen por defecto
+        public_image: "/blog/fondo_blog_extend.png", // Volver a imagen por defecto
         alt: "",
         title: "",
       }));
@@ -351,7 +384,7 @@ export default function FormMain({
   }
 
   return (
-    <div className={`max-w-7xl mx-auto ${className}`}>
+    <div className={`max-w-7xl mx-auto mt-8 ${className}`}>
       {/* Header de estado y acciones */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border p-6">
         <div className="flex items-center justify-between">
@@ -477,55 +510,59 @@ export default function FormMain({
       {/* Contenido según el modo */}
       {viewMode === "edit" && (
         <div className="space-y-8">
-          {/* FormHeader */}
-          <FormHeader
-            data={{ ...formEncabezadoHeader, ...formImagenHeader }}
-            mode={mode}
-            onChange={handleHeaderChange}
-            onImageChange={handleHeaderImageChange}
-            onImageDelete={handleHeaderImageDelete}
-            onValidationChange={setValidacionHeader}
-            validationConfig={DEFAULT_HEADER_VALIDATION_CONFIG}
-            isUploading={loading}
-            showValidationMessages={true}
-          />
+          {/* 🟦 HEADER */}
+          <div id="header" ref={headerRef}>
+            <FormHeader
+              data={{ ...formEncabezadoHeader, ...formImagenHeader }}
+              mode={mode}
+              onChange={handleHeaderChange}
+              onImageChange={handleHeaderImageChange}
+              onImageDelete={handleHeaderImageDelete}
+              onValidationChange={setValidacionHeader}
+              validationConfig={DEFAULT_HEADER_VALIDATION_CONFIG}
+              isUploading={loading}
+              showValidationMessages={true}
+            />
+          </div>
 
-          {/* FormBody */}
-          <FormBody
-            formCommendBody={formCommendBody}
-            formInfoBody={formInfoBody}
-            formEncabezadoBody={formEncabezadoBody}
-            formGaleryBody={formGaleryBody}
-            setFormCommendBody={setFormCommendBody}
-            setFormInfoBody={setFormInfoBody}
-            setFormEncabezadoBody={setFormEncabezadoBody}
-            setFormGaleryBody={setFormGaleryBody}
-            setValidacionBody={setValidacionBody}
-            setFileBodyHeader={setFileBodyHeader}
-            setFileBodyFile1={setFileBodyFile1}
-            setFileBodyFile2={setFileBodyFile2}
-            serviceRedirectUrl={serviceRedirectUrl}
-            setServiceRedirectUrl={setServiceRedirectUrl}
-            servicios={servicios}
-            plantillaId={plantillaId}
-            mode={mode}
-            isUploading={loading}
-            showValidationMessages={true}
-          />
+          {/* 🟩 BODY */}
+          <div id="body" ref={bodyRef}>
+            <FormBody
+              formCommendBody={formCommendBody}
+              formInfoBody={formInfoBody}
+              formEncabezadoBody={formEncabezadoBody}
+              formGaleryBody={formGaleryBody}
+              setFormCommendBody={setFormCommendBody}
+              setFormInfoBody={setFormInfoBody}
+              setFormEncabezadoBody={setFormEncabezadoBody}
+              setFormGaleryBody={setFormGaleryBody}
+              setValidacionBody={setValidacionBody}
+              setFileBodyHeader={setFileBodyHeader}
+              setFileBodyFile1={setFileBodyFile1}
+              setFileBodyFile2={setFileBodyFile2}
+              servicios={servicios}
+              plantillaId={plantillaId}
+              mode={mode}
+              isUploading={loading}
+              showValidationMessages={true}
+            />
+          </div>
 
-          {/* FormFooter */}
-          <FormFooter
-            data={{ ...formEncabezadoFooter, ...formImagenFooter }}
-            mode={mode}
-            onChange={handleFooterChange}
-            onValidationChange={handleFooterValidation}
-            validationConfig={DEFAULT_FOOTER_VALIDATION_CONFIG}
-            isUploading={loading}
-            showValidationMessages={true}
-            setFileFooterFile1={setFileFooterFile1}
-            setFileFooterFile2={setFileFooterFile2}
-            setFileFooterFile3={setFileFooterFile3}
-          />
+          {/* 🟧 FOOTER */}
+          <div id="footer" ref={footerRef}>
+            <FormFooter
+              data={{ ...formEncabezadoFooter, ...formImagenFooter }}
+              mode={mode}
+              onChange={handleFooterChange}
+              onValidationChange={handleFooterValidation}
+              validationConfig={DEFAULT_FOOTER_VALIDATION_CONFIG}
+              isUploading={loading}
+              showValidationMessages={true}
+              setFileFooterFile1={setFileFooterFile1}
+              setFileFooterFile2={setFileFooterFile2}
+              setFileFooterFile3={setFileFooterFile3}
+            />
+          </div>
         </div>
       )}
 

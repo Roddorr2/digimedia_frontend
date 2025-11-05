@@ -15,6 +15,7 @@ import {
   Link2,
   ExternalLink as ExternalLinkIcon,
   FileText,
+  Loader2,
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -28,6 +29,7 @@ import {
   DEFAULT_BODY_VALIDATION_CONFIG,
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";
+import BotonAnadirLink from "./BotonAnadirLink.jsx";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -48,9 +50,7 @@ export default function FormBody({
   setFileBodyFile1,
   setFileBodyFile2,
 
-  // Props de servicios
-  serviceRedirectUrl,
-  setServiceRedirectUrl,
+  // Props de servicios (solo para enlaces en tarjetas)
   servicios = DEFAULT_SERVICIOS,
 
   // Props de configuración - Ahora se puede pasar el ID de plantilla
@@ -61,7 +61,6 @@ export default function FormBody({
   onChange,
   onImageChange,
   onValidationChange,
-  onServiceChange,
 
   // Props de estado
   isUploading = false,
@@ -123,18 +122,18 @@ export default function FormBody({
   useEffect(() => {
     if (layoutType === "tabs") {
       const currentTabVisible =
-        (activeTab === "info" && sectionsVisibility.informacion) ||
         (activeTab === "tips" && sectionsVisibility.consejos) ||
-        (activeTab === "galeria" && sectionsVisibility.galeria);
+        (activeTab === "info" && sectionsVisibility.informacion) ||      
+        (activeTab === "gallery" && sectionsVisibility.galeria);
 
       if (!currentTabVisible) {
         // Cambiar a la primera tab disponible
-        if (sectionsVisibility.informacion) {
-          setActiveTab("info");
-        } else if (sectionsVisibility.consejos) {
+        if (sectionsVisibility.consejos) {
           setActiveTab("tips");
+        } else if (sectionsVisibility.informacion) {
+          setActiveTab("info");
         } else if (sectionsVisibility.galeria) {
-          setActiveTab("galeria");
+          setActiveTab("gallery");
         }
       }
     }
@@ -157,15 +156,21 @@ export default function FormBody({
         finalValidationConfig[validationKey] ||
         finalValidationConfig[fieldName];
 
-      if (!config)
-        return { isValid: true, message: `Campo ${fieldName} no configurado` };
+      if (!config) return { isValid: true, message: "" };
 
       const trimmedValue = value?.toString().trim() || "";
 
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el campo es requerido y está vacío, es inválido
       if (config.required && !trimmedValue) {
         return { isValid: false, message: "Este campo es requerido" };
       }
 
+      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return {
           isValid: false,
@@ -236,14 +241,15 @@ export default function FormBody({
       if (!enabled) {
         switch (section) {
           case "consejos":
-            setFormCommendBody?.({
+            setFormCommendBody?.((prev) => ({
+              id: prev?.id, // ✅ PRESERVAR ID
               titulo: "",
               texto1: "",
               texto2: "",
               texto3: "",
               texto4: "",
               texto5: "",
-            });
+            }));
             break;
           case "galeria":
             setFormGaleryBody?.({
@@ -256,12 +262,16 @@ export default function FormBody({
             });
             break;
           case "informacion":
-            setFormInfoBody?.([
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-              { titulo: "", descripcion: "", palabra: "", enlace: "" },
-            ]);
+            setFormInfoBody?.((prev) =>
+              // ✅ PRESERVAR IDs de tarjetas existentes
+              prev.map((tarjeta) => ({
+                id: tarjeta?.id,
+                titulo: "",
+                descripcion: "",
+                palabra: "",
+                enlace: "",
+              }))
+            );
             break;
         }
       }
@@ -318,16 +328,6 @@ export default function FormBody({
       });
     },
     [validateField, setFormInfoBody, onChange]
-  );
-
-  // Manejar cambio de servicio
-  const handleServiceChange = useCallback(
-    (e) => {
-      const url = e.target.value;
-      setServiceRedirectUrl?.(url);
-      onServiceChange?.({ url });
-    },
-    [setServiceRedirectUrl, onServiceChange]
   );
 
   // Manejar carga de imagen - compatible con sistema original
@@ -462,29 +462,30 @@ export default function FormBody({
   };
 
   // Función para renderizar descripción con enlaces - compatible con servicios
-  const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
+  function renderDescripcion(texto, palabraClave, enlace) {
     if (!palabraClave || !enlace) return texto;
 
-    return texto.split(" ").map((palabra, i) => {
-      const cleanPalabra = palabra.replace(/[.,;!?]/g, "");
-      const isMatch = cleanPalabra.toLowerCase() === palabraClave.toLowerCase();
+    // Buscar la frase completa (case insensitive)
+    const regex = new RegExp(`(${palabraClave})`, "gi");
+    const partes = texto.split(regex);
 
-      return isMatch ? (
+    return partes.map((parte, i) => {
+      if (parte.toLowerCase() === palabraClave.toLowerCase()) {
+       return (
         <a
           key={i}
           href={enlace}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-400 font-bold underline hover:text-blue-200"
-          title={`Enlace externo: ${palabraClave}`}
+         target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 font-bold underline hover:text-blue-200"
         >
-          {palabra}
-        </a>
-      ) : (
-        <span key={i}>{palabra + " "}</span>
-      );
+            {parte}
+          </a>
+        );
+      }
+      return <span key={i}>{parte}</span>;
     });
-  }, []);
+  }
 
   // Renderizar sección de encabezado
   const renderHeaderSection = () => (
@@ -499,7 +500,7 @@ export default function FormBody({
       <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
           {data.header.titulo || "Título del Blog"}
-        </h1>        
+        </h1>
         <div className="w-16 h-1 bg-teal-500 mb-4"></div>
         {layoutType === "tabs" && (
           <div className="flex items-center space-x-2 text-gray-300 text-sm">
@@ -547,7 +548,7 @@ export default function FormBody({
     }
 
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <div className="w-full">
         <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100">
           <h3 className="text-2xl font-semibold mb-8 text-slate-800 text-center">
             {data.consejos.titulo || "Consejos"}
@@ -617,11 +618,11 @@ export default function FormBody({
     }
 
     return (
-      <div className="max-w-5xl mx-auto px-4">
+      <div className="w-full">
         <h3 className="text-lg font-medium text-slate-700 mb-6 pb-2 border-b border-slate-200">
           Galería de imágenes
         </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-6">
           {images.map((image, index) => (
             <div
               key={index}
@@ -916,28 +917,34 @@ export default function FormBody({
                 <IconImage className="w-4 h-4 mr-2 text-purple-400" />
                 Imagen Principal
               </label>
-              <input
-                type="file"
-                name="public_image1"
-                accept="image/*"
-                onChange={handleImageHeader}
-                className={mergedStyles.input}
-              />
-            </div>
-
-            {/* URL externa imagen principal */}
-            <div>
-              <label className={mergedStyles.label}>
-                URL externa imagen principal
+              <label
+                className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                  uploading
+                    ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                    : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                }`}
+              >
+                {uploading ? (
+                  <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                ) : (
+                  <>
+                    <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                    <span className="text-sm">
+                      {data.header.public_image1
+                        ? "Cambiar imagen"
+                        : "Seleccionar imagen"}
+                    </span>
+                  </>
+                )}
+                <input
+                  type="file"
+                  name="public_image1"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageHeader}
+                  disabled={uploading}
+                />
               </label>
-              <input
-                type="url"
-                name="url_image1"
-                value={data.header.url_image1 || ""}
-                onChange={handleChange(setFormEncabezadoBody)}
-                className={mergedStyles.input}
-                placeholder="https://ejemplo.com/imagen.jpg"
-              />
             </div>
 
             {/* Alt text for main image */}
@@ -1032,16 +1039,22 @@ export default function FormBody({
                             <label className={mergedStyles.label}>
                               <Quote className="w-4 h-4 mr-2 text-purple-400" />
                               Consejo {index + 1}
-                              <ValidationMessage fieldName={campo} />
                             </label>
                             <input
                               type="text"
                               name={campo}
                               maxLength={150}
                               value={data.consejos[campo] || ""}
-                              onChange={handleChange(setFormCommendBody)}
+                              onChange={handleChange(
+                                setFormCommendBody,
+                                "consejos"
+                              )}
                               className={mergedStyles.input}
                               placeholder={`Consejo ${index + 1}`}
+                            />
+                            <ValidationMessage
+                              fieldName={campo}
+                              context="consejos"
                             />
                             <p className="text-xs text-gray-400 mt-2">
                               Slide {index + 1} de{" "}
@@ -1059,9 +1072,7 @@ export default function FormBody({
                 {/* Indicador de ayuda */}
                 <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
                   <Eye className="w-4 h-4 text-purple-400" />
-                  <span>
-                    Usa las flechas o los puntos para navegar entre los consejos
-                  </span>
+                  <span>Usa los puntos o desliza para navegar</span>
                 </div>
               </div>
 
@@ -1084,8 +1095,7 @@ export default function FormBody({
           )}
 
         {/* Galería form */}
-        {mergedSectionsConfig.galeria.enabled &&
-          sectionsVisibility.galeria && (
+        {mergedSectionsConfig.galeria.enabled && sectionsVisibility.galeria && (
           <div className={mergedStyles.formCard}>
             <h4 className="text-md font-semibold text-white mb-4">Galería</h4>
 
@@ -1111,7 +1121,7 @@ export default function FormBody({
                     <div className="p-4 bg-gray-800/30 rounded-lg border border-blue-500/30">
                       <h5 className="text-sm font-medium text-blue-400 mb-4 flex items-center">
                         <IconImage className="w-5 h-5 mr-2" />
-                        Imagen {index + 2} de la Galería
+                        Imagen {index + 1} de la Galería
                       </h5>
 
                       <div className="space-y-3">
@@ -1121,31 +1131,34 @@ export default function FormBody({
                             <IconImage className="w-4 h-4 mr-2 text-purple-400" />
                             Subir imagen
                           </label>
-                          <input
-                            type="file"
-                            name={campo}
-                            accept="image/*"
-                            onChange={handleImageBody}
-                            className={mergedStyles.input}
-                          />
-                        </div>
-
-                        {/* URL externa */}
-                        <div>
-                          <label className={mergedStyles.label}>
-                            <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                            URL externa (opcional)
+                          <label
+                            className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
+                              uploading
+                                ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                                : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                            }`}
+                          >
+                            {uploading ? (
+                              <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
+                            ) : (
+                              <>
+                                <IconImage className="w-5 h-5 mr-2 text-purple-400" />
+                                <span className="text-sm">
+                                  {data.galeria[campo]
+                                    ? "Cambiar imagen"
+                                    : "Seleccionar imagen"}
+                                </span>
+                              </>
+                            )}
+                            <input
+                              type="file"
+                              name={campo}
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleImageBody}
+                              disabled={uploading}
+                            />
                           </label>
-                          <input
-                            type="url"
-                            name={`url_image${index + 2}`}
-                            value={data.galeria[`url_image${index + 2}`] || ""}
-                            onChange={handleChange(setFormGaleryBody)}
-                            className={mergedStyles.input}
-                            placeholder={`https://ejemplo.com/imagen${
-                              index + 2
-                            }.jpg`}
-                          />
                         </div>
 
                         {/* Alt text */}
@@ -1159,11 +1172,18 @@ export default function FormBody({
                             name={`alt_image${index + 2}`}
                             maxLength={125}
                             value={data.galeria[`alt_image${index + 2}`] || ""}
-                            onChange={handleChange(setFormGaleryBody)}
+                            onChange={handleChange(
+                              setFormGaleryBody,
+                              "galeria"
+                            )}
                             className={mergedStyles.input}
                             placeholder={`Descripción de la imagen ${
                               index + 2
                             }`}
+                          />
+                          <ValidationMessage
+                            fieldName={`alt_image${index + 2}`}
+                            context="galeria"
                           />
                         </div>
 
@@ -1180,9 +1200,16 @@ export default function FormBody({
                             value={
                               data.galeria[`title_image${index + 2}`] || ""
                             }
-                            onChange={handleChange(setFormGaleryBody)}
+                            onChange={handleChange(
+                              setFormGaleryBody,
+                              "galeria"
+                            )}
                             className={mergedStyles.input}
                             placeholder={`Título imagen ${index + 2}`}
+                          />
+                          <ValidationMessage
+                            fieldName={`title_image${index + 2}`}
+                            context="galeria"
                           />
                         </div>
 
@@ -1216,9 +1243,7 @@ export default function FormBody({
             {/* Indicador de ayuda */}
             <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
               <Eye className="w-4 h-4 text-blue-400" />
-              <span>
-                Navega entre las imágenes de la galería usando los puntos
-              </span>
+              <span>Usa los puntos o desliza para navegar</span>
             </div>
 
             {/* Estilos personalizados para la paginación */}
@@ -1281,10 +1306,6 @@ export default function FormBody({
                               <label className={mergedStyles.label}>
                                 <Type className="w-4 h-4 mr-2 text-purple-400" />
                                 Título
-                                <ValidationMessage
-                                  fieldName="titulo"
-                                  index={index}
-                                />
                               </label>
                               <input
                                 type="text"
@@ -1299,6 +1320,10 @@ export default function FormBody({
                                   index + 1
                                 }`}
                               />
+                              <ValidationMessage
+                                fieldName="titulo"
+                                index={index}
+                              />
                             </div>
 
                             {/* Descripción de la tarjeta */}
@@ -1306,10 +1331,6 @@ export default function FormBody({
                               <label className={mergedStyles.label}>
                                 <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
                                 Descripción
-                                <ValidationMessage
-                                  fieldName="descripcion"
-                                  index={index}
-                                />
                               </label>
                               <textarea
                                 name="descripcion"
@@ -1324,62 +1345,40 @@ export default function FormBody({
                                   index + 1
                                 }`}
                               />
+                              <ValidationMessage
+                                fieldName="descripcion"
+                                index={index}
+                              />
                             </div>
-
-                            {/* Palabra clave para enlace */}
+                            
+                            {/* Palabra clave */}
                             <div className="mb-3">
                               <label className={mergedStyles.label}>
                                 <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                                Palabra clave (opcional)
-                                <ValidationMessage
-                                  fieldName="palabra"
-                                  index={index}
-                                />
+                                Enlace asociado (opcional)
                               </label>
-                              <input
-                                type="text"
-                                name="palabra"
-                                maxLength={50}
-                                value={infoItem.palabra || ""}
-                                onChange={(e) =>
-                                  handleChangeMap(e, index, "palabra")
-                                }
-                                className={mergedStyles.input}
-                                placeholder="Ej: 'Más información', 'Ver más'"
+                              <BotonAnadirLink
+                                servicios={servicios}
+                                item={infoItem}
+                                index={index}
+                                handleChange={handleChangeMap}
+                              />
+                              <ValidationMessage
+                                fieldName="palabra"
+                                index={index}
+                              />
+                              <ValidationMessage
+                                fieldName="enlace"
+                                index={index}
                               />
                             </div>
 
-                            {/* Enlace */}
-                            <div className="mb-3">
-                              <label className={mergedStyles.label}>
-                                <ExternalLinkIcon className="w-4 h-4 mr-2 text-purple-400" />
-                                Enlace (opcional)
-                                <ValidationMessage
-                                  fieldName="enlace"
-                                  index={index}
-                                />
-                              </label>
-                              <input
-                                type="url"
-                                name="enlace"
-                                value={infoItem.enlace || ""}
-                                onChange={(e) =>
-                                  handleChangeMap(e, index, "enlace")
-                                }
-                                className={mergedStyles.input}
-                                placeholder="https://ejemplo.com o /ruta/interna"
-                              />
-                            </div>
-
-                            {/* Nota informativa */}
                             <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-4">
                               <p className="text-xs text-gray-400">
-                                💡 Si defines palabra clave y enlace, aparecerá
-                                un botón clickeable en la tarjeta.
+                                💡 El enlace solo se asocia con texto existente en la descripcion
                               </p>
                             </div>
-
-                            {/* Indicador de slide */}
+                            
                             <p className="text-xs text-gray-400 mt-3 text-center">
                               Tarjeta {index + 1} de{" "}
                               {mergedSectionsConfig.informacion.maxItems}
@@ -1398,7 +1397,7 @@ export default function FormBody({
               {/* Indicador de ayuda */}
               <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
                 <Eye className="w-4 h-4 text-yellow-400" />
-                <span>Navega entre las tarjetas usando los puntos</span>
+                <span>Usa los puntos o desliza para navegar</span>
               </div>
 
               {/* Estilos personalizados para la paginación */}
@@ -1418,25 +1417,6 @@ export default function FormBody({
               `}</style>
             </div>
           )}
-
-        {/* Selector de servicio */}
-        <div className={mergedStyles.formCard}>
-          <label className="block mb-2 font-semibold text-white">
-            Selecciona servicio para el botón
-          </label>
-          <select
-            className={mergedStyles.input}
-            value={serviceRedirectUrl}
-            onChange={handleServiceChange}
-          >
-            <option value="">-- Ninguno --</option>
-            {servicios.map((serv) => (
-              <option key={serv.url} value={serv.url}>
-                {serv.label}
-              </option>
-            ))}
-          </select>
-        </div>
       </div>
     );
   };
@@ -1452,14 +1432,18 @@ export default function FormBody({
       return (
         <div className={`${className}`}>
           {/* Controles de secciones - por encima de todo */}
-          <div className="w-full mb-6">
-            {renderSectionControls()}
-          </div>
+          <div className="w-full mb-6">{renderSectionControls()}</div>
 
           {/* Contenido en dos columnas: preview + forms */}
           <div className={containerClass}>
             <div className={mergedStyles.previewArea}>
               {renderHeaderSection()}
+              
+              {/* Descripción del header */}
+              <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed border-b border-gray-200">
+                {data.header.descripcion}
+              </div>
+              
               <div className={mergedStyles.previewContent}>
                 {mergedSectionsConfig.consejos.enabled &&
                   sectionsVisibility.consejos &&
@@ -1481,80 +1465,83 @@ export default function FormBody({
     return (
       <div className={`${className}`}>
         {/* Controles de secciones - por encima de todo */}
-        <div className="w-full mb-6">
-          {renderSectionControls()}
-        </div>
+        <div className="w-full mb-6">{renderSectionControls()}</div>
 
-        {/* Contenido en dos columnas */}
+        {/* Layout principal: Preview (izquierda) + Forms (derecha) con anchos fijos */}
         <div className={containerClass}>
-          <div className="flex gap-4">
+          <div className="flex gap-6 justify-center">
+            {/* Columna IZQUIERDA: Preview con Header + Tabs */}
             <div className={mergedStyles.previewArea}>
-              {/* Header con controles */}
-              <div className="top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-                <div className="flex items-center space-x-2 text-gray-500 text-sm">
-                  <Clock className="w-4 h-4" />
-                  <span>{data.header.fecha}</span>
+              <div className="sticky top-4">
+                {/* Header con controles */}
+                <div className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-lg">
+                  <div className="flex items-center space-x-2 text-gray-500 text-sm">
+                    <Clock className="w-4 h-4" />
+                    <span>{data.header.fecha}</span>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                      <Bookmark className="w-5 h-5 text-teal-600" />
+                    </button>
+                    <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                      <Share2 className="w-5 h-5 text-teal-600" />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex space-x-3">
-                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                    <Bookmark className="w-5 h-5 text-teal-600" />
-                  </button>
-                  <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                    <Share2 className="w-5 h-5 text-teal-600" />
-                  </button>
+
+                {/* Imagen de header */}
+                {renderHeaderSection()}
+
+                {/* Descripción */}
+                <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed">
+                  {data.header.descripcion}
                 </div>
-              </div>
 
-              {renderHeaderSection()}
+                {/* Tabs navigation */}
+                <div className={`${mergedStyles.tabsContainer} bg-white px-6`}>
+                  {["info", "tips", "gallery"]
+                    .filter((tab) => {
+                      if (tab === "tips") return sectionsVisibility.consejos;
+                      if (tab === "info") return sectionsVisibility.informacion;                      
+                      if (tab === "gallery") return sectionsVisibility.galeria;
+                      return true;
+                    })
+                    .map((tab) => (
+                      <button
+                        key={tab}
+                        className={
+                          activeTab === tab
+                            ? mergedStyles.activeTab
+                            : mergedStyles.inactiveTab
+                        }
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab === "tips" && "Consejos"}
+                        {tab === "info" && "Información"}                        
+                        {tab === "gallery" && "Galería"}
+                      </button>
+                    ))}
+                </div>
 
-              {/* Descripción */}
-              <div className="mx-10 my-5 text-lg text-gray-700 leading-relaxed">
-                {data.header.descripcion}
+                {/* Tabs content - sin límite de altura */}
+                <div className="bg-white rounded-b-lg shadow-sm">
+                  <div className="p-6">
+                    {activeTab === "tips" && sectionsVisibility.consejos && (
+                      <div key="tips-content">{renderConsejosSection()}</div>
+                    )}
+                    {activeTab === "info" && sectionsVisibility.informacion && (
+                      <div key="info-content">{renderInformacionSection()}</div>
+                    )}                    
+                    {activeTab === "gallery" && sectionsVisibility.galeria && (
+                      <div key="gallery-content">{renderGaleriaSection()}</div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
+            {/* Columna DERECHA: Formularios de edición */}
             {renderEditForms()}
-          </div>
-
-          {/* Tabs content */}
-          <div className="px-6 md:px-10 pb-8">
-            <div className={mergedStyles.tabsContainer}>
-              {["info", "tips", "gallery"]
-                .filter((tab) => {
-                  // Filtrar tabs según visibilidad de secciones
-                  if (tab === "info") return sectionsVisibility.informacion;
-                  if (tab === "tips") return sectionsVisibility.consejos;
-                  if (tab === "gallery") return sectionsVisibility.galeria;
-                  return true;
-                })
-                .map((tab) => (
-                  <button
-                    key={tab}
-                    className={
-                      activeTab === tab
-                        ? mergedStyles.activeTab
-                        : mergedStyles.inactiveTab
-                    }
-                    onClick={() => setActiveTab(tab)}
-                  >
-                    {tab === "info" && "Información"}
-                    {tab === "tips" && "Consejos"}
-                    {tab === "gallery" && "Galería"}
-                  </button>
-                ))}
-            </div>
-
-            <div className="mb-10">
-              {activeTab === "info" &&
-                sectionsVisibility.informacion &&
-                renderInformacionSection()}
-              {activeTab === "tips" &&
-                sectionsVisibility.consejos &&
-                renderConsejosSection()}
-              {activeTab === "gallery" &&
-                sectionsVisibility.galeria &&
-                renderGaleriaSection()}
-            </div>
           </div>
         </div>
       </div>
@@ -1563,19 +1550,147 @@ export default function FormBody({
 
   // Validar datos iniciales (especialmente importante en modo edición)
   useEffect(() => {
-    if (!formEncabezadoBody || !finalValidationConfig) return;
+    if (!finalValidationConfig) return;
 
     const initialValidations = {};
-    const fieldsToValidate = ["titulo", "descripcion"];
 
-    fieldsToValidate.forEach((fieldName) => {
-      const value = formEncabezadoBody[fieldName] || "";
-      const validation = validateField(fieldName, value);
-      initialValidations[fieldName] = validation;
-    });
+    // Función inline para validar (evita dependencia circular)
+    const validateFieldInline = (fieldName, value, section = null) => {
+      const validationKey = section ? `${section}.${fieldName}` : fieldName;
+      const config =
+        finalValidationConfig[validationKey] ||
+        finalValidationConfig[fieldName];
+
+      if (!config) return { isValid: true, message: "" };
+
+      const trimmedValue = value?.toString().trim() || "";
+
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el campo es requerido y está vacío, es inválido
+      if (config.required && !trimmedValue) {
+        return { isValid: false, message: "Este campo es requerido" };
+      }
+
+      // Si tiene contenido, validar min/max
+      if (config.min && trimmedValue.length < config.min) {
+        return {
+          isValid: false,
+          message: `Debe tener entre ${config.min} y ${config.max} caracteres`,
+        };
+      }
+
+      if (config.max && trimmedValue.length > config.max) {
+        return {
+          isValid: false,
+          message: `Debe tener entre ${config.min || 0} y ${
+            config.max
+          } caracteres`,
+        };
+      }
+
+      return {
+        isValid: true,
+        message: `${trimmedValue.length}/${config.max} caracteres`,
+      };
+    };
+
+    // ===== VALIDAR CAMPOS DE HEADER =====
+    if (formEncabezadoBody) {
+      const headerFields = [
+        "titulo",
+        "descripcion",
+        "alt_image1",
+        "title_image1",
+      ];
+
+      headerFields.forEach((fieldName) => {
+        const value = formEncabezadoBody[fieldName] || "";
+        const validation = validateFieldInline(fieldName, value);
+        initialValidations[fieldName] = validation;
+      });
+    }
+
+    // ===== VALIDAR CAMPOS DE CONSEJOS =====
+    if (formCommendBody && sectionsVisibility.consejos) {
+      // Validar título de consejos (especialmente para plantilla 2)
+      if (plantillaId === 2) {
+        const tituloValidation = validateFieldInline(
+          "titulo",
+          formCommendBody.titulo || "",
+          "consejos"
+        );
+        initialValidations["consejos.titulo"] = tituloValidation;
+      }
+
+      // Validar textos de consejos
+      const consejosFields = ["texto1", "texto2", "texto3", "texto4", "texto5"];
+      consejosFields.forEach((fieldName) => {
+        const value = formCommendBody[fieldName] || "";
+        const validation = validateFieldInline(fieldName, value, "consejos");
+        initialValidations[`consejos.${fieldName}`] = validation;
+      });
+    }
+
+    // ===== VALIDAR CAMPOS DE GALERÍA =====
+    if (formGaleryBody && sectionsVisibility.galeria) {
+      const galeriaFields = [
+        "alt_image2",
+        "title_image2",
+        "alt_image3",
+        "title_image3",
+      ];
+
+      galeriaFields.forEach((fieldName) => {
+        const value = formGaleryBody[fieldName] || "";
+        const validation = validateFieldInline(fieldName, value, "galeria");
+        initialValidations[`galeria.${fieldName}`] = validation;
+      });
+    }
+
+    // ===== VALIDAR CAMPOS DE INFORMACIÓN/TARJETAS =====
+    if (formInfoBody && sectionsVisibility.informacion) {
+      formInfoBody.forEach((tarjeta, index) => {
+        const infoFields = ["titulo", "descripcion", "palabra"];
+
+        infoFields.forEach((fieldName) => {
+          const value = tarjeta[fieldName] || "";
+          const validation = validateFieldInline(
+            fieldName,
+            value,
+            "informacion"
+          );
+          initialValidations[`informacion.${index}.${fieldName}`] = validation;
+        });
+      });
+    }
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [formEncabezadoBody, validateField, finalValidationConfig]);
+  }, [    
+    formEncabezadoBody?.titulo,
+    formEncabezadoBody?.descripcion,
+    formEncabezadoBody?.alt_image1,
+    formEncabezadoBody?.title_image1,
+    formCommendBody?.titulo,
+    formCommendBody?.texto1,
+    formCommendBody?.texto2,
+    formCommendBody?.texto3,
+    formCommendBody?.texto4,
+    formCommendBody?.texto5,
+    formGaleryBody?.alt_image2,
+    formGaleryBody?.title_image2,
+    formGaleryBody?.alt_image3,
+    formGaleryBody?.title_image3,
+    formInfoBody,
+    sectionsVisibility.consejos,
+    sectionsVisibility.galeria,
+    sectionsVisibility.informacion,
+    finalValidationConfig,
+    plantillaId,    
+  ]);
 
   // Validación unificada - compatible con setValidacionBody original
   useEffect(() => {

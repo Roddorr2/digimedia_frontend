@@ -10,7 +10,6 @@ import {
   mapConsejos,
   mapTarjetas,
 } from "../mappers/blogMappers";
-import { getCurrentDate } from "../utils";
 import {
   getPlantillaConfig,
   PLANTILLA_IDS,
@@ -29,6 +28,7 @@ import {
   FOOTER_DEFAULTS,
   CONSEJOS_DEFAULTS,
   TARJETA_INFO_DEFAULT,
+  TARJETAS_INFO_DEFAULTS,
   BODY_FLAGS_DEFAULTS,
   DEFAULT_IMAGES,
   MAX_INFO_TARJETAS,
@@ -56,6 +56,12 @@ export default function useBlogData(
   const [error, setError] = useState(null);
   const [isDirty, setIsDirty] = useState(false); // Indica si hay cambios sin guardar
   const [hydrating, setHydrating] = useState(false); // Flag para evitar marcar isDirty durante carga inicial
+
+  const [blogRelations, setBlogRelations] = useState({
+    id_blog_head: null,
+    id_blog_body: null,
+    id_blog_footer: null,
+  });
 
   // ========== ESTADOS DE FORMULARIOS (CONSOLIDADOS) ==========
   const {
@@ -95,9 +101,6 @@ export default function useBlogData(
   const [validacionHeader, setValidacionHeader] = useState(false);
   const [validacionBody, setValidacionBody] = useState(false);
   const [validacionFooter, setValidacionFooter] = useState(false);
-
-  // ========== ESTADOS DE SERVICIOS ==========
-  const [serviceRedirectUrl, setServiceRedirectUrl] = useState("");
 
   // ========== ESTADO PARA CARDID (REQUERIDO PARA SUBIR IMÁGENES) ==========
   const [cardId, setCardId] = useState(null);
@@ -150,31 +153,49 @@ export default function useBlogData(
     try {
       setLoading(true);
       setError(null);
-      setHydrating(true); // ✅ Marcar que estamos hidratando para no marcar isDirty
+      setHydrating(true);
 
-      // Cargar datos en paralelo para mejor performance
-      const [
-        blogResponse,
-        headerResponse,
-        bodyResponse,
-        footerResponse,
-        cardsResponse,
-      ] = await Promise.all([
-        Api.getBlogById(blogId),
-        Api.getHeader(blogId).catch(() => null),
-        Api.getBody(blogId).catch(() => null),
-        Api.getFooter(blogId).catch(() => null),
-        Api.getCards().catch(() => []), // Obtener cards para encontrar el cardId
-      ]);
+      const blogResponse = await Api.getBlogById(blogId);
 
-      // Mapear datos del blog principal - Compatible con blog_heads
-      if (blogResponse) {
-        // Mantener compatibilidad con estructura existente
-        setFormEncabezadoHeader((prev) => ({
-          ...prev,
-          ...blogResponse,
-        }));
+      if (!blogResponse) {
+        throw new Error("No se pudo cargar el blog");
       }
+
+      const relations = {
+        id_blog_head: blogResponse.id_blog_head,
+        id_blog_body: blogResponse.id_blog_body,
+        id_blog_footer: blogResponse.id_blog_footer,
+      };
+
+      setBlogRelations(relations);
+
+      setFormEncabezadoHeader((prev) => ({
+        ...prev,
+        ...blogResponse,
+      }));
+
+      const [headerResponse, bodyResponse, footerResponse, cardsResponse] =
+        await Promise.all([
+          relations.id_blog_head
+            ? Api.getHeader(relations.id_blog_head).catch((err) => {
+                console.warn("⚠️ Error cargando header:", err);
+                return null;
+              })
+            : null,
+          relations.id_blog_body
+            ? Api.getBody(relations.id_blog_body).catch((err) => {
+                console.warn("⚠️ Error cargando body:", err);
+                return null;
+              })
+            : null,
+          relations.id_blog_footer
+            ? Api.getFooter(relations.id_blog_footer).catch((err) => {
+                console.warn("⚠️ Error cargando footer:", err);
+                return null;
+              })
+            : null,
+          Api.getCards().catch(() => []),
+        ]);
 
       // Buscar y establecer cardId para poder subir imágenes en modo edición
       if (cardsResponse && Array.isArray(cardsResponse)) {
@@ -225,8 +246,62 @@ export default function useBlogData(
             title_image2: mappedBody.main.title_image2,
             title_image3: mappedBody.main.title_image3,
           });
-          setFormCommendBody(mappedBody.consejos);
-          setFormInfoBody(mappedBody.informacion);
+
+          // ✅ CARGAR COMMEND_TARJETA DESDE LA RELACIÓN EN BODY
+          // El backend ya incluye commend_tarjeta en bodyResponse (usando ->with('commend_tarjeta'))
+          if (bodyResponse.commend_tarjeta) {
+            setFormCommendBody({
+              id:
+                bodyResponse.commend_tarjeta.id ||
+                bodyResponse.commend_tarjeta.id_commend_tarjeta, // ✅ GUARDAR ID
+              titulo: bodyResponse.commend_tarjeta.titulo || "",
+              texto1: bodyResponse.commend_tarjeta.texto1 || "",
+              texto2: bodyResponse.commend_tarjeta.texto2 || "",
+              texto3: bodyResponse.commend_tarjeta.texto3 || "",
+              texto4: bodyResponse.commend_tarjeta.texto4 || "",
+              texto5: bodyResponse.commend_tarjeta.texto5 || "",
+            });
+          } else {
+            // Si no hay commend_tarjeta, usar valores por defecto
+            setFormCommendBody(mappedBody.consejos);
+          }
+
+          // ✅ CARGAR TARJETAS DE INFORMACIÓN
+          // Intentar cargar desde la relación primero, si no existe, cargar explícitamente
+          if (bodyResponse.tarjetas && Array.isArray(bodyResponse.tarjetas)) {
+            const tarjetasMapped = bodyResponse.tarjetas.map((tarjeta) => ({
+              id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
+              titulo: tarjeta.titulo || "",
+              descripcion: tarjeta.descripcion || "",
+              palabra: tarjeta.palabra || "",
+              enlace: tarjeta.enlace || "",
+            }));
+            setFormInfoBody(tarjetasMapped);
+          } else {
+            try {
+              const allTarjetas = await Api.getTarjetas();
+              // Filtrar tarjetas que pertenecen a este body
+              const bodyTarjetas = allTarjetas.filter(
+                (tarjeta) => tarjeta.id_blog_body === relations.id_blog_body
+              );
+
+              if (bodyTarjetas && bodyTarjetas.length > 0) {
+                const tarjetasMapped = bodyTarjetas.map((tarjeta) => ({
+                  id: tarjeta.id || tarjeta.id_tarjeta, // ✅ GUARDAR ID ORIGINAL
+                  titulo: tarjeta.titulo || "",
+                  descripcion: tarjeta.descripcion || "",
+                  palabra: tarjeta.palabra || "",
+                  enlace: tarjeta.enlace || "",
+                }));
+                setFormInfoBody(tarjetasMapped);
+              } else {
+                setFormInfoBody(mappedBody.informacion);
+              }
+            } catch (err) {
+              console.warn("⚠️ Error cargando tarjetas:", err);
+              setFormInfoBody(mappedBody.informacion);
+            }
+          }
         }
       }
 
@@ -326,7 +401,12 @@ export default function useBlogData(
         const result = await Api.createHeader(headerPayload);
         return result;
       } else {
-        const result = await Api.updateHeader(blogId, headerPayload);
+        // ✅ Usar id_blog_head en vez de blogId
+        const headerId = blogRelations.id_blog_head;
+        if (!headerId) {
+          throw new Error("No se encontró el ID del header");
+        }
+        const result = await Api.updateHeader(headerId, headerPayload);
         return result;
       }
     } catch (err) {
@@ -335,7 +415,12 @@ export default function useBlogData(
     } finally {
       setLoading(false);
     }
-  }, [formEncabezadoHeader, formImagenHeader, isCreateMode, blogId]);
+  }, [
+    formEncabezadoHeader,
+    formImagenHeader,
+    isCreateMode,
+    blogRelations.id_blog_head,
+  ]);
 
   const saveBody = useCallback(async () => {
     try {
@@ -343,9 +428,7 @@ export default function useBlogData(
       setError(null);
 
       if (isCreateMode) {
-        // MODO CREACIÓN: Crear consejos y tarjetas primero, luego el body
-
-        // 1. Crear CommendTarjeta (consejos) si hay datos - USAR MAPPER
+        // MODO CREACIÓN: Mantener lógica existente
         let commendTarjetaId = null;
         const hasConsejos =
           formCommendBody?.texto1 ||
@@ -358,7 +441,6 @@ export default function useBlogData(
           commendTarjetaId = commendResult?.id || commendResult?.data?.id;
         }
 
-        // 2. Subir imágenes de galería usando servicio optimizado
         const galleryFiles = [
           { file: fileBodyHeader, route: "upload_body", key: "public_image1" },
           {
@@ -387,7 +469,6 @@ export default function useBlogData(
             url_image3: formGaleryBody.url_image3 || "",
           });
 
-        // 3. Crear Body principal con ID de commend_tarjeta e imágenes subidas
         const bodyData = {
           ...formEncabezadoBody,
           ...formGaleryBody,
@@ -399,7 +480,6 @@ export default function useBlogData(
         const bodyResult = await Api.createBody(bodyData);
         const bodyId = bodyResult?.id || bodyResult?.data?.id;
 
-        // 4. Crear Tarjetas individuales - USAR MAPPER
         if (bodyId && formInfoBody && formInfoBody.length > 0) {
           const tarjetasPayload = mapTarjetas(formInfoBody);
 
@@ -418,7 +498,49 @@ export default function useBlogData(
 
         return bodyResult;
       } else {
-        // MODO EDICIÓN: Actualizar body con datos actuales (orchestrator maneja imágenes)
+        // ✅ MODO EDICIÓN: Usar id_blog_body
+        const bodyId = blogRelations.id_blog_body;
+        if (!bodyId) {
+          throw new Error("No se encontró el ID del body");
+        }
+
+        // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
+        let commendTarjetaId = null;
+        const hasConsejos =
+          formCommendBody?.texto1 ||
+          formCommendBody?.texto2 ||
+          formCommendBody?.texto3;
+
+        if (hasConsejos) {
+          const consejosPayload = mapConsejos(formCommendBody, plantillaId);
+
+          // Garantizar que tenga título
+          if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
+            consejosPayload.titulo = "Consejos Importantes";
+          }
+
+          try {
+            // ✅ Si formCommendBody tiene ID, actualizar; si no, crear nuevo
+            if (formCommendBody.id) {
+              // Actualizar commend_tarjeta existente usando el ID guardado
+              await Api.updateCommendTarjeta(
+                formCommendBody.id,
+                consejosPayload
+              );
+              commendTarjetaId = formCommendBody.id;
+            } else {
+              // Crear nuevo commend_tarjeta
+              const consejosResult = await Api.createCommendTarjeta(
+                consejosPayload
+              );
+              commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
+            }
+          } catch (err) {
+            console.warn("⚠️ Error actualizando consejos:", err);
+          }
+        }
+
+        // ========== PASO 2: Actualizar Body principal ==========
         const bodyData = {
           ...formEncabezadoBody,
           ...formGaleryBody,
@@ -432,9 +554,70 @@ export default function useBlogData(
             ? DEFAULT_IMAGES.body.image3
             : formGaleryBody.public_image3,
           plantilla_id: plantillaId,
+          ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
         };
 
-        const result = await Api.updateBody(blogId, bodyData);
+        const result = await Api.updateBody(bodyId, bodyData);
+
+        // ========== PASO 3: Actualizar Tarjetas de información ==========
+        if (formInfoBody && Array.isArray(formInfoBody)) {
+          try {
+            // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
+            const validTarjetas = formInfoBody.filter(
+              (t) => t.titulo || t.descripcion || t.palabra
+            );
+            for (const [index, tarjeta] of validTarjetas.entries()) {
+              const tarjetaData = {
+                titulo: tarjeta.titulo || "",
+                descripcion: tarjeta.descripcion || "",
+                palabra: tarjeta.palabra || "",
+                enlace: tarjeta.enlace || "",
+                id_blog_body: bodyId,
+              };
+
+              try {
+                // ✅ Si la tarjeta tiene ID, es una actualización
+                if (tarjeta.id) {
+                  await Api.updateTarjeta(tarjeta.id, tarjetaData);
+                } else {
+                  // ❌ Si no tiene ID, es una creación nueva
+                  const result = await Api.createTarjeta(tarjetaData);
+                }
+              } catch (err) {
+                console.warn(`⚠️ Error procesando tarjeta ${index + 1}:`, err);
+              }
+            }
+
+            // ========== ELIMINAR TARJETAS QUE YA NO EXISTEN ==========
+            // Obtener IDs de tarjetas actuales (las que tienen ID)
+            const currentTarjetaIds = validTarjetas
+              .filter((t) => t.id)
+              .map((t) => t.id);
+            // Obtener todas las tarjetas del body desde la DB
+            const allTarjetas = await Api.getTarjetas();
+            const existingTarjetas = allTarjetas.filter(
+              (tarjeta) => tarjeta.id_blog_body === bodyId
+            );
+
+            // Eliminar tarjetas que ya no están en el formulario
+            for (const dbTarjeta of existingTarjetas) {
+              const tarjetaId = dbTarjeta.id || dbTarjeta.id_tarjeta;
+              if (!currentTarjetaIds.includes(tarjetaId)) {
+                try {
+                  await Api.deleteTarjeta(tarjetaId);
+                } catch (err) {
+                  console.warn(
+                    `⚠️ Error eliminando tarjeta ${tarjetaId}:`,
+                    err
+                  );
+                }
+              }
+            }
+          } catch (err) {
+            console.warn("⚠️ Error actualizando tarjetas de información:", err);
+          }
+        }
+
         return result;
       }
     } catch (err) {
@@ -453,7 +636,7 @@ export default function useBlogData(
     fileBodyFile2,
     plantillaId,
     isCreateMode,
-    blogId,
+    blogRelations.id_blog_body,
   ]);
 
   const saveFooter = useCallback(async () => {
@@ -487,7 +670,12 @@ export default function useBlogData(
         const result = await Api.createFooter(footerPayload);
         return result;
       } else {
-        const result = await Api.updateFooter(blogId, footerPayload);
+        // ✅ Usar id_blog_footer
+        const footerId = blogRelations.id_blog_footer;
+        if (!footerId) {
+          throw new Error("No se encontró el ID del footer");
+        }
+        const result = await Api.updateFooter(footerId, footerPayload);
         return result;
       }
     } catch (err) {
@@ -497,7 +685,12 @@ export default function useBlogData(
     } finally {
       setLoading(false);
     }
-  }, [formEncabezadoFooter, formImagenFooter, isCreateMode, blogId]);
+  }, [
+    formEncabezadoFooter,
+    formImagenFooter,
+    isCreateMode,
+    blogRelations.id_blog_footer,
+  ]);
 
   // Guardar blog completo - USANDO ORCHESTRATOR
   const saveBlog = useCallback(async () => {
@@ -533,13 +726,18 @@ export default function useBlogData(
           },
           plantillaId,
           empleadoId: getEmpleadoId(),
-          serviceRedirectUrl,
         });
 
         // Actualizar cardId en el hook
         if (result.cardId) {
           setCardId(result.cardId);
         }
+
+        setBlogRelations({
+          id_blog_head: result.headerId,
+          id_blog_body: result.bodyId,
+          id_blog_footer: result.footerId,
+        });
 
         // Limpiar archivos después de éxito
         setFileHeader(null);
@@ -558,7 +756,6 @@ export default function useBlogData(
         // Primero actualizar Header, Body, Footer por separado (mantener compatibilidad)
         await Promise.all([saveHeader(), saveBody(), saveFooter()]);
 
-        // Luego usar orchestrator para actualizar el blog principal y subir imágenes
         const result = await blogOrchestrator.updateBlog({
           blogId,
           headerData: {
@@ -585,11 +782,11 @@ export default function useBlogData(
             fileFooterFile3,
           },
           plantillaId,
-          serviceRedirectUrl,
+          empleadoId: getEmpleadoId(),
           cardId,
+          blogRelations,
         });
 
-        // Limpiar archivos después de éxito
         setFileHeader(null);
         setFileBodyHeader(null);
         setFileBodyFile1(null);
@@ -609,7 +806,6 @@ export default function useBlogData(
       setLoading(false);
     }
   }, [
-    // Estados de formularios
     formEncabezadoHeader,
     formImagenHeader,
     formEncabezadoBody,
@@ -618,7 +814,6 @@ export default function useBlogData(
     formInfoBody,
     formEncabezadoFooter,
     formImagenFooter,
-    // Estados de archivos
     fileHeader,
     fileBodyHeader,
     fileBodyFile1,
@@ -626,29 +821,23 @@ export default function useBlogData(
     fileFooterFile1,
     fileFooterFile2,
     fileFooterFile3,
-    // Configuración
     plantillaId,
-    serviceRedirectUrl,
     isCreateMode,
     blogId,
-    // Funciones de guardado (para modo edición)
     saveHeader,
     saveBody,
     saveFooter,
     saveCard,
-    // Funciones helper
     getEmpleadoId,
+    blogRelations,
+    cardId,
   ]);
 
   // ========== FUNCIONES DE UTILIDAD ==========
   const resetForm = useCallback(() => {
-    // Limpiar URLs blob antes de resetear
     cleanupBlobUrls();
-
-    // Resetear todos los formularios usando el hook consolidado
     resetAllForms();
 
-    // Reset files
     setFileHeader(null);
     setFileBodyHeader(null);
     setFileBodyFile1(null);
@@ -657,19 +846,23 @@ export default function useBlogData(
     setFileFooterFile2(null);
     setFileFooterFile3(null);
 
-    // Reset validation
     setValidacionHeader(false);
     setValidacionBody(false);
     setValidacionFooter(false);
 
-    setServiceRedirectUrl("");
     setIsDirty(false);
     setError(null);
+
+    // Resetear relaciones
+    setBlogRelations({
+      id_blog_head: null,
+      id_blog_body: null,
+      id_blog_footer: null,
+    });
   }, [cleanupBlobUrls, resetAllForms]);
 
   // Marcar como modificado cuando cambien los datos
   useEffect(() => {
-    // ✅ Solo marcar isDirty si NO estamos hidratando y NO estamos cargando
     if (!loading && !hydrating) {
       setIsDirty(true);
     }
@@ -682,9 +875,8 @@ export default function useBlogData(
     formInfoBody,
     formEncabezadoFooter,
     formImagenFooter,
-    serviceRedirectUrl,
     loading,
-    hydrating, // ✅ Agregar hydrating a las dependencias
+    hydrating,
   ]);
 
   // ========== LIMPIEZA DE MEMORY LEAKS ==========
@@ -710,14 +902,14 @@ export default function useBlogData(
     isDirty,
     isFormValid,
 
+    // ===== IDs DE RELACIONES =====
+    blogRelations,
+
     // ===== ESTADOS DE FORMULARIOS (COMPATIBILIDAD TOTAL) =====
-    // Header
     formEncabezadoHeader,
     setFormEncabezadoHeader,
     formImagenHeader,
     setFormImagenHeader,
-
-    // Body
     formEncabezadoBody,
     setFormEncabezadoBody,
     formCommendBody,
@@ -726,8 +918,6 @@ export default function useBlogData(
     setFormGaleryBody,
     formInfoBody,
     setFormInfoBody,
-
-    // Footer
     formEncabezadoFooter,
     setFormEncabezadoFooter,
     formImagenFooter,
@@ -757,9 +947,7 @@ export default function useBlogData(
     validacionFooter,
     setValidacionFooter,
 
-    // ===== SERVICIOS =====
-    serviceRedirectUrl,
-    setServiceRedirectUrl,
+    // ===== SERVICIOS (SOLO PARA ENLACES EN TARJETAS) =====
     servicios: DEFAULT_SERVICIOS,
 
     // ===== ACCIONES =====

@@ -6,11 +6,9 @@ import {
   Image as IconImage,
   Loader2,
   Trash2,
-  Plus,
-  Link2,
   Eye,
 } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,8 +17,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+import BotonAnadirLink from "./BotonAnadirLink"; 
+
 // Configuración centralizada
-import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
+// import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
+import { DEFAULT_FOOTER_VALIDATION_CONFIG, DEFAULT_SERVICIOS } from "../../config/index";
 
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
@@ -63,7 +64,7 @@ export default function FormFooter({
   data = {},
   defaultImage = "/blog/blog-10.webp",
   maxImages = 3, // Número máximo de imágenes permitidas para el footer
-
+  servicios = DEFAULT_SERVICIOS,
   // Props de configuración
   validationConfig = DEFAULT_FOOTER_VALIDATION_CONFIG,
   styles = DEFAULT_STYLES,
@@ -146,7 +147,12 @@ export default function FormFooter({
 
       const trimmedValue = value?.toString().trim() || "";
 
-      // Si el footer está habilitado, aplicar validación condicional
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el footer está habilitado y el campo es requerido pero está vacío
       if (
         footerEnabled &&
         config.required &&
@@ -159,6 +165,7 @@ export default function FormFooter({
         };
       }
 
+      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return { isValid: false, message: `Mínimo ${config.min} caracteres` };
       }
@@ -318,8 +325,20 @@ export default function FormFooter({
   useEffect(() => {
     if (!data || !validationConfig) return;
 
+    if (!footerEnabled) {
+    return;
+  }
     const initialValidations = {};
-    const fieldsToValidate = ["titulo", "descripcion"];
+    const fieldsToValidate = [
+      "titulo",
+      "descripcion",
+      "alt_image1",
+      "alt_image2",
+      "alt_image3",
+      "title_image1",
+      "title_image2",
+      "title_image3",
+    ];
 
     fieldsToValidate.forEach((fieldName) => {
       const value = data[fieldName] || "";
@@ -328,7 +347,19 @@ export default function FormFooter({
     });
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [data, validateField, validationConfig]);
+  }, [    
+    data?.titulo,
+    data?.descripcion,
+    data?.alt_image1,
+    data?.alt_image2,
+    data?.alt_image3,
+    data?.title_image1,
+    data?.title_image2,
+    data?.title_image3,
+    footerEnabled,
+    validationConfig,
+    validateField,
+  ]);
 
   // Limpiar blob URLs al desmontar el componente
   useEffect(() => {
@@ -532,6 +563,25 @@ export default function FormFooter({
                     placeholder={mergedPlaceholders.descripcion}
                     required={validationConfig.descripcion?.required}
                   />
+             
+                  <BotonAnadirLink
+                  servicios={servicios}
+                  item={{
+                  keyword: data.footer_keyword || "",
+                  link: data.footer_link || ""
+                  }}
+                  index={0}
+                  handleChange={(e, index, field) => {
+                  handleFieldChange({
+                  target: {
+                  name: `footer_${field}`,
+                  value: e.target.value
+                  } 
+                 });
+                 }}
+                 />
+ 
+
                 </div>
 
                 {/* Imágenes con Swiper */}
@@ -633,9 +683,12 @@ export default function FormFooter({
 
                                 {/* Alt text */}
                                 <div>
-                                  <label className={mergedStyles.label}>
+                                  <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
                                     <AlignLeft className="w-4 h-4 mr-2 text-yellow-400" />
                                     Texto alternativo (Alt)
+                                    <ValidationMessage
+                                      fieldName={altFieldName}
+                                    />
                                   </label>
                                   <input
                                     type="text"
@@ -648,14 +701,20 @@ export default function FormFooter({
                                     autoComplete="off"
                                     className={mergedStyles.input}
                                     placeholder={`Descripción de la imagen ${imageNumber}`}
+                                    required={
+                                      validationConfig.alt_image?.required
+                                    }
                                   />
                                 </div>
 
                                 {/* Title text */}
                                 <div>
-                                  <label className={mergedStyles.label}>
+                                  <label className="flex items-center text-gray-300 text-xs font-medium mb-1">
                                     <Type className="w-4 h-4 mr-2 text-yellow-400" />
                                     Título de imagen
+                                    <ValidationMessage
+                                      fieldName={titleFieldName}
+                                    />
                                   </label>
                                   <input
                                     type="text"
@@ -668,6 +727,9 @@ export default function FormFooter({
                                     autoComplete="off"
                                     className={mergedStyles.input}
                                     placeholder={`Título imagen ${imageNumber}`}
+                                    required={
+                                      validationConfig.title_image?.required
+                                    }
                                   />
                                 </div>
 

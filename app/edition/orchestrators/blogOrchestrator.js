@@ -16,6 +16,7 @@ import {
  * - Manejar transacciones lógicas (rollback si falla algún paso)
  * - Aplicar lógica de negocio específica según modo (create/edit)
  * - Gestionar subida de imágenes via CardController
+ * - ✅ Manejar correctamente los IDs de relaciones (id_blog_head, id_blog_body, id_blog_footer)
  */
 class BlogOrchestrator {
   /**
@@ -28,7 +29,6 @@ class BlogOrchestrator {
    * @param {Object} params.files - Archivos de imágenes a subir
    * @param {number} params.plantillaId - ID de la plantilla
    * @param {number} params.empleadoId - ID del empleado
-   * @param {string} params.serviceRedirectUrl - URL de redirección del servicio
    * @returns {Promise<Object>} Resultado con IDs creados y mensajes
    */
   async createBlog({
@@ -38,7 +38,6 @@ class BlogOrchestrator {
     files,
     plantillaId,
     empleadoId,
-    serviceRedirectUrl = "",
   }) {
     const result = {
       success: false,
@@ -51,7 +50,6 @@ class BlogOrchestrator {
     };
 
     try {
-      // ========== PASO 1: Crear Header SIN imagen ==========
       const headerPayload = {
         ...headerData.formEncabezadoHeader,
         public_image: DEFAULT_IMAGES.header.image1,
@@ -82,7 +80,6 @@ class BlogOrchestrator {
           plantillaId
         );
 
-        // ✅ VALIDACIÓN: Asegurar que titulo no esté vacío antes de enviar
         if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
           consejosPayload.titulo = "Consejos Importantes";
         }
@@ -93,17 +90,14 @@ class BlogOrchestrator {
           );
           commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
         } catch (err) {
-          console.warn("⚠️ Error creando consejos:", err);
           result.errors.push({ step: "consejos", error: err.message });
         }
       }
 
       // 2b. Crear Body principal SIN imágenes
       const bodyPayload = {
-        // Combinar datos de formEncabezadoBody y formGaleryBody
         ...bodyData.formEncabezadoBody,
         ...bodyData.formGaleryBody,
-        // Sobrescribir imágenes con defaults (se subirán después via CardController)
         public_image1: DEFAULT_IMAGES.body.image1,
         public_image2: DEFAULT_IMAGES.body.image2,
         public_image3: DEFAULT_IMAGES.body.image3,
@@ -134,7 +128,6 @@ class BlogOrchestrator {
 
             await API.default.createTarjeta(tarjetaData);
           } catch (err) {
-            console.warn(`⚠️ Error creando tarjeta ${index + 1}:`, err);
             result.errors.push({
               step: `tarjeta_${index}`,
               error: err.message,
@@ -148,16 +141,13 @@ class BlogOrchestrator {
         footerData.formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
 
       const footerPayload = {
-        // Incluir todos los campos de formEncabezadoFooter (alt, title para cada imagen)
         ...footerData.formEncabezadoFooter,
-        // Sobrescribir imágenes con defaults (se subirán después via CardController)
         public_image1: DEFAULT_IMAGES.footer.image1,
         public_image2: DEFAULT_IMAGES.footer.image2,
         public_image3: DEFAULT_IMAGES.footer.image3,
         url_image1: "",
         url_image2: "",
         url_image3: "",
-        // Asegurar título y descripción según estado del footer
         titulo: footerEnabled
           ? footerData.formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
           : FOOTER_DEFAULTS.titulo,
@@ -174,17 +164,18 @@ class BlogOrchestrator {
         throw new Error("No se pudo crear el footer - ID no retornado");
       }
 
-      // ========== PASO 4: Crear Blog principal ==========
+      // ========== PASO 4: Crear Blog principal CON IDs de relaciones ==========
       const blogPayload = {
         ...headerData.formEncabezadoHeader,
         public_image: DEFAULT_IMAGES.header.image1,
         url_image: "",
+        // ✅ IDs de relaciones
         id_blog_head: result.headerId,
         id_blog_body: result.bodyId,
         id_blog_footer: result.footerId,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
-        service_redirect_url: serviceRedirectUrl,
+        id_empleado: empleadoId,
       };
 
       const blogResult = await API.default.createBlog(blogPayload);
@@ -220,11 +211,7 @@ class BlogOrchestrator {
       result.success = true;
       return result;
     } catch (err) {
-      // Registrar error principal
       result.errors.push({ step: "main", error: err.message });
-
-      // TODO: Implementar rollback si es necesario
-      // Por ahora solo lanzamos el error para que el hook lo maneje
       throw new Error(`Error en creación de blog: ${err.message}`);
     }
   }
@@ -233,14 +220,14 @@ class BlogOrchestrator {
    * Actualiza un blog existente
    *
    * @param {Object} params - Parámetros del blog
-   * @param {string} params.blogId - ID del blog a actualizar
+   * @param {string} params.blogId - ID del blog principal a actualizar
    * @param {Object} params.headerData - Datos del header
    * @param {Object} params.bodyData - Datos del body
    * @param {Object} params.footerData - Datos del footer
    * @param {Object} params.files - Archivos de imágenes a subir
    * @param {number} params.plantillaId - ID de la plantilla
-   * @param {string} params.serviceRedirectUrl - URL de redirección
    * @param {number|null} params.cardId - ID de la card existente (si hay)
+   * @param {Object} params.blogRelations - IDs de relaciones (id_blog_head, id_blog_body, id_blog_footer)
    * @returns {Promise<Object>} Resultado de la actualización
    */
   async updateBlog({
@@ -249,9 +236,10 @@ class BlogOrchestrator {
     bodyData,
     footerData,
     files,
+    empleadoId,
     plantillaId,
-    serviceRedirectUrl = "",
     cardId = null,
+    blogRelations = {},
   }) {
     const result = {
       success: false,
@@ -259,9 +247,6 @@ class BlogOrchestrator {
     };
 
     try {
-      // En modo edición, simplemente actualizamos el blog principal
-      // Header, Body y Footer se actualizan por separado con sus propias funciones
-
       const blogPayload = {
         ...headerData.formEncabezadoHeader,
         ...headerData.formImagenHeader,
@@ -273,7 +258,16 @@ class BlogOrchestrator {
           : headerData.formImagenHeader.public_image,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
-        service_redirect_url: serviceRedirectUrl,
+        id_empleado: empleadoId,
+        ...(blogRelations.id_blog_head && {
+          id_blog_head: blogRelations.id_blog_head,
+        }),
+        ...(blogRelations.id_blog_body && {
+          id_blog_body: blogRelations.id_blog_body,
+        }),
+        ...(blogRelations.id_blog_footer && {
+          id_blog_footer: blogRelations.id_blog_footer,
+        }),
       };
 
       await API.default.updateBlog(blogId, blogPayload);
@@ -282,6 +276,8 @@ class BlogOrchestrator {
       if (cardId) {
         const footerEnabled = footerData.formEncabezadoFooter?.estado ?? false;
         await this._uploadAllImages(cardId, files, footerEnabled);
+      } else {
+        console.warn("⚠️ No hay cardId disponible, imágenes no se subirán");
       }
 
       result.success = true;
@@ -309,10 +305,8 @@ class BlogOrchestrator {
         try {
           const headerFormData = new FormData();
           headerFormData.append("file", files.fileHeader);
-
           await Cloud.uploadCardHeaderImage(cardId, headerFormData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen del header:", err);
           uploadErrors.push({ image: "header", error: err.message });
         }
       }
@@ -323,10 +317,9 @@ class BlogOrchestrator {
         try {
           const formData = new FormData();
           formData.append("file", files.fileBodyHeader);
-          formData.append("name", "image1"); // ✅ Campo requerido por backend
+          formData.append("name", "image1");
           await Cloud.uploadCardBodyImage(cardId, formData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen principal del body:", err);
           uploadErrors.push({ image: "body_image1", error: err.message });
         }
       }
@@ -336,10 +329,9 @@ class BlogOrchestrator {
         try {
           const formData = new FormData();
           formData.append("file", files.fileBodyFile1);
-          formData.append("name", "image2"); // ✅ Campo requerido por backend
+          formData.append("name", "image2");
           await Cloud.uploadCardBodyImage(cardId, formData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen 2 del body:", err);
           uploadErrors.push({ image: "body_image2", error: err.message });
         }
       }
@@ -349,10 +341,9 @@ class BlogOrchestrator {
         try {
           const formData = new FormData();
           formData.append("file", files.fileBodyFile2);
-          formData.append("name", "image3"); // ✅ Campo requerido por backend
+          formData.append("name", "image3");
           await Cloud.uploadCardBodyImage(cardId, formData);
         } catch (err) {
-          console.warn("⚠️ Error subiendo imagen 3 del body:", err);
           uploadErrors.push({ image: "body_image3", error: err.message });
         }
       }
@@ -364,10 +355,9 @@ class BlogOrchestrator {
           try {
             const formData = new FormData();
             formData.append("file", files.fileFooterFile1);
-            formData.append("name", "image1"); // ✅ Campo requerido por backend
+            formData.append("name", "image1");
             await Cloud.uploadCardFooterImage(cardId, formData);
           } catch (err) {
-            console.warn("⚠️ Error subiendo imagen 1 del footer:", err);
             uploadErrors.push({ image: "footer_image1", error: err.message });
           }
         }
@@ -377,10 +367,9 @@ class BlogOrchestrator {
           try {
             const formData = new FormData();
             formData.append("file", files.fileFooterFile2);
-            formData.append("name", "image2"); // ✅ Campo requerido por backend
+            formData.append("name", "image2");
             await Cloud.uploadCardFooterImage(cardId, formData);
           } catch (err) {
-            console.warn("⚠️ Error subiendo imagen 2 del footer:", err);
             uploadErrors.push({ image: "footer_image2", error: err.message });
           }
         }
@@ -390,16 +379,14 @@ class BlogOrchestrator {
           try {
             const formData = new FormData();
             formData.append("file", files.fileFooterFile3);
-            formData.append("name", "image3"); // ✅ Campo requerido por backend
+            formData.append("name", "image3");
             await Cloud.uploadCardFooterImage(cardId, formData);
           } catch (err) {
-            console.warn("⚠️ Error subiendo imagen 3 del footer:", err);
             uploadErrors.push({ image: "footer_image3", error: err.message });
           }
         }
       }
 
-      // Si hubo errores en subida de imágenes, registrarlos pero no fallar
       if (uploadErrors.length > 0) {
         console.warn(
           `⚠️ Se encontraron ${uploadErrors.length} errores al subir imágenes:`,
@@ -407,27 +394,8 @@ class BlogOrchestrator {
         );
       }
     } catch (err) {
-      // Error general en la subida de imágenes
-      console.error("❌ Error general subiendo imágenes:", err);
       throw new Error(`Error subiendo imágenes: ${err.message}`);
     }
-  }
-
-  /**
-   * Crea un FormData con un archivo
-   *
-   * @param {File} file - Archivo a incluir
-   * @param {string} name - Nombre opcional del campo
-   * @returns {FormData}
-   * @private
-   */
-  _createFormData(file, name = null) {
-    const formData = new FormData();
-    formData.append("file", file);
-    if (name) {
-      formData.append("name", name);
-    }
-    return formData;
   }
 
   /**

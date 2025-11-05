@@ -53,7 +53,7 @@ const DEFAULT_PLACEHOLDERS = {
 export default function FormHeader({
   // Props de datos
   data = {},
-  defaultImage = "/blog/fondo_blog_extend.webp",
+  defaultImage = "/blog/fondo_blog_extend.png",
 
   // Props de configuración
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,
@@ -94,10 +94,17 @@ export default function FormHeader({
 
       const trimmedValue = value?.toString().trim() || "";
 
+      // Si el campo NO es requerido y está vacío, es válido
+      if (!config.required && !trimmedValue) {
+        return { isValid: true, message: "Opcional" };
+      }
+
+      // Si el campo es requerido y está vacío, es inválido
       if (config.required && !trimmedValue) {
         return { isValid: false, message: "Este campo es requerido" };
       }
 
+      // Si tiene contenido, validar min/max
       if (config.min && trimmedValue.length < config.min) {
         return { isValid: false, message: `Mínimo ${config.min} caracteres` };
       }
@@ -157,7 +164,7 @@ export default function FormHeader({
   // Manejar eliminación de imagen
   const handleImageDelete = useCallback(() => {
     // Limpiar blob URL si existe para evitar memory leaks
-    if (previewImageUrl && previewImageUrl.startsWith('blob:')) {
+    if (previewImageUrl && previewImageUrl.startsWith("blob:")) {
       URL.revokeObjectURL(previewImageUrl);
     }
     setPreviewImageUrl(defaultImage);
@@ -168,16 +175,16 @@ export default function FormHeader({
   useEffect(() => {
     if (data.public_image && data.public_image !== defaultImage) {
       // Verificar si es un blob URL temporal, una URL de Cloudinary, o una URL normal
-      if (data.public_image.startsWith('blob:')) {
+      if (data.public_image.startsWith("blob:")) {
         // Es un blob URL temporal, usarlo directamente para preview
         setPreviewImageUrl(data.public_image);
       } else if (
-        data.public_image.startsWith('http') || 
-        data.public_image.startsWith('/') ||
-        data.public_image.includes('cloudinary.com') ||
-        data.public_image.includes('res.cloudinary.com')
+        data.public_image.startsWith("http") ||
+        data.public_image.startsWith("/") ||
+        data.public_image.includes("cloudinary.com") ||
+        data.public_image.includes("res.cloudinary.com")
       ) {
-        // Es una URL normal o de Cloudinary, usarla directamente  
+        // Es una URL normal o de Cloudinary, usarla directamente
         setPreviewImageUrl(data.public_image);
       } else {
         // Fallback a imagen por defecto
@@ -192,7 +199,7 @@ export default function FormHeader({
   // Limpiar blob URLs al desmontar el componente para evitar memory leaks
   useEffect(() => {
     return () => {
-      if (previewImageUrl && previewImageUrl.startsWith('blob:')) {
+      if (previewImageUrl && previewImageUrl.startsWith("blob:")) {
         URL.revokeObjectURL(previewImageUrl);
       }
     };
@@ -203,9 +210,17 @@ export default function FormHeader({
     if (!data || !validationConfig) return;
 
     const initialValidations = {};
-    const fieldsToValidate = ['titulo', 'texto_frase', 'texto_descripcion'];
-    
-    fieldsToValidate.forEach(fieldName => {
+    const fieldsToValidate = [
+      "titulo",
+      "texto_frase",
+      "texto_descripcion",
+      "alt",
+      "title",
+      "meta_title",
+      "meta_descripcion",
+    ];
+
+    fieldsToValidate.forEach((fieldName) => {
       const value = data[fieldName] || "";
       const validation = validateField(fieldName, value);
       initialValidations[fieldName] = validation;
@@ -217,13 +232,13 @@ export default function FormHeader({
   // Notificar validación general
   useEffect(() => {
     const allValidations = Object.values(fieldValidations);
-    
+
     // En modo edición, considerar válido si no hay validaciones específicas pero hay datos
     if (mode === "edit" && allValidations.length === 0 && data.titulo) {
       onValidationChange?.(true);
       return;
     }
-    
+
     const isFormValid =
       allValidations.length > 0 && allValidations.every((v) => v.isValid);
     onValidationChange?.(isFormValid);
@@ -275,11 +290,6 @@ export default function FormHeader({
   ];
 
   const seoImageFields = [
-    {
-      name: "url_image",
-      label: "URL Externa de Imagen (opcional)",
-      placeholder: "https://ejemplo.com/imagen.jpg",
-    },
     {
       name: "alt",
       label: "Texto Alternativo (Alt)",
@@ -421,8 +431,9 @@ export default function FormHeader({
                 </h4>
                 {seoImageFields.map(({ name, label, placeholder }) => (
                   <div key={name}>
-                    <label className="text-white text-sm font-medium mb-2">
+                    <label className="flex items-center text-white text-sm font-medium mb-2">
                       {label}
+                      <ValidationMessage fieldName={name} />
                     </label>
                     <input
                       type="text"
@@ -433,6 +444,7 @@ export default function FormHeader({
                       autoComplete="off"
                       className={mergedStyles.input}
                       placeholder={placeholder}
+                      required={validationConfig[name]?.required}
                     />
                   </div>
                 ))}
@@ -445,8 +457,9 @@ export default function FormHeader({
                 </h4>
                 {seoFields.map(({ name, label, type, placeholder }) => (
                   <div key={name}>
-                    <label className="text-white text-sm font-medium mb-2">
+                    <label className="flex items-center text-white text-sm font-medium mb-2">
                       {label}
+                      <ValidationMessage fieldName={name} />
                     </label>
                     {type === "textarea" ? (
                       <textarea
@@ -457,6 +470,7 @@ export default function FormHeader({
                         autoComplete="off"
                         className={`${mergedStyles.input} resize-none`}
                         placeholder={placeholder}
+                        required={validationConfig[name]?.required}
                       />
                     ) : (
                       <input
@@ -468,6 +482,7 @@ export default function FormHeader({
                         autoComplete="off"
                         className={mergedStyles.input}
                         placeholder={placeholder}
+                        required={validationConfig[name]?.required}
                       />
                     )}
                   </div>
