@@ -319,6 +319,8 @@ export default function useBlogData(
             title_image2: mappedFooter.title_image2,
             alt_image3: mappedFooter.alt_image3,
             title_image3: mappedFooter.title_image3,
+            palabra: mappedFooter.palabra,
+            enlace: mappedFooter.enlace,
           });
           setFormImagenFooter({
             public_image1: mappedFooter.public_image1,
@@ -664,6 +666,12 @@ export default function useBlogData(
         descripcion: footerEnabled
           ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
           : FOOTER_DEFAULTS.descripcion,
+        palabra: footerEnabled
+          ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
+          : FOOTER_DEFAULTS.palabra,
+        enlace: footerEnabled
+          ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
+          : FOOTER_DEFAULTS.enlace,
       };
 
       if (isCreateMode) {

@@ -40,6 +40,8 @@ export const FOOTER_DEFAULTS = {
   title_image2: "",
   alt_image3: "",
   title_image3: "",
+  palabra: "",
+  enlace: "",
 };
 
 /**

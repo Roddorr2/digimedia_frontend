@@ -87,6 +87,8 @@ export default function useFormState() {
     title_image2: FOOTER_DEFAULTS.title_image2,
     alt_image3: FOOTER_DEFAULTS.alt_image3,
     title_image3: FOOTER_DEFAULTS.title_image3,
+    palabra: FOOTER_DEFAULTS.palabra,
+    enlace: FOOTER_DEFAULTS.enlace,
   });
 
   const [formImagenFooter, setFormImagenFooter] = useState({
@@ -161,6 +163,8 @@ export default function useFormState() {
       title_image2: FOOTER_DEFAULTS.title_image2,
       alt_image3: FOOTER_DEFAULTS.alt_image3,
       title_image3: FOOTER_DEFAULTS.title_image3,
+      palabra: FOOTER_DEFAULTS.palabra,
+      enlace: FOOTER_DEFAULTS.enlace,
     });
 
     setFormImagenFooter({

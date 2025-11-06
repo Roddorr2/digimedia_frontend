@@ -7,6 +7,7 @@ import {
   HEADER_DEFAULTS,
   FOOTER_DEFAULTS,
 } from "../constants/defaults";
+import { IdCard } from "lucide-react";
 
 /**
  * BlogOrchestrator - Orquesta el flujo completo de creación/edición de blogs
@@ -142,6 +143,11 @@ class BlogOrchestrator {
 
       const footerPayload = {
         ...footerData.formEncabezadoFooter,
+        palabra:
+          footerData.formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra,
+        enlace:
+          footerData.formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace,
+        // Imágenes por defecto
         public_image1: DEFAULT_IMAGES.footer.image1,
         public_image2: DEFAULT_IMAGES.footer.image2,
         public_image3: DEFAULT_IMAGES.footer.image3,
@@ -271,6 +277,26 @@ class BlogOrchestrator {
       };
 
       await API.default.updateBlog(blogId, blogPayload);
+
+      // Subir imágenes si hay cardId
+      if (cardId) {
+        const cardPayload = {
+          id_blog: result.blogId,
+          titulo:
+            headerData.formEncabezadoHeader.titulo || HEADER_DEFAULTS.titulo,
+          descripcion: bodyData.formEncabezadoBody.descripcion || "",
+          public_image:
+            headerData.formImagenHeader.public_image ||
+            DEFAULT_IMAGES.header.image1,
+          url_image: "",
+          id_plantilla: plantillaId,
+          id_empleado: empleadoId,
+        };
+
+        await API.default.updateCard(cardId, cardPayload);
+      } else {
+        console.warn("⚠️ No hay cardId disponible, imágenes no se subirán");
+      }
 
       // Subir imágenes si hay cardId
       if (cardId) {

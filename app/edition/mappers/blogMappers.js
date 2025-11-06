@@ -285,6 +285,10 @@ function mapFooterFromServer(data) {
       data.public_image3,
       getDefaultImage("footer", "image3")
     ),
+
+    // Palabra y enlace
+    palabra: data.palabra || FOOTER_DEFAULTS.palabra,
+    enlace: data.enlace || FOOTER_DEFAULTS.enlace,
   };
 }
 
@@ -330,6 +334,10 @@ function mapFooterToServer(
           formData.public_image3,
           getDefaultImage("footer", "image3")
         ),
+
+    // Palabra y enlace
+        palabra: formData.palabra || FOOTER_DEFAULTS.palabra,
+    enlace: formData.enlace || FOOTER_DEFAULTS.enlace,
   };
 }
 
