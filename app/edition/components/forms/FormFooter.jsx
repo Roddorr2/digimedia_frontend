@@ -17,11 +17,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import BotonAnadirLink from "./BotonAnadirLink"; 
+// import BotonAnadirLink from "./BotonAnadirLink"; // SE DESCOMENTARA CUANDO SEA NECESARIO O REQUERIDO
 
 // Configuración centralizada
 // import { DEFAULT_FOOTER_VALIDATION_CONFIG } from "../../config/index";
-import { DEFAULT_FOOTER_VALIDATION_CONFIG, DEFAULT_SERVICIOS } from "../../config/index";
+import {
+  DEFAULT_FOOTER_VALIDATION_CONFIG,
+  DEFAULT_SERVICIOS,
+} from "../../config/index";
 
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
@@ -326,8 +329,8 @@ export default function FormFooter({
     if (!data || !validationConfig) return;
 
     if (!footerEnabled) {
-    return;
-  }
+      return;
+    }
     const initialValidations = {};
     const fieldsToValidate = [
       "titulo",
@@ -347,7 +350,7 @@ export default function FormFooter({
     });
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [    
+  }, [
     data?.titulo,
     data?.descripcion,
     data?.alt_image1,
@@ -412,30 +415,31 @@ export default function FormFooter({
     );
   };
 
+  // SE DESCOMENTARA CUANDO SEA NECESARIO O REQUERIDO
   // Función para renderizar descripción con enlace en palabra clave
-  const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
-    if (!palabraClave || !enlace || !texto) return texto;
-    
-    const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
-    const partes = texto.split(regex);
-    
-    return partes.map((parte, i) =>
-      parte.toLowerCase() === palabraClave.toLowerCase() ? (
-        <a
-          key={i}
-          href={enlace}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-400 font-bold underline hover:text-blue-300 transition-colors"
-        >
-          {parte}
-        </a>
-      ) : (
-        <span key={i}>{parte}</span>
-      )
-    );
-  }, []);
+  // const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
+  //   if (!palabraClave || !enlace || !texto) return texto;
+
+  //   const escapedKeyword = palabraClave.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  //   const regex = new RegExp(`\\b(${escapedKeyword})\\b`, "gi");
+  //   const partes = texto.split(regex);
+
+  //   return partes.map((parte, i) =>
+  //     parte.toLowerCase() === palabraClave.toLowerCase() ? (
+  //       <a
+  //         key={i}
+  //         href={enlace}
+  //         target="_blank"
+  //         rel="noopener noreferrer"
+  //         className="text-blue-400 font-bold underline hover:text-blue-300 transition-colors"
+  //       >
+  //         {parte}
+  //       </a>
+  //     ) : (
+  //       <span key={i}>{parte}</span>
+  //     )
+  //   );
+  // }, []);
 
   // Loading state
   if (!data && mode === "edit") {
@@ -456,11 +460,11 @@ export default function FormFooter({
               {data.titulo || "Título del Footer"}
             </h3>
             <p className={mergedStyles.description}>
-              {renderDescripcion(
-                data.descripcion || "Descripción del footer",
+              {
+                (data.descripcion || "Descripción del footer",
                 data.palabra || "",
-                data.enlace || ""
-              )}
+                data.enlace || "")
+              }
             </p>
 
             {/* Galería de imágenes */}
@@ -592,8 +596,10 @@ export default function FormFooter({
                     placeholder={mergedPlaceholders.descripcion}
                     required={validationConfig.descripcion?.required}
                   />
-             
-                  <BotonAnadirLink
+
+                  {/* Se habilitara cuando sea necesario */}
+
+                  {/* <BotonAnadirLink
                     servicios={servicios}
                     item={{
                       palabra: data.palabra || "",
@@ -608,14 +614,14 @@ export default function FormFooter({
                         } 
                       });
                     }}
-                  />
+                  /> */}
 
-                  <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-3">
+                  {/* <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-700 mt-3">
                     <p className="text-xs text-gray-400">
-                      💡 El enlace solo se asocia con texto existente en la descripción
+                      💡 El enlace solo se asocia con texto existente en la
+                      descripción
                     </p>
-                  </div>
- 
+                  </div> */}
                 </div>
 
                 {/* Imágenes con Swiper */}

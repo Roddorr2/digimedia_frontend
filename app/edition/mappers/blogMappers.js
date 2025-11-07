@@ -336,7 +336,7 @@ function mapFooterToServer(
         ),
 
     // Palabra y enlace
-        palabra: formData.palabra || FOOTER_DEFAULTS.palabra,
+    palabra: formData.palabra || FOOTER_DEFAULTS.palabra,
     enlace: formData.enlace || FOOTER_DEFAULTS.enlace,
   };
 }
