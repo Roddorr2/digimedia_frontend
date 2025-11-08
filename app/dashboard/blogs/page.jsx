@@ -56,6 +56,7 @@ export default function Page() {
 
         if (!searchQuery.trim()) {
             setFilteredBlogs(sourceData)
+            setCurrentPage(1)
             return
         }
 
@@ -73,7 +74,7 @@ export default function Page() {
     }
 
     const totalPages = useMemo(() => {
-        return Math.ceil(filteredBlogs.length / blogsPerPage)
+        return Math.max(1, Math.ceil(filteredBlogs.length / blogsPerPage))
     }, [filteredBlogs])
 
     const handleFilterChange = (filter) => {
@@ -110,6 +111,7 @@ export default function Page() {
                 setAllBlogs(responseTodos.data)
                 setMyBlogs(responseMe.data)
                 setFilteredBlogs(activeFilter === "all" ? responseTodos.data : responseMe.data)
+                setCurrentPage(1)
             } else {
                 showError("Ocurrió un error al cargar los blogs.")
             }
@@ -188,7 +190,7 @@ export default function Page() {
             <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-2">No hay blogs disponibles</h3>
             <p className="text-slate-500 dark:text-slate-400 max-w-md mb-6">{message}</p>
             <Link
-                href="/dashboard/blogs/create"
+                href="/edition"
                 className="inline-flex items-center px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
             >
                 <Plus className="w-4 h-4 mr-2" />
@@ -196,6 +198,69 @@ export default function Page() {
             </Link>
         </div>
     )
+
+    // Componente para la vista de tarjetas (móvil)
+    const BlogCard = ({ blog }) => (
+        <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
+            <div className="flex items-start justify-between">
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                            ID: {blog.id_card}
+                        </span>
+                    </div>
+                    <h3 className="font-medium text-slate-900 mb-1 line-clamp-2">{blog.titulo}</h3>
+                    <p className="text-sm text-slate-600 line-clamp-2 mb-2">{blog.descripcion}</p>
+                </div>
+                <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 ml-3 flex-shrink-0">
+                    <img
+                        src={blog.public_image || "/placeholder.svg"}
+                        alt={blog.titulo}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+            
+            <div className="pt-2 border-t border-slate-100">
+                <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-slate-600">
+                        <span className="font-medium">Autor:</span> {blog.empleado?.nombre || "Desconocido"}
+                    </span>
+                </div>
+                
+                <div className="flex gap-2">
+                    <Link
+                        href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors text-sm"
+                        title="Ver blog"
+                    >
+                        <Eye className="w-4 h-4" />
+                        Ver
+                    </Link>
+                    <Link
+                        href={`/edition?mode=edit&id=${blog.id_blog}`}
+                        className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors text-sm"
+                        title="Editar blog"
+                    >
+                        <Pencil className="w-4 h-4" />
+                        Editar
+                    </Link>
+                    {auth_service.hasRole("administrador") && (
+                        <button
+                            onClick={() => confirmDelete(blog.id_blog)}
+                            className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                            title="Eliminar blog"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+
 
     return (
         <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50 dark:bg-slate-900">
@@ -226,7 +291,8 @@ export default function Page() {
                             )}
                         </div>
 
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap sm:justify-end">
+
                             <button
                                 onClick={() => handleFilterChange("all")}
                                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
@@ -265,7 +331,7 @@ export default function Page() {
                             </button>
 
                             <Link
-                                href="/dashboard/blogs/create"
+                                href="/edition"
                                 className="flex items-center gap-2 px-3 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors"
                             >
                                 <PlusCircleIcon className="w-4 h-4" />
@@ -302,6 +368,7 @@ export default function Page() {
                 <>
                     <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
                         <div className="overflow-x-auto">
+
                             <table className="w-full">
                                 <thead>
                                     <tr className="bg-slate-50 dark:bg-slate-700 border-b border-slate-100 dark:border-slate-600 text-center">
@@ -357,7 +424,9 @@ export default function Page() {
                                                 {blog.empleado.nombre || "Desconocido"}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+
                                                 <div className="flex justify-end gap-2">
+
                                                     <Link
                                                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
                                                         target="_blank"
@@ -368,7 +437,8 @@ export default function Page() {
                                                         <Eye className="w-4 h-4" />
                                                     </Link>
                                                     <Link
-                                                        href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                                                        //href={`/edition/modify/plantillas/plantilla${blog.id_plantilla}/?id_blog=${blog.id_blog}`}
+                                                        href={`/edition?mode=edit&id=${blog.id_blog}`}
                                                         className="p-2 bg-amber-50 dark:bg-amber-900 text-amber-600 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-800 transition-colors"
                                                         title="Editar blog"
                                                     >
@@ -391,6 +461,61 @@ export default function Page() {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                   
+                    {totalPages > 1 && (
+                        <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
+                            <div className="text-sm text-slate-500">
+                                Mostrando <span className="font-medium">{displayedBlogs.length}</span> de <span className="font-medium">{filteredBlogs.length}</span> blogs
+                            </div>
+
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                    disabled={currentPage === 1}
+                                    className={`p-2 rounded-lg border ${currentPage === 1
+                                            ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                        }`}
+                                >
+                                    <ChevronLeft className="w-4 h-4" />
+                                </button>
+
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                    <button
+                                        key={`page-desktop-${page}`}
+                                        onClick={() => setCurrentPage(page)}
+                                        className={`w-9 h-9 rounded-lg border ${currentPage === page
+                                                ? "bg-sky-50 text-sky-600 border-sky-200"
+                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                            }`}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+
+                                <button
+                                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                    disabled={currentPage === totalPages}
+                                    className={`p-2 rounded-lg border ${currentPage === totalPages
+                                            ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                        }`}
+                                >
+                                    <ChevronRight className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Vista de tarjetas para pantallas pequeñas y medianas */}
+                    <div className="lg:hidden space-y-4 mb-6">
+                        {displayedBlogs.map((blog) => (
+                            <BlogCard key={`blog-card-${blog.id_card}`} blog={blog} />
+                        ))}
+
+                        {/* Paginación (móvil) */}
                         {totalPages > 1 && (
                             <div className="flex justify-between items-center bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sticky bottom-0">
                                 <div className="text-sm text-slate-500 dark:text-slate-400">
@@ -398,7 +523,7 @@ export default function Page() {
                                     <span className="font-medium">{filteredBlogs.length}</span> blogs
                                 </div>
 
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 justify-center">
                                     <button
                                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                         disabled={currentPage === 1}
@@ -413,7 +538,7 @@ export default function Page() {
 
                                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                                         <button
-                                            key={`page-${page}`}
+                                            key={`page-mobile-${page}`}
                                             onClick={() => setCurrentPage(page)}
                                             className={`w-9 h-9 rounded-lg border ${
                                                 currentPage === page
