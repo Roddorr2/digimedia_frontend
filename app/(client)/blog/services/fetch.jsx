@@ -1,112 +1,114 @@
+'use client';
 
-import axios from 'axios'
-import url from '../../../../api/url'
+import axios from 'axios';
+import url from '../../../../api/url';
+import { getCookie } from 'cookies-next';
 
 const Fetch = {
-    fetchBlogs: async function fetchBlogs(){
-        try{
+
+    // Obtener todos los blogs
+    fetchBlogs: async function fetchBlogs() {
+        try {
             const response = await axios.get(`${url}/api/blogs/`);
-
-            if(response.status === 200){
-                return response.data;
-            }
-            else{
-                return null;
-            }
-        }
-        catch(error){
-            console.log(error);
-            return error;
+            return response.status === 200 ? response.data : null;
+        } catch (error) {
+            console.error("❌ Error al obtener blogs:", error.response?.data || error.message);
+            return null;
         }
     },
 
-    fetchBlogById: async function fetchBlogById(id){
-        try{
+    // Obtener blog por ID
+    fetchBlogById: async function fetchBlogById(id) {
+        try {
             const response = await axios.get(`${url}/api/blogs/${id}`);
-            
-            if(response.status === 200){
-                return response.data.data;
-            }
-            else{
-                return null;
-            }
-        }
-        catch(error){
-            console.log(response.data.error);
-            return error;
+            return response.status === 200 ? response.data.data : null;
+        } catch (error) {
+            console.error("❌ Error al obtener blog por ID:", error.response?.data || error.message);
+            return null;
         }
     },
 
-    fetchBlogByLink: async (link) => {
+    // Obtener blog por link
+    fetchBlogByLink: async function fetchBlogByLink(link) {
         try {
             const response = await axios.get(`${url}/api/blogs/links/${link}`);
-            if (response.status === 200) return response.data.data;
-            return null;
+            return response.status === 200 ? response.data.data : null;
         } catch (error) {
-            console.error("Error al obtener blog por link:", error);
+            console.error("❌ Error al obtener blog por link:", error.response?.data || error.message);
             return null;
         }
     },
 
-    fetchCards: async function fetchCards(){
-        try{
+    // Obtener tarjetas
+    fetchCards: async function fetchCards() {
+        try {
             const response = await axios.get(`${url}/api/cards`);
-            if(response.status === 200){
-                return response.data;
-            }
-            else{
-                return null;
-            }
-        }catch(error){
-            console.log(error);
-            return error;
+            return response.status === 200 ? response.data : null;
+        } catch (error) {
+            console.error("❌ Error al obtener cards:", error.response?.data || error.message);
+            return null;
         }
     },
 
-    fetchBlogHead: async function fetchBlogHead(id){
-        try{
+    // Obtener blog head
+    fetchBlogHead: async function fetchBlogHead(id) {
+        try {
             const response = await axios.get(`${url}/api/blog_head/${id}`);
-            if(response.status === 200){
-                return response.data.data;
-            }
-            else{
-                return null;
-            }
-        }catch(error){
-            console.log(error);
-            return error;
+            return response.status === 200 ? response.data.data : null;
+        } catch (error) {
+            console.error("❌ Error al obtener blog head:", error.response?.data || error.message);
+            return null;
         }
     },
 
-    fetchBlogFooter: async function fetchBlogFooter(id){
-        try{
+    // Obtener blog footer
+    fetchBlogFooter: async function fetchBlogFooter(id) {
+        try {
             const response = await axios.get(`${url}/api/blog_footer/${id}`);
-            if(response.status === 200){
-                return response.data.data;
-            }
-            else{
-                return null;
-            }
-        }catch(error){
-            console.log(error);
-            return error;
+            return response.status === 200 ? response.data.data : null;
+        } catch (error) {
+            console.error("❌ Error al obtener blog footer:", error.response?.data || error.message);
+            return null;
         }
     },
 
-    fetchBlogBodyById: async function fetchBlogBodyById(id){
-        try{
+    // Obtener blog body por ID
+    fetchBlogBodyById: async function fetchBlogBodyById(id) {
+        try {
             const response = await axios.get(`${url}/api/blog_body/${id}`);
-            if(response.status === 200){
-                return response.data.data;
-            }
-            else{
-                return null;
-            }
-        }catch(error){
-            console.log(error);
-            return error;
+            return response.status === 200 ? response.data.data : null;
+        } catch (error) {
+            console.error("❌ Error al obtener blog body:", error.response?.data || error.message);
+            return null;
         }
+    },
+
+fetchBlogAuditoria: async function () {
+    try {
+        const token = getCookie("token");
+
+        if (!token) return [];
+
+        const response = await axios.get(`${url}/api/blogs_auditoria`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return Array.isArray(response?.data?.data) ? response.data.data : [];
+
+    } catch (error) {
+        // Si la API devuelve 404, devolvemos array vacío
+        if (error.response?.status === 404) {
+            return [];
+        }
+
+        console.error("❌ Error al obtener auditoría:", error.response?.data || error.message);
+        return [];
     }
+}
+
+
 }
 
 export default Fetch;

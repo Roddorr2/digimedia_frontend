@@ -711,16 +711,19 @@ export default function useBlogData(
         const result = await blogOrchestrator.createBlog({
           headerData: {
             formEncabezadoHeader,
+            id_blog_head: blogRelations.id_blog_head,
             formImagenHeader,
           },
           bodyData: {
             formEncabezadoBody,
             formGaleryBody,
             formCommendBody,
+            id_blog_body: blogRelations.id_blog_body,
             formInfoBody,
           },
           footerData: {
             formEncabezadoFooter,
+            id_blog_footer: blogRelations.id_blog_footer,
             formImagenFooter,
           },
           files: {

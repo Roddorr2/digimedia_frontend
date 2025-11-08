@@ -5,6 +5,7 @@ import Swal from "sweetalert2"
 import axios from "axios"
 import Link from "next/link"
 import { getCookie } from "cookies-next"
+import HistorialAuditoria from "./components/HistorialAuditoria"
 import url from "../../../api/url"
 import {
     Search,
@@ -261,7 +262,7 @@ export default function Page() {
         </div>
     )
 
-
+    const [mostrarHistorial, setMostrarHistorial] = useState(false);
     return (
         <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50 dark:bg-slate-900">
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-6">
@@ -337,6 +338,15 @@ export default function Page() {
                                 <PlusCircleIcon className="w-4 h-4" />
                                 <span className="hidden sm:inline">Crear Nuevo</span>
                             </Link>
+                            {auth_service.hasRole("administrador") && (
+                                <Link
+                                    href="/dashboard/blogs/historial"
+                                    className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
+                                >
+                                    <FileText className="w-4 h-4" />
+                                    <span className="hidden sm:inline">Ver historial</span>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -566,6 +576,11 @@ export default function Page() {
                         )}
                     </div>
                 </>
+            )}
+            {mostrarHistorial && (
+                <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mt-6">
+                    <HistorialAuditoria />
+                </div>
             )}
         </main>
     )
