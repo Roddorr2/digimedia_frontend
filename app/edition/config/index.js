@@ -83,36 +83,36 @@ export const DEFAULT_SERVICIOS = [
 // Configuración de validación por defecto para Header (común a todas las plantillas)
 export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 50, required: true },
-  texto_frase: { min: 10, max: 70, required: true },
-  texto_descripcion: { min: 10, max: 120, required: true },
+  texto_frase: { min: 10, max: 140, required: true },
+  texto_descripcion: { min: 10, max: 240, required: true },
   titulo_enlace: { min: 5, max: 30, required: false },
-  alt: { min: 5, max: 255, required: false },
-  title: { min: 5, max: 255, required: false },
-  meta_title: { min: 5, max: 255, required: false },
-  meta_descripcion: { min: 20, max: 255, required: false },
+  alt: { min: 60, max: 240, required: false },
+  title: { min: 50, max: 140, required: false },
+  meta_title: { min: 50, max: 120, required: false },
+  meta_descripcion: { min: 150, max: 255, required: false },
 };
 
 // Configuración de validación por defecto para Footer (común a todas las plantillas)
 export const DEFAULT_FOOTER_VALIDATION_CONFIG = {
-  titulo: { min: 10, max: 50, required: true },
-  descripcion: { min: 10, max: 300, required: true },
+  titulo: { min: 10, max: 50, required: false },
+  descripcion: { min: 10, max: 300, required: false },
   estado: { required: true },
-  alt_image1: { min: 5, max: 255, required: false },
-  alt_image2: { min: 5, max: 255, required: false },
-  alt_image3: { min: 5, max: 255, required: false },
-  title_image1: { min: 5, max: 255, required: false },
-  title_image2: { min: 5, max: 255, required: false },
-  title_image3: { min: 5, max: 255, required: false },
+  alt_image1: { min: 60, max: 240, required: false },
+  alt_image2: { min: 60, max: 240, required: false },
+  alt_image3: { min: 60, max: 240, required: false },
+  title_image1: { min: 50, max: 140, required: false },
+  title_image2: { min: 50, max: 140, required: false },
+  title_image3: { min: 50, max: 140, required: false },
 };
 
 // Configuración de validación por defecto para Body (compatible con FormBody existente)
 export const DEFAULT_BODY_VALIDATION_CONFIG = {
   // Encabezado (formEncabezadoBody)
-  titulo: { min: 10, max: 50, required: true },
+  titulo: { min: 10, max: 100, required: true },
   descripcion: { min: 10, max: 400, required: true },
   fecha: { required: true },
-  alt_image1: { min: 3, max: 125, required: false },
-  title_image1: { min: 3, max: 50, required: false },
+  alt_image1: { min: 60, max: 240, required: false },
+  title_image1: { min: 50, max: 140, required: false },
 
   // Campos de control dinámico
   flag_galeria: { required: true },
@@ -121,17 +121,17 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   service_url: { required: false },
 
   // Consejos (formCommendBody) - Hasta 5 consejos
-  texto1: { min: 10, max: 150, required: true },
-  texto2: { min: 10, max: 150, required: true },
-  texto3: { min: 10, max: 150, required: false },
-  texto4: { min: 10, max: 100, required: false },
-  texto5: { min: 10, max: 100, required: false },
+  texto1: { min: 10, max: 255, required: true },
+  texto2: { min: 10, max: 255, required: true },
+  texto3: { min: 10, max: 255, required: false },
+  texto4: { min: 10, max: 255, required: false },
+  texto5: { min: 10, max: 255, required: false },
 
   // Galería (formGaleryBody)
-  alt_image2: { min: 3, max: 125, required: false },
-  title_image2: { min: 3, max: 50, required: false },
-  alt_image3: { min: 3, max: 125, required: false },
-  title_image3: { min: 3, max: 50, required: false },
+  alt_image2: { min: 60, max: 240, required: false },
+  title_image2: { min: 50, max: 140, required: false },
+  alt_image3: { min: 60, max: 240, required: false },
+  title_image3: { min: 50, max: 140, required: false },
 };
 
 // Export individual de configuraciones
