@@ -85,6 +85,7 @@ export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 50, required: true },
   texto_frase: { min: 10, max: 70, required: true },
   texto_descripcion: { min: 10, max: 120, required: true },
+  titulo_enlace: { min: 5, max: 30, required: false },
   alt: { min: 5, max: 255, required: false },
   title: { min: 5, max: 255, required: false },
   meta_title: { min: 5, max: 255, required: false },
