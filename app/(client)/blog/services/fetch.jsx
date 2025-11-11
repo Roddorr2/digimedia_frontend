@@ -32,7 +32,7 @@ const Fetch = {
     fetchBlogByLink: async function fetchBlogByLink(link) {
         try {
             const response = await axios.get(`${url}/api/blogs/links/${link}`);
-            return response.status === 200 ? response.data.data : null;
+            return response.status === 200 ? response.data.blog : null;
         } catch (error) {
             console.error("❌ Error al obtener blog por link:", error.response?.data || error.message);
             return null;
