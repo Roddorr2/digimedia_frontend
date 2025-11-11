@@ -1,11 +1,13 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import { useRouter } from "next/navigation"
 import Swal from "sweetalert2"
 import axios from "axios"
 import Link from "next/link"
 import { getCookie } from "cookies-next"
 import HistorialAuditoria from "./components/HistorialAuditoria"
+import { useAuth } from "../../context/AuthContext";
 import url from "../../../api/url"
 import {
     Search,
@@ -39,10 +41,28 @@ export default function Page() {
     const blogsPerPage = 5
 
     const id_empleado = getCookie("empleado") ? JSON.parse(getCookie("empleado")).id_empleado : -1
+    const { isAuthenticated, user, hasPermission } = useAuth();
 
-    useEffect(() => {
-        fetchData()
-    }, [])
+    const router = useRouter();
+
+useEffect(() => {
+    if (user === null) return; // Espera a que se cargue el usuario
+
+    if (!hasPermission("ver-blogs")) {
+        Swal.fire({
+            title: "Acceso denegado",
+            text: "No tienes permisos para ver esta sección",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+        }).then(() => {
+            router.replace("/dashboard/main");
+        });
+    } else {
+        fetchData(); // Solo ejecuta si tiene permiso
+    }
+}, [user]);
+
+
 
     useEffect(() => {
         filterBlogs()
