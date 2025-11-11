@@ -12,7 +12,7 @@ export const useAuth = () => useContext(AuthContext);
 // Proveedor del contexto
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null); // Usuario logueado con permisos
+  const [user, setUser] = useState(null); 
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,9 +32,16 @@ export const AuthProvider = ({ children }) => {
 
         if (res && res.user) {
           setIsAuthenticated(true);
-          setUser(res.user);
+          setUser({
+            ...res.user,
+            permisos: res.permisos || []
+          });
 
-          // Redirige a dashboard si estaba en login
+          // Guardar en cookies por si se recarga
+          setCookie("permisos", JSON.stringify(res.permisos || []), { maxAge: 300 * 60, path: "/" });
+          setCookie("rol", res.rol, { maxAge: 300 * 60, path: "/" });
+
+          // Redirigir si está en login
           if (pathname === "/login/") {
             router.replace("/dashboard/main");
           }
@@ -63,15 +70,16 @@ export const AuthProvider = ({ children }) => {
       setCookie("token", data.token, { maxAge: 300 * 60, path: "/" });
 
       const userData = await auth_service.me();
-
       if (userData.error) throw new Error("Error al obtener información del usuario");
 
-      setCookie("user", JSON.stringify(userData.user), { maxAge: 300 * 60, path: "/" });
-      setUser(userData.user);
+      setUser({
+        ...userData.user,
+        permisos: userData.permisos || []
+      });
 
-      if (userData.rol) {
-        setCookie("rol", userData.rol, { maxAge: 300 * 60, path: "/" });
-      }
+      setCookie("user", JSON.stringify(userData.user), { maxAge: 300 * 60, path: "/" });
+      setCookie("permisos", JSON.stringify(userData.permisos || []), { maxAge: 300 * 60, path: "/" });
+      setCookie("rol", userData.rol, { maxAge: 300 * 60, path: "/" });
 
       setIsAuthenticated(true);
       router.replace("/dashboard/main");
@@ -98,18 +106,30 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Función para verificar permisos
-  const hasPermission = (permiso) => {
-    // Obtener rol desde user o cookie
-    const rol = user?.rol || getCookie("rol");
-    if (!rol) return false;
+ // Normaliza permisos -> elimina tildes, pone minúsculas y cambia espacios por guiones
+const normalize = (str) =>
+  str
+    ?.toString()
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
 
-    // Admin tiene todos los permisos
-    if (rol === "administrador") return true;
+// Función para verificar permisos
+const hasPermission = (permiso) => {
+  const rol = user?.rol || getCookie("rol");
 
-    // Verifica permisos específicos
-    return Array.isArray(user?.permisos) && user.permisos.includes(permiso);
-  };
+  if (rol === "administrador") return true;
+
+  const permisos = user?.permisos || JSON.parse(getCookie("permisos") || "[]");
+
+  if (!Array.isArray(permisos)) return false;
+
+  const normalizados = permisos.map(p => normalize(p));
+
+  return normalizados.includes(normalize(permiso));
+};
+
+
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, login, logout, hasPermission }}>
