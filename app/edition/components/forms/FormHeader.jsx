@@ -6,6 +6,9 @@ import {
   Image as IconImage,
   Loader2,
   Trash2,
+  Search,
+  FileText,
+  Link2
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 
@@ -44,6 +47,7 @@ const DEFAULT_PLACEHOLDERS = {
   titulo: "Título del Blog",
   texto_frase: "Frase destacada",
   texto_descripcion: "Descripción del blog",
+  titulo_enlace: "Texto para generar el enlace del blog (opcional)",
   alt: "Descripción de la imagen para accesibilidad",
   title: "Título que aparece al pasar el mouse",
   meta_title: "Título SEO (máx 60 caracteres)",
@@ -216,6 +220,7 @@ export default function FormHeader({
       "texto_descripcion",
       "alt",
       "title",
+      "titulo_enlace",
       "meta_title",
       "meta_descripcion",
     ];
@@ -264,28 +269,56 @@ export default function FormHeader({
     );
   };
 
-  // Campos del formulario - Compatible con tabla blog_heads
+  // 1. Campos SEO
+  const seoFields = [
+    {
+      name: "meta_title",
+      label: "Meta Title (SEO)",
+      icon: Search,
+      type: "input",
+      placeholder: mergedPlaceholders.meta_title,
+    },
+
+    {
+      name: "meta_descripcion",
+      label: "Meta Description (SEO)",
+      icon: FileText,
+      type: "textarea",
+      placeholder: mergedPlaceholders.meta_descripcion,
+    },
+  ];
+
+  // 2. Campo de link personalizado
+  const linkField = {
+    name: "titulo_enlace",
+    icon: Link2,
+    label: "Título para Enlace del Blog",
+    type: "input",
+    placeholder: mergedPlaceholders.titulo_enlace,
+    helpText:
+      "Este texto se usará para generar el slug/enlace del blog. Si se deja vacío, se usará el Título Principal.",
+  };
   const formFields = [
     {
       name: "titulo",
       icon: Type,
-      label: "Título",
+      label: "Título Principal",
       type: "input",
-      placeholder: "Título principal del blog",
+      placeholder: mergedPlaceholders.titulo,
     },
     {
       name: "texto_frase",
       icon: Quote,
       label: "Frase Destacada",
       type: "input",
-      placeholder: "Frase destacada",
+      placeholder: mergedPlaceholders.texto_frase,
     },
     {
       name: "texto_descripcion",
       icon: AlignLeft,
       label: "Frase Secundaria",
       type: "input",
-      placeholder: "Frase secundaria",
+      placeholder: mergedPlaceholders.texto_descripcion,
     },
   ];
 
@@ -299,21 +332,6 @@ export default function FormHeader({
       name: "title",
       label: "Título de la Imagen",
       placeholder: mergedPlaceholders.title,
-    },
-  ];
-
-  const seoFields = [
-    {
-      name: "meta_title",
-      label: "Meta Title",
-      type: "input",
-      placeholder: mergedPlaceholders.meta_title,
-    },
-    {
-      name: "meta_descripcion",
-      label: "Meta Description",
-      type: "textarea",
-      placeholder: mergedPlaceholders.meta_descripcion,
     },
   ];
 
@@ -349,7 +367,93 @@ export default function FormHeader({
                 Editar Encabezado
               </h3>
 
-              {/* Campos principales */}
+              {/* 1. BLOQUE SEO */}
+
+              <div className={mergedStyles.seoSection}>
+                <h4 className="text-sm font-semibold text-green-300 mb-3 flex items-center">
+                  <Search className="w-4 h-4 mr-2" />
+                  Información SEO
+                </h4>
+
+                {seoFields.map(
+                  ({ name, label, type, placeholder, icon: Icon }) => (
+                    <div key={name} className="mb-3">
+                      <label className="flex items-center text-white text-sm font-medium mb-2">
+                        <Icon className="w-4 h-4 mr-2 text-green-400" />
+
+                        {label}
+
+                        <ValidationMessage fieldName={name} />
+                      </label>
+
+                      {type === "textarea" ? (
+                        <textarea
+                          name={name}
+                          value={data[name] || ""}
+                          onChange={handleFieldChange}
+                          maxLength={validationConfig[name]?.max}
+                          autoComplete="off"
+                          rows={3}
+                          className={`${mergedStyles.input} resize-none`}
+                          placeholder={placeholder}
+                          required={validationConfig[name]?.required}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          name={name}
+                          value={data[name] || ""}
+                          onChange={handleFieldChange}
+                          maxLength={validationConfig[name]?.max}
+                          autoComplete="off"
+                          className={mergedStyles.input}
+                          placeholder={placeholder}
+                          required={validationConfig[name]?.required}
+                        />
+                      )}
+                    </div>
+                  )
+                )}
+              </div>
+
+              {/* 2. CAMPO LINK PERSONALIZADO */}
+
+              <div className="p-4 bg-blue-900/20 rounded-lg border border-blue-500/30 space-y-3">
+                <h4 className="text-sm font-semibold text-blue-300 mb-2 flex items-center">
+                  <Link2 className="w-4 h-4 mr-2" />
+                  Enlace del Blog
+                </h4>
+
+                <div>
+                  <label className="flex items-center text-white text-sm font-medium mb-2">
+                    <Link2 className="w-4 h-4 mr-2 text-blue-400" />
+
+                    {linkField.label}
+
+                    <ValidationMessage fieldName={linkField.name} />
+                  </label>
+
+                  <input
+                    type="text"
+                    name={linkField.name}
+                    value={data[linkField.name] || ""}
+                    onChange={handleFieldChange}
+                    maxLength={validationConfig[linkField.name]?.max}
+                    autoComplete="off"
+                    className={mergedStyles.input}
+                    placeholder={linkField.placeholder}
+                    required={validationConfig[linkField.name]?.required}
+                  />
+
+                  {linkField.helpText && (
+                    <p className="text-xs text-gray-400 mt-1">
+                      {linkField.helpText}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* 3. CAMPOS DE CONTENIDO */}
               {formFields.map(
                 ({ name, icon: Icon, label, type, placeholder }) => (
                   <div key={name}>
@@ -374,7 +478,7 @@ export default function FormHeader({
                 )
               )}
 
-              {/* Imagen principal */}
+              {/* 4. IMAGEN PRINCIPAL */}
               <div>
                 <label className={mergedStyles.label}>
                   <IconImage className={mergedStyles.icon} />
@@ -424,7 +528,7 @@ export default function FormHeader({
                 </div>
               </div>
 
-              {/* SEO de imagen */}
+              {/* 5. SEO DE IMAGEN */}
               <div className={mergedStyles.imageSection}>
                 <h4 className="text-sm font-semibold text-purple-300 mb-2">
                   Información SEO de la Imagen
@@ -446,45 +550,6 @@ export default function FormHeader({
                       placeholder={placeholder}
                       required={validationConfig[name]?.required}
                     />
-                  </div>
-                ))}
-              </div>
-
-              {/* SEO general */}
-              <div className={mergedStyles.seoSection}>
-                <h4 className="text-sm font-semibold text-green-300 mb-2">
-                  Información SEO
-                </h4>
-                {seoFields.map(({ name, label, type, placeholder }) => (
-                  <div key={name}>
-                    <label className="flex items-center text-white text-sm font-medium mb-2">
-                      {label}
-                      <ValidationMessage fieldName={name} />
-                    </label>
-                    {type === "textarea" ? (
-                      <textarea
-                        name={name}
-                        value={data[name] || ""}
-                        onChange={handleFieldChange}
-                        maxLength={validationConfig[name]?.max}
-                        autoComplete="off"
-                        className={`${mergedStyles.input} resize-none`}
-                        placeholder={placeholder}
-                        required={validationConfig[name]?.required}
-                      />
-                    ) : (
-                      <input
-                        type="text"
-                        name={name}
-                        value={data[name] || ""}
-                        onChange={handleFieldChange}
-                        maxLength={validationConfig[name]?.max}
-                        autoComplete="off"
-                        className={mergedStyles.input}
-                        placeholder={placeholder}
-                        required={validationConfig[name]?.required}
-                      />
-                    )}
                   </div>
                 ))}
               </div>

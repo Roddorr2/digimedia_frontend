@@ -172,6 +172,7 @@ export default function useBlogData(
       setFormEncabezadoHeader((prev) => ({
         ...prev,
         ...blogResponse,
+        titulo_enlace: blogResponse.link || "",
       }));
 
       const [headerResponse, bodyResponse, footerResponse, cardsResponse] =
