@@ -39,7 +39,7 @@ export default function Page() {
       text: "DISEÑO Y DESARROLLO WEB",
       fondo: "/servicios/desarrollo/modal-scroll/fondo.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
+      serviceName: "1", 
       width: 256,
       height: 144,
     },
