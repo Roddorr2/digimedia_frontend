@@ -664,7 +664,7 @@ export default function FormBody({
         <div className="relative">
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
             <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-              Información Importante
+              {data.header.titulo_tarjeta || "Información Importante Consejos"}
             </div>
           </div>
           <div className="grid grid-cols-1 gap-28 pt-8">
@@ -694,6 +694,9 @@ export default function FormBody({
 
     return (
       <div className="space-y-6">
+        <h3 className="text-lg font-medium text-slate-700 mb-6 pb-2 border-b border-slate-200">
+          {data.header.titulo_tarjeta || "Información Detallada"}
+        </h3>
         {data.informacion.map((section, index) => (
           <div
             key={index}
@@ -991,28 +994,26 @@ export default function FormBody({
                 Consejos
               </h4>
               <div className="space-y-4">
-                {/* Título de consejos (especialmente para plantilla 2) */}
-                {plantillaId === 2 && (
-                  <div>
-                    <label className={mergedStyles.label}>
-                      <Type className="w-4 h-4 mr-2 text-purple-400" />
-                      Título de la sección
-                      <ValidationMessage
-                        fieldName="titulo"
-                        context="consejos"
-                      />
-                    </label>
-                    <input
-                      type="text"
-                      name="titulo"
-                      maxLength={100}
-                      value={data.consejos.titulo || ""}
-                      onChange={handleChange(setFormCommendBody, "consejos")}
-                      className={mergedStyles.input}
-                      placeholder="Ej: Consejos Útiles, Tips Importantes"
+                {/* Título de consejos (para TODAS las plantillas) */}
+                <div>
+                  <label className={mergedStyles.label}>
+                    <Type className="w-4 h-4 mr-2 text-purple-400" />
+                    Título de la sección
+                    <ValidationMessage
+                      fieldName="titulo"
+                      context="consejos"
                     />
-                  </div>
-                )}
+                  </label>
+                  <input
+                    type="text"
+                    name="titulo"
+                    maxLength={100}
+                    value={data.consejos.titulo || ""}
+                    onChange={handleChange(setFormCommendBody, "consejos")}
+                    className={mergedStyles.input}
+                    placeholder="Ej: Consejos Útiles, Tips Importantes"
+                  />
+                </div>
 
                 {/* Swiper para campos de consejos */}
                 <div className="relative">
@@ -1272,6 +1273,24 @@ export default function FormBody({
                 Tarjetas de Información (
                 {mergedSectionsConfig.informacion.maxItems} máximo)
               </h4>
+
+              {/* Título de la sección de información */}
+              <div className="mb-4">
+                <label className={mergedStyles.label}>
+                  <Type className="w-4 h-4 mr-2 text-purple-400" />
+                  Título de la sección
+                  <ValidationMessage fieldName="titulo_tarjeta" />
+                </label>
+                <input
+                  type="text"
+                  name="titulo_tarjeta"
+                  maxLength={100}
+                  value={data.header.titulo_tarjeta || ""}
+                  onChange={handleChange(setFormEncabezadoBody)}
+                  className={mergedStyles.input}
+                  placeholder="Ej: Información Detallada, Conoce Más"
+                />
+              </div>
 
               {/* Swiper para tarjetas de información */}
               <div className="relative">
@@ -1603,6 +1622,7 @@ export default function FormBody({
       const headerFields = [
         "titulo",
         "descripcion",
+        "titulo_tarjeta",
         "alt_image1",
         "title_image1",
       ];
@@ -1616,15 +1636,13 @@ export default function FormBody({
 
     // ===== VALIDAR CAMPOS DE CONSEJOS =====
     if (formCommendBody && sectionsVisibility.consejos) {
-      // Validar título de consejos (especialmente para plantilla 2)
-      if (plantillaId === 2) {
-        const tituloValidation = validateFieldInline(
-          "titulo",
-          formCommendBody.titulo || "",
-          "consejos"
-        );
-        initialValidations["consejos.titulo"] = tituloValidation;
-      }
+      // Validar título de consejos (para TODAS las plantillas)
+      const tituloValidation = validateFieldInline(
+        "titulo",
+        formCommendBody.titulo || "",
+        "consejos"
+      );
+      initialValidations["consejos.titulo"] = tituloValidation;
 
       // Validar textos de consejos
       const consejosFields = ["texto1", "texto2", "texto3", "texto4", "texto5"];
@@ -1672,6 +1690,7 @@ export default function FormBody({
   }, [    
     formEncabezadoBody?.titulo,
     formEncabezadoBody?.descripcion,
+    formEncabezadoBody?.titulo_tarjeta,
     formEncabezadoBody?.alt_image1,
     formEncabezadoBody?.title_image1,
     formCommendBody?.titulo,
