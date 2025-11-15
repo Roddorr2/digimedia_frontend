@@ -25,6 +25,7 @@ export default function useFormState() {
     titulo: HEADER_DEFAULTS.titulo,
     texto_frase: HEADER_DEFAULTS.texto_frase,
     texto_descripcion: HEADER_DEFAULTS.texto_descripcion,
+    titulo_enlace: HEADER_DEFAULTS.titulo_enlace,
     meta_title: HEADER_DEFAULTS.meta_title,
     meta_descripcion: HEADER_DEFAULTS.meta_descripcion,
   });
@@ -103,6 +104,7 @@ export default function useFormState() {
       titulo: HEADER_DEFAULTS.titulo,
       texto_frase: HEADER_DEFAULTS.texto_frase,
       texto_descripcion: HEADER_DEFAULTS.texto_descripcion,
+      titulo_enlace: HEADER_DEFAULTS.titulo_enlace,
       meta_title: HEADER_DEFAULTS.meta_title,
       meta_descripcion: HEADER_DEFAULTS.meta_descripcion,
     });

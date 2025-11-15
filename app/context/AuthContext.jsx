@@ -1,54 +1,60 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { deleteCookie, getCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import { setCookie } from "cookies-next/client";
 import auth_service from "../dashboard/users/services/auth.service";
 
-// Creeacion del contexto
 const AuthContext = createContext();
 
-// Hook para reutilizacion en cualquier componente
 export const useAuth = () => useContext(AuthContext);
 
 // Proveedor del contexto
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null); 
   const router = useRouter();
   const pathname = usePathname();
 
+  // Verifica token al montar el provider
   useEffect(() => {
     const verifyToken = async () => {
       const token = getCookie("token");
 
-      // Si no existe un token - Usuario no autenticado
       if (!token) {
         setIsAuthenticated(false);
+        setUser(null);
         return;
       }
 
       try {
-        // Llama al endpoint protegido para verificar el token
         const res = await auth_service.me();
 
         if (res && res.user) {
           setIsAuthenticated(true);
+          setUser({
+            ...res.user,
+            permisos: res.permisos || []
+          });
 
-          // Si el usuario esta en /login y ya esta autenticado, rederigir a dashboard
+          // Guardar en cookies por si se recarga
+          setCookie("permisos", JSON.stringify(res.permisos || []), { maxAge: 300 * 60, path: "/" });
+          setCookie("rol", res.rol, { maxAge: 300 * 60, path: "/" });
+
+          // Redirigir si está en login
           if (pathname === "/login/") {
             router.replace("/dashboard/main");
           }
         } else {
-          // Si el token no es valido, desauntenticar al usuario
           setIsAuthenticated(false);
+          setUser(null);
           auth_service.clearAuthCookies();
           router.replace("/login");
         }
       } catch (error) {
-        // Si el back devuelve un error, considerar al token invalido
         console.error("Error al verificar el token:", error);
         setIsAuthenticated(false);
+        setUser(null);
         deleteCookie("token");
       }
     };
@@ -57,44 +63,25 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (formData) => {
     try {
-      // Llamada al servicio de login
       const data = await auth_service.login(formData);
 
-      if (data.error) {
-        throw new Error(data.message);
-      }
+      if (data.error) throw new Error(data.message);
 
-      // Guardamos el token
-      setCookie("token", data.token, {
-        maxAge: 300 * 60, // 300 minutos - 5 horas (horas de trabajo/turno)
-        path: "/",
-      });
+      setCookie("token", data.token, { maxAge: 300 * 60, path: "/" });
 
-      // Obtner informacion del usuario
       const userData = await auth_service.me();
+      if (userData.error) throw new Error("Error al obtener información del usuario");
 
-      if (userData.error) {
-        throw new Error("Error al obtener información del usuario");
-      }
-
-      // Guardar info del usuario en cookies
-      setCookie("user", JSON.stringify(userData.user), {
-        maxAge: 300 * 60, // 300 minutos - 5 horas (horas de trabajo/turno)
-        path: "/",
+      setUser({
+        ...userData.user,
+        permisos: userData.permisos || []
       });
 
-      // Guardamos el rol en caso de existir
-      if (userData.rol) {
-        setCookie("rol", userData.rol, {
-          maxAge: 300 * 60, // 300 minutos - 5 horas (horas de trabajo/turno)
-          path: "/",
-        });
-      }
+      setCookie("user", JSON.stringify(userData.user), { maxAge: 300 * 60, path: "/" });
+      setCookie("permisos", JSON.stringify(userData.permisos || []), { maxAge: 300 * 60, path: "/" });
+      setCookie("rol", userData.rol, { maxAge: 300 * 60, path: "/" });
 
-      // Actualizamos el estado
       setIsAuthenticated(true);
-
-      // Redireccion al dashboard
       router.replace("/dashboard/main");
 
       return { success: true };
@@ -110,16 +97,42 @@ export const AuthProvider = ({ children }) => {
     try {
       await auth_service.logout();
     } catch (error) {
-      console.error("Error al cerrar sesion:", error);
+      console.error("Error al cerrar sesión:", error);
     } finally {
       auth_service.clearAuthCookies();
       setIsAuthenticated(false);
-      setTimeout(() => router.replace("/login/"), 300); // Pequeño retraso para mejorar UX
+      setUser(null);
+      setTimeout(() => router.replace("/login/"), 300);
     }
   };
 
+ // Normaliza permisos -> elimina tildes, pone minúsculas y cambia espacios por guiones
+const normalize = (str) =>
+  str
+    ?.toString()
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
+
+// Función para verificar permisos
+const hasPermission = (permiso) => {
+  const rol = user?.rol || getCookie("rol");
+
+  if (rol === "administrador") return true;
+
+  const permisos = user?.permisos || JSON.parse(getCookie("permisos") || "[]");
+
+  if (!Array.isArray(permisos)) return false;
+
+  const normalizados = permisos.map(p => normalize(p));
+
+  return normalizados.includes(normalize(permiso));
+};
+
+
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, hasPermission }}>
       {children}
     </AuthContext.Provider>
   );

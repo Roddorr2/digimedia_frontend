@@ -182,6 +182,7 @@ class BlogOrchestrator {
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
+        link: headerData.formEncabezadoHeader.titulo_enlace || "",
       };
 
       const blogResult = await API.default.createBlog(blogPayload);
@@ -265,6 +266,7 @@ class BlogOrchestrator {
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         plantilla_id: plantillaId,
         id_empleado: empleadoId,
+        link: headerData.formEncabezadoHeader.titulo_enlace || "",
         ...(blogRelations.id_blog_head && {
           id_blog_head: blogRelations.id_blog_head,
         }),
@@ -281,7 +283,7 @@ class BlogOrchestrator {
       // Subir imágenes si hay cardId
       if (cardId) {
         const cardPayload = {
-          id_blog: result.blogId,
+          id_blog: blogId,
           titulo:
             headerData.formEncabezadoHeader.titulo || HEADER_DEFAULTS.titulo,
           descripcion: bodyData.formEncabezadoBody.descripcion || "",

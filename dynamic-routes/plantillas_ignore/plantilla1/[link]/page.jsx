@@ -7,7 +7,7 @@ import Swal from "sweetalert2"
 import Header from "../../components/Header"
 import Body1 from "../../components/Body1"
 import Footer from "../../components/Footer"
-import Fetch from "../../../services/fetch"
+import Fetch from "../../../../app/(client)/blog/services/fetch"
 import { Loader2 } from "lucide-react"
 
 const Page = () => {
