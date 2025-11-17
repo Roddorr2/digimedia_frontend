@@ -77,7 +77,7 @@ export default function TemplateRenderer({
         
         {/* Content Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight"> 
             {headerData.titulo || (showPlaceholders ? "Título Principal del Blog" : "")}
           </h1>
           <p className="text-xl text-gray-200 mb-4 leading-relaxed max-w-3xl">
