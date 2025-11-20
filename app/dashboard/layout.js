@@ -16,8 +16,8 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const { logout } = useAuth();
 
-  // Estado para el sidebar (abierto y cerrado)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Estado para el sidebar (inicia cerrado)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Info usuario y rol
   const userRole = getCookie("rol") || "Usuario";
@@ -50,8 +50,6 @@ export default function RootLayout({ children }) {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-
   return (
     <DisplayNameContext.Provider
       value={{ displayName, updateDisplayName: setDisplayName }}
@@ -60,10 +58,10 @@ export default function RootLayout({ children }) {
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
           {/* HEADER */}
           <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2 z-10">
-            <Link href="/">
+            <Link href="/" className="flex items-center h-full overflow-hidden">
               <Image
                 src="/dashboard/logo.webp"
-                className="h-full"
+                className="h-full flex-shrink-0"
                 alt="Logo"
                 width={200}
                 height={300}
@@ -76,22 +74,14 @@ export default function RootLayout({ children }) {
           </header>
 
           <div className="flex w-full overflow-hidden h-screen">
-            {/* SIDEBAR CON NUEVO DISEÑO */}
+            {/* SIDEBAR CON AUTO-EXPANSIÓN */}
             <div
+              onMouseEnter={() => setIsSidebarOpen(true)}
+              onMouseLeave={() => setIsSidebarOpen(false)}
               className={`relative min-h-screen flex flex-col shrink-0 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-all duration-300 pt-5 ${
                 isSidebarOpen ? "w-64" : "w-20"
               }`}
             >
-              {/* Botón toggle circular */}
-              <button
-                onClick={toggleSidebar}
-                className={`absolute top-8 -right-[18px] h-8 w-8 rounded-full bg-[#8c52ff] dark:bg-[#6b3acb] shadow-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:shadow-xl z-20 ${
-                  isSidebarOpen ? "" : "rotate-180"
-                }`}
-              >
-                <ArrowLeft className="text-white text-lg" />
-              </button>
-
               {/* Navegación principal */}
               <nav className="mb-auto overflow-y-auto">
                 <ul className="flex flex-col">
@@ -124,14 +114,14 @@ export default function RootLayout({ children }) {
               {/* Sección de usuario */}
               <div className="px-[15%]">
                 <div className="flex items-center py-2 px-0 cursor-default">
-                  <div className="p-2 flex">
+                  <div className="p-2 flex flex-shrink-0">
                     <PersonIcon className="text-[#8c52ff] dark:text-[#6b3acb] !text-[25px]" />
                   </div>
                   <span
-                    className={`whitespace-nowrap transition-all duration-200 delay-200 ${
+                    className={`whitespace-nowrap transition-all duration-300 overflow-hidden ${
                       isSidebarOpen
-                        ? "opacity-100 translate-x-0 max-w-[190px]"
-                        : "opacity-0 -translate-x-2 max-w-0 overflow-hidden"
+                        ? "opacity-100 max-w-[190px] ml-0"
+                        : "opacity-0 max-w-0"
                     }`}
                   >
                     <span className="block font-normal text-sm">
@@ -148,14 +138,14 @@ export default function RootLayout({ children }) {
                   onClick={logout}
                   className="flex items-center py-2 px-0 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
                 >
-                  <div className="p-2 flex">
+                  <div className="p-2 flex flex-shrink-0">
                     <LogOut className="text-[#ff037f] dark:text-[#bf025f] text-[25px]" />
                   </div>
                   <span
-                    className={`whitespace-nowrap transition-all duration-200 delay-200 ${
+                    className={`whitespace-nowrap transition-all duration-300 overflow-hidden ${
                       isSidebarOpen
-                        ? "opacity-100 translate-x-0 max-w-[190px]"
-                        : "opacity-0 -translate-x-2 max-w-0 overflow-hidden"
+                        ? "opacity-100 max-w-[190px] ml-0"
+                        : "opacity-0 max-w-0"
                     }`}
                   >
                     {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
@@ -169,10 +159,10 @@ export default function RootLayout({ children }) {
               {/* Selector de tema */}
               <div className="flex items-center flex-col pb-24">
                 <span
-                  className={`block py-2 font-bold transition-all duration-300 ${
+                  className={`block py-2 font-bold transition-all duration-300 whitespace-nowrap overflow-hidden ${
                     isSidebarOpen
-                      ? "opacity-100"
-                      : "opacity-0 whitespace-nowrap overflow-hidden"
+                      ? "opacity-100 max-h-10"
+                      : "opacity-0 max-h-0"
                   }`}
                 >
                   Dark Mode
@@ -217,7 +207,7 @@ function SidebarLink({ href, title, icon: Icon, isSidebarOpen }) {
       }`}
     >
       <Link href={href} className="flex items-center py-2 no-underline">
-        <div className="p-2 flex relative">
+        <div className="p-2 flex relative flex-shrink-0">
           {Icon && (
             <Icon
               className={`text-[25px] ${
@@ -229,10 +219,10 @@ function SidebarLink({ href, title, icon: Icon, isSidebarOpen }) {
           )}
         </div>
         <span
-          className={`whitespace-nowrap transition-all duration-200 delay-200 inline-block overflow-hidden ${
+          className={`whitespace-nowrap transition-all duration-300 inline-block overflow-hidden ${
             isSidebarOpen
-              ? "opacity-100 translate-x-0 max-w-[190px]"
-              : "opacity-0 -translate-x-2 max-w-0"
+              ? "opacity-100 max-w-[190px] ml-0"
+              : "opacity-0 max-w-0"
           } ${
             isActive
               ? "font-semibold text-[#8c52ff] dark:text-[#a78bfa]"
