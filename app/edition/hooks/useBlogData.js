@@ -179,21 +179,21 @@ export default function useBlogData(
         await Promise.all([
           relations.id_blog_head
             ? Api.getHeader(relations.id_blog_head).catch((err) => {
-                console.warn("⚠️ Error cargando header:", err);
-                return null;
-              })
+              console.warn("⚠️ Error cargando header:", err);
+              return null;
+            })
             : null,
           relations.id_blog_body
             ? Api.getBody(relations.id_blog_body).catch((err) => {
-                console.warn("⚠️ Error cargando body:", err);
-                return null;
-              })
+              console.warn("⚠️ Error cargando body:", err);
+              return null;
+            })
             : null,
           relations.id_blog_footer
             ? Api.getFooter(relations.id_blog_footer).catch((err) => {
-                console.warn("⚠️ Error cargando footer:", err);
-                return null;
-              })
+              console.warn("⚠️ Error cargando footer:", err);
+              return null;
+            })
             : null,
           Api.getCards().catch(() => []),
         ]);
@@ -329,6 +329,13 @@ export default function useBlogData(
             public_image3: mappedFooter.public_image3,
           });
         }
+      }
+      // ========== Cargar estado_publicacion desde CARD ==========
+      if (blogResponse?.card?.estado_publicacion !== undefined) {
+        setFormEncabezadoFooter(prev => ({
+          ...prev,
+          estado_publicacion: blogResponse.card.estado_publicacion
+        }));
       }
 
       setIsDirty(false);
