@@ -642,67 +642,70 @@ export default function useBlogData(
     blogRelations.id_blog_body,
   ]);
 
-  const saveFooter = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const saveFooter = useCallback(async (estado_publicacion) => {
+  try {
+    setLoading(true);
+    setError(null);
 
-      const footerEnabled =
-        formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
+    const footerEnabled =
+      estado_publicacion !== undefined
+        ? estado_publicacion
+        : formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
 
-      const footerPayload = {
-        ...formEncabezadoFooter,
-        public_image1: formImagenFooter.public_image1?.startsWith("blob:")
-          ? DEFAULT_IMAGES.footer.image1
-          : formImagenFooter.public_image1 || DEFAULT_IMAGES.footer.image1,
-        public_image2: formImagenFooter.public_image2?.startsWith("blob:")
-          ? DEFAULT_IMAGES.footer.image2
-          : formImagenFooter.public_image2 || DEFAULT_IMAGES.footer.image2,
-        public_image3: formImagenFooter.public_image3?.startsWith("blob:")
-          ? DEFAULT_IMAGES.footer.image3
-          : formImagenFooter.public_image3 || DEFAULT_IMAGES.footer.image3,
-        titulo: footerEnabled
-          ? formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
-          : FOOTER_DEFAULTS.titulo,
-        descripcion: footerEnabled
-          ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
-          : FOOTER_DEFAULTS.descripcion,
-        palabra: footerEnabled
-          ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
-          : FOOTER_DEFAULTS.palabra,
-        enlace: footerEnabled
-          ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
-          : FOOTER_DEFAULTS.enlace,
-      };
+    const footerPayload = {
+      ...formEncabezadoFooter,
+      estado: footerEnabled,
+      public_image1: formImagenFooter.public_image1?.startsWith("blob:")
+        ? DEFAULT_IMAGES.footer.image1
+        : formImagenFooter.public_image1 || DEFAULT_IMAGES.footer.image1,
+      public_image2: formImagenFooter.public_image2?.startsWith("blob:")
+        ? DEFAULT_IMAGES.footer.image2
+        : formImagenFooter.public_image2 || DEFAULT_IMAGES.footer.image2,
+      public_image3: formImagenFooter.public_image3?.startsWith("blob:")
+        ? DEFAULT_IMAGES.footer.image3
+        : formImagenFooter.public_image3 || DEFAULT_IMAGES.footer.image3,
+      titulo: footerEnabled
+        ? formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
+        : FOOTER_DEFAULTS.titulo,
+      descripcion: footerEnabled
+        ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
+        : FOOTER_DEFAULTS.descripcion,
+      palabra: footerEnabled
+        ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
+        : FOOTER_DEFAULTS.palabra,
+      enlace: footerEnabled
+        ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
+        : FOOTER_DEFAULTS.enlace,
+    };
 
-      if (isCreateMode) {
-        const result = await Api.createFooter(footerPayload);
-        return result;
-      } else {
-        // ✅ Usar id_blog_footer
-        const footerId = blogRelations.id_blog_footer;
-        if (!footerId) {
-          throw new Error("No se encontró el ID del footer");
-        }
-        const result = await Api.updateFooter(footerId, footerPayload);
-        return result;
+    if (isCreateMode) {
+      const result = await Api.createFooter(footerPayload);
+      return result;
+    } else {
+      const footerId = blogRelations.id_blog_footer;
+      if (!footerId) {
+        throw new Error("No se encontró el ID del footer");
       }
-    } catch (err) {
-      console.error("❌ Error al guardar footer:", err);
-      setError("No se pudo guardar el footer");
-      throw err;
-    } finally {
-      setLoading(false);
+      const result = await Api.updateFooter(footerId, footerPayload);
+      return result;
     }
-  }, [
-    formEncabezadoFooter,
-    formImagenFooter,
-    isCreateMode,
-    blogRelations.id_blog_footer,
-  ]);
+  } catch (err) {
+    console.error("❌ Error al guardar footer:", err);
+    setError("No se pudo guardar el footer");
+    throw err;
+  } finally {
+    setLoading(false);
+  }
+}, [
+  formEncabezadoFooter,
+  formImagenFooter,
+  isCreateMode,
+  blogRelations.id_blog_footer,
+]);
+
 
   // Guardar blog completo - USANDO ORCHESTRATOR
-  const saveBlog = useCallback(async () => {
+  const saveBlog = useCallback(async ({ estado_publicacion }) => {
     try {
       setLoading(true);
       setError(null);
@@ -738,6 +741,7 @@ export default function useBlogData(
           },
           plantillaId,
           empleadoId: getEmpleadoId(),
+          isPublicado: estado_publicacion
         });
 
         // Actualizar cardId en el hook
@@ -766,7 +770,7 @@ export default function useBlogData(
         // ========== MODO EDICIÓN: Usar orchestrator ==========
 
         // Primero actualizar Header, Body, Footer por separado (mantener compatibilidad)
-        await Promise.all([saveHeader(), saveBody(), saveFooter()]);
+        await Promise.all([saveHeader(), saveBody(), saveFooter(estado_publicacion)]);
 
         const result = await blogOrchestrator.updateBlog({
           blogId,
@@ -797,6 +801,7 @@ export default function useBlogData(
           empleadoId: getEmpleadoId(),
           cardId,
           blogRelations,
+          isPublicado: estado_publicacion
         });
 
         setFileHeader(null);
