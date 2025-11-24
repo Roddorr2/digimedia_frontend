@@ -132,11 +132,15 @@ export default function Page() {
             ])
 
             if (responseTodos.status === 200 && responseMe.status === 200) {
-                setAllBlogs(responseTodos.data)
-                setMyBlogs(responseMe.data)
-                setFilteredBlogs(activeFilter === "all" ? responseTodos.data : responseMe.data)
+                // Filtramos solo los publicados
+                const publicadosTodos = responseTodos.data.filter(blog => blog.estado_publicacion === 1)
+                const publicadosMios = responseMe.data.filter(blog => blog.estado_publicacion === 1)
+
+                setAllBlogs(publicadosTodos)
+                setMyBlogs(publicadosMios)
+                setFilteredBlogs(activeFilter === "all" ? publicadosTodos : publicadosMios)
                 setCurrentPage(1)
-            } else {
+            }else {
                 showError("Ocurrió un error al cargar los blogs.")
             }
         } catch (error) {
@@ -244,14 +248,14 @@ export default function Page() {
                     />
                 </div>
             </div>
-            
+
             <div className="pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-slate-600">
                         <span className="font-medium">Autor:</span> {blog.empleado?.nombre || "Desconocido"}
                     </span>
                 </div>
-                
+
                 <div className="flex gap-2">
                     <Link
                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
@@ -319,11 +323,10 @@ export default function Page() {
 
                             <button
                                 onClick={() => handleFilterChange("all")}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                                    activeFilter === "all"
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "all"
                                         ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
                                         : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                }`}
+                                    }`}
                             >
                                 <FileText className="w-4 h-4" />
                                 <span>Todos</span>
@@ -331,11 +334,10 @@ export default function Page() {
 
                             <button
                                 onClick={() => handleFilterChange("mine")}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                                    activeFilter === "mine"
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "mine"
                                         ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
                                         : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                }`}
+                                    }`}
                             >
                                 <User className="w-4 h-4" />
                                 <span>Mis blogs</span>
@@ -344,11 +346,10 @@ export default function Page() {
                             <button
                                 onClick={fetchData}
                                 disabled={isRefreshing}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                                    isRefreshing
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${isRefreshing
                                         ? "opacity-70 cursor-not-allowed bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600"
                                         : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                }`}
+                                    }`}
                                 title="Actualizar datos"
                             >
                                 {isRefreshing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
@@ -362,13 +363,26 @@ export default function Page() {
                                 <span className="hidden sm:inline">Crear Nuevo</span>
                             </Link>
                             {auth_service.hasRole("administrador") && (
-                                <Link
-                                    href="/dashboard/blogs/historial"
-                                    className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
-                                >
-                                    <FileText className="w-4 h-4" />
-                                    <span className="hidden sm:inline">Ver historial</span>
-                                </Link>
+                                <>
+                                    {/* Botón pequeño solo icono - Historial */}
+                                    <Link
+                                        href="/dashboard/blogs/historial"
+                                        title="Historial de cambios"
+                                        className="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg 
+                                        hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors flex items-center justify-center"
+                                    >
+                                        <History className="w-4 h-4" />
+                                    </Link>
+                                    {/* Botón borradores */}
+                                    <Link
+                                        href="/dashboard/blogs/borradores"
+                                        title="Borradores"
+                                        className="p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg 
+                                        hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors flex items-center justify-center"
+                                    >
+                                        <FilePen className="w-4 h-4" />
+                                    </Link>
+                                </>
                             )}
                         </div>
                     </div>
