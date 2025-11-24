@@ -8,6 +8,7 @@ import Link from "next/link"
 import { getCookie } from "cookies-next"
 import HistorialAuditoria from "./components/HistorialAuditoria"
 import { useAuth } from "../../context/AuthContext";
+import Borradores from "./borradores/page"
 import url from "../../../api/url"
 import {
     Search,
@@ -23,6 +24,8 @@ import {
     User,
     X,
     PlusCircleIcon,
+    History,
+    FilePen,
 } from "lucide-react"
 import auth_service from "../users/services/auth.service"
 
