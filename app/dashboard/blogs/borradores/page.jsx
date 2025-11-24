@@ -101,7 +101,7 @@ export default function Borradores() {
         <main className="p-6 flex flex-col w-full bg-slate-50 dark:bg-slate-900">
             <button
                 onClick={() => router.push("/dashboard/blogs")}
-                className="flex items-center gap-2 px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-md text-sm font-medium w-fit mb-4"
+                className="flex items-center gap-2 px-3 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 rounded-md text-sm font-medium w-fit mb-4 dark:hover:bg-slate-700"
             >
                 <ArrowLeft size={18} />
                 Regresar
