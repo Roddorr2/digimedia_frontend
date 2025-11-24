@@ -48,22 +48,22 @@ export default function Page() {
 
     const router = useRouter();
 
-useEffect(() => {
-    if (user === null) return; // Espera a que se cargue el usuario
+    useEffect(() => {
+        if (user === null) return; // Espera a que se cargue el usuario
 
-    if (!hasPermission("ver-blogs")) {
-        Swal.fire({
-            title: "Acceso denegado",
-            text: "No tienes permisos para ver esta sección",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-        }).then(() => {
-            router.replace("/dashboard/main");
-        });
-    } else {
-        fetchData(); // Solo ejecuta si tiene permiso
-    }
-}, [user]);
+        if (!hasPermission("ver-blogs")) {
+            Swal.fire({
+                title: "Acceso denegado",
+                text: "No tienes permisos para ver esta sección",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+            }).then(() => {
+                router.replace("/dashboard/main");
+            });
+        } else {
+            fetchData(); // Solo ejecuta si tiene permiso
+        }
+    }, [user]);
 
 
 
