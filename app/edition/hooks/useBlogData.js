@@ -650,65 +650,67 @@ export default function useBlogData(
   ]);
 
   const saveFooter = useCallback(async (estado_publicacion) => {
-  try {
-    setLoading(true);
-    setError(null);
+    try {
+      setLoading(true);
+      setError(null);
 
-    const footerEnabled =
-      estado_publicacion !== undefined
-        ? estado_publicacion
-        : formEncabezadoFooter?.estado ?? FOOTER_DEFAULTS.estado;
+      //Enviar correctamente el estado_publicacion al backend
+      const footerEnabled =
+        estado_publicacion !== undefined
+          ? estado_publicacion
+          : formEncabezadoFooter?.estado_publicacion ?? false;
 
-    const footerPayload = {
-      ...formEncabezadoFooter,
-      estado: footerEnabled,
-      public_image1: formImagenFooter.public_image1?.startsWith("blob:")
-        ? DEFAULT_IMAGES.footer.image1
-        : formImagenFooter.public_image1 || DEFAULT_IMAGES.footer.image1,
-      public_image2: formImagenFooter.public_image2?.startsWith("blob:")
-        ? DEFAULT_IMAGES.footer.image2
-        : formImagenFooter.public_image2 || DEFAULT_IMAGES.footer.image2,
-      public_image3: formImagenFooter.public_image3?.startsWith("blob:")
-        ? DEFAULT_IMAGES.footer.image3
-        : formImagenFooter.public_image3 || DEFAULT_IMAGES.footer.image3,
-      titulo: footerEnabled
-        ? formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
-        : FOOTER_DEFAULTS.titulo,
-      descripcion: footerEnabled
-        ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
-        : FOOTER_DEFAULTS.descripcion,
-      palabra: footerEnabled
-        ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
-        : FOOTER_DEFAULTS.palabra,
-      enlace: footerEnabled
-        ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
-        : FOOTER_DEFAULTS.enlace,
-    };
 
-    if (isCreateMode) {
-      const result = await Api.createFooter(footerPayload);
-      return result;
-    } else {
-      const footerId = blogRelations.id_blog_footer;
-      if (!footerId) {
-        throw new Error("No se encontró el ID del footer");
+      const footerPayload = {
+        ...formEncabezadoFooter,
+        estado: footerEnabled,
+        public_image1: formImagenFooter.public_image1?.startsWith("blob:")
+          ? DEFAULT_IMAGES.footer.image1
+          : formImagenFooter.public_image1 || DEFAULT_IMAGES.footer.image1,
+        public_image2: formImagenFooter.public_image2?.startsWith("blob:")
+          ? DEFAULT_IMAGES.footer.image2
+          : formImagenFooter.public_image2 || DEFAULT_IMAGES.footer.image2,
+        public_image3: formImagenFooter.public_image3?.startsWith("blob:")
+          ? DEFAULT_IMAGES.footer.image3
+          : formImagenFooter.public_image3 || DEFAULT_IMAGES.footer.image3,
+        titulo: footerEnabled
+          ? formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
+          : FOOTER_DEFAULTS.titulo,
+        descripcion: footerEnabled
+          ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
+          : FOOTER_DEFAULTS.descripcion,
+        palabra: footerEnabled
+          ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
+          : FOOTER_DEFAULTS.palabra,
+        enlace: footerEnabled
+          ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
+          : FOOTER_DEFAULTS.enlace,
+      };
+
+      if (isCreateMode) {
+        const result = await Api.createFooter(footerPayload);
+        return result;
+      } else {
+        const footerId = blogRelations.id_blog_footer;
+        if (!footerId) {
+          throw new Error("No se encontró el ID del footer");
+        }
+        const result = await Api.updateFooter(footerId, footerPayload);
+        return result;
       }
-      const result = await Api.updateFooter(footerId, footerPayload);
-      return result;
+    } catch (err) {
+      console.error("❌ Error al guardar footer:", err);
+      setError("No se pudo guardar el footer");
+      throw err;
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error("❌ Error al guardar footer:", err);
-    setError("No se pudo guardar el footer");
-    throw err;
-  } finally {
-    setLoading(false);
-  }
-}, [
-  formEncabezadoFooter,
-  formImagenFooter,
-  isCreateMode,
-  blogRelations.id_blog_footer,
-]);
+  }, [
+    formEncabezadoFooter,
+    formImagenFooter,
+    isCreateMode,
+    blogRelations.id_blog_footer,
+  ]);
 
 
   // Guardar blog completo - USANDO ORCHESTRATOR
