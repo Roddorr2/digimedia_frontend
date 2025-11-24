@@ -27,29 +27,26 @@ const Fetch = {
             return null;
         }
     },
-
     // Obtener blog por link
     fetchBlogByLink: async function fetchBlogByLink(link) {
         try {
             const response = await axios.get(`${url}/api/blogs/links/${link}`);
-            return response.status === 200 ? response.data.blog : null;
+            return response.status === 200 ? response.data.data : null;
         } catch (error) {
             console.error("❌ Error al obtener blog por link:", error.response?.data || error.message);
             return null;
         }
     },
-
     // Obtener tarjetas
     fetchCards: async function fetchCards() {
         try {
-            const response = await axios.get(`${url}/api/cards`);
+            const response = await axios.get(`${url}/api/cards_public`);
             return response.status === 200 ? response.data : null;
         } catch (error) {
             console.error("❌ Error al obtener cards:", error.response?.data || error.message);
             return null;
         }
     },
-
     // Obtener blog head
     fetchBlogHead: async function fetchBlogHead(id) {
         try {
@@ -83,30 +80,30 @@ const Fetch = {
         }
     },
 
-fetchBlogAuditoria: async function () {
-    try {
-        const token = getCookie("token");
+    fetchBlogAuditoria: async function () {
+        try {
+            const token = getCookie("token");
 
-        if (!token) return [];
+            if (!token) return [];
 
-        const response = await axios.get(`${url}/api/blogs_auditoria`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+            const response = await axios.get(`${url}/api/blogs_auditoria`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        return Array.isArray(response?.data?.data) ? response.data.data : [];
+            return Array.isArray(response?.data?.data) ? response.data.data : [];
 
-    } catch (error) {
-        // Si la API devuelve 404, devolvemos array vacío
-        if (error.response?.status === 404) {
+        } catch (error) {
+            // Si la API devuelve 404, devolvemos array vacío
+            if (error.response?.status === 404) {
+                return [];
+            }
+
+            console.error("❌ Error al obtener auditoría:", error.response?.data || error.message);
             return [];
         }
-
-        console.error("❌ Error al obtener auditoría:", error.response?.data || error.message);
-        return [];
     }
-}
 
 
 }
