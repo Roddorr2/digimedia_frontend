@@ -443,11 +443,10 @@ export default function Page() {
                                     {displayedBlogs.map((blog, index) => (
                                         <tr
                                             key={`blog-${blog.id_card}`}
-                                            className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${
-                                                index !== displayedBlogs.length - 1
+                                            className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${index !== displayedBlogs.length - 1
                                                     ? "border-b border-slate-100 dark:border-slate-700"
                                                     : ""
-                                            }`}
+                                                }`}
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700 dark:text-slate-200">
                                                 {blog.id_card}
@@ -510,7 +509,7 @@ export default function Page() {
                         </div>
                     </div>
 
-                   
+
                     {totalPages > 1 && (
                         <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
                             <div className="text-sm text-slate-500">
@@ -522,8 +521,8 @@ export default function Page() {
                                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                     disabled={currentPage === 1}
                                     className={`p-2 rounded-lg border ${currentPage === 1
-                                            ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                         }`}
                                 >
                                     <ChevronLeft className="w-4 h-4" />
@@ -534,8 +533,8 @@ export default function Page() {
                                         key={`page-desktop-${page}`}
                                         onClick={() => setCurrentPage(page)}
                                         className={`w-9 h-9 rounded-lg border ${currentPage === page
-                                                ? "bg-sky-50 text-sky-600 border-sky-200"
-                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                            ? "bg-sky-50 text-sky-600 border-sky-200"
+                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                             }`}
                                     >
                                         {page}
@@ -546,8 +545,8 @@ export default function Page() {
                                     onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                     disabled={currentPage === totalPages}
                                     className={`p-2 rounded-lg border ${currentPage === totalPages
-                                            ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                         }`}
                                 >
                                     <ChevronRight className="w-4 h-4" />
@@ -574,11 +573,10 @@ export default function Page() {
                                     <button
                                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                         disabled={currentPage === 1}
-                                        className={`p-2 rounded-lg border ${
-                                            currentPage === 1
+                                        className={`p-2 rounded-lg border ${currentPage === 1
                                                 ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                                                 : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                        }`}
+                                            }`}
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </button>
@@ -587,11 +585,10 @@ export default function Page() {
                                         <button
                                             key={`page-mobile-${page}`}
                                             onClick={() => setCurrentPage(page)}
-                                            className={`w-9 h-9 rounded-lg border ${
-                                                currentPage === page
+                                            className={`w-9 h-9 rounded-lg border ${currentPage === page
                                                     ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
                                                     : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                            }`}
+                                                }`}
                                         >
                                             {page}
                                         </button>
@@ -600,11 +597,10 @@ export default function Page() {
                                     <button
                                         onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                         disabled={currentPage === totalPages}
-                                        className={`p-2 rounded-lg border ${
-                                            currentPage === totalPages
+                                        className={`p-2 rounded-lg border ${currentPage === totalPages
                                                 ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                                                 : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                        }`}
+                                            }`}
                                     >
                                         <ChevronRight className="w-4 h-4" />
                                     </button>
