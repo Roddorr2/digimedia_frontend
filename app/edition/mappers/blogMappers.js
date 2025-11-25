@@ -123,6 +123,7 @@ function mapBodyFromServer(data, plantillaId = 1) {
     // Datos principales - usar constantes centralizadas
     titulo: data.titulo || BODY_DEFAULTS.titulo,
     descripcion: data.descripcion || BODY_DEFAULTS.descripcion,
+    titulo_tarjeta: data.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta, // Título de sección de tarjetas
     fecha: data.fecha || getCurrentDate(),
 
     // Imagen principal (imagen 1)
@@ -160,14 +161,21 @@ function mapBodyFromServer(data, plantillaId = 1) {
   };
 
   // Consejos (mapeo dinámico según plantilla)
+  // Si existe commend_tarjeta en data, usarla directamente
   const consejosFields = getConsejosFieldsByPlantilla(plantillaId);
   const consejos = {};
 
-  consejosFields.forEach((field) => {
-    consejos[field] =
-      data[field === "titulo" ? "titulo_consejos" : field] ||
-      CONSEJOS_DEFAULTS[field];
-  });
+  if (data.commend_tarjeta) {
+    // Cargar desde la relación commend_tarjeta
+    consejosFields.forEach((field) => {
+      consejos[field] = data.commend_tarjeta[field] || CONSEJOS_DEFAULTS[field];
+    });
+  } else {
+    // Cargar desde los campos directos (fallback)
+    consejosFields.forEach((field) => {
+      consejos[field] = data[field] || CONSEJOS_DEFAULTS[field];
+    });
+  }
 
   // Información (tarjetas) - usar constantes centralizadas
   const informacion = Array.isArray(data.informacion)
@@ -194,6 +202,7 @@ function mapBodyToServer(
   const bodyData = {
     titulo: formData.titulo || BODY_DEFAULTS.titulo,
     descripcion: formData.descripcion || BODY_DEFAULTS.descripcion,
+    titulo_tarjeta: formData.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta, // Título de sección de tarjetas
     fecha: formData.fecha || getCurrentDate(),
 
     // Imágenes normalizadas
