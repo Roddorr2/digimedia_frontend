@@ -110,6 +110,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   // Encabezado (formEncabezadoBody)
   titulo: { min: 10, max: 100, required: true },
   descripcion: { min: 10, max: 400, required: true },
+  titulo_tarjeta: { min: 10, max: 100, required: true }, // Título de la sección de tarjetas de información
   fecha: { required: true },
   alt_image1: { min: 60, max: 240, required: false },
   title_image1: { min: 50, max: 140, required: false },
@@ -121,6 +122,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   service_url: { required: false },
 
   // Consejos (formCommendBody) - Hasta 5 consejos
+  "consejos.titulo": { min: 10, max: 100, required: true }, // Título de la sección de consejos
   texto1: { min: 10, max: 255, required: true },
   texto2: { min: 10, max: 255, required: true },
   texto3: { min: 10, max: 255, required: false },
