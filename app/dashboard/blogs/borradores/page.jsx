@@ -249,16 +249,19 @@ export default function Borradores() {
                                                 <Link
                                                     href={`/edition?mode=edit&id=${blog.id_blog}`}
                                                     className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100"
+                                                    title="Editar blog"
                                                 >
                                                     <Pencil className="w-4 h-4" />
                                                 </Link>
-
-                                                <Link
-                                                    href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.id_blog}`}
-                                                    className="p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100"
-                                                >
-                                                    <Eye className="w-4 h-4" />
-                                                </Link>
+                                                {auth_service.hasRole("administrador") && (
+                                                    <button
+                                                        onClick={() => confirmDelete(blog.id_blog)}
+                                                        className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                                                        title="Eliminar blog"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>
