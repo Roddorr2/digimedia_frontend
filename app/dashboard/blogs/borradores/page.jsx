@@ -70,6 +70,63 @@ export default function Borradores() {
         }
     }
 
+    //Funcion para eliminar 
+    function confirmDelete(id) {
+            Swal.fire({
+                title: "¿Eliminar este blog?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#f43f5e",
+                cancelButtonColor: "#64748b",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+                buttonsStyling: true,
+                customClass: {
+                    confirmButton: "!px-6",
+                    cancelButton: "!px-6",
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteBlog(id)
+                }
+            })
+        }
+
+    async function deleteBlog(id) {
+        try {
+            const response = await axios.delete(`${url}/api/blogs/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getCookie("token")}`,
+                },
+            })
+
+            if (response.status === 200) {
+                Swal.fire({
+                    title: "Blog eliminado",
+                    text: "El blog ha sido eliminado exitosamente",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0ea5e9",
+                })
+                fetchDraftBlogs()
+            } else {
+                showError("No se pudo eliminar el blog.")
+            }
+        } catch (error) {
+            showError("Ocurrió un error al eliminar el blog.")
+            console.error(error)
+        }
+    }
+    function showError(message) {
+            Swal.fire({
+                title: "Error",
+                text: message,
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#0ea5e9",
+            })
+        }
 
     const filterBlogs = () => {
         if (!searchQuery.trim()) {
