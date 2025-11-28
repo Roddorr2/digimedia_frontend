@@ -39,6 +39,7 @@ class BlogOrchestrator {
     files,
     plantillaId,
     empleadoId,
+    isPublicado,
   }) {
     const result = {
       success: false,
@@ -202,6 +203,7 @@ class BlogOrchestrator {
         url_image: "",
         id_plantilla: plantillaId,
         id_empleado: empleadoId,
+        estado_publicacion: isPublicado ? 1 : 0
       };
 
       const cardResult = await API.default.createCard(cardPayload);
@@ -247,6 +249,7 @@ class BlogOrchestrator {
     plantillaId,
     cardId = null,
     blogRelations = {},
+    isPublicado,
   }) {
     const result = {
       success: false,
@@ -293,6 +296,7 @@ class BlogOrchestrator {
           url_image: "",
           id_plantilla: plantillaId,
           id_empleado: empleadoId,
+          estado_publicacion: isPublicado ? 1 : 0,
         };
 
         await API.default.updateCard(cardId, cardPayload);

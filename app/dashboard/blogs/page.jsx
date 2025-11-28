@@ -8,6 +8,7 @@ import Link from "next/link"
 import { getCookie } from "cookies-next"
 import HistorialAuditoria from "./components/HistorialAuditoria"
 import { useAuth } from "../../context/AuthContext";
+import Borradores from "./borradores/page"
 import url from "../../../api/url"
 import {
     Search,
@@ -23,6 +24,8 @@ import {
     User,
     X,
     PlusCircleIcon,
+    History,
+    FilePen,
 } from "lucide-react"
 import auth_service from "../users/services/auth.service"
 
@@ -45,22 +48,22 @@ export default function Page() {
 
     const router = useRouter();
 
-useEffect(() => {
-    if (user === null) return; // Espera a que se cargue el usuario
+    useEffect(() => {
+        if (user === null) return; // Espera a que se cargue el usuario
 
-    if (!hasPermission("ver-blogs")) {
-        Swal.fire({
-            title: "Acceso denegado",
-            text: "No tienes permisos para ver esta sección",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-        }).then(() => {
-            router.replace("/dashboard/main");
-        });
-    } else {
-        fetchData(); // Solo ejecuta si tiene permiso
-    }
-}, [user]);
+        if (!hasPermission("ver-blogs")) {
+            Swal.fire({
+                title: "Acceso denegado",
+                text: "No tienes permisos para ver esta sección",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+            }).then(() => {
+                router.replace("/dashboard/main");
+            });
+        } else {
+            fetchData(); // Solo ejecuta si tiene permiso
+        }
+    }, [user]);
 
 
 
@@ -129,11 +132,15 @@ useEffect(() => {
             ])
 
             if (responseTodos.status === 200 && responseMe.status === 200) {
-                setAllBlogs(responseTodos.data)
-                setMyBlogs(responseMe.data)
-                setFilteredBlogs(activeFilter === "all" ? responseTodos.data : responseMe.data)
+                // Filtramos solo los publicados
+                const publicadosTodos = responseTodos.data.filter(blog => blog.estado_publicacion === 1)
+                const publicadosMios = responseMe.data.filter(blog => blog.estado_publicacion === 1)
+
+                setAllBlogs(publicadosTodos)
+                setMyBlogs(publicadosMios)
+                setFilteredBlogs(activeFilter === "all" ? publicadosTodos : publicadosMios)
                 setCurrentPage(1)
-            } else {
+            }else {
                 showError("Ocurrió un error al cargar los blogs.")
             }
         } catch (error) {
@@ -241,14 +248,14 @@ useEffect(() => {
                     />
                 </div>
             </div>
-            
+
             <div className="pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-slate-600">
                         <span className="font-medium">Autor:</span> {blog.empleado?.nombre || "Desconocido"}
                     </span>
                 </div>
-                
+
                 <div className="flex gap-2">
                     <Link
                         href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.blog.link}`}
@@ -316,11 +323,10 @@ useEffect(() => {
 
                             <button
                                 onClick={() => handleFilterChange("all")}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                                    activeFilter === "all"
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "all"
                                         ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
                                         : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                }`}
+                                    }`}
                             >
                                 <FileText className="w-4 h-4" />
                                 <span>Todos</span>
@@ -328,11 +334,10 @@ useEffect(() => {
 
                             <button
                                 onClick={() => handleFilterChange("mine")}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                                    activeFilter === "mine"
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${activeFilter === "mine"
                                         ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
                                         : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                }`}
+                                    }`}
                             >
                                 <User className="w-4 h-4" />
                                 <span>Mis blogs</span>
@@ -341,11 +346,10 @@ useEffect(() => {
                             <button
                                 onClick={fetchData}
                                 disabled={isRefreshing}
-                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                                    isRefreshing
+                                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${isRefreshing
                                         ? "opacity-70 cursor-not-allowed bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600"
                                         : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                }`}
+                                    }`}
                                 title="Actualizar datos"
                             >
                                 {isRefreshing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
@@ -359,13 +363,26 @@ useEffect(() => {
                                 <span className="hidden sm:inline">Crear Nuevo</span>
                             </Link>
                             {auth_service.hasRole("administrador") && (
-                                <Link
-                                    href="/dashboard/blogs/historial"
-                                    className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
-                                >
-                                    <FileText className="w-4 h-4" />
-                                    <span className="hidden sm:inline">Ver historial</span>
-                                </Link>
+                                <>
+                                    {/* Botón pequeño solo icono - Historial */}
+                                    <Link
+                                        href="/dashboard/blogs/historial"
+                                        title="Historial de cambios"
+                                        className="p-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg 
+                                        hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors flex items-center justify-center"
+                                    >
+                                        <History className="w-4 h-4" />
+                                    </Link>
+                                    {/* Botón borradores */}
+                                    <Link
+                                        href="/dashboard/blogs/borradores"
+                                        title="Borradores"
+                                        className="p-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-lg 
+                                        hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors flex items-center justify-center"
+                                    >
+                                        <FilePen className="w-4 h-4" />
+                                    </Link>
+                                </>
                             )}
                         </div>
                     </div>
@@ -426,11 +443,10 @@ useEffect(() => {
                                     {displayedBlogs.map((blog, index) => (
                                         <tr
                                             key={`blog-${blog.id_card}`}
-                                            className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${
-                                                index !== displayedBlogs.length - 1
+                                            className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${index !== displayedBlogs.length - 1
                                                     ? "border-b border-slate-100 dark:border-slate-700"
                                                     : ""
-                                            }`}
+                                                }`}
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-700 dark:text-slate-200">
                                                 {blog.id_card}
@@ -493,7 +509,7 @@ useEffect(() => {
                         </div>
                     </div>
 
-                   
+
                     {totalPages > 1 && (
                         <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
                             <div className="text-sm text-slate-500">
@@ -505,8 +521,8 @@ useEffect(() => {
                                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                     disabled={currentPage === 1}
                                     className={`p-2 rounded-lg border ${currentPage === 1
-                                            ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                         }`}
                                 >
                                     <ChevronLeft className="w-4 h-4" />
@@ -517,8 +533,8 @@ useEffect(() => {
                                         key={`page-desktop-${page}`}
                                         onClick={() => setCurrentPage(page)}
                                         className={`w-9 h-9 rounded-lg border ${currentPage === page
-                                                ? "bg-sky-50 text-sky-600 border-sky-200"
-                                                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                            ? "bg-sky-50 text-sky-600 border-sky-200"
+                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                             }`}
                                     >
                                         {page}
@@ -529,8 +545,8 @@ useEffect(() => {
                                     onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                     disabled={currentPage === totalPages}
                                     className={`p-2 rounded-lg border ${currentPage === totalPages
-                                            ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                                            : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
+                                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
                                         }`}
                                 >
                                     <ChevronRight className="w-4 h-4" />
@@ -557,11 +573,10 @@ useEffect(() => {
                                     <button
                                         onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                                         disabled={currentPage === 1}
-                                        className={`p-2 rounded-lg border ${
-                                            currentPage === 1
+                                        className={`p-2 rounded-lg border ${currentPage === 1
                                                 ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                                                 : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                        }`}
+                                            }`}
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </button>
@@ -570,11 +585,10 @@ useEffect(() => {
                                         <button
                                             key={`page-mobile-${page}`}
                                             onClick={() => setCurrentPage(page)}
-                                            className={`w-9 h-9 rounded-lg border ${
-                                                currentPage === page
+                                            className={`w-9 h-9 rounded-lg border ${currentPage === page
                                                     ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
                                                     : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                            }`}
+                                                }`}
                                         >
                                             {page}
                                         </button>
@@ -583,11 +597,10 @@ useEffect(() => {
                                     <button
                                         onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                                         disabled={currentPage === totalPages}
-                                        className={`p-2 rounded-lg border ${
-                                            currentPage === totalPages
+                                        className={`p-2 rounded-lg border ${currentPage === totalPages
                                                 ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
                                                 : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                        }`}
+                                            }`}
                                     >
                                         <ChevronRight className="w-4 h-4" />
                                     </button>
