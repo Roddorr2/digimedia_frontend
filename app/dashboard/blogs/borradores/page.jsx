@@ -3,10 +3,12 @@
 import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import axios from "axios"
+import Swal from "sweetalert2"
 import { getCookie } from "cookies-next"
 import url from "../../../../api/url"
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import auth_service from "../../users/services/auth.service"
 import {
     Search,
     Eye,
@@ -68,6 +70,63 @@ export default function Borradores() {
         }
     }
 
+    //Funcion para eliminar 
+    function confirmDelete(id) {
+            Swal.fire({
+                title: "¿Eliminar este blog?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#f43f5e",
+                cancelButtonColor: "#64748b",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+                buttonsStyling: true,
+                customClass: {
+                    confirmButton: "!px-6",
+                    cancelButton: "!px-6",
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteBlog(id)
+                }
+            })
+        }
+
+    async function deleteBlog(id) {
+        try {
+            const response = await axios.delete(`${url}/api/blogs/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getCookie("token")}`,
+                },
+            })
+
+            if (response.status === 200) {
+                Swal.fire({
+                    title: "Blog eliminado",
+                    text: "El blog ha sido eliminado exitosamente",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#0ea5e9",
+                })
+                fetchDraftBlogs()
+            } else {
+                showError("No se pudo eliminar el blog.")
+            }
+        } catch (error) {
+            showError("Ocurrió un error al eliminar el blog.")
+            console.error(error)
+        }
+    }
+    function showError(message) {
+            Swal.fire({
+                title: "Error",
+                text: message,
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: "#0ea5e9",
+            })
+        }
 
     const filterBlogs = () => {
         if (!searchQuery.trim()) {
@@ -190,16 +249,19 @@ export default function Borradores() {
                                                 <Link
                                                     href={`/edition?mode=edit&id=${blog.id_blog}`}
                                                     className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100"
+                                                    title="Editar blog"
                                                 >
                                                     <Pencil className="w-4 h-4" />
                                                 </Link>
-
-                                                <Link
-                                                    href={`/blog/plantilla${blog.id_plantilla}/?blog=${blog.id_blog}`}
-                                                    className="p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100"
-                                                >
-                                                    <Eye className="w-4 h-4" />
-                                                </Link>
+                                                {auth_service.hasRole("administrador") && (
+                                                    <button
+                                                        onClick={() => confirmDelete(blog.id_blog)}
+                                                        className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                                                        title="Eliminar blog"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>
