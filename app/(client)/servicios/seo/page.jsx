@@ -1,9 +1,18 @@
 
 import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 
 export default function UXUI() {
+  const modales = {
+    modalA: {
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/fondo.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
+    },
+  };
 
     const featuresuxui = [
     {
@@ -23,6 +32,7 @@ export default function UXUI() {
   return (
 
    <div>
+      <ModalScroll data={modales} />
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='EL SEO (SEARCH ENGINE OPTIMIZATION) ES EL CONJUNTO DE TÉCNICAS Y ESTRATEGIAS QUE SE IMPLEMENTAN EN UN SITIO WEB CON EL OBJETIVO DE MEJORAR SU VISIBILIDAD Y POSICIONAMIENTO EN LOS RESULTADOS ORGÁNICOS (NO PAGADOS) DE LOS MOTORES DE BÚSQUEDA COMO GOOGLE, BING Y OTROS.'

@@ -1,8 +1,18 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 
 export default function UXUI() {
+  const modales = {
+    modalA: {
+      text: "MARKETING Y GESTIÓN DIGITAL",
+      fondo: "/servicios/marketing/modal-scroll/fondo.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      serviceName: "3",
+    },
+  };
+
   const featuresuxui = [
     {
       icon: (
@@ -52,6 +62,7 @@ export default function UXUI() {
 
   return (
     <div>
+      <ModalScroll data={modales} />
       <UxUiSection
         features={featuresuxui}
         mainDescription="EL NAMING, EL LOGO Y EL ESLOGAN SON ELEMENTOS FUNDAMENTALES DE LA IDENTIDAD DE UNA MARCA. CADA UNO CUMPLE UN ROL ESPECÍFICO, PERO JUNTOS CONSTRUYEN LA PERCEPCIÓN Y EL RECONOCIMIENTO DE UNA EMPRESA, PRODUCTO O SERVICIO EN LA MENTE DEL PÚBLICO."

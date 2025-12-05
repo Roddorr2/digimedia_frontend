@@ -1,10 +1,20 @@
 "use client";
 import Image from 'next/image';
 import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 
 export default function PlanificacionCronograma() {
+  const modales = {
+    modalA: {
+      text: "GESTIÓN DE REDES SOCIALES",
+      fondo: "/servicios/gestion/modal-scroll/fondo.webp",
+      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      serviceName: "2",
+    },
+  };
+
   const features = [
     {
       icon: <Image src="/servicios/gestion/planificacion/icons/first.webp" alt="Tabla de apuntes" className="w-full h-full object-contain" width={200} height={150} />,
@@ -23,6 +33,7 @@ export default function PlanificacionCronograma() {
   return (
 
    <div>
+      <ModalScroll data={modales} />
       <UxUiSection 
       features={features} 
       mainDescription='Es el proceso de definir estrategias, objetivos, temáticas y tipos de contenido que se publicarán en las redes sociales. Esta etapa implica pensar a mediano y largo plazo para construir una presencia digital sólida.'
