@@ -7,6 +7,7 @@ import Image from "next/image";
 const Banner = () => (
   <div className={styles.banner}>
     <Image
+      loading = "lazy"
       className={styles.bannerImg}
       src="/contactanos/banner.webp"
       alt="Dos personas trabajando en la computadora"

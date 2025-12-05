@@ -1,9 +1,18 @@
 
 import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react"
 
 export default function UXUI() {
+    const modales = {
+      modalA: {
+        text: "MARKETING Y GESTIÓN DIGITAL",
+        fondo: "/servicios/marketing/modal-scroll/fondo.webp",
+        title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+        serviceName: "3",
+      },
+    };
 
     const featuresuxui = [
       {
@@ -35,6 +44,7 @@ export default function UXUI() {
   return (
 
    <div>
+      <ModalScroll data={modales} />
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='UN MANUAL DE MARCA ES UN DOCUMENTO QUE ESTABLECE LAS REGLAS Y DIRECTRICES PARA USAR CORRECTAMENTE LA IDENTIDAD VISUAL Y VERBAL DE UNA MARCA. SIRVE PARA MANTENER LA COHERENCIA EN TODAS LAS COMUNICACIONES, TANTO INTERNAS COMO EXTERNAS, Y ASEGURAR QUE LA MARCA SE VEA, SE SIENTA Y SE COMUNIQUE DE LA MISMA FORMA, SIN IMPORTAR QUIÉN LA USE O DÓNDE SE APLIQUE.'

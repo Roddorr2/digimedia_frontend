@@ -2,10 +2,20 @@
 import React from "react";
 
 import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
 export default function PlanificacionEstrategica() {
+  const modales = {
+    modalA: {
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/fondo.webp",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
+    },
+  };
+
   const features = [
     {
       icon: (
@@ -23,6 +33,7 @@ export default function PlanificacionEstrategica() {
 
   return (
     <div>
+      <ModalScroll data={modales} />
       <UxUiSection
         features={features}
         mainDescription="Es el proceso sistemático para definir la dirección de una organización, establecer objetivos y desarrollar estrategias para alcanzarlos."
