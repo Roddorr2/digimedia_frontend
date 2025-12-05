@@ -2,11 +2,21 @@
 import React from 'react';
 
 import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 
 
 export default function DisenoPauta() {
+    const modales = {
+      modalA: {
+        text: "BRANDING Y DISEÑO",
+        fondo: "/servicios/branding/modal-scroll/fondo.webp",
+        title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+        serviceName: "4",
+      },
+    };
+
     const features = [
     {
       icon: <img src="/servicios/gestion/diseno-pautas/icons/publicidad_icon.webp" alt="Computadora con iconos de publicidad" className="w-full h-full object-contain" />,
@@ -19,6 +29,7 @@ export default function DisenoPauta() {
   return (
 
    <div>
+      <ModalScroll data={modales} />
       <UxUiSection 
       features={features} 
       mainDescription='LA PUBLICIDAD DIGITAL PERMITE A LAS EMPRESAS DIRIGIRSE A UN PÚBLICO ESPECÍFICO, MEDIR EL RENDIMIENTO DE LAS CAMPAÑAS EN TIEMPO REAL Y AJUSTAR LAS ESTRATEGIAS PARA OPTIMIZAR LOS RESULTADOS.'

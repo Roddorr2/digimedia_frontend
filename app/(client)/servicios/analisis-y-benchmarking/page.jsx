@@ -1,9 +1,19 @@
 "use client";
 import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
 export default function ProduccionPautas() {
+  const modales = {
+    modalA: {
+      text: "MARKETING Y GESTIÓN DIGITAL",
+      fondo: "/servicios/marketing/modal-scroll/fondo.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      serviceName: "3",
+    },
+  };
+
   const features = [
     {
       icon: (
@@ -33,6 +43,7 @@ export default function ProduccionPautas() {
 
   return (
     <div>
+      <ModalScroll data={modales} />
       <UxUiSection
         features={features}
         mainDescription="AL COMBINAR AMBOS ENFOQUES, LAS EMPRESAS PUEDEN LOGRAR UNA MEJORA CONTINUA Y UNA VENTAJA COMPETITIVA SOSTENIBLE."

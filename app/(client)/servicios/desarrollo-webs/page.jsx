@@ -1,8 +1,21 @@
 import Image from "next/image";
+import ModalScroll from "../components/ModalScroll";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
 
 export default function Web() {
+
+
+  const modales = {
+    modalA: {
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/DisenoUI/background_ui.svg",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1", // Ajusta según corresponda
+    },
+  };
+
+
   const featuresuxui = [
     {
       icon: (
@@ -36,6 +49,7 @@ export default function Web() {
 
   return (
     <div>
+      <ModalScroll data={modales} />
       <UxUiSection
         features={featuresuxui}
         mainDescription="EL DESARROLLO WEB ES EL PROCESO DE CREAR Y MANTENER SITIOS WEB Y APLICACIONES QUE SE EJECUTAN EN INTERNET. IMPLICA UNA COMBINACIÓN DE DISEÑO, PROGRAMACIÓN Y GESTIÓN DE BASES DE DATOS PARA ASEGURAR QUE UN SITIO WEB SEA FUNCIONAL, ATRACTIVO Y ACCESIBLE PARA LOS USUARIOS."

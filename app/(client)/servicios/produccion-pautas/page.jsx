@@ -1,9 +1,19 @@
 "use client";
 import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
 
 export default function ProduccionPautas() {
+    const modales = {
+      modalA: {
+        text: "GESTIÓN DE REDES SOCIALES",
+        fondo: "/servicios/gestion/modal-scroll/fondo.webp",
+        title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+        serviceName: "2",
+      },
+    };
+
     const features = [
         {
         icon: <img src="/servicios/gestion/produccion-pautas/icons/first.webp" alt="Diseño de pautas" className="w-full h-full object-contain" />,
@@ -21,6 +31,7 @@ export default function ProduccionPautas() {
     
     return (
         <div>
+            <ModalScroll data={modales} />
             <UxUiSection 
             features={features} 
             mainDescription='Es el desarrollo de todos los elementos necesarios para ejecutar una campaña publicitaria en redes sociales. Implica tanto la parte creativa como la técnica para que los anuncios funcionen correctamente en las plataformas elegidas.'
