@@ -1,23 +1,19 @@
-"use client"
 import dynamic from "next/dynamic";
-import Banner from './components/Home_Components/Banner';
-import Servicios from './components/Home_Components/Servicios';
-import Testimonios from './components/Home_Components/Testimonios';
+import Banner from "./components/Home_Components/Banner";
+import Testimonios from "./components/Home_Components/Testimonios";
+const Servicios = dynamic(
+  () => import("./components/Home_Components/Servicios") 
+);
 
-// This is a test
-
-const Clientes = dynamic(() => import("./components/Home_Components/Clientes"), { ssr: false });
-const WhatsAppButton = dynamic(() => import("./components/WhatsAppButton"), { ssr: false });
+import ClientSideComponents from "./components/ClientSideComponents";
 
 export default function Home() {
-
   return (
-    <>  
+    <>
       <Banner />
       <Servicios />
       <Testimonios />
-      <Clientes />
-      <WhatsAppButton />
+      <ClientSideComponents />
     </>
   );
 }

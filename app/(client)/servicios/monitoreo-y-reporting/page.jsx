@@ -1,10 +1,20 @@
 "use client";
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
 export default function ProduccionPautas() {
+  const modales = {
+    modalA: {
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/fondo.webp",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
+    },
+  };
+
   const features = [
     {
       icon: (
@@ -38,6 +48,7 @@ export default function ProduccionPautas() {
 
   return (
     <div>
+      <ModalScroll data={modales} />
       <UxUiSection
         features={features}
         mainDescription="SON PROCESOS INTERRELACIONADOS QUE SE ENFOCAN EN LA RECOLECCIÓN, ANÁLISIS Y PRESENTACIÓN DE DATOS PARA EVALUAR EL RENDIMIENTO Y LA EFECTIVIDAD DE UN PROYECTO, PROGRAMA O ESTRATEGIA."

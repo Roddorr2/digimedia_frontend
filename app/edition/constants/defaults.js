@@ -23,7 +23,7 @@ export const BODY_DEFAULTS = {
   titulo: "Descubre Todo Sobre Nuestros Servicios de Neón", // min: 10, max: 50 (required)
   descripcion:
     "En este artículo exploraremos en detalle los diferentes aspectos de nuestros servicios de letreros de neón y cómo pueden transformar espacios comerciales y residenciales. Conoce las últimas tendencias, técnicas de instalación y consejos de mantenimiento para aprovechar al máximo tu inversión en iluminación LED y neón tradicional de alta calidad.", // min: 10, max: 400 (required)
-  titulo_tarjeta: "Información Nuestros Servicios", // min: 10, max: 100 (required) - Título de la sección de tarjetas de información
+  titulo_tarjeta: "Información Detallada Sobre Nuestros Servicios", // min: 10, max: 100 (required) - Título de la sección de tarjetas de información
   alt_image1: "",
   title_image1: "",
   alt_image2: "",
