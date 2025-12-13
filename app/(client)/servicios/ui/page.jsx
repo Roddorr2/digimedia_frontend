@@ -6,6 +6,8 @@ import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import ModalButton from "../components/ModalButton";
+
 
 function UXUIComponent() {
   const searchParams = useSearchParams();
@@ -63,6 +65,13 @@ function UXUIComponent() {
   return (
     <div>
       <ModalScroll data={modales} />
+      
+      <ModalButton
+        title="Lleva tu negocio al siguiente nivel online"
+        fondo="/servicios/desarrollo/modal-button/imagen.webp"
+        text="DISEÑO Y DESARROLLO WEB"
+        serviceName="1"
+      />
       <UxUiSection
         features={featuresuxui}
         mainDescription="EL DISEÑO UX SE PREOCUPA POR LA EXPERIENCIA GLOBAL DEL USUARIO, MIENTRAS QUE EL DISEÑO UI SE ENFOCA EN LOS DETALLES VISUALES DE LA INTERFAZ. AMBOS TRABAJAN JUNTOS PARA CREAR PRODUCTOS DIGITALES EXITOSOS."

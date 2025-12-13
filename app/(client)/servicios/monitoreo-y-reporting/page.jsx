@@ -4,6 +4,7 @@ import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function ProduccionPautas() {
   const modales = {
@@ -49,6 +50,12 @@ export default function ProduccionPautas() {
   return (
     <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
+        fondo="/servicios/branding/modal-button/imagen.webp"
+        text="BRANDING Y DISEÑO"
+        serviceName="4"
+      />
       <UxUiSection
         features={features}
         mainDescription="SON PROCESOS INTERRELACIONADOS QUE SE ENFOCAN EN LA RECOLECCIÓN, ANÁLISIS Y PRESENTACIÓN DE DATOS PARA EVALUAR EL RENDIMIENTO Y LA EFECTIVIDAD DE UN PROYECTO, PROGRAMA O ESTRATEGIA."
