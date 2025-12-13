@@ -27,7 +27,7 @@ export default function Page() {
       ruta: "/servicios/dominio_hosting/",
     },
     {
-      title: "Optimización básica para Google (SEO)",
+      title: "Optimizacion SEO (Google)",
       text: "mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.",
       icon: "/servicios/desarrollo/icon4.svg",
       ruta: "/servicios/seo/",

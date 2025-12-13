@@ -1,9 +1,18 @@
 
 import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { Lightbulb, Smartphone, PenTool, Layers } from "lucide-react"
 
 export default function UXUI() {
+    const modales = {
+      modalA: {
+        text: "MARKETING Y GESTIÓN DIGITAL",
+        fondo: "/servicios/marketing/modal-scroll/fondo.webp",
+        title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+        serviceName: "3",
+      },
+    };
 
     const featuresuxui = [
     {
@@ -18,6 +27,7 @@ export default function UXUI() {
   return (
 
    <div>
+      <ModalScroll data={modales} />
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='ES LAMANIFESTACIÓN VISUAL DE LA IDENTIDAD DE UNA EMPRESA, UTILIZANDO ELEMENTOS COMO LOGOTIPOS, COLORES, TIPOGRAFÍAS Y ESTILOS GRÁFICOS PARA CREAR UNA IMAGEN COHERENTE Y RECONOCIBLE.'

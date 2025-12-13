@@ -1,9 +1,22 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
+import ModalScroll from "../components/ModalScroll";
+
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
 export default function UXUI() {
+
+
+  const modales = {
+    modalA: {
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/fondo.webp",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
+    },
+  };
+
   const featuresuxui = [
     {
       icon: (
@@ -23,6 +36,7 @@ export default function UXUI() {
 
   return (
     <div>
+      <ModalScroll data={modales} />
       <UxUiSection
         features={featuresuxui}
         mainDescription="ES LA CONSTRUCCIÓN DE UNA GUÍA QUE RECOGE TODA LA INFORMACIÓN ESENCIAL DE UN PROYECTO DE DISEÑO O BRANDING. SIRVE COMO BASE PARA DEFINIR LA IDENTIDAD VISUAL, TONO, MENSAJE Y OBJETIVOS DE UNA MARCA, PRODUCTO O CAMPAÑA."
