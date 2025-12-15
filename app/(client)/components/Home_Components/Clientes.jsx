@@ -42,26 +42,24 @@ export default function Clientes() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Lógica para pasar de un conjunto de 4 imágenes a otro sin dejar espacios vacíos
-  const nextSlide = () => {
-    setNoTransition(false);
-    if (activeIndex < clientes.length - itemsPerSlide) {
-      setActiveIndex(prevIndex => prevIndex + 1); // Avanza 1 posición
-    } else {
-      // Vuelve al inicio sin espacios vacíos
-      setActiveIndex(0); // Regresa al primer conjunto de imágenes
-    }
-  };
+const nextSlide = () => {
+  setNoTransition(false);
+  if (activeIndex < clientes.length - itemsPerSlide) {
+    setActiveIndex(prevIndex => prevIndex + 1); // Avanza 1 posición
+  } else {
+    setActiveIndex(0); // Regresa al primer conjunto de imágenes
+  }
+};
 
-  const prevSlide = () => {
-    setNoTransition(false);
-    if (activeIndex > 0) {
-      setActiveIndex(prevIndex => prevIndex - 1); // Retrocede 1 posición
-    } else {
-      // Si estamos en la primera imagen, saltamos al final
-      setActiveIndex(clientes.length - itemsPerSlide); // Vuelve al último conjunto de imágenes
-    }
-  };
+const prevSlide = () => {
+  setNoTransition(false);
+  if (activeIndex > 0) {
+    setActiveIndex(prevIndex => prevIndex - 1); // Retrocede 1 posición
+  } else {
+    setActiveIndex(clientes.length - itemsPerSlide); // Vuelve al último conjunto de imágenes
+  }
+};
+
 
   const handleManualChange = (index) => {
     setNoTransition(false);
@@ -102,9 +100,10 @@ export default function Clientes() {
         <div
           className={`flex ${
             !noTransition ? "transition-transform duration-700 ease-in-out" : ""
-          }`}
+          }`} 
           style={{
-            transform: `translateX(-${(activeIndex * 100) / itemsPerSlide}%)`,
+          
+              transform: `translateX(-${Math.min((activeIndex * 100) / itemsPerSlide, 100)}%)`,
           }}
         >
           {clientes.map((cliente, index) => (
