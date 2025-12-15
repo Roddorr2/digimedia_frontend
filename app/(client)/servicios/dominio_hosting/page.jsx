@@ -3,6 +3,8 @@ import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
+
 
 export default function UXUI() {
   const modales = {
@@ -48,6 +50,12 @@ export default function UXUI() {
   return (
     <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="Lleva tu negocio al siguiente nivel online"
+        fondo="/servicios/desarrollo/modal-button/imagen.webp"
+        text="DISEÑO Y DESARROLLO WEB"
+        serviceName="1"
+      />
       <UxUiSection
         features={featuresuxui}
         mainDescription="EL DOMINIO ES TU DIRECCIÓN ÚNICA Y TU IDENTIDAD EN INTERNET, FACILITANDO QUE LOS USUARIOS TE ENCUENTREN Y FORTALECIENDO TU MARCA. EL HOSTING ES LA INFRAESTRUCTURA ESENCIAL QUE PERMITE QUE TU SITIO WEB EXISTA, ESTÉ DISPONIBLE Y FUNCIONE CORRECTAMENTE EN LA WEB. AMBOS SON PILARES FUNDAMENTALES PARA CUALQUIER PRESENCIA ONLINE EXITOSA."

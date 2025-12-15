@@ -123,7 +123,7 @@ export default function FormBody({
     if (layoutType === "tabs") {
       const currentTabVisible =
         (activeTab === "tips" && sectionsVisibility.consejos) ||
-        (activeTab === "info" && sectionsVisibility.informacion) ||      
+        (activeTab === "info" && sectionsVisibility.informacion) ||
         (activeTab === "gallery" && sectionsVisibility.galeria);
 
       if (!currentTabVisible) {
@@ -181,9 +181,8 @@ export default function FormBody({
       if (config.max && trimmedValue.length > config.max) {
         return {
           isValid: false,
-          message: `Debe tener entre ${config.min || 0} y ${
-            config.max
-          } caracteres`,
+          message: `Debe tener entre ${config.min || 0} y ${config.max
+            } caracteres`,
         };
       }
 
@@ -441,44 +440,57 @@ export default function FormBody({
       index !== null
         ? `informacion.${index}.${fieldName}`
         : context
-        ? `${context}.${fieldName}`
-        : fieldName;
+          ? `${context}.${fieldName}`
+          : fieldName;
     const validation = fieldValidations[fullFieldName];
     if (!validation) return null;
 
     return (
       <p
-        className={`text-xs mt-1 ml-3 ${
-          validation.isValid === null
-            ? "text-gray-400"
-            : validation.isValid
+        className={`text-xs mt-1 ml-3 ${validation.isValid === null
+          ? "text-gray-400"
+          : validation.isValid
             ? "text-green-400"
             : "text-red-500"
-        }`}
+          }`}
       >
         {validation.message}
       </p>
     );
   };
+  // Función para escapar caracteres especiales de RegEx
+  const escapeRegExp = (string) => {
+    // Los caracteres especiales de RegEx son: [ ] / \ ^ $ . | ? * + ( )
+    // Reemplaza cada caracter especial con una barra invertida para interpretarlo literalmente
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
 
-  // Función para renderizar descripción con enlaces - compatible con servicios
-  function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) return texto;
+  // Función para renderizar descripción con enlace en palabra clave (CORREGIDA)
+  function renderDescripcion(texto, palabraClave, link) {
+    if (!palabraClave || !link || !texto) {
+      return texto;
+    }
 
+    // APLICACIÓN DE LA SOLUCIÓN:
+    // Escapar la palabra clave para prevenir errores de RegEx
+    const palabraClaveEscapada = escapeRegExp(palabraClave);
+
+    // Usar la palabra clave escapada en la RegEx
     // Buscar la frase completa (case insensitive)
-    const regex = new RegExp(`(${palabraClave})`, "gi");
+    const regex = new RegExp(`(${palabraClaveEscapada})`, "gi");
     const partes = texto.split(regex);
 
     return partes.map((parte, i) => {
+      // ... (Tu lógica de renderizado del enlace)
       if (parte.toLowerCase() === palabraClave.toLowerCase()) {
-       return (
-        <a
-          key={i}
-          href={enlace}
-         target="_blank"
+        return (
+          <a
+            key={i}
+            href={link}
+            target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 font-bold underline hover:text-blue-200"
-        >
+          >
             {parte}
           </a>
         );
@@ -671,9 +683,8 @@ export default function FormBody({
             {data.informacion.map((section, index) => (
               <div
                 key={index}
-                className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
-                  styles[index % styles.length]
-                }`}
+                className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${styles[index % styles.length]
+                  }`}
               >
                 <h3 className="text-xl font-bold mb-3 text-blue-400">
                   {section.titulo}
@@ -753,18 +764,16 @@ export default function FormBody({
                     className="sr-only"
                   />
                   <div
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-                      sectionsVisibility.consejos
-                        ? "bg-yellow-500"
-                        : "bg-gray-600"
-                    }`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${sectionsVisibility.consejos
+                      ? "bg-yellow-500"
+                      : "bg-gray-600"
+                      }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        sectionsVisibility.consejos
-                          ? "translate-x-6"
-                          : "translate-x-1"
-                      }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${sectionsVisibility.consejos
+                        ? "translate-x-6"
+                        : "translate-x-1"
+                        }`}
                     />
                   </div>
                 </label>
@@ -788,18 +797,16 @@ export default function FormBody({
                     className="sr-only"
                   />
                   <div
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-                      sectionsVisibility.galeria
-                        ? "bg-yellow-500"
-                        : "bg-gray-600"
-                    }`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${sectionsVisibility.galeria
+                      ? "bg-yellow-500"
+                      : "bg-gray-600"
+                      }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        sectionsVisibility.galeria
-                          ? "translate-x-6"
-                          : "translate-x-1"
-                      }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${sectionsVisibility.galeria
+                        ? "translate-x-6"
+                        : "translate-x-1"
+                        }`}
                     />
                   </div>
                 </label>
@@ -823,18 +830,16 @@ export default function FormBody({
                     className="sr-only"
                   />
                   <div
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-                      sectionsVisibility.informacion
-                        ? "bg-yellow-500"
-                        : "bg-gray-600"
-                    }`}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${sectionsVisibility.informacion
+                      ? "bg-yellow-500"
+                      : "bg-gray-600"
+                      }`}
                   >
                     <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        sectionsVisibility.informacion
-                          ? "translate-x-6"
-                          : "translate-x-1"
-                      }`}
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${sectionsVisibility.informacion
+                        ? "translate-x-6"
+                        : "translate-x-1"
+                        }`}
                     />
                   </div>
                 </label>
@@ -921,11 +926,10 @@ export default function FormBody({
                 Imagen Principal
               </label>
               <label
-                className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                  uploading
-                    ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                    : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                }`}
+                className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
+                  ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                  : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                  }`}
               >
                 {uploading ? (
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -1133,11 +1137,10 @@ export default function FormBody({
                             Subir imagen
                           </label>
                           <label
-                            className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${
-                              uploading
-                                ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
-                                : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
-                            }`}
+                            className={`flex items-center justify-center w-full p-3 border-2 border-dashed rounded-lg text-white transition-all cursor-pointer ${uploading
+                              ? "border-gray-700 bg-gray-900 opacity-50 cursor-not-allowed"
+                              : "border-gray-700 bg-gray-900 hover:border-purple-500 hover:bg-gray-800"
+                              }`}
                           >
                             {uploading ? (
                               <Loader2 className="w-5 h-5 animate-spin text-purple-400 mr-2" />
@@ -1178,9 +1181,8 @@ export default function FormBody({
                               "galeria"
                             )}
                             className={mergedStyles.input}
-                            placeholder={`Descripción de la imagen ${
-                              index + 2
-                            }`}
+                            placeholder={`Descripción de la imagen ${index + 2
+                              }`}
                           />
                           <ValidationMessage
                             fieldName={`alt_image${index + 2}`}
@@ -1335,9 +1337,8 @@ export default function FormBody({
                                   handleChangeMap(e, index, "titulo")
                                 }
                                 className={mergedStyles.input}
-                                placeholder={`Título de la tarjeta ${
-                                  index + 1
-                                }`}
+                                placeholder={`Título de la tarjeta ${index + 1
+                                  }`}
                               />
                               <ValidationMessage
                                 fieldName="titulo"
@@ -1360,16 +1361,15 @@ export default function FormBody({
                                 }
                                 className={mergedStyles.textarea}
                                 rows={3}
-                                placeholder={`Descripción detallada de la tarjeta ${
-                                  index + 1
-                                }`}
+                                placeholder={`Descripción detallada de la tarjeta ${index + 1
+                                  }`}
                               />
                               <ValidationMessage
                                 fieldName="descripcion"
                                 index={index}
                               />
                             </div>
-                            
+
                             {/* Palabra clave */}
                             <div className="mb-3">
                               <label className={mergedStyles.label}>
@@ -1397,7 +1397,7 @@ export default function FormBody({
                                 💡 El enlace solo se asocia con texto existente en la descripcion
                               </p>
                             </div>
-                            
+
                             <p className="text-xs text-gray-400 mt-3 text-center">
                               Tarjeta {index + 1} de{" "}
                               {mergedSectionsConfig.informacion.maxItems}
@@ -1457,12 +1457,12 @@ export default function FormBody({
           <div className={containerClass}>
             <div className={mergedStyles.previewArea}>
               {renderHeaderSection()}
-              
+
               {/* Descripción del header */}
               <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed border-b border-gray-200">
                 {data.header.descripcion}
               </div>
-              
+
               <div className={mergedStyles.previewContent}>
                 {mergedSectionsConfig.consejos.enabled &&
                   sectionsVisibility.consejos &&
@@ -1521,7 +1521,7 @@ export default function FormBody({
                   {["info", "tips", "gallery"]
                     .filter((tab) => {
                       if (tab === "tips") return sectionsVisibility.consejos;
-                      if (tab === "info") return sectionsVisibility.informacion;                      
+                      if (tab === "info") return sectionsVisibility.informacion;
                       if (tab === "gallery") return sectionsVisibility.galeria;
                       return true;
                     })
@@ -1536,7 +1536,7 @@ export default function FormBody({
                         onClick={() => setActiveTab(tab)}
                       >
                         {tab === "tips" && "Consejos"}
-                        {tab === "info" && "Información"}                        
+                        {tab === "info" && "Información"}
                         {tab === "gallery" && "Galería"}
                       </button>
                     ))}
@@ -1550,7 +1550,7 @@ export default function FormBody({
                     )}
                     {activeTab === "info" && sectionsVisibility.informacion && (
                       <div key="info-content">{renderInformacionSection()}</div>
-                    )}                    
+                    )}
                     {activeTab === "gallery" && sectionsVisibility.galeria && (
                       <div key="gallery-content">{renderGaleriaSection()}</div>
                     )}
@@ -1605,9 +1605,8 @@ export default function FormBody({
       if (config.max && trimmedValue.length > config.max) {
         return {
           isValid: false,
-          message: `Debe tener entre ${config.min || 0} y ${
-            config.max
-          } caracteres`,
+          message: `Debe tener entre ${config.min || 0} y ${config.max
+            } caracteres`,
         };
       }
 
@@ -1687,7 +1686,7 @@ export default function FormBody({
     }
 
     setFieldValidations((prev) => ({ ...prev, ...initialValidations }));
-  }, [    
+  }, [
     formEncabezadoBody?.titulo,
     formEncabezadoBody?.descripcion,
     formEncabezadoBody?.titulo_tarjeta,
@@ -1708,7 +1707,7 @@ export default function FormBody({
     sectionsVisibility.galeria,
     sectionsVisibility.informacion,
     finalValidationConfig,
-    plantillaId,    
+    plantillaId,
   ]);
 
   // Validación unificada - compatible con setValidacionBody original

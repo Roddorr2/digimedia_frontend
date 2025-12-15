@@ -3,6 +3,7 @@ import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function ProduccionPautas() {
   const modales = {
@@ -44,6 +45,15 @@ export default function ProduccionPautas() {
   return (
     <div>
       <ModalScroll data={modales} />
+
+      <ModalButton
+        title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
+        fondo="/servicios/marketing/modal-button/imagen.webp"
+        text="MARKETING Y GESTIÓN DIGITAL"
+        serviceName="3"
+      />
+
+
       <UxUiSection
         features={features}
         mainDescription="AL COMBINAR AMBOS ENFOQUES, LAS EMPRESAS PUEDEN LOGRAR UNA MEJORA CONTINUA Y UNA VENTAJA COMPETITIVA SOSTENIBLE."

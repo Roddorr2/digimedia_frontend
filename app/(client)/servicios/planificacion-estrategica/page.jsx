@@ -5,6 +5,7 @@ import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function PlanificacionEstrategica() {
   const modales = {
@@ -34,6 +35,12 @@ export default function PlanificacionEstrategica() {
   return (
     <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
+        fondo="/servicios/branding/modal-button/imagen.webp"
+        text="BRANDING Y DISEÑO"
+        serviceName="4"
+      />
       <UxUiSection
         features={features}
         mainDescription="Es el proceso sistemático para definir la dirección de una organización, establecer objetivos y desarrollar estrategias para alcanzarlos."
@@ -47,8 +54,7 @@ export default function PlanificacionEstrategica() {
           "Mejora la comunicación y el compromiso de los empleados.",
           "Ayuda a anticipar cambios en el entorno y adaptarte a ellos.",
         ]}
-        alt="Planificación estratégica de contenido con cronogramas visuales para redes sociales y campañas digitales."
-        title="Organización de contenido y planificación digital con cronograma – Digimedia Marketing."
+        
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

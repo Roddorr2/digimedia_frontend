@@ -3,6 +3,7 @@ import Contactanos from '../components/Contactanos';
 import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import ModalButton from "../components/ModalButton";
 
 export default function ProduccionPautas() {
     const modales = {
@@ -32,6 +33,13 @@ export default function ProduccionPautas() {
     return (
         <div>
             <ModalScroll data={modales} />
+            <ModalButton
+        title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
+        fondo="/servicios/gestion/modal-button/imagen.webp"
+        text="GESTIÓN DE REDES SOCIALES"
+        serviceName="2"
+/>
+
             <UxUiSection 
             features={features} 
             mainDescription='Es el desarrollo de todos los elementos necesarios para ejecutar una campaña publicitaria en redes sociales. Implica tanto la parte creativa como la técnica para que los anuncios funcionen correctamente en las plataformas elegidas.'
@@ -44,8 +52,7 @@ export default function ProduccionPautas() {
             "Asegurar que los anuncios sean visualmente atractivos y técnicamente óptimos.",
             "Maximizar el rendimiento de las campañas en redes sociales.",
             ]}
-            alt="Producción de anuncios gráficos y textos publicitarios listos para campañas en Meta Ads y redes sociales."
-            title="Producción creativa de pautas para campañas publicitarias – Digimedia Marketing."
+            
         />
         <Contactanos
             text="Consolida tu presencia web, diseña con nosotros tu página web"
