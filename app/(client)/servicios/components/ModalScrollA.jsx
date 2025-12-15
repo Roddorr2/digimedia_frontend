@@ -94,7 +94,7 @@ export default function ModalScrollA({ data, time }) {
         templateOption: "cita_gratis",
       });
 
-      setOpen(false);
+      // setOpen(false);
       if (response.status === 201) {
         Swal.fire({
           title: "Modal enviado Correctamente",
@@ -103,6 +103,10 @@ export default function ModalScrollA({ data, time }) {
           confirmButtonText: "OK",
         });
       } else {
+
+
+        setOpen(false);
+
         Swal.fire({
           title: "Error",
           text: "No se envio el contacto correctamente.",
@@ -111,6 +115,9 @@ export default function ModalScrollA({ data, time }) {
         });
       }
     } catch (error) {
+
+      setOpen(false);
+
       Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",
