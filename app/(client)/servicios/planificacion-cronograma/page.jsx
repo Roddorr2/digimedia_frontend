@@ -4,6 +4,7 @@ import Contactanos from '../components/Contactanos';
 import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import ModalButton from "../components/ModalButton";
 
 export default function PlanificacionCronograma() {
   const modales = {
@@ -29,31 +30,38 @@ export default function PlanificacionCronograma() {
         "Un cronograma es una herramienta que muestra la secuencia de las actividades necesarias para completar un proyecto, junto con sus fechas de inicio y fin estimadas. ",
     },
   ]
-  
+
   return (
 
-   <div>
-      <ModalScroll data={modales} />
-      <UxUiSection 
-      features={features} 
-      mainDescription='Es el proceso de definir estrategias, objetivos, temáticas y tipos de contenido que se publicarán en las redes sociales. Esta etapa implica pensar a mediano y largo plazo para construir una presencia digital sólida.'
-      backgroundImage='/servicios/gestion/planificacion/planificacion_principal.webp'
-      heroTitle="PLANIFICACIÓN Y CRONOGRAMA"
-      alt= "Planificación estratégica de contenido con cronogramas visuales para redes sociales y campañas digitales"
-      title = "Organización de contenido y planificación digital con cronograma – Digimedia Marketing."
-      heroBulletPoints={[
-        "Aseguran coherencia y frecuencia constante en las publicaciones.",
-        "Permiten optimizar recursos y evitar improvisaciones.",
-        "Ayudan a evaluar resultados y hacer ajustes estratégicos.",
-        "Facilitan el trabajo colaborativo entre equipos de diseño, redacción y marketing."
-      ]}
+    <div>
+      <ModalButton
+        title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
+        fondo="/servicios/gestion/modal-button/imagen.webp"
+        text="GESTIÓN DE REDES SOCIALES"
+        serviceName="2"
+      />
+
+
+      <UxUiSection
+        features={features}
+        mainDescription='Es el proceso de definir estrategias, objetivos, temáticas y tipos de contenido que se publicarán en las redes sociales. Esta etapa implica pensar a mediano y largo plazo para construir una presencia digital sólida.'
+        backgroundImage='/servicios/gestion/planificacion/planificacion_principal.webp'
+        heroTitle="PLANIFICACIÓN Y CRONOGRAMA"
+        alt="Planificación estratégica de contenido con cronogramas visuales para redes sociales y campañas digitales"
+        title="Organización de contenido y planificación digital con cronograma – Digimedia Marketing."
+        heroBulletPoints={[
+          "Aseguran coherencia y frecuencia constante en las publicaciones.",
+          "Permiten optimizar recursos y evitar improvisaciones.",
+          "Ayudan a evaluar resultados y hacer ajustes estratégicos.",
+          "Facilitan el trabajo colaborativo entre equipos de diseño, redacción y marketing."
+        ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
         iconLeft="/servicios/desarrollo/icon-left.svg"
         iconRight="/servicios/desarrollo/icon-right.svg"
-      /> 
-   </div>
-   
+      />
+    </div>
+
   );
 }

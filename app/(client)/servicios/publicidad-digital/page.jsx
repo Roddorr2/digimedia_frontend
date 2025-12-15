@@ -5,6 +5,7 @@ import Contactanos from '../components/Contactanos';
 import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react"
+import ModalButton from "../components/ModalButton";
 
 
 export default function DisenoPauta() {
@@ -30,6 +31,12 @@ export default function DisenoPauta() {
 
    <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
+        fondo="/servicios/branding/modal-button/imagen.webp"
+        text="BRANDING Y DISEÑO"
+        serviceName="4"
+      />
       <UxUiSection 
       features={features} 
       mainDescription='LA PUBLICIDAD DIGITAL PERMITE A LAS EMPRESAS DIRIGIRSE A UN PÚBLICO ESPECÍFICO, MEDIR EL RENDIMIENTO DE LAS CAMPAÑAS EN TIEMPO REAL Y AJUSTAR LAS ESTRATEGIAS PARA OPTIMIZAR LOS RESULTADOS.'
