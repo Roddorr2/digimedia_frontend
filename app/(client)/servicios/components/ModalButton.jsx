@@ -11,6 +11,12 @@ import styles from './modal.module.css'
 
 const URL_API = `${url}/api/modales`
 const URL_WHASAPP=`${url_whasapp}/api/send-message`;
+const SERVICE_TEMPLATE_MAP = {
+  1: 'diseno_web',
+  2: 'redes_sociales',
+  3: 'marketing_digital',
+  4: 'branding_diseno'
+};
 
 export default function ModalClick({ text, fondo, title, serviceName }) {
   const modalRef = useRef(null);
@@ -83,13 +89,14 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
         },
       });
 
+      
       await axios.post(URL_WHASAPP, {
 
       telefono: phoneWithPrefix,
       nombre:data.nombre,
       fecha: fechaActual,
       hora: horaActual,
-      templateOption: 'cita_gratis'
+      templateOption: SERVICE_TEMPLATE_MAP[serviceName] || 'cita_gratis'
 
     });
 
