@@ -2,6 +2,7 @@
     padding: 50px;
 }
 
+/* ===== TEXTO ===== */
 .services-text h2 {
     color: #90388B;
     font-size: 2rem;
@@ -9,6 +10,11 @@
     padding: 0;
 }
 
+.services-text p {
+    margin-top: 10px;
+}
+
+/* ===== CONTENEDORES ===== */
 .services-4 {
     display: flex;
     justify-content: center;
@@ -20,50 +26,59 @@
     justify-content: center;
     width: 100%;
     align-items: flex-end;
-    max-width: 1000px;
-    flex-wrap: wrap;
+    max-width: 1100px;
+    flex-wrap: nowrap; /* 👈 UNA SOLA FILA */
+    gap: 20px;
 }
 
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .services {
+        flex-wrap: wrap; /* 👈 en tablets y mobile sí baja */
+    }
+}
+
+/* ===== CARD ===== */
 .service {
+    width: 100%;
+    max-width: 250px;
+    height: 200px;
+
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    overflow: hidden; /* 👈 CLAVE: evita invasiones */
+}
+
+/* ===== CONTENIDO INTERNO (EL QUE CRECE) ===== */
+.serviceInner {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+
     padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
     width: 100%;
-    height: 200px;
-    max-width: 250px;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                background-color 0.5s ease;
-    cursor: pointer; 
-    z-index: 1; 
+    height: 100%;
+
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.service:hover {
+/* ===== HOVER LIMPIO ===== */
+.service:hover .serviceInner {
     transform: scale(1.1);
-    z-index: 10;
 }
 
+/* ===== IMAGEN ===== */
 .service img {
     width: 100px;
     height: 100px;
-    transition: width 0.5s ease, height 0.5s ease;
-}
-
-.service h3 {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    color: #333;
-    transition: font-size 0.5s ease;
-}
-
-.service p {
-    display: none;
-    font-size: 0.8rem;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: width 0.4s ease, height 0.4s ease;
 }
 
 .service:hover img {
@@ -71,8 +86,23 @@
     height: 70px;
 }
 
+/* ===== TÍTULO ===== */
+.service h3 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    transition: font-size 0.4s ease;
+}
+
 .service:hover h3 {
     font-size: 1rem;
+}
+
+/* ===== TEXTO ===== */
+.service p {
+    display: none;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 .service:hover p {
