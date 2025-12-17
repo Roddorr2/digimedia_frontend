@@ -91,7 +91,7 @@ export default function ModalScrollA({ data, time }) {
         fecha: fechaActual,
         hora: horaActual,
         // templateOption: data.text
-        templateOption: "cita_gratis",
+        templateOption: serviceName,
       });
 
       setOpen(false);
