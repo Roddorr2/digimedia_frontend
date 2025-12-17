@@ -2,6 +2,8 @@ import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
 import ModalScroll from "../components/ModalScroll";
+import ModalButton from "../components/ModalButton";
+
 
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
@@ -37,6 +39,12 @@ export default function UXUI() {
   return (
     <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
+        fondo="/servicios/branding/modal-button/imagen.webp"
+        text="BRANDING Y DISEÑO"
+        serviceName="4"
+      />
       <UxUiSection
         features={featuresuxui}
         mainDescription="ES LA CONSTRUCCIÓN DE UNA GUÍA QUE RECOGE TODA LA INFORMACIÓN ESENCIAL DE UN PROYECTO DE DISEÑO O BRANDING. SIRVE COMO BASE PARA DEFINIR LA IDENTIDAD VISUAL, TONO, MENSAJE Y OBJETIVOS DE UNA MARCA, PRODUCTO O CAMPAÑA."

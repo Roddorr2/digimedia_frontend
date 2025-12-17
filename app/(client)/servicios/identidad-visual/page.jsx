@@ -3,6 +3,7 @@ import Contactanos from '../components/Contactanos';
 import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from "../components/uxui-section"
 import { Lightbulb, Smartphone, PenTool, Layers } from "lucide-react"
+import ModalButton from "../components/ModalButton";
 
 export default function UXUI() {
     const modales = {
@@ -28,6 +29,14 @@ export default function UXUI() {
 
    <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
+        fondo="/servicios/marketing/modal-button/imagen.webp"
+        text="MARKETING Y GESTIÓN DIGITAL"
+        serviceName="3"
+      />
+
+
       <UxUiSection 
       features={featuresuxui} 
       mainDescription='ES LAMANIFESTACIÓN VISUAL DE LA IDENTIDAD DE UNA EMPRESA, UTILIZANDO ELEMENTOS COMO LOGOTIPOS, COLORES, TIPOGRAFÍAS Y ESTILOS GRÁFICOS PARA CREAR UNA IMAGEN COHERENTE Y RECONOCIBLE.'

@@ -11,66 +11,80 @@ function services() {
           <h2>NUESTROS SERVICIOS</h2>
           <p>
             Digimedia es una empresa de marketing digital, que se enfoca en
-            potenciar tu empredimiento a nivel online. Ademas, le brinda a tu
-            empredimiento estrategias que ayuden a cumplir los objetivos de
-            manera eficaz. Somos un grupo de personas comprometidas con el
-            desarollo de cada marca que nos contacta.
+            potenciar tu emprendimiento a nivel online. Además, brinda
+            estrategias que ayudan a cumplir objetivos de manera eficaz. Somos
+            un grupo comprometido con el desarrollo de cada marca que nos
+            contacta.
           </p>
         </div>
+
         <div className={styles["services-4"]}>
           <div className={styles.services}>
+            {/* Diseño y Desarrollo Web */}
             <Link
               href="/servicios/desing-desarrollo"
-              className={styles.service}
+              className={`${styles.service} !bg-[#FFA000] !text-[#1e1874]`}
             >
               <Image
                 src="/image-home/icon1.svg"
-                alt="Icono de una computadora con un pincel de color morado con fondo oscuro"
+                alt="Icono diseño web"
                 width={100}
                 height={100}
               />
-              <h3>Diseño y Desarrollo Web</h3>
-              <p>
-                "Creamos sitios atractivos y funcionales que representan tu
-                marca"
+              <h3 className="!text-[#1E1773]">Diseño y Desarrollo Web</h3>
+              <p className="!text-[#1E1773]">
+                Creamos sitios atractivos y funcionales que representan tu marca
               </p>
             </Link>
 
-            <Link href="/servicios/gestion-redes" className={styles.service}>
+            {/* Gestión de Redes Sociales */}
+            <Link
+              href="/servicios/gestion-redes"
+              className={`${styles.service} !bg-[#1E1773] !text-white`}
+            >
               <Image
                 src="/image-home/icon2.svg"
-                alt="Icono de una mano con círculos de like, corazón y play color morado con fondo oscuro"
+                alt="Icono redes sociales"
                 width={100}
                 height={100}
               />
-              <h3>Gestión de Redes Sociales</h3>
-              <p>"Aumenta tu presencia online y conectamos con tu audiencia"</p>
+              <h3 className="!text-white">Gestión de Redes Sociales</h3>
+              <p>
+                Aumenta tu presencia online y conectamos con tu audiencia
+              </p>
             </Link>
 
-            <Link href="/servicios/branding-desing" className={styles.service}>
+            {/* Branding y Diseño */}
+            <Link
+              href="/servicios/branding-desing"
+              className={`${styles.service} !bg-[#b525fe] !text-white`}
+            >
               <Image
                 src="/image-home/icon3.svg"
-                alt="Icono de grafico a la alza color morado con fondo oscuro"
+                alt="Icono branding"
                 width={100}
                 height={100}
               />
-              <h3>Branding y Diseño</h3>
-              <p>"Construimos una identidad visual fuerte y memorable"</p>
+              <h3 className="!text-white">Branding y Diseño</h3>
+              <p>
+                Construimos una identidad visual fuerte y memorable
+              </p>
             </Link>
 
+            {/* Marketing y Gestión Digital */}
             <Link
               href="/servicios/marketing-gestion"
-              className={styles.service}
+              className={`${styles.service} !bg-white !text-[#b525fe]`}
             >
               <Image
                 width={100}
                 height={100}
                 src="/image-home/icon4.svg"
-                alt="Icono de un círculo con un lápiz y una regla en cruz de color morado y fondo oscuro"
+                alt="Icono marketing digital"
               />
-              <h3>Marketing y Gestión Digital</h3>
+              <h3 className="!text-[#b525fe]">Marketing y Gestión Digital</h3>
               <p>
-                "Aumenta tu presencia en redes sociales y con marketing digital"
+                Aumenta tu presencia en redes sociales con marketing digital
               </p>
             </Link>
           </div>

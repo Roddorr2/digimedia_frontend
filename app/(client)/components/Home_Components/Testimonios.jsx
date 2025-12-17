@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Testimonios() {
   return (
     <section className="flex flex-col md:flex-row">
-      <div className="bg-[#90388B] text-white w-full py-6 px-12 md:w-1/2 flex flex-col justify-center">
+      <div className="bg-[#7b22b3] text-white w-full py-6 px-12 md:w-1/2 flex flex-col justify-center">
         <h2 className="text-2xl">TESTIMONIOS</h2>
         <p className="text-5xl font-semibold mt-4">
           NUESTROS CLIENTES

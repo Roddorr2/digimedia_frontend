@@ -2,6 +2,8 @@ import Image from "next/image";
 import ModalScroll from "../components/ModalScroll";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
+import ModalButton from "../components/ModalButton";
+
 
 export default function Web() {
 
@@ -50,6 +52,12 @@ export default function Web() {
   return (
     <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="Lleva tu negocio al siguiente nivel online"
+        fondo="/servicios/desarrollo/modal-button/imagen.webp"
+        text="DISEÑO Y DESARROLLO WEB"
+        serviceName="1"
+      />
       <UxUiSection
         features={featuresuxui}
         mainDescription="EL DESARROLLO WEB ES EL PROCESO DE CREAR Y MANTENER SITIOS WEB Y APLICACIONES QUE SE EJECUTAN EN INTERNET. IMPLICA UNA COMBINACIÓN DE DISEÑO, PROGRAMACIÓN Y GESTIÓN DE BASES DE DATOS PARA ASEGURAR QUE UN SITIO WEB SEA FUNCIONAL, ATRACTIVO Y ACCESIBLE PARA LOS USUARIOS."

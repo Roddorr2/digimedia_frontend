@@ -6,6 +6,8 @@ import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
+import ModalButton from "../components/ModalButton";
+
 
 export default function DisenoPauta() {
   const modales = {
@@ -37,6 +39,13 @@ export default function DisenoPauta() {
   return (
     <div>
       <ModalScroll data={modales} />
+      <ModalButton
+        title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
+        fondo="/servicios/gestion/modal-button/imagen.webp"
+        text="GESTIÓN DE REDES SOCIALES"
+        serviceName="2"
+      />
+
       <UxUiSection
         features={features}
         mainDescription="Es el proceso de crear piezas gráficas o audiovisuales atractivas y efectivas que serán utilizadas en campañas de publicidad digital. Estas piezas están dirigidas a públicos segmentados y tienen un objetivo específico."
