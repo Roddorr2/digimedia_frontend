@@ -89,7 +89,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
       nombre:data.nombre,
       fecha: fechaActual,
       hora: horaActual,
-      templateOption: 'cita_gratis'
+      templateOption: serviceName
 
     });
 
