@@ -111,6 +111,9 @@ export default function ModalScrollA({ data, time }) {
         });
       }
     } catch (error) {
+
+      setOpen(false);
+
       Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",
