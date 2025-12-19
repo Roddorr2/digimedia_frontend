@@ -26,8 +26,8 @@
     width: 100%;
     max-width: 1100px;
 
-    flex-wrap: nowrap;     
-    gap: 0;                 
+    flex-wrap: nowrap;
+    gap: 0;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -39,23 +39,19 @@
 
 /* ===== CARD ===== */
 .service {
-    width: 250px;
-    height: 200px;
-
+    padding: 10px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    height: 200px;
+
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                background-color 0.5s ease,
+                z-index 0s 0.5s;
 
     cursor: pointer;
-
-    transform: scale(1) translateX(0);
-    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-    /*transform-origin: center;*/
     position: relative;
     z-index: 1;
 }
@@ -63,6 +59,9 @@
 .service:hover {
     transform: scale(1.1);
     z-index: 10;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                background-color 0.5s ease,
+                z-index 0s 0s;
 }
 
 /* ===== IMAGEN ===== */
@@ -103,141 +102,8 @@
     opacity: 0.9;
 }
 
-/* Primer card → crece hacia la derecha */
-.service:nth-child(1) {
-    transform-origin: center right;
-}
-
-/* Cards centrales → crecen al centro */
-.service:nth-child(2),
-.service:nth-child(3) {
-    transform-origin: center;
-}
-
-/* Card 2 */
-.service:nth-child(2):hover {
-    transform: scale(1.1) translateX(-5%);
-}
-
-/* Card 3 */
-.service:nth-child(3):hover {
-    transform: scale(1.1) translateX(-5%);
-}
-
-/* Último card*/
-.service:nth-child(4) {
-    transform-origin: center left;
-}
 
 
 
 
-
-
-
-
-
-
-/* .services-main {
-    padding: 50px;
-}
-
-
-.services-text h2 {
-    color: #90388B;
-    font-size: 2rem;
-    margin: 0;
-}
-
-.services-text p {
-    margin-top: 10px;
-}
-
-
-.services-4 {
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
-}
-
-.services {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 1100px;
-
-    flex-wrap: nowrap;      
-    gap: 0;                 
-}
-
-
-@media (max-width: 1024px) {
-    .services {
-        flex-wrap: wrap;
-    }
-}
-
-
-.service {
-    width: 250px;
-    height: 200px;
-
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    cursor: pointer;
-
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    transform-origin: center;
-    position: relative;
-    z-index: 1;
-}
-
- 👇 EL EFECTO AHORA ES DEL CARD 
-.service:hover {
-    transform: scale(1.1);
-    z-index: 10;
-}
-
-
-.service img {
-    width: 100px;
-    height: 100px;
-    transition: width 0.4s ease, height 0.4s ease;
-}
-
-.service:hover img {
-    width: 70px;
-    height: 70px;
-}
-
-
-.service h3 {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    transition: font-size 0.4s ease;
-}
-
-.service:hover h3 {
-    font-size: 1rem;
-}
-
-
-.service p {
-    display: none;
-    font-size: 0.8rem;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.service:hover p {
-    display: flex;
-    opacity: 0.9;
-} */
 
