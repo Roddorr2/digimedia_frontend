@@ -110,6 +110,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
         });
       }
     }catch(error){
+      hideModal();
       Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",
