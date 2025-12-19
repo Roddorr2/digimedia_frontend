@@ -39,11 +39,17 @@
                 background-color 0.5s ease;
     cursor: pointer; 
     z-index: 1; 
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                background-color 0.5s ease,
+                z-index 0s 0.5s; /* El 0.5s al final es el retraso */
 }
 
 .service:hover {
     transform: scale(1.1);
     z-index: 10;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                background-color 0.5s ease,
+                z-index 0s 0s;
 }
 
 .service img {
