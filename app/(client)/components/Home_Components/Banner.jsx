@@ -11,7 +11,7 @@ export default function Banner() {
           <Image
             src="/image-home/inicio.webp"
             alt="Inicio"
-            priority
+            priority 
             fetchPriority="high"
             fill
             sizes="100vw"
@@ -28,18 +28,21 @@ export default function Banner() {
               willChange: "clip-path",
             }}
           >
-            <h1 className="text-white font-bold text-4xl md:text-6xl max-w-xl">
-              ¿No sabes por dónde empezar?
+            <h1 className="text-white font-bold text-4xl md:text-4xl ">
+              Creemos en las buenas ideas...
             </h1>
-            <p className="text-[#FCEE21] text-2xl max-w-96 m-auto md:m-0">
-              Impulsa tu marca al siguiente nivel con nosotros
+            <p className="text-white text-2xl m-auto md:m-0">
+              y sobre todo en sacar adelante tu negocio
             </p>
           </div>
           <a
             href="/contactanos"
-            className="relative inline-flex items-center justify-center text-white font-bold px-8 py-4 rounded-full overflow-hidden shadow-md bg-gradient-to-r from-[#7B22B3] to-[#9C27B0] hover:from-[#682199] hover:to-[#8A2BE2] transition-all duration-500 transform hover:-translate-y-1 hover:shadow-lg focus:outline-none group mx-auto md:mx-0 mt-5 mb-8 translate-x-[5rem]"
+            className="relative inline-flex items-center justify-center text-white 
+            font-bold px-14 py-3 rounded-2xl shadow-md bg-[#FFA000] hover:bg-[#FB8C00] 
+            transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none
+            mx-auto md:mx-0 mt-5 mb-8 translate-x-[5rem]"
           >
-            <span className="relative z-10">¡CONTÁCTANOS!</span>
+            <span className="relative z-10">¡Contáctanos!</span>
           </a>
         </div>
       </main>
