@@ -5,8 +5,7 @@ export default function Testimonios() {
     <section className="flex flex-col md:flex-row w-full bg-[#b226ff] overflow-hidden">
       <div className="w-full md:w-[50%] bg-[#b226ff] order-1 md:order-2">
         <div className="relative w-full h-[280px] md:h-[400px] overflow-hidden 
-          /* Curva abajo en móvil, curva a la izquierda en escritorio */
-          rounded-b-[60px] md:rounded-b-none md:rounded-l-[100px] bg-white">
+          rounded-b-[60px]  md:rounded-l-[60px] bg-white">
           <Image
             src="/image-home/opiniones.jpg"
             alt="Personas conversando"
