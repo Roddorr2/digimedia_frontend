@@ -10,6 +10,7 @@
 
 .logoHeader img {
   padding: 10px 0;
+  filter: brightness(0) invert(1);
 }
 
 .contenidoHeader {
