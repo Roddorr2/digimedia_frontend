@@ -1,6 +1,6 @@
 /* Estilos generales */
 .mainFooter {
-  background-color: #333333;
+  background-color: #752e75;
 }
 
 .footerContenido {
@@ -24,7 +24,7 @@
   text-decoration: none;
   color: rgb(168, 168, 168);
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   font-size: 13px;
   transition: 0.5s;
   gap: 5px;
@@ -60,7 +60,7 @@
 }
 
 .rucFooter {
-  background-color: #333333;
+  background-color: #752e75;
   padding: 10px 30px;
   color: white; /* Color base para el contenedor */
   display: flex;
