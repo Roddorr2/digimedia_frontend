@@ -2,33 +2,34 @@ import Image from "next/image";
 
 export default function Testimonios() {
   return (
-    <section className="flex flex-col md:flex-row">
-      <div className="bg-[#7b22b3] text-white w-full py-6 px-12 md:w-1/2 flex flex-col justify-center">
-        <h2 className="text-2xl">TESTIMONIOS</h2>
-        <p className="text-5xl font-semibold mt-4">
-          NUESTROS CLIENTES
-          <span className="text-[#FCEE21] block font-extrabold text-7xl">
-            OPINAN
-          </span>
-        </p>
-      </div>
-      <div className="w-full md:w-1/2">
-        <picture>
-          <source
-            media="(max-width: 767px)"
-            srcSet="/image-home/opinions_mobile.avif"
-          />
+    <section className="flex flex-col md:flex-row w-full bg-[#b226ff] overflow-hidden">
+      <div className="w-full md:w-[50%] bg-[#b226ff] order-1 md:order-2">
+        <div className="relative w-full h-[280px] md:h-[400px] overflow-hidden 
+          /* Curva abajo en móvil, curva a la izquierda en escritorio */
+          rounded-b-[60px] md:rounded-b-none md:rounded-l-[100px] bg-white">
           <Image
-            src="/image-home/opinions.webp"
-            alt="imagen de un grupo de personas conversando en una mesa en un dia soleado"
-            className="w-full h-full object-cover"
-            fetchPriority="high"
-            decoding="async"
+            src="/image-home/opiniones.jpg"
+            alt="Personas conversando"
+            fill
+            className="object-cover"
             priority
-            width={600}
-            height={400}
           />
-        </picture>
+        </div>
+      </div>
+
+      <div className="text-white w-full md:w-[50%] p-10 md:p-16 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1">
+        <h2 className="text-lg md:text-3xl text-center font-normal mb-2 opacity-90">
+          ¿Primera vez con nosotros?
+        </h2>
+        <div className="flex flex-col font-black uppercase tracking-tighter">
+          <span className="text-4xl md:text-6xl ">¡TE OFRECEMOS</span>
+          <span className="text-4xl md:text-6xl ">UNA ASESORÍA</span>
+          <div className="flex items-baseline justify-center md:justify-start mt-1">
+            <span className="text-[#ff9f00] text-6xl md:text-8xl leading-none">
+              GRATIS!
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );
