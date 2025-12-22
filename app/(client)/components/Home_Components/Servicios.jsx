@@ -1,83 +1,53 @@
 import React from "react";
 import Link from "next/link";
-import styles from "./services.module.css";
 import Image from "next/image";
+import styles from "./services.module.css";
 
-function services() {
+export default function Servicios() {
   return (
-    <section id="services">
-      <div className={styles["services-main"]}>
-        <div className={styles["services-text"]}>
-          <h2>NUESTROS SERVICIOS</h2>
-          <p>
-            Digimedia es una empresa de marketing digital, que se enfoca en
-            potenciar tu empredimiento a nivel online. Ademas, le brinda a tu
-            empredimiento estrategias que ayuden a cumplir los objetivos de
-            manera eficaz. Somos un grupo de personas comprometidas con el
-            desarollo de cada marca que nos contacta.
-          </p>
+    <section className={styles.servicesMain} id="services">
+      {/* Contenedor del encabezado con el desfase solicitado */}
+      <div className={styles.servicesHeader}>
+        <h2>NUESTROS SERVICIOS</h2>
+        <p>
+          Digimedia es una empresa de marketing digital que impulsa emprendimientos en línea mediante estrategias eficaces, enfocada en el crecimiento y desarrollo de cada marca.
+        </p>
+      </div>
+
+      <div className={styles.servicesLayout}>
+        {/* CARD MORADA IZQUIERDA */}
+        <Link href="/servicios/desing-desarrollo" className={`${styles.serviceCard} ${styles.purple}`}>
+          <Image src="/image-home/diseño.png" alt="Icono diseño" width={150} height={160} />
+          <h3>DISEÑO Y <br /> DESARROLLO WEB</h3>
+          <p>Creamos sitios atractivos y <br /> funcionales que representan <br /> tu marca.</p>
+        </Link>
+
+        {/* COLUMNA CENTRAL NARANJA */}
+        <div className={styles.middleColumn}>
+          <Link href="/servicios/gestion-redes" className={`${styles.serviceCard} ${styles.orange}`}>
+            <div className={styles.textContent}>
+              <h3>GESTIÓN DE REDES <br /> SOCIALES</h3>
+              <p>Aumenta tu presencia <br /> online y conectamos<br /> con tu audiencia.</p>
+            </div>
+            <Image src="/image-home/redessociales.png" alt="Redes" width={100} height={100} />
+          </Link>
+
+          <Link href="/servicios/branding-desing" className={`${styles.serviceCard} ${styles.orange}`}>
+            <div className={styles.textContent}>
+              <h3>BRANDING Y <br /> DISEÑO</h3>
+              <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
+            </div>
+            <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
+          </Link>
         </div>
-        <div className={styles["services-4"]}>
-          <div className={styles.services}>
-            <Link
-              href="/servicios/desing-desarrollo"
-              className={styles.service}
-            >
-              <Image
-                src="/image-home/icon1.svg"
-                alt="Icono de una computadora con un pincel de color morado con fondo oscuro"
-                width={100}
-                height={100}
-              />
-              <h3>Diseño y Desarrollo Web</h3>
-              <p>
-                "Creamos sitios atractivos y funcionales que representan tu
-                marca"
-              </p>
-            </Link>
 
-            <Link href="/servicios/gestion-redes" className={styles.service}>
-              <Image
-                src="/image-home/icon2.svg"
-                alt="Icono de una mano con círculos de like, corazón y play color morado con fondo oscuro"
-                width={100}
-                height={100}
-              />
-              <h3>Gestión de Redes Sociales</h3>
-              <p>"Aumenta tu presencia online y conectamos con tu audiencia"</p>
-            </Link>
-
-            <Link href="/servicios/branding-desing" className={styles.service}>
-              <Image
-                src="/image-home/icon3.svg"
-                alt="Icono de grafico a la alza color morado con fondo oscuro"
-                width={100}
-                height={100}
-              />
-              <h3>Branding y Diseño</h3>
-              <p>"Construimos una identidad visual fuerte y memorable"</p>
-            </Link>
-
-            <Link
-              href="/servicios/marketing-gestion"
-              className={styles.service}
-            >
-              <Image
-                width={100}
-                height={100}
-                src="/image-home/icon4.svg"
-                alt="Icono de un círculo con un lápiz y una regla en cruz de color morado y fondo oscuro"
-              />
-              <h3>Marketing y Gestión Digital</h3>
-              <p>
-                "Aumenta tu presencia en redes sociales y con marketing digital"
-              </p>
-            </Link>
-          </div>
-        </div>
+        {/* CARD MORADA DERECHA */}
+        <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
+          <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
+          <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
+          <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
+        </Link>
       </div>
     </section>
   );
 }
-
-export default services;
