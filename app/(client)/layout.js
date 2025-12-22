@@ -46,7 +46,7 @@ robots: {
     type: "website",
   },
   alternates: {
-    canonical: "https://digimedia-marketing.com/",
+    canonical: "https://digimedia-marketing.com/", 
   },
 };
 

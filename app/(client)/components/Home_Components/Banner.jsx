@@ -9,7 +9,7 @@ export default function Banner() {
             srcSet="/image-home/inicio_mobile.avif"
           />
           <Image
-            src="/image-home/inicio.webp"
+            src="/image-home/pexels-artempodrez-5716026.jpg"
             alt="Inicio"
             priority 
             fetchPriority="high"
@@ -22,13 +22,10 @@ export default function Banner() {
 
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center mx-4 md:justify-end md:items-start md:mx-0">
           <div
-            className="bg-[rgba(123,34,179,0.5)] text-center py-4 px-10 rounded-xl md:px-24 md:text-left"
-            style={{
-              clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
-              willChange: "clip-path",
-            }}
+            className="bg-[#B326FF] text-white py-5 px-10 rounded-tr-[50px] md:px-24"
+          
           >
-            <h1 className="text-white font-bold text-4xl md:text-4xl ">
+            <h1 className="text-white font-bold text-4xl md:text-4xl font-['Montserrat'] ">
               Creemos en las buenas ideas...
             </h1>
             <p className="text-white text-2xl m-auto md:m-0">
