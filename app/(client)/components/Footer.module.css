@@ -1,6 +1,6 @@
 /* Estilos generales */
 .mainFooter {
-  background-color: #333333;
+  background-color: #b326ff;
 }
 
 .footerContenido {
@@ -22,7 +22,7 @@
 .listaFooter a,
 .listaFooter li {
   text-decoration: none;
-  color: rgb(168, 168, 168);
+  color: rgb(255, 255, 255);
   display: flex;
   margin-bottom: 20px;
   font-size: 13px;
@@ -60,7 +60,7 @@
 }
 
 .rucFooter {
-  background-color: #333333;
+  background-color: #b326ff;
   padding: 10px 30px;
   color: white; /* Color base para el contenedor */
   display: flex;

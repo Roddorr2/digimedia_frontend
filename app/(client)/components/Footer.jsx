@@ -1,6 +1,6 @@
-import Link from "next/link";
-import styles from "./Footer.module.css";
-import Image from "next/image";
+import Link from 'next/link';
+import styles from './Footer.module.css';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -158,7 +158,10 @@ export default function Footer() {
               <p>RUC: 20605116559</p>
             </div>
             <div className={styles.derechosFooter}>
-              <p>© {new Date().getFullYear()} Digimedia. Todos los derechos reservados.</p>
+              <p>
+                © {new Date().getFullYear()} Digimedia. Todos los derechos
+                reservados.
+              </p>
             </div>
           </div>
         </div>
