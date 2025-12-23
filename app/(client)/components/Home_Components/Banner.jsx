@@ -9,9 +9,9 @@ export default function Banner() {
             srcSet="/image-home/inicio_mobile.avif"
           />
           <Image
-            src="/image-home/inicio.webp"
+            src="/image-home/pexels-artempodrez-5716026.jpg"
             alt="Inicio"
-            priority
+            priority 
             fetchPriority="high"
             fill
             sizes="100vw"
@@ -22,24 +22,24 @@ export default function Banner() {
 
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center mx-4 md:justify-end md:items-start md:mx-0">
           <div
-            className="bg-[rgba(123,34,179,0.5)] text-center py-4 px-10 rounded-xl md:px-24 md:text-left"
-            style={{
-              clipPath: "polygon(0 0, 100% 0, 80% 100%, 0 100%)",
-              willChange: "clip-path",
-            }}
+            className="bg-[#B326FF] text-white py-5 px-10 rounded-tr-[50px] md:px-24"
+          
           >
-            <h1 className="text-white font-bold text-4xl md:text-6xl max-w-xl">
-              ¿No sabes por dónde empezar?
+            <h1 className="text-white font-bold text-4xl md:text-4xl font-['Montserrat'] ">
+              Creemos en las buenas ideas...
             </h1>
-            <p className="text-[#FCEE21] text-2xl max-w-96 m-auto md:m-0">
-              Impulsa tu marca al siguiente nivel con nosotros
+            <p className="text-white text-2xl m-auto md:m-0">
+              y sobre todo en sacar adelante tu negocio
             </p>
           </div>
           <a
             href="/contactanos"
-            className="relative inline-flex items-center justify-center text-white font-bold px-8 py-4 rounded-full overflow-hidden shadow-md bg-gradient-to-r from-[#7B22B3] to-[#9C27B0] hover:from-[#682199] hover:to-[#8A2BE2] transition-all duration-500 transform hover:-translate-y-1 hover:shadow-lg focus:outline-none group mx-auto md:mx-0 mt-5 mb-8 translate-x-[5rem]"
+            className="relative inline-flex items-center justify-center text-white 
+            font-bold px-14 py-3 rounded-2xl shadow-md bg-[#FFA000] hover:bg-[#FB8C00] 
+            transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none
+            mx-auto md:mx-0 mt-5 mb-8 translate-x-[5rem]"
           >
-            <span className="relative z-10">¡CONTÁCTANOS!</span>
+            <span className="relative z-10">¡Contáctanos!</span>
           </a>
         </div>
       </main>

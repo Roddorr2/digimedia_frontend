@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import styles from "./Header.module.css";
-import { ChevronDown } from "lucide-react";
-import Image from "next/image";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import styles from './Header.module.css';
+import { ChevronDown } from 'lucide-react';
+import Image from 'next/image';
 
-import { useEffect } from "react";
-import { useAuth } from "@/app/context/AuthContext";
-import { dashboardLinks } from "@/app/dashboard/dashboardsLinks/dashboardsLinks";
-import auth_service from "@/app/dashboard/users/services/auth.service";
+import { useEffect } from 'react';
+import { useAuth } from '@/app/context/AuthContext';
+import { dashboardLinks } from '@/app/dashboard/dashboardsLinks/dashboardsLinks';
+import auth_service from '@/app/dashboard/users/services/auth.service';
 
 export default function Header2() {
   const pathname = usePathname();
@@ -37,7 +37,7 @@ export default function Header2() {
     setIsMoreOpen(false);
     setIsPanelOpen(false);
 
-    const menucheckbox = document.getElementById("menucheckbox");
+    const menucheckbox = document.getElementById('menucheckbox');
     if (menucheckbox) {
       menucheckbox.checked = false;
     }
@@ -50,8 +50,8 @@ export default function Header2() {
 
     handleResize();
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
@@ -60,9 +60,9 @@ export default function Header2() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/logoblanco1.webp"
+              src="/headerFooter/digimedia.png"
               alt="Logo de digimedia color blanco con fondo oscuro"
-              width={190}
+              width={120}
               height={65}
               className="my-auto"
               decoding="async"
@@ -89,37 +89,37 @@ export default function Header2() {
           </label>
           <ul className={styles.menuHorizontal}>
             <li
-              className={isActive("/") ? styles.active : ""}
+              className={isActive('/') ? styles.active : ''}
               onClick={closeMenu}
             >
               <Link href="/">Inicio</Link>
             </li>
             <li
               className={`cursor-pointer ${
-                isActive("/servicios") ? styles.active : ""
+                isActive('/servicios') ? styles.active : ''
               }`}
               onClick={() => setIsServiceOpen(!isServiceOpen)}
             >
               <p
                 className="flex justify-center items-center gap-1"
                 style={{
-                  display: "flex !important",
-                  alignItems: "center !important",
+                  display: 'flex !important',
+                  alignItems: 'center !important',
                 }}
               >
-                Servicios{" "}
+                Servicios{' '}
                 <ChevronDown
                   className="w-4 h-4"
-                  style={{ display: "inline-block", verticalAlign: "middle" }}
+                  style={{ display: 'inline-block', verticalAlign: 'middle' }}
                 />
               </p>
               {isServiceOpen && (
                 <ul className={styles.menuVertical}>
                   <li
                     className={
-                      isActive("/servicios/desing-desarrollo")
-                        ? styles["active-sub"]
-                        : ""
+                      isActive('/servicios/desing-desarrollo')
+                        ? styles['active-sub']
+                        : ''
                     }
                     onClick={closeMenu}
                   >
@@ -129,9 +129,9 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive("/servicios/gestion-redes")
-                        ? styles["active-sub"]
-                        : ""
+                      isActive('/servicios/gestion-redes')
+                        ? styles['active-sub']
+                        : ''
                     }
                     onClick={closeMenu}
                   >
@@ -141,9 +141,9 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive("/servicios/marketing-gestion")
-                        ? styles["active-sub"]
-                        : ""
+                      isActive('/servicios/marketing-gestion')
+                        ? styles['active-sub']
+                        : ''
                     }
                     onClick={closeMenu}
                   >
@@ -153,9 +153,9 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive("/servicios/branding-desing")
-                        ? styles["active-sub"]
-                        : ""
+                      isActive('/servicios/branding-desing')
+                        ? styles['active-sub']
+                        : ''
                     }
                     onClick={closeMenu}
                   >
@@ -167,45 +167,45 @@ export default function Header2() {
               )}
             </li>
             <li
-              className={isActive("/nosotros") ? styles.active : ""}
+              className={isActive('/nosotros') ? styles.active : ''}
               onClick={closeMenu}
             >
               <Link href="/nosotros">Nosotros</Link>
             </li>
             <li
               className={`cursor-pointer ${
-                isActive("/blog") ||
-                isActive("/preguntas") ||
-                isActive("/contactanos")
+                isActive('/blog') ||
+                isActive('/preguntas') ||
+                isActive('/contactanos')
                   ? styles.active
-                  : ""
+                  : ''
               }`}
               onClick={() => setIsMoreOpen(!isMoreOpen)}
             >
               <p
                 className="flex justify-center items-center gap-1"
                 style={{
-                  display: "flex !important",
-                  alignItems: "center !important",
+                  display: 'flex !important',
+                  alignItems: 'center !important',
                 }}
               >
-                Más{" "}
+                Más{' '}
                 <ChevronDown
                   className="w-4 h-4"
-                  style={{ display: "inline-block", verticalAlign: "middle" }}
+                  style={{ display: 'inline-block', verticalAlign: 'middle' }}
                 />
               </p>
               {isMoreOpen && (
                 <ul className={styles.menuVertical}>
                   <li
-                    className={isActive("/blog") ? styles["active-sub"] : ""}
+                    className={isActive('/blog') ? styles['active-sub'] : ''}
                     onClick={closeMenu}
                   >
                     <Link href="/blog">Blog</Link>
                   </li>
                   <li
                     className={
-                      isActive("/preguntas") ? styles["active-sub"] : ""
+                      isActive('/preguntas') ? styles['active-sub'] : ''
                     }
                     onClick={closeMenu}
                   >
@@ -213,7 +213,7 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive("/contactanos") ? styles["active-sub"] : ""
+                      isActive('/contactanos') ? styles['active-sub'] : ''
                     }
                     onClick={closeMenu}
                   >
@@ -226,21 +226,21 @@ export default function Header2() {
 
             <li
               className={`cursor-pointer${
-                isActive("/login") || isActive("/dashboard/main")
+                isActive('/login') || isActive('/dashboard/main')
                   ? styles.active
-                  : ""
+                  : ''
               }`}
               onClick={() => setIsPanelOpen(!isPanelOpen)}
             >
               {isAuthenticated ? (
                 <>
                   <p className="flex items-center gap-1">
-                    Panel{" "}
+                    Panel{' '}
                     <ChevronDown
                       className="w-4 h-4"
                       style={{
-                        display: "inline-block",
-                        verticalAlign: "middle",
+                        display: 'inline-block',
+                        verticalAlign: 'middle',
                       }}
                     />
                   </p>
@@ -251,7 +251,7 @@ export default function Header2() {
                         <li
                           key={link.href}
                           className={
-                            isActive(link.href) ? styles["active-sub"] : ""
+                            isActive(link.href) ? styles['active-sub'] : ''
                           }
                           // onClick={closeMenu}
                         >
@@ -262,7 +262,7 @@ export default function Header2() {
                       ))}
                       <li
                         className={
-                          isActive("/login") ? styles["active-sub"] : ""
+                          isActive('/login') ? styles['active-sub'] : ''
                         }
                       >
                         <Link
@@ -280,7 +280,23 @@ export default function Header2() {
                   )}
                 </>
               ) : (
-                <Link href="/login/">Ingresar</Link>
+               
+           <a
+            href="/login"
+            className="relative inline-flex items-center justify-center text-white 
+            font-bold text-xs leading-none rounded-2xl  bg-[#FFA000] hover:bg-[#FB8C00] 
+            transition-all duration-300 shadow-md  translate-x-[14px]"
+  
+            style={{ 
+              
+              padding: "8px 17px" 
+              }}
+              >
+              Ingresar
+          </a>
+
+
+                
               )}
             </li>
           </ul>

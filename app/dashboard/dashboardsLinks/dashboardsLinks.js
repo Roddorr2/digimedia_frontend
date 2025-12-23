@@ -1,3 +1,4 @@
+import { icon } from "@fortawesome/fontawesome-svg-core";
 import {
   Component,
   FileText,
@@ -5,6 +6,7 @@ import {
   Home,
   Logs,
   Mail,
+  Settings,
   User,
 } from "lucide-react";
 
@@ -46,4 +48,10 @@ export const dashboardLinks = [
     role: "administrador",
     icon: HandCoins,
   },
+  {
+    title: "Métricas",
+    href: "/dashboard/metricas",
+    icon: Settings,
+    role: "administrador"
+  }
 ];
