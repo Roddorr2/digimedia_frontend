@@ -2,29 +2,48 @@ import Image from "next/image";
 
 export default function Testimonios() {
   return (
-    <section className="flex flex-col md:flex-row w-full bg-[#b226ff] overflow-hidden">
-      <div className="w-full md:w-[50%] bg-[#b226ff] order-1 md:order-2">
-        <div className="relative w-full h-[280px] md:h-[400px] overflow-hidden 
-          rounded-b-[60px]  md:rounded-l-[60px] bg-white">
-          <Image
-            src="/image-home/opiniones.jpg"
-            alt="Personas conversando"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-      </div>
+  <section className="flex flex-col md:flex-row md:items-stretch w-full bg-[#b226ff] overflow-hidden md:gap-10">  
+      {/* Imagen */}
+     <div className="w-full md:w-[55%] order-1 md:order-2 flex">
+  <div
+    className="
+      relative w-full overflow-hidden
+      h-[280px] sm:h-[340px]
+      md:h-full md:min-h-[420px]
+      py-px
+      rounded-b-[60px]
+      md:rounded-none md:rounded-l-[60px]
+    "
+  >
+    <Image
+      src="/image-home/opiniones.jpg"
+      alt="Personas conversando"
+      fill
+      className="object-cover object-center"
+      priority
+    />
+  </div>
+</div>
 
-      <div className="text-white w-full md:w-[50%] p-10 md:p-16 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1">
-        <h2 className="text-lg md:text-3xl text-center font-normal mb-2 opacity-90">
+    
+
+
+      {/* Texto */}
+      <div className="text-white w-full md:w-[45%] p-10 md:p-12 lg:p-16 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1 min-w-0">
+        <h2 className="text-lg md:text-2xl lg:text-3xl font-normal mb-2 opacity-90">
           ¿Primera vez con nosotros?
         </h2>
+
         <div className="flex flex-col font-black uppercase tracking-tighter">
-          <span className="text-4xl md:text-6xl ">¡TE OFRECEMOS</span>
-          <span className="text-4xl md:text-6xl ">UNA ASESORÍA</span>
+          <span className="text-4xl md:text-[44px] lg:text-6xl leading-[1.05]">
+            ¡TE OFRECEMOS
+          </span>
+          <span className="text-4xl md:text-[44px] lg:text-6xl leading-[1.05]">
+            UNA ASESORÍA
+          </span>
+
           <div className="flex items-baseline justify-center md:justify-start mt-1">
-            <span className="text-[#ff9f00] text-6xl md:text-8xl leading-none">
+            <span className="text-[#ff9f00] text-6xl md:text-7xl lg:text-8xl leading-none">
               GRATIS!
             </span>
           </div>
