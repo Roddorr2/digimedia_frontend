@@ -17,7 +17,7 @@ export default function Footer() {
               />
             </div>
             <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
-              <h2>Contacto</h2>
+              <h2>CONTACTO</h2>
               <ul>
                 <li>
                   <Link
@@ -58,7 +58,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-              <h2>Legales</h2>
+              <h2>LEGALES</h2>
               <ul>
                 <li>
                   <Link href="/politica-privacidad">
@@ -80,7 +80,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-              <h3>Redes Sociales</h3>
+              <h3>REDES SOCIALES</h3>
               <ul>
                 <li>
                   <Link
