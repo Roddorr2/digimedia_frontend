@@ -1,6 +1,11 @@
 /* Estilos generales */
 .mainFooter {
-  background-color: #752e75;
+  background-color: #b525fe;
+}
+
+.imgFooter img {
+  margin-top: -60;
+  filter: brightness(0) invert(1);
 }
 
 .footerContenido {
@@ -8,6 +13,7 @@
   color: white;
   display: flex;
   justify-content: space-evenly;
+  align-items: flex-start;
 }
 
 .listaFooter h3 {
@@ -22,7 +28,7 @@
 .listaFooter a,
 .listaFooter li {
   text-decoration: none;
-  color: rgb(168, 168, 168);
+  color: white;
   display: flex;
   margin-bottom: 5px;
   font-size: 13px;
@@ -36,8 +42,10 @@
 }
 
 .redesFooter ul {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  justify-items: center;
 }
 
 .redesFooter ul > li {
@@ -60,7 +68,7 @@
 }
 
 .rucFooter {
-  background-color: #752e75;
+  background-color: #b525fe;
   padding: 10px 30px;
   color: white; /* Color base para el contenedor */
   display: flex;

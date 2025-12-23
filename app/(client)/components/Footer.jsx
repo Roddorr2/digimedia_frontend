@@ -8,12 +8,15 @@ export default function Footer() {
       <footer>
         <div className={styles.mainFooter}>
           <div className={styles.footerContenido}>
-            <div className={`${styles.imgFooter} my-4`}>
+            <div className={`${styles.imgFooter}`}>
               <Image
-                src="/headerFooter/logoFooter.webp"
-                alt="Logo DigiMedia Marketing con fondo oscuro"
-                width={250}
-                height={120}
+                src="/headerFooter/digimedia.png"
+                alt="Logo de digimedia color blanco con fondo oscuro"
+                width={360}
+                height={200}
+                className="my-auto"
+                decoding="async"
+                priority={true}
               />
             </div>
             <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>

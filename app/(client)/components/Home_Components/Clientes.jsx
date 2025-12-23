@@ -94,7 +94,7 @@ const prevSlide = () => {
 
   return (
     <section className="my-6 mx-12">
-      <h2 className="text-2xl text-[#752E75]">NUESTROS CLIENTES</h2>
+      <h2 className="text-2xl text-[#b525fe]">NUESTROS CLIENTES</h2>
 
       <div className="relative w-full overflow-hidden" data-carousel="slide">
         <div
@@ -133,7 +133,7 @@ const prevSlide = () => {
               key={index}
               className={`h-3 rounded-full transition-all duration-500 ${
                 index === activeIndex
-                  ? "bg-[#752E75] w-[1.25rem]"
+                  ? "bg-[#b525fe] w-[1.25rem]"
                   : "bg-gray-300 w-3"
               }`}
               onClick={() => {
@@ -152,7 +152,7 @@ const prevSlide = () => {
           }}
           className="absolute top-1/2 left-0 transform -translate-y-1/2 px-0"
         >
-          <span className="text-[#752E75] text-3xl">&#10094;</span>
+          <span className="text-[#b525fe] text-3xl">&#10094;</span>
         </button>
 
         <button
@@ -162,7 +162,7 @@ const prevSlide = () => {
           }}
           className="absolute top-1/2 right-0 transform -translate-y-1/2 px-0"
         >
-          <span className="text-[#752E75] text-3xl">&#10095;</span>
+          <span className="text-[#b525fe] text-3xl">&#10095;</span>
         </button>
       </div>
     </section>
