@@ -1,6 +1,6 @@
-'use client'
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 export default function Clientes() {
   const [activeIndex, setActiveIndex] = useState(0); // Comienza en la primera imagen
@@ -12,14 +12,14 @@ export default function Clientes() {
 
   // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
-    { src: "/image-home/contigo_voy.svg", alt: "Contigo Voy logo" },
-    { src: "/image-home/digimedia.svg", alt: "Digimedia logo" },
-    { src: "/image-home/nhl.svg", alt: "NHL logo" },
-    { src: "/image-home/tami.svg", alt: "Tami logo" },
-    { src: "/image-home/yuntas.svg", alt: "Yuntas logo" },
-    { src: "/image-home/prevemedic.svg", alt: "prevemedic logo" },
-    { src: "/image-home/mj-eventos.svg", alt: "MJ eventos logo" },
-    { src: "/image-home/asden.svg", alt: "Asden logo" },
+    { src: '/image-home/contigo_voy.svg', alt: 'Contigo Voy logo' },
+    { src: '/image-home/digimedia.svg', alt: 'Digimedia logo' },
+    { src: '/image-home/nhl.svg', alt: 'NHL logo' },
+    { src: '/image-home/tami.svg', alt: 'Tami logo' },
+    { src: '/image-home/yuntas.svg', alt: 'Yuntas logo' },
+    { src: '/image-home/prevemedic.svg', alt: 'prevemedic logo' },
+    { src: '/image-home/mj-eventos.svg', alt: 'MJ eventos logo' },
+    { src: '/image-home/asden.svg', alt: 'Asden logo' },
   ];
 
   // Ajusta el número de items por slide dependiendo del tamaño de la pantalla
@@ -35,37 +35,35 @@ export default function Clientes() {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-const nextSlide = () => {
-  setNoTransition(false);
-  if (activeIndex < clientes.length - itemsPerSlide) {
-    setActiveIndex(prevIndex => prevIndex + 1); // Avanza 1 posición
-  } else {
-    setActiveIndex(0); // Regresa al primer conjunto de imágenes
-  }
-};
+  const nextSlide = () => {
+    setNoTransition(false);
+    if (activeIndex < clientes.length - itemsPerSlide) {
+      setActiveIndex((prevIndex) => prevIndex + 1); // Avanza 1 posición
+    } else {
+      setActiveIndex(0); // Regresa al primer conjunto de imágenes
+    }
+  };
 
-const prevSlide = () => {
-  setNoTransition(false);
-  if (activeIndex > 0) {
-    setActiveIndex(prevIndex => prevIndex - 1); // Retrocede 1 posición
-  } else {
-    setActiveIndex(clientes.length - itemsPerSlide); // Vuelve al último conjunto de imágenes
-  }
-};
-
+  const prevSlide = () => {
+    setNoTransition(false);
+    if (activeIndex > 0) {
+      setActiveIndex((prevIndex) => prevIndex - 1); // Retrocede 1 posición
+    } else {
+      setActiveIndex(clientes.length - itemsPerSlide); // Vuelve al último conjunto de imágenes
+    }
+  };
 
   const handleManualChange = (index) => {
     setNoTransition(false);
     setActiveIndex(index);
   };
-
 
   const startAutoSlide = () => {
     clearInterval(intervalRef.current);
@@ -99,11 +97,13 @@ const prevSlide = () => {
       <div className="relative w-full overflow-hidden" data-carousel="slide">
         <div
           className={`flex ${
-            !noTransition ? "transition-transform duration-700 ease-in-out" : ""
-          }`} 
+            !noTransition ? 'transition-transform duration-700 ease-in-out' : ''
+          }`}
           style={{
-          
-              transform: `translateX(-${Math.min((activeIndex * 100) / itemsPerSlide, 100)}%)`,
+            transform: `translateX(-${Math.min(
+              (activeIndex * 100) / itemsPerSlide,
+              100
+            )}%)`,
           }}
         >
           {clientes.map((cliente, index) => (
@@ -115,12 +115,12 @@ const prevSlide = () => {
               <Image
                 src={cliente.src}
                 alt={cliente.alt}
-                width={200} 
-                height={100} 
+                width={200}
+                height={100}
                 className="object-contain w-full h-full"
                 loading="lazy"
                 decoding="async"
-                priority={false} 
+                priority={false}
               />
               {/* </a> */}
             </div>
