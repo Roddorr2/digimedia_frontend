@@ -31,7 +31,7 @@
   max-width: 1050px; 
 }
 
-/* Layout de las Tarjetas */
+/* Layout de las Tarjetas - VISIBLE EN DESKTOP */
 .servicesLayout {
   display: flex;
   justify-content: center;
@@ -39,6 +39,32 @@
   gap: 1.5rem;
   width: 100%;
   max-width: 1050px; 
+}
+
+/* Carrusel - OCULTO EN DESKTOP */
+.carouselContainer {
+  display: none;
+  width: 100%;
+  max-width: 1050px;
+  position: relative;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.carouselWrapper {
+  overflow: hidden;
+  border-radius: 35px;
+  touch-action: pan-y pinch-zoom;
+}
+
+.carouselTrack {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carouselSlide {
+  min-width: 100%;
+  flex-shrink: 0;
 }
 
 .serviceCard {
@@ -101,7 +127,37 @@
   line-height: 1.2;
 }
 
-/* Responsive */
+/* Indicadores */
+.carouselIndicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #b525fe;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.indicator:hover {
+  background-color: rgba(181, 37, 254, 0.3);
+  transform: scale(1.2);
+}
+
+.indicatorActive {
+  background-color: #b525fe;
+  width: 30px;
+  border-radius: 6px;
+}
+
+/* Responsive - Aquí se hace el cambio de layout a carrusel */
 @media (max-width: 1100px) {
   .servicesHeader {
     max-width: 100%;
@@ -110,14 +166,114 @@
   .servicesHeader p {
     margin: 0 auto;
   }
+  
+  /* OCULTAR layout original */
   .servicesLayout {
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
+    display: none;
   }
-  .purple, .middleColumn {
-    width: 100%;
-    max-width: 450px;
+  
+  /* MOSTRAR carrusel */
+  .carouselContainer {
+    display: block;
+    padding: 0 2rem;
+  }
+  
+  /* Ajustar tarjetas para carrusel mobile */
+  .carouselSlide .purple {
+    min-height: 400px;
+    padding: 3rem 1.5rem;
+  }
+  
+  .carouselSlide .orange {
+    min-height: 400px;
+    padding: 3rem 1.5rem;
   }
 }
 
+@media (max-width: 768px) {
+  .servicesMain {
+    padding: 3rem 0;
+  }
+
+  .servicesHeader {
+    margin-bottom: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .servicesHeader h2 {
+    font-size: 1.8rem;
+  }
+
+  .servicesHeader p {
+    font-size: 0.95rem;
+  }
+
+  .carouselContainer {
+    padding: 0 1.5rem;
+  }
+
+  .carouselSlide .purple {
+    padding: 2.5rem 1.5rem;
+    min-height: 380px;
+  }
+
+  .carouselSlide .purple h3 {
+    font-size: 1.3rem;
+  }
+
+  .carouselSlide .purple p {
+    font-size: 0.95rem;
+  }
+
+  .carouselSlide .orange {
+    flex-direction: column;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    min-height: 380px;
+  }
+
+  .carouselSlide .orange h3 {
+    font-size: 1.4rem;
+  }
+
+  .carouselSlide .orange p {
+    font-size: 0.95rem;
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+  }
+
+  .indicatorActive {
+    width: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carouselContainer {
+    padding: 0 1rem;
+  }
+
+  .servicesHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .servicesHeader p {
+    font-size: 0.9rem;
+  }
+
+  .carouselSlide .purple,
+  .carouselSlide .orange {
+    min-height: 350px;
+    padding: 2rem 1rem;
+  }
+
+  .carouselSlide .purple h3 {
+    font-size: 1.2rem;
+  }
+
+  .carouselSlide .orange h3 {
+    font-size: 1.25rem;
+  }
+}
