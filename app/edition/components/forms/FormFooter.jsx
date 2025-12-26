@@ -35,8 +35,9 @@ const DEFAULT_STYLES = {
     "text-3xl text-center font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500",
   description:
     "text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal",
-  gallery: "flex flex-wrap justify-center gap-3 mt-6",
-  imageItem: "relative group",
+gallery: "flex flex-col w-full items-center gap-24 mt-6",
+image: "w-full h-56 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md",
+
   image:
     "w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10",
   panel: "relative w-full md:w-[450px] h-auto p-6",

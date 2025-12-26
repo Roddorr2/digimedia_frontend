@@ -91,7 +91,7 @@ export default function ModalScrollA({ data, time }) {
         fecha: fechaActual,
         hora: horaActual,
         // templateOption: data.text
-        templateOption: "cita_gratis",
+        templateOption: serviceName,
       });
 
       setOpen(false);
@@ -111,6 +111,9 @@ export default function ModalScrollA({ data, time }) {
         });
       }
     } catch (error) {
+
+      setOpen(false);
+
       Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",

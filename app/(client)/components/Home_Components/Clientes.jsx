@@ -1,6 +1,6 @@
-'use client'
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 export default function Clientes() {
   const [activeIndex, setActiveIndex] = useState(0); // Comienza en la primera imagen
@@ -12,14 +12,14 @@ export default function Clientes() {
 
   // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
-    { src: "/image-home/contigo_voy.svg", alt: "Contigo Voy logo" },
-    { src: "/image-home/digimedia.svg", alt: "Digimedia logo" },
-    { src: "/image-home/nhl.svg", alt: "NHL logo" },
-    { src: "/image-home/tami.svg", alt: "Tami logo" },
-    { src: "/image-home/yuntas.svg", alt: "Yuntas logo" },
-    { src: "/image-home/prevemedic.svg", alt: "prevemedic logo" },
-    { src: "/image-home/mj-eventos.svg", alt: "MJ eventos logo" },
-    { src: "/image-home/asden.svg", alt: "Asden logo" },
+    { src: '/image-home/contigo_voy.svg', alt: 'Contigo Voy logo' },
+    { src: '/image-home/digimedia.svg', alt: 'Digimedia logo' },
+    { src: '/image-home/nhl.svg', alt: 'NHL logo' },
+    { src: '/image-home/tami.svg', alt: 'Tami logo' },
+    { src: '/image-home/yuntas.svg', alt: 'Yuntas logo' },
+    { src: '/image-home/prevemedic.svg', alt: 'prevemedic logo' },
+    { src: '/image-home/mj-eventos.svg', alt: 'MJ eventos logo' },
+    { src: '/image-home/asden.svg', alt: 'Asden logo' },
   ];
 
   // Ajusta el número de items por slide dependiendo del tamaño de la pantalla
@@ -35,20 +35,18 @@ export default function Clientes() {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Lógica para pasar de un conjunto de 4 imágenes a otro sin dejar espacios vacíos
   const nextSlide = () => {
     setNoTransition(false);
     if (activeIndex < clientes.length - itemsPerSlide) {
-      setActiveIndex(prevIndex => prevIndex + 1); // Avanza 1 posición
+      setActiveIndex((prevIndex) => prevIndex + 1); // Avanza 1 posición
     } else {
-      // Vuelve al inicio sin espacios vacíos
       setActiveIndex(0); // Regresa al primer conjunto de imágenes
     }
   };
@@ -56,9 +54,8 @@ export default function Clientes() {
   const prevSlide = () => {
     setNoTransition(false);
     if (activeIndex > 0) {
-      setActiveIndex(prevIndex => prevIndex - 1); // Retrocede 1 posición
+      setActiveIndex((prevIndex) => prevIndex - 1); // Retrocede 1 posición
     } else {
-      // Si estamos en la primera imagen, saltamos al final
       setActiveIndex(clientes.length - itemsPerSlide); // Vuelve al último conjunto de imágenes
     }
   };
@@ -67,7 +64,6 @@ export default function Clientes() {
     setNoTransition(false);
     setActiveIndex(index);
   };
-
 
   const startAutoSlide = () => {
     clearInterval(intervalRef.current);
@@ -96,15 +92,18 @@ export default function Clientes() {
 
   return (
     <section className="my-6 mx-12">
-      <h2 className="text-2xl text-[#752E75]">NUESTROS CLIENTES</h2>
+      <h2 className="text-2xl text-[#b525fe]">NUESTROS CLIENTES</h2>
 
       <div className="relative w-full overflow-hidden" data-carousel="slide">
         <div
           className={`flex ${
-            !noTransition ? "transition-transform duration-700 ease-in-out" : ""
+            !noTransition ? 'transition-transform duration-700 ease-in-out' : ''
           }`}
           style={{
-            transform: `translateX(-${(activeIndex * 100) / itemsPerSlide}%)`,
+            transform: `translateX(-${Math.min(
+              (activeIndex * 100) / itemsPerSlide,
+              100
+            )}%)`,
           }}
         >
           {clientes.map((cliente, index) => (
@@ -116,12 +115,12 @@ export default function Clientes() {
               <Image
                 src={cliente.src}
                 alt={cliente.alt}
-                width={200} 
-                height={100} 
+                width={200}
+                height={100}
                 className="object-contain w-full h-full"
                 loading="lazy"
                 decoding="async"
-                priority={false} 
+                priority={false}
               />
               {/* </a> */}
             </div>
@@ -134,8 +133,8 @@ export default function Clientes() {
               key={index}
               className={`h-3 rounded-full transition-all duration-500 ${
                 index === activeIndex
-                  ? "bg-[#752E75] w-[1.25rem]"
-                  : "bg-gray-300 w-3"
+                  ? 'bg-[#b525fe] w-[1.25rem]'
+                  : 'bg-gray-300 w-3'
               }`}
               onClick={() => {
                 handleManualChange(index);
@@ -153,7 +152,7 @@ export default function Clientes() {
           }}
           className="absolute top-1/2 left-0 transform -translate-y-1/2 px-0"
         >
-          <span className="text-[#752E75] text-3xl">&#10094;</span>
+          <span className="text-[#b525fe] text-3xl">&#10094;</span>
         </button>
 
         <button
@@ -163,7 +162,7 @@ export default function Clientes() {
           }}
           className="absolute top-1/2 right-0 transform -translate-y-1/2 px-0"
         >
-          <span className="text-[#752E75] text-3xl">&#10095;</span>
+          <span className="text-[#b525fe] text-3xl">&#10095;</span>
         </button>
       </div>
     </section>

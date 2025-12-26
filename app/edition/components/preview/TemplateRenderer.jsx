@@ -60,35 +60,41 @@ export default function TemplateRenderer({
     footer: footer.estado ?? false,
   }), [bodyHeader.flag_consejos, bodyHeader.flag_galeria, bodyHeader.flag_informacion, footer.estado]);
 
-  // Renderizar sección del header principal
-  const renderHeaderSection = () => {
-    const headerData = header || {};
-    const imageUrl = headerData.public_image || "/blog/blog-4.webp";
-    
-    return (
-      <div className="relative h-[500px] overflow-hidden rounded-lg shadow-2xl">
-        <img
-          src={imageUrl}
-          alt={headerData.alt || headerData.titulo || "Imagen principal"}
-          title={headerData.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-        
-        {/* Content Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
-            {headerData.titulo || (showPlaceholders ? "Título Principal del Blog" : "")}
-          </h1>
-          <p className="text-xl text-gray-200 mb-4 leading-relaxed max-w-3xl">
-            {headerData.texto_frase || (showPlaceholders ? "Una frase impactante que capte la atención del lector" : "")}
-          </p>
-          <p className="text-lg text-gray-300 mb-6 leading-relaxed max-w-4xl">
-            {headerData.texto_descripcion || (showPlaceholders ? "Descripción más detallada del contenido del blog que explique de qué se trata" : "")}
-          </p>
-          <div className="w-16 h-1 bg-yellow-400 mb-4"></div>
-          
-          {/* Metadata */}
+
+ const renderHeaderSection = () => {
+  const headerData = header || {};
+  const imageUrl = headerData.public_image || "/blog/blog-4.webp";
+
+  return (
+    <div className="relative h-[520px] overflow-hidden rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.25)]">
+      
+      <img
+        src={imageUrl}
+        alt={headerData.alt || "Imagen principal"}
+        className="w-full h-full object-cover scale-[1.05] opacity-90"
+      />
+
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/10"></div>
+
+     
+      <div className="absolute bottom-0 left-0 right-0 p-12">
+        <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-xl leading-tight tracking-tight">
+          {headerData.titulo || "Título Principal Elegante"}
+        </h1>
+
+        <p className="text-xl md:text-2xl text-white/80 max-w-3xl mt-6 leading-relaxed">
+          {headerData.texto_frase || "Una frase impactante y memorable"}
+        </p>
+
+        <p className="text-lg text-gray-200 max-w-4xl mt-4 leading-relaxed">
+          {headerData.texto_descripcion ||
+            "Descripción envolvente del contenido del blog con un tono profesional"}
+        </p>
+
+        <div className="mt-6 w-24 h-1 bg-yellow-400 rounded-full"></div>
+  
+         
           {layoutType === "tabs" && (
             <div className="flex items-center space-x-4 text-gray-300 text-sm">
               <div className="flex items-center">
@@ -102,7 +108,7 @@ export default function TemplateRenderer({
     );
   };
 
-  // Renderizar sección del header del body
+
   const renderBodyHeaderSection = () => {
     if (!bodyHeader.titulo && !showPlaceholders) return null;
 
@@ -163,18 +169,32 @@ export default function TemplateRenderer({
         
         {layoutType === "tabs" ? (
           // Plantilla 2: Grid moderno
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {consejosData.map((consejo) => (
-              <div key={consejo.id} className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100">
-                <div className="flex items-start">
-                  <span className="flex items-center justify-center w-8 h-8 bg-white rounded-full text-green-700 font-bold text-sm mr-4 mt-1">
-                    {consejo.id}
-                  </span>
-                  <p className="text-gray-800 leading-relaxed">{consejo.texto}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+  {consejosData.map((consejo) => (
+    <div
+      key={consejo.id}
+      className="relative p-8 pl-28 rounded-3xl bg-white shadow-xl border border-gray-200 
+                 hover:shadow-2xl transition-all duration-500 group"
+    >
+      {/* Línea decorativa superior */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-t-3xl" />
+
+      {/* Número fijo a la izquierda */}
+      <div className="absolute top-1/2 left-6 -translate-y-1/2 flex items-center justify-center
+                      w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-700
+                      text-white font-extrabold text-2xl shadow-lg">
+        {String(consejo.id).padStart(2, "0")}
+      </div>
+
+      {/* Texto con margen suficiente para no tapar el número */}
+      <p className="text-gray-700 leading-relaxed text-lg font-medium">
+  {consejo.texto}
+</p>
+
+    </div>
+  ))}
+</div>
+
         ) : (
           // Plantilla 1 y 3: Layout lineal
           <div className="mb-16 p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-2xl text-center text-gray-100 max-w-4xl mx-auto">
@@ -350,54 +370,40 @@ export default function TemplateRenderer({
 
   // Renderizar sección del footer
   const renderFooterSection = () => {
-    if (!sectionsVisibility.footer) return null;
+  if (!sectionsVisibility.footer) return null;
 
-    const footerImages = [];
-    
-    // Recopilar imágenes del footer
-    for (let i = 1; i <= 3; i++) {
-      const imageUrl = footer[`public_image${i}`];
-      if (imageUrl || showPlaceholders) {
-        footerImages.push({
-          id: i,
-          url: imageUrl || "/blog/blog-4.webp",
-          alt: footer[`alt_image${i}`] || `Imagen footer ${i}`,
-          title: footer[`title_image${i}`] || ""
-        });
-      }
-    }
+  return (
+    <div className="mt-20 p-16 bg-gradient-to-br from-gray-900 to-black rounded-3xl text-white shadow-[0_8px_40px_rgb(0,0,0,0.5)] space-y-14">
 
-    return (
-      <div className="mt-16 p-8 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg text-white">
-        <div className="text-center mb-8">
-          <h3 className="text-3xl font-bold mb-4">
-            {footer.titulo || (showPlaceholders ? "Título del Footer" : "")}
-          </h3>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            {footer.descripcion || (showPlaceholders ? "Descripción del pie de página con información adicional" : "")}
-          </p>
-        </div>
-
-        {footerImages.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-6 mt-8">
-            {footerImages.map((image) => (
-              <div key={image.id} className="relative group">
-                <div className="w-48 h-36 overflow-hidden rounded-lg">
-                  <img
-                    src={image.url}
-                    alt={image.alt}
-                    title={image.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+      <div className="text-center">
+        <h3 className="text-4xl font-bold tracking-tight">
+          {footer.titulo || "Título del Footer"}
+        </h3>
+        <p className="text-gray-300 text-lg mt-4 max-w-3xl mx-auto leading-relaxed">
+          {footer.descripcion || "Descripción elegante del pie de página"}
+        </p>
       </div>
-    );
-  };
+
+      <div className="flex flex-wrap justify-center gap-8">
+        { [1,2,3].map((i) => {
+          const imageUrl = footer[`public_image${i}`];
+          if (!imageUrl && !showPlaceholders) return null;
+          
+          return (
+            <div key={i} className="relative group w-60 h-40 rounded-3xl overflow-hidden shadow-lg">
+              <img
+                src={imageUrl || "/blog/blog-4.webp"}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 
   // Renderizar el contenido principal según el layout
   const renderMainContent = () => {
@@ -434,7 +440,7 @@ export default function TemplateRenderer({
       <div className="container mx-auto px-6 py-12">
         {/* Preview Badge */}
         {mode === "preview" && (
-          <div className="fixed top-4 right-4 z-50">
+          <div className="fixed mr-36 mt-1 top-4 right-4 z-50">
             <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
               Vista Previa
             </span>
