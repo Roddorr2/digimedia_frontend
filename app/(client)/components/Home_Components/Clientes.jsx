@@ -133,8 +133,8 @@ export default function Clientes() {
               key={index}
               className={`h-3 rounded-full transition-all duration-500 ${
                 index === activeIndex
-                  ? "bg-[#b525fe] w-[1.25rem]"
-                  : "bg-gray-300 w-3"
+                  ? 'bg-[#b525fe] w-[1.25rem]'
+                  : 'bg-gray-300 w-3'
               }`}
               onClick={() => {
                 handleManualChange(index);
