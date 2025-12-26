@@ -280,23 +280,17 @@ export default function Header2() {
                   )}
                 </>
               ) : (
-               
-           <a
-            href="/login"
-            className="relative inline-flex items-center justify-center text-white 
+                <a
+                  href="/login"
+                  className={`relative inline-flex items-center justify-center text-white 
             font-bold text-xs leading-none rounded-2xl  bg-[#FFA000] hover:bg-[#FB8C00] 
-            transition-all duration-300 shadow-md  translate-x-[14px]"
-  
-            style={{ 
-              
-              padding: "8px 17px" 
-              }}
-              >
-              Ingresar
-          </a>
-
-
-                
+            transition-all duration-300 shadow-md ${styles.loginButton}`}
+                  style={{
+                    padding: '8px 17px',
+                  }}
+                >
+                  Ingresar
+                </a>
               )}
             </li>
           </ul>
