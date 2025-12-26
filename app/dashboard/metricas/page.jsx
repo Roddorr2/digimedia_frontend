@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { getCookie } from "cookies-next";
-import url from "../../../api/url";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { getCookie } from 'cookies-next';
+import url from '../../../api/url';
 
 import {
   BarChart,
@@ -17,15 +17,25 @@ import {
   Cell,
   CartesianGrid,
   Legend,
-} from "recharts";
+} from 'recharts';
 
 /* 🎨 Colores */
-const CHART_COLORS = ["#6366f1", "#06b6d4", "#8b5cf6", "#10b981", "#f59e0b"];
+const CHART_COLORS = ['#6366f1', '#06b6d4', '#8b5cf6', '#10b981', '#f59e0b'];
 
 /* 🗓️ Meses */
 const MONTHS = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
 ];
 
 export default function MetricsPage() {
@@ -34,7 +44,7 @@ export default function MetricsPage() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const [filterMode, setFilterMode] = useState("monthly"); // monthly | yearly
+  const [filterMode, setFilterMode] = useState('monthly'); // monthly | yearly
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
 
@@ -53,12 +63,12 @@ export default function MetricsPage() {
   const fetchMetrics = async () => {
     try {
       setRefreshing(true);
-      const token = getCookie("token");
+      const token = getCookie('token');
       const headers = { Authorization: `Bearer ${token}` };
 
-      const params = filterMode === "monthly" ? { month, year } : { year };
+      const params = filterMode === 'monthly' ? { month, year } : { year };
 
-      console.log("🔍 Fetching metrics with params:", params);
+      console.log('🔍 Fetching metrics with params:', params);
 
       // 📊 Peticiones principales (con filtros de mes/año)
       const [
@@ -69,107 +79,124 @@ export default function MetricsPage() {
         resEmpleados,
         resBlogsMonth,
       ] = await Promise.all([
-        axios.get(`${url}/api/metrics/count_total_cards`, { headers, params }).catch(e => {
-          console.error("❌ Error count_total_cards:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/count_cards_by_plantilla`, {
-          headers,
-          params: { ...params, id_plantilla: 1 },
-        }).catch(e => {
-          console.error("❌ Error plantilla 1:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/count_cards_by_plantilla`, {
-          headers,
-          params: { ...params, id_plantilla: 2 },
-        }).catch(e => {
-          console.error("❌ Error plantilla 2:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/count_cards_by_plantilla`, {
-          headers,
-          params: { ...params, id_plantilla: 3 },
-        }).catch(e => {
-          console.error("❌ Error plantilla 3:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/count_total_cards_by_empleado`, {
-          headers,
-          params,
-        }).catch(e => {
-          console.error("❌ Error empleados:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/count_blogs_by_month`, {
-          headers,
-          params: { month, year },
-        }).catch(e => {
-          console.error("❌ Error blogs by month:", e);
-          return { data: null };
-        }),
+        axios
+          .get(`${url}/api/metrics/count_total_cards`, { headers, params })
+          .catch((e) => {
+            console.error('❌ Error count_total_cards:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/count_cards_by_plantilla`, {
+            headers,
+            params: { ...params, id_plantilla: 1 },
+          })
+          .catch((e) => {
+            console.error('❌ Error plantilla 1:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/count_cards_by_plantilla`, {
+            headers,
+            params: { ...params, id_plantilla: 2 },
+          })
+          .catch((e) => {
+            console.error('❌ Error plantilla 2:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/count_cards_by_plantilla`, {
+            headers,
+            params: { ...params, id_plantilla: 3 },
+          })
+          .catch((e) => {
+            console.error('❌ Error plantilla 3:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/count_total_cards_by_empleado`, {
+            headers,
+            params,
+          })
+          .catch((e) => {
+            console.error('❌ Error empleados:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/count_blogs_by_month`, {
+            headers,
+            params: { month, year },
+          })
+          .catch((e) => {
+            console.error('❌ Error blogs by month:', e);
+            return { data: null };
+          }),
       ]);
 
-      console.log("✅ API Responses:");
-      console.log("Total:", resTotal.data);
-      console.log("Plantilla 1:", resPlantilla1.data);
-      console.log("Plantilla 2:", resPlantilla2.data);
-      console.log("Plantilla 3:", resPlantilla3.data);
-      console.log("Empleados:", resEmpleados.data);
-      console.log("Blogs Month:", resBlogsMonth.data);
+      console.log('✅ API Responses:');
+      console.log('Total:', resTotal.data);
+      console.log('Plantilla 1:', resPlantilla1.data);
+      console.log('Plantilla 2:', resPlantilla2.data);
+      console.log('Plantilla 3:', resPlantilla3.data);
+      console.log('Empleados:', resEmpleados.data);
+      console.log('Blogs Month:', resBlogsMonth.data);
 
       // 📊 Peticiones sin filtros (datos generales)
-      const [
-        resFrecuencia,
-        resTop5Months,
-        resListMonths,
-      ] = await Promise.all([
-        axios.get(`${url}/api/metrics/frecuencia_publicacion_cards_todos_empleados`, {
-          headers,
-        }).catch(e => {
-          console.error("❌ Error frecuencia:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/top5_months_with_more_blogs`, { headers }).catch(e => {
-          console.error("❌ Error top5 months:", e);
-          return { data: null };
-        }),
-        axios.get(`${url}/api/metrics/list_blogs_by_months_12`, { headers }).catch(e => {
-          console.error("❌ Error list months:", e);
-          return { data: null };
-        }),
+      const [resFrecuencia, resTop5Months, resListMonths] = await Promise.all([
+        axios
+          .get(
+            `${url}/api/metrics/frecuencia_publicacion_cards_todos_empleados`,
+            {
+              headers,
+            }
+          )
+          .catch((e) => {
+            console.error('❌ Error frecuencia:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/top5_months_with_more_blogs`, { headers })
+          .catch((e) => {
+            console.error('❌ Error top5 months:', e);
+            return { data: null };
+          }),
+        axios
+          .get(`${url}/api/metrics/list_blogs_by_months_12`, { headers })
+          .catch((e) => {
+            console.error('❌ Error list months:', e);
+            return { data: null };
+          }),
       ]);
 
-      console.log("Frecuencia:", resFrecuencia.data);
-      console.log("Top 5 Months:", resTop5Months.data);
-      console.log("List Months:", resListMonths.data);
+      console.log('Frecuencia:', resFrecuencia.data);
+      console.log('Top 5 Months:', resTop5Months.data);
+      console.log('List Months:', resListMonths.data);
 
       // Procesar plantillas
       const plantillas = [
         {
-          name: "Plantilla 1",
+          name: 'Plantilla 1',
           value: extractValue(resPlantilla1.data),
           id: 1,
         },
         {
-          name: "Plantilla 2",
+          name: 'Plantilla 2',
           value: extractValue(resPlantilla2.data),
           id: 2,
         },
         {
-          name: "Plantilla 3",
+          name: 'Plantilla 3',
           value: extractValue(resPlantilla3.data),
           id: 3,
         },
       ];
 
-      console.log("🎨 Plantillas procesadas:", plantillas);
+      console.log('🎨 Plantillas procesadas:', plantillas);
 
       const total = extractValue(resTotal.data);
       const empleadosData = extractData(resEmpleados.data);
 
-      console.log("📊 Total cards:", total);
-      console.log("👥 Empleados data:", empleadosData);
+      console.log('📊 Total cards:', total);
+      console.log('👥 Empleados data:', empleadosData);
 
       setCardsByPlantilla(plantillas);
       setEmpleados(empleadosData);
@@ -179,7 +206,7 @@ export default function MetricsPage() {
       setTop5Months(extractData(resTop5Months.data));
       setListBlogsByMonths(extractData(resListMonths.data));
     } catch (e) {
-      console.error("❌ Error general en métricas:", e);
+      console.error('❌ Error general en métricas:', e);
     } finally {
       setRefreshing(false);
       setLoading(false);
@@ -202,7 +229,7 @@ export default function MetricsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[70vh]">
+      <div className="w-full h-screen flex items-center justify-center bg-gray-50">
         <span className="text-xl font-bold animate-pulse text-blue-600">
           Cargando métricas del dashboard…
         </span>
@@ -220,7 +247,7 @@ export default function MetricsPage() {
             Dashboard de Métricas
           </h1>
           <p className="text-xs text-gray-500">
-            {filterMode === "monthly"
+            {filterMode === 'monthly'
               ? `Resumen mensual · ${MONTHS[month - 1]} ${year}`
               : `Resumen anual · ${year}`}
           </p>
@@ -239,7 +266,7 @@ export default function MetricsPage() {
           </select>
 
           {/* MES */}
-          {filterMode === "monthly" && (
+          {filterMode === 'monthly' && (
             <select
               value={month}
               onChange={(e) => setMonth(Number(e.target.value))}
@@ -279,10 +306,14 @@ export default function MetricsPage() {
         <SummaryCard title="Total de Cards" value={totalCards} emoji="📄" />
         <SummaryCard
           title="Blogs del Período"
-          value={filterMode === "monthly" ? blogsByMonth : totalCards}
+          value={filterMode === 'monthly' ? blogsByMonth : totalCards}
           emoji="📅"
         />
-        <SummaryCard title="Colaboradores" value={empleados.length} emoji="👥" />
+        <SummaryCard
+          title="Colaboradores"
+          value={empleados.length}
+          emoji="👥"
+        />
         <SummaryCard
           title="Promedio Frecuencia"
           value={`${promedioFrecuencia} blogs/mes`}
@@ -320,7 +351,7 @@ export default function MetricsPage() {
                 ))}
               </Pie>
               <Tooltip formatter={(v) => `${v} cards`} />
-              <Legend wrapperStyle={{ fontSize: "12px" }} />
+              <Legend wrapperStyle={{ fontSize: '12px' }} />
             </PieChart>
           </ResponsiveContainer>
         </Card>
@@ -349,7 +380,10 @@ export default function MetricsPage() {
         <Card title="🏆 Top 5 Empleados">
           <div className="space-y-2">
             {top5Empleados.map((e, i) => (
-              <div key={i} className="flex justify-between p-3 border rounded-lg text-sm">
+              <div
+                key={i}
+                className="flex justify-between p-3 border rounded-lg text-sm"
+              >
                 <span className="font-bold text-blue-600">
                   #{i + 1} {e.nombre_empleado || `Empleado ${i + 1}`}
                 </span>
@@ -368,14 +402,18 @@ export default function MetricsPage() {
           {frecuenciaEmpleados.map((emp, idx) => {
             const frecuencia = emp.frecuencia_publicacion_mensual || 0;
             const maxFrecuencia = Math.max(
-              ...frecuenciaEmpleados.map((e) => e.frecuencia_publicacion_mensual || 0)
+              ...frecuenciaEmpleados.map(
+                (e) => e.frecuencia_publicacion_mensual || 0
+              )
             );
-            const percentage = maxFrecuencia > 0 ? (frecuencia / maxFrecuencia) * 100 : 0;
+            const percentage =
+              maxFrecuencia > 0 ? (frecuencia / maxFrecuencia) * 100 : 0;
 
             return (
               <div key={idx} className="flex items-center gap-3">
                 <div className="w-32 text-xs font-medium text-gray-700 truncate">
-                  {emp.nombre_empleado || `Empleado ${emp.id_empleado || idx + 1}`}
+                  {emp.nombre_empleado ||
+                    `Empleado ${emp.id_empleado || idx + 1}`}
                 </div>
                 <div className="flex-1 bg-gray-100 rounded-full h-5 overflow-hidden">
                   <div
@@ -402,11 +440,11 @@ export default function MetricsPage() {
           <div className="grid grid-cols-5 gap-2">
             {top5Months.slice(0, 5).map((item, idx) => {
               const colors = [
-                "from-yellow-400 to-orange-500",
-                "from-gray-300 to-gray-400",
-                "from-amber-600 to-amber-700",
-                "from-blue-400 to-blue-500",
-                "from-green-400 to-green-500",
+                'from-yellow-400 to-orange-500',
+                'from-gray-300 to-gray-400',
+                'from-amber-600 to-amber-700',
+                'from-blue-400 to-blue-500',
+                'from-green-400 to-green-500',
               ];
 
               return (
@@ -434,7 +472,7 @@ export default function MetricsPage() {
           <ResponsiveContainer width="100%" height={220}>
             <BarChart
               data={listBlogsByMonths.map((item) => ({
-                month: (item.month || item.mes || "N/A").substring(0, 3),
+                month: (item.month || item.mes || 'N/A').substring(0, 3),
                 total: item.total_blogs || item.total || 0,
               }))}
             >
@@ -479,31 +517,31 @@ function Card({ title, children }) {
 /* 🔹 UTILIDADES */
 
 function extractValue(response) {
-  console.log("📊 extractValue received:", response);
-  
+  console.log('📊 extractValue received:', response);
+
   if (!response) return 0;
-  
+
   // Si la respuesta tiene .data (estructura de axios)
   let data = response.data || response;
-  
+
   // Si data también tiene .data (tu API devuelve {status: 200, data: {...}})
   if (data && typeof data === 'object' && data.data !== undefined) {
     data = data.data;
   }
-  
-  console.log("📊 Data after extraction:", data);
-  
+
+  console.log('📊 Data after extraction:', data);
+
   // Si es un número directo
-  if (typeof data === "number") return data;
-  
+  if (typeof data === 'number') return data;
+
   // Si es un string
-  if (typeof data === "string") {
+  if (typeof data === 'string') {
     const num = Number(data);
     return !isNaN(num) ? num : 0;
   }
-  
+
   // Si es un objeto, buscar en múltiples campos posibles
-  if (typeof data === "object" && data !== null) {
+  if (typeof data === 'object' && data !== null) {
     const value =
       data.total_blogs ||
       data.count_cards ||
@@ -512,38 +550,38 @@ function extractValue(response) {
       data.count ||
       data.value ||
       data.cantidad;
-    
+
     if (value !== undefined && value !== null) {
-      return typeof value === "number" ? value : Number(value) || 0;
+      return typeof value === 'number' ? value : Number(value) || 0;
     }
-    
+
     // Si el objeto tiene una sola propiedad numérica, devolverla
     const keys = Object.keys(data);
     if (keys.length === 1) {
       const singleValue = data[keys[0]];
-      if (typeof singleValue === "number") return singleValue;
+      if (typeof singleValue === 'number') return singleValue;
       const num = Number(singleValue);
       if (!isNaN(num)) return num;
     }
   }
-  
+
   return 0;
 }
 
 function extractData(response) {
-  console.log("📋 extractData received:", response);
-  
+  console.log('📋 extractData received:', response);
+
   if (!response) return [];
-  
+
   // Si la respuesta tiene .data (estructura de axios)
   let data = response.data || response;
-  
+
   // Si data también tiene .data (tu API devuelve {status: 200, data: [...]})
   if (data && typeof data === 'object' && data.data !== undefined) {
     data = data.data;
   }
-  
-  console.log("📋 Data after extraction:", data);
-  
+
+  console.log('📋 Data after extraction:', data);
+
   return Array.isArray(data) ? data : [];
 }
