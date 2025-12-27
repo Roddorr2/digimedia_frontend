@@ -60,10 +60,10 @@ export default function Header2() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/digimedia.png"
+              src="/headerFooter/digimedia1.png"
               alt="Logo de digimedia color blanco con fondo oscuro"
-              width={120}
-              height={65}
+              width={200}
+              height={85}
               className="my-auto"
               decoding="async"
               priority={true}
