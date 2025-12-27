@@ -2,33 +2,52 @@ import Image from "next/image";
 
 export default function Testimonios() {
   return (
-    <section className="flex flex-col md:flex-row">
-      <div className="bg-[#7b22b3] text-white w-full py-6 px-12 md:w-1/2 flex flex-col justify-center">
-        <h2 className="text-2xl">TESTIMONIOS</h2>
-        <p className="text-5xl font-semibold mt-4">
-          NUESTROS CLIENTES
-          <span className="text-[#FCEE21] block font-extrabold text-7xl">
-            OPINAN
+  <section className="flex flex-col md:flex-row md:items-stretch w-full bg-[#b226ff] overflow-hidden md:gap-10">  
+      {/* Imagen */}
+     <div className="w-full md:w-[55%] order-1 md:order-2 flex">
+  <div
+    className="
+      relative w-full overflow-hidden
+      h-[280px] sm:h-[340px]
+      md:h-full md:min-h-[420px]
+      py-px
+      rounded-b-[60px]
+      md:rounded-none md:rounded-l-[60px]
+    "
+  >
+    <Image
+      src="/image-home/opiniones.jpg"
+      alt="Personas conversando"
+      fill
+      className="object-cover object-center"
+      priority
+    />
+  </div>
+</div>
+
+    
+
+
+      {/* Texto */}
+      <div className="text-white w-full md:w-[45%] p-10 md:p-12 lg:p-16 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1 min-w-0">
+        <h2 className="text-lg md:text-2xl lg:text-3xl font-normal mb-2 opacity-90">
+          ¿Primera vez con nosotros?
+        </h2>
+
+        <div className="flex flex-col font-black uppercase tracking-tighter">
+          <span className="text-4xl md:text-[44px] lg:text-6xl leading-[1.05]">
+            ¡TE OFRECEMOS
           </span>
-        </p>
-      </div>
-      <div className="w-full md:w-1/2">
-        <picture>
-          <source
-            media="(max-width: 767px)"
-            srcSet="/image-home/opinions_mobile.avif"
-          />
-          <Image
-            src="/image-home/opinions.webp"
-            alt="imagen de un grupo de personas conversando en una mesa en un dia soleado"
-            className="w-full h-full object-cover"
-            fetchPriority="high"
-            decoding="async"
-            priority
-            width={600}
-            height={400}
-          />
-        </picture>
+          <span className="text-4xl md:text-[44px] lg:text-6xl leading-[1.05]">
+            UNA ASESORÍA
+          </span>
+
+          <div className="flex items-baseline justify-center md:justify-start mt-1">
+            <span className="text-[#ff9f00] text-6xl md:text-7xl lg:text-8xl leading-none">
+              GRATIS!
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );

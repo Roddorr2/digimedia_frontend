@@ -1,6 +1,6 @@
-import Link from "next/link";
-import styles from "./Footer.module.css";
-import Image from "next/image";
+import Link from 'next/link';
+import styles from './Footer.module.css';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -8,16 +8,19 @@ export default function Footer() {
       <footer>
         <div className={styles.mainFooter}>
           <div className={styles.footerContenido}>
-            <div className={`${styles.imgFooter} my-4`}>
+            <div className={`${styles.imgFooter}`}>
               <Image
-                src="/headerFooter/logoFooter.webp"
-                alt="Logo DigiMedia Marketing con fondo oscuro"
-                width={250}
-                height={120}
+                src="/headerFooter/digimedia.png"
+                alt="Logo de digimedia color blanco con fondo oscuro"
+                width={320}
+                height={160}
+                className="my-auto"
+                decoding="async"
+                priority={true}
               />
             </div>
             <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
-              <h2>Contacto</h2>
+              <h2>CONTACTO</h2>
               <ul>
                 <li>
                   <Link
@@ -58,7 +61,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-              <h2>Legales</h2>
+              <h2>LEGALES</h2>
               <ul>
                 <li>
                   <Link href="/politica-privacidad">
@@ -80,7 +83,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-              <h3>Redes Sociales</h3>
+              <h3>REDES SOCIALES</h3>
               <ul>
                 <li>
                   <Link
@@ -158,7 +161,10 @@ export default function Footer() {
               <p>RUC: 20605116559</p>
             </div>
             <div className={styles.derechosFooter}>
-              <p>© {new Date().getFullYear()} Digimedia. Todos los derechos reservados.</p>
+              <p>
+                © {new Date().getFullYear()} Digimedia. Todos los derechos
+                reservados.
+              </p>
             </div>
           </div>
         </div>

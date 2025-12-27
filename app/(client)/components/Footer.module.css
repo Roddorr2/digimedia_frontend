@@ -1,133 +1,240 @@
-/* Estilos generales */
+/* Footer principal */
 .mainFooter {
-  background-color: #333333;
+  background-color: #b525fe;
+  color: white;
+  padding: 60px 40px 20px;
+}
+
+.imgFooter {
+  display: flex;
+  justify-content: center; /* o flex-start si lo quieres pegado */
+  align-items: flex-start;
+}
+
+.imgFooter img {
+  width: 360px;
+  max-width: none;
+  height: auto;
+  filter: brightness(0) invert(1);
 }
 
 .footerContenido {
-  padding: 70px 70px 0;
+  /* padding: 70px 70px 0; */
   color: white;
   display: flex;
   justify-content: space-evenly;
+  align-items: flex-start;
 }
 
+/* Contenido del footer */
+.footerContenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 250px 1.5fr 1fr 1fr;
+  gap: 120px;
+  margin-bottom: 30px;
+}
+
+/* Estilos comunes para las listas */
+.listaFooter h2,
 .listaFooter h3 {
-  padding-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
   color: white;
 }
 
 .listaFooter ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.listaFooter a,
 .listaFooter li {
-  text-decoration: none;
-  color: rgb(168, 168, 168);
-  display: flex;
-  margin-bottom: 20px;
-  font-size: 13px;
-  transition: 0.5s;
-  gap: 5px;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.listaFooter a:hover,
-.listaFooter li:hover {
+.listaFooter a {
   color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 0.3s ease;
 }
 
+.listaFooter a:hover {
+  opacity: 0.8;
+}
+
+/* Sección de contacto */
+.contactoFooter ul li a {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.contactoFooter img {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Sección de redes sociales */
 .redesFooter ul {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 200px;
+}
+
+.redesFooter li {
+  display: inline-flex;
+}
+
+.redesFooter a {
+  width: 40px;
+  height: 40px;
+  /* background: rgba(255, 255, 255, 0.1); */
+  border-radius: 8px;
   display: flex;
-  gap: 20px;
-}
-
-.redesFooter ul > li {
-  transition: 0.5s;
-}
-
-.redesFooter ul > li:hover {
-  transform: scale(1.1);
-}
-
-.barraFooter {
-  display: flex;
+  align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
+.redesFooter a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Barra divisoria */
 .barraFooter hr {
-  border: 1px solid white;
-  width: 98%;
-  border-radius: 5px;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 255);
+  margin: 0;
 }
 
+/* Sección inferior con RUC y derechos */
 .rucFooter {
-  background-color: #333333;
-  padding: 10px 30px;
-  color: white; /* Color base para el contenedor */
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 20px 0;
 }
 
-/* Corrección específica para mantener el color blanco */
 .ruc p,
 .derechosFooter p {
-  color: white; /* Asegura el color blanco */
-  margin: 0; /* Elimina márgenes por defecto */
+  margin: 0;
+  opacity: 0.9;
 }
 
 /* Responsive */
-@media screen and (max-width: 910px) {
+@media (max-width: 1024px) {
   .footerContenido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 20px 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainFooter {
+    padding: 40px 20px 20px;
+    text-align: center;
   }
 
-  .listaFooter h3 {
-    padding-bottom: 10px;
+  .footerContenido {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
   }
 
-  .footerContenido ul li a {
+  /* Logo centrado */
+  .imgFooter {
     align-items: center;
-    overflow: hidden;
-    margin: 0px;
+    margin-bottom: -40px;
+    margin-top: -40px;
   }
 
   .imgFooter img {
-    width: 150px;
+    max-width: 300px;
   }
 
+  /* Secciones centradas */
   .listaFooter {
-    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .redesFooter img {
-    width: 30px;
+  .listaFooter h2,
+  .listaFooter h3 {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .listaFooter ul {
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Contacto centrado */
+  .contactoFooter ul li a {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .contactoFooter img {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Legales centrado */
+  .legalesFooter ul {
+    gap: 8px;
+  }
+
+  /* Redes sociales centradas */
+  .redesFooter ul {
+    justify-content: center;
+    gap: 12px;
+    max-width: 250px;
+  }
+
+  /* Footer inferior centrado */
+  .rucFooter {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 
   .ruc p,
   .derechosFooter p {
-    font-size: 0.74rem;
+    font-size: 13px;
   }
 }
 
-@media screen and (max-width: 320px) {
-  .footerContenido {
-    padding: 10px 5px;
+@media (max-width: 480px) {
+  .listaFooter h2,
+  .listaFooter h3 {
+    font-size: 14px;
   }
 
-  .listaFooter {
-    width: 200px;
+  .listaFooter li {
+    font-size: 13px;
   }
 
-  .rucFooter {
-    font-size: 9;
-    gap: 5px;
-    padding: 10px 10px;
-    justify-content: space-between;
-  }
-
-  .derechosFooter {
-    text-align: right;
+  .redesFooter a {
+    width: 36px;
+    height: 36px;
   }
 }

@@ -1,97 +1,158 @@
-import React from "react";
-import Link from "next/link";
-import styles from "./services.module.css";
-import Image from "next/image";
+"use client";
 
-function services() {
+import React, { useState, useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./services.module.css";
+
+export default function Servicios() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50; // Mínimo de píxeles para considerar un swipe
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swipe izquierda - siguiente slide
+        setCurrentSlide((prev) => (prev + 1) % 4);
+      } else {
+        // Swipe derecha - slide anterior
+        setCurrentSlide((prev) => (prev - 1 + 4) % 4);
+      }
+    }
+  };
+
   return (
-    <section id="services">
-      <div className={styles["services-main"]}>
-        <div className={styles["services-text"]}>
-          <h2>NUESTROS SERVICIOS</h2>
-          <p>
-            Digimedia es una empresa de marketing digital, que se enfoca en
-            potenciar tu emprendimiento a nivel online. Además, brinda
-            estrategias que ayudan a cumplir objetivos de manera eficaz. Somos
-            un grupo comprometido con el desarrollo de cada marca que nos
-            contacta.
-          </p>
+    <section className={styles.servicesMain} id="services">
+      {/* Encabezado */}
+      <div className={styles.servicesHeader}>
+        <h2>NUESTROS SERVICIOS</h2>
+        <p>
+          Digimedia es una empresa de marketing digital que impulsa emprendimientos en línea mediante estrategias eficaces, enfocada en el crecimiento y desarrollo de cada marca.
+        </p>
+      </div>
+
+      {/* Layout Desktop - Original */}
+      <div className={styles.servicesLayout}>
+        {/* CARD MORADA IZQUIERDA */}
+        <Link href="/servicios/desing-desarrollo" className={`${styles.serviceCard} ${styles.purple}`}>
+          <Image src="/image-home/diseño.png" alt="Icono diseño" width={150} height={160} />
+          <h3>DISEÑO Y <br /> DESARROLLO WEB</h3>
+          <p>Creamos sitios atractivos y <br /> funcionales que representan <br /> tu marca.</p>
+        </Link>
+
+        {/* COLUMNA CENTRAL NARANJA */}
+        <div className={styles.middleColumn}>
+          <Link href="/servicios/gestion-redes" className={`${styles.serviceCard} ${styles.orange}`}>
+            <div className={styles.textContent}>
+              <h3>GESTIÓN DE REDES <br /> SOCIALES</h3>
+              <p>Aumenta tu presencia <br /> online y conectamos<br /> con tu audiencia.</p>
+            </div>
+            <Image src="/image-home/redessociales.png" alt="Redes" width={100} height={100} />
+          </Link>
+
+          <Link href="/servicios/branding-desing" className={`${styles.serviceCard} ${styles.orange}`}>
+            <div className={styles.textContent}>
+              <h3>BRANDING Y <br /> DISEÑO</h3>
+              <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
+            </div>
+            <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
+          </Link>
         </div>
 
-        <div className={styles["services-4"]}>
-          <div className={styles.services}>
-            {/* Diseño y Desarrollo Web */}
-            <Link
-              href="/servicios/desing-desarrollo"
-              className={`${styles.service} !bg-[#FFA000] !text-[#1e1874]`}
-            >
-              <Image
-                src="/image-home/icon1.svg"
-                alt="Icono diseño web"
-                width={100}
-                height={100}
-              />
-              <h3 className="!text-[#1E1773]">Diseño y Desarrollo Web</h3>
-              <p className="!text-[#1E1773]">
-                Creamos sitios atractivos y funcionales que representan tu marca
-              </p>
-            </Link>
+        {/* CARD MORADA DERECHA */}
+        <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
+          <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
+          <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
+          <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
+        </Link>
+      </div>
 
-            {/* Gestión de Redes Sociales */}
-            <Link
-              href="/servicios/gestion-redes"
-              className={`${styles.service} !bg-[#1E1773] !text-white`}
-            >
-              <Image
-                src="/image-home/icon2.svg"
-                alt="Icono redes sociales"
-                width={100}
-                height={100}
-              />
-              <h3 className="!text-white">Gestión de Redes Sociales</h3>
-              <p>
-                Aumenta tu presencia online y conectamos con tu audiencia
-              </p>
-            </Link>
+      {/* Carrusel Mobile */}
+      <div className={styles.carouselContainer}>
+        <div 
+          className={styles.carouselWrapper}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div
+            className={styles.carouselTrack}
+            style={{
+              transform: `translateX(-${currentSlide * 100}%)`,
+            }}
+          >
+            {/* Slide 1 */}
+            <div className={styles.carouselSlide}>
+              <Link href="/servicios/desing-desarrollo" className={`${styles.serviceCard} ${styles.purple}`}>
+                <Image src="/image-home/diseño.png" alt="Icono diseño" width={150} height={160} />
+                <h3>DISEÑO Y <br /> DESARROLLO WEB</h3>
+                <p>Creamos sitios atractivos y <br /> funcionales que representan <br /> tu marca.</p>
+              </Link>
+            </div>
 
-            {/* Branding y Diseño */}
-            <Link
-              href="/servicios/branding-desing"
-              className={`${styles.service} !bg-[#b525fe] !text-white`}
-            >
-              <Image
-                src="/image-home/icon3.svg"
-                alt="Icono branding"
-                width={100}
-                height={100}
-              />
-              <h3 className="!text-white">Branding y Diseño</h3>
-              <p>
-                Construimos una identidad visual fuerte y memorable
-              </p>
-            </Link>
+            {/* Slide 2 */}
+            <div className={styles.carouselSlide}>
+              <Link href="/servicios/gestion-redes" className={`${styles.serviceCard} ${styles.orange}`}>
+                <div className={styles.textContent}>
+                  <h3>GESTIÓN DE REDES <br /> SOCIALES</h3>
+                  <p>Aumenta tu presencia <br /> online y conectamos<br /> con tu audiencia.</p>
+                </div>
+                <Image src="/image-home/redessociales.png" alt="Redes" width={100} height={100} />
+              </Link>
+            </div>
 
-            {/* Marketing y Gestión Digital */}
-            <Link
-              href="/servicios/marketing-gestion"
-              className={`${styles.service} !bg-white !text-[#b525fe]`}
-            >
-              <Image
-                width={100}
-                height={100}
-                src="/image-home/icon4.svg"
-                alt="Icono marketing digital"
-              />
-              <h3 className="!text-[#b525fe]">Marketing y Gestión Digital</h3>
-              <p>
-                Aumenta tu presencia en redes sociales con marketing digital
-              </p>
-            </Link>
+            {/* Slide 3 */}
+            <div className={styles.carouselSlide}>
+              <Link href="/servicios/branding-desing" className={`${styles.serviceCard} ${styles.orange}`}>
+                <div className={styles.textContent}>
+                  <h3>BRANDING Y <br /> DISEÑO</h3>
+                  <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
+                </div>
+                <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
+              </Link>
+            </div>
+
+            {/* Slide 4 */}
+            <div className={styles.carouselSlide}>
+              <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
+                <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
+                <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
+                <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
+              </Link>
+            </div>
           </div>
+        </div>
+
+        {/* Indicadores */}
+        <div className={styles.carouselIndicators}>
+          {[0, 1, 2, 3].map((index) => (
+            <button
+              key={index}
+              className={`${styles.indicator} ${
+                currentSlide === index ? styles.indicatorActive : ""
+              }`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Ir al slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
-export default services;
