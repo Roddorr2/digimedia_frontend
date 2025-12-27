@@ -7,20 +7,20 @@
 
 .imgFooter {
   display: flex;
-  justify-content: center;   /* o flex-start si lo quieres pegado */
+  justify-content: flex-start;
   align-items: flex-start;
+  transform: translateX(-500px);
 }
+
 
 .imgFooter img {
   width: 360px;
   max-width: none; 
   height: auto;
   filter: brightness(0) invert(1);
-}
-
+} 
 
 .footerContenido {
-  /* padding: 70px 70px 0; */
   color: white;
   display: flex;
   justify-content: space-evenly;
@@ -101,7 +101,6 @@
 .redesFooter a {
   width: 40px;
   height: 40px;
-  /* background: rgba(255, 255, 255, 0.1); */
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -121,7 +120,7 @@
   margin: 0;
 }
 
-/* Sección inferior con RUC y derechos */
+/* Sección inferior */
 .rucFooter {
   max-width: 1200px;
   margin: 0 auto;
@@ -138,7 +137,30 @@
   opacity: 0.9;
 }
 
-/* Responsive */
+/* ========================= */
+/* AJUSTE SOLO DESKTOP */
+/* ========================= */
+@media (min-width: 769px) {
+  .contactoFooter,
+  .legalesFooter,
+  .redesFooter {
+    transform: translateX(180px);
+    transform: translateY(50px);
+  }
+}
+
+@media (min-width: 769px) {
+  .ruc {
+    transform: translateX(-580px);
+  }
+
+  .derechosFooter {
+    transform: translateX(480px);
+  }
+}
+/* ========================= */
+/* RESPONSIVE (SIN CAMBIOS) */
+/* ========================= */
 @media (max-width: 1024px) {
   .footerContenido {
     grid-template-columns: 1fr 1fr;
@@ -158,7 +180,6 @@
     text-align: center;
   }
 
-  /* Logo centrado */
   .imgFooter {
     align-items: center;
     margin-bottom: 20px;
@@ -166,20 +187,13 @@
 
   .imgFooter img {
     max-width: 200px;
+    transform: translateX(0);
   }
 
-  /* Secciones centradas */
   .listaFooter {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .listaFooter h2,
-  .listaFooter h3 {
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 16px;
   }
 
   .listaFooter ul {
@@ -187,39 +201,19 @@
     text-align: center;
   }
 
-  /* Contacto centrado */
   .contactoFooter ul li a {
     justify-content: center;
     text-align: center;
   }
 
-  .contactoFooter img {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Legales centrado */
-  .legalesFooter ul {
-    gap: 8px;
-  }
-
-  /* Redes sociales centradas */
   .redesFooter ul {
     justify-content: center;
-    gap: 12px;
-    max-width: 250px;
   }
 
-  /* Footer inferior centrado */
   .rucFooter {
     flex-direction: column;
     gap: 8px;
     text-align: center;
-  }
-
-  .ruc p,
-  .derechosFooter p {
-    font-size: 13px;
   }
 }
 

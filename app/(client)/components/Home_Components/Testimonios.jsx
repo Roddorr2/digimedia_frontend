@@ -16,7 +16,7 @@ export default function Testimonios() {
         </div>
       </div>
 
-      <div className="text-white w-full md:w-[50%] p-10 md:p-16 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1">
+      <div className="text-white w-full md:w-[50%] p-10 md:p-16 md:pl-24 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1">
         <h2 className="text-lg md:text-3xl text-center font-normal mb-2 opacity-90">
           ¿Primera vez con nosotros?
         </h2>
