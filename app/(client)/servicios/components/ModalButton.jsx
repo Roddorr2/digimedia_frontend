@@ -5,12 +5,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { getCookie } from 'cookies-next';
 import url from '../../../../api/url';
-import url_whasapp from '@/api/url_whasapp';
 import { Loader2 } from 'lucide-react';
 import styles from './modal.module.css'
 
-const URL_API = `${url}/api/modales`
-const URL_WHASAPP=`${url_whasapp}/api/send-message`;
+const URL_API = `${url}/api/modales`;
 
 export default function ModalClick({ text, fondo, title, serviceName }) {
   const modalRef = useRef(null);
@@ -51,31 +49,28 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { nombre, telefono, correo, id_servicio: serviceName };
 
-      const rawPhone = data.telefono;
-      const phoneWithPrefix = `51${rawPhone}`;
-      const fecha = new Date();
-      const fechaActual = fecha.toISOString().split("T")[0];
-      const horaActual = fecha.toTimeString().slice(0, 5);
+    const data = {
+      nombre,
+      telefono,
+      correo,
+      id_servicio: serviceName
+    };
 
-
-      if (telefono.length!==9) {
-      
-        hideModal();
-  
-        Swal.fire({
-            title: "Error",
-            text: "El número de teléfono debe ser 9 digitos.",
-                icon: "error",
-            confirmButtonText: "OK",
-          });
-        return ;
-      }
+    if (telefono.length !== 9) {
+      hideModal();
+      Swal.fire({
+        title: "Error",
+        text: "El número de teléfono debe ser 9 digitos.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
 
     setLoading(true);
-    try{
-      const response = await axios.post(`${URL_API}`, data, {
+    try {
+      const response = await axios.post(URL_API, data, {
         headers: {
           Authorization: `Bearer ${getCookie('token')}`,
           'Accept': 'application/json',
@@ -83,17 +78,8 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
         },
       });
 
-      await axios.post(URL_WHASAPP, {
-
-      telefono: phoneWithPrefix,
-      nombre:data.nombre,
-      fecha: fechaActual,
-      hora: horaActual,
-      templateOption: serviceName
-
-    });
-
       hideModal();
+
       if (response.status === 201) {
         Swal.fire({
           title: "Modal enviado Correctamente",
@@ -109,7 +95,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
           confirmButtonText: "OK",
         });
       }
-    }catch(error){
+    } catch (error) {
       hideModal();
       Swal.fire({
         title: "Error",
@@ -118,7 +104,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
         confirmButtonText: "OK",
       });
       console.log(error);
-    }finally{
+    } finally {
       setLoading(false);
       setEmail("");
       setNombre("");
@@ -159,8 +145,8 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
               name="telefono"
               value={telefono}
               onChange={(e) => {
-                let value = e.target.value.replace(/\D/g, ""); 
-                if (value.length > 9) value = value.slice(0, 9); 
+                let value = e.target.value.replace(/\D/g, "");
+                if (value.length > 9) value = value.slice(0, 9);
                 setTelefono(value);
               }}
               maxLength={9}
@@ -173,18 +159,22 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
               label="Correo"
               type="text"
               name="correo"
-              value={correo}  
+              value={correo}
               onChange={(e) => setEmail(e.target.value)}
               required
-              pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" 
+              pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$"
               placeholder="ejemplo@correo.com"
             />
-            <button disabled={loading} className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4" type="submit"
-              title={loading ? 'Guardando...' : 'Enviar Mensaje'}>
+            <button
+              disabled={loading}
+              className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4"
+              type="submit"
+              title={loading ? 'Guardando...' : 'Enviar Mensaje'}
+            >
               {loading ? (
-              <span className="flex items-center">
-                <Loader2 className="animate-spin h-4 w-4 mx-auto" />
-              </span>
+                <span className="flex items-center">
+                  <Loader2 className="animate-spin h-4 w-4 mx-auto" />
+                </span>
               ) : 'HAZLO YA'}
             </button>
           </form>
@@ -198,7 +188,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
   );
 }
 
-function Input({ label, type, name, value, onChange,...props }) {
+function Input({ label, type, name, value, onChange, ...props }) {
   return (
     <div className="flex gap-2 justify-between items-center">
       <label className="font-semibold shrink-0 basis-20" htmlFor={name}>
