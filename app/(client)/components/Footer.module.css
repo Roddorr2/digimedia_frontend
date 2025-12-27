@@ -7,17 +7,16 @@
 
 .imgFooter {
   display: flex;
-  justify-content: center;   /* o flex-start si lo quieres pegado */
+  justify-content: center; /* o flex-start si lo quieres pegado */
   align-items: flex-start;
 }
 
 .imgFooter img {
   width: 360px;
-  max-width: none; 
+  max-width: none;
   height: auto;
   filter: brightness(0) invert(1);
 }
-
 
 .footerContenido {
   /* padding: 70px 70px 0; */
@@ -154,18 +153,19 @@
 
   .footerContenido {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 20px;
     text-align: center;
   }
 
   /* Logo centrado */
   .imgFooter {
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: -40px;
+    margin-top: -40px;
   }
 
   .imgFooter img {
-    max-width: 200px;
+    max-width: 300px;
   }
 
   /* Secciones centradas */
