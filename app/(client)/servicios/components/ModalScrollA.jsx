@@ -1,17 +1,15 @@
 'use client';
-import { useEffect,  useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
 import url from '../../../../api/url';
-import url_whasapp from '@/api/url_whasapp';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import styles from './modal.module.css'
 import Image from 'next/image';
 
 const URL_API = `${url}/api/modales`;
-const URL_WHASAPP = `${url_whasapp}/api/send-message`;
 
 export default function ModalScrollA({ data, time }) {
   const [open, setOpen] = useState(false);
@@ -45,19 +43,12 @@ export default function ModalScrollA({ data, time }) {
       [name]: value,
     });
   };
+
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
 
     try {
-      const rawPhone = formData.telefono;
-      const phoneWithPrefix = `51${rawPhone}`;
-      const fecha = new Date();
-
-      const fechaActual = fecha.toISOString().split("T")[0];
-
-      const horaActual = fecha.toTimeString().slice(0, 5);
-
       if (formData.telefono.length !== 9) {
         setOpen(false);
 
@@ -69,12 +60,11 @@ export default function ModalScrollA({ data, time }) {
         });
         return;
       }
-      console.log(formData);
+
       const response = await axios.post(
         `${URL_API}`,
         {
           ...formData,
-          // telefono: rawPhone,
         },
         {
           headers: {
@@ -85,16 +75,8 @@ export default function ModalScrollA({ data, time }) {
         }
       );
 
-      const responseWhasapp = await axios.post(URL_WHASAPP, {
-        telefono: phoneWithPrefix,
-        nombre: formData.nombre,
-        fecha: fechaActual,
-        hora: horaActual,
-        // templateOption: data.text
-        templateOption: serviceName,
-      });
-
       setOpen(false);
+
       if (response.status === 201) {
         Swal.fire({
           title: "Modal enviado Correctamente",
@@ -110,8 +92,8 @@ export default function ModalScrollA({ data, time }) {
           confirmButtonText: "OK",
         });
       }
-    } catch (error) {
 
+    } catch (error) {
       setOpen(false);
 
       Swal.fire({
@@ -153,7 +135,7 @@ export default function ModalScrollA({ data, time }) {
         >
           X
         </button>
-       
+
         <div className="hidden md:flex relative md:w-64 overflow-hidden justify-center">
           <Image className="w-full object-cover" src={fondo} alt={title} width={width || 200} height={height || 100} />
           <Image
@@ -169,58 +151,15 @@ export default function ModalScrollA({ data, time }) {
         </div>
 
         <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#0095ff] to-[#ff037f]">
-
           <p className="text-3xl text-center font-bold">{title}</p>
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-            <Input
-              label="Nombre"
-              type="text"
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Teléfono"
-              type="tel"
-              name="telefono"
-              value={formData.telefono}
-              onChange={handleChange}
-              maxLength={9}
-              inputMode="numeric"
-              pattern="[0-9]{9}"
-              placeholder="Ej: 987654321"
-              required
-            />
-            <Input
-              label="Correo"
-              type="text"
-              name="correo"
-              value={formData.correo}
-              onChange={handleChange}
-              required
-              pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
-              placeholder="ejemplo@correo.com"
-            />
-            <input
-              type="hidden"
-              name="id_servicio"
-              value={formData.id_servicio}
-              readOnly
-            />
-            <button
-              disabled={loading}
-              className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4"
-              type="submit"
-              title={loading ? "Guardando..." : "Enviar Mensaje"}
-            >
-              {loading ? (
-                <span className="flex items-center">
-                  <Loader2 className="animate-spin h-4 w-4 mx-auto" />
-                </span>
-              ) : (
-                "HAZLO YA"
-              )}
+            <Input label="Nombre" type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+            <Input label="Teléfono" type="tel" name="telefono" value={formData.telefono} onChange={handleChange} required />
+            <Input label="Correo" type="text" name="correo" value={formData.correo} onChange={handleChange} required />
+            <input type="hidden" name="id_servicio" value={formData.id_servicio} readOnly />
+
+            <button disabled={loading} className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4" type="submit">
+              {loading ? <Loader2 className="animate-spin h-4 w-4 mx-auto" /> : "HAZLO YA"}
             </button>
           </form>
         </div>
@@ -232,9 +171,7 @@ export default function ModalScrollA({ data, time }) {
 function Input({ label, type, name, value, onChange, ...props }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-semibold" htmlFor={name}>
-        {label}
-      </label>
+      <label className="font-semibold" htmlFor={name}>{label}</label>
       <input
         className="p-1 outline-none rounded-md text-black"
         id={name}
