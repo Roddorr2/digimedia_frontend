@@ -7,18 +7,19 @@
 
 .imgFooter {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;   /* o flex-start si lo quieres pegado */
   align-items: flex-start;
-  transform: translateX(-500px);
+  /*transform: translateX(-500px);*/
 }
 
 
 .imgFooter img {
   width: 360px;
-  max-width: none; 
+  max-width: none;
   height: auto;
   filter: brightness(0) invert(1);
-} 
+}
+
 
 .footerContenido {
   color: white;
@@ -176,18 +177,18 @@
 
   .footerContenido {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 20px;
     text-align: center;
   }
 
   .imgFooter {
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: -40px;
+    margin-top: -40px;
   }
 
   .imgFooter img {
     max-width: 200px;
-    transform: translateX(0);
   }
 
   .listaFooter {

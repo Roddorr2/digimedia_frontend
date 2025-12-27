@@ -1,6 +1,6 @@
-import Link from "next/link";
-import styles from "./servicios.module.css"
-import Image from "next/image";
+import Link from 'next/link';
+import styles from './servicios.module.css';
+import Image from 'next/image';
 
 export default function Servicios({ servicios }) {
   return (
@@ -28,9 +28,9 @@ export default function Servicios({ servicios }) {
 }
 
 function Servicio({ title, text, icon, ruta }) {
-  const rutaValida = ruta ? `${ruta}` : "/";
+  const rutaValida = ruta ? `${ruta}` : '/';
   return (
-    <div className="relative bg-gradient-to-br from-[#523194] to-[#7B22B3] text-white rounded-3xl py-8 px-2 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 basis-64 flex-1 shrink-0 min-[832px]:max-[1118px]:basis-96 group overflow-hidden h-[450px]">
+    <div className="relative bg-gradient-to-br from-[#B326FF] to-[#7B22B3] text-white rounded-3xl py-8 px-2 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 basis-64 flex-1 shrink-0 min-[832px]:max-[1118px]:basis-96 group overflow-hidden h-[450px]">
       <Link
         href={rutaValida}
         className="grid grid-cols-1 grid-rows-[120px_100px_1px_100%] items-center h-full w-full"
@@ -41,8 +41,8 @@ function Servicio({ title, text, icon, ruta }) {
         {/* Ícono con animación de rebote */}
         <figure className="flex h-full justify-center align-middle py-3">
           <Image
-            className={`max-w-36 w-24 h-24 object-contain ${styles["animate-bounce-slow"]}`}
-            src={icon || "/placeholder.svg"}
+            className={`max-w-36 w-24 h-24 object-contain ${styles['animate-bounce-slow']}`}
+            src={icon || '/placeholder.svg'}
             alt={title}
             width={96}
             height={96}
