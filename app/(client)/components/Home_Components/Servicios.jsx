@@ -97,7 +97,7 @@ export default function Servicios() {
               transform: `translateX(-${currentSlide * 100}%)`,
             }}
           >
-            {/* Slide 1 */}
+            {/* Slide 1 - Diseño y Desarrollo Web */}
             <div className={styles.carouselSlide}>
               <Link href="/servicios/desing-desarrollo" className={`${styles.serviceCard} ${styles.purple}`}>
                 <Image src="/image-home/diseño.png" alt="Icono diseño" width={150} height={160} />
@@ -106,7 +106,7 @@ export default function Servicios() {
               </Link>
             </div>
 
-            {/* Slide 2 */}
+            {/* Slide 2 - Gestión de Redes Sociales */}
             <div className={styles.carouselSlide}>
               <Link href="/servicios/gestion-redes" className={`${styles.serviceCard} ${styles.orange}`}>
                 <div className={styles.textContent}>
@@ -117,7 +117,16 @@ export default function Servicios() {
               </Link>
             </div>
 
-            {/* Slide 3 */}
+            {/* Slide 3 - Marketing y Gestión Digital */}
+            <div className={styles.carouselSlide}>
+              <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
+                <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
+                <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
+                <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
+              </Link>
+            </div>
+
+            {/* Slide 4 - Branding y Diseño */}
             <div className={styles.carouselSlide}>
               <Link href="/servicios/branding-desing" className={`${styles.serviceCard} ${styles.orange}`}>
                 <div className={styles.textContent}>
@@ -125,15 +134,6 @@ export default function Servicios() {
                   <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
                 </div>
                 <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
-              </Link>
-            </div>
-
-            {/* Slide 4 */}
-            <div className={styles.carouselSlide}>
-              <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
-                <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
-                <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
-                <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
               </Link>
             </div>
           </div>
