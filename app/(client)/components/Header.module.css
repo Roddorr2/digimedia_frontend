@@ -24,6 +24,8 @@
 
 .seccionesHeader {
   display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .menuHorizontal {
@@ -53,10 +55,12 @@
   width: 100%;
   margin: 0;
 }
+
 .seccionesHeader a,
 .seccionesHeader p {
   transition: background-color 0.3s ease;
 }
+
 .seccionesHeader a:hover,
 .seccionesHeader p:hover {
   background-color: #333333b4;
@@ -75,15 +79,22 @@
 }
 
 .menuVerticalDark {
-  background-color: #8e1fd1; /* más oscuro que #b525fe */
+  background-color: #8e1fd1;
 }
 
 .menuHorizontal li:hover .menuVertical {
   display: block;
 }
+
 .menuVertical li.active-sub > a {
   background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* Botón de login mobile - oculto por defecto */
+.loginButtonMobile {
+  display: none;
+}
+
 @media screen and (min-width: 700px) {
   .menuHorizontal li.active > a,
   .menuHorizontal li.active > p {
@@ -123,6 +134,40 @@
   .logoHeader {
     margin-right: 16px;
   }
+
+  /* Mostrar botón de login mobile fuera del menú */
+  .loginButtonMobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 16px;
+    background-color: #ffa000;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .loginButtonMobile:hover {
+    background-color: #fb8c00;
+  }
+
+  /* Ocultar el botón de login dentro del menú en mobile */
+  .loginButton {
+    display: none !important;
+  }
+
+  /* Ocultar todo el item de Panel cuando no está autenticado en mobile */
+  .menuHorizontal > .panelItem:not(:has(p)) {
+    display: none;
+  }
+
+  .seccionesHeader {
+    gap: 12px;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -130,6 +175,7 @@
   .menuHorizontal li.active > p {
     background-color: rgba(255, 255, 255, 0.2);
   }
+
   .menuHorizontal {
     position: absolute;
     background-color: #b525fe;
@@ -190,6 +236,11 @@
     font-size: 10;
     transform: translateY(-300px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  }
+
+  .loginButtonMobile {
+    font-size: 10px;
+    padding: 5px 12px;
   }
 }
 
