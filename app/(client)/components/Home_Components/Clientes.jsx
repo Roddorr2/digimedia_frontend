@@ -12,14 +12,14 @@ export default function Clientes() {
 
   // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
-    { src: '/image-home/contigo_voy.svg', alt: 'Contigo Voy logo' },
-    { src: '/image-home/digimedia.svg', alt: 'Digimedia logo' },
-    { src: '/image-home/nhl.svg', alt: 'NHL logo' },
-    { src: '/image-home/tami.svg', alt: 'Tami logo' },
-    { src: '/image-home/yuntas.svg', alt: 'Yuntas logo' },
-    { src: '/image-home/prevemedic.svg', alt: 'prevemedic logo' },
-    { src: '/image-home/mj-eventos.svg', alt: 'MJ eventos logo' },
-    { src: '/image-home/asden.svg', alt: 'Asden logo' },
+    { src: '/image-home/contigo_voy color.png', alt: 'Contigo Voy logo' },
+    { src: '/image-home/digimedia color.png', alt: 'Digimedia logo' },
+    { src: '/image-home/nhl color.png', alt: 'NHL logo' },
+    { src: '/image-home/tami color.png', alt: 'Tami logo' },
+    { src: '/image-home/yuntas color.png', alt: 'Yuntas logo' },
+    { src: '/image-home/prevemedic color.png', alt: 'prevemedic logo' },
+    { src: '/image-home/mj-eventos color.png', alt: 'MJ eventos logo' },
+    { src: '/image-home/asden color.png', alt: 'Asden logo' },
   ];
 
   // Ajusta el número de items por slide dependiendo del tamaño de la pantalla
