@@ -10,7 +10,7 @@
 /* Encabezado */
 .servicesHeader {
   width: 100%;
-  max-width: 1200px; 
+  max-width: 1200px;
   margin-bottom: 3.5rem;
   padding: 0 2rem;
   box-sizing: border-box;
@@ -28,7 +28,7 @@
   color: #777;
   font-size: 1.15rem;
   line-height: 1.4;
-  max-width: 1050px; 
+  max-width: 1050px;
 }
 
 /* Layout de las Tarjetas - VISIBLE EN DESKTOP */
@@ -38,7 +38,7 @@
   align-items: stretch;
   gap: 1.5rem;
   width: 100%;
-  max-width: 1050px; 
+  max-width: 1050px;
 }
 
 /* Carrusel - OCULTO EN DESKTOP */
@@ -166,24 +166,24 @@
   .servicesHeader p {
     margin: 0 auto;
   }
-  
+
   /* OCULTAR layout original */
   .servicesLayout {
     display: none;
   }
-  
+
   /* MOSTRAR carrusel */
   .carouselContainer {
     display: block;
     padding: 0 2rem;
   }
-  
+
   /* Ajustar tarjetas para carrusel mobile */
   .carouselSlide .purple {
     min-height: 400px;
     padding: 3rem 1.5rem;
   }
-  
+
   .carouselSlide .orange {
     min-height: 400px;
     padding: 3rem 1.5rem;
