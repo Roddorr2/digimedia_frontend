@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import styles from './Header.module.css';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, UserRound } from 'lucide-react';
 import Image from 'next/image';
 
 import { useEffect } from 'react';
@@ -77,6 +77,13 @@ export default function Header2() {
             <a href="/login" className={`${styles.loginButtonMobile}`}>
               Ingresar
             </a>
+          )}
+
+          {/* Botón de usuario para ir a Sección principal - solo cuando está autenticado */}
+          {isAuthenticated && (
+            <Link href="/dashboard/main" className={styles.userButton}>
+              <UserRound size={20} strokeWidth={2.5} />
+            </Link>
           )}
 
           <input

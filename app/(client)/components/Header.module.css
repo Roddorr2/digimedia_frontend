@@ -95,6 +95,33 @@
   display: none;
 }
 
+/* Botón de usuario redondo - visible en ambas vistas */
+.userButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ffa000;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.userButton:hover {
+  background-color: #fb8c00;
+  transform: scale(1.05);
+}
+
+@media screen and (min-width: 701px) {
+  .userButton {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 @media screen and (min-width: 700px) {
   .menuHorizontal li.active > a,
   .menuHorizontal li.active > p {
