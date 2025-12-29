@@ -17,9 +17,9 @@
   display: flex;
   width: 100%;
   height: 67px;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  padding: 0 150px; 
+  padding: 0 150px;
 }
 
 .seccionesHeader {
@@ -74,6 +74,10 @@
   padding: 0;
 }
 
+.menuVerticalDark {
+  background-color: #8e1fd1; /* más oscuro que #b525fe */
+}
+
 .menuHorizontal li:hover .menuVertical {
   display: block;
 }
@@ -110,17 +114,15 @@
 
 /*--- RESPONSIVE ---*/
 @media screen and (max-width: 700px) {
-
   .contenidoHeader {
-    padding: 0 20px;          
+    padding: 0 20px;
     justify-content: space-between;
     align-items: center;
   }
 
   .logoHeader {
-    margin-right: 16px;      
+    margin-right: 16px;
   }
-
 }
 
 @media screen and (max-width: 700px) {
@@ -200,4 +202,3 @@
     display: none;
   }
 }
-

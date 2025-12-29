@@ -114,7 +114,9 @@ export default function Header2() {
                 />
               </p>
               {isServiceOpen && (
-                <ul className={styles.menuVertical}>
+                <ul
+                  className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
+                >
                   <li
                     className={
                       isActive('/servicios/desing-desarrollo')
@@ -196,7 +198,9 @@ export default function Header2() {
                 />
               </p>
               {isMoreOpen && (
-                <ul className={styles.menuVertical}>
+                <ul
+                  className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
+                >
                   <li
                     className={isActive('/blog') ? styles['active-sub'] : ''}
                     onClick={closeMenu}
