@@ -71,7 +71,7 @@ export default function Servicios() {
               <h3>BRANDING Y <br /> DISEÑO</h3>
               <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
             </div>
-            <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
+            <Image src="/image-home/branding.png" alt="Branding" width={80} height={80} />
           </Link>
         </div>
 

@@ -250,6 +250,55 @@
   .indicatorActive {
     width: 25px;
   }
+
+  /* Forzar estructura vertical en TODAS las cards del carrusel */
+  .carouselSlide .serviceCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  /* Contenedor de imagen con altura fija */
+  .carouselSlide .serviceCard img {
+    order: 1;
+    margin-bottom: 1.5rem;
+    height: 140px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* Contenedor de texto alineado */
+  .carouselSlide .serviceCard h3,
+  .carouselSlide .serviceCard p,
+  .carouselSlide .serviceCard .textContent {
+    order: 2;
+    width: 100%;
+  }
+
+  /* Empujar el texto hacia abajo */
+  .carouselSlide .orange .textContent,
+  .carouselSlide .purple h3 {
+    margin-top: auto;
+  }
+
+  /* Alinear todos los h3 a la misma altura */
+  .carouselSlide .purple h3,
+  .carouselSlide .orange h3 {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Alinear todos los p a la misma altura */
+  .carouselSlide .purple p,
+  .carouselSlide .orange p {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
