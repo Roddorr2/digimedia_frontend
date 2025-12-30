@@ -23,7 +23,7 @@ export default function Pregunta({ question, answer }) {
         </h3>
 
         <div
-          className={`text-teal-500 transition-transform duration-300 ${
+          className={`text-[#b525fe] transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
           }`}
         >
@@ -51,7 +51,7 @@ export default function Pregunta({ question, answer }) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="px-6 pb-6 text-slate-600 border-t border-slate-100 pt-4">
+            <div className="px-6 pb-6 text-slate-600 border-t border-[#b525fe]/20 pt-4">
               <p>{answer}</p>
             </div>
           </motion.div>
