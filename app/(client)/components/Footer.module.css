@@ -2,7 +2,7 @@
 .mainFooter {
   background-color: #b525fe;
   color: white;
-  padding: 60px 40px 20px;
+  padding: 20px 40px 20px;
 }
 
 .imgFooter {
@@ -18,33 +18,29 @@
   filter: brightness(0) invert(1);
 }
 
-.footerContenido {
-  /* padding: 70px 70px 0; */
-  color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
+.footerInner {
+  padding-inline: 55px;
 }
 
 /* Contenido del footer */
 .footerContenido {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
   display: grid;
-  grid-template-columns: 250px 1.5fr 1fr 1fr;
-  gap: 120px;
-  margin-bottom: 30px;
+  grid-template-columns: auto 1fr 1fr auto;
+  align-items: center;
+  column-gap: 80px;
 }
 
 /* Estilos comunes para las listas */
-.listaFooter h2,
-.listaFooter h3 {
+.listaFooter h2 {
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 20px;
   color: white;
 }
+
+
 
 .listaFooter ul {
   list-style: none;
@@ -91,6 +87,7 @@
   flex-wrap: wrap;
   gap: 16px;
   max-width: 200px;
+  padding-top: 30px
 }
 
 .redesFooter li {
@@ -122,14 +119,11 @@
 
 /* Sección inferior con RUC y derechos */
 .rucFooter {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
-  padding: 20px 0;
 }
+
 
 .ruc p,
 .derechosFooter p {
@@ -138,6 +132,12 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+  .footerInner {
+    padding-inline: 24px;
+  }
+}
+
 @media (max-width: 1024px) {
   .footerContenido {
     grid-template-columns: 1fr 1fr;
@@ -200,7 +200,7 @@
 
   /* Legales centrado */
   .legalesFooter ul {
-    gap: 8px;
+    gap: 12px;
   }
 
   /* Redes sociales centradas */
@@ -208,6 +208,7 @@
     justify-content: center;
     gap: 12px;
     max-width: 250px;
+    padding-top: 0;
   }
 
   /* Footer inferior centrado */
