@@ -29,21 +29,21 @@ export default function Testimonios() {
 
 
       {/* Texto */}
-      <div className="text-white w-full md:w-[45%] p-10 md:p-12 lg:p-16 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1 min-w-0">
-        <h2 className="text-lg md:text-2xl lg:text-3xl font-normal mb-2 opacity-90">
+      <div className="text-white w-full md:w-[45%] p-10 md:p-16 lg:p-24 flex flex-col justify-center items-center md:items-start text-center md:text-left order-2 md:order-1 min-w-0">
+        <h2 className="text-lg md:text-2xl font-normal mb-2 opacity-90">
           ¿Primera vez con nosotros?
         </h2>
 
         <div className="flex flex-col font-black uppercase tracking-tighter">
-          <span className="text-4xl md:text-[44px] lg:text-6xl leading-[1.05]">
+          <span className="text-4xl md:text-[44px] lg:text-5xl leading-[1.05]">
             ¡TE OFRECEMOS
           </span>
-          <span className="text-4xl md:text-[44px] lg:text-6xl leading-[1.05]">
+          <span className="text-4xl md:text-[44px] lg:text-5xl leading-[1.05]">
             UNA ASESORÍA
           </span>
 
           <div className="flex items-baseline justify-center md:justify-start mt-1">
-            <span className="text-[#ff9f00] text-6xl md:text-7xl lg:text-8xl leading-none">
+            <span className="text-[#ff9f00] text-4xl md:text-5xl lg:text-7xl leading-none">
               GRATIS!
             </span>
           </div>
