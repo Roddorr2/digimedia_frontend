@@ -83,7 +83,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-              <h3>REDES SOCIALES</h3>
+              <h2 >REDES SOCIALES</h2>
               <ul>
                 <li>
                   <Link

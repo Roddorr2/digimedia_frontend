@@ -10,35 +10,58 @@ import 'swiper/css/navigation';
 export default function Clientes() {
   // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
-    { src: '/image-home/contigo_voy color.png', alt: 'Contigo Voy logo' },
-    { src: '/image-home/digimedia color.png', alt: 'Digimedia logo' },
-    { src: '/image-home/nhl color.png', alt: 'NHL logo' },
-    { src: '/image-home/tami color.png', alt: 'Tami logo' },
-    { src: '/image-home/yuntas color.png', alt: 'Yuntas logo' },
-    { src: '/image-home/prevemedic color.png', alt: 'prevemedic logo' },
-    { src: '/image-home/mj-eventos color.png', alt: 'MJ eventos logo' },
-    { src: '/image-home/asden color.png', alt: 'Asden logo' },
+    { 
+      src: '/image-home/contigo_voy color.png',
+      alt: 'Contigo Voy logo', 
+      width: 200, 
+      height: 100 
+    },
+    
+    { 
+       src: '/image-home/digimedia color.png',
+       alt: 'Digimedia logo',
+       width: 180,
+       height: 95
+     },
+
+    {
+      src: '/image-home/nhl color.png', 
+      alt: 'NHL logo',
+      width: 130,
+      height: 75
+     },
+    { src: '/image-home/tami color.png', 
+      alt: 'Tami logo' ,
+      width: 190,
+      height: 95
+    },
+    {
+       src: '/image-home/yuntas color.png', 
+      alt: 'Yuntas logo',
+      width: 150,
+      height: 75
+    },
+    { src: '/image-home/prevemedic color.png',
+       alt: 'prevemedic logo',
+       width: 300,
+       height: 100
+      },
+    { 
+      src: '/image-home/mj-eventos color.png', 
+      alt: 'MJ eventos logo',
+      width: 180, 
+      height: 95},
+    { 
+      src: '/image-home/asden color.png',
+       alt: 'Asden logo' ,
+       width: 100,
+       height: 65
+      },
   ];
 
   return (
     <section className="my-6 mx-12">
-      <style>{`
-        .clients-bullet {
-          width: 12px;
-          height: 12px;
-          border-radius: 9999px;
-          background-color: #d1d5db;
-          transition: all 0.3s ease;
-          cursor: pointer;
-        }
-
-        .clients-bullet-active {
-          width: 20px;
-          background-color: #b525fe;
-        }
-      `}</style>
-
-      <h2 className="text-2xl text-[#b525fe] mb-4">NUESTROS CLIENTES</h2>
+      <h2 className="text-2xl md:py-6 md:px-12 text-[#b525fe]">NUESTROS CLIENTES</h2>
 
       <div className="relative w-full overflow-hidden">
         {/* Flecha izquierda */}
@@ -91,12 +114,13 @@ export default function Clientes() {
                   <Image
                     src={cliente.src}
                     alt={cliente.alt}
-                    width={200}
-                    height={100}
-                    className="object-contain w-full h-full"
+                    width={cliente.width}
+                    height={cliente.height}
+                    className="object-contain"
                     loading="lazy"
                     decoding="async"
                     priority={false}
+                    
                   />
                   {/* </a> */}
                 </div>
@@ -106,7 +130,7 @@ export default function Clientes() {
         </Swiper>
 
         {/* Indicadores dinamicos */}
-        <div className="clients-pagination absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" />
+        <div className="clients-pagination absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20" />
       </div>
     </section>
   );
