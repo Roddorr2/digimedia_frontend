@@ -119,7 +119,7 @@ export default function Clientes() {
 
   return (
     <section className="my-6 mx-12">
-      <h2 className="text-2xl text-[#b525fe]">NUESTROS CLIENTES</h2>
+      <h2 className="text-2xl md:py-6 md:px-12 text-[#b525fe]">NUESTROS CLIENTES</h2>
 
       <div className="relative w-full overflow-hidden" data-carousel="slide">
         <div
