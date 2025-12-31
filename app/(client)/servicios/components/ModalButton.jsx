@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { getCookie } from 'cookies-next';
 import url from '../../../../api/url';
 import { Loader2 } from 'lucide-react';
-import styles from './modal.module.css'
+import styles from './modal.module.css';
 
 const URL_API = `${url}/api/modales`;
 
@@ -54,16 +54,16 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
       nombre,
       telefono,
       correo,
-      id_servicio: serviceName
+      id_servicio: serviceName,
     };
 
     if (telefono.length !== 9) {
       hideModal();
       Swal.fire({
-        title: "Error",
-        text: "El número de teléfono debe ser 9 digitos.",
-        icon: "error",
-        confirmButtonText: "OK",
+        title: 'Error',
+        text: 'El número de teléfono debe ser 9 digitos.',
+        icon: 'error',
+        confirmButtonText: 'OK',
       });
       return;
     }
@@ -73,7 +73,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
       const response = await axios.post(URL_API, data, {
         headers: {
           Authorization: `Bearer ${getCookie('token')}`,
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
@@ -82,33 +82,33 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
 
       if (response.status === 201) {
         Swal.fire({
-          title: "Modal enviado Correctamente",
+          title: 'Modal enviado Correctamente',
           text: `Nos pondremos en contacto contigo. Servicio de ${text}.`,
-          icon: "success",
-          confirmButtonText: "OK",
+          icon: 'success',
+          confirmButtonText: 'OK',
         });
       } else {
         Swal.fire({
-          title: "Error",
-          text: "No se envio el contacto correctamente.",
-          icon: "error",
-          confirmButtonText: "OK",
+          title: 'Error',
+          text: 'No se envio el contacto correctamente.',
+          icon: 'error',
+          confirmButtonText: 'OK',
         });
       }
     } catch (error) {
       hideModal();
       Swal.fire({
-        title: "Error",
-        text: "Ocurrió un error inesperado.",
-        icon: "error",
-        confirmButtonText: "OK",
+        title: 'Error',
+        text: 'Ocurrió un error inesperado.',
+        icon: 'error',
+        confirmButtonText: 'OK',
       });
       console.log(error);
     } finally {
       setLoading(false);
-      setEmail("");
-      setNombre("");
-      setTelefono("");
+      setEmail('');
+      setNombre('');
+      setTelefono('');
     }
   };
 
@@ -145,7 +145,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
               name="telefono"
               value={telefono}
               onChange={(e) => {
-                let value = e.target.value.replace(/\D/g, "");
+                let value = e.target.value.replace(/\D/g, '');
                 if (value.length > 9) value = value.slice(0, 9);
                 setTelefono(value);
               }}
@@ -162,7 +162,7 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
               value={correo}
               onChange={(e) => setEmail(e.target.value)}
               required
-              pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$"
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
               placeholder="ejemplo@correo.com"
             />
             <button
@@ -175,7 +175,9 @@ export default function ModalClick({ text, fondo, title, serviceName }) {
                 <span className="flex items-center">
                   <Loader2 className="animate-spin h-4 w-4 mx-auto" />
                 </span>
-              ) : 'HAZLO YA'}
+              ) : (
+                'HAZLO YA'
+              )}
             </button>
           </form>
         </div>
