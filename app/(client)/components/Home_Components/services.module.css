@@ -10,7 +10,7 @@
 /* Encabezado */
 .servicesHeader {
   width: 100%;
-  max-width: 1200px; 
+  max-width: 1200px;
   margin-bottom: 3.5rem;
   padding: 0 2rem;
   box-sizing: border-box;
@@ -28,7 +28,7 @@
   color: #777;
   font-size: 1.15rem;
   line-height: 1.4;
-  max-width: 1050px; 
+  max-width: 1050px;
 }
 
 /* Layout de las Tarjetas - VISIBLE EN DESKTOP */
@@ -38,7 +38,7 @@
   align-items: stretch;
   gap: 1.5rem;
   width: 100%;
-  max-width: 1050px; 
+  max-width: 1050px;
 }
 
 /* Carrusel - OCULTO EN DESKTOP */
@@ -65,6 +65,8 @@
 .carouselSlide {
   min-width: 100%;
   flex-shrink: 0;
+  padding: 0 0.75rem; /* separación entre cards */
+  box-sizing: border-box;
 }
 
 .serviceCard {
@@ -166,24 +168,24 @@
   .servicesHeader p {
     margin: 0 auto;
   }
-  
+
   /* OCULTAR layout original */
   .servicesLayout {
     display: none;
   }
-  
+
   /* MOSTRAR carrusel */
   .carouselContainer {
     display: block;
     padding: 0 2rem;
   }
-  
+
   /* Ajustar tarjetas para carrusel mobile */
   .carouselSlide .purple {
     min-height: 400px;
     padding: 3rem 1.5rem;
   }
-  
+
   .carouselSlide .orange {
     min-height: 400px;
     padding: 3rem 1.5rem;
@@ -247,6 +249,55 @@
 
   .indicatorActive {
     width: 25px;
+  }
+
+  /* Forzar estructura vertical en TODAS las cards del carrusel */
+  .carouselSlide .serviceCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  /* Contenedor de imagen con altura fija */
+  .carouselSlide .serviceCard img {
+    order: 1;
+    margin-bottom: 1.5rem;
+    height: 140px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* Contenedor de texto alineado */
+  .carouselSlide .serviceCard h3,
+  .carouselSlide .serviceCard p,
+  .carouselSlide .serviceCard .textContent {
+    order: 2;
+    width: 100%;
+  }
+
+  /* Empujar el texto hacia abajo */
+  .carouselSlide .orange .textContent,
+  .carouselSlide .purple h3 {
+    margin-top: auto;
+  }
+
+  /* Alinear todos los h3 a la misma altura */
+  .carouselSlide .purple h3,
+  .carouselSlide .orange h3 {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Alinear todos los p a la misma altura */
+  .carouselSlide .purple p,
+  .carouselSlide .orange p {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

@@ -1,5 +1,6 @@
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import { icon } from '@fortawesome/fontawesome-svg-core';
 import {
+  ChartColumn,
   Component,
   FileText,
   HandCoins,
@@ -8,50 +9,50 @@ import {
   Mail,
   Settings,
   User,
-} from "lucide-react";
+} from 'lucide-react';
 
 export const dashboardLinks = [
-  { title: "Sección Principal", href: "/dashboard/main", icon: Home },
+  { title: 'Sección Principal', href: '/dashboard/main', icon: Home },
   {
-    title: "Empleados",
-    href: "/dashboard/empleados",
-    permission: "ver-empleados",
+    title: 'Empleados',
+    href: '/dashboard/empleados',
+    permission: 'ver-empleados',
     icon: User,
   },
   {
-    title: "Contactanos",
-    href: "/dashboard/contactanos",
-    permission: "ver-contactos",
+    title: 'Contactanos',
+    href: '/dashboard/contactanos',
+    permission: 'ver-contactos',
     icon: Mail,
   },
   {
-    title: "Modales",
-    href: "/dashboard/modales",
-    permission: "ver-modales",
+    title: 'Modales',
+    href: '/dashboard/modales',
+    permission: 'ver-modales',
     icon: Component,
   },
   {
-    title: "Reclamaciones",
-    href: "/dashboard/reclamaciones",
-    permission: "ver-reclamaciones",
+    title: 'Reclamaciones',
+    href: '/dashboard/reclamaciones',
+    permission: 'ver-reclamaciones',
     icon: FileText,
   },
   {
-    title: "Blogs",
-    href: "/dashboard/blogs",
-    permission: "crear-blogs",
+    title: 'Blogs',
+    href: '/dashboard/blogs',
+    permission: 'crear-blogs',
     icon: Logs,
   },
   {
-    title: "Roles y Permisos",
-    href: "/dashboard/role-permission",
-    role: "administrador",
+    title: 'Roles y Permisos',
+    href: '/dashboard/role-permission',
+    role: 'administrador',
     icon: HandCoins,
   },
   {
-    title: "Métricas",
-    href: "/dashboard/metricas",
-    icon: Settings,
-    role: "administrador"
-  }
+    title: 'Métricas',
+    href: '/dashboard/metricas',
+    icon: ChartColumn,
+    role: 'administrador',
+  },
 ];
