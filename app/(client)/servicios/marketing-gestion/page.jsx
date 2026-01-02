@@ -58,7 +58,7 @@ export default function Page() {
         title="MARKETING Y GESTIÓN DIGITAL"
         subtitle="!Has despegar tu marca al éxito digital!"
         text="Conecta, Impacta y Crece: El poder de de despegar tu marca con el Marketing y la Gestion Digital en la era online."
-        image="/servicios/marketing/servicios.png"
+        image="/servicios/marketing/marketing-gestion-hero.png"
       />
 
       <Description

@@ -59,7 +59,7 @@ export default function Page() {
         title="GESTIÓN DE REDES SOCIALES"
         subtitle="¡Conviértete en la marca que todos quieren seguir!"
         text="Impulsamos tu presencia digital con contenido estratégico y cercano, logrando que tu marca conecte, inspire y convierta seguidores en fieles."
-        image="/servicios/gestion/chica.png"
+        image="/servicios/gestion/gestion-redes-hero.png"
       />
 
       <Description

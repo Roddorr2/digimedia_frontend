@@ -65,7 +65,7 @@ export default function Page() {
         title="BRANDING Y DISEÑO"
         subtitle="La Voz y la Cara de tu Marca"
         text="Creamos marcas que hablan, emocionan y conectan. Desde una identidad visual memorable hasta mensajes que resuenan profundamente, hacemos que tu empresa sea tan única como inolvidable."
-        image="/servicios/branding/chica2.png"
+        image="/servicios/branding/branding-disenio.png"
       />
 
       <Description
