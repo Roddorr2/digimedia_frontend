@@ -7,7 +7,7 @@
 
 .imgFooter {
   display: flex;
-  justify-content: flex-start; /* flex-start si se quiere pegado ó center */
+  justify-content: center; /* Cambiado de flex-start a center */
   align-items: flex-start;
 }
 
@@ -156,6 +156,7 @@
 
   /* Logo centrado */
   .imgFooter {
+    justify-content: center; /* Asegura que esté centrado en móvil */
     align-items: center;
     margin-bottom: -40px;
     margin-top: -40px;
