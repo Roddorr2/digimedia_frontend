@@ -4,8 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 
 import Link from 'next/link';
-import styles from './servicios.module.css';
 import Image from 'next/image';
+import styles from './servicios.module.css';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -33,7 +33,9 @@ export default function Servicios({ servicios }) {
       </div>
 
       {/* Mobile / Tablet Carousel */}
-      <div className={`lg:hidden ${styles.swiperClip}`}>
+      <div
+        className={`lg:hidden ${styles.swiperClip} ${styles.paginationWrapper}`}
+      >
         <Swiper
           modules={[Pagination]}
           pagination={{ clickable: true, el: '.servicios-pagination' }}
@@ -58,6 +60,7 @@ export default function Servicios({ servicios }) {
           ))}
         </Swiper>
 
+        {/* Paginación Swiper */}
         <div className="servicios-pagination flex justify-center mt-4" />
       </div>
     </section>
@@ -84,7 +87,7 @@ function Servicio({ title, text, icon, ruta, index }) {
         className="grid grid-cols-1 grid-rows-[120px_100px_1px_100%] items-center h-full w-full"
       >
         {/* Efecto de brillo */}
-        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#FF037F]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#FF037F]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         {/* Ícono */}
         <figure className="flex h-full justify-center align-middle py-3">
