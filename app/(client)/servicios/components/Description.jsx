@@ -1,9 +1,13 @@
 export default function Description({ title, text }) {
   return (
-    <section className="bg-[#B326FF] text-white w-full relative left-1/2 -translate-x-1/2">
-      <div className="max-w-6xl m-auto p-10 px-5 md:py-16 md:px-10">
-        <h2 className="font-bold text-xl mb-2 font-title">{title}</h2>
-        <p className="font-bold text-justify uppercase">{text}</p>
+    <section className="bg-[#9D22FB] py-16 md:py-20">
+      <div className="max-w-4xl mx-auto px-6 text-center">
+        <h2 className="text-white font-bold text-xl md:text-1xl lg:text-2xl mb-6">
+          {title}
+        </h2>
+        <p className="text-white text-base md:text-lg leading-relaxed">
+          {text}
+        </p>
       </div>
     </section>
   );
