@@ -9,26 +9,26 @@ import ModalButton from "../components/ModalButton";
 export default function Page() {
   const servicios = [
     {
-      title: "Análisis de marca y posicionamiento actual",
-      text: "evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.",
+      title: "IDENTIDAD Y POSICIONAMIENTO",
+      text: "Evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.",
       icon: "/servicios/marketing/icon1.svg",
       ruta: "/servicios/analisis-y-benchmarking/",
     },
     {
-      title: "Naming creativo + diseño de logo y slogan",
-      text: "definimos las  estrategias, con objetivos claros, segmetación precisa y tácticas eficaces para alcanzar tus metas de negocio.",
+      title: "NAMING, IDENTIDAD VISUAL Y ESLOGAN",
+      text: "Definimos las  estrategias, con objetivos claros, segmetación precisa y tácticas eficaces para alcanzar tus metas de negocio.",
       icon: "/servicios/marketing/icon2.svg",
       ruta: "/servicios/naming-logo-slogan/",
     },
     {
-      title: "Identidad visual completa (colores, tipografías, estilo visual)",
-      text: "Desarrollamos campañas digitales de alto impacto para aumentar la visibilidad, captar audencias y maximizar conversiones .",
+      title: "DESARROLLO DE IDENTIDAD VISUAL",
+      text: "Desarrollamos campañas digitales de alto impacto para aumentar la visibilidad, captar audencias y maximizar conversiones.",
       icon: "/servicios/marketing/icon3.svg",
       ruta: "/servicios/identidad-visual/",
     },
     {
-      title: "Manual de uso de marca (para equipos y diseño constante)",
-      text: "Hacemos seguimiento continuo del avance,  gestionando los proyectos,  programas y actividades  de forma efectiva",
+      title: "MANUAL DE MARCA",
+      text: "Hacemos seguimiento continuo del avance,  gestionando los proyectos,  programas y actividades  de forma efectiva.",
       icon: "/servicios/marketing/icon4.svg",
       ruta: "/servicios/manual-marca/",
     },

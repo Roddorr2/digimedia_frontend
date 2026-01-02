@@ -9,26 +9,26 @@ import ModalButton from "../components/ModalButton";
 export default function Page() {
   const servicios = [
     {
-      title: "Plan de contenido estratégico",
-      text: "Planificamos tu estrategia en redes para mantenerte activo, relevante y siempre presente ante tu audiencia",
+      title: "ESTRATEGIA DE CONTENIDO",
+      text: "Planificamos tu estrategia en redes para mantenerte activo, relevante y siempre presente ante tu audiencia.",
       icon: "/servicios/gestion/icon1.svg",
       ruta: "/servicios/planificacion-cronograma/",
     },
     {
-      title: "Diseño gráfico para redes sociales",
-      text: "Traducimos tu esencia de marca en pautas claras, creativas y listas para cautivar en redes",
+      title: "DISEÑO PARA REDES SOCIALES",
+      text: "Traducimos tu esencia de marca en pautas claras, creativas y listas para cautivar en redes.",
       icon: "/servicios/gestion/icon3.svg",
       ruta: "/servicios/diseno-pautas/",
     },
     {
-      title: "Gestión de campañas publicitarias (Meta Ads)",
-      text: "Creamos PAUTAS estratégicAS que habla el idioma de tu audiencia y fortalece tu marca",
+      title: "CAMPAÑAS EN META ADS",
+      text: "Creamos PAUTAS estratégicAS que habla el idioma de tu audiencia y fortalece tu marca.",
       icon: "/servicios/gestion/icon2.svg",
       ruta: "/servicios/produccion-pautas/",
     },
     {
-      title: "Copywriting para redes sociales",
-      text: "Combinamos  (UI) y  (UX) para crear plataformas intuitivas, fáciles de usar y optimizadas para generar conversiones",
+      title: "COPYWRITING ESTRATÉGICO",
+      text: "Combinamos  (UI) y  (UX) para crear plataformas intuitivas, fáciles de usar y optimizadas para generar conversiones.",
       icon: "/servicios/gestion/icon4.svg",
       ruta: "/servicios/ui/?from=gestionRedes",
     },

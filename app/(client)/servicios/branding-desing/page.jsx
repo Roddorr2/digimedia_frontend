@@ -9,25 +9,25 @@ import ModalScroll from "../components/ModalScroll";
 export default function Page() {
   const servicios = [
     {
-      title: "Auditoría digital completa + análisis de competencia",
+      title: "DIAGNÓSTICO DIGITAL DE MARCA",
       text: "El brief nos permite entender tu empresa para crear y definir tu marca.",
       icon: "/servicios/branding/icon1.svg",
       ruta: "/servicios/desarrollo-briefs/",
     },
     {
-      title: "Estrategia de marketing digital personalizada",
+      title: "MARKETING DIGITAL PERSONALIZADO",
       text: "Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.",
       icon: "/servicios/branding/icon2.svg",
       ruta: "/servicios/planificacion-estrategica/",
     },
     {
-      title: "Publicidad digital efectiva en Meta Ads y Google Ads",
+      title: "PUBLICIDAD DIGITAL EFECTIVA",
       text: "Creamos elementos clave que representen tu marca y conecten con tu audencia.",
       icon: "/servicios/branding/icon3.svg",
       ruta: "/servicios/publicidad-digital/",
     },
     {
-      title: "Monitoreo constante + reportes de resultados claros",
+      title: "SEGUIMIENTO Y RESULTADOS",
       text: "Definimos las reglas que guiarán todas las estrategias para tu marca.",
       icon: "/servicios/branding/icon4.svg",
       ruta: "/servicios/monitoreo-y-reporting/",
