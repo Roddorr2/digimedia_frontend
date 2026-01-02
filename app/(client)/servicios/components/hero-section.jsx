@@ -1,12 +1,12 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export function HeroSection({
   title,
-  mainDescription = "Descripción principal del servicio",
+  mainDescription = 'Descripción principal del servicio',
   bulletPoints,
-  backgroundImageUrl = "/placeholder.svg?height=600&width=1200",
-  alts = "",
-  titulos = "",
+  backgroundImageUrl = '/placeholder.svg?height=600&width=1200',
+  alts = '',
+  titulos = '',
 }) {
   return (
     <section className="relative w-full overflow-hidden bg-purple-950 text-[#523194] uppercase font-bold">
@@ -14,7 +14,7 @@ export function HeroSection({
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/20 to-transparent z-10" />
         <Image
-          src={backgroundImageUrl || "/placeholder.svg"}
+          src={backgroundImageUrl || '/placeholder.svg'}
           alt={alts}
           title={titulos}
           className="w-full h-full object-cover"
