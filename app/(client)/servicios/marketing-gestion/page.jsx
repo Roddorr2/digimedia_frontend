@@ -1,10 +1,10 @@
 // Componentes
-import Servicios from "../components/Servicios";
-import Contactanos from "../components/Contactanos";
-import Description from "../components/Description";
-import Main from "../components/Main";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
+import Servicios from '../components/Servicios';
+import Contactanos from '../components/Contactanos';
+import Description from '../components/Description';
+import Main from '../components/Main';
+import ModalScroll from '../components/ModalScroll';
+import ModalButton from '../components/ModalButton';
 
 export default function Page() {
   const servicios = [
@@ -35,10 +35,10 @@ export default function Page() {
   ];
   const modales = {
     modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/fondo.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
-      serviceName: "3",
+      text: 'MARKETING Y GESTIÓN DIGITAL',
+      fondo: '/servicios/marketing/modal-scroll/fondo.webp',
+      title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
+      serviceName: '3',
       width: 256,
       height: 144,
     },
@@ -58,11 +58,11 @@ export default function Page() {
         title="MARKETING Y GESTIÓN DIGITAL"
         subtitle="!Has despegar tu marca al éxito digital!"
         text="Conecta, Impacta y Crece: El poder de de despegar tu marca con el Marketing y la Gestion Digital en la era online."
-        image="/servicios/marketing/img-main.webp"
+        image="/servicios/marketing/marketing-gestion-hero.png"
       />
 
       <Description
-        title="¿QUE ES?"
+        title="¿CÓMO FUNCIONA?"
         text="El Marketing Digital consiste en planificar, ejecutar y optimizar estrategias comerciales utilizando herramientas digitales para conectar con el público y alcanzar objetivos de negocio."
       />
 

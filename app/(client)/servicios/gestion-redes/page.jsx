@@ -1,10 +1,10 @@
 // Componentes
-import Servicios from "../components/Servicios";
-import Contactanos from "../components/Contactanos";
-import Description from "../components/Description";
-import Main from "../components/Main";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
+import Servicios from '../components/Servicios';
+import Contactanos from '../components/Contactanos';
+import Description from '../components/Description';
+import Main from '../components/Main';
+import ModalScroll from '../components/ModalScroll';
+import ModalButton from '../components/ModalButton';
 
 export default function Page() {
   const servicios = [
@@ -35,10 +35,10 @@ export default function Page() {
   ];
   const modales = {
     modalA: {
-      text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/fondo.webp",
-      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
-      serviceName: "2",
+      text: 'GESTIÓN DE REDES SOCIALES',
+      fondo: '/servicios/gestion/modal-scroll/fondo.webp',
+      title: 'SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!',
+      serviceName: '2',
       width: 256,
       height: 144,
     },
@@ -58,12 +58,12 @@ export default function Page() {
       <Main
         title="GESTIÓN DE REDES SOCIALES"
         subtitle="¡Conviértete en la marca que todos quieren seguir!"
-        text="Impulsamos tu presencia digital con contenido estratégico y cercano, logrando que tu marca conecte, inspire y convierta seguidores en clientes fieles."
-        image="/servicios/gestion/img-main.webp"
+        text="Impulsamos tu presencia digital con contenido estratégico y cercano, logrando que tu marca conecte, inspire y convierta seguidores en fieles."
+        image="/servicios/gestion/gestion-redes-hero.png"
       />
 
       <Description
-        title="¿QUÉ ES?"
+        title="¿CÓMO FUNCIONA?"
         text="La gestión de redes sociales consiste en planificar, crear y administrar contenido estratégico para potenciar la presencia de una marca en plataformas digitales, conectar con su audiencia y alcanzar objetivos de negocio."
       />
 

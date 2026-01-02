@@ -61,7 +61,23 @@ export default function Clientes() {
 
   return (
     <section className="my-6 mx-12">
-      <h2 className="text-2xl md:py-6 md:px-12 text-[#b525fe]">NUESTROS CLIENTES</h2>
+      <style>{`
+        .clients-bullet {
+          width: 12px;
+          height: 12px;
+          border-radius: 9999px;
+          background-color: #d1d5db;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .clients-bullet-active {
+          width: 20px;
+          background-color: #b525fe;
+        }
+      `}</style>
+
+      <h2 className="text-2xl text-[#b525fe] mb-4">NUESTROS CLIENTES</h2>
 
       <div className="relative w-full overflow-hidden">
         {/* Flecha izquierda */}
