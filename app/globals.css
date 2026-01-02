@@ -22,3 +22,7 @@ title {
     }
   }
 }
+
+html, body {
+  overflow-x: hidden;
+}
