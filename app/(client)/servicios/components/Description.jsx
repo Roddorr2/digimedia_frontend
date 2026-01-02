@@ -1,6 +1,6 @@
 export default function Description({ title, text }) {
   return (
-    <section className="bg-[#9D22FB] py-16 md:py-20">
+    <section className="bg-[#b525fe] py-16 md:py-20">
       <div className="max-w-4xl mx-auto px-6 text-center">
         <h2 className="text-white font-bold text-xl md:text-1xl lg:text-2xl mb-6">
           {title}
