@@ -9,26 +9,26 @@ import ModalButton from "../components/ModalButton";
 export default function Page() {
   const servicios = [
     {
-      title: "Diseño visual y experiencia del usuario (UX/UI)",
-      text: "Creamos experiencias digitales que atrapan, CAUTIVAN y convierten visitantes en clientes fieles.",
+      title: "CREACIÓN Y DESARROLLO WEB",
+      text: "Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.",
       icon: "/servicios/desarrollo/icon1.svg",
       ruta: "/servicios/ui/?from=disenoDesarrollo",
     },
     {
-      title: "Creación y desarrollo web personalizado",
-      text: "MAS modernos, funcionales y personalizados que impulsEn tu negocio y destaQUE frente a la competencia.",
+      title: "EXPERIENCIA DE USUARIO Y DISEÑO",
+      text: "Más modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
       icon: "/servicios/desarrollo/icon2.svg",
       ruta: "/servicios/desarrollo-webs/",
     },
     {
-      title: "Dominio y Hosting (publicación web)",
-      text: "aseguramos que tu presencia online sea, segura, rápida y eFICIENTE PARA LA disponibILIDAD DE tus clientes.",
+      title: "DOMINIO Y HOSTING WEB",
+      text: "Aseguramos que tu presencia online sea, segura, rápida y eficiente para la disponibilidad de tus clientes.",
       icon: "/servicios/desarrollo/icon3.svg",
       ruta: "/servicios/dominio_hosting/",
     },
     {
-      title: "Optimizacion SEO (Google)",
-      text: "mejoramos tu posición en NAVEGADORES con UNA  estrategia que aumentE tu visibilidad.",
+      title: "OPTIMIZACIÓN PARA BUSCADORES",
+      text: "Mejoramos tu posición en navegadores con una estrategia que aumente tu visibilidad.",
       icon: "/servicios/desarrollo/icon4.svg",
       ruta: "/servicios/seo/",
     },
