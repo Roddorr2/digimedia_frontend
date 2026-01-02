@@ -92,7 +92,9 @@ const Fetch = {
                 },
             });
 
-            return Array.isArray(response?.data?.data?.data)? response.data.data.data: [];
+            return Array.isArray(response?.data?.data?.data)
+            ? response.data.data.data
+            : [];
 
         } catch (error) {
             // Si la API devuelve 404, devolvemos array vacío
