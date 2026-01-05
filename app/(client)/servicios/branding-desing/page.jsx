@@ -9,26 +9,26 @@ import ModalScroll from '../components/ModalScroll';
 export default function Page() {
   const servicios = [
     {
-      title: "Auditoría digital completa + análisis de competencia",
-      text: "El brief nos permite entender tu empresa para crear y definir tu marca.",
+      title: (<>DESARROLLO DE <br /> BRIEF</>),
+      text: "Estudiamos tu empresa y competencia para definir una marcaclara, estratégica y sólida.",
       icon: "/servicios/branding/icon1.svg",
       ruta: "/servicios/desarrollo-briefs/",
     },
     {
-      title: "Estrategia de marketing digital personalizada",
+      title: (<>PLANIFICACIÓN  <br /> ESTRATÉGICA</>),
       text: "Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.",
       icon: "/servicios/branding/icon2.svg",
       ruta: "/servicios/planificacion-estrategica/",
     },
     {
-      title: "Publicidad digital efectiva en Meta Ads y Google Ads",
-      text: "Creamos elementos clave que representen tu marca y conecten con tu audencia.",
+      title: (<>PUBLICIDAD  <br /> DIGITAL</>),
+      text: "Diseñamos anuncios que conectan con tu audiencia en Meta Ads y Google Ads.",
       icon: "/servicios/branding/icon3.svg",
       ruta: "/servicios/publicidad-digital/",
     },
     {
-      title: "Monitoreo constante + reportes de resultados claros",
-      text: "Definimos las reglas que guiarán todas las estrategias para tu marca.",
+      title: (<>MONITOREO Y  <br /> REPORTING</>),
+      text: "Medimos resultado y ajustamos acciones para mejorar el rendimiento de tu marca.",
       icon: "/servicios/branding/icon4.svg",
       ruta: "/servicios/monitoreo-y-reporting/",
     },
@@ -76,7 +76,7 @@ export default function Page() {
       <Servicios servicios={servicios} />
 
       <Contactanos
-        text="Conecta de manera creativa e innovadora con tu audiencia"
+        text={<>conecta de manera creativa e <br /> innovadora con tu audiencia</>}
         iconLeft="/servicios/desarrollo/icon-left.svg"
         iconRight="/servicios/desarrollo/icon-right.svg"
       />
