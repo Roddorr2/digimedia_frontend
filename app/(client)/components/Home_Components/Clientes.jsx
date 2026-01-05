@@ -61,10 +61,6 @@ export default function Clientes() {
 
   return (
     <section className="my-6 mx-12">
-<<<<<<< HEAD
-      <h2 className="text-2xl text-[#b525fe] ml-11">NUESTROS CLIENTES</h2>
-
-=======
       <style>{`
         .clients-bullet {
           width: 12px;
@@ -74,7 +70,6 @@ export default function Clientes() {
           transition: all 0.3s ease;
           cursor: pointer;
         }
->>>>>>> master
 
         .clients-bullet-active {
           width: 20px;
