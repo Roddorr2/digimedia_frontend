@@ -76,7 +76,7 @@ export default function Page() {
               onClick={() => setActiveCategory(index)}
               className={`px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                 activeCategory === index
-                  ? "bg-teal-500 text-white shadow-lg shadow-teal-200"
+                  ? "bg-[#b525fe] text-white shadow-lg shadow-[#b525fe]/20"
                   : "bg-white text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -105,12 +105,12 @@ export default function Page() {
       
       
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-2xl p-8 sm:p-12 shadow-xl text-center">
+        <div className="bg-gradient-to-r from-[#b525fe] to-[#9a1fd9] rounded-2xl p-8 sm:p-12 shadow-xl text-center">
           <h2 className="text-white text-2xl sm:text-3xl font-medium mb-4">¿No encuentras la respuesta que buscas?</h2>
-          <p className="text-teal-50 mb-8 max-w-2xl mx-auto">
+          <p className="text-white/90 mb-8 max-w-2xl mx-auto">
             Estamos aquí para ayudarte. Contáctanos directamente y un especialista responderá todas tus dudas.
           </p>
-          <a href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio." className="bg-white text-teal-600 px-8 py-3 rounded-full font-medium hover:bg-teal-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <a href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio." className="bg-white text-[#b525fe] px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
             Contáctanos
           </a>
         </div>
