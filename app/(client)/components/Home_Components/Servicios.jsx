@@ -39,14 +39,18 @@ export default function Servicios() {
 
   return (
     <section className={styles.servicesMain} id="services">
-      {/* Encabezado */}
-      <div className={styles.servicesHeader}>
-        <h2>NUESTROS SERVICIOS</h2>
-        <p>
-          Digimedia es una empresa de marketing digital que impulsa emprendimientos en línea mediante estrategias eficaces, enfocada en el crecimiento y desarrollo de cada marca.
-        </p>
+     {/* Encabezado */}
+      <div className="w-full self-stretch py-8">
+        <div className="pl-8 md:pl-24 !text-left">
+          <h2 className="text-[#B326FF] font-extrabold text-4xl md:text-5xl text-center md:text-left">
+            NUESTROS SERVICIOS
+          </h2>
+          <p className="text-center md:text-left mt-3 mr-6 text-gray-500 text-lg  md:text-xl">
+            Digimedia es una empresa de marketing digital que impulsa emprendimientos en 
+            línea mediante estrategias eficaces, enfocada en el crecimiento y desarrollo de cada marca.
+          </p>
+        </div>
       </div>
-
       {/* Layout Desktop - Original */}
       <div className={styles.servicesLayout}>
         {/* CARD MORADA IZQUIERDA */}
@@ -71,7 +75,7 @@ export default function Servicios() {
               <h3>BRANDING Y <br /> DISEÑO</h3>
               <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
             </div>
-            <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
+            <Image src="/image-home/branding.png" alt="Branding" width={80} height={80} />
           </Link>
         </div>
 
@@ -97,7 +101,7 @@ export default function Servicios() {
               transform: `translateX(-${currentSlide * 100}%)`,
             }}
           >
-            {/* Slide 1 */}
+            {/* Slide 1 - Diseño y Desarrollo Web */}
             <div className={styles.carouselSlide}>
               <Link href="/servicios/desing-desarrollo" className={`${styles.serviceCard} ${styles.purple}`}>
                 <Image src="/image-home/diseño.png" alt="Icono diseño" width={150} height={160} />
@@ -106,7 +110,7 @@ export default function Servicios() {
               </Link>
             </div>
 
-            {/* Slide 2 */}
+            {/* Slide 2 - Gestión de Redes Sociales */}
             <div className={styles.carouselSlide}>
               <Link href="/servicios/gestion-redes" className={`${styles.serviceCard} ${styles.orange}`}>
                 <div className={styles.textContent}>
@@ -117,7 +121,16 @@ export default function Servicios() {
               </Link>
             </div>
 
-            {/* Slide 3 */}
+            {/* Slide 3 - Marketing y Gestión Digital */}
+            <div className={styles.carouselSlide}>
+              <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
+                <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
+                <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
+                <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
+              </Link>
+            </div>
+
+            {/* Slide 4 - Branding y Diseño */}
             <div className={styles.carouselSlide}>
               <Link href="/servicios/branding-desing" className={`${styles.serviceCard} ${styles.orange}`}>
                 <div className={styles.textContent}>
@@ -125,15 +138,6 @@ export default function Servicios() {
                   <p>Construimos una <br />identidad fuerte y <br />memorable.</p>
                 </div>
                 <Image src="/image-home/branding.png" alt="Branding" width={120} height={120} />
-              </Link>
-            </div>
-
-            {/* Slide 4 */}
-            <div className={styles.carouselSlide}>
-              <Link href="/servicios/marketing-gestion" className={`${styles.serviceCard} ${styles.purple}`}>
-                <Image src="/image-home/marketingdigital.png" alt="Marketing" width={125} height={125} />
-                <h3>MARKETING Y <br /> GESTIÓN DIGITAL</h3>
-                <p>Aumenta tu presencia en <br /> redes sociales con <br /> marketing digital.</p>
               </Link>
             </div>
           </div>

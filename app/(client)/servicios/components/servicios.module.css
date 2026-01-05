@@ -1,3 +1,5 @@
+/* servicios.module.css */
+
 @keyframes bounce-slow {
   0%,
   100% {
@@ -10,4 +12,55 @@
 
 .animate-bounce-slow {
   animation: bounce-slow 3s infinite;
+}
+
+.swiperClip {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;  
+  position: relative;
+  contain: paint;
+  padding-bottom: 28px;
+}
+
+.swiper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+  position: relative;
+}
+
+@supports not (overflow: clip) {
+  .swiper {
+    overflow-x: hidden;
+  }
+}
+
+.swiper :global(.swiper-slide) {
+  box-sizing: border-box;
+  padding: 0 14px; 
+  display: flex;
+  justify-content: center;
+}
+
+:global(.servicios-pagination) {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+:global(.servicios-pagination .swiper-pagination-bullet) {
+  background: #d1d1d1;
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+  margin: 0 6px !important;
+  transition: transform 200ms ease, background 200ms ease;
+}
+
+:global(.servicios-pagination .swiper-pagination-bullet-active) {
+  background: #a855f7;
+  transform: scale(1.6);
 }

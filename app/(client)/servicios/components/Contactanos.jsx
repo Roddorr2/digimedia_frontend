@@ -3,28 +3,42 @@ import Image from 'next/image';
 export default function Contactanos({ text, iconLeft, iconRight }) {
   return (
     <>
-      <section className="bg-[#B326FF] text-white font-bold text-2xl uppercase text-center p-12 relative w-full left-1/2 -translate-x-1/2 ">
-        <p className="mb-4 z-10 relative max-w-[600px] mx-auto">{text}</p>
-        <button
-          id="modal-button"
-          className="bg-[#ff037f] p-4 inline-block rounded-2xl z-10 relative hover:bg-[#d0026e] hover:scale-105 transition-all"
-        >
-          CONTÁCTANOS AHORA
-        </button>
+      <section className="bg-[#b525fe] text-white font-bold text-2xl uppercase text-center p-12 relative w-full left-1/2 -translate-x-1/2 ">
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+          <h2 className="text-white font-black text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight">
+            {text}
+          </h2>
+
+          <button
+            id="modal-button"
+            className="bg-[#FF9F00] text-white px-10 py-4 rounded-2xl font-bold text-lg uppercase hover:opacity-90 transition-opacity shadow-2xl transform hover:scale-105 transition-transform"
+          >
+            Contáctanos Ahora
+          </button>
+        </div>
 
         <Image
-          className="absolute h-[160px] hidden md:block bottom-4 left-0"
+          className="
+    absolute bottom-0 
+    left-[-380px] md:left-0
+    pointer-events-none
+  "
           src={iconLeft}
           alt=""
-          width={144}
-          height={36}
+          width={450}
+          height={160}
         />
+
         <Image
-          className="absolute h-[160px] hidden md:block bottom-4 right-0"
+          className="
+    absolute bottom-0 
+    right-[-380px] md:right-0
+    pointer-events-none
+  "
           src={iconRight}
           alt=""
-          width={144}
-          height={36}
+          width={450}
+          height={160}
         />
       </section>
       <div className="w-full h-1 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />

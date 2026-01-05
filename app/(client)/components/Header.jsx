@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import styles from './Header.module.css';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, UserRound } from 'lucide-react';
 import Image from 'next/image';
 
 import { useEffect } from 'react';
@@ -72,6 +72,20 @@ export default function Header2() {
         </div>
 
         <div className={styles.seccionesHeader}>
+          {/* Botón de login para mobile - fuera del menú */}
+          {!isAuthenticated && (
+            <a href="/login" className={`${styles.loginButtonMobile}`}>
+              Ingresar
+            </a>
+          )}
+
+          {/* Botón de usuario para ir a Sección principal - solo cuando está autenticado */}
+          {isAuthenticated && (
+            <Link href="/dashboard/main" className={styles.userButton}>
+              <UserRound size={20} strokeWidth={2.5} />
+            </Link>
+          )}
+
           <input
             type="checkbox"
             id="menucheckbox"
@@ -114,7 +128,9 @@ export default function Header2() {
                 />
               </p>
               {isServiceOpen && (
-                <ul className={styles.menuVertical}>
+                <ul
+                  className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
+                >
                   <li
                     className={
                       isActive('/servicios/desing-desarrollo')
@@ -196,7 +212,9 @@ export default function Header2() {
                 />
               </p>
               {isMoreOpen && (
-                <ul className={styles.menuVertical}>
+                <ul
+                  className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
+                >
                   <li
                     className={isActive('/blog') ? styles['active-sub'] : ''}
                     onClick={closeMenu}
@@ -222,10 +240,10 @@ export default function Header2() {
                 </ul>
               )}
             </li>
-            {/* ----- Panel options ----- */}
+            {/* ----- Panel options (solo en desktop o cuando está autenticado) ----- */}
 
             <li
-              className={`cursor-pointer${
+              className={`cursor-pointer ${styles.panelItem} ${
                 isActive('/login') || isActive('/dashboard/main')
                   ? styles.active
                   : ''
@@ -253,7 +271,6 @@ export default function Header2() {
                           className={
                             isActive(link.href) ? styles['active-sub'] : ''
                           }
-                          // onClick={closeMenu}
                         >
                           <Link href={link.href} onClick={closeMenu}>
                             {link.title}
@@ -270,7 +287,7 @@ export default function Header2() {
                           onClick={(e) => {
                             e.preventDefault();
                             closeMenu();
-                            logout(); // viene del useAuth()
+                            logout();
                           }}
                         >
                           Cerrar sesión
@@ -283,7 +300,7 @@ export default function Header2() {
                 <a
                   href="/login"
                   className={`relative inline-flex items-center justify-center text-white 
-            font-bold text-xs leading-none rounded-2xl  bg-[#FFA000] hover:bg-[#FB8C00] 
+            font-bold text-xs leading-none rounded-2xl bg-[#FFA000] hover:bg-[#FB8C00] 
             transition-all duration-300 shadow-md ${styles.loginButton}`}
                   style={{
                     padding: '8px 17px',

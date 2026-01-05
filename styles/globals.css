@@ -9,11 +9,13 @@ body {
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3, title {
+h1,
+h2,
+h3,
+title {
   font-family: 'Telegraf', sans-serif;
   font-weight: 400; /*Le estoy limitando los pesos para que el navegador no traiga todos y mejore en rendimiento*/
 }
-
 
 /* Estilos personalizados para la barra de desplazamiento */
 .scrollbar-thin::-webkit-scrollbar {
@@ -52,8 +54,6 @@ h1, h2, h3, title {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
 
 @layer base {
   :root {
@@ -110,8 +110,6 @@ h1, h2, h3, title {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
