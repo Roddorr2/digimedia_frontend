@@ -286,7 +286,7 @@ export default function MetricsPage() {
             onChange={(e) => setYear(Number(e.target.value))}
             className="px-3 py-1.5 rounded-lg border bg-white shadow-sm text-sm focus:ring-2 focus:ring-blue-500"
           >
-            {[2023, 2024, 2025].map((y) => (
+            {[2023, 2024, 2025,2026].map((y) => (
               <option key={y} value={y}>
                 {y}
               </option>
