@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
 
 export function HeroSection({
   category = 'Diseño y desarrollo web',
@@ -29,31 +28,30 @@ export function HeroSection({
           </div>
 
           {/* Card derecha */}
-          <div className="bg-[#B326FF] text-white p-8 md:p-28 flex flex-col justify-center rounded-b-3xl md:rounded-b-none md:rounded-br-[60px]">
-            <span className="hidden text-lg mb-4 opacity-90">‹ {category}</span>
+          <div className="text-white rounded-b-3xl md:rounded-b-none md:rounded-br-[60px] overflow-hidden">
+            {/* MOBILE: TÍTULO */}
+            <div className="bg-[#B326FF] p-8 md:hidden">
+              <button
+                onClick={() => setOpen(!open)}
+                className="w-full text-center"
+              >
+                <h1 className="text-4xl font-extrabold leading-tight">
+                  {title}
+                </h1>
+              </button>
+            </div>
 
-            {/* TÍTULO (clickeable solo en mobile) */}
-            <button
-              onClick={() => setOpen(!open)}
-              className="flex items-center justify-center md:justify-between text-center md:text-left md:pointer-events-none"
-            >
-              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+            {/* DESKTOP: TODO JUNTO */}
+            <div className="hidden md:block bg-[#B326FF] p-20">
+              <span className="block text-lg mb-4 opacity-90">
+                ‹ {category}
+              </span>
+
+              <h1 className="text-5xl font-extrabold leading-tight mb-6">
                 {title}
               </h1>
 
-              {/* Flecha solo en mobile */}
-              {/* <ChevronDown
-                className={`ml-4 md:hidden transition-transform ${
-                  open ? 'rotate-180' : ''
-                }`}
-              /> */}
-            </button>
-
-            {/* CONTENIDO DESKTOP (siempre visible) */}
-            <div className="hidden md:block">
-              <p className="text-base md:text-lg mb-6 opacity-95">
-                {description}
-              </p>
+              <p className="text-lg mb-6 opacity-95">{description}</p>
 
               <ul className="space-y-3">
                 {bulletPoints.map((item, index) => (
@@ -65,9 +63,9 @@ export function HeroSection({
               </ul>
             </div>
 
-            {/* CONTENIDO MOBILE (acordeón) */}
+            {/* MOBILE: CONTENIDO DESPLEGABLE */}
             {open && (
-              <div className="mt-6 md:hidden">
+              <div className="md:hidden bg-[#8E1FD1] p-6">
                 <p className="text-base mb-6 opacity-95">{description}</p>
 
                 <ul className="space-y-3">
