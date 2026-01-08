@@ -17,7 +17,7 @@
 .swiperClip {
   width: 100%;
   max-width: 100%;
-  overflow: hidden;  
+  overflow: hidden;
   position: relative;
   contain: paint;
   padding-bottom: 28px;
@@ -39,19 +39,21 @@
 
 .swiper :global(.swiper-slide) {
   box-sizing: border-box;
-  padding: 0 14px; 
+  padding: 0 14px;
   display: flex;
   justify-content: center;
 }
 
-:global(.servicios-pagination) {
+/* 🔴 FIX IMPORTANTE */
+.paginationWrapper :global(.servicios-pagination) {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
 }
 
-:global(.servicios-pagination .swiper-pagination-bullet) {
+.paginationWrapper
+  :global(.servicios-pagination .swiper-pagination-bullet) {
   background: #d1d1d1;
   opacity: 1;
   width: 8px;
@@ -60,7 +62,8 @@
   transition: transform 200ms ease, background 200ms ease;
 }
 
-:global(.servicios-pagination .swiper-pagination-bullet-active) {
+.paginationWrapper
+  :global(.servicios-pagination .swiper-pagination-bullet-active) {
   background: #a855f7;
   transform: scale(1.6);
 }
