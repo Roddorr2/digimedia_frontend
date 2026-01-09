@@ -40,8 +40,8 @@ export default function Servicios() {
   return (
     <section className={styles.servicesMain} id="services">
      {/* Encabezado */}
-      <div className="w-full self-stretch py-8">
-        <div className="pl-8 md:pl-24 !text-left">
+      <div className="w-full max-w-[1200px] mx-auto self-stretch py-8 px-6">
+        <div className="!text-left">
           <h2 className="text-[#B326FF] font-extrabold text-4xl md:text-5xl text-center md:text-left">
             NUESTROS SERVICIOS
           </h2>
