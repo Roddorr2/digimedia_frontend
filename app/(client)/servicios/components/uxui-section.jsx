@@ -1,6 +1,6 @@
-import { HeroSection } from "./hero-section"
-import { FeaturesSection } from "./features-section"
-import { MonitorIcon, Smartphone } from "lucide-react"
+import { HeroSection } from './hero-section';
+import { FeaturesSection } from './features-section';
+import { MonitorIcon, Smartphone } from 'lucide-react';
 
 export function UxUiSection({
   // backgroundImage = "/servicios/DiseñoUI/background_ui.svg",
@@ -26,19 +26,25 @@ export function UxUiSection({
   //       "EL DISEÑO UI (INTERFAZ DE USUARIO) SE ENCARGA DE CREAR Y DESARROLLAR UNA INTERFAZ ATRACTIVA, COHERENTE Y FÁCIL DE NAVEGAR. UTILIZA ELEMENTOS VISUALES COMO BOTONES E ICONOS PARA COMUNICAR LA MARCA Y GUIAR AL USUARIO DE MANERA EFICIENTE.",
   //   },
   // ],
-  backgroundImage, heroTitle, mainDescription, heroBulletPoints, features = [], alt , title
+  backgroundImage,
+  heroTitle,
+  mainDescription,
+  heroBulletPoints,
+  features = [],
+  alt,
 }) {
   return (
     <div>
-      <HeroSection 
-      title={heroTitle} 
-      mainDescription={mainDescription}
-      bulletPoints={heroBulletPoints} 
-      backgroundImageUrl={backgroundImage} 
-      alts={alt}
-      titulos={title}/>
-      <FeaturesSection 
-      features={features}/>
+      <HeroSection
+        category="Diseño y desarrollo web"
+        title={heroTitle}
+        description={mainDescription}
+        bulletPoints={heroBulletPoints}
+        imageUrl={backgroundImage}
+        imageAlt={alt}
+      />
+
+      <FeaturesSection features={features} />
     </div>
-  )
+  );
 }

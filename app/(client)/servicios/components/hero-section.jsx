@@ -1,50 +1,83 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 
 export function HeroSection({
-  title,
-  mainDescription = 'Descripción principal del servicio',
-  bulletPoints,
-  backgroundImageUrl = '/placeholder.svg?height=600&width=1200',
-  alts = '',
-  titulos = '',
+  category = 'Diseño y desarrollo web',
+  title = 'DISEÑO UX Y UI',
+  description,
+  bulletPoints = [],
+  imageUrl,
+  imageAlt = '',
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <section className="relative w-full overflow-hidden bg-purple-950 text-[#523194] uppercase font-bold">
-      {/* Background image with gradient overlay */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/20 to-transparent z-10" />
-        <Image
-          src={backgroundImageUrl || '/placeholder.svg'}
-          alt={alts}
-          title={titulos}
-          className="w-full h-full object-cover"
-          width={1200}
-          height={600}
-        />
-      </div>
+    <section className="w-full py-16">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-0 md:gap-4">
+          {/* Card izquierda */}
+          <div className="relative h-[450px] md:h-auto overflow-hidden rounded-tl-[60px]">
+            <Image
+              src={imageUrl}
+              alt={imageAlt}
+              fill
+              className="object-cover -scale-x-100"
+            />
+          </div>
 
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 space-y-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#523194] uppercase border-b-4 border-[#ff037f] pb-2 inline-block">
-            {title}
-          </h2>
-
-          <div className="space-y-4 mt-8">
-            {/* Main description */}
-            <p className="text-base md:text-lg font-medium">
-              {mainDescription}
-            </p>
-
-            {/* Indented bullet points */}
-            <div className="pl-6 space-y-4">
-              {bulletPoints.map((point, index) => (
-                <div key={index} className="flex items-start">
-                  <span className="text-[#523194] mr-2 text-xl">•</span>
-                  <p className="text-sm md:text-base">{point}</p>
-                </div>
-              ))}
+          {/* Card derecha */}
+          <div className="text-white rounded-b-3xl md:rounded-b-none md:rounded-br-[60px] overflow-hidden">
+            {/* MOBILE: TÍTULO */}
+            <div className="bg-[#B326FF] p-8 md:hidden">
+              <button
+                onClick={() => setOpen(!open)}
+                className="w-full text-center"
+              >
+                <h1 className="text-4xl font-extrabold leading-tight">
+                  {title}
+                </h1>
+              </button>
             </div>
+
+            {/* DESKTOP: TODO JUNTO */}
+            <div className="hidden md:block bg-[#B326FF] p-20">
+              <span className="block text-lg mb-4 opacity-90">
+                ‹ {category}
+              </span>
+
+              <h1 className="text-5xl font-extrabold leading-tight mb-6">
+                {title}
+              </h1>
+
+              <p className="text-lg mb-6 opacity-95">{description}</p>
+
+              <ul className="space-y-3">
+                {bulletPoints.map((item, index) => (
+                  <li key={index} className="flex gap-2">
+                    <span>•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* MOBILE: CONTENIDO DESPLEGABLE */}
+            {open && (
+              <div className="md:hidden bg-[#8E1FD1] p-6">
+                <p className="text-base mb-6 opacity-95">{description}</p>
+
+                <ul className="space-y-3">
+                  {bulletPoints.map((item, index) => (
+                    <li key={index} className="flex gap-2">
+                      <span>•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
