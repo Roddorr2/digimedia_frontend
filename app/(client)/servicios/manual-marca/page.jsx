@@ -16,19 +16,19 @@ export default function UXUI() {
   };
 
   const featuresuxui = [
-    {
-      icon: <PencilRuler className="w-full h-full stroke-1" />,
-      title: "logotipo y aplicaciones",
-      description:
-        "INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.",
-      alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
-    },
+    // {
+    //   icon: <PencilRuler className="w-full h-full stroke-1" />,
+    //   title: "logotipo y aplicaciones",
+    //   description:
+    //     "INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.",
+    //   alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
+    // },
 
     {
       icon: <Palette className="w-full h-full stroke-1" />,
       title: "paleta de colores",
       description:
-        "DEFINICIÓN DE LOS COLORES PRIMARIOS Y SECUNDARIOS DE LA MARCA, INCLUYENDO SUS CÓDIGOS RGB, CMYK Y PANTONE PARA FACILITAR SU USO EN DIFERENTES SOPORTES.",
+        "Definimos los colores primarios y secundarios de la marca incluyendo sus códigos, rgb, cmyk y pantone para facilitar sus uso en diferentes soportes.",
       alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
     },
 
@@ -36,7 +36,7 @@ export default function UXUI() {
       icon: <SpellCheck className="w-full h-full stroke-1" />,
       title: "tipografía",
       description:
-        "SELECCIÓN DE FUENTES DE LETRA PRINCIPALES Y SECUNDARIAS, INCLUYENDO EJEMPLOS DE CÓMO USARLAS EN DIFERENTES TAMAÑOS Y ESTILOS PARA TITULARES Y CUERPOS DE TEXTO.",
+        "Seleccionamos las fuentes de letra principales y secundarias, incluyendo ejemplos de como usarías en diferentes tamaños y estilos para titulares y cuerpos de texto.",
       alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
     },
 
@@ -56,7 +56,7 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription='UN MANUAL DE MARCA ES UN DOCUMENTO QUE ESTABLECE LAS REGLAS Y DIRECTRICES PARA USAR CORRECTAMENTE LA IDENTIDAD VISUAL Y VERBAL DE UNA MARCA. SIRVE PARA MANTENER LA COHERENCIA EN TODAS LAS COMUNICACIONES, TANTO INTERNAS COMO EXTERNAS, Y ASEGURAR QUE LA MARCA SE VEA, SE SIENTA Y SE COMUNIQUE DE LA MISMA FORMA, SIN IMPORTAR QUIÉN LA USE O DÓNDE SE APLIQUE.'
+        mainDescription='La planificación estratégica es el mapa que guía su negocio hacia el éxito en el entorno digital. Definimos objetivos claros, identificamos oportunidades y diseñamos una hoja de ruta personalizada para consolidar su presencia online, maximizar su alcance y asegurar un crecimiento sostenible.'
         backgroundImage='/servicios/DisenoUI/branding3.webp'
         heroTitle="MANUAL DE MARCA"
         heroBulletPoints={[]}

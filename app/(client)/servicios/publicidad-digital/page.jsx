@@ -23,7 +23,7 @@ export default function DisenoPauta() {
       icon: <img src="/servicios/gestion/diseno-pautas/icons/publicidad_icon.webp" alt="Computadora con iconos de publicidad" className="w-full h-full object-contain" />,
       title: "PUBLICIDAD",
       description:
-        'ES UNA FORMA DE MARKETING QUE UTILIZA CANALES EN LÍNEA PARA LLEGAR A UN PÚBLICO OBJETIVO Y PROMOCIONAR PRODUCTOS O SERVICIOS.',
+        'Cada campaña comienza con una planificación estratégica: definimos objetivos claros, elegimos los canales más efectivos y alineamos sus metas comerciales con las expectativas de su audiencia.',
     },
   ]
   
@@ -39,16 +39,16 @@ export default function DisenoPauta() {
       />
       <UxUiSection 
       features={features} 
-      mainDescription='LA PUBLICIDAD DIGITAL PERMITE A LAS EMPRESAS DIRIGIRSE A UN PÚBLICO ESPECÍFICO, MEDIR EL RENDIMIENTO DE LAS CAMPAÑAS EN TIEMPO REAL Y AJUSTAR LAS ESTRATEGIAS PARA OPTIMIZAR LOS RESULTADOS.'
+      mainDescription='Implementamos campañas de publicidad digital que conectan su marca con el público adecuado en el momento preciso, optimizando el rendimiento para lograr resultados medibles y un mayor retorno de inversión.'
       backgroundImage='/servicios/gestion/diseno-pautas/publicidad_digital1.webp'
       heroTitle="PUBLICIDAD DIGITAL"
       alt="Representación visual de estrategias de branding digital con iconos de creatividad, redes sociales, análisis de datos y posicionamiento online, parte de los servicios que ofrece Digimedia agencia de marketing Digital"
       title= "Publicidad Digital, gestión digital, Agencia de Marketing Digimedia "
-      heroBulletPoints={[
-        "PERMITE LLEGAR A AUDIENCIAS EN TODO EL MUNDO, SIN IMPORTAR LA UBICACIÓN GEOGRÁFICA.",
-        "PERMITE DIRIGIR LOS MENSAJES A GRUPOS ESPECÍFICOS DE PERSONAS CON INTERESES Y COMPORTAMIENTOS SIMILARES.",
-        "PUEDE GENERAR UN MAYOR NÚMERO DE LEADS Y VENTAS, ESPECIALMENTE CUANDO SE IMPLEMENTA UNA ESTRATEGIA DE MARKETING DIGITAL EFECTIVA."
-      ]}
+      // heroBulletPoints={[
+      //   "PERMITE LLEGAR A AUDIENCIAS EN TODO EL MUNDO, SIN IMPORTAR LA UBICACIÓN GEOGRÁFICA.",
+      //   "PERMITE DIRIGIR LOS MENSAJES A GRUPOS ESPECÍFICOS DE PERSONAS CON INTERESES Y COMPORTAMIENTOS SIMILARES.",
+      //   "PUEDE GENERAR UN MAYOR NÚMERO DE LEADS Y VENTAS, ESPECIALMENTE CUANDO SE IMPLEMENTA UNA ESTRATEGIA DE MARKETING DIGITAL EFECTIVA."
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

@@ -65,13 +65,13 @@ export default function Page() {
             con un sitio web que impacta!
           </>
         }
-        text="Diseñamos y desarrollamos sitios web que capturan la atención desde el primer click. Modernos, rápidos y visualmente impactantes, pensados para que tu marca destaque y fidelize a tus clientes."
+        text="Transformamos tu visión en una presencia digital impactante. Diseñamos y desarrollamos sitios web modernos, rápidos y seguros, enfocados en convertir visitantes en clientes y fortalecer la lealtad de su audiencia. Tu éxito online comienza aquí."
         image="/servicios/desarrollo/desarrollo-web-hero.png"
       />
 
       <Description
         title="¿CÓMO FUNCIONA?"
-        text="Es crear páginas que impresionan a primera vista y que funcionen sin fallas. el diseño cautiva con lo visual y que hace el desarrollo posible. juntos convertiremos tu sitio en una herramienta poderosa que distribuirá, comunicará y posicionará tu marca donde debe estar en lo mas alto."
+        text="Creamos experiencias digitales que cautivan y funcionan sin interrupciones. Desde el diseño visual hasta la implementación técnica, convertimos su sitio web en una herramienta poderosa que posiciona su marca, comunica su valor y genera resultados tangibles."
       />
 
       <Servicios servicios={servicios} />

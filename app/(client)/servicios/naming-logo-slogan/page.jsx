@@ -28,7 +28,7 @@ export default function UXUI() {
       ),
       title: "NAMING",
       description:
-        "EL NAMING ES EL PROCESO DE CREAR Y SELECCIONAR EL NOMBRE DE UNA MARCA, PRODUCTO, SERVICIO O PROYECTO.",
+        "Creamos y seleccionar el nombre de una marca, producto o servicio.",
     },
 
     {
@@ -43,7 +43,7 @@ export default function UXUI() {
       ),
       title: "LOGO",
       description:
-        "EL LOGO ES UN SÍMBOLO GRÁFICO COMPUESTO POR PALABRAS, IMÁGENES, COLORES O UNA COMBINACIÓN DE ELLOS, QUE SE UTILIZA PARA IDENTIFICAR UNA MARCA O UN PRODUCTO.",
+        "Diseñamos tu símbolo grafico que identifica visualmente a tu marca o producto.",
     },
 
     {
@@ -58,7 +58,7 @@ export default function UXUI() {
       ),
       title: "SLOGAN",
       description:
-        "EL ESLOGAN (O SLOGAN EN INGLÉS) ES UNA FRASE CORTA Y PEGADIZA QUE SE UTILIZA PARA IDENTIFICAR UN PRODUCTO, SERVICIO O EMPRESA, BUSCANDO RESALTAR SUS BENEFICIOS, SU ESENCIA O UN MENSAJE CLAVE.",
+        "Diseñamos una frase breve y memorable que comunica la esencia o el beneficio clave de tu marca.",
     },
   ];
 
@@ -75,7 +75,7 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription="EL NAMING, EL LOGO Y EL ESLOGAN SON ELEMENTOS FUNDAMENTALES DE LA IDENTIDAD DE UNA MARCA. CADA UNO CUMPLE UN ROL ESPECÍFICO, PERO JUNTOS CONSTRUYEN LA PERCEPCIÓN Y EL RECONOCIMIENTO DE UNA EMPRESA, PRODUCTO O SERVICIO EN LA MENTE DEL PÚBLICO."
+        mainDescription="Desarrollamos los pilares fundamentales de su identidad de marca: naming, logo y slogan. Cada elemento se diseña estratégicamente para construir una percepción sólida, asegurar el reconocimiento de su empresa y diferenciar su producto o servicio en el mercado."
         backgroundImage="/servicios/DisenoUI/branding4.webp"
         heroTitle="NAMING, LOGO Y SLOGAN"
         heroBulletPoints={[]}

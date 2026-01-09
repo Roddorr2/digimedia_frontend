@@ -32,7 +32,7 @@ export default function DisenoPauta() {
       ),
       title: "PLANIFICACIÓN",
       description:
-        'En el área de Gestión de Redes Sociales, el término "Diseño de pautas" se refiere a la creación visual y estratégica de los anuncios pagados (también llamados "pautas publicitarias")',
+        'En la gestión de redes sociales, planificamos sus campañas de anuncios pagados definiendo objetivos, públicos, mensajes, formatos y presupuesto para asegurar resultados claros, eficientes y medibles.',
     },
   ];
 
@@ -48,15 +48,16 @@ export default function DisenoPauta() {
 
       <UxUiSection
         features={features}
-        mainDescription="Es el proceso de crear piezas gráficas o audiovisuales atractivas y efectivas que serán utilizadas en campañas de publicidad digital. Estas piezas están dirigidas a públicos segmentados y tienen un objetivo específico."
+        mainDescription="Brindamos servicio de diseño y gestión de campañas de publicidad digital en redes sociales y otras plataformas. Creamos piezas gráficas y audiovisuales alineadas con tus objetivos comerciales y las orientamos a públicos específicos para maximizar el rendimiento
+de la inversión."
         backgroundImage="/servicios/gestion/diseno-pautas/Diseño-de-Pautas-Digimedia.webp"
         heroTitle="DISEÑO DE PAUTAS"
-        heroBulletPoints={[
-          "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
-          "Son clave para posicionar productos, servicios o marcas en mercados competitivos.",
-          "Permiten medir resultados y ajustar campañas en tiempo real.",
-          "Atraer la atención del público objetivo rápidamente.",
-        ]}
+        // heroBulletPoints={[
+        //   "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
+        //   "Son clave para posicionar productos, servicios o marcas en mercados competitivos.",
+        //   "Permiten medir resultados y ajustar campañas en tiempo real.",
+        //   "Atraer la atención del público objetivo rápidamente.",
+        // ]}
         alt="Gestión de redes sociales, Diseño de pautas, Publicidad digital, Estrategia en redes, Social media marketing, Meta Ads, Facebook Ads, Anuncios para Instagram, Marketing digital, Community manager"
         title="Gestión de redes sociales, diseño de pautas, Digimedia.webp"
       />

@@ -20,7 +20,7 @@ export default function UXUI() {
       icon: <Lightbulb className="w-full h-full stroke-1" />,
       title: "IVC",
       description:
-        "ES LA CARA VISIBLE DE LA MARCA, QUE AYUDA A COMUNICAR SU PERSONALIDAD, VALORES Y POSICIONAMIENTO EN EL MERCADO.",
+        "A través de ella comunicaremos su personalidad, valores y propuesta de valor, estableciendo un posicionamiento claro y distintivo en la mente de sus clientes.",
     },
     
   ]
@@ -39,14 +39,14 @@ export default function UXUI() {
 
       <UxUiSection 
       features={featuresuxui} 
-      mainDescription='ES LAMANIFESTACIÓN VISUAL DE LA IDENTIDAD DE UNA EMPRESA, UTILIZANDO ELEMENTOS COMO LOGOTIPOS, COLORES, TIPOGRAFÍAS Y ESTILOS GRÁFICOS PARA CREAR UNA IMAGEN COHERENTE Y RECONOCIBLE.'
+      mainDescription='Desarrollamos la manifestación visual de su marca, creando un sistema gráfico coherente que incluye logotipos, colores y tipografías. Esta identidad estratégica asegura el reconocimiento, la diferenciación y el posicionamiento de su empresa en el mercado.'
       backgroundImage='/servicios/DisenoUI/branding2.webp'
       heroTitle="IDENTIDAD VISUAL Y CORPORTIVA"
-      heroBulletPoints={[
-        "LA IVC AYUDA A QUE LA MARCA SEA FÁCILMENTE RECONOCIBLE Y DIFERENCIADA DE LA COMPETENCIA.",
-        "PERMITE MANTENER UNA IMAGEN COHERENTE EN TODOS LOS SOPORTES DE COMUNICACIÓN.",
-        "PERMITE QUE LA EMPRESA SE DESTAQUE EN EL MERCADO Y SEA PERCIBIDA DE MANERA ÚNICA.",
-      ]}
+      // heroBulletPoints={[
+      //   "LA IVC AYUDA A QUE LA MARCA SEA FÁCILMENTE RECONOCIBLE Y DIFERENCIADA DE LA COMPETENCIA.",
+      //   "PERMITE MANTENER UNA IMAGEN COHERENTE EN TODOS LOS SOPORTES DE COMUNICACIÓN.",
+      //   "PERMITE QUE LA EMPRESA SE DESTAQUE EN EL MERCADO Y SEA PERCIBIDA DE MANERA ÚNICA.",
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

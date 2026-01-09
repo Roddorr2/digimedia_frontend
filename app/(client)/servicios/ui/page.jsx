@@ -43,7 +43,7 @@ function UXUIComponent() {
       title: 'Diseño de pautas',
       title: 'UX',
       description:
-        'EL DISEÑO UX (EXPERIENCIA DE USUARIO) SE CENTRA EN ENTENDER A LAS PERSONAS QUE USARÁN UN PRODUCTO DIGITAL (WEB, APP, ETC.) PARA CREAR UNA EXPERIENCIA EFECTIVA, INTUITIVA Y SATISFACTORIA. INVESTIGA SUS NECESIDADES, COMPORTAMIENTOS Y FRUSTRACIONES PARA DEFINIR LA ESTRUCTURA Y LA FUNCIONALIDAD DEL PRODUCTO.',
+        'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
     },
     {
       icon: (
@@ -57,7 +57,7 @@ function UXUIComponent() {
       ),
       title: 'UI',
       description:
-        'EL DISEÑO UI (INTERFAZ DE USUARIO) SE ENCARGA DE LA PARTE VISUAL, CREANDO UNA INTERFAZ ATRACTIVA, COHERENTE Y FÁCIL DE NAVEGAR. UTILIZA ELEMENTOS COMO COLORES, TIPOGRAFÍA E IMÁGENES PARA COMUNICAR LA MARCA Y GUIAR AL USUARIO DE MANERA EFICIENTE.',
+        'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
     },
   ];
 
@@ -73,16 +73,16 @@ function UXUIComponent() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="EL DISEÑO UX SE PREOCUPA POR LA EXPERIENCIA GLOBAL DEL USUARIO, MIENTRAS QUE EL DISEÑO UI SE ENFOCA EN LOS DETALLES VISUALES DE LA INTERFAZ. AMBOS TRABAJAN JUNTOS PARA CREAR PRODUCTOS DIGITALES EXITOSOS."
+        mainDescription="No solo diseñamos páginas bonitas; creamos productos digitales que venden. Fusionamos el Diseño UX (para que tu web sea fácil de usar) con el Diseño UI (para que sea inolvidable). Como expertos en  marketing digital , garantizamos que tu sitio no solo atraiga visitas, sino que convierta usuarios en clientes."
         backgroundImage={backgroundImage}
         heroTitle="DISEÑO UX Y UI"
         alt="Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital."
         title="Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp"
-        heroBulletPoints={[
-          'MAYOR SATISFACCIÓN DEL USUARIO: UN DISEÑO INTUITIVO Y AGRADABLE HACE QUE LOS USUARIOS DISFRUTEN USANDO EL PRODUCTO O SERVICIO.',
-          'AUMENTO DE LA USABILIDAD: FACILITA LA NAVEGACIÓN Y LA REALIZACIÓN DE TAREAS, REDUCIENDO LA FRUSTRACIÓN.',
-          'MEJORA DE LA ACCESIBILIDAD: PERMITE QUE PERSONAS CON DIVERSAS CAPACIDADES PUEDAN UTILIZAR EL PRODUCTO O SERVICIO.',
-        ]}
+        // heroBulletPoints={[
+        //   'MAYOR SATISFACCIÓN DEL USUARIO: UN DISEÑO INTUITIVO Y AGRADABLE HACE QUE LOS USUARIOS DISFRUTEN USANDO EL PRODUCTO O SERVICIO.',
+        //   'AUMENTO DE LA USABILIDAD: FACILITA LA NAVEGACIÓN Y LA REALIZACIÓN DE TAREAS, REDUCIENDO LA FRUSTRACIÓN.',
+        //   'MEJORA DE LA ACCESIBILIDAD: PERMITE QUE PERSONAS CON DIVERSAS CAPACIDADES PUEDAN UTILIZAR EL PRODUCTO O SERVICIO.',
+        // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
