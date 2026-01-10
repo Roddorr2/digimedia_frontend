@@ -72,13 +72,6 @@ export default function Header2() {
         </div>
 
         <div className={styles.seccionesHeader}>
-          {/* Botón de login para mobile - fuera del menú */}
-          {!isAuthenticated && (
-            <a href="/login" className={`${styles.loginButtonMobile}`}>
-              Ingresar
-            </a>
-          )}
-
           {/* Botón de usuario para ir a Sección principal - solo cuando está autenticado */}
           {isAuthenticated && (
             <Link href="/dashboard/main" className={styles.userButton}>
@@ -192,7 +185,8 @@ export default function Header2() {
               className={`cursor-pointer ${
                 isActive('/blog') ||
                 isActive('/preguntas') ||
-                isActive('/contactanos')
+                isActive('/contactanos') ||
+                (!isAuthenticated && isActive('/login'))
                   ? styles.active
                   : ''
               }`}
@@ -237,6 +231,14 @@ export default function Header2() {
                   >
                     <Link href="/contactanos">Contacto</Link>
                   </li>
+                  {!isAuthenticated && (
+                    <li
+                      className={isActive('/login') ? styles['active-sub'] : ''}
+                      onClick={closeMenu}
+                    >
+                      <Link href="/login">Ingresar</Link>
+                    </li>
+                  )}
                 </ul>
               )}
             </li>
@@ -297,17 +299,7 @@ export default function Header2() {
                   )}
                 </>
               ) : (
-                <a
-                  href="/login"
-                  className={`relative inline-flex items-center justify-center text-white 
-            font-bold text-xs leading-none rounded-2xl bg-[#FFA000] hover:bg-[#FB8C00] 
-            transition-all duration-300 shadow-md ${styles.loginButton}`}
-                  style={{
-                    padding: '8px 17px',
-                  }}
-                >
-                  Ingresar
-                </a>
+                null //Boton antiguo
               )}
             </li>
           </ul>
