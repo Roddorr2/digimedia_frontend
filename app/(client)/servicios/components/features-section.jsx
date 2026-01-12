@@ -26,7 +26,7 @@ export function FeaturesSection({ features }) {
                   <div
                     className={`${bgColor} rounded-3xl shadow-lg px-8 py-12 flex flex-col items-center text-center`}
                   >
-                    <div className="mb-6 w-20 h-20 flex items-center justify-center">
+                    <div className="mb-6 w-24 h-24 flex items-center justify-center">
                       {feature.icon}
                     </div>
 
@@ -76,7 +76,7 @@ export function FeaturesSection({ features }) {
                 key={index}
                 className={`${bgColor} rounded-3xl shadow-lg px-10 py-10 flex flex-col items-center text-center`}
               >
-                <div className="mb-6 w-24 h-24 flex items-center justify-center">
+                <div className="mb-6 w-32 h-32 flex items-center justify-center">
                   {feature.icon}
                 </div>
 
