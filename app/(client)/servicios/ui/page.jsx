@@ -33,7 +33,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/DisenoUI/icons/UX.webp"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UX blanco.png"
           alt="Web con diseño UX"
           className="w-full h-full object-contain"
           width={200}
@@ -48,7 +48,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/DisenoUI/icons/UI.webp"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UI blanco.png"
           alt="Web con diseño UI"
           className="w-full h-full object-contain"
           width={200}

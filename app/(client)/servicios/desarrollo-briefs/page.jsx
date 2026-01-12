@@ -1,21 +1,18 @@
-import Image from "next/image";
-import Contactanos from "../components/Contactanos";
-import { UxUiSection } from "../components/uxui-section";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
+import Image from 'next/image';
+import Contactanos from '../components/Contactanos';
+import { UxUiSection } from '../components/uxui-section';
+import ModalScroll from '../components/ModalScroll';
+import ModalButton from '../components/ModalButton';
 
-
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
 
 export default function UXUI() {
-
-
   const modales = {
     modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/fondo.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      serviceName: "4",
+      text: 'BRANDING Y DISEÑO',
+      fondo: '/servicios/branding/modal-scroll/fondo.webp',
+      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
+      serviceName: '4',
     },
   };
 
@@ -23,16 +20,16 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/desarrollo_brief/brief.webp"
+          src="/servicios/branding_diseno/desarrollo_brief/icons/brief blanco.png"
           alt="Icono de una computadora con mapas y graficos"
           className="w-full h-full object-contain"
           width={200}
           height={100}
         />
       ),
-      title: "BRIEF",
+      title: 'BRIEF',
       description:
-        "ES UN DOCUMENTO CLAVE QUE RECOGE LA INFORMACIÓN ESENCIAL PARA DESARROLLAR UN PROYECTO VISUAL ALINEADO CON LOS OBJETIVOS DE UNA MARCA. SUELE INCLUIR DATOS SOBRE LA IDENTIDAD DE LA EMPRESA (COMO SU HISTORIA, MISIÓN, VISIÓN Y VALORES), ASÍ COMO EL OBJETIVO DEL ENCARGO, YA SEA CREAR UN LOGO, RENOVAR LA IDENTIDAD VISUAL O LANZAR UNA CAMPAÑA.",
+        'ES UN DOCUMENTO CLAVE QUE RECOGE LA INFORMACIÓN ESENCIAL PARA DESARROLLAR UN PROYECTO VISUAL ALINEADO CON LOS OBJETIVOS DE UNA MARCA. SUELE INCLUIR DATOS SOBRE LA IDENTIDAD DE LA EMPRESA (COMO SU HISTORIA, MISIÓN, VISIÓN Y VALORES), ASÍ COMO EL OBJETIVO DEL ENCARGO, YA SEA CREAR UN LOGO, RENOVAR LA IDENTIDAD VISUAL O LANZAR UNA CAMPAÑA.',
     },
   ];
 
@@ -53,10 +50,10 @@ export default function UXUI() {
         alt="Branding, Diseño gráfico, Identidad visual, Desarrollo de marca, Manual de marca, Brief creativo, Comunicación visual, Estrategia de marca, Diseño corporativo, Posicionamiento"
         title="Branding y diseño - desarrollo de brief - Digimedia.webp"
         heroBulletPoints={[
-          "ALINEAR AL CLIENTE Y AL EQUIPO CREATIVO EN UNA MISMA VISIÓN Y DIRECCIÓN.",
-          "REDUCIR MALENTENDIDOS O CAMBIOS INNECESARIOS DURANTE EL PROCESO.",
-          "GUIAR CADA DECISIÓN DE DISEÑO PARA QUE SEA COHERENTE CON LOS VALORES Y OBJETIVOS DE MARCA.",
-          "AYUDA A JUSTIFICAR LAS DECISIONES CREATIVAS ANTE EL CLIENTE.",
+          'ALINEAR AL CLIENTE Y AL EQUIPO CREATIVO EN UNA MISMA VISIÓN Y DIRECCIÓN.',
+          'REDUCIR MALENTENDIDOS O CAMBIOS INNECESARIOS DURANTE EL PROCESO.',
+          'GUIAR CADA DECISIÓN DE DISEÑO PARA QUE SEA COHERENTE CON LOS VALORES Y OBJETIVOS DE MARCA.',
+          'AYUDA A JUSTIFICAR LAS DECISIONES CREATIVAS ANTE EL CLIENTE.',
         ]}
       />
       <Contactanos

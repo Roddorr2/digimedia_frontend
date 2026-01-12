@@ -1,21 +1,20 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 
-import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
-import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import Image from "next/image";
-import ModalButton from "../components/ModalButton";
-
+import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
+import { UxUiSection } from '../components/uxui-section';
+import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
+import Image from 'next/image';
+import ModalButton from '../components/ModalButton';
 
 export default function DisenoPauta() {
   const modales = {
     modalA: {
-      text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/fondo.webp",
-      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
-      serviceName: "2",
+      text: 'GESTIÓN DE REDES SOCIALES',
+      fondo: '/servicios/gestion/modal-scroll/fondo.webp',
+      title: 'SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!',
+      serviceName: '2',
     },
   };
 
@@ -23,14 +22,14 @@ export default function DisenoPauta() {
     {
       icon: (
         <Image
-          src="/servicios/gestion/diseno-pautas/icons/first.webp"
+          src="/servicios/gestion/diseno-pautas/icons/first blanco 1.png"
           alt="Icono de una hoja con un lápiz"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: "PLANIFICACIÓN",
+      title: 'PLANIFICACIÓN',
       description:
         'En el área de Gestión de Redes Sociales, el término "Diseño de pautas" se refiere a la creación visual y estratégica de los anuncios pagados (también llamados "pautas publicitarias")',
     },
@@ -52,10 +51,10 @@ export default function DisenoPauta() {
         backgroundImage="/servicios/gestion/diseno-pautas/Diseño-de-Pautas-Digimedia.webp"
         heroTitle="DISEÑO DE PAUTAS"
         heroBulletPoints={[
-          "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
-          "Son clave para posicionar productos, servicios o marcas en mercados competitivos.",
-          "Permiten medir resultados y ajustar campañas en tiempo real.",
-          "Atraer la atención del público objetivo rápidamente.",
+          'Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.',
+          'Son clave para posicionar productos, servicios o marcas en mercados competitivos.',
+          'Permiten medir resultados y ajustar campañas en tiempo real.',
+          'Atraer la atención del público objetivo rápidamente.',
         ]}
         alt="Gestión de redes sociales, Diseño de pautas, Publicidad digital, Estrategia en redes, Social media marketing, Meta Ads, Facebook Ads, Anuncios para Instagram, Marketing digital, Community manager"
         title="Gestión de redes sociales, diseño de pautas, Digimedia.webp"

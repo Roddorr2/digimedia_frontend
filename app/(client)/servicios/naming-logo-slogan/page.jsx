@@ -1,17 +1,16 @@
-import Image from "next/image";
-import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
-import { UxUiSection } from "../components/uxui-section";
-import ModalButton from "../components/ModalButton";
-
+import Image from 'next/image';
+import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
+import { UxUiSection } from '../components/uxui-section';
+import ModalButton from '../components/ModalButton';
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/fondo.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
-      serviceName: "3",
+      text: 'MARKETING Y GESTIÓN DIGITAL',
+      fondo: '/servicios/marketing/modal-scroll/fondo.webp',
+      title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
+      serviceName: '3',
     },
   };
 
@@ -19,46 +18,46 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/naming-logo-slogan/naming.webp"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/naming blanco.png"
           alt="Icono de una tarjeta y firma con lápiz"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: "NAMING",
+      title: 'NAMING',
       description:
-        "EL NAMING ES EL PROCESO DE CREAR Y SELECCIONAR EL NOMBRE DE UNA MARCA, PRODUCTO, SERVICIO O PROYECTO.",
+        'EL NAMING ES EL PROCESO DE CREAR Y SELECCIONAR EL NOMBRE DE UNA MARCA, PRODUCTO, SERVICIO O PROYECTO.',
     },
 
     {
       icon: (
         <Image
-          src="/servicios/naming-logo-slogan/logo.webp"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/logo blanco.png"
           alt="Icono de un logotipo"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: "LOGO",
+      title: 'LOGO',
       description:
-        "EL LOGO ES UN SÍMBOLO GRÁFICO COMPUESTO POR PALABRAS, IMÁGENES, COLORES O UNA COMBINACIÓN DE ELLOS, QUE SE UTILIZA PARA IDENTIFICAR UNA MARCA O UN PRODUCTO.",
+        'EL LOGO ES UN SÍMBOLO GRÁFICO COMPUESTO POR PALABRAS, IMÁGENES, COLORES O UNA COMBINACIÓN DE ELLOS, QUE SE UTILIZA PARA IDENTIFICAR UNA MARCA O UN PRODUCTO.',
     },
 
     {
       icon: (
         <Image
-          src="/servicios/naming-logo-slogan/slogan.webp"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/slogan blanco.png"
           alt="Icono de un cartel"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: "SLOGAN",
+      title: 'SLOGAN',
       description:
-        "EL ESLOGAN (O SLOGAN EN INGLÉS) ES UNA FRASE CORTA Y PEGADIZA QUE SE UTILIZA PARA IDENTIFICAR UN PRODUCTO, SERVICIO O EMPRESA, BUSCANDO RESALTAR SUS BENEFICIOS, SU ESENCIA O UN MENSAJE CLAVE.",
+        'EL ESLOGAN (O SLOGAN EN INGLÉS) ES UNA FRASE CORTA Y PEGADIZA QUE SE UTILIZA PARA IDENTIFICAR UN PRODUCTO, SERVICIO O EMPRESA, BUSCANDO RESALTAR SUS BENEFICIOS, SU ESENCIA O UN MENSAJE CLAVE.',
     },
   ];
 
@@ -71,7 +70,6 @@ export default function UXUI() {
         text="MARKETING Y GESTIÓN DIGITAL"
         serviceName="3"
       />
-
 
       <UxUiSection
         features={featuresuxui}
