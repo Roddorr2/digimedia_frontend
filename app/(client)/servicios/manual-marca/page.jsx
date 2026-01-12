@@ -16,21 +16,21 @@ export default function UXUI() {
   };
 
   const featuresuxui = [
-    {
-      icon: (
-        <Image
-          src="/servicios/marketing_gestion_digital/identidad_visual/icons/Foco blanco.png"
-          alt="Icono de una tarjeta y firma con lápiz"
-          className="w-full h-full object-contain"
-          width={48}
-          height={48}
-        />
-      ),
-      title: 'logotipo y aplicaciones',
-      description:
-        'INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.',
-      alt: 'Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa',
-    },
+    // {
+    //   icon: (
+    //     <Image
+    //       src="/servicios/marketing_gestion_digital/identidad_visual/icons/Foco blanco.png"
+    //       alt="Icono de una tarjeta y firma con lápiz"
+    //       className="w-full h-full object-contain"
+    //       width={48}
+    //       height={48}
+    //     />
+    //   ),
+    //   title: 'logotipo y aplicaciones',
+    //   description:
+    //     'INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.',
+    //   alt: 'Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa',
+    // },
 
     {
       icon: (
