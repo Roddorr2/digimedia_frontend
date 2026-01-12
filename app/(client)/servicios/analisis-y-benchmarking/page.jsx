@@ -55,17 +55,19 @@ export default function ProduccionPautas() {
 
       <UxUiSection
         features={features}
-        mainDescription="AL COMBINAR AMBOS ENFOQUES, LAS EMPRESAS PUEDEN LOGRAR UNA MEJORA CONTINUA Y UNA VENTAJA COMPETITIVA SOSTENIBLE."
+        mainDescription="En un mercado saturado, la intuición no es suficiente. Auditamos su posición actual y analizamos las tácticas de los líderes del sector para identificar brechas de oportunidad que su competencia está ignorando. Minimizamos el riesgo comercial basando cada decisión en métricas reales."
         backgroundImage="/servicios/analisis_benchmarking/analisis_benchmarking_principal.webp"
         heroTitle="ANALISIS Y BENCHMARKING"
         alt="Marketing digital, Análisis de datos, Benchmarking, Estrategias de marketing, Comparación de métricas, Estudio de mercado, Optimización de resultados, Métricas de rendimiento, Informes de Marketing, Gestión digital"
         title="Marketing y gestión digital, análisis y benchmarking, Digimedia.webp"
-        heroBulletPoints={[
-          'IDENTIFICACIÓN DE ÁREAS DE MEJORA Y ESTABLECIMIENTO DE OBJETIVOS REALISTAS.',
-          'IDENTIFICACIÓN DE PROCESOS INEFICIENTES Y OPORTUNIDADES DE OPTIMIZACIÓN.',
-          'APRENDIZAJE DE LAS MEJORES PRÁCTICAS PARA MEJORAR LA CALIDAD DE PRODUCTOS Y SERVICIOS.',
-          'ADOPCIÓN DE ESTRATEGIAS Y PRÁCTICAS QUE PERMITEN DIFERENCIARSE DE LA COMPETENCIA.',
-        ]}
+        heroBulletPoints={
+          [
+            // 'IDENTIFICACIÓN DE ÁREAS DE MEJORA Y ESTABLECIMIENTO DE OBJETIVOS REALISTAS.',
+            // 'IDENTIFICACIÓN DE PROCESOS INEFICIENTES Y OPORTUNIDADES DE OPTIMIZACIÓN.',
+            // 'APRENDIZAJE DE LAS MEJORES PRÁCTICAS PARA MEJORAR LA CALIDAD DE PRODUCTOS Y SERVICIOS.',
+            // 'ADOPCIÓN DE ESTRATEGIAS Y PRÁCTICAS QUE PERMITEN DIFERENCIARSE DE LA COMPETENCIA.',
+          ]
+        }
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

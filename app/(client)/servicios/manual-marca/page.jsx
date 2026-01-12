@@ -78,7 +78,7 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription="UN MANUAL DE MARCA ES UN DOCUMENTO QUE ESTABLECE LAS REGLAS Y DIRECTRICES PARA USAR CORRECTAMENTE LA IDENTIDAD VISUAL Y VERBAL DE UNA MARCA. SIRVE PARA MANTENER LA COHERENCIA EN TODAS LAS COMUNICACIONES, TANTO INTERNAS COMO EXTERNAS, Y ASEGURAR QUE LA MARCA SE VEA, SE SIENTA Y SE COMUNIQUE DE LA MISMA FORMA, SIN IMPORTAR QUIÉN LA USE O DÓNDE SE APLIQUE."
+        mainDescription="La planificación estratégica es el mapa que guía su negocio hacia el éxito en el entorno digital. Definimos objetivos claros, identificamos oportunidades y diseñamos una hoja de ruta personalizada para consolidar su presencia online, maximizar su alcance y asegurar un crecimiento sostenible."
         backgroundImage="/servicios/DisenoUI/branding3.webp"
         heroTitle="MANUAL DE MARCA"
         heroBulletPoints={[]}

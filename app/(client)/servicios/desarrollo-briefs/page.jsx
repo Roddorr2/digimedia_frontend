@@ -44,17 +44,19 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="ES LA CONSTRUCCIÓN DE UNA GUÍA QUE RECOGE TODA LA INFORMACIÓN ESENCIAL DE UN PROYECTO DE DISEÑO O BRANDING. SIRVE COMO BASE PARA DEFINIR LA IDENTIDAD VISUAL, TONO, MENSAJE Y OBJETIVOS DE UNA MARCA, PRODUCTO O CAMPAÑA."
+        mainDescription="Transformamos tus ideas en una hoja de ruta clara para la creación de contenido gráfico y audiovisual. Nuestro proceso de brief asegura que cada proyecto de publicidad digital esté alineado con sus objetivos comerciales y atraiga a su público ideal."
         backgroundImage="/servicios/desarrollo_brief/desarrollo_brieff_principal.webp"
         heroTitle="DESARROLLO DE BRIEF"
         alt="Branding, Diseño gráfico, Identidad visual, Desarrollo de marca, Manual de marca, Brief creativo, Comunicación visual, Estrategia de marca, Diseño corporativo, Posicionamiento"
         title="Branding y diseño - desarrollo de brief - Digimedia.webp"
-        heroBulletPoints={[
-          'ALINEAR AL CLIENTE Y AL EQUIPO CREATIVO EN UNA MISMA VISIÓN Y DIRECCIÓN.',
-          'REDUCIR MALENTENDIDOS O CAMBIOS INNECESARIOS DURANTE EL PROCESO.',
-          'GUIAR CADA DECISIÓN DE DISEÑO PARA QUE SEA COHERENTE CON LOS VALORES Y OBJETIVOS DE MARCA.',
-          'AYUDA A JUSTIFICAR LAS DECISIONES CREATIVAS ANTE EL CLIENTE.',
-        ]}
+        heroBulletPoints={
+          [
+            // 'ALINEAR AL CLIENTE Y AL EQUIPO CREATIVO EN UNA MISMA VISIÓN Y DIRECCIÓN.',
+            // 'REDUCIR MALENTENDIDOS O CAMBIOS INNECESARIOS DURANTE EL PROCESO.',
+            // 'GUIAR CADA DECISIÓN DE DISEÑO PARA QUE SEA COHERENTE CON LOS VALORES Y OBJETIVOS DE MARCA.',
+            // 'AYUDA A JUSTIFICAR LAS DECISIONES CREATIVAS ANTE EL CLIENTE.',
+          ]
+        }
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

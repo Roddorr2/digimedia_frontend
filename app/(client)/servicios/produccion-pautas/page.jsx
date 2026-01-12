@@ -54,16 +54,18 @@ export default function ProduccionPautas() {
 
       <UxUiSection
         features={features}
-        mainDescription="Es el desarrollo de todos los elementos necesarios para ejecutar una campaña publicitaria en redes sociales. Implica tanto la parte creativa como la técnica para que los anuncios funcionen correctamente en las plataformas elegidas."
+        mainDescription="Desarrollamos y ejecutamos campañas publicitarias digitales completas. Integramos la creatividad visual con la optimización técnica para asegurar que cada anuncio genere el máximo impacto y retorno en las plataformas seleccionadas."
         backgroundImage="/servicios/planificacion/produccion_pautas_principal.webp"
         heroTitle="PRODUCCIÓN DE PAUTAS"
         alt="Producción de anuncios gráficos y textos publicitarios listos para campañas en Meta Ads y redes sociales."
         title="Producción creativa de pautas para campañas publicitarias – Digimedia"
-        heroBulletPoints={[
-          'Crear contenidos listos para ser promocionados.',
-          'Asegurar que los anuncios sean visualmente atractivos y técnicamente óptimos.',
-          'Maximizar el rendimiento de las campañas en redes sociales.',
-        ]}
+        heroBulletPoints={
+          [
+            // 'Crear contenidos listos para ser promocionados.',
+            // 'Asegurar que los anuncios sean visualmente atractivos y técnicamente óptimos.',
+            // 'Maximizar el rendimiento de las campañas en redes sociales.',
+          ]
+        }
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

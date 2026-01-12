@@ -73,7 +73,7 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription="EL NAMING, EL LOGO Y EL ESLOGAN SON ELEMENTOS FUNDAMENTALES DE LA IDENTIDAD DE UNA MARCA. CADA UNO CUMPLE UN ROL ESPECÍFICO, PERO JUNTOS CONSTRUYEN LA PERCEPCIÓN Y EL RECONOCIMIENTO DE UNA EMPRESA, PRODUCTO O SERVICIO EN LA MENTE DEL PÚBLICO."
+        mainDescription="Desarrollamos los pilares fundamentales de su identidad de marca: naming, logo y slogan. Cada elemento se diseña estratégicamente para construir una percepción sólida, asegurar el reconocimiento de su empresa y diferenciar su producto o servicio en el mercado."
         backgroundImage="/servicios/DisenoUI/branding4.webp"
         heroTitle="NAMING, LOGO Y SLOGAN"
         heroBulletPoints={[]}
