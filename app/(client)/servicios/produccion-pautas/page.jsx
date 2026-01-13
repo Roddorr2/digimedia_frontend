@@ -20,13 +20,13 @@ export default function ProduccionPautas() {
         icon: <img src="/servicios/gestion/produccion-pautas/icons/first.webp" alt="Diseño de pautas" className="w-full h-full object-contain" />,
         title: "Diseño de pautas",
         description:
-            "El diseño de pautas se enfoca principalmente en la parte visual y comunicacional del anuncio. Aquí se busca que la pieza tenga un impacto visual fuerte, que sea coherente con la identidad de marca y que transmita el mensaje de forma clara y atractiva para el público objetivo.",
+            "Creamos anuncios visuales estratégicos y alineados a su marca, con mensajes claros que captan la atención de su público objetivo y fomentan la acción.",
         },
         {
         icon: <img src="/servicios/gestion/produccion-pautas/icons/second.webp" alt="Hoja de apuntes" className="w-full h-full object-contain" />,
         title: "Producción de pautas",
         description:
-            "La producción de pautas tiene un enfoque más integral y operativo. No solo incluye la parte visual, sino también la planificación estratégica, edición técnica, adaptación a formatos, y preparación de archivos finales para que el anuncio esté listo para su publicación.",
+            "Gestionamos integralmente el ciclo del anuncio, desde la planificación y edición hasta su adaptación y publicación, asegurando piezas listas para generar resultados.",
         },
     ]
     
@@ -42,16 +42,16 @@ export default function ProduccionPautas() {
 
             <UxUiSection 
             features={features} 
-            mainDescription='Es el desarrollo de todos los elementos necesarios para ejecutar una campaña publicitaria en redes sociales. Implica tanto la parte creativa como la técnica para que los anuncios funcionen correctamente en las plataformas elegidas.'
+            mainDescription=' Desarrollamos y ejecutamos campañas publicitarias digitales completas. Integramos la creatividad visual con la optimización técnica para asegurar que cada anuncio genere el máximo impacto y retorno en las plataformas seleccionadas.'
             backgroundImage='/servicios/planificacion/produccion_pautas_principal.webp'
             heroTitle="PRODUCCIÓN DE PAUTAS"
             alt = "Producción de anuncios gráficos y textos publicitarios listos para campañas en Meta Ads y redes sociales."
             title= "Producción creativa de pautas para campañas publicitarias – Digimedia"
-            heroBulletPoints={[
-            "Crear contenidos listos para ser promocionados.",
-            "Asegurar que los anuncios sean visualmente atractivos y técnicamente óptimos.",
-            "Maximizar el rendimiento de las campañas en redes sociales.",
-            ]}
+            // heroBulletPoints={[
+            // "Crear contenidos listos para ser promocionados.",
+            // "Asegurar que los anuncios sean visualmente atractivos y técnicamente óptimos.",
+            // "Maximizar el rendimiento de las campañas en redes sociales.",
+            // ]}
             
         />
         <Contactanos
