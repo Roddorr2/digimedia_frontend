@@ -23,7 +23,7 @@ export function HeroSection({
               src={imageUrl}
               alt={imageAlt}
               fill
-              className="object-cover -scale-x-100"
+              className="object-cover"
             />
           </div>
 

@@ -36,6 +36,7 @@ export function UxUiSection({
   return (
     <div>
       <HeroSection
+      
         category="Diseño y desarrollo web"
         title={heroTitle}
         description={mainDescription}

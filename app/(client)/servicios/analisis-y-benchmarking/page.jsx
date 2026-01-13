@@ -1,17 +1,17 @@
-"use client";
-import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
-import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
+'use client';
+import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
+import { UxUiSection } from '../components/uxui-section';
+import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
+import ModalButton from '../components/ModalButton';
 
 export default function ProduccionPautas() {
   const modales = {
     modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/fondo.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
-      serviceName: "3",
+      text: 'MARKETING Y GESTIÓN DIGITAL',
+      fondo: '/servicios/marketing/modal-scroll/fondo.webp',
+      title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
+      serviceName: '3',
     },
   };
 
@@ -19,24 +19,24 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/analisis_benchmarking/icons/analisis.webp"
+          src="/servicios/marketing_gestion_digital/analisis_benchmarking/icons/analisis blanco.png"
           alt="Icono de una hoja y una lupa de color morado y fondo oscuro"
           className="w-full h-full object-contain"
         />
       ),
-      title: "ANALISIS",
+      title: 'ANALISIS',
       description:
         "Te ayudamos a comprender la situación interna y externa de la empresa para tomar decisiones estrategias",
     },
     {
       icon: (
         <img
-          src="/servicios/analisis_benchmarking/icons/benchmarking.webp"
+          src="/servicios/marketing_gestion_digital/analisis_benchmarking/icons/benchmarking blanco.png"
           alt="Icono de una computadora con gráfico color morado y fondo oscuro"
           className="w-full h-full object-contain"
         />
       ),
-      title: "BENCHMARKING",
+      title: 'BENCHMARKING',
       description:
         "Identificamos mejoras clave en las empresas para definir objetivos y acciones estrategicas.",
     },
@@ -52,7 +52,6 @@ export default function ProduccionPautas() {
         text="MARKETING Y GESTIÓN DIGITAL"
         serviceName="3"
       />
-
 
       <UxUiSection
         features={features}

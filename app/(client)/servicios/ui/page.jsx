@@ -14,7 +14,7 @@ function UXUIComponent() {
 
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
+      text: 'DISEÑO Y DESARROLLO WEB', 
       fondo: '/servicios/desarrollo/modal-scroll/fondo.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
@@ -33,7 +33,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/DisenoUI/icons/UX.webp"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UX blanco.png"
           alt="Web con diseño UX"
           className="w-full h-full object-contain"
           width={200}
@@ -41,23 +41,24 @@ function UXUIComponent() {
         />
       ),
       title: 'Diseño de pautas',
-      title: 'UX',
+      title: <>DISEÑO DE <br /> INTERFACES (UI)</>,
       description:
-        'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
+        'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
+      
     },
     {
       icon: (
         <Image
-          src="/servicios/DisenoUI/icons/UI.webp"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UI blanco.png"
           alt="Web con diseño UI"
           className="w-full h-full object-contain"
           width={200}
           height={150}
         />
       ),
-      title: 'UI',
+      title: <>EXPERIENCIA DE <br /> USARIO (UX)</>,
       description:
-        'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
+        'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
     },
   ];
 
@@ -75,7 +76,7 @@ function UXUIComponent() {
         features={featuresuxui}
         mainDescription="No solo diseñamos páginas bonitas; creamos productos digitales que venden. Fusionamos el Diseño UX (para que tu web sea fácil de usar) con el Diseño UI (para que sea inolvidable). Como expertos en  marketing digital , garantizamos que tu sitio no solo atraiga visitas, sino que convierta usuarios en clientes."
         backgroundImage={backgroundImage}
-        heroTitle="DISEÑO UX Y UI"
+        heroTitle=<>DISEÑO <br /> UX Y UI</>
         alt="Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital."
         title="Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp"
         // heroBulletPoints={[
