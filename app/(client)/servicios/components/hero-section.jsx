@@ -19,6 +19,14 @@ export function HeroSection({
     <section className="w-full py-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-0 md:gap-4">
+          {/* MOBILE: CATEGORY ARRIBA */}
+          <button
+            onClick={() => router.back()}
+            className="md:hidden mb-6 text-3xl font-bold text-[#B326FF] tracking-wide text-left self-start hover:opacity-100 transition"
+          >
+            ‹ {category}
+          </button>
+
           {/* Card izquierda */}
           <div className="relative h-[450px] md:h-auto overflow-hidden rounded-tl-[60px]">
             <Image
@@ -45,7 +53,6 @@ export function HeroSection({
 
             {/* DESKTOP: TODO JUNTO */}
             <div className="hidden md:block bg-[#B326FF] p-20">
-              {/* CATEGORY → VOLVER */}
               <button
                 onClick={() => router.back()}
                 className="block text-lg mb-4 opacity-90 hover:opacity-100 transition cursor-pointer"
