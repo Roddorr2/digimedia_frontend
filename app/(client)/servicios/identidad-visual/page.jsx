@@ -46,14 +46,18 @@ export default function UXUI() {
         features={featuresuxui}
         mainDescription="Desarrollamos la manifestación visual de su marca, creando un sistema gráfico coherente que incluye logotipos, colores y tipografías. Esta identidad estratégica asegura el reconocimiento, la diferenciación y el posicionamiento de su empresa en el mercado."
         backgroundImage="/servicios/DisenoUI/branding2.webp"
-        heroTitle=<>IDENTIDAD VISUAL Y <br/>CORPORTIVA</>
-        heroBulletPoints={
-          [
-            // 'LA IVC AYUDA A QUE LA MARCA SEA FÁCILMENTE RECONOCIBLE Y DIFERENCIADA DE LA COMPETENCIA.',
-            // 'PERMITE MANTENER UNA IMAGEN COHERENTE EN TODOS LOS SOPORTES DE COMUNICACIÓN.',
-            // 'PERMITE QUE LA EMPRESA SE DESTAQUE EN EL MERCADO Y SEA PERCIBIDA DE MANERA ÚNICA.',
-          ]
-        }
+        heroTitle=<>
+          IDENTIDAD VISUAL Y <br />
+          CORPORTIVA
+        </>
+        category="Marketing y gestión digital"
+        // heroBulletPoints={
+        //   [
+        //     // 'LA IVC AYUDA A QUE LA MARCA SEA FÁCILMENTE RECONOCIBLE Y DIFERENCIADA DE LA COMPETENCIA.',
+        //     // 'PERMITE MANTENER UNA IMAGEN COHERENTE EN TODOS LOS SOPORTES DE COMUNICACIÓN.',
+        //     // 'PERMITE QUE LA EMPRESA SE DESTAQUE EN EL MERCADO Y SEA PERCIBIDA DE MANERA ÚNICA.',
+        //   ]
+        // }
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

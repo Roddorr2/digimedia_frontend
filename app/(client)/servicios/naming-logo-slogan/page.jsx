@@ -27,7 +27,7 @@ export default function UXUI() {
       ),
       title: 'NAMING',
       description:
-        "Creamos y seleccionar el nombre de una marca, producto o servicio.",
+        'Creamos y seleccionar el nombre de una marca, producto o servicio.',
     },
 
     {
@@ -42,7 +42,7 @@ export default function UXUI() {
       ),
       title: 'LOGO',
       description:
-        "Diseñamos tu símbolo grafico que identifica visualmente a tu marca o producto.",
+        'Diseñamos tu símbolo grafico que identifica visualmente a tu marca o producto.',
     },
 
     {
@@ -57,7 +57,7 @@ export default function UXUI() {
       ),
       title: 'SLOGAN',
       description:
-        "Diseñamos una frase breve y memorable que comunica la esencia o el beneficio clave de tu marca.",
+        'Diseñamos una frase breve y memorable que comunica la esencia o el beneficio clave de tu marca.',
     },
   ];
 
@@ -75,10 +75,13 @@ export default function UXUI() {
         features={featuresuxui}
         mainDescription="Desarrollamos los pilares fundamentales de su identidad de marca: naming, logo y slogan. Cada elemento se diseña estratégicamente para construir una percepción sólida, asegurar el reconocimiento de su empresa y diferenciar su producto o servicio en el mercado."
         backgroundImage="/servicios/DisenoUI/branding4.webp"
-        heroTitle=<>NAMING, LOGO Y<br/>  SLOGAN</>
-        heroBulletPoints={[]}
+        heroTitle=<>
+          NAMING, LOGO Y<br /> SLOGAN
+        </>
+        // heroBulletPoints={[]}
         alt="Naming, logo, slogan, piezas gráficas, redes sociales, aplicaciones digitales, señalética, merchandising, lenguaje visual, tono y voz de marca"
         title="Branding y diseño, Manual de marca, Digimedia.webp"
+        category="Marketing y gestión digital"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

@@ -36,8 +36,8 @@ export default function UXUI() {
       ),
       title: 'PALETA DE COLORES',
       description:
-        "Definimos los colores primarios y secundarios de la marca incluyendo sus códigos, rgb, cmyk y pantone para facilitar sus uso en diferentes soportes.",
-      alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
+        'Definimos los colores primarios y secundarios de la marca incluyendo sus códigos, rgb, cmyk y pantone para facilitar sus uso en diferentes soportes.',
+      alt: 'Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa',
     },
 
     {
@@ -50,13 +50,12 @@ export default function UXUI() {
           height={48}
         />
       ),
-      title: "tipografía",
+      title: 'tipografía',
       description:
-        "Seleccionamos las fuentes de letra principales y secundarias, incluyendo ejemplos de como usarías en diferentes tamaños y estilos para titulares y cuerpos de texto.",
-      alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
+        'Seleccionamos las fuentes de letra principales y secundarias, incluyendo ejemplos de como usarías en diferentes tamaños y estilos para titulares y cuerpos de texto.',
+      alt: 'Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa',
     },
-
-  ]
+  ];
 
   return (
     <div>
@@ -71,12 +70,15 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription='La planificación estratégica es el mapa que guía su negocio hacia el éxito en el entorno digital. Definimos objetivos claros, identificamos oportunidades y diseñamos una hoja de ruta personalizada para consolidar su presencia online, maximizar su alcance y asegurar un crecimiento sostenible.'
-        backgroundImage='/servicios/DisenoUI/branding3.webp'
-        heroTitle=<>MANUAL DE <br/> MARCA</>
-        heroBulletPoints={[]}
+        mainDescription="La planificación estratégica es el mapa que guía su negocio hacia el éxito en el entorno digital. Definimos objetivos claros, identificamos oportunidades y diseñamos una hoja de ruta personalizada para consolidar su presencia online, maximizar su alcance y asegurar un crecimiento sostenible."
+        backgroundImage="/servicios/DisenoUI/branding3.webp"
+        heroTitle=<>
+          MANUAL DE <br /> MARCA
+        </>
+        // heroBulletPoints={[]}
         alt="Piezas gráficas, Redes sociales, Aplicaciones digitales, Señalética, Merchandising, Lenguaje visual, Tono y voz de marca"
         title="Branding y diseño - Manual de marca - Digimedia.webp"
+        category="Marketing y gestión digital"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

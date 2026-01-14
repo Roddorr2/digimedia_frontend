@@ -29,7 +29,7 @@ export default function UXUI() {
       ),
       title: 'BRIEF',
       description:
-        "Desarrollamos el brief de su marca como documento estratégico, consolidando identidad y objetivos del proyecto para garantizar un desarrollo visual coherente y alineado a los resultados de su campaña.",
+        'Desarrollamos el brief de su marca como documento estratégico, consolidando identidad y objetivos del proyecto para garantizar un desarrollo visual coherente y alineado a los resultados de su campaña.',
     },
   ];
 
@@ -46,9 +46,14 @@ export default function UXUI() {
         features={featuresuxui}
         mainDescription="Transformamos tus ideas en una hoja de ruta clara para la creación de contenido gráfico y audiovisual. Nuestro proceso de brief asegura que cada proyecto de publicidad digital esté alineado con sus objetivos comerciales y atraiga a su público ideal."
         backgroundImage="/servicios/desarrollo_brief/desarrollo_brieff_principal.webp"
-        heroTitle=<>DESARROLLO<br/>DE BRIEF</> 
+        heroTitle=<>
+          DESARROLLO
+          <br />
+          DE BRIEF
+        </>
         alt="Branding, Diseño gráfico, Identidad visual, Desarrollo de marca, Manual de marca, Brief creativo, Comunicación visual, Estrategia de marca, Diseño corporativo, Posicionamiento"
         title="Branding y diseño - desarrollo de brief - Digimedia.webp"
+        category="Branding y diseño"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

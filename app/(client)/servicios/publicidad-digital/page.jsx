@@ -41,18 +41,21 @@ export default function DisenoPauta() {
         text="BRANDING Y DISEÑO"
         serviceName="4"
       />
-      <UxUiSection 
-      features={features} 
-      mainDescription='Implementamos campañas de publicidad digital que conectan su marca con el público adecuado en el momento preciso, optimizando el rendimiento para lograr resultados medibles y un mayor retorno de inversión.'
-      backgroundImage='/servicios/gestion/diseno-pautas/publicidad_digital1.webp'
-      heroTitle=<>PUBLICIDAD <br/> DIGITAL</>
-      alt="Representación visual de estrategias de branding digital con iconos de creatividad, redes sociales, análisis de datos y posicionamiento online, parte de los servicios que ofrece Digimedia agencia de marketing Digital"
-      title= "Publicidad Digital, gestión digital, Agencia de Marketing Digimedia "
-      // heroBulletPoints={[
-      //   "PERMITE LLEGAR A AUDIENCIAS EN TODO EL MUNDO, SIN IMPORTAR LA UBICACIÓN GEOGRÁFICA.",
-      //   "PERMITE DIRIGIR LOS MENSAJES A GRUPOS ESPECÍFICOS DE PERSONAS CON INTERESES Y COMPORTAMIENTOS SIMILARES.",
-      //   "PUEDE GENERAR UN MAYOR NÚMERO DE LEADS Y VENTAS, ESPECIALMENTE CUANDO SE IMPLEMENTA UNA ESTRATEGIA DE MARKETING DIGITAL EFECTIVA."
-      // ]}
+      <UxUiSection
+        features={features}
+        mainDescription="Implementamos campañas de publicidad digital que conectan su marca con el público adecuado en el momento preciso, optimizando el rendimiento para lograr resultados medibles y un mayor retorno de inversión."
+        backgroundImage="/servicios/gestion/diseno-pautas/publicidad_digital1.webp"
+        heroTitle=<>
+          PUBLICIDAD <br /> DIGITAL
+        </>
+        alt="Representación visual de estrategias de branding digital con iconos de creatividad, redes sociales, análisis de datos y posicionamiento online, parte de los servicios que ofrece Digimedia agencia de marketing Digital"
+        title="Publicidad Digital, gestión digital, Agencia de Marketing Digimedia "
+        category="Branding y Diseño"
+        // heroBulletPoints={[
+        //   "PERMITE LLEGAR A AUDIENCIAS EN TODO EL MUNDO, SIN IMPORTAR LA UBICACIÓN GEOGRÁFICA.",
+        //   "PERMITE DIRIGIR LOS MENSAJES A GRUPOS ESPECÍFICOS DE PERSONAS CON INTERESES Y COMPORTAMIENTOS SIMILARES.",
+        //   "PUEDE GENERAR UN MAYOR NÚMERO DE LEADS Y VENTAS, ESPECIALMENTE CUANDO SE IMPLEMENTA UNA ESTRATEGIA DE MARKETING DIGITAL EFECTIVA."
+        // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
