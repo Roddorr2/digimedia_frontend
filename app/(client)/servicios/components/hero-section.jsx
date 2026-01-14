@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export function HeroSection({
   category = 'Diseño y desarrollo web',
@@ -12,6 +13,7 @@ export function HeroSection({
   imageAlt = '',
 }) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <section className="w-full py-16">
@@ -43,9 +45,13 @@ export function HeroSection({
 
             {/* DESKTOP: TODO JUNTO */}
             <div className="hidden md:block bg-[#B326FF] p-20">
-              <span className="block text-lg mb-4 opacity-90">
+              {/* CATEGORY → VOLVER */}
+              <button
+                onClick={() => router.back()}
+                className="block text-lg mb-4 opacity-90 hover:opacity-100 transition cursor-pointer"
+              >
                 ‹ {category}
-              </span>
+              </button>
 
               <h1 className="text-5xl font-extrabold leading-tight mb-6">
                 {title}
