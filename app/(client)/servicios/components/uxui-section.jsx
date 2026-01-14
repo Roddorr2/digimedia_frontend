@@ -32,12 +32,12 @@ export function UxUiSection({
   heroBulletPoints,
   features = [],
   alt,
+  category,
 }) {
   return (
     <div>
       <HeroSection
-      
-        category="Diseño y desarrollo web"
+        category={category}
         title={heroTitle}
         description={mainDescription}
         bulletPoints={heroBulletPoints}

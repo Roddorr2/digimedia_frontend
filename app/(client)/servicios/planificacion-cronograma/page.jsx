@@ -29,7 +29,7 @@ export default function PlanificacionCronograma() {
       ),
       title: 'PLANIFICACIÓN',
       description:
-        "Definimos pilares y formatos alineados a sus objetivos trimestrales y acordamos los KPIs para medir el impacto de la comunicación.",
+        'Definimos pilares y formatos alineados a sus objetivos trimestrales y acordamos los KPIs para medir el impacto de la comunicación.',
     },
     {
       icon: (
@@ -43,7 +43,7 @@ export default function PlanificacionCronograma() {
       ),
       title: 'CRONOGRAMA',
       description:
-        "Gestionamos sus publicaciones para mantener una presencia digital continua y coherente en los momentos clave para su audiencia.",
+        'Gestionamos sus publicaciones para mantener una presencia digital continua y coherente en los momentos clave para su audiencia.',
     },
   ];
 
@@ -58,11 +58,15 @@ export default function PlanificacionCronograma() {
 
       <UxUiSection
         features={features}
-        mainDescription='Transformamos datos en decisiones rentables. Realizamos diagnósticos precisos del desempeño actual y comparativas de mercado para identificar ineficiencias y capitalizar oportunidades no explotadas por la competencia.'
-        backgroundImage='/servicios/gestion/planificacion/planificacion_principal.webp'
-        heroTitle=<> ESTRATEGIA DE <br /> CONTENIDO</>
+        mainDescription="Transformamos datos en decisiones rentables. Realizamos diagnósticos precisos del desempeño actual y comparativas de mercado para identificar ineficiencias y capitalizar oportunidades no explotadas por la competencia."
+        backgroundImage="/servicios/gestion/planificacion/planificacion_principal.webp"
+        heroTitle=<>
+          {' '}
+          ESTRATEGIA DE <br /> CONTENIDO
+        </>
         alt="Planificación estratégica de contenido con cronogramas visuales para redes sociales y campañas digitales"
         title="Organización de contenido y planificación digital con cronograma – Digimedia Marketing."
+        category="Gestión de redes sociales"
         // heroBulletPoints={[
         //   "Aseguran coherencia y frecuencia constante en las publicaciones.",
         //   "Permiten optimizar recursos y evitar improvisaciones.",

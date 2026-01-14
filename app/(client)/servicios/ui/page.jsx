@@ -14,7 +14,7 @@ function UXUIComponent() {
 
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB', 
+      text: 'DISEÑO Y DESARROLLO WEB',
       fondo: '/servicios/desarrollo/modal-scroll/fondo.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
@@ -41,10 +41,13 @@ function UXUIComponent() {
         />
       ),
       title: 'Diseño de pautas',
-      title: <>DISEÑO DE <br /> INTERFACES (UI)</>,
+      title: (
+        <>
+          DISEÑO DE <br /> INTERFACES (UI)
+        </>
+      ),
       description:
         'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
-      
     },
     {
       icon: (
@@ -56,7 +59,11 @@ function UXUIComponent() {
           height={150}
         />
       ),
-      title: <>EXPERIENCIA DE <br /> USARIO (UX)</>,
+      title: (
+        <>
+          EXPERIENCIA DE <br /> USARIO (UX)
+        </>
+      ),
       description:
         'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
     },
@@ -76,7 +83,9 @@ function UXUIComponent() {
         features={featuresuxui}
         mainDescription="No solo diseñamos páginas bonitas; creamos productos digitales que venden. Fusionamos el Diseño UX (para que tu web sea fácil de usar) con el Diseño UI (para que sea inolvidable). Como expertos en  marketing digital , garantizamos que tu sitio no solo atraiga visitas, sino que convierta usuarios en clientes."
         backgroundImage={backgroundImage}
-        heroTitle=<>DISEÑO <br /> UX Y UI</>
+        heroTitle=<>
+          DISEÑO <br /> UX Y UI
+        </>
         alt="Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital."
         title="Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp"
         // heroBulletPoints={[

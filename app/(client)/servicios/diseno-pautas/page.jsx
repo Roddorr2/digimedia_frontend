@@ -49,7 +49,10 @@ export default function DisenoPauta() {
         features={features}
         mainDescription="Brindamos servicio de diseño y gestión de campañas de publicidad digital en redes sociales y otras plataformas. Creamos piezas gráficas y audiovisuales alineadas con tus objetivos comerciales y las orientamos a públicos específicos para maximizar el rendimientoe la inversión."
         backgroundImage="/servicios/gestion/diseno-pautas/Diseño-de-Pautas-Digimedia.webp"
-        heroTitle=<>DISEÑO DE <br/>PAUTAS</>
+        heroTitle=<>
+          DISEÑO DE <br />
+          PAUTAS
+        </>
         // heroBulletPoints={[
         //   "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
         //   "Son clave para posicionar productos, servicios o marcas en mercados competitivos.",
@@ -58,6 +61,7 @@ export default function DisenoPauta() {
         // ]}
         alt="Gestión de redes sociales, Diseño de pautas, Publicidad digital, Estrategia en redes, Social media marketing, Meta Ads, Facebook Ads, Anuncios para Instagram, Marketing digital, Community manager"
         title="Gestión de redes sociales, diseño de pautas, Digimedia.webp"
+        category="Gestión de redes sociales"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

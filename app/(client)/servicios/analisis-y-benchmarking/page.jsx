@@ -26,7 +26,7 @@ export default function ProduccionPautas() {
       ),
       title: 'ANALISIS',
       description:
-        "Te ayudamos a comprender la situación interna y externa de la empresa para tomar decisiones estrategias",
+        'Te ayudamos a comprender la situación interna y externa de la empresa para tomar decisiones estrategias',
     },
     {
       icon: (
@@ -38,7 +38,7 @@ export default function ProduccionPautas() {
       ),
       title: 'BENCHMARKING',
       description:
-        "Identificamos mejoras clave en las empresas para definir objetivos y acciones estrategicas.",
+        'Identificamos mejoras clave en las empresas para definir objetivos y acciones estrategicas.',
     },
   ];
 
@@ -60,6 +60,7 @@ export default function ProduccionPautas() {
         heroTitle="ANALISIS Y BENCHMARKING"
         alt="Marketing digital, Análisis de datos, Benchmarking, Estrategias de marketing, Comparación de métricas, Estudio de mercado, Optimización de resultados, Métricas de rendimiento, Informes de Marketing, Gestión digital"
         title="Marketing y gestión digital, análisis y benchmarking, Digimedia.webp"
+        category="Marketing y gestión digital"
         // heroBulletPoints={[
         //   "IDENTIFICACIÓN DE ÁREAS DE MEJORA Y ESTABLECIMIENTO DE OBJETIVOS REALISTAS.",
         //   "IDENTIFICACIÓN DE PROCESOS INEFICIENTES Y OPORTUNIDADES DE OPTIMIZACIÓN.",
