@@ -10,57 +10,60 @@ import 'swiper/css/navigation';
 export default function Clientes() {
   // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
-    { 
+    {
       src: '/image-home/contigo_voy color.png',
-      alt: 'Contigo Voy logo', 
-      width: 200, 
-      height: 100 
+      alt: 'Contigo Voy logo',
+      width: 200,
+      height: 100,
     },
-    
-    { 
-       src: '/image-home/digimedia color.png',
-       alt: 'Digimedia logo',
-       width: 180,
-       height: 95
-     },
 
     {
-      src: '/image-home/nhl color.png', 
+      src: '/image-home/digimedia color.png',
+      alt: 'Digimedia logo',
+      width: 180,
+      height: 95,
+    },
+
+    {
+      src: '/image-home/nhl color.png',
       alt: 'NHL logo',
       width: 130,
-      height: 75
-     },
-    { src: '/image-home/tami color.png', 
-      alt: 'Tami logo' ,
-      width: 190,
-      height: 95
+      height: 75,
     },
     {
-       src: '/image-home/yuntas color.png', 
+      src: '/image-home/tami color.png',
+      alt: 'Tami logo',
+      width: 190,
+      height: 95,
+    },
+    {
+      src: '/image-home/yuntas color.png',
       alt: 'Yuntas logo',
       width: 150,
-      height: 75
+      height: 75,
     },
-    { src: '/image-home/prevemedic color.png',
-       alt: 'prevemedic logo',
-       width: 300,
-       height: 100
-      },
-    { 
-      src: '/image-home/mj-eventos color.png', 
+    {
+      src: '/image-home/prevemedic color.png',
+      alt: 'prevemedic logo',
+      width: 300,
+      height: 100,
+    },
+    {
+      src: '/image-home/mj-eventos color.png',
       alt: 'MJ eventos logo',
-      width: 180, 
-      height: 95},
-    { 
+      width: 180,
+      height: 95,
+    },
+    {
       src: '/image-home/asden color.png',
-       alt: 'Asden logo' ,
-       width: 100,
-       height: 65
-      },
+      alt: 'Asden logo',
+      width: 100,
+      height: 65,
+    },
   ];
 
   return (
-    <section className="my-6 mx-12">
+    <section className="my-6 mx-auto max-w-[1200px] px-6">
       <style>{`
         .clients-bullet {
           width: 12px;
@@ -77,7 +80,9 @@ export default function Clientes() {
         }
       `}</style>
 
-      <h2 className="text-2xl text-[#b525fe] mb-4">NUESTROS CLIENTES</h2>
+      <h2 className="text-4xl md:text-5xl text-[#b525fe] text-center md:text-left mb-0 mt-20">
+        NUESTROS CLIENTES
+      </h2>
 
       <div className="relative w-full overflow-hidden">
         {/* Flecha izquierda */}
@@ -136,7 +141,6 @@ export default function Clientes() {
                     loading="lazy"
                     decoding="async"
                     priority={false}
-                    
                   />
                   {/* </a> */}
                 </div>

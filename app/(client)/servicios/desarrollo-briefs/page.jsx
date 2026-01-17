@@ -1,21 +1,18 @@
-import Image from "next/image";
-import Contactanos from "../components/Contactanos";
-import { UxUiSection } from "../components/uxui-section";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
+import Image from 'next/image';
+import Contactanos from '../components/Contactanos';
+import { UxUiSection } from '../components/uxui-section';
+import ModalScroll from '../components/ModalScroll';
+import ModalButton from '../components/ModalButton';
 
-
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
 
 export default function UXUI() {
-
-
   const modales = {
     modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/fondo.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      serviceName: "4",
+      text: 'BRANDING Y DISEÑO',
+      fondo: '/servicios/branding/modal-scroll/fondo.webp',
+      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
+      serviceName: '4',
     },
   };
 
@@ -23,16 +20,16 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/desarrollo_brief/brief.webp"
+          src="/servicios/branding_diseno/desarrollo_brief/icons/brief blanco.png"
           alt="Icono de una computadora con mapas y graficos"
           className="w-full h-full object-contain"
           width={200}
           height={100}
         />
       ),
-      title: "BRIEF",
+      title: 'BRIEF',
       description:
-        "ES UN DOCUMENTO CLAVE QUE RECOGE LA INFORMACIÓN ESENCIAL PARA DESARROLLAR UN PROYECTO VISUAL ALINEADO CON LOS OBJETIVOS DE UNA MARCA. SUELE INCLUIR DATOS SOBRE LA IDENTIDAD DE LA EMPRESA (COMO SU HISTORIA, MISIÓN, VISIÓN Y VALORES), ASÍ COMO EL OBJETIVO DEL ENCARGO, YA SEA CREAR UN LOGO, RENOVAR LA IDENTIDAD VISUAL O LANZAR UNA CAMPAÑA.",
+        'Desarrollamos el brief de su marca como documento estratégico, consolidando identidad y objetivos del proyecto para garantizar un desarrollo visual coherente y alineado a los resultados de su campaña.',
     },
   ];
 
@@ -47,17 +44,16 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="ES LA CONSTRUCCIÓN DE UNA GUÍA QUE RECOGE TODA LA INFORMACIÓN ESENCIAL DE UN PROYECTO DE DISEÑO O BRANDING. SIRVE COMO BASE PARA DEFINIR LA IDENTIDAD VISUAL, TONO, MENSAJE Y OBJETIVOS DE UNA MARCA, PRODUCTO O CAMPAÑA."
+        mainDescription="Transformamos tus ideas en una hoja de ruta clara para la creación de contenido gráfico y audiovisual. Nuestro proceso de brief asegura que cada proyecto de publicidad digital esté alineado con sus objetivos comerciales y atraiga a su público ideal."
         backgroundImage="/servicios/desarrollo_brief/desarrollo_brieff_principal.webp"
-        heroTitle="DESARROLLO DE BRIEF"
+        heroTitle=<>
+          DESARROLLO
+          <br />
+          DE BRIEF
+        </>
         alt="Branding, Diseño gráfico, Identidad visual, Desarrollo de marca, Manual de marca, Brief creativo, Comunicación visual, Estrategia de marca, Diseño corporativo, Posicionamiento"
         title="Branding y diseño - desarrollo de brief - Digimedia.webp"
-        heroBulletPoints={[
-          "ALINEAR AL CLIENTE Y AL EQUIPO CREATIVO EN UNA MISMA VISIÓN Y DIRECCIÓN.",
-          "REDUCIR MALENTENDIDOS O CAMBIOS INNECESARIOS DURANTE EL PROCESO.",
-          "GUIAR CADA DECISIÓN DE DISEÑO PARA QUE SEA COHERENTE CON LOS VALORES Y OBJETIVOS DE MARCA.",
-          "AYUDA A JUSTIFICAR LAS DECISIONES CREATIVAS ANTE EL CLIENTE.",
-        ]}
+        category="Branding y diseño"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
