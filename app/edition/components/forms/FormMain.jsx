@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   Save,
   RefreshCw,
@@ -50,6 +51,11 @@ export default function FormMain({
   autoSave = false,
   autoSaveInterval = 30000, // 30 segundos
 }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const {
     // Configuración
     plantillaConfig,
@@ -724,6 +730,27 @@ useEffect(() => {
           </div>
         </div>
       </div>
+
+      {/* Portal para el botón en el sidebar */}
+      {mounted && document.getElementById("sidebar-action-portal") && createPortal(
+        <button
+          onClick={handleSave}
+          disabled={loading || isSaving || !isFormValid}
+          className={`group w-full py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 flex items-center shadow-lg
+            ${isFormValid && !loading && !isSaving
+              ? "bg-blue-600 text-white hover:bg-blue-700 hover:translate-x-1"
+              : "bg-slate-800 text-slate-500 cursor-not-allowed opacity-50"
+            }`}
+        >
+          {isSaving ? (
+            <Loader2 className="mr-3 h-4 w-4 animate-spin" />
+          ) : (
+            <Save className={`mr-3 h-4 w-4 ${isFormValid ? "text-blue-200" : "text-slate-500"}`} />
+          )}
+          <span>{isCreateMode ? "Crear Blog" : "Actualizar Blog"}</span>
+        </button>,
+        document.getElementById("sidebar-action-portal")
+      )}
     </div>
   );
 }
