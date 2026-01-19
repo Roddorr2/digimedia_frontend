@@ -63,6 +63,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
+                
                 <h2>LEGALES</h2>
                 <ul>
                   <li>

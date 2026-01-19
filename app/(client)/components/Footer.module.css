@@ -7,40 +7,43 @@
 
 .imgFooter {
   display: flex;
-  justify-content: start; /* Cambiado de flex-start a center */
+  justify-content: flex-start; 
   align-items: flex-start;
-  margin-left: -2rem;
+  padding-top: 0;
+  margin-top: -40;
 }
 
 .imgFooter img {
-  width: 360px;
+  width: 360px; 
   max-width: none;
   height: auto;
   filter: brightness(0) invert(1);
 }
-
 .footerInner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-inline: 24px;
+  padding-inline: 55px;
 }
 
+.contactoFooter,
+.legalesFooter,
+.redesFooter {
+  margin-top: 40px; 
+}
 /* Contenido del footer */
 .footerContenido {
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1.1fr 1fr;
-  align-items: center;
-  column-gap: 80px;
+ display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  gap: 2rem;
+  padding: 2rem 0;
 }
 
 /* Estilos comunes para las listas */
 .listaFooter h2 {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-  color: white;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  
 }
 
 .listaFooter ul {
@@ -51,12 +54,15 @@
   flex-direction: column;
   gap: 12px;
 }
-
-.listaFooter li {
-  font-size: 14px;
-  line-height: 1.6;
+.legalesFooter ul {
+  gap: 16px;
 }
-
+.listaFooter li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+}
 .listaFooter a {
   color: white;
   text-decoration: none;
@@ -89,11 +95,18 @@
   gap: 16px;
   max-width: 200px;
   padding-top: 30px;
+  margin-top: -30px;
 }
 
 .redesFooter li {
   display: inline-flex;
 }
+
+.redesFooter h2 {
+  margin-bottom: 0.5rem; /* Reduce el espacio entre título e iconos */
+}
+
+
 
 .redesFooter a {
   width: 40px;
@@ -123,6 +136,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 37px;
 }
 
 .ruc p,
@@ -162,12 +176,13 @@
     justify-content: center; /* Asegura que esté centrado en móvil */
     align-items: center;
     margin-bottom: -40px;
-    margin-top: -40px;
-    margin-left: 0;
+    margin-top: -160px;
+    
   }
 
   .imgFooter img {
     max-width: 300px;
+    
   }
 
   /* Secciones centradas */
@@ -240,4 +255,5 @@
     width: 36px;
     height: 36px;
   }
+  
 }
