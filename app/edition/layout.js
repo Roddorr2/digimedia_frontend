@@ -12,7 +12,7 @@ export default function EditionLayout({ children }) {
   const observerRef = useRef(null)
   const isNavigatingRef = useRef(false)
   const sectionsRef = useRef(null)
-  
+
   const handleSectionClick = (id) => {
     setSelectedSection(id);
 
@@ -75,13 +75,13 @@ export default function EditionLayout({ children }) {
       });
     }
   };
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       sectionsRef.current = document.querySelectorAll("#header, #body, #footer")
       setupObserver()
     }, 500)
-    
+
     return () => {
       clearTimeout(timer)
       if (observerRef.current) {
@@ -89,14 +89,14 @@ export default function EditionLayout({ children }) {
       }
     }
   }, [])
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (isNavigatingRef.current) return
     }
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true })
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
@@ -194,6 +194,15 @@ export default function EditionLayout({ children }) {
                 Plantillas
               </Link>
             </button>
+
+            <div className="mt-6 pt-6 border-t border-slate-700/50">
+              <h2 className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-4 flex items-center">
+                <span className="h-px flex-grow bg-slate-700 mr-2"></span>
+                ACCIONES
+                <span className="h-px flex-grow bg-slate-700 ml-2"></span>
+              </h2>
+              <div id="sidebar-action-portal" className="space-y-3"></div>
+            </div>
           </div>
         </div>
         <div className="flex-1 p-6 ml-64 bg-slate-50 overflow-auto">{children}</div>
