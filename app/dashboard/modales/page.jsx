@@ -195,7 +195,7 @@ export default function Page() {
         setCookie("modal", JSON.stringify(response.data.data), {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
-        });
+        }); 
         router.push(`./view/`);
       }
     } catch (error) {
@@ -309,6 +309,8 @@ export default function Page() {
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombres</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefono</th>
+
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Servicio de Contrato</th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
@@ -324,6 +326,7 @@ export default function Page() {
                           {modal.id_modalservicio}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.telefono}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio?.nombre}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -370,7 +373,7 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="px-6 py-16 text-center">
+                      <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
