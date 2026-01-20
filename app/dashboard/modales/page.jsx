@@ -19,7 +19,7 @@ export default function Page() {
   const currentPage = searchParams.get("page") || 1
   const [data, setData] = useState([])
   const [filteredData, setFilteredData] = useState([])
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(0) // ⚠️ CAMBIADO A 0
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -262,6 +262,7 @@ export default function Page() {
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setFilteredData(data)
+      setTotalPages(Math.ceil(data.length / 4)) // ⚠️ RECALCULAR totalPages
     } else {
       const filtered = data.filter(
         (modal) =>
@@ -270,6 +271,7 @@ export default function Page() {
           modal.id_modalservicio.toString().includes(searchTerm),
       )
       setFilteredData(filtered)
+      setTotalPages(Math.ceil(filtered.length / 4)) // ⚠️ RECALCULAR totalPages
     }
   }, [searchTerm, data])
 
@@ -319,7 +321,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="Buscar por nombre, correo o ID..."
-                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent"
+                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -355,49 +357,49 @@ export default function Page() {
           </div>
         ) : (
           <>
-            <div className="overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
                       ID
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
                       Nombres
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
                       Correo
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
                       Servicio de Contrato
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
                       Estado
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
                       Acciones
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                   {filteredData.length > 0 ? (
                     filteredData
                     .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
@@ -412,7 +414,7 @@ export default function Page() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              modal.estado ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                              modal.estado ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
                             }`}
                           >
                             {modal.estado ? "Activo" : "Inactivo"}
@@ -423,14 +425,14 @@ export default function Page() {
                             <button
                               onClick={() => visualizar(modal.id_modalservicio)}
                               title="Visualizar"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400"
                             >
                               <Eye size={18} />
                             </button>
 
                             <button
                               title="Emails y WhatsApp"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400"
                             >
                               <Link href={`/dashboard/modales/mails?id_modal=${modal.id_modalservicio}`} >
                                 <Contact size={17} />
@@ -444,8 +446,8 @@ export default function Page() {
                               title={`Cambiar a ${modal.estado ? "Inactivo" : "Activo"}`}
                               className={`p-1.5 rounded-lg transition-colors ${
                                 modal.estado
-                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                                  : "bg-green-50 text-green-600 hover:bg-green-100"
+                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400"
+                                  : "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400"
                               }`}
                             >
                               <ToggleLeft size={18} />
@@ -455,7 +457,7 @@ export default function Page() {
                               <button
                                 onClick={() => confirmarEliminacion(modal.id_modalservicio)}
                                 title="Eliminar"
-                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400"
                               >
                                 <Trash2 size={18} />
                               </button>
@@ -466,20 +468,20 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="px-6 py-16 text-center">
+                      <td colSpan="6" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
                           {searchTerm && (
-                            <p className="text-gray-400 text-sm">No se encontraron resultados para "{searchTerm}"</p>
-                          )}
-                          {searchTerm && (
-                            <button
-                              onClick={() => setSearchTerm("")}
-                              className="mt-3 text-[#8c52ff] text-sm font-medium hover:underline"
-                            >
-                              Limpiar búsqueda
-                            </button>
+                            <>
+                              <p className="text-gray-400 text-sm">No se encontraron resultados para "{searchTerm}"</p>
+                              <button
+                                onClick={() => setSearchTerm("")}
+                                className="mt-3 text-[#8c52ff] text-sm font-medium hover:underline"
+                              >
+                                Limpiar búsqueda
+                              </button>
+                            </>
                           )}
                         </div>
                       </td>
@@ -490,9 +492,9 @@ export default function Page() {
             </div>
 
             <Pagination1
-              filteredData = {filteredData}
-              currentPage = {currentPage}
-              totalPages = {totalPages}
+              filteredData={filteredData}
+              currentPage={currentPage}
+              totalPages={totalPages}
             />
           </>
         )}
