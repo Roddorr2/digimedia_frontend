@@ -1,76 +1,75 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination1 from '../components/Pagination1';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { setCookie, getCookie, deleteCookie } from 'cookies-next';
 import user_service from '../users/services/user.service';
 import url from '../../../api/url';
-import axios from 'axios';
+import axios from 'axios'
 import Swal from 'sweetalert2';
-import { Search, Eye, ToggleLeft, Trash2, Loader2, Filter, Download, RefreshCw, Contact } from "lucide-react";
-import auth_service from "../users/services/auth.service";
-import Link from "next/link";
+import { Search, Eye, ToggleLeft, Trash2, Loader2, Filter, Download, RefreshCw, Contact } from "lucide-react"
+import auth_service from "../users/services/auth.service"
+import Link from "next/link"
 
 const API_BASE_URL = `${url}/api/modales`;
 
 export default function Page() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const currentPage = searchParams.get("page") || 1
+  const [data, setData] = useState([])
+  const [filteredData, setFilteredData] = useState([])
+  const [totalPages, setTotalPages] = useState(0) // ⚠️ CAMBIADO A 0
+  const [isLoading, setIsLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const router = useRouter()
 
-  const currentPage = useMemo(() => {
-    const p = Number(searchParams.get("page") || 1);
-    return Number.isFinite(p) && p > 0 ? p : 1;
-  }, [searchParams]);
 
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
+  async function fetchModals() {
+    setIsRefreshing(true)
+    let page = 1
+    let allData = []
+    let hasMorePages = true
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+    while (hasMorePages) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        })
 
-  const [searchTerm, setSearchTerm] = useState("");
+        if (response.data.data.length === 0) {
+          hasMorePages = false
+          break
+        }
 
-  function handle401() {
-    Swal.fire({
-      title: "Sesión Expirada",
-      text: "Por favor, inicia sesión nuevamente.",
-      icon: "warning",
-      confirmButtonText: "OK",
-    }).then(() => {
-      deleteCookie("modal");
-      user_service.logoutClient(router);
-    });
-  }
+        allData = [...allData, ...response.data.data]
+        page++
+      } catch (error) {
+        hasMorePages = false
+        console.error("Error al obtener los datos:", error.message)
 
-  async function fetchModals(pageParam = currentPage) {
-    const page = Number(pageParam) || 1;
-
-    setIsLoading(true);
-    setIsRefreshing(true);
-
-    try {
-      const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
-        },
-      });
-
-      const paginator = response.data;
-
-      const items = paginator?.data ?? [];
-      setData(items);
-      setFilteredData(items);
-      setTotalPages(Number(paginator?.last_page) || 1);
-
-    } catch (error) {
-      console.error("Error al obtener los datos:", error?.message);
-      if (error?.response?.status === 401) handle401();
-    } finally {
-      setIsLoading(false);
-      setIsRefreshing(false);
+        if (error.response && error.response.status === 401) {
+          Swal.fire({
+            title: "Sesión Expirada",
+            text: "Por favor, inicia sesión nuevamente.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          }).then(() => {
+            deleteCookie("modal");
+            user_service.logoutClient(router)
+          })
+        }
+      }
     }
+
+    setData(allData)
+    setFilteredData(allData)
+    setTotalPages(Math.ceil(allData.length / 4))
+    setIsLoading(false)
+    setIsRefreshing(false)
   }
 
   async function deleteModal(id) {
@@ -79,7 +78,7 @@ export default function Page() {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
-      });
+      })
 
       if (response.status === 200) {
         Swal.fire({
@@ -87,27 +86,36 @@ export default function Page() {
           text: "El modal ha sido eliminado exitosamente.",
           icon: "success",
           confirmButtonText: "OK",
-        });
-
-        fetchModals(currentPage);
+        })
+        fetchModals(currentPage)
       } else {
         Swal.fire({
           title: "Error",
           text: "No se pudo eliminar el modal.",
           icon: "error",
           confirmButtonText: "OK",
-        });
+        })
       }
     } catch (error) {
-      if (error?.response?.status === 401) handle401();
-      else {
+      if (error.response && error.response.status === 401) {
+        Swal.fire({
+          title: "Sesión Expirada",
+          text: "Por favor, inicia sesión nuevamente.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then(() => {
+          deleteCookie("modal");
+          user_service.logoutClient(router)
+        })
+      } else {
         Swal.fire({
           title: "Error",
           text: "Ocurrió un error inesperado.",
           icon: "error",
           confirmButtonText: "OK",
-        });
+        })
       }
+      console.log(error)
     }
   }
 
@@ -122,8 +130,10 @@ export default function Page() {
       confirmButtonText: "Sí, eliminar",
       cancelButtonText: "Cancelar",
     }).then((result) => {
-      if (result.isConfirmed) deleteModal(id);
-    });
+      if (result.isConfirmed) {
+        deleteModal(id)
+      }
+    })
   }
 
   function confirmarCambiarEstado(id, nuevoEstado) {
@@ -137,8 +147,10 @@ export default function Page() {
       confirmButtonText: "Sí, cambiar",
       cancelButtonText: "Cancelar",
     }).then((result) => {
-      if (result.isConfirmed) cambiarEstado(id, nuevoEstado);
-    });
+      if (result.isConfirmed) {
+        cambiarEstado(id, nuevoEstado)
+      }
+    })
   }
 
   async function cambiarEstado(id, nuevoEstado) {
@@ -153,34 +165,41 @@ export default function Page() {
             "Content-Type": "application/json",
           },
         },
-      );
-
+      )
       if (response.status === 200) {
         Swal.fire({
           title: "Estado Cambiado",
-          text: `El estado del modal se cambió a ${nuevoEstado == 0 ? "Inactivo" : "Activo"}`,
+          text: `El estado del modal se cambio a ${nuevoEstado == 0 ? "Inactivo" : "Activo"}`,
           icon: "success",
           confirmButtonText: "OK",
-        });
-
-        fetchModals(currentPage);
+        })
+        fetchModals(currentPage)
       } else {
         Swal.fire({
           title: "Error",
           text: "No se pudo cambiar el estado del modal.",
           icon: "error",
           confirmButtonText: "OK",
-        });
+        })
       }
     } catch (error) {
-      if (error?.response?.status === 401) handle401();
-      else {
+      if (error.response && error.response.status === 401) {
+        Swal.fire({
+          title: "Sesión Expirada",
+          text: "Por favor, inicia sesión nuevamente.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then(() => {
+          deleteCookie("modal");
+          user_service.logoutClient(router)
+        })
+      } else {
         Swal.fire({
           title: "Error",
           text: "Ocurrió un error inesperado.",
           icon: "error",
           confirmButtonText: "OK",
-        });
+        })
       }
     }
   }
@@ -188,72 +207,107 @@ export default function Page() {
   async function visualizar(id) {
     try {
       const response = await axios.get(`${API_BASE_URL}/${id}`, {
-        headers: { Authorization: `Bearer ${getCookie("token")}` },
-      });
-
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      })
       if (response.status === 200 && response.data) {
         setCookie("modal", JSON.stringify(response.data.data), {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
-        }); 
-        router.push(`./view/`);
+        })
+        router.push(`./view/`)
       }
     } catch (error) {
-      if (error?.response?.status === 401) handle401();
-      else if (error?.response?.status === 404) {
-        Swal.fire({ title: "No Encontrado", text: "El modal no existe en la base de datos.", icon: "warning" });
+      if (error.response) {
+        if (error.response.status === 404) {
+          Swal.fire({
+            title: "No Encontrado",
+            text: "El modal no existe en la base de datos.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          })
+        } else if (error.response.status === 401) {
+          Swal.fire({
+            title: "Sesión Expirada",
+            text: "Por favor, inicia sesión nuevamente.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          })
+          deleteCookie("modal");
+          router.push("/login")
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Ocurrió un error al obtener los datos.",
+            icon: "error",
+            confirmButtonText: "OK",
+          })
+        }
       } else {
-        Swal.fire({ title: "Error", text: "Ocurrió un error al obtener los datos.", icon: "error" });
+        Swal.fire({
+          title: "Error de conexión",
+          text: "No se pudo conectar con el servidor.",
+          icon: "error",
+          confirmButtonText: "OK",
+        })
       }
     }
   }
 
   useEffect(() => {
-    fetchModals(currentPage);
-  }, [currentPage]);
+    fetchModals(currentPage)
+  }, [currentPage])
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredData(data);
+      setFilteredData(data)
+      setTotalPages(Math.ceil(data.length / 4)) // ⚠️ RECALCULAR totalPages
     } else {
       const filtered = data.filter(
         (modal) =>
           modal.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
           modal.correo.toLowerCase().includes(searchTerm.toLowerCase()) ||
           modal.id_modalservicio.toString().includes(searchTerm),
-      );
-      setFilteredData(filtered);
+      )
+      setFilteredData(filtered)
+      setTotalPages(Math.ceil(filtered.length / 4)) // ⚠️ RECALCULAR totalPages
     }
-  }, [searchTerm, data]);
+  }, [searchTerm, data])
 
   const exportToCSV = () => {
     if (filteredData.length === 0) {
-      Swal.fire({ title: "Sin datos", text: "No hay datos para exportar", icon: "info" });
-      return;
+      Swal.fire({
+        title: "Sin datos",
+        text: "No hay datos para exportar",
+        icon: "info",
+        confirmButtonText: "OK",
+      })
+      return
     }
 
-    const headers = ["ID", "Nombre", "Correo", "Estado", "Servicio Contratado"];
+    const headers = ["ID", "Nombre", "Correo", "Estado", "Servicio Contratado"]
 
     const csvData = filteredData.map((modal) => [
       modal.id_modalservicio,
       modal.nombre,
       modal.correo,
+      modal.servicio.nombre,
       modal.estado ? "Activo" : "Inactivo",
-      modal.servicio?.nombre ?? "",
-    ]);
+    ])
 
-    const csvContent = [headers.join(","), ...csvData.map((row) => row.join(","))].join("\n");
+    const csvContent = [headers.join(","), ...csvData.map((row) => row.join(","))].join("\n")
 
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const blobUrl = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.setAttribute("href", blobUrl);
-    link.setAttribute("download", "modales.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.setAttribute("href", url)
+    link.setAttribute("download", "modales.csv")
+    link.style.visibility = "hidden"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   return (
     <main className="p-4 md:p-6 flex flex-col w-full h-[100vh] bg-gray-50 dark:bg-gray-900 overflow-y-auto">
@@ -267,7 +321,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="Buscar por nombre, correo o ID..."
-                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent"
+                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -284,7 +338,7 @@ export default function Page() {
               </button>
 
               <button
-                onClick={() => fetchModals(currentPage)}  // ✅ número, no objeto
+                onClick={() => fetchModals()}
                 disabled={isRefreshing}
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
@@ -303,34 +357,66 @@ export default function Page() {
           </div>
         ) : (
           <>
-            <div className="overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombres</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefono</th>
-
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Servicio de Contrato</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
+                      ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
+                      Nombres
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
+                      Correo
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
+                      Servicio de Contrato
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
+                      Estado
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
-
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                   {filteredData.length > 0 ? (
-                    filteredData.map((modal) => (
-                      <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white">
+                    filteredData
+                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
+                    .map((modal)=> (
+                      <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"> 
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {modal.id_modalservicio}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.telefono}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio?.nombre}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio.nombre}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${modal.estado ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                          <span
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              modal.estado ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+                            }`}
+                          >
                             {modal.estado ? "Activo" : "Inactivo"}
                           </span>
                         </td>
@@ -339,21 +425,30 @@ export default function Page() {
                             <button
                               onClick={() => visualizar(modal.id_modalservicio)}
                               title="Visualizar"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400"
                             >
                               <Eye size={18} />
                             </button>
 
-                            <button title="Emails y WhatsApp" className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors">
-                              <Link href={`/dashboard/modales/mails?id_modal=${modal.id_modalservicio}`}>
+                            <button
+                              title="Emails y WhatsApp"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400"
+                            >
+                              <Link href={`/dashboard/modales/mails?id_modal=${modal.id_modalservicio}`} >
                                 <Contact size={17} />
                               </Link>
                             </button>
 
                             <button
-                              onClick={() => confirmarCambiarEstado(modal.id_modalservicio, `${modal.estado ? 0 : 1}`)}
+                              onClick={() =>
+                                confirmarCambiarEstado(modal.id_modalservicio, `${modal.estado ? 0 : 1}`)
+                              }
                               title={`Cambiar a ${modal.estado ? "Inactivo" : "Activo"}`}
-                              className={`p-1.5 rounded-lg transition-colors ${modal.estado ? "bg-blue-50 text-blue-600 hover:bg-blue-100" : "bg-green-50 text-green-600 hover:bg-green-100"}`}
+                              className={`p-1.5 rounded-lg transition-colors ${
+                                modal.estado
+                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400"
+                                  : "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400"
+                              }`}
                             >
                               <ToggleLeft size={18} />
                             </button>
@@ -362,7 +457,7 @@ export default function Page() {
                               <button
                                 onClick={() => confirmarEliminacion(modal.id_modalservicio)}
                                 title="Eliminar"
-                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400"
                               >
                                 <Trash2 size={18} />
                               </button>
@@ -373,10 +468,21 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="7" className="px-6 py-16 text-center">
+                      <td colSpan="6" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
+                          {searchTerm && (
+                            <>
+                              <p className="text-gray-400 text-sm">No se encontraron resultados para "{searchTerm}"</p>
+                              <button
+                                onClick={() => setSearchTerm("")}
+                                className="mt-3 text-[#8c52ff] text-sm font-medium hover:underline"
+                              >
+                                Limpiar búsqueda
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -386,7 +492,7 @@ export default function Page() {
             </div>
 
             <Pagination1
-              filteredData={filteredData}  
+              filteredData={filteredData}
               currentPage={currentPage}
               totalPages={totalPages}
             />
@@ -394,5 +500,5 @@ export default function Page() {
         )}
       </div>
     </main>
-  );
+  )
 }
