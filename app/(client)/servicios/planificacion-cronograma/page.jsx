@@ -34,6 +34,8 @@ export default function PlanificacionCronograma() {
   return (
 
     <div>
+      {/*AGREGAR ModalScroll*/}
+      <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
         fondo="/servicios/gestion/modal-button/imagen.webp"
