@@ -4,22 +4,52 @@ import { useMemo, useState } from "react";
 import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
 
 export default function WhatsAppPage() {
-  // ✅ FIX: usa valores sin tilde y consistentes
-  const [tab, setTab] = useState("conexion"); // "conexion" | "plantilla"
+  const [tab, setTab] = useState("conexion"); 
   const [isConnected, setIsConnected] = useState(true);
 
   const [product, setProduct] = useState("");
   const [paragraph, setParagraph] = useState("");
   const [image, setImage] = useState(null);
 
-  const products = useMemo(
+  const services = useMemo(
     () => [
-      { id: "p1", name: "Producto A - Plan Mensual" },
-      { id: "p2", name: "Producto B - Pack 2x1" },
-      { id: "p3", name: "Producto C - Nuevo Lanzamiento" },
+      { id: "p1", name: "Diseño y Desarrollo Web" },
+      { id: "p2", name: "Gestión de Redes Sociales" },
+      { id: "p3", name: "Marketing y Gestión Digital" },
+      { id: "p4", name: "Branding y Diseño" },
     ],
     []
   );
+
+  const subservices = useMemo(
+  () => ({
+    p1: [
+      { id: "p1_1", name: "Creación y desarrollo web" },
+      { id: "p1_2", name: "Experiencia de usuario y diseño" },
+      { id: "p1_3", name: "Dominio y hosting web" },
+      { id: "p1_4", name: "Optimización para buscadores" },
+    ],
+    p2: [
+      { id: "p2_1", name: "Estrategia de contenido" },
+      { id: "p2_2", name: "Diseño de pautas" },
+      { id: "p2_3", name: "Producción de pautas" },
+      { id: "p2_4", name: "Diseño UX/UI" },
+    ],
+    p3: [
+      { id: "p3_1", name: "Identidad y posicionamiento" },
+      { id: "p3_2", name: "Naming" },
+      { id: "p3_3", name: "Identidad visual y eslogan" },
+      { id: "p3_4", name: "Desarrollo de identidad visual y manual de marca" },
+    ],
+    p4: [
+      { id: "p4_1", name: "Desarrollo de brief" },
+      { id: "p4_2", name: "Planificación estratégica" },
+      { id: "p4_3", name: "Publicidad digital" },
+      { id: "p4_4", name: "Monitoreo y reporting" },
+    ],
+  }),
+  []
+);
 
   const statusText = isConnected ? "WhatsApp Conectado" : "WhatsApp Desconectado";
   const statusHint = isConnected
@@ -32,10 +62,8 @@ export default function WhatsAppPage() {
   const handlePickFile = (file) => {
     if (!file) return;
 
-    const isWebp = file.type === "image/webp" || file.name.toLowerCase().endsWith(".webp");
     const under2mb = file.size <= 2 * 1024 * 1024;
 
-    if (!isWebp) return alert("La imagen debe estar en formato WEBP.");
     if (!under2mb) return alert("La imagen debe pesar menos de 2 MB.");
 
     setImage(file);
@@ -72,7 +100,7 @@ export default function WhatsAppPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-50">
+    <div className="flex flex-col h-screen w-full bg-slate-50">
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
         <div className="w-full px-4 py-4">
@@ -97,14 +125,6 @@ export default function WhatsAppPage() {
                   />
                   {statusText}
                 </span>
-
-                {/* ✅ visible también en móvil */}
-                <button
-                  onClick={() => setTab("plantilla")}
-                  className="inline-flex rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 active:bg-slate-900"
-                >
-                  Ir a Plantilla
-                </button>
               </div>
             </div>
 
@@ -128,7 +148,7 @@ export default function WhatsAppPage() {
       </header>
 
       {/* Content */}
-      <main className="w-full px-4 py-8">
+      <main className="mb-12 flex-1 w-full px-4 py-8 overflow-y-auto">
         <div className="mx-auto w-full max-w-5xl">
           {tab === "conexion" ? (
             <section className="space-y-6">
@@ -258,7 +278,7 @@ export default function WhatsAppPage() {
                         </label>
                       </p>
                       <p className="text-xs text-slate-500">
-                        Cada imagen debe pesar menos de 2 MB. Formato WEBP.
+                        Cada imagen debe pesar menos de 2 MB. Formato JPG, PNG o WEBP.
                       </p>
                     </div>
                   </div>
