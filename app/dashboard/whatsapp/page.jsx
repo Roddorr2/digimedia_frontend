@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion"); 
   const [isConnected, setIsConnected] = useState(true);
 
-  const [product, setProduct] = useState("");
+  const [service, setService] = useState("");
+  const [subservice, setSubservice] = useState("");
   const [paragraph, setParagraph] = useState("");
   const [image, setImage] = useState(null);
 
@@ -51,13 +52,18 @@ export default function WhatsAppPage() {
   []
 );
 
+    const subServices = useMemo(() => {
+    if (!service) return [];
+    return subservices[service] ?? [];
+    }, [service, subservices]);
+
   const statusText = isConnected ? "WhatsApp Conectado" : "WhatsApp Desconectado";
   const statusHint = isConnected
     ? "Tu cuenta está vinculada y lista para enviar mensajes."
     : "Vincula tu cuenta para poder enviar mensajes.";
 
-  const canSaveTemplate = Boolean(product && paragraph.trim().length > 0 && image);
-  const canActivate = Boolean(product && isConnected);
+  const canSaveTemplate = Boolean(service && subservice && paragraph.trim().length > 0 && image);
+  const canActivate = Boolean(service && subservice && isConnected);
 
   const handlePickFile = (file) => {
     if (!file) return;
@@ -78,20 +84,10 @@ export default function WhatsAppPage() {
   const handleSaveTemplate = () => {
     if (!canSaveTemplate) return;
 
-    console.log({
-      product,
-      paragraph,
-      imageName: image?.name ?? null,
-    });
-
-    alert("Plantilla guardada (mock).");
   };
 
   const handleActivateCampaign = () => {
     if (!canActivate) return;
-
-    console.log("Activar campaña", { product });
-    alert("Campaña activada (mock).");
   };
 
   const handleRestartSession = () => {
@@ -99,12 +95,15 @@ export default function WhatsAppPage() {
     setTimeout(() => setIsConnected(true), 900);
   };
 
+  useEffect(() => {
+    setSubservice(""); // reset al cambiar producto
+  }, [service]);
+
   return (
     <div className="flex flex-col h-screen w-full bg-slate-50">
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
         <div className="w-full px-4 py-4">
-          {/* ✅ Wrapper centrado (funciona mejor en dashboards con sidebar) */}
           <div className="mx-auto w-full max-w-5xl">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -195,19 +194,19 @@ export default function WhatsAppPage() {
           ) : (
             <section className="space-y-6">
               <Card>
-                <CardTitle>Selección de Producto</CardTitle>
+                <CardTitle>Selección de Servicio</CardTitle>
 
                 <div className="mt-4">
                   <label className="mb-2 block text-sm font-semibold text-slate-800">
-                    Selecciona un producto
+                    Selecciona un servicio
                   </label>
                   <select
-                    value={product}
-                    onChange={(e) => setProduct(e.target.value)}
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
                     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
                   >
                     <option value="">--- Selecciona una opción ---</option>
-                    {products.map((p) => (
+                    {services.map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.name}
                       </option>
@@ -217,6 +216,39 @@ export default function WhatsAppPage() {
                     Esto define el contexto del mensaje y la plantilla asociada.
                   </p>
                 </div>
+
+              <div className="mt-4">
+                <label className="mb-2 block text-sm font-semibold text-slate-800">
+                    Selecciona un subservicio
+                </label>
+
+                <select
+                    value={subservice}
+                    onChange={(e) => setSubservice(e.target.value)}
+                    disabled={!service}
+                    className={[
+                    "w-full rounded-xl border px-4 py-3 text-slate-900 outline-none focus:ring-4",
+                    service
+                        ? "border-slate-200 bg-white focus:border-cyan-400 focus:ring-cyan-100"
+                        : "border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed",
+                    ].join(" ")}
+                >
+                    <option value="">
+                    {service ? "--- Selecciona una opción ---" : "Primero selecciona un servicio"}
+                    </option>
+
+                    {subServices.map((s) => (
+                    <option key={s.id} value={s.id}>
+                        {s.name}
+                    </option>
+                    ))}
+                </select>
+
+                <p className="mt-2 text-xs text-slate-500">
+                    Este campo se adapta según el servicio elegido.
+                </p>
+                </div>
+
               </Card>
 
               <Card>
@@ -331,7 +363,8 @@ export default function WhatsAppPage() {
 
                   <button
                     onClick={() => {
-                      setProduct("");
+                      setService("");
+                      setSubservice("");
                       setParagraph("");
                       setImage(null);
                     }}
