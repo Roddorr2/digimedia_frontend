@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
 
 export default function WhatsAppPage() {
-  const [tab, setTab] = useState("conexion"); 
+  const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(true);
 
   const [service, setService] = useState("");
@@ -23,39 +23,39 @@ export default function WhatsAppPage() {
   );
 
   const subservices = useMemo(
-  () => ({
-    p1: [
-      { id: "p1_1", name: "Creación y desarrollo web" },
-      { id: "p1_2", name: "Experiencia de usuario y diseño" },
-      { id: "p1_3", name: "Dominio y hosting web" },
-      { id: "p1_4", name: "Optimización para buscadores" },
-    ],
-    p2: [
-      { id: "p2_1", name: "Estrategia de contenido" },
-      { id: "p2_2", name: "Diseño de pautas" },
-      { id: "p2_3", name: "Producción de pautas" },
-      { id: "p2_4", name: "Diseño UX/UI" },
-    ],
-    p3: [
-      { id: "p3_1", name: "Identidad y posicionamiento" },
-      { id: "p3_2", name: "Naming" },
-      { id: "p3_3", name: "Identidad visual y eslogan" },
-      { id: "p3_4", name: "Desarrollo de identidad visual y manual de marca" },
-    ],
-    p4: [
-      { id: "p4_1", name: "Desarrollo de brief" },
-      { id: "p4_2", name: "Planificación estratégica" },
-      { id: "p4_3", name: "Publicidad digital" },
-      { id: "p4_4", name: "Monitoreo y reporting" },
-    ],
-  }),
-  []
-);
+    () => ({
+      p1: [
+        { id: "p1_1", name: "Creación y desarrollo web" },
+        { id: "p1_2", name: "Experiencia de usuario y diseño" },
+        { id: "p1_3", name: "Dominio y hosting web" },
+        { id: "p1_4", name: "Optimización para buscadores" },
+      ],
+      p2: [
+        { id: "p2_1", name: "Estrategia de contenido" },
+        { id: "p2_2", name: "Diseño de pautas" },
+        { id: "p2_3", name: "Producción de pautas" },
+        { id: "p2_4", name: "Diseño UX/UI" },
+      ],
+      p3: [
+        { id: "p3_1", name: "Identidad y posicionamiento" },
+        { id: "p3_2", name: "Naming" },
+        { id: "p3_3", name: "Identidad visual y eslogan" },
+        { id: "p3_4", name: "Desarrollo de identidad visual y manual de marca" },
+      ],
+      p4: [
+        { id: "p4_1", name: "Desarrollo de brief" },
+        { id: "p4_2", name: "Planificación estratégica" },
+        { id: "p4_3", name: "Publicidad digital" },
+        { id: "p4_4", name: "Monitoreo y reporting" },
+      ],
+    }),
+    []
+  );
 
-    const subServices = useMemo(() => {
+  const subServices = useMemo(() => {
     if (!service) return [];
     return subservices[service] ?? [];
-    }, [service, subservices]);
+  }, [service, subservices]);
 
   const statusText = isConnected ? "WhatsApp Conectado" : "WhatsApp Desconectado";
   const statusHint = isConnected
@@ -69,7 +69,6 @@ export default function WhatsAppPage() {
     if (!file) return;
 
     const under2mb = file.size <= 2 * 1024 * 1024;
-
     if (!under2mb) return alert("La imagen debe pesar menos de 2 MB.");
 
     setImage(file);
@@ -83,7 +82,6 @@ export default function WhatsAppPage() {
 
   const handleSaveTemplate = () => {
     if (!canSaveTemplate) return;
-
   };
 
   const handleActivateCampaign = () => {
@@ -170,7 +168,7 @@ export default function WhatsAppPage() {
 
                     <button
                       onClick={handleRestartSession}
-                      className="inline-flex items-center justify-center rounded-full bg-cyan-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-cyan-600 active:bg-cyan-700"
+                      className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                     >
                       Reiniciar Sesión
                     </button>
@@ -203,7 +201,7 @@ export default function WhatsAppPage() {
                   <select
                     value={service}
                     onChange={(e) => setService(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
                   >
                     <option value="">--- Selecciona una opción ---</option>
                     {services.map((p) => (
@@ -217,38 +215,39 @@ export default function WhatsAppPage() {
                   </p>
                 </div>
 
-              <div className="mt-4">
-                <label className="mb-2 block text-sm font-semibold text-slate-800">
+                <div className="mt-4">
+                  <label className="mb-2 block text-sm font-semibold text-slate-800">
                     Selecciona un subservicio
-                </label>
+                  </label>
 
-                <select
+                  <select
                     value={subservice}
                     onChange={(e) => setSubservice(e.target.value)}
                     disabled={!service}
                     className={[
-                    "w-full rounded-xl border px-4 py-3 text-slate-900 outline-none focus:ring-4",
-                    service
-                        ? "border-slate-200 bg-white focus:border-cyan-400 focus:ring-cyan-100"
+                      "w-full rounded-xl border px-4 py-3 text-slate-900 outline-none focus:ring-4",
+                      service
+                        ? "border-slate-200 bg-white focus:border-[rgba(140,82,255,1)] focus:ring-[rgba(140,82,255,0.18)]"
                         : "border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed",
                     ].join(" ")}
-                >
+                  >
                     <option value="">
-                    {service ? "--- Selecciona una opción ---" : "Primero selecciona un servicio"}
+                      {service
+                        ? "--- Selecciona una opción ---"
+                        : "Primero selecciona un servicio"}
                     </option>
 
                     {subServices.map((s) => (
-                    <option key={s.id} value={s.id}>
+                      <option key={s.id} value={s.id}>
                         {s.name}
-                    </option>
+                      </option>
                     ))}
-                </select>
+                  </select>
 
-                <p className="mt-2 text-xs text-slate-500">
+                  <p className="mt-2 text-xs text-slate-500">
                     Este campo se adapta según el servicio elegido.
-                </p>
+                  </p>
                 </div>
-
               </Card>
 
               <Card>
@@ -299,7 +298,7 @@ export default function WhatsAppPage() {
                       </div>
                       <p className="text-sm text-slate-700">
                         Arrastra tu imagen aquí o{" "}
-                        <label className="cursor-pointer font-semibold text-cyan-600 hover:text-cyan-700">
+                        <label className="cursor-pointer font-semibold text-[rgba(140,82,255,1)] hover:text-[rgba(140,82,255,0.9)]">
                           haz click para subir
                           <input
                             type="file"
@@ -326,7 +325,7 @@ export default function WhatsAppPage() {
                     onChange={(e) => setParagraph(e.target.value)}
                     placeholder="Escribe el párrafo"
                     rows={6}
-                    className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-100"
+                    className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
                   />
                   <p className="mt-2 text-xs text-slate-500">
                     Descripción o contenido de la sección.
@@ -341,7 +340,7 @@ export default function WhatsAppPage() {
                     className={[
                       "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
                       canSaveTemplate
-                        ? "bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700"
+                        ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                         : "bg-slate-300 cursor-not-allowed",
                     ].join(" ")}
                   >
@@ -354,7 +353,7 @@ export default function WhatsAppPage() {
                     className={[
                       "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
                       canActivate
-                        ? "bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700"
+                        ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                         : "bg-slate-300 cursor-not-allowed",
                     ].join(" ")}
                   >
@@ -377,7 +376,7 @@ export default function WhatsAppPage() {
                 {/* Hint debajo de botones */}
                 {!canSaveTemplate && (
                   <p className="mt-3 text-xs text-slate-500">
-                    Completa producto, imagen (WEBP &lt; 2MB) y párrafo para guardar.
+                    Completa producto, imagen (WEBP, JPG, PNG &lt; 2MB) y párrafo para guardar.
                   </p>
                 )}
               </Card>
