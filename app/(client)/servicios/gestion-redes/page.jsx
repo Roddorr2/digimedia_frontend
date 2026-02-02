@@ -9,28 +9,48 @@ import ModalButton from '../components/ModalButton';
 export default function Page() {
   const servicios = [
     {
-      title: (<>ESTRATEGIA DE<br />  CONTENIDO</>),
-      text: "Planificamos tu estrategia en redes para mantenerte activo, relevante para tu audiencia",
-      icon: "/servicios/gestion/icon1.svg",
-      ruta: "/servicios/planificacion-cronograma/",
+      title: (
+        <>
+          ESTRATEGIA DE
+          <br /> CONTENIDO
+        </>
+      ),
+      text: 'Planificamos tu estrategia en redes para mantenerte activo, relevante para tu audiencia',
+      icon: '/servicios/gestion/icon1.svg',
+      ruta: '/servicios/planificacion-cronograma/',
     },
     {
-      title: (<>DISEÑO DE<br /> PAUTAS</>),
-      text: "Transformamos la esencia de tu marca en contenido estratégico que conecta y destaca en redes",
-      icon: "/servicios/gestion/icon3.svg",
-      ruta: "/servicios/diseno-pautas/",
+      title: (
+        <>
+          DISEÑO DE
+          <br /> PAUTAS
+        </>
+      ),
+      text: 'Transformamos la esencia de tu marca en contenido estratégico que conecta y destaca en redes',
+      icon: '/servicios/gestion/icon3.svg',
+      ruta: '/servicios/diseno-pautas/',
     },
     {
-      title: (<>PRODUCCIÓN<br /> DE PAUTAS</>),
-      text: "Creamos campañas estratégicas que hablan el idioma de tu audiencia y fortalecen tu marca digital",
-      icon: "/servicios/gestion/icon2.svg",
-      ruta: "/servicios/produccion-pautas/",
+      title: (
+        <>
+          PRODUCCIÓN
+          <br /> DE PAUTAS
+        </>
+      ),
+      text: 'Creamos campañas estratégicas que hablan el idioma de tu audiencia y fortalecen tu marca digital',
+      icon: '/servicios/gestion/icon2.svg',
+      ruta: '/servicios/produccion-pautas/',
     },
     {
-      title: (<>DISEÑO <br />UX Y UI</>),
-      text: "Combinamos UI y UX para crear plataformas intuitivas, fáciles de usar y optimizadas para generar conversiones",
-      icon: "/servicios/gestion/icon4.svg",
-      ruta: "/servicios/ui/?from=gestionRedes",
+      title: (
+        <>
+          DISEÑO <br />
+          UX Y UI
+        </>
+      ),
+      text: 'Combinamos UI y UX para crear plataformas intuitivas, fáciles de usar y optimizadas para generar conversiones',
+      icon: '/servicios/gestion/icon4.svg',
+      ruta: '/servicios/ui/?from=gestionRedes',
     },
   ];
   const modales = {
@@ -56,7 +76,7 @@ export default function Page() {
       />
 
       <Main
-        title="GESTIÓN DE REDES SOCIALES"
+        title= <>GESTIÓN DE  <br /> REDES SOCIALES</>
         subtitle="¡Conviértete en la marca que todos quieren seguir!"
         text="Impulsamos tu presencia digital con contenido estratégico y cercano, logrando que tu marca conecte, inspire y convierta seguidores en fieles."
         image="/servicios/gestion/gestion-redes-hero.png"
@@ -70,7 +90,11 @@ export default function Page() {
       <Servicios servicios={servicios} />
 
       <Contactanos
-        text={<>DEJA QUE TUS REDES ESTÉN <br /> EN OTRO NIVEL</>}
+        text={
+          <>
+            DEJA QUE TUS REDES ESTÉN <br /> EN OTRO NIVEL
+          </>
+        }
         iconLeft="/servicios/desarrollo/icon-left.svg"
         iconRight="/servicios/desarrollo/icon-right.svg"
       />

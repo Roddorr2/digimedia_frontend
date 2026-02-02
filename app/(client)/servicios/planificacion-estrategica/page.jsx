@@ -1,19 +1,19 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 
-import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
-import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
+import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
+import { UxUiSection } from '../components/uxui-section';
+import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
+import ModalButton from '../components/ModalButton';
 
 export default function PlanificacionEstrategica() {
   const modales = {
     modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/fondo.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      serviceName: "4",
+      text: 'BRANDING Y DISEÑO',
+      fondo: '/servicios/branding/modal-scroll/fondo.webp',
+      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
+      serviceName: '4',
     },
   };
 
@@ -21,14 +21,14 @@ export default function PlanificacionEstrategica() {
     {
       icon: (
         <img
-          src="/servicios/planificacion-estrategica/icons/planificacion.webp"
+          src="/servicios/branding_diseno/planificacion_estrategica/icons/planificacion blanco.png"
           alt="Hoja de planificación"
           className="w-full h-full object-contain"
         />
       ),
-      title: "PLANIFICACIÓN",
+      title: 'PLANIFICACIÓN',
       description:
-        "Analizamos su situación actual, identificamos oportunidades clave y optimizamos el uso de recursos para construir una estrategia sostenible y orientada al crecimiento de su empresa.",
+        'Analizamos su situación actual, identificamos oportunidades clave y optimizamos el uso de recursos para construir una estrategia sostenible y orientada al crecimiento de su empresa.',
     },
   ];
 
@@ -48,13 +48,13 @@ export default function PlanificacionEstrategica() {
         heroTitle="PLANIFICACIÓN ESTRATÉGICA"
         alt="Planificación estratégica, marketing digital, gestión digital, toma de decisiones, posicionamiento de marca, análisis de mercado, estructura de campañas, crecimiento digital, estrategia de contenidos, agencia Digimedia"
         title="Planificación estratégica, gestión digital, agencia de marketing digimedia"
+        category="Branding y Diseño"
         // heroBulletPoints={[
         //   "Ayuda a las organizaciones a ser más eficientes y competitivas.",
         //   "Facilita la toma de decisiones estratégicas.",
         //   "Mejora la comunicación y el compromiso de los empleados.",
         //   "Ayuda a anticipar cambios en el entorno y adaptarte a ellos.",
         // ]}
-        
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

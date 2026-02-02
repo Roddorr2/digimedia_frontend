@@ -28,7 +28,7 @@
   color: #777;
   font-size: 1.15rem;
   line-height: 1.4;
-  max-width: 1050px;
+  max-width: 1200px;
 }
 
 /* Layout de las Tarjetas - VISIBLE EN DESKTOP */
@@ -38,14 +38,14 @@
   align-items: stretch;
   gap: 1.5rem;
   width: 100%;
-  max-width: 1050px;
+  max-width: 1000px;
 }
 
 /* Carrusel - OCULTO EN DESKTOP */
 .carouselContainer {
   display: none;
   width: 100%;
-  max-width: 1050px;
+  max-width: 1200px;
   position: relative;
   padding: 0 2rem;
   box-sizing: border-box;

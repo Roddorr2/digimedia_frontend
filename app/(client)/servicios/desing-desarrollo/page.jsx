@@ -9,28 +9,44 @@ import ModalButton from '../components/ModalButton';
 export default function Page() {
   const servicios = [
     {
-      title: "CREACIÓN Y DESARROLLO WEB",
-      text: "Creamos experiencias digitales que atrapan, cautivan y convierten visitantes en clientes fieles.",
-      icon: "/servicios/desarrollo/icon1.svg",
-      ruta: "/servicios/ui/?from=disenoDesarrollo",
+      title: (
+        <>
+          CREACIÓN Y <br /> DESARROLLO WEB
+        </>
+      ),
+      text: 'Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.',
+      icon: '/servicios/desarrollo/icon1.svg',
+      ruta: '/servicios/desarrollo-webs/',
     },
     {
-      title: "EXPERIENCIA DE USUARIO Y DISEÑO",
-      text: "Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
-      icon: "/servicios/desarrollo/icon2.svg",
-      ruta: "/servicios/desarrollo-webs/",
+      title: (
+        <>
+          EXPERIENCIA DE <br /> USUARIO Y DISEÑO
+        </>
+      ),
+      text: 'Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.',
+      icon: '/servicios/desarrollo/icon2.svg',
+      ruta: '/servicios/ui/?from=disenoDesarrollo',
     },
     {
-      title: "DOMINIO Y HOSTING WEB)",
-      text: "Aseguramos que tu presencia online sea, segura, rápida y eficiente para la disponibilidad de tus clientes.",
-      icon: "/servicios/desarrollo/icon3.svg",
-      ruta: "/servicios/dominio_hosting/",
+      title: (
+        <>
+          DOMINIO Y<br /> HOSTING WEB
+        </>
+      ),
+      text: 'Aseguramos que tu presencia online sea, segura, rápida y eficiente para la disponibilidad de tus clientes.',
+      icon: '/servicios/desarrollo/icon3.svg',
+      ruta: '/servicios/dominio_hosting/',
     },
     {
-      title: "OPTIMIZACIÓN PARA BUSCARDORES",
-      text: "Mejoramos tu posición en navegadores con una  estrategia que aumenta tu visibilidad online hoy mismo!!",
-      icon: "/servicios/desarrollo/icon4.svg",
-      ruta: "/servicios/seo/",
+      title: (
+        <>
+          OPTIMIZACIÓN <br /> PARA BUSCARDORES
+        </>
+      ),
+      text: 'Mejoramos tu posición en navegadores con una  estrategia que aumenta tu visibilidad online hoy mismo.',
+      icon: '/servicios/desarrollo/icon4.svg',
+      ruta: '/servicios/seo/',
     },
   ];
 
