@@ -169,7 +169,7 @@ export default function Footer() {
               </div>
               <div className={styles.derechosFooter}>
                 <p>
-                  © {new Date().getFullYear()} Digimedia. Todos los derechos
+                  © {new Date().getFullYear()} Digimedia.  Todos los derechos
                   reservados.
                 </p>
               </div>
