@@ -10,7 +10,6 @@
   justify-content: flex-start; 
   align-items: flex-start;
   padding-top: 0;
-  margin-top: -40;
 }
 
 .imgFooter img {
@@ -30,7 +29,7 @@
 }
 /* Contenido del footer */
 .footerContenido {
- display: flex;
+  display: flex;
   justify-content: space-between;
   align-items: flex-start; 
   gap: 2rem;
@@ -43,7 +42,6 @@
   margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: bold;
-  
 }
 
 .listaFooter ul {
@@ -103,15 +101,12 @@
 }
 
 .redesFooter h2 {
-  margin-bottom: 0.5rem; /* Reduce el espacio entre título e iconos */
+  margin-bottom: 0.5rem;
 }
-
-
 
 .redesFooter a {
   width: 40px;
   height: 40px;
-  /* background: rgba(255, 255, 255, 0.1); */
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -146,15 +141,9 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .footerInner {
-    padding-inline: 24px;
-  }
-}
-
 @media (max-width: 1024px) {
   .footerContenido {
-    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
     gap: 40px;
   }
 }
@@ -162,27 +151,29 @@
 @media (max-width: 768px) {
   .mainFooter {
     padding: 40px 20px 20px;
-    text-align: center;
   }
 
+  .footerInner {
+    padding-inline: 24px;
+  }
+
+  /* Contenido se apila verticalmente y centrado */
   .footerContenido {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
     text-align: center;
   }
 
-  /* Logo centrado */
+  /* Logo centrado, sin márgenes negativos */
   .imgFooter {
-    justify-content: center; /* Asegura que esté centrado en móvil */
+    justify-content: center;
     align-items: center;
-    margin-bottom: -40px;
-    margin-top: -160px;
-    
   }
 
   .imgFooter img {
     max-width: 300px;
-    
+    width: 300px;
   }
 
   /* Secciones centradas */
@@ -190,6 +181,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .contactoFooter,
+  .legalesFooter,
+  .redesFooter {
+    margin-top: 0;
   }
 
   .listaFooter h2,
@@ -225,7 +222,8 @@
     justify-content: center;
     gap: 12px;
     max-width: 250px;
-    padding-top: 0;
+    padding-top: 10px;
+    margin-top: 0;
   }
 
   /* Footer inferior centrado */
@@ -233,6 +231,7 @@
     flex-direction: column;
     gap: 8px;
     text-align: center;
+    margin-left: 0;
   }
 
   .ruc p,
@@ -255,5 +254,4 @@
     width: 36px;
     height: 36px;
   }
-  
 }
