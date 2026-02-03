@@ -1,16 +1,29 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
 import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
+import { useAuth } from "@/hooks/useAuth";
+import { apiRequest } from "@/api/fetchApiWhatsApp";
+import { useWhatsAppSocket } from "@/api/socket";
+import { QrDisplay } from "./components/QrDisplay";
+import Swal from "sweetalert2";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
+  const [qrCode, setQrCode] = useState(null);
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
   const [service, setService] = useState("");
   const [subservice, setSubservice] = useState("");
   const [paragraph, setParagraph] = useState("");
   const [image, setImage] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isActivating, setIsActivating] = useState(false);
+
+  // Estados para manejo de cliente/hidratación
+  const [clientToken, setClientToken] = useState(null);
 
   const services = useMemo(
     () => [
@@ -57,20 +70,42 @@ export default function WhatsAppPage() {
     return subservices[service] ?? [];
   }, [service, subservices]);
 
-  const statusText = isConnected ? "WhatsApp Conectado" : "WhatsApp Desconectado";
-  const statusHint = isConnected
-    ? "Tu cuenta está vinculada y lista para enviar mensajes."
-    : "Vincula tu cuenta para poder enviar mensajes.";
-
   const canSaveTemplate = Boolean(service && subservice && paragraph.trim().length > 0 && image);
   const canActivate = Boolean(service && subservice && isConnected);
 
+  // Hook de socket
+  const { isConnected: wsConnected, qrData, loading: wsLoading } = useWhatsAppSocket(clientToken);
+
+  const connectedNumber = qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
+
+  const statusText = isConnected
+    ? `Conectado: ${connectedNumber || "WhatsApp"}`
+    : "WhatsApp Desconectado";
+
+  const statusHint = isConnected
+    ? `Tu cuenta (${connectedNumber}) está vinculada y lista para enviar mensajes.`
+    : "Vincula tu cuenta para poder enviar mensajes.";
+
+  useEffect(() => {
+    // Solo cargamos el token en el cliente. Prioridad a la cookie del dashboard.
+    const token = getCookie("token") || localStorage.getItem("token");
+    setClientToken(token);
+  }, []);
+
+  useEffect(() => {
+    if (wsConnected !== undefined) setIsConnected(wsConnected);
+    if (qrData?.image) setQrCode(qrData.image);
+    else if (!wsConnected) setQrCode(null);
+  }, [wsConnected, qrData]);
+
+  useEffect(() => {
+    setSubservice(""); 
+  }, [service]);
+
   const handlePickFile = (file) => {
     if (!file) return;
-
     const under2mb = file.size <= 2 * 1024 * 1024;
     if (!under2mb) return alert("La imagen debe pesar menos de 2 MB.");
-
     setImage(file);
   };
 
@@ -80,22 +115,72 @@ export default function WhatsAppPage() {
     handlePickFile(e.dataTransfer?.files?.[0]);
   };
 
-  const handleSaveTemplate = () => {
+  const handleSaveTemplate = async () => {
     if (!canSaveTemplate) return;
+    setIsSaving(true);
+    try {
+      const formData = new FormData();
+      formData.append("service", service);
+      formData.append("subservice", subservice);
+      formData.append("paragraph", paragraph);
+      if (image) formData.append("image", image);
+      
+      const data = await apiRequest("/api/whatsapp/template", {
+        method: "POST",
+        body: formData
+      });
+
+      if (data) {
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "Plantilla guardada correctamente.",
+          icon: "success",
+          confirmButtonColor: "rgba(140,82,255,1)"
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo guardar la plantilla", "error");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleActivateCampaign = () => {
+  const handleActivateCampaign = async () => {
     if (!canActivate) return;
+    setIsActivating(true);
+    try {
+      const data = await apiRequest("/api/whatsapp/activate", {
+        method: "POST",
+        body: JSON.stringify({ service, subservice })
+      });
+      if (data.success) {
+        Swal.fire("Campaña Activada", "El envío de mensajes ha comenzado.", "success");
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo activar la campaña", "error");
+    } finally {
+      setIsActivating(false);
+    }
   };
 
-  const handleRestartSession = () => {
-    setIsConnected(false);
-    setTimeout(() => setIsConnected(true), 900);
+  const handleRestartSession = async () => {
+    try {
+      await apiRequest("/api/whatsapp/restart", { method: "POST" });
+      setIsConnected(false);
+      setQrCode(null);
+      Swal.fire("Reiniciando", "La sesión se está reiniciando...", "info");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  useEffect(() => {
-    setSubservice(""); // reset al cambiar producto
-  }, [service]);
+  // Renderizado defensivo para evitar errores de hidratación
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => setIsLoaded(true), []);
+
+  if (!isLoaded) return <div className="p-10 text-center">Iniciando Dashboard...</div>;
 
   return (
     <div className="flex flex-col h-screen w-full bg-slate-50">
@@ -147,7 +232,12 @@ export default function WhatsAppPage() {
       {/* Content */}
       <main className="mb-12 flex-1 w-full px-4 py-8 overflow-y-auto">
         <div className="mx-auto w-full max-w-5xl">
-          {tab === "conexion" ? (
+          {isAuthLoading ? (
+            <div className="flex flex-col items-center justify-center p-20">
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
+              <p className="mt-4 text-slate-500">Cargando sesión...</p>
+            </div>
+          ) : tab === "conexion" ? (
             <section className="space-y-6">
               <Card>
                 <CardTitle>Estado de Conexión WhatsApp</CardTitle>
@@ -174,18 +264,13 @@ export default function WhatsAppPage() {
                     </button>
                   </div>
 
-                  <div className="mt-6 text-center">
-                    <p className="font-semibold text-emerald-600">
-                      {isConnected
-                        ? "WhatsApp conectado correctamente"
-                        : "Conecta WhatsApp para continuar"}
-                    </p>
-                    <p className="text-sm text-slate-500">
-                      {isConnected
-                        ? "Tu cuenta está vinculada y lista para enviar mensajes."
-                        : "Escanea el QR o inicia el flujo de vinculación en tu backend."}
-                    </p>
-                  </div>
+                    <div className="mt-6 flex justify-center">
+                      <QrDisplay 
+                        qrData={qrData} 
+                        isConnected={isConnected} 
+                        loading={wsLoading} 
+                      />
+                    </div>
                 </div>
               </Card>
             </section>
@@ -302,7 +387,7 @@ export default function WhatsAppPage() {
                           haz click para subir
                           <input
                             type="file"
-                            accept=".webp,image/webp"
+                            accept=".webp,image/webp, .jpg, .jpeg, .png"
                             className="hidden"
                             onChange={(e) => handlePickFile(e.target.files?.[0])}
                           />
@@ -336,28 +421,28 @@ export default function WhatsAppPage() {
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <button
                     onClick={handleSaveTemplate}
-                    disabled={!canSaveTemplate}
+                    disabled={!canSaveTemplate || isSaving}
                     className={[
                       "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
-                      canSaveTemplate
+                      (canSaveTemplate && !isSaving)
                         ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                         : "bg-slate-300 cursor-not-allowed",
                     ].join(" ")}
                   >
-                    Guardar Plantilla
+                    {isSaving ? "Guardando..." : "Guardar Plantilla"}
                   </button>
 
                   <button
                     onClick={handleActivateCampaign}
-                    disabled={!canActivate}
+                    disabled={!canActivate || isActivating}
                     className={[
                       "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
-                      canActivate
+                      (canActivate && !isActivating)
                         ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                         : "bg-slate-300 cursor-not-allowed",
                     ].join(" ")}
                   >
-                    Activar Campaña
+                    {isActivating ? "Activando..." : "Activar Campaña"}
                   </button>
 
                   <button
