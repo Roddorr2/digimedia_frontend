@@ -15,6 +15,7 @@ export default function WhatsAppPage() {
   const [qrCode, setQrCode] = useState(null);
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [service, setService] = useState("");
   const [subservice, setSubservice] = useState("");
   const [paragraph, setParagraph] = useState("");
@@ -70,8 +71,8 @@ export default function WhatsAppPage() {
     return subservices[service] ?? [];
   }, [service, subservices]);
 
-  const canSaveTemplate = Boolean(service && subservice && paragraph.trim().length > 0 && image);
-  const canActivate = Boolean(service && subservice && isConnected);
+  const canSaveTemplate = Boolean(service && subservice && paragraph.trim().length > 0 && image && phoneNumber);
+  const canActivate = Boolean(service && subservice && isConnected && phoneNumber);
 
   // Hook de socket
   const { isConnected: wsConnected, qrData, loading: wsLoading } = useWhatsAppSocket(clientToken);
@@ -123,6 +124,7 @@ export default function WhatsAppPage() {
       formData.append("service", service);
       formData.append("subservice", subservice);
       formData.append("paragraph", paragraph);
+      formData.append("phone", phoneNumber);
       if (image) formData.append("image", image);
       
       const data = await apiRequest("/api/whatsapp/template", {
@@ -152,7 +154,7 @@ export default function WhatsAppPage() {
     try {
       const data = await apiRequest("/api/whatsapp/activate", {
         method: "POST",
-        body: JSON.stringify({ service, subservice })
+        body: JSON.stringify({ service, subservice, phone: phoneNumber })
       });
       if (data.success) {
         Swal.fire("Campaña Activada", "El envío de mensajes ha comenzado.", "success");
@@ -277,6 +279,19 @@ export default function WhatsAppPage() {
           ) : (
             <section className="space-y-6">
               <Card>
+                <CardTitle>Número Telefónico a enviar</CardTitle>
+                <div className="mt-4">
+                  <label className="mb-2 block text-sm font-semibold text-slate-800">
+                    Número Telefónico
+                  </label>
+                  <input
+                    type="text"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Ej: 51987654321"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
+                  />
+                </div>
                 <CardTitle>Selección de Servicio</CardTitle>
 
                 <div className="mt-4">
@@ -451,6 +466,7 @@ export default function WhatsAppPage() {
                       setSubservice("");
                       setParagraph("");
                       setImage(null);
+                      setPhoneNumber("");
                     }}
                     className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-900"
                   >
@@ -461,7 +477,7 @@ export default function WhatsAppPage() {
                 {/* Hint debajo de botones */}
                 {!canSaveTemplate && (
                   <p className="mt-3 text-xs text-slate-500">
-                    Completa producto, imagen (WEBP, JPG, PNG &lt; 2MB) y párrafo para guardar.
+                    Completa número, servicio, imagen (WEBP, JPG, PNG &lt; 2MB) y párrafo para guardar.
                   </p>
                 )}
               </Card>
