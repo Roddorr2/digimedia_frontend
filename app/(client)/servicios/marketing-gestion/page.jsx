@@ -36,7 +36,7 @@ export default function Page() {
   const modales = {
     modalA: {
       text: 'MARKETING Y GESTIÓN DIGITAL',
-      fondo: '/servicios/marketing/modal-scroll/fondo.webp',
+      fondo: '/servicios/marketing/modal-scroll/marketingygestiondigital.jpg',
       title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
       serviceName: '3',
       width: 256,

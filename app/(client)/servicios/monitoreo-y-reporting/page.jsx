@@ -10,7 +10,7 @@ export default function ProduccionPautas() {
   const modales = {
     modalA: {
       text: 'BRANDING Y DISEÑO',
-      fondo: '/servicios/branding/modal-scroll/fondo.webp',
+      fondo: '/servicios/branding/modal-scroll/brandingydiseno.png',
       title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
       serviceName: '4',
     },
