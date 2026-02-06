@@ -11,7 +11,8 @@ export default function Banner() {
           />
           <Image
             src="/image-home/banner_digimedia_pc.png"
-            alt="Inicio"
+            title='planificación de contenidos, creación de contenido digital, calendario de contenidos, community management, análisis de métricas en redes, estrategias de marketing digital, desarrollo web.'
+            alt="Equipo de marketing digital reunido analizando métricas y resultados de redes sociales"
             priority
             fetchPriority="high"
             fill
