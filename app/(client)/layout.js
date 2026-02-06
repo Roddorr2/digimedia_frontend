@@ -4,9 +4,9 @@ import Head from "next/head";
 
 export const metadata = {
   title:
-    "Marketing Digital DigiMedia en Lima - DigiMedia",
+    "Agencia de Marketing Digital en Lima Perú - DigiMedia",
   description:
-    "Impulsa tu marca al siguiente nivel con DigiMedia. Somos expertos en marketing digital, posicionamiento web y estrategias que generan resultados reales en Lima.",
+    "Eleva tu presencia online con DigiMedia, la agencia experta en marketing digital en Lima. Potenciamos tu marca con estrategias reales de SEO, redes sociales y publicidad digital enfocadas en maximizar tus ventas y crecimiento.",
   keywords: [
     "marketing digital",
     "estrategias digitales",
@@ -16,7 +16,7 @@ export const metadata = {
     "crecimiento de marca",
     "gestión digital"
   ],
-robots: {
+  robots: {
     index: true,
     follow: true,
     googleBot: {
@@ -36,9 +36,9 @@ robots: {
   publisher: "DigiMedia-Marketing",
   openGraph: {
     title:
-      "Marketing Digital DigiMedia",
+      "Agencia de Marketing Digital en Lima Perú - DigiMedia",
     description:
-      "Impulsa tu marca al siguiente nivel con DigiMedia. Somos expertos en marketing digital, posicionamiento web y estrategias que generan resultados reales en Lima.",
+      "Eleva tu presencia online con DigiMedia, la agencia experta en marketing digital en Lima. Potenciamos tu marca con estrategias reales de SEO, redes sociales y publicidad digital enfocadas en maximizar tus ventas y crecimiento.",
     url: "https://digimedia-marketing.com/",
     siteName: "Digimedia Marketing",
     images: [], // se mantiene vacío por tu preferencia
@@ -46,13 +46,13 @@ robots: {
     type: "website",
   },
   alternates: {
-    canonical: "https://digimedia-marketing.com/", 
+    canonical: "https://digimedia-marketing.com/",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    
+
     <>
       <Head>
         {/* ✅ Preconexión a Google Fonts */}
@@ -63,15 +63,15 @@ export default function RootLayout({ children }) {
         <meta name="publisher" content="DigiMedia-Marketing" />
         <meta name="robots" content="index, follow" />
         {/* Agrega aquí tus fuentes si las necesitas */}
-        
+
         {/* ✅ Fuente Telegraf si la usas desde cdnfonts */}
-        
+
         {/* Agregar Schema Markup (JSON-LD) */}
       </Head>
 
       <Header />
-              <script type="application/ld+json">
-          {`
+      <script type="application/ld+json">
+        {`
             {
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
@@ -99,7 +99,7 @@ export default function RootLayout({ children }) {
               }
             }
           `}
-        </script>
+      </script>
       {children}
       <Footer />
     </>
