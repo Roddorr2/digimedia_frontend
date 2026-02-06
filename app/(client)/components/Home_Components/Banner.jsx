@@ -7,10 +7,10 @@ export default function Banner() {
         <picture>
           <source
             media="(max-width: 767px)"
-            srcSet="/image-home/pexels-artempodrez-5716026.jpeg"
+            srcSet="/image-home/banner_digimedia_mobile.png"
           />
           <Image
-            src="/image-home/pexels-artempodrez-5716026.jpeg"
+            src="/image-home/banner_digimedia_pc.png"
             alt="Inicio"
             priority
             fetchPriority="high"
