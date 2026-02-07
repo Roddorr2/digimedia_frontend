@@ -10,7 +10,7 @@ export default function PlanificacionCronograma() {
   const modales = {
     modalA: {
       text: 'GESTIÓN DE REDES SOCIALES',
-      fondo: '/servicios/gestion/modal-scroll/fondo.webp',
+      fondo: '/servicios/gestion/modal-scroll/gestionderedessociales.png',
       title: 'SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!',
       serviceName: '2',
     },
