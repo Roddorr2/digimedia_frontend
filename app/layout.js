@@ -31,6 +31,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
+        <Script id="theme-init" strategy="beforeInteractive"> 
+          {`
+            (function () {
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              if (prefersDark) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+            })();
+      `}
+        </Script>
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="lazyOnload">
           {`
