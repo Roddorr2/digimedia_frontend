@@ -20,7 +20,7 @@ export default function Banner() {
         {/* Imagen para Desktop */}
         <div className="hidden md:block absolute inset-0">
           <Image
-            src="/image-home/reunion-de-marketing_web.png"
+            src="/image-home/web_nuevo.png"
             alt="Inicio"
             priority
             fetchPriority="high"
@@ -35,6 +35,7 @@ export default function Banner() {
             <h1 className="text-white font-bold text-2xl md:text-4xl font-['Montserrat'] leading-tight">
               Creemos en las buenas ideas...
             </h1>
+            <div className="w-full h-[2px] bg-white my-3 md:hidden"></div>
             <p className="text-white text-lg md:text-2xl mt-2">
               y sobre todo en sacar adelante tu negocio
             </p>
