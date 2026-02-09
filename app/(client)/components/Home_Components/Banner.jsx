@@ -7,7 +7,7 @@ export default function Banner() {
         {/* Imagen para Mobile */}
         <div className="block md:hidden absolute inset-0">
           <Image
-            src="/image-home/mobile.jpg"
+            src="/image-home/reunion-de-marketing_movil.webp"
             alt="Inicio"
             priority
             fetchPriority="high"
@@ -20,7 +20,7 @@ export default function Banner() {
         {/* Imagen para Desktop */}
         <div className="hidden md:block absolute inset-0">
           <Image
-            src="/image-home/pexels-artempodrez-5716026.jpeg"
+            src="/image-home/reunion-de-marketing_web.png"
             alt="Inicio"
             priority
             fetchPriority="high"
@@ -30,8 +30,8 @@ export default function Banner() {
           />
         </div>
 
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-28 md:justify-end md:items-start md:mx-0 md:pb-0">
-          <div className="bg-[#B326FF] text-white py-6 px-8 rounded-t-[50px] md:rounded-t-none md:rounded-tr-[50px] md:px-24 max-w-[90%] md:max-w-none text-center md:text-left">
+        <div className="absolute inset-0 z-10 flex flex-col items-end justify-end pb-20 md:justify-end md:items-start md:mx-0 md:pb-0">
+          <div className="bg-[#B326FF] text-white py-6 px-8 rounded-[30px] rounded-tr-[80px] md:rounded-t-none md:rounded-tr-[50px] md:px-24 w-[65%] mr-4 md:w-auto md:mr-0 md:max-w-none text-center md:text-left">
             <h1 className="text-white font-bold text-2xl md:text-4xl font-['Montserrat'] leading-tight">
               Creemos en las buenas ideas...
             </h1>
@@ -44,7 +44,7 @@ export default function Banner() {
             className="relative inline-flex items-center justify-center text-white 
             font-bold px-12 py-3 rounded-2xl shadow-md bg-[#FFA000] hover:bg-[#FB8C00] 
             transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none
-            mt-5 mb-8 md:translate-x-[5rem] md:mx-0"
+            mt-5 mb-8 self-center md:self-auto md:translate-x-[5rem] md:mx-0"
           >
             <span className="relative z-10">¡Contáctanos!</span>
           </a>
