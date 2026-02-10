@@ -13,6 +13,7 @@ export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(false);
   const [qrCode, setQrCode] = useState(null);
+  const [notifications, setNotifications] = useState([]);
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -75,7 +76,7 @@ export default function WhatsAppPage() {
   const canActivate = Boolean(service && subservice && isConnected && phoneNumber);
 
   // Hook de socket
-  const { isConnected: wsConnected, qrData, loading: wsLoading } = useWhatsAppSocket(clientToken);
+  const { isConnected: wsConnected, qrData, connectionState, loading: wsLoading } = useWhatsAppSocket(clientToken);
 
   const connectedNumber = qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
 
@@ -97,7 +98,18 @@ export default function WhatsAppPage() {
     if (wsConnected !== undefined) setIsConnected(wsConnected);
     if (qrData?.image) setQrCode(qrData.image);
     else if (!wsConnected) setQrCode(null);
-  }, [wsConnected, qrData]);
+    
+    // ✅ Notificaciones para estados de desconexión
+    if (connectionState?.status === 'logged_out') {
+      addNotification('⚠️ Sesión cerrada desde el teléfono. Credenciales eliminadas.', 'warning');
+    } else if (connectionState?.status === 'bad_session') {
+      addNotification('⚠️ Sesión inválida detectada. Credenciales eliminadas.', 'warning');
+    } else if (connectionState?.status === 'connection_replaced') {
+      addNotification('⚠️ Conexión reemplazada desde otro dispositivo.', 'warning');
+    } else if (connectionState?.status === 'reconnecting') {
+      addNotification('🔄 Intentando reconectar con credenciales existentes...', 'info');
+    }
+  }, [wsConnected, qrData, connectionState]);
 
   useEffect(() => {
     setSubservice(""); 
@@ -178,14 +190,42 @@ export default function WhatsAppPage() {
     }
   };
 
-  // Renderizado defensivo para evitar errores de hidratación
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => setIsLoaded(true), []);
+
+  // ✅ Funciones para notificaciones Toast
+  const addNotification = (message, type = "info") => {
+    const id = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+    setNotifications((prev) => [...prev, { id, message, type }]);
+
+    // Auto-eliminar después de 5 segundos
+    setTimeout(() => {
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    }, 5000);
+  };
 
   if (!isLoaded) return <div className="p-10 text-center">Iniciando Dashboard...</div>;
 
   return (
     <div className="flex flex-col h-screen w-full bg-slate-50">
+      {/* ✅ Sistema de notificaciones Toast */}
+      <div className="fixed top-4 right-4 z-50 space-y-2 max-w-md">
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`
+              px-4 py-3 rounded-lg shadow-lg border animate-slide-in-right
+              ${notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : ''}
+              ${notification.type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' : ''}
+              ${notification.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' : ''}
+              ${notification.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-800' : ''}
+            `}
+          >
+            <p className="text-sm font-medium">{notification.message}</p>
+          </div>
+        ))}
+      </div>
+      
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
         <div className="w-full px-4 py-4">
@@ -270,7 +310,8 @@ export default function WhatsAppPage() {
                       <QrDisplay 
                         qrData={qrData} 
                         isConnected={isConnected} 
-                        loading={wsLoading} 
+                        loading={wsLoading}
+                        connectionState={connectionState}
                       />
                     </div>
                 </div>
