@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
 import { TabButton, Card, CardTitle } from "./components/TabButton";
 import { useAuth } from "@/hooks/useAuth";
-import { apiRequest } from "@/api/fetchApiWhatsApp";
+import { apiRequest, whatsappApi } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import Swal from "sweetalert2";
@@ -55,7 +55,7 @@ export default function WhatsAppPage() {
 
   const handleRestartSession = async () => {
     try {
-      await apiRequest("/api/whatsapp/restart", { method: "POST" });
+      await whatsappApi.restart();
       setIsConnected(false);
       Swal.fire("Reiniciando", "La sesión se está reiniciando...", "info");
     } catch (error) {

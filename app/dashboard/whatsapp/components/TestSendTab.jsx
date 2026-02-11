@@ -281,8 +281,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
           {!isConnected && (
             <p className="mt-4 text-xs text-rose-600">
-              Conecta WhatsApp primero (tab “Conexión”). Si no, el backend puede crear campaña igual,
-              pero tu servicio de WhatsApp no va a enviar nada… y tú vas a culpar al frontend (como siempre).
+              Conecta WhatsApp primero (tab “Conexión”).
             </p>
           )}
 
