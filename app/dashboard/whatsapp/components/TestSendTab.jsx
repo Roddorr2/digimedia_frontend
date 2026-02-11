@@ -2,76 +2,121 @@
 
 import { useMemo, useState } from "react";
 import Swal from "sweetalert2";
-import { Card, CardTitle } from "./TabButton";
+import { apiRequest } from "@/api/fetchApiWhatsApp";
+import { Card, CardTitle, UploadIcon } from "./TabButton";
 
 export function TestSendTab({ services, isConnected, connectedNumber }) {
   const [service, setService] = useState("");
-  const [testPhone, setTestPhone] = useState("");
-  const [message, setMessage] = useState("Hola 👋 Esta es una prueba de campaña con payload común.");
-  const [loading, setLoading] = useState(false);
+  const [paragraph, setParagraph] = useState("Hola 👋 Esta es una campaña de prueba con payload común.");
+  const [imageFile, setImageFile] = useState(null);
 
-  const [mockResponse, setMockResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [lastResponse, setLastResponse] = useState(null);
 
   const serviceIdAsNumber = useMemo(() => {
-    // Convierte p1/p2/p3/p4 => 1/2/3/4 (para que calce con tu DB id_servicio)
+    // p1/p2/p3/p4 => 1/2/3/4 (solo para preview)
     if (!service) return null;
     const n = Number(String(service).replace("p", ""));
     return Number.isFinite(n) ? n : null;
   }, [service]);
 
-  const canSend = Boolean(isConnected && service && testPhone && message.trim().length > 0 && !loading);
+  const canSend = Boolean(
+    isConnected &&
+      service &&
+      paragraph.trim().length >= 10 &&
+      imageFile &&
+      !loading
+  );
 
   const payloadPreview = useMemo(() => {
     return {
-      id_servicio: serviceIdAsNumber,
-      phone: testPhone,
-      message,
-      // esto simula “payload común”, sin imagen ni subservicio
+      service,
+      id_servicio_preview: serviceIdAsNumber,
+      paragraph,
+      image: imageFile ? { name: imageFile.name, size: imageFile.size, type: imageFile.type } : null,
       meta: {
-        mode: "mock",
-        chunk_size: 50,
-        rate_limit: "12 msg/min",
         connected_as: connectedNumber || null,
+        endpoint: "/api/whatsapp/campaign/activate",
+        content_type: "multipart/form-data",
       },
     };
-  }, [serviceIdAsNumber, testPhone, message, connectedNumber]);
+  }, [service, serviceIdAsNumber, paragraph, imageFile, connectedNumber]);
 
-  const handleMockSend = async () => {
+  const pickFile = (file) => {
+    if (!file) return;
+
+    const max2mb = 2 * 1024 * 1024;
+    if (file.size > max2mb) {
+      Swal.fire("Imagen muy pesada", "Debe ser menor a 2MB.", "warning");
+      return;
+    }
+
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowed.includes(file.type)) {
+      Swal.fire("Formato no permitido", "Usa JPG, PNG o WEBP.", "warning");
+      return;
+    }
+
+    setImageFile(file);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    pickFile(e.dataTransfer?.files?.[0]);
+  };
+
+  const handleActivateReal = async () => {
     if (!isConnected) {
       Swal.fire("Sin conexión", "Conecta WhatsApp antes de probar.", "warning");
       return;
     }
-    if (!service || !testPhone || !message.trim()) return;
+    if (!service) {
+      Swal.fire("Falta servicio", "Selecciona un servicio (p1..p4).", "warning");
+      return;
+    }
+    if (paragraph.trim().length < 10) {
+      Swal.fire("Texto corto", "El párrafo debe tener al menos 10 caracteres.", "warning");
+      return;
+    }
+    if (!imageFile) {
+      Swal.fire("Falta imagen", "Sube una imagen para la campaña (<=2MB).", "warning");
+      return;
+    }
 
     setLoading(true);
-    setMockResponse(null);
+    setLastResponse(null);
 
-    // Mock recipients (simula que el backend arma lista y manda chunk)
-    const mockRecipients = [testPhone, "+51999999999"];
+    try {
+      const formData = new FormData();
+      formData.append("service", service);
+      formData.append("paragraph", paragraph);
+      formData.append("image", imageFile);
 
-    // Simula “procesar chunk completo” y responder estructurado
-    setTimeout(() => {
-      const results = {};
-      mockRecipients.forEach((_, idx) => {
-        results[String(idx + 1)] = { success: true };
+      // IMPORTANTE: no seteamos Content-Type manualmente
+      const res = await apiRequest("/api/whatsapp/campaign/activate", {
+        method: "POST",
+        body: formData,
       });
 
-      const response = {
-        successful: mockRecipients.length,
-        failed: 0,
-        results,
-      };
+      setLastResponse(res);
 
-      setMockResponse(response);
+      if (res?.success) {
+        Swal.fire({
+          title: "Campaña iniciada",
+          text: `Campaña #${res.data?.campania_id} - Total: ${res.data?.total_destinatarios ?? "?"}`,
+          icon: "success",
+          confirmButtonColor: "rgba(140,82,255,1)",
+        });
+      } else {
+        Swal.fire("Error", res?.message || "No se pudo iniciar la campaña.", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo iniciar la campaña. Revisa Network/Console.", "error");
+    } finally {
       setLoading(false);
-
-      Swal.fire({
-        title: "Prueba enviada (mock)",
-        text: `Simulado: ${response.successful} ok, ${response.failed} fallos.`,
-        icon: "success",
-        confirmButtonColor: "rgba(140,82,255,1)",
-      });
-    }, 900);
+    }
   };
 
   return (
@@ -82,9 +127,9 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-900">Envío de prueba (mock)</p>
+              <p className="text-sm font-semibold text-slate-900">Activar campaña (real)</p>
               <p className="text-xs text-slate-500">
-                No llama al backend. Simula payload + respuesta estructurada.
+                Este tab llama al backend y crea la campaña (Cloudinary + Job Queue).
               </p>
             </div>
 
@@ -95,68 +140,120 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                 }`}
               />
               {isConnected
-                ? `Listo para probar${connectedNumber ? ` (${connectedNumber})` : ""}`
-                : "Conecta WhatsApp para probar"}
+                ? `Conectado${connectedNumber ? ` (${connectedNumber})` : ""}`
+                : "Desconectado"}
             </span>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-800">
-                Servicio
-              </label>
-              <select
-                value={service}
-                onChange={(e) => setService(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
-              >
-                <option value="">--- Selecciona una opción ---</option>
-                {services.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-
-              <p className="mt-2 text-xs text-slate-500">
-                Esto simula el `id_servicio` de tu tabla.
-              </p>
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-800">
-                Número destino
-              </label>
-              <input
-                value={testPhone}
-                onChange={(e) => setTestPhone(e.target.value)}
-                placeholder="+51 9xxxxxxxx"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
-              />
-              <p className="mt-2 text-xs text-slate-500">
-                Mock manda a este número + un número dummy.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <label className="block text-sm font-semibold text-slate-900">
-              Mensaje (payload común)
+          {/* Servicio */}
+          <div className="mt-6">
+            <label className="mb-2 block text-sm font-semibold text-slate-800">
+              Servicio
             </label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={5}
-              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
-            />
+            <select
+              value={service}
+              onChange={(e) => setService(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
+            >
+              <option value="">--- Selecciona una opción ---</option>
+              {services.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+
             <p className="mt-2 text-xs text-slate-500">
-              Aquí simulas el texto común para el chunk.
+              El backend valida: service ∈ (p1,p2,p3,p4) y lo mapea a id_servicio.
             </p>
           </div>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Párrafo */}
+          <div className="mt-6">
+            <label className="block text-sm font-semibold text-slate-900">
+              Párrafo (mínimo 10 caracteres)
+            </label>
+            <textarea
+              value={paragraph}
+              onChange={(e) => setParagraph(e.target.value)}
+              rows={5}
+              className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
+              placeholder="Escribe el mensaje común para la campaña..."
+            />
+            <div className="mt-2 flex items-center justify-between text-xs">
+              <span className="text-slate-500">Se enviará como “paragraph”.</span>
+              <span className={paragraph.trim().length >= 10 ? "text-emerald-600" : "text-rose-600"}>
+                {paragraph.trim().length}/10
+              </span>
+            </div>
+          </div>
+
+          {/* Upload Imagen */}
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-slate-900">
+                  Imagen <span className="text-rose-500">*</span>
+                </p>
+                <p className="text-xs text-slate-500">JPG/PNG/WEBP - máximo 2MB.</p>
+              </div>
+
+              {imageFile ? (
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                    {imageFile.name}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setImageFile(null)}
+                    className="text-xs font-semibold text-slate-600 hover:text-slate-900"
+                  >
+                    Quitar
+                  </button>
+                </div>
+              ) : (
+                <span className="text-xs text-slate-400">Sin imagen</span>
+              )}
+            </div>
+
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onDrop={handleDrop}
+              className="mt-4 rounded-2xl border-2 border-dashed border-slate-200 bg-white p-8 text-center"
+            >
+              <div className="mx-auto flex max-w-md flex-col items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
+                  <UploadIcon />
+                </div>
+
+                <p className="text-sm text-slate-700">
+                  Arrastra tu imagen aquí o{" "}
+                  <label className="cursor-pointer font-semibold text-[rgba(140,82,255,1)] hover:text-[rgba(140,82,255,0.9)]">
+                    haz click para subir
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept=".webp,image/webp,.jpg,.jpeg,.png"
+                      onChange={(e) => pickFile(e.target.files?.[0])}
+                    />
+                  </label>
+                </p>
+
+                <p className="text-xs text-slate-500">
+                  El backend valida: image|required|mimes:jpg,jpeg,png,webp|max:2048
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Acciones */}
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <button
-              onClick={handleMockSend}
+              onClick={handleActivateReal}
               disabled={!canSend}
               className={[
                 "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
@@ -165,16 +262,16 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
                   : "bg-slate-300 cursor-not-allowed",
               ].join(" ")}
             >
-              {loading ? "Enviando (mock)..." : "Enviar Prueba"}
+              {loading ? "Activando..." : "Activar Campaña"}
             </button>
 
             <button
               type="button"
               onClick={() => {
                 setService("");
-                setTestPhone("");
-                setMessage("Hola Esta es una prueba de campaña con payload común.");
-                setMockResponse(null);
+                setParagraph("Hola 👋 Esta es una campaña de prueba con payload común.");
+                setImageFile(null);
+                setLastResponse(null);
               }}
               className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-900"
             >
@@ -182,26 +279,30 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
             </button>
           </div>
 
-          {/* Payload / Response */}
+          {!isConnected && (
+            <p className="mt-4 text-xs text-rose-600">
+              Conecta WhatsApp primero (tab “Conexión”). Si no, el backend puede crear campaña igual,
+              pero tu servicio de WhatsApp no va a enviar nada… y tú vas a culpar al frontend (como siempre).
+            </p>
+          )}
+
+          {/* Debug: payload + response */}
           <div className="mt-7 grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">Payload (mock)</p>
+              <p className="text-sm font-semibold text-slate-900">Payload preview</p>
               <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200">
 {JSON.stringify(payloadPreview, null, 2)}
               </pre>
               <p className="mt-2 text-xs text-slate-500">
-                EJEMPLO PAYLOAD.
+                Nota: el envío real es multipart/form-data (no JSON).
               </p>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">Respuesta (mock)</p>
+              <p className="text-sm font-semibold text-slate-900">Última respuesta</p>
               <pre className="mt-3 overflow-auto rounded-xl bg-white p-3 text-xs text-slate-700 border border-slate-200">
-{mockResponse ? JSON.stringify(mockResponse, null, 2) : "// Aún no hay respuesta"}
+{lastResponse ? JSON.stringify(lastResponse, null, 2) : "// Sin respuesta aún"}
               </pre>
-              <p className="mt-2 text-xs text-slate-500">
-                Estructura tipo: successful/failed/results.
-              </p>
             </div>
           </div>
         </div>

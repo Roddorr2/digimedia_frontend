@@ -2,28 +2,20 @@
 
 import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
-import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
+import { TabButton, Card, CardTitle } from "./components/TabButton";
 import { useAuth } from "@/hooks/useAuth";
 import { apiRequest } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import Swal from "sweetalert2";
-import { TestSendTab } from "./components/TestSendTab"; // ✅ NUEVO
+import { TestSendTab } from "./components/TestSendTab";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(false);
-  const [qrCode, setQrCode] = useState(null);
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const { isLoading: isAuthLoading } = useAuth();
 
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [service, setService] = useState("");
-  const [paragraph, setParagraph] = useState("");
-  const [image, setImage] = useState(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isActivating, setIsActivating] = useState(false);
-
-  // Estados para manejo de cliente/hidratación
+  // Token cliente (para socket)
   const [clientToken, setClientToken] = useState(null);
 
   const services = useMemo(
@@ -36,13 +28,13 @@ export default function WhatsAppPage() {
     []
   );
 
-  const canSaveTemplate = Boolean(service && paragraph.trim().length > 0 && image && phoneNumber);
-  const canActivate = Boolean(service && isConnected && phoneNumber);
+  // Socket WhatsApp
+  const { isConnected: wsConnected, qrData, loading: wsLoading } =
+    useWhatsAppSocket(clientToken);
 
-  // Hook de socket
-  const { isConnected: wsConnected, qrData, loading: wsLoading } = useWhatsAppSocket(clientToken);
-
-  const connectedNumber = qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
+  const connected = Boolean(wsConnected);
+  const connectedNumber =
+    qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
 
   const statusText = isConnected
     ? `Conectado: ${connectedNumber || "WhatsApp"}`
@@ -53,95 +45,28 @@ export default function WhatsAppPage() {
     : "Vincula tu cuenta para poder enviar mensajes.";
 
   useEffect(() => {
-    // Solo cargamos el token en el cliente. Prioridad a la cookie del dashboard.
     const token = getCookie("token") || localStorage.getItem("token");
     setClientToken(token);
   }, []);
 
   useEffect(() => {
     if (wsConnected !== undefined) setIsConnected(wsConnected);
-    if (qrData?.image) setQrCode(qrData.image);
-    else if (!wsConnected) setQrCode(null);
-  }, [wsConnected, qrData]);
-
-  const handlePickFile = (file) => {
-    if (!file) return;
-    const under2mb = file.size <= 2 * 1024 * 1024;
-    if (!under2mb) return alert("La imagen debe pesar menos de 2 MB.");
-    setImage(file);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handlePickFile(e.dataTransfer?.files?.[0]);
-  };
-
-  const handleSaveTemplate = async () => {
-    if (!canSaveTemplate) return;
-    setIsSaving(true);
-    try {
-      const formData = new FormData();
-      formData.append("service", service);
-      formData.append("paragraph", paragraph);
-      formData.append("phone", phoneNumber);
-      if (image) formData.append("image", image);
-
-      const data = await apiRequest("/api/whatsapp/template", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (data) {
-        Swal.fire({
-          title: "¡Éxito!",
-          text: "Plantilla guardada correctamente.",
-          icon: "success",
-          confirmButtonColor: "rgba(140,82,255,1)",
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "No se pudo guardar la plantilla", "error");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleActivateCampaign = async () => {
-    if (!canActivate) return;
-    setIsActivating(true);
-    try {
-      const data = await apiRequest("/api/whatsapp/activate", {
-        method: "POST",
-        body: JSON.stringify({ service, phone: phoneNumber }),
-      });
-      if (data.success) {
-        Swal.fire("Campaña Activada", "El envío de mensajes ha comenzado.", "success");
-      }
-    } catch (error) {
-      console.error(error);
-      Swal.fire("Error", "No se pudo activar la campaña", "error");
-    } finally {
-      setIsActivating(false);
-    }
-  };
+  }, [wsConnected]);
 
   const handleRestartSession = async () => {
     try {
       await apiRequest("/api/whatsapp/restart", { method: "POST" });
       setIsConnected(false);
-      setQrCode(null);
       Swal.fire("Reiniciando", "La sesión se está reiniciando...", "info");
     } catch (error) {
       console.error(error);
+      Swal.fire("Error", "No se pudo reiniciar la sesión.", "error");
     }
   };
 
-  // Renderizado defensivo para evitar errores de hidratación
+  // Renderizado defensivo para evitar hidratación rara
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => setIsLoaded(true), []);
-
   if (!isLoaded) return <div className="p-10 text-center">Iniciando Dashboard...</div>;
 
   return (
@@ -156,7 +81,7 @@ export default function WhatsAppPage() {
                   Envío de Whatsapp
                 </h1>
                 <p className="text-sm text-slate-500">
-                  Configura la conexión y la plantilla para tus envíos.
+                  Conecta tu cuenta y ejecuta pruebas reales de campaña.
                 </p>
               </div>
 
@@ -181,14 +106,9 @@ export default function WhatsAppPage() {
                   label="Conexión"
                 />
                 <TabButton
-                  active={tab === "plantilla"}
-                  onClick={() => setTab("plantilla")}
-                  label="Plantilla"
-                />
-                <TabButton
-                  active={tab === "prueba"}                 // ✅ NUEVO
-                  onClick={() => setTab("prueba")}          // ✅ NUEVO
-                  label="Prueba"                             // ✅ NUEVO
+                  active={tab === "prueba"}
+                  onClick={() => setTab("prueba")}
+                  label="Prueba"
                 />
               </div>
             </div>
@@ -232,153 +152,16 @@ export default function WhatsAppPage() {
                   </div>
 
                   <div className="mt-6 flex justify-center">
-                    <QrDisplay qrData={qrData} isConnected={isConnected} loading={wsLoading} />
+                    <QrDisplay
+                      qrData={qrData}
+                      isConnected={isConnected}
+                      loading={wsLoading}
+                    />
                   </div>
-                </div>
-              </Card>
-            </section>
-          ) : tab === "plantilla" ? (
-            <section className="space-y-6">
-              <Card>
-                <CardTitle>Selección de Servicio</CardTitle>
-
-                <div className="mt-4">
-                  <label className="mb-2 block text-sm font-semibold text-slate-800">
-                    Selecciona un servicio
-                  </label>
-                  <select
-                    value={service}
-                    onChange={(e) => setService(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
-                  >
-                    <option value="">--- Selecciona una opción ---</option>
-                    {services.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="mt-2 text-xs text-slate-500">
-                    Esto define el contexto del mensaje y la plantilla asociada.
-                  </p>
-                </div>
-              </Card>
-
-              <Card>
-                <CardTitle>Sección Whatsapp</CardTitle>
-
-                {/* Image Upload */}
-                <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        Imagen Principal <span className="text-rose-500">*</span>
-                      </p>
-                      <p className="text-xs text-slate-500">Esta imagen aparece como portada.</p>
-                    </div>
-
-                    {image ? (
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                          <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                          {image.name}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setImage(null)}
-                          className="text-xs font-semibold text-slate-600 hover:text-slate-900"
-                        >
-                          Quitar
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-slate-400">Sin imagen</span>
-                    )}
-                  </div>
-
-                  <div
-                    onDragOver={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    onDrop={handleDrop}
-                    className="mt-4 rounded-2xl border-2 border-dashed border-slate-200 bg-white p-8 text-center"
-                  >
-                    <div className="mx-auto flex max-w-md flex-col items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
-                        <UploadIcon />
-                      </div>
-                      <p className="text-sm text-slate-700">
-                        Arrastra tu imagen aquí o{" "}
-                        <label className="cursor-pointer font-semibold text-[rgba(140,82,255,1)] hover:text-[rgba(140,82,255,0.9)]">
-                          haz click para subir
-                          <input
-                            type="file"
-                            accept=".webp,image/webp, .jpg, .jpeg, .png"
-                            className="hidden"
-                            onChange={(e) => handlePickFile(e.target.files?.[0])}
-                          />
-                        </label>
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        Cada imagen debe pesar menos de 2 MB. Formato JPG, PNG o WEBP.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Paragraph */}
-                <div className="mt-6">
-                  <label className="block text-sm font-semibold text-slate-900">
-                    Párrafo <span className="text-rose-500">*</span>
-                  </label>
-                  <textarea
-                    value={paragraph}
-                    onChange={(e) => setParagraph(e.target.value)}
-                    placeholder="Escribe el párrafo"
-                    rows={6}
-                    className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
-                  />
-                  <p className="mt-2 text-xs text-slate-500">
-                    Descripción o contenido de la sección.
-                  </p>
-                </div>
-
-                {/* Actions */}
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <button
-                    onClick={() => {}}
-                    disabled
-                    className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white bg-slate-300 cursor-not-allowed"
-                    title="(Plantilla) Solo mock de tab Prueba. Aquí mantengo tus botones como estaban."
-                  >
-                    Guardar Plantilla
-                  </button>
-
-                  <button
-                    onClick={() => {}}
-                    disabled
-                    className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white bg-slate-300 cursor-not-allowed"
-                  >
-                    Activar Campaña
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setService("");
-                      setParagraph("");
-                      setImage(null);
-                      setPhoneNumber("");
-                    }}
-                    className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white hover:bg-slate-800 active:bg-slate-900"
-                  >
-                    Cancelar
-                  </button>
                 </div>
               </Card>
             </section>
           ) : (
-            // ✅ NUEVO TAB PRUEBA
             <TestSendTab
               services={services}
               isConnected={isConnected}
