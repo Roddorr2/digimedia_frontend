@@ -8,6 +8,7 @@ import { apiRequest } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import Swal from "sweetalert2";
+import { TestSendTab } from "./components/TestSendTab"; // ✅ NUEVO
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
@@ -17,7 +18,6 @@ export default function WhatsAppPage() {
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [service, setService] = useState("");
-  const [subservice, setSubservice] = useState("");
   const [paragraph, setParagraph] = useState("");
   const [image, setImage] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -36,43 +36,8 @@ export default function WhatsAppPage() {
     []
   );
 
-  const subservices = useMemo(
-    () => ({
-      p1: [
-        { id: "p1_1", name: "Creación y desarrollo web" },
-        { id: "p1_2", name: "Experiencia de usuario y diseño" },
-        { id: "p1_3", name: "Dominio y hosting web" },
-        { id: "p1_4", name: "Optimización para buscadores" },
-      ],
-      p2: [
-        { id: "p2_1", name: "Estrategia de contenido" },
-        { id: "p2_2", name: "Diseño de pautas" },
-        { id: "p2_3", name: "Producción de pautas" },
-        { id: "p2_4", name: "Diseño UX/UI" },
-      ],
-      p3: [
-        { id: "p3_1", name: "Identidad y posicionamiento" },
-        { id: "p3_2", name: "Naming" },
-        { id: "p3_3", name: "Identidad visual y eslogan" },
-        { id: "p3_4", name: "Desarrollo de identidad visual y manual de marca" },
-      ],
-      p4: [
-        { id: "p4_1", name: "Desarrollo de brief" },
-        { id: "p4_2", name: "Planificación estratégica" },
-        { id: "p4_3", name: "Publicidad digital" },
-        { id: "p4_4", name: "Monitoreo y reporting" },
-      ],
-    }),
-    []
-  );
-
-  const subServices = useMemo(() => {
-    if (!service) return [];
-    return subservices[service] ?? [];
-  }, [service, subservices]);
-
-  const canSaveTemplate = Boolean(service && subservice && paragraph.trim().length > 0 && image && phoneNumber);
-  const canActivate = Boolean(service && subservice && isConnected && phoneNumber);
+  const canSaveTemplate = Boolean(service && paragraph.trim().length > 0 && image && phoneNumber);
+  const canActivate = Boolean(service && isConnected && phoneNumber);
 
   // Hook de socket
   const { isConnected: wsConnected, qrData, loading: wsLoading } = useWhatsAppSocket(clientToken);
@@ -99,10 +64,6 @@ export default function WhatsAppPage() {
     else if (!wsConnected) setQrCode(null);
   }, [wsConnected, qrData]);
 
-  useEffect(() => {
-    setSubservice(""); 
-  }, [service]);
-
   const handlePickFile = (file) => {
     if (!file) return;
     const under2mb = file.size <= 2 * 1024 * 1024;
@@ -122,14 +83,13 @@ export default function WhatsAppPage() {
     try {
       const formData = new FormData();
       formData.append("service", service);
-      formData.append("subservice", subservice);
       formData.append("paragraph", paragraph);
       formData.append("phone", phoneNumber);
       if (image) formData.append("image", image);
-      
+
       const data = await apiRequest("/api/whatsapp/template", {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       if (data) {
@@ -137,7 +97,7 @@ export default function WhatsAppPage() {
           title: "¡Éxito!",
           text: "Plantilla guardada correctamente.",
           icon: "success",
-          confirmButtonColor: "rgba(140,82,255,1)"
+          confirmButtonColor: "rgba(140,82,255,1)",
         });
       }
     } catch (error) {
@@ -154,7 +114,7 @@ export default function WhatsAppPage() {
     try {
       const data = await apiRequest("/api/whatsapp/activate", {
         method: "POST",
-        body: JSON.stringify({ service, subservice, phone: phoneNumber })
+        body: JSON.stringify({ service, phone: phoneNumber }),
       });
       if (data.success) {
         Swal.fire("Campaña Activada", "El envío de mensajes ha comenzado.", "success");
@@ -225,6 +185,11 @@ export default function WhatsAppPage() {
                   onClick={() => setTab("plantilla")}
                   label="Plantilla"
                 />
+                <TabButton
+                  active={tab === "prueba"}                 // ✅ NUEVO
+                  onClick={() => setTab("prueba")}          // ✅ NUEVO
+                  label="Prueba"                             // ✅ NUEVO
+                />
               </div>
             </div>
           </div>
@@ -266,32 +231,15 @@ export default function WhatsAppPage() {
                     </button>
                   </div>
 
-                    <div className="mt-6 flex justify-center">
-                      <QrDisplay 
-                        qrData={qrData} 
-                        isConnected={isConnected} 
-                        loading={wsLoading} 
-                      />
-                    </div>
+                  <div className="mt-6 flex justify-center">
+                    <QrDisplay qrData={qrData} isConnected={isConnected} loading={wsLoading} />
+                  </div>
                 </div>
               </Card>
             </section>
-          ) : (
+          ) : tab === "plantilla" ? (
             <section className="space-y-6">
               <Card>
-                <CardTitle>Número Telefónico a enviar</CardTitle>
-                <div className="mt-4">
-                  <label className="mb-2 block text-sm font-semibold text-slate-800">
-                    Número Telefónico
-                  </label>
-                  <input
-                    type="text"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="Ej: 51987654321"
-                    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:border-[rgba(140,82,255,1)] focus:ring-4 focus:ring-[rgba(140,82,255,0.18)]"
-                  />
-                </div>
                 <CardTitle>Selección de Servicio</CardTitle>
 
                 <div className="mt-4">
@@ -314,40 +262,6 @@ export default function WhatsAppPage() {
                     Esto define el contexto del mensaje y la plantilla asociada.
                   </p>
                 </div>
-
-                <div className="mt-4">
-                  <label className="mb-2 block text-sm font-semibold text-slate-800">
-                    Selecciona un subservicio
-                  </label>
-
-                  <select
-                    value={subservice}
-                    onChange={(e) => setSubservice(e.target.value)}
-                    disabled={!service}
-                    className={[
-                      "w-full rounded-xl border px-4 py-3 text-slate-900 outline-none focus:ring-4",
-                      service
-                        ? "border-slate-200 bg-white focus:border-[rgba(140,82,255,1)] focus:ring-[rgba(140,82,255,0.18)]"
-                        : "border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed",
-                    ].join(" ")}
-                  >
-                    <option value="">
-                      {service
-                        ? "--- Selecciona una opción ---"
-                        : "Primero selecciona un servicio"}
-                    </option>
-
-                    {subServices.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <p className="mt-2 text-xs text-slate-500">
-                    Este campo se adapta según el servicio elegido.
-                  </p>
-                </div>
               </Card>
 
               <Card>
@@ -360,9 +274,7 @@ export default function WhatsAppPage() {
                       <p className="text-sm font-semibold text-slate-900">
                         Imagen Principal <span className="text-rose-500">*</span>
                       </p>
-                      <p className="text-xs text-slate-500">
-                        Esta imagen aparece como portada.
-                      </p>
+                      <p className="text-xs text-slate-500">Esta imagen aparece como portada.</p>
                     </div>
 
                     {image ? (
@@ -435,35 +347,25 @@ export default function WhatsAppPage() {
                 {/* Actions */}
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <button
-                    onClick={handleSaveTemplate}
-                    disabled={!canSaveTemplate || isSaving}
-                    className={[
-                      "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
-                      (canSaveTemplate && !isSaving)
-                        ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
-                        : "bg-slate-300 cursor-not-allowed",
-                    ].join(" ")}
+                    onClick={() => {}}
+                    disabled
+                    className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white bg-slate-300 cursor-not-allowed"
+                    title="(Plantilla) Solo mock de tab Prueba. Aquí mantengo tus botones como estaban."
                   >
-                    {isSaving ? "Guardando..." : "Guardar Plantilla"}
+                    Guardar Plantilla
                   </button>
 
                   <button
-                    onClick={handleActivateCampaign}
-                    disabled={!canActivate || isActivating}
-                    className={[
-                      "inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white",
-                      (canActivate && !isActivating)
-                        ? "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
-                        : "bg-slate-300 cursor-not-allowed",
-                    ].join(" ")}
+                    onClick={() => {}}
+                    disabled
+                    className="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm font-semibold text-white bg-slate-300 cursor-not-allowed"
                   >
-                    {isActivating ? "Activando..." : "Activar Campaña"}
+                    Activar Campaña
                   </button>
 
                   <button
                     onClick={() => {
                       setService("");
-                      setSubservice("");
                       setParagraph("");
                       setImage(null);
                       setPhoneNumber("");
@@ -473,15 +375,15 @@ export default function WhatsAppPage() {
                     Cancelar
                   </button>
                 </div>
-
-                {/* Hint debajo de botones */}
-                {!canSaveTemplate && (
-                  <p className="mt-3 text-xs text-slate-500">
-                    Completa número, servicio, imagen (WEBP, JPG, PNG &lt; 2MB) y párrafo para guardar.
-                  </p>
-                )}
               </Card>
             </section>
+          ) : (
+            // ✅ NUEVO TAB PRUEBA
+            <TestSendTab
+              services={services}
+              isConnected={isConnected}
+              connectedNumber={connectedNumber}
+            />
           )}
         </div>
       </main>
