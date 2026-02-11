@@ -2,16 +2,27 @@
 
 import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
+<<<<<<< HEAD
 import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
 import { useAuth } from "@/hooks/useAuth";
 import { apiRequest } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import Swal from "sweetalert2";
+=======
+import { TabButton, Card, CardTitle } from "./components/TabButton";
+import { useAuth } from "@/hooks/useAuth";
+import { apiRequest, whatsappApi } from "@/api/fetchApiWhatsApp";
+import { useWhatsAppSocket } from "@/api/socket";
+import { QrDisplay } from "./components/QrDisplay";
+import Swal from "sweetalert2";
+import { TestSendTab } from "./components/TestSendTab";
+>>>>>>> origin/rama-kevin
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(false);
+<<<<<<< HEAD
   const [qrCode, setQrCode] = useState(null);
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
 
@@ -24,6 +35,11 @@ export default function WhatsAppPage() {
   const [isActivating, setIsActivating] = useState(false);
 
   // Estados para manejo de cliente/hidratación
+=======
+  const { isLoading: isAuthLoading } = useAuth();
+
+  // Token cliente (para socket)
+>>>>>>> origin/rama-kevin
   const [clientToken, setClientToken] = useState(null);
 
   const services = useMemo(
@@ -36,6 +52,7 @@ export default function WhatsAppPage() {
     []
   );
 
+<<<<<<< HEAD
   const subservices = useMemo(
     () => ({
       p1: [
@@ -78,6 +95,15 @@ export default function WhatsAppPage() {
   const { isConnected: wsConnected, qrData, loading: wsLoading } = useWhatsAppSocket(clientToken);
 
   const connectedNumber = qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
+=======
+  // Socket WhatsApp
+  const { isConnected: wsConnected, qrData, loading: wsLoading } =
+    useWhatsAppSocket(clientToken);
+
+  const connected = Boolean(wsConnected);
+  const connectedNumber =
+    qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
+>>>>>>> origin/rama-kevin
 
   const statusText = isConnected
     ? `Conectado: ${connectedNumber || "WhatsApp"}`
@@ -88,13 +114,17 @@ export default function WhatsAppPage() {
     : "Vincula tu cuenta para poder enviar mensajes.";
 
   useEffect(() => {
+<<<<<<< HEAD
     // Solo cargamos el token en el cliente. Prioridad a la cookie del dashboard.
+=======
+>>>>>>> origin/rama-kevin
     const token = getCookie("token") || localStorage.getItem("token");
     setClientToken(token);
   }, []);
 
   useEffect(() => {
     if (wsConnected !== undefined) setIsConnected(wsConnected);
+<<<<<<< HEAD
     if (qrData?.image) setQrCode(qrData.image);
     else if (!wsConnected) setQrCode(null);
   }, [wsConnected, qrData]);
@@ -182,6 +212,24 @@ export default function WhatsAppPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => setIsLoaded(true), []);
 
+=======
+  }, [wsConnected]);
+
+  const handleRestartSession = async () => {
+    try {
+      await whatsappApi.restart();
+      setIsConnected(false);
+      Swal.fire("Reiniciando", "La sesión se está reiniciando...", "info");
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "No se pudo reiniciar la sesión.", "error");
+    }
+  };
+
+  // Renderizado defensivo para evitar hidratación rara
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => setIsLoaded(true), []);
+>>>>>>> origin/rama-kevin
   if (!isLoaded) return <div className="p-10 text-center">Iniciando Dashboard...</div>;
 
   return (
@@ -196,7 +244,11 @@ export default function WhatsAppPage() {
                   Envío de Whatsapp
                 </h1>
                 <p className="text-sm text-slate-500">
+<<<<<<< HEAD
                   Configura la conexión y la plantilla para tus envíos.
+=======
+                  Conecta tu cuenta y ejecuta pruebas reales de campaña.
+>>>>>>> origin/rama-kevin
                 </p>
               </div>
 
@@ -221,9 +273,15 @@ export default function WhatsAppPage() {
                   label="Conexión"
                 />
                 <TabButton
+<<<<<<< HEAD
                   active={tab === "plantilla"}
                   onClick={() => setTab("plantilla")}
                   label="Plantilla"
+=======
+                  active={tab === "prueba"}
+                  onClick={() => setTab("prueba")}
+                  label="Prueba"
+>>>>>>> origin/rama-kevin
                 />
               </div>
             </div>
@@ -266,6 +324,7 @@ export default function WhatsAppPage() {
                     </button>
                   </div>
 
+<<<<<<< HEAD
                     <div className="mt-6 flex justify-center">
                       <QrDisplay 
                         qrData={qrData} 
@@ -273,10 +332,20 @@ export default function WhatsAppPage() {
                         loading={wsLoading} 
                       />
                     </div>
+=======
+                  <div className="mt-6 flex justify-center">
+                    <QrDisplay
+                      qrData={qrData}
+                      isConnected={isConnected}
+                      loading={wsLoading}
+                    />
+                  </div>
+>>>>>>> origin/rama-kevin
                 </div>
               </Card>
             </section>
           ) : (
+<<<<<<< HEAD
             <section className="space-y-6">
               <Card>
                 <CardTitle>Número Telefónico a enviar</CardTitle>
@@ -482,6 +551,13 @@ export default function WhatsAppPage() {
                 )}
               </Card>
             </section>
+=======
+            <TestSendTab
+              services={services}
+              isConnected={isConnected}
+              connectedNumber={connectedNumber}
+            />
+>>>>>>> origin/rama-kevin
           )}
         </div>
       </main>

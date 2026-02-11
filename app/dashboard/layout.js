@@ -36,7 +36,12 @@ export default function RootLayout({ children }) {
   // Estado y lógica del Dark Mode
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("darkMode") === "true";
+      const saved = localStorage.getItem("darkMode");
+      if (saved !== null) {
+        return saved === "true";
+      }
+      // Si no hay guardado, usar preferencia del navegador
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
     return false;
   });

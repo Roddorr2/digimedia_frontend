@@ -1,49 +1,99 @@
-import { getCookie } from 'cookies-next';
+import { getCookie } from "cookies-next";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV || "http://localhost:5111";
+// ✅ Laravel (campañas, BD, etc.)
+const API_URL = process.env.NEXT_PUBLIC_API_URL_DEV || "http://127.0.0.1:8000";
 
+// ✅ WhatsApp-service (Node + Baileys)
+const WS_URL = process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV || "http://localhost:5111";
+
+/**
+ * ✅ Request hacia Laravel
+ */
 export const apiRequest = async (endpoint, options = {}) => {
-    // Intentar obtener el token de las cookies (usado por el dashboard) o localStorage (fallback)
-    const token = getCookie('token') || localStorage.getItem('token');
+    const token = getCookie("token") || localStorage.getItem("token");
     const isFormData = options.body instanceof FormData;
-    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+
+    const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const url = `${API_URL}${cleanEndpoint}`;
 
-    console.log(`📡 Intentando petición API a: ${url}`);
+    console.log(`📡 (Laravel) ${url}`);
 
-    try {
-        const response = await fetch(url, {
-            ...options,
-            headers: {
-                ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-                'Authorization': `Bearer ${token}`,
-                ...options.headers,
-            },
-        });
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
+            Accept: "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...options.headers,
+        },
+    });
 
-        if (response.status === 401) {
-            console.warn('Token expirado o sesión no autorizada');
-        }
+    const contentType = response.headers.get("content-type") || "";
+    const raw = await response.text();
 
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-            return await response.json();
-        } else {
-            const text = await response.text();
-            console.error(`Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio del contenido: ${text.substring(0, 100)}`);
-            return { success: response.ok, text };
-        }
-    } catch (error) {
-        console.error(`Error en apiRequest a ${url}:`, error);
-        throw error;
+    if (!contentType.includes("application/json")) {
+        console.error(
+            `Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio: ${raw.substring(0, 120)}`
+        );
+        return { success: response.ok, text: raw, status: response.status };
     }
+
+    return JSON.parse(raw);
+};
+
+/**
+ * ✅ Helper interno para requests al WhatsApp-service
+ */
+const wsRequest = async (endpoint, options = {}) => {
+    const token = getCookie("token") || localStorage.getItem("token");
+    const isFormData = options.body instanceof FormData;
+
+    const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+    const url = `${WS_URL}${cleanEndpoint}`;
+
+    console.log(`📡 (WS) ${url}`);
+
+    const res = await fetch(url, {
+        ...options,
+        headers: {
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
+            Accept: "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...options.headers,
+        },
+    });
+
+    const contentType = res.headers.get("content-type") || "";
+    const raw = await res.text();
+
+    if (!contentType.includes("application/json")) {
+        console.error(
+            `Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio: ${raw.substring(0, 120)}`
+        );
+        return { success: res.ok, text: raw, status: res.status };
+    }
+
+    return JSON.parse(raw);
 };
 
 export const whatsappApi = {
-    requestNewQr: async (token) => {
-        return apiRequest("/api/qr-request", { method: 'POST' });
+    // ✅ Genera/renueva QR (tu router lo expone como /api/whatsapp/restart)
+    restart: async () => {
+        return wsRequest("/api/whatsapp/restart", { method: "POST" });
     },
-    getStatus: async (token) => {
-        return apiRequest("/api/status", { method: 'GET' });
-    }
+
+    // ✅ Alternativa directa para pedir QR
+    requestNewQr: async () => {
+        return wsRequest("/api/whatsapp/qr-request", { method: "POST" });
+    },
+
+    // ✅ Estado de conexión
+    getStatus: async () => {
+        return wsRequest("/api/whatsapp/status", { method: "GET" });
+    },
+
+    // ✅ Estado del QR (si lo usas)
+    getQrStatus: async () => {
+        return wsRequest("/api/whatsapp/qr-status", { method: "GET" });
+    },
 };
