@@ -2,23 +2,18 @@
 
 import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
-import { TabButton, Card, CardTitle, UploadIcon } from "./components/TabButton";
-import { useAuth } from "@/hooks/useAuth";
-import { apiRequest } from "@/api/fetchApiWhatsApp";
-import { useWhatsAppSocket } from "@/api/socket";
-import { QrDisplay } from "./components/QrDisplay";
-import Swal from "sweetalert2";
 import { TabButton, Card, CardTitle } from "./components/TabButton";
 import { useAuth } from "@/hooks/useAuth";
 import { apiRequest, whatsappApi } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
-import Swal from "sweetalert2";
 import { TestSendTab } from "./components/TestSendTab";
+import Swal from "sweetalert2";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const { isLoading: isAuthLoading } = useAuth();
 
   // Token cliente (para socket)
