@@ -16,7 +16,7 @@ export default function Body1({ id_blog_body, fecha }) {
       return texto;
     }
 
-    // Buscar la frase completa (case insensitive) hola
+    // Buscar la frase completa (case insensitive) hola mundo
     const regex = new RegExp(`(${palabraClave})`, "gi");
     const partes = texto.split(regex);
 
