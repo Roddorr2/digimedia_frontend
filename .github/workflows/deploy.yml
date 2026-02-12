@@ -2,9 +2,8 @@ name: Deploy to Git Branch
 
 on:
   push:
-    branches:
-      - rama_staging_frond
-
+    branches: 
+      - rama_staging_frontend
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
