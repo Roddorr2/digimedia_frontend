@@ -3,7 +3,7 @@ name: Deploy to Git Branch
 on:
   push:
     branches: 
-      - rama_staging_frontend
+      - rama_staning_frontend
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
