@@ -7,10 +7,10 @@ export default function Banner() {
         <picture>
           <source
             media="(max-width: 767px)"
-            srcSet="/image-home/pexels-artempodrez-5716026.webp"
+            srcSet="/image-home/pexels-artempodrez-5716026_1.webp"
           />
           <Image
-            src="/image-home/pexels-artempodrez-5716026.webp"
+            src="/image-home/pexels-artempodrez-5716026_1.webp"
             alt="Inicio"
             priority
             fetchPriority="high"
