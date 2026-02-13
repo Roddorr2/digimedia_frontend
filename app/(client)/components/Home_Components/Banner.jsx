@@ -4,23 +4,17 @@ export default function Banner() {
   return (
     <>
       <main className="relative h-[calc(100vh-67px)] w-full overflow-hidden">
-        {/* Imagen para Mobile */}
-        <div className="block md:hidden absolute inset-0">
-          <Image
-            src="/image-home/reunion-de-marketing_movil.webp"
-            alt="Inicio"
-            priority
-            fetchPriority="high"
-            fill
-            sizes="100vw"
-            className="object-cover object-[70%]"
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet="/image-home/pexels-artempodrez-5716026.jpeg"
           />
         </div>
 
         {/* Imagen para Desktop */}
         <div className="hidden md:block absolute inset-0">
           <Image
-            src="/image-home/web_nuevo.png"
+            src="/image-home/pexels-artempodrez-5716026.jpeg"
             alt="Inicio"
             priority
             fetchPriority="high"
