@@ -1,33 +1,33 @@
-'use client';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
-import ModalButton from '../components/ModalButton';
+"use client";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import ModalButton from "../components/ModalButton";
 
 function UXUIComponent() {
   const searchParams = useSearchParams();
-  const from = searchParams.get('from');
+  const from = searchParams.get("from");
 
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
     },
   };
 
   const backgroundImages = {
-    disenoDesarrollo: '/servicios/DisenoUI/background_ui.svg',
-    gestionRedes: '/servicios/DisenoUI/diseno_principal.webp',
+    disenoDesarrollo: "/servicios/DisenoUI/diseno_1.webp",
+    gestionRedes: "/servicios/DisenoUI/diseno_principal.webp",
   };
 
   const backgroundImage =
-    backgroundImages[from] || '/servicios/DisenoUI/background_ui.svg';
+    backgroundImages[from] || "/servicios/DisenoUI/diseno_1.webp";
 
   const featuresuxui = [
     {
@@ -40,14 +40,14 @@ function UXUIComponent() {
           height={150}
         />
       ),
-      title: 'Diseño de pautas',
+      title: "Diseño de pautas",
       title: (
         <>
           DISEÑO DE <br /> INTERFACES (UI)
         </>
       ),
       description:
-        'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
+        "Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.",
     },
     {
       icon: (
@@ -65,7 +65,7 @@ function UXUIComponent() {
         </>
       ),
       description:
-        'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
+        "Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.",
     },
   ];
 
