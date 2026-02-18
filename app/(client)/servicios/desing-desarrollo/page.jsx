@@ -31,10 +31,10 @@ export default function Page() {
     {
       title: (
         <>
-          DOMINIO Y<br /> HOSTING WEB
+          OPTIMIZACIÓN SEO <br /> PARA BUSCADORES
         </>
       ),
-      text: "Aseguramos que tu presencia online sea, segura, rápida y eficiente para la disponibilidad de tus clientes.",
+      text: "Mayor visibilidad, mejor posicionamiento y más clientes potenciales. Llevamos tu sitio web a los primeros resultados de búsqueda.",
       icon: "/servicios/desarrollo/icon3.svg",
       ruta: "/servicios/dominio_hosting/",
     },
