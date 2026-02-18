@@ -41,10 +41,13 @@ export default function Page() {
     {
       title: (
         <>
-          OPTIMIZACIÓN <br /> PARA BUSCARDORES
+          DESARROLLO <br />
+          RESPONSIVE E <br />
+          INTEGRACIONES <br />
+          DIGITALES
         </>
       ),
-      text: "Mejoramos tu posición en navegadores con una  estrategia que aumenta tu visibilidad online hoy mismo.",
+      text: "Desarrollamos sitios web adaptables y conectados con herramientas digitales que potencian la conversión y optimizan tu gestión.",
       icon: "/servicios/desarrollo/icon4.svg",
       ruta: "/servicios/seo/",
     },
