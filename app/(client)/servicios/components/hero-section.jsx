@@ -46,7 +46,7 @@ export function HeroSection({
                 onClick={() => setOpen(!open)}
                 className="w-full text-center"
               >
-                <h1 className="text-4xl font-extrabold leading-tight">
+                <h1 className="text-3xl font-extrabold leading-tight">
                   {title}
                 </h1>
               </button>
