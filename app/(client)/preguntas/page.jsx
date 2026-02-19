@@ -103,18 +103,72 @@ export default function Page() {
         </div>
       </section>
       
-      
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-gradient-to-r from-[#b525fe] to-[#9a1fd9] rounded-2xl p-8 sm:p-12 shadow-xl text-center">
-          <h2 className="text-white text-2xl sm:text-3xl font-medium mb-4">¿No encuentras la respuesta que buscas?</h2>
-          <p className="text-white/90 mb-8 max-w-2xl mx-auto">
-            Estamos aquí para ayudarte. Contáctanos directamente y un especialista responderá todas tus dudas.
-          </p>
-          <a href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio." className="bg-white text-[#b525fe] px-8 py-3 rounded-full font-medium hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            Contáctanos
-          </a>
-        </div>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div className="relative overflow-hidden bg-[#b525fe] rounded-2xl p-8 sm:p-12 shadow-xl text-center">
+    {/* Decorative lines - Left */}
+    <div className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block w-[22%] opacity-90">
+      <svg
+        viewBox="0 0 220 140"
+        className="w-full h-auto text-white"
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <line x1="0" y1="30" x2="150" y2="30" />
+        <circle cx="150" cy="30" r="6" fill="white" />
+
+        <line x1="0" y1="65" x2="190" y2="65" />
+        <circle cx="190" cy="65" r="6" fill="white" />
+
+        <path d="M0 100 H70 L90 120 H200" />
+        <circle cx="200" cy="120" r="6" fill="white" />
+      </svg>
+    </div>
+
+    {/* Decorative lines - Right */}
+    <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block w-[22%] opacity-90">
+      <svg
+        viewBox="0 0 220 140"
+        className="w-full h-auto text-white"
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <line x1="70" y1="30" x2="220" y2="30" />
+        <circle cx="70" cy="30" r="6" fill="white" />
+
+        <path d="M220 65 H150 L130 45 H70" />
+        <circle cx="70" cy="45" r="6" fill="white" />
+
+        <line x1="30" y1="105" x2="220" y2="105" />
+        <circle cx="30" cy="105" r="6" fill="white" />
+      </svg>
+    </div>
+
+    <div className="relative z-10 max-w-2xl mx-auto">
+        <h2 className="text-white text-xl sm:text-2xl font-semibold mb-3">
+          ¿No encuentras la respuesta que buscas?
+        </h2>
+
+        <p className="text-white/90 mb-8 text-sm sm:text-base">
+          Estamos aquí para ayudarte. Contáctanos directamente y un especialista responderá todas tus dudas.
+        </p>
+
+        <a
+          href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio."
+          className="inline-flex items-center justify-center bg-[#f5a000] text-white px-10 py-3 rounded-full font-bold tracking-wide
+                    hover:bg-[#e69500] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          CONTÁCTANOS AHORA
+        </a>
       </div>
+    </div>
+  </div>
+
     </div>
   )
 }

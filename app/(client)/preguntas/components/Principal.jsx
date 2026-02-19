@@ -49,7 +49,7 @@ export default function Principal() {
          <div
           className="
             bg-[#b525fe]
-            rounded-t-[60px]
+            rounded-t-[40px] md:rounded-t-[60px]
             mb-4
             px-10 py-5
             sm:px-16 sm:py-6
