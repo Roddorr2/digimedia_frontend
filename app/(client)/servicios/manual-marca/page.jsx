@@ -1,17 +1,17 @@
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { PencilRuler, Palette, SpellCheck, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'MARKETING Y GESTIÓN DIGITAL',
-      fondo: '/servicios/marketing/modal-scroll/marketingygestiondigital.jpg',
-      title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
-      serviceName: '3',
+      text: "MARKETING Y GESTIÓN DIGITAL",
+      fondo: "/servicios/marketing/modal-scroll/marketingygestiondigital.jpg",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      serviceName: "3",
     },
   };
 
@@ -27,33 +27,48 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/manual_marca/icons/paleta de colores blanco.png"
-          alt="Icono de una tarjeta y firma con lápiz"
+          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-de-metricas_card1-analisis-de-kpis.webp"
+          alt="Icono de un check para kpis"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: 'PALETA DE COLORES',
+      title: "ANÁLISIS DE KPIs",
       description:
-        'Definimos los colores primarios y secundarios de la marca incluyendo sus códigos, rgb, cmyk y pantone para facilitar sus uso en diferentes soportes.',
-      alt: 'Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa',
+        "Medimos indicadores clave de rendimiento como alcance, conversiones, CTR y ROI para evaluar el impacto real de cada acción digital.",
+      alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
     },
 
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/manual_marca/icons/tipografia blanco.png"
-          alt="Icono de una tarjeta y firma con lápiz"
+          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-de-metricas_card2-interpretacion-de-datos.webp"
+          alt="Icono de crecimiento de interpretacion de datos"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: 'tipografía',
+      title: "INTERPRETACIÓN DE DATOS",
       description:
-        'Seleccionamos las fuentes de letra principales y secundarias, incluyendo ejemplos de como usarías en diferentes tamaños y estilos para titulares y cuerpos de texto.',
-      alt: 'Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa',
+        "Transformamos datos complejos en información clara y comprensible que facilite la toma de decisiones estratégicas.",
+      alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
+    },
+    {
+      icon: (
+        <Image
+          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-de-metricas_card3-reportes-estrategicos.webp"
+          alt="Icono de tendendencia de reportes"
+          className="w-full h-full object-contain"
+          width={48}
+          height={48}
+        />
+      ),
+      title: "REPORTES ESTRATÉGICOS",
+      description:
+        "Elaboramos informes detallados y visuales que muestran resultados, tendencias y oportunidades de mejora.",
+      alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
     },
   ];
 
@@ -70,10 +85,10 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription="La planificación estratégica es el mapa que guía su negocio hacia el éxito en el entorno digital. Definimos objetivos claros, identificamos oportunidades y diseñamos una hoja de ruta personalizada para consolidar su presencia online, maximizar su alcance y asegurar un crecimiento sostenible."
-        backgroundImage="/servicios/DisenoUI/branding3.webp"
+        mainDescription="Evaluamos el desempeño de tus estrategias digitales a través del análisis de datos y métricas clave. Interpretamos la información obtenida para identificar oportunidades de mejora, optimizar recursos y tomar decisiones estratégicas basadas en resultados reales y medibles."
+        backgroundImage="/servicios/DisenoUI/analisis-de-metricas.webp"
         heroTitle=<>
-          MANUAL DE <br /> MARCA
+          ANÁLISIS DE <br /> MÉTRICAS
         </>
         // heroBulletPoints={[]}
         alt="Piezas gráficas, Redes sociales, Aplicaciones digitales, Señalética, Merchandising, Lenguaje visual, Tono y voz de marca"
