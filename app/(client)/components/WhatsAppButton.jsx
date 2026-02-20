@@ -9,14 +9,14 @@ const WhatsAppButton = () => {
       href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-4 right-4 md:bottom-6 md:right-6 p-3 rounded-full shadow-lg hover:bg-[#128C7E] transition-colors duration-300 z-50"
+      className="fixed bottom-8 right-8 md:bottom-10 md:right-10 rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 z-50"
       aria-label="Chat on WhatsApp"
     >
       <Image 
         src="/image-home/WhatsApp.svg.webp"  
         alt="Icono de WhatsApp color blanco con fondo oscuro"
-        width={60}
-        height={60}
+        width={70}
+        height={70}
         priority={true} 
       />
     </a>
