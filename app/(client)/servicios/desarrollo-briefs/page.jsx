@@ -1,18 +1,18 @@
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import { UxUiSection } from '../components/uxui-section';
-import ModalScroll from '../components/ModalScroll';
-import ModalButton from '../components/ModalButton';
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import { UxUiSection } from "../components/uxui-section";
+import ModalScroll from "../components/ModalScroll";
+import ModalButton from "../components/ModalButton";
 
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'BRANDING Y DISEÑO',
-      fondo: '/servicios/branding/modal-scroll/brandingydiseno.png',
-      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
-      serviceName: '4',
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
     },
   };
 
@@ -27,9 +27,9 @@ export default function UXUI() {
           height={100}
         />
       ),
-      title: 'BRIEF',
+      title: "BRIEF",
       description:
-        'Desarrollamos el brief de su marca como documento estratégico, consolidando identidad y objetivos del proyecto para garantizar un desarrollo visual coherente y alineado a los resultados de su campaña.',
+        "Desarrollamos el brief de su marca como documento estratégico, consolidando identidad y objetivos del proyecto para garantizar un desarrollo visual coherente y alineado a los resultados de su campaña.",
     },
   ];
 
@@ -45,7 +45,7 @@ export default function UXUI() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Transformamos tus ideas en una hoja de ruta clara para la creación de contenido gráfico y audiovisual. Nuestro proceso de brief asegura que cada proyecto de publicidad digital esté alineado con sus objetivos comerciales y atraiga a su público ideal."
-        backgroundImage="/servicios/desarrollo_brief/desarrollo_brieff_principal.webp"
+        backgroundImage="/servicios/desarrollo_brief/desarrollo-de-brief.webp"
         heroTitle=<>
           DESARROLLO
           <br />

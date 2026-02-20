@@ -1,19 +1,19 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
 
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function PlanificacionEstrategica() {
   const modales = {
     modalA: {
-      text: 'BRANDING Y DISEÑO',
-      fondo: '/servicios/branding/modal-scroll/brandingydiseno.png',
-      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
-      serviceName: '4',
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
     },
   };
 
@@ -26,9 +26,9 @@ export default function PlanificacionEstrategica() {
           className="w-full h-full object-contain"
         />
       ),
-      title: 'PLANIFICACIÓN',
+      title: "PLANIFICACIÓN",
       description:
-        'Analizamos su situación actual, identificamos oportunidades clave y optimizamos el uso de recursos para construir una estrategia sostenible y orientada al crecimiento de su empresa.',
+        "Analizamos su situación actual, identificamos oportunidades clave y optimizamos el uso de recursos para construir una estrategia sostenible y orientada al crecimiento de su empresa.",
     },
   ];
 
