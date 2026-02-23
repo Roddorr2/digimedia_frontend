@@ -81,7 +81,7 @@ export default function Page() {
         </>
         subtitle="Estrategia y contenido que generan resultados"
         text="Impulsamos tu presencia digital con contenido estratégico, creatividad y decisiones basadas en datos para que tu marca no solo esté presente, sino que destaque."
-        image="/servicios/gestion/gestion-redes-hero.png"
+        image="/servicios/gestion/gestion-de-redes-sociales.webp"
       />
 
       <Description

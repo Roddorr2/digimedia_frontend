@@ -85,7 +85,7 @@ export default function Page() {
           </>
         }
         text="Transformamos tu visión en una presencia digital impactante. Diseñamos y desarrollamos sitios web modernos, rápidos y seguros, enfocados en convertir visitantes en clientes y fortalecer la lealtad de su audiencia. Tu éxito online comienza aquí."
-        image="/servicios/desarrollo/desarrollo-web-hero.png"
+        image="/servicios/desarrollo/disenio-y-desarrollo-web.webp"
       />
 
       <Description
