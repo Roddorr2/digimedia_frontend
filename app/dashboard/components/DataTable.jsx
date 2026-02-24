@@ -29,7 +29,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
       return;
     }
     
-    if(subtipoAdministrador.hierarchy > 0) 
+    if(subtipoAdministrador?.hierarchy > 0) 
       AuthHierarchy = subtipoAdministrador.hierarchy
   })();
 

@@ -26,6 +26,8 @@ export const metadata = {
     },
 };
 
+import ClientSideComponents from "@/app/(client)/components/ClientSideComponents";
+
 export default function blogLayout({ children }) {
     return (
     <>
@@ -57,6 +59,7 @@ export default function blogLayout({ children }) {
       </script>
 
       {children}
+      <ClientSideComponents />
     </>
   );
 }

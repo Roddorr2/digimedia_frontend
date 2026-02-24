@@ -9,6 +9,7 @@ import {
   Mail,
   Settings,
   User,
+  PhoneCall
 } from 'lucide-react';
 
 export const dashboardLinks = [
@@ -54,5 +55,10 @@ export const dashboardLinks = [
     href: '/dashboard/metricas',
     icon: ChartColumn,
     role: 'administrador',
+  },
+  {
+    title: 'WhatsApp',
+    href: '/dashboard/whatsapp',
+    icon: PhoneCall,
   },
 ];

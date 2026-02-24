@@ -15,7 +15,7 @@ function UXUIComponent() {
   const modales = {
     modalA: {
       text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/fondo.webp',
+      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
     },

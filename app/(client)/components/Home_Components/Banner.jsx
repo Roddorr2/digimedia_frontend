@@ -15,6 +15,8 @@ export default function Banner() {
             alt="Equipo de marketing digital reunido analizando métricas y resultados de redes sociales"
             priority
             fetchPriority="high"
+            priority
+            fetchPriority="high"
             fill
             sizes="100vw"
             className="object-cover object-[70%] md:object-[30%]"
