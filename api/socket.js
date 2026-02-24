@@ -5,6 +5,7 @@ export const useWhatsAppSocket = (token) => {
     const [data, setData] = useState({
         isConnected: false,
         qrData: null,
+        connectionState: {},
         loading: true
     });
 
@@ -25,6 +26,7 @@ export const useWhatsAppSocket = (token) => {
             setData({
                 isConnected: update.isConnected,
                 qrData: update.qrData, // Aquí viene la imagen Base64 del QR y timeRemaining
+                connectionState: update.connectionState || {},
                 loading: false
             });
         });
