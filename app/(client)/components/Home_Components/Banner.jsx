@@ -7,11 +7,14 @@ export default function Banner() {
         <picture>
           <source
             media="(max-width: 767px)"
-            srcSet="/image-home/pexels-artempodrez-5716026_1.webp"
+            srcSet="/image-home/banner_digimedia_mobile.png"
           />
           <Image
-            src="/image-home/pexels-artempodrez-5716026_1.webp"
-            alt="Inicio"
+            src="/image-home/banner_digimedia_pc.png"
+            title='planificación de contenidos, creación de contenido digital, calendario de contenidos, community management, análisis de métricas en redes, estrategias de marketing digital, desarrollo web.'
+            alt="Equipo de marketing digital reunido analizando métricas y resultados de redes sociales"
+            priority
+            fetchPriority="high"
             priority
             fetchPriority="high"
             fill
