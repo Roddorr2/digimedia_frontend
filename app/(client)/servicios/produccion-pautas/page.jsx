@@ -1,17 +1,17 @@
-'use client';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+"use client";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function ProduccionPautas() {
   const modales = {
     modalA: {
-      text: 'GESTIÓN DE REDES SOCIALES',
-      fondo: '/servicios/gestion/modal-scroll/gestionderedessociales.png',
-      title: 'SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!',
-      serviceName: '2',
+      text: "GESTIÓN DE REDES SOCIALES",
+      fondo: "/servicios/gestion/modal-scroll/gestionderedessociales.png",
+      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      serviceName: "2",
     },
   };
 
@@ -20,25 +20,25 @@ export default function ProduccionPautas() {
       icon: (
         <img
           src="/servicios/gestion/produccion-pautas/icons/first blanco.png"
-          alt="Diseño de pautas"
+          alt="Conceptualización y guión"
           className="w-full h-full object-contain"
         />
       ),
-      title: 'Diseño de pautas',
+      title: "Conceptualización y guión",
       description:
-        'Creamos anuncios visuales estratégicos y alineados a su marca, con mensajes claros que captan la atención de su público objetivo y fomentan la acción.',
+        "Desarrollamos ideas creativas alineadas a la estrategia de contenido. Definimos mensaje, formato y enfoque para asegurar impacto desde los primeros segundos.",
     },
     {
       icon: (
         <img
           src="/servicios/gestion/produccion-pautas/icons/first 2 blanco.png"
-          alt="Hoja de apuntes"
+          alt="Producción y edición"
           className="w-full h-full object-contain"
         />
       ),
-      title: 'Producción de pautas',
+      title: "Producción y edición",
       description:
-        'Gestionamos integralmente el ciclo del anuncio, desde la planificación y edición hasta su adaptación y publicación, asegurando piezas listas para generar resultados.',
+        "Realizamos grabación, edición y adaptación de piezas audiovisuales optimizadas para cada plataforma, priorizando dinamismo, claridad y engagement.",
     },
   ];
 
@@ -54,12 +54,12 @@ export default function ProduccionPautas() {
 
       <UxUiSection
         features={features}
-        mainDescription=" Desarrollamos y ejecutamos campañas publicitarias digitales completas. Integramos la creatividad visual con la optimización técnica para asegurar que cada anuncio genere el máximo impacto y retorno en las plataformas seleccionadas."
-        backgroundImage="/servicios/planificacion/produccion_pautas_principal.webp"
+        mainDescription="Creamos contenido visual que capta atención y genera conexión. Desarrollamos piezas audiovisuales pensadas estratégicamente para redes sociales, combinando creatividad, narrativa y objetivos de marca."
+        backgroundImage="/servicios/planificacion/produccion-audiovisual.webp"
         heroTitle=<>
           PRODUCCIÓN
           <br />
-          DE PAUTAS
+          AUDIOVISUAL
         </>
         alt="Producción de anuncios gráficos y textos publicitarios listos para campañas en Meta Ads y redes sociales."
         title="Producción creativa de pautas para campañas publicitarias – Digimedia"

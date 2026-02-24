@@ -1,10 +1,10 @@
 // Componentes
-import Servicios from '../components/Servicios';
-import Contactanos from '../components/Contactanos';
-import Description from '../components/Description';
-import Main from '../components/Main';
-import ModalScroll from '../components/ModalScroll';
-import ModalButton from '../components/ModalButton';
+import Servicios from "../components/Servicios";
+import Contactanos from "../components/Contactanos";
+import Description from "../components/Description";
+import Main from "../components/Main";
+import ModalScroll from "../components/ModalScroll";
+import ModalButton from "../components/ModalButton";
 
 export default function Page() {
   const servicios = [
@@ -14,9 +14,9 @@ export default function Page() {
           CREACIÓN Y <br /> DESARROLLO WEB
         </>
       ),
-      text: 'Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.',
-      icon: '/servicios/desarrollo/icon1.svg',
-      ruta: '/servicios/desarrollo-webs/',
+      text: "Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.",
+      icon: "/servicios/desarrollo/icon1.svg",
+      ruta: "/servicios/desarrollo-webs/",
     },
     {
       title: (
@@ -24,38 +24,41 @@ export default function Page() {
           EXPERIENCIA DE <br /> USUARIO Y DISEÑO
         </>
       ),
-      text: 'Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.',
-      icon: '/servicios/desarrollo/icon2.svg',
-      ruta: '/servicios/ui/?from=disenoDesarrollo',
+      text: "Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
+      icon: "/servicios/desarrollo/icon2.svg",
+      ruta: "/servicios/ui/?from=disenoDesarrollo",
     },
     {
       title: (
         <>
-          DOMINIO Y<br /> HOSTING WEB
+          OPTIMIZACIÓN SEO <br /> PARA BUSCADORES
         </>
       ),
-      text: 'Aseguramos que tu presencia online sea, segura, rápida y eficiente para la disponibilidad de tus clientes.',
-      icon: '/servicios/desarrollo/icon3.svg',
-      ruta: '/servicios/dominio_hosting/',
+      text: "Mayor visibilidad, mejor posicionamiento y más clientes potenciales. Llevamos tu sitio web a los primeros resultados de búsqueda.",
+      icon: "/servicios/desarrollo/icon3.svg",
+      ruta: "/servicios/dominio_hosting/",
     },
     {
       title: (
         <>
-          OPTIMIZACIÓN <br /> PARA BUSCARDORES
+          DESARROLLO <br />
+          RESPONSIVE E <br />
+          INTEGRACIONES <br />
+          DIGITALES
         </>
       ),
-      text: 'Mejoramos tu posición en navegadores con una  estrategia que aumenta tu visibilidad online hoy mismo.',
-      icon: '/servicios/desarrollo/icon4.svg',
-      ruta: '/servicios/seo/',
+      text: "Desarrollamos sitios web adaptables y conectados con herramientas digitales que potencian la conversión y optimizan tu gestión.",
+      icon: "/servicios/desarrollo/icon4.svg",
+      ruta: "/servicios/seo/",
     },
   ];
 
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
       width: 256,
       height: 144,
     },
@@ -78,11 +81,11 @@ export default function Page() {
           <>
             ¡Convierte clics en clientes
             <br />
-            con un sitio web que impacta!
+            con un sitio web que impacte!
           </>
         }
         text="Transformamos tu visión en una presencia digital impactante. Diseñamos y desarrollamos sitios web modernos, rápidos y seguros, enfocados en convertir visitantes en clientes y fortalecer la lealtad de su audiencia. Tu éxito online comienza aquí."
-        image="/servicios/desarrollo/desarrollo-web-hero.png"
+        image="/servicios/desarrollo/disenio-y-desarrollo-web.webp"
       />
 
       <Description

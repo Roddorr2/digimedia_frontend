@@ -1,34 +1,50 @@
 // Componentes
-import Servicios from '../components/Servicios';
-import Contactanos from '../components/Contactanos';
-import Description from '../components/Description';
-import Main from '../components/Main';
-import ModalButton from '../components/ModalButton';
-import ModalScroll from '../components/ModalScroll';
+import Servicios from "../components/Servicios";
+import Contactanos from "../components/Contactanos";
+import Description from "../components/Description";
+import Main from "../components/Main";
+import ModalButton from "../components/ModalButton";
+import ModalScroll from "../components/ModalScroll";
 
 export default function Page() {
   const servicios = [
     {
-      title: (<>DESARROLLO DE <br /> BRIEF</>),
-      text: "Estudiamos tu empresa y competencia para definir una marcaclara, estratégica y sólida.",
+      title: (
+        <>
+          DESARROLLO DE <br /> BRIEF
+        </>
+      ),
+      text: "Estudiamos tu empresa y competencia para definir una marca clara, estratégica y sólida.",
       icon: "/servicios/branding/icon1.svg",
       ruta: "/servicios/desarrollo-briefs/",
     },
     {
-      title: (<>PLANIFICACIÓN  <br /> ESTRATÉGICA</>),
+      title: (
+        <>
+          PLANIFICACIÓN <br /> ESTRATÉGICA
+        </>
+      ),
       text: "Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.",
       icon: "/servicios/branding/icon2.svg",
       ruta: "/servicios/planificacion-estrategica/",
     },
     {
-      title: (<>PUBLICIDAD  <br /> DIGITAL</>),
-      text: "Diseñamos anuncios que conectan con tu audiencia en Meta Ads y Google Ads.",
+      title: (
+        <>
+          DISEÑO <br /> DE LOGO
+        </>
+      ),
+      text: "Diseñamos logotipos memorables y profesionales que representan lo que tu marca es y lo que aspira a ser.",
       icon: "/servicios/branding/icon3.svg",
       ruta: "/servicios/publicidad-digital/",
     },
     {
-      title: (<>MONITOREO Y  <br /> REPORTING</>),
-      text: "Medimos resultado y ajustamos acciones para mejorar el rendimiento de tu marca.",
+      title: (
+        <>
+          MANUAL DE <br /> MARCA
+        </>
+      ),
+      text: "Desarrollamos manuales de marca que establecen lineamientos visuales claros para asegurar coherencia en toda la comunicación de tu empresa.",
       icon: "/servicios/branding/icon4.svg",
       ruta: "/servicios/monitoreo-y-reporting/",
     },
@@ -36,10 +52,10 @@ export default function Page() {
 
   const modales = {
     modalA: {
-      text: 'BRANDING Y DISEÑO',
-      fondo: '/servicios/branding/modal-scroll/brandingydiseno.png',
-      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
-      serviceName: '4',
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
     },
   };
 
@@ -63,9 +79,9 @@ export default function Page() {
 
       <Main
         title="BRANDING Y DISEÑO"
-        subtitle="La Voz y la Cara de tu Marca"
+        subtitle="Diseñamos marcas con próposito y personalidad"
         text="Creamos marcas que hablan, emocionan y conectan. Desde una identidad visual memorable hasta mensajes que resuenan profundamente, hacemos que tu empresa sea tan única como inolvidable."
-        image="/servicios/branding/branding-disenio.png"
+        image="/servicios/branding/branding-y-disenio.webp"
       />
 
       <Description
@@ -76,7 +92,11 @@ export default function Page() {
       <Servicios servicios={servicios} />
 
       <Contactanos
-        text={<>conecta de manera creativa e <br /> innovadora con tu audiencia</>}
+        text={
+          <>
+            conecta de manera creativa e <br /> innovadora con tu audiencia
+          </>
+        }
         iconLeft="/servicios/desarrollo/icon-left.svg"
         iconRight="/servicios/desarrollo/icon-right.svg"
       />
