@@ -1,8 +1,21 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './Footer.module.css';
 import Image from 'next/image';
 
 export default function Footer() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = (e) => {
+    e.preventDefault();
+    const email = "digi.mediamkt@gmail.com";
+    navigator.clipboard.writeText(email).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
   return (
     <>
       <footer>
@@ -38,16 +51,21 @@ export default function Footer() {
                       983 027 828
                     </Link>
                   </li>
-                  <li>
-                    <Link href="mailto:digimediamkt@gmail.com" target="_blank">
+                  <li className={styles.emailContainer}>
+                    <div 
+                      onClick={handleCopyEmail} 
+                      className={styles.emailLink}
+                      title="Haz clic para copiar el correo"
+                    >
                       <Image
                         src="/headerFooter/correo.webp"
                         alt="Icono de correo color blanco con fondo oscuro"
                         width={24}
                         height={24}
                       />
-                      digimediamkt@gmail.com
-                    </Link>
+                      digi.mediamkt@gmail.com
+                      {copied && <span className={styles.copiedTooltip}>¡Copiado!</span>}
+                    </div>
                   </li>
                   <li>
                     <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
@@ -90,7 +108,7 @@ export default function Footer() {
                 <ul>
                   <li>
                     <Link
-                      href="https://www.tiktok.com/@digimediamkt"
+                      href="https://www.tiktok.com/@digimedia_marketing"
                       target="_blank"
                     >
                       <Image
