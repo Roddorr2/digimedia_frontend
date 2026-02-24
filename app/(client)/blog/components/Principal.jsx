@@ -2,29 +2,22 @@ import Image from "next/image";
 
 export default function Principal() {
   return (
-    <section className="relative w-screen h-[calc(100vh-67px)] overflow-hidden">
-      {/* Imagen de fondo responsive */}
-      <Image
-        src="/blog/fondo.webp"
-        alt="Fondo del blog Digimedia"
-        fill
-        className="object-cover object-center" // se adapta manteniendo proporción
-        priority
-      />
+    <section className="relative w-full bg-[#efefef]">
+      <div className="relative w-full h-[230px] sm:h-[290px] md:h-[600px] overflow-hidden">
+        <Image
+          src="/blog/fondo.webp"
+          alt="Fondo del blog Digimedia"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
 
-      {/* Capa oscura y contenido centrado */}
-      <div className="absolute inset-0 flex justify-center items-center bg-black/50 z-10">
-        <div className="flex flex-col justify-center items-center text-center">
-          <h2 className="text-white tracking-[10px] text-xs sm:text-sm lg:text-lg">
-            DIGIMEDIA
-          </h2>
-          <h1 className="text-white tracking-widest text-5xl sm:text-7xl lg:text-[170px] leading-tight">
-            BLOG
-          </h1>
-          {/* <button className="text-white text-xs lg:text-lg border-2 border-white px-6 py-3 mt-4 hover:bg-black transition-all duration-500">
-            COMIENZA YA
-          </button> */}
-        </div>
+      <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 md:-bottom-10 z-10 w-[90%] max-w-[520px] bg-[#b525fe] rounded-t-[38px] rounded-b-[10px] py-4 md:py-5 text-center shadow-md">
+        <h1 className="text-white text-4xl md:text-5xl leading-none tracking-wide">
+          BLOG
+        </h1>
       </div>
     </section>
   );

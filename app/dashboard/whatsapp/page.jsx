@@ -68,10 +68,10 @@ export default function WhatsAppPage() {
   // Renderizado defensivo para evitar hidratación rara
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => setIsLoaded(true), []);
-  if (!isLoaded) return <div className="p-10 text-center">Iniciando Dashboard...</div>;
+  if (!isLoaded) return <div className="p-10 text-center text-slate-600 dark:bg-slate-900 dark:text-slate-300">Iniciando Dashboard...</div>;
 
   return (
-    <div className="flex flex-col h-screen w-full bg-slate-50">
+    <div className="flex flex-col h-screen w-full bg-slate-50 dark:bg-slate-900">
       {/* ✅ Sistema de notificaciones Toast */}
       <div className="fixed top-4 right-4 z-50 space-y-2 max-w-md">
         {notifications.map((notification) => (
@@ -91,21 +91,21 @@ export default function WhatsAppPage() {
       </div>
       
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-700 dark:bg-slate-900/85">
         <div className="w-full px-4 py-4">
           <div className="mx-auto w-full max-w-5xl">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">
+                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-slate-100">
                   Envío de Whatsapp
                 </h1>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   Conecta tu cuenta y ejecuta pruebas reales de campaña.
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
                       isConnected ? "bg-emerald-500" : "bg-rose-500"
@@ -118,7 +118,7 @@ export default function WhatsAppPage() {
 
             {/* Tabs */}
             <div className="mt-4">
-              <div className="flex gap-6 border-b border-slate-200">
+              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700">
                 <TabButton
                   active={tab === "conexion"}
                   onClick={() => setTab("conexion")}
@@ -141,14 +141,14 @@ export default function WhatsAppPage() {
           {isAuthLoading ? (
             <div className="flex flex-col items-center justify-center p-20">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
-              <p className="mt-4 text-slate-500">Cargando sesión...</p>
+              <p className="mt-4 text-slate-500 dark:text-slate-400">Cargando sesión...</p>
             </div>
           ) : tab === "conexion" ? (
             <section className="space-y-6">
               <Card>
                 <CardTitle>Estado de Conexión WhatsApp</CardTitle>
 
-                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 dark:border-slate-700 dark:bg-slate-800/60">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
                       <span
@@ -157,8 +157,8 @@ export default function WhatsAppPage() {
                         }`}
                       />
                       <div>
-                        <p className="font-semibold text-slate-900">{statusText}</p>
-                        <p className="text-sm text-slate-500">{statusHint}</p>
+                        <p className="font-semibold text-slate-900 dark:text-slate-100">{statusText}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{statusHint}</p>
                       </div>
                     </div>
 
