@@ -1,25 +1,24 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { getCookie } from 'cookies-next';
 import url from '../../../../api/url';
 import { Loader2 } from 'lucide-react';
-
-import styles from "../contacto.module.css";
+import Image from 'next/image';
 
 const URL_API = `${url}/api/contactanos`;
-//console.log(API_BASE_URL);
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    numero: "",
-    mensaje: "",
+    nombre: '',
+    email: '',
+    numero: '',
+    mensaje: '',
   });
+
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -32,144 +31,134 @@ const ContactForm = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${URL_API}`, formData, {
-          headers: {
-            Authorization: `Bearer ${getCookie('token')}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await axios.post(URL_API, formData, {
+        headers: {
+          Authorization: `Bearer ${getCookie('token')}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (response.status === 201) {
         Swal.fire({
-          title: "Mensaje Enviado Correctamente",
-          text: "Nos pondremos en contacto contigo lo antes posible.",
-          icon: "success",
-          confirmButtonText: "OK",
+          title: 'Mensaje Enviado Correctamente',
+          text: 'Nos pondremos en contacto contigo lo antes posible.',
+          icon: 'success',
+          confirmButtonText: 'OK',
         });
+
         setFormData({
-          nombre: "",
-          email: "",
-          numero: "",
-          mensaje: "",
+          nombre: '',
+          email: '',
+          numero: '',
+          mensaje: '',
         });
       } else {
-        Swal.fire({
-          title: "Error",
-          text: "No se envio el contacto correctamente.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        throw new Error();
       }
     } catch (error) {
       Swal.fire({
-        title: "Error",
-        text: "Ocurrió un error inesperado.",
-        icon: "error",
-        confirmButtonText: "OK",
+        title: 'Error',
+        text: 'Ocurrió un error inesperado.',
+        icon: 'error',
+        confirmButtonText: 'OK',
       });
-      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-  <motion.div
-    className={styles.formContainer}
-    initial={{ opacity: 0, x: "-100%" }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 1.5, delay: 0.2 }}
-    style={{ overflow: "hidden" }}
-  >
-    <form onSubmit={handleSubmit}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <input
-          type="text"
-          id="nombre"
-          name="nombre"
-          placeholder="Nombre"
-          value={formData.nombre}
-          onChange={handleChange}
-          required
-        />
-      </motion.div>
+    <div className="w-full flex justify-center py-12 md:py-24">
+      <div className="w-full max-w-[1280px] px-6 relative">
+        <div className="flex flex-col md:flex-row gap-12 items-start relative">
+          {/* LEFT COLUMN - FORM */}
+          <motion.div
+            className="w-full md:w-[739px] z-20 relative"
+            initial={{ opacity: 0, x: -80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="w-full bg-white rounded-[20px] border-[3px] border-[#b326ff] p-6 md:p-12 shadow-custom">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                {['nombre', 'email', 'numero'].map((field, index) => (
+                  <motion.input
+                    key={field}
+                    type={field === 'email' ? 'email' : 'text'}
+                    name={field}
+                    placeholder={
+                      field === 'numero'
+                        ? 'Teléfono'
+                        : field.charAt(0).toUpperCase() + field.slice(1)
+                    }
+                    value={formData[field]}
+                    onChange={handleChange}
+                    required
+                    className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg text-text-gray placeholder-text-gray focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.15 }}
+                    viewport={{ once: true }}
+                  />
+                ))}
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-      >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </motion.div>
+                <motion.textarea
+                  name="mensaje"
+                  placeholder="Mensaje"
+                  value={formData.mensaje}
+                  onChange={handleChange}
+                  required
+                  className="w-full h-[176px] border-[3px] border-[#b326ff] rounded-[18px] p-6 text-lg text-text-gray placeholder-text-gray resize-none focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  viewport={{ once: true }}
+                />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.9 }}
-      >
-        <input
-          type="text"
-          id="numero"
-          name="numero"
-          placeholder="Teléfono"
-          value={formData.numero}
-          onChange={handleChange}
-          required
-        />
-      </motion.div>
+                <motion.div
+                  className="flex justify-center md:justify-start"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  viewport={{ once: true }}
+                >
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-[215px] h-[54px] bg-[#ffa000] text-white font-black text-xl rounded-[20px] shadow-custom hover:brightness-95 transition-all mt-4 flex items-center justify-center"
+                  >
+                    {loading ? (
+                      <Loader2 className="animate-spin h-5 w-5" />
+                    ) : (
+                      'Enviar mensaje'
+                    )}
+                  </button>
+                </motion.div>
+              </form>
+            </div>
+          </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.2 }}
-      >
-        <textarea
-          id="mensaje"
-          name="mensaje"
-          placeholder="Mensaje"
-          rows="10"
-          value={formData.mensaje}
-          onChange={handleChange}
-          required
-        ></textarea>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.5 }}
-      >
-        <button
-          type="submit"
-          disabled={loading}
-          title={loading ? "Guardando..." : "Enviar Mensaje"}
-        >
-          {loading ? (
-            <span className="flex items-center">
-              <Loader2 className="animate-spin h-4 w-4 mx-auto" />
-            </span>
-          ) : (
-            "Enviar mensaje"
-          )}{" "}
-          <span className={styles.icon}>📩</span>
-        </button>
-      </motion.div>
-    </form>
-  </motion.div>
+          {/* RIGHT COLUMN IMAGE */}
+          <motion.div
+            className="w-full md:absolute md:left-[500px] md:top-[30px] flex justify-center md:block z-0 pointer-events-none"
+            initial={{ opacity: 0, x: 80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="relative w-[300px] h-[400px] md:w-[950px] md:h-[1181px]">
+              <Image
+                src="/contactanos/man.png"
+                alt="Persona de contacto"
+                fill
+                className="object-contain scale-x-[-1]"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 
