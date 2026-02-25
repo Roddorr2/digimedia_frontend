@@ -1,35 +1,35 @@
-export const metadata = { 
-  title: "Blog de Marketing Digital - DigiMedia",
+export const metadata = {
+  title: 'Blog de Marketing Digital - DigiMedia',
   description:
-    "Descubre el blog de DigiMedia con artículos sobre marketing digital, SEO, redes sociales y branding. Estrategias y consejos clave para hacer crecer tu negocio.",
-  keywords:[
-    "blog de marketing digital", 
-    "tendencias de marketing", 
-    "estrategias digitales", 
-    "SEO y branding", 
-    "consejos de marketing online", 
-    "blog de negocios digitales", 
-    "marketing en redes sociales",
+    'Descubre el blog de DigiMedia con artículos sobre marketing digital, SEO, redes sociales y branding. Estrategias y consejos clave para hacer crecer tu negocio.',
+  keywords: [
+    'blog de marketing digital',
+    'tendencias de marketing',
+    'estrategias digitales',
+    'SEO y branding',
+    'consejos de marketing online',
+    'blog de negocios digitales',
+    'marketing en redes sociales',
   ],
-    openGraph: {
-        title: "Blog de Marketing Digital - DigiMedia",
-        description:
-        "Descubre el blog de DigiMedia con artículos sobre marketing digital, SEO, redes sociales y branding. Estrategias y consejos clave para hacer crecer tu negocio.",
-        url: "https://digimedia-marketing.com/blog/",
-        siteName: "Digimedia Marketing",
-        images: [], 
-        locale: "es_PE",
-        type: "website",
-    },
-    alternates: {
-        canonical: "https://digimedia-marketing.com/blog/",
-    },
+  openGraph: {
+    title: 'Blog de Marketing Digital - DigiMedia',
+    description:
+      'Descubre el blog de DigiMedia con artículos sobre marketing digital, SEO, redes sociales y branding. Estrategias y consejos clave para hacer crecer tu negocio.',
+    url: 'https://digimedia-marketing.com/blog/',
+    siteName: 'Digimedia Marketing',
+    images: [],
+    locale: 'es_PE',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://digimedia-marketing.com/blog/',
+  },
 };
 
-import ClientSideComponents from "@/app/(client)/components/ClientSideComponents";
+import ClientSideComponents from '@/app/(client)/components/ClientSideComponents';
 
 export default function blogLayout({ children }) {
-    return (
+  return (
     <>
       {/* Insertar Schema Markup para SEO */}
       <script type="application/ld+json">
@@ -59,7 +59,7 @@ export default function blogLayout({ children }) {
       </script>
 
       {children}
-      <ClientSideComponents />
+      {/* <ClientSideComponents /> */}
     </>
   );
 }
