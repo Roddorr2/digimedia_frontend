@@ -1,20 +1,19 @@
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Head from "next/head";
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Head from 'next/head';
 
 export const metadata = {
-  title:
-    "Agencia de Marketing Digital en Lima Perú - DigiMedia",
+  title: 'Agencia de Marketing Digital en Lima Perú - DigiMedia',
   description:
-    "Eleva tu presencia online con DigiMedia, la agencia experta en marketing digital en Lima. Potenciamos tu marca con estrategias reales de SEO, redes sociales y publicidad digital enfocadas en maximizar tus ventas y crecimiento.",
+    'Eleva tu presencia online con DigiMedia, la agencia experta en marketing digital en Lima. Potenciamos tu marca con estrategias reales de SEO, redes sociales y publicidad digital enfocadas en maximizar tus ventas y crecimiento.',
   keywords: [
-    "marketing digital",
-    "estrategias digitales",
-    "posicionamiento web",
-    "marketing online",
-    "agencia digital Lima",
-    "crecimiento de marca",
-    "gestión digital"
+    'marketing digital',
+    'estrategias digitales',
+    'posicionamiento web',
+    'marketing online',
+    'agencia digital Lima',
+    'crecimiento de marca',
+    'gestión digital',
   ],
   robots: {
     index: true,
@@ -29,34 +28,36 @@ export const metadata = {
   },
   authors: [
     {
-      name: "DigiMedia-Marketing",
-      url: "https://digimedia-marketing.com",
+      name: 'DigiMedia-Marketing',
+      url: 'https://digimedia-marketing.com',
     },
   ],
-  publisher: "DigiMedia-Marketing",
+  publisher: 'DigiMedia-Marketing',
   openGraph: {
-    title:
-      "Agencia de Marketing Digital en Lima Perú - DigiMedia",
+    title: 'Agencia de Marketing Digital en Lima Perú - DigiMedia',
     description:
-      "Eleva tu presencia online con DigiMedia, la agencia experta en marketing digital en Lima. Potenciamos tu marca con estrategias reales de SEO, redes sociales y publicidad digital enfocadas en maximizar tus ventas y crecimiento.",
-    url: "https://digimedia-marketing.com/",
-    siteName: "Digimedia Marketing",
+      'Eleva tu presencia online con DigiMedia, la agencia experta en marketing digital en Lima. Potenciamos tu marca con estrategias reales de SEO, redes sociales y publicidad digital enfocadas en maximizar tus ventas y crecimiento.',
+    url: 'https://digimedia-marketing.com/',
+    siteName: 'Digimedia Marketing',
     images: [], // se mantiene vacío por tu preferencia
-    locale: "es_PE",
-    type: "website",
+    locale: 'es_PE',
+    type: 'website',
   },
   alternates: {
-    canonical: "https://digimedia-marketing.com/",
+    canonical: 'https://digimedia-marketing.com/',
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-
     <>
       <Head>
-        {/* ✅ Preconexión a Google Fonts */}
-        <link rel="preload" href="/image-home/inicio.webp" as="image" />
+        {/* ✅ Preload de la imagen inicial (optimizada) */}
+        <link
+          rel="preload"
+          href="/optimized_images/image-home/inicio.avif"
+          as="image"
+        />
 
         {/* ✅ Fuente Montserrat con display=swap */}
         <meta name="author" content="DigiMedia-Marketing" />
