@@ -1,33 +1,33 @@
-'use client';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
-import ModalButton from '../components/ModalButton';
+"use client";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import ModalButton from "../components/ModalButton";
 
 function UXUIComponent() {
   const searchParams = useSearchParams();
-  const from = searchParams.get('from');
+  const from = searchParams.get("from");
 
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
     },
   };
 
   const backgroundImages = {
-    disenoDesarrollo: '/servicios/DisenoUI/background_ui.svg',
-    gestionRedes: '/servicios/DisenoUI/diseno_principal.webp',
+    disenoDesarrollo: "/servicios/DisenoUI/diseno_1.webp",
+    gestionRedes: "/servicios/DisenoUI/diseno_principal.webp",
   };
 
   const backgroundImage =
-    backgroundImages[from] || '/servicios/DisenoUI/background_ui.svg';
+    backgroundImages[from] || "/servicios/DisenoUI/diseno_1.webp";
 
   const featuresuxui = [
     {
@@ -40,14 +40,15 @@ function UXUIComponent() {
           height={150}
         />
       ),
-      title: 'Diseño de pautas',
+      title: "Diseño de pautas",
       title: (
         <>
-          DISEÑO DE <br /> INTERFACES (UI)
+          DISEÑO DE <br />
+          EXPERIENCIA (UX)
         </>
       ),
       description:
-        'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
+        "Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.",
     },
     {
       icon: (
@@ -61,11 +62,12 @@ function UXUIComponent() {
       ),
       title: (
         <>
-          EXPERIENCIA DE <br /> USARIO (UX)
+          DISEÑO DE <br />
+          INTERFAZ (UI)
         </>
       ),
       description:
-        'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
+        "Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.",
     },
   ];
 
@@ -81,11 +83,9 @@ function UXUIComponent() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="No solo diseñamos páginas bonitas; creamos productos digitales que venden. Fusionamos el Diseño UX (para que tu web sea fácil de usar) con el Diseño UI (para que sea inolvidable). Como expertos en  marketing digital , garantizamos que tu sitio no solo atraiga visitas, sino que convierta usuarios en clientes."
+        mainDescription="Diseñamos experiencias digitales que combinan funcionalidad y estética. Creamos interfaces intuitivas, alineadas a la identidad de marca y orientadas a facilitar la navegación y la conversión."
         backgroundImage={backgroundImage}
-        heroTitle=<>
-          DISEÑO <br /> UX Y UI
-        </>
+        heroTitle=<>DISEÑO UX Y UI</>
         alt="Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital."
         title="Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp"
         // heroBulletPoints={[

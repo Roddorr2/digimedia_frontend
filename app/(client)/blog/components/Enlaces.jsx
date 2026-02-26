@@ -5,11 +5,9 @@ import {
   Search,
   ArrowRight,
   Loader2,
-  ExternalLink,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
 import Fetch from "../services/fetch";
 import styles from "./enlaces.module.css";
 import Image from "next/image";
@@ -103,129 +101,119 @@ function EnlacesForm() {
   ];
 
   return (
-    <section className="bg-gray-50 p-6 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col-reverse lg:flex-row gap-8">
-          <div className="lg:w-2/3">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
+    <section className="bg-[#efefef] px-4 md:px-6 pb-10 pt-14">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+          <div className="order-2 lg:order-1">
+            <div className="flex justify-between items-center mb-8 gap-3">
+              <h2 className="text-[30px] md:text-[32px] leading-none uppercase text-[#b525fe] tracking-wide">
                 Artículos Destacados
               </h2>
               {!isLoading && filteredData.length > 0 && (
-                <p className="text-sm text-gray-500">
-                  Mostrando {getCurrentPageItems().length} de{" "}
-                  {filteredData.length} artículos
+                <p className="text-[12px] text-[#8f8f8f]">
+                  Mostrando {getCurrentPageItems().length} de {filteredData.length} elementos
                 </p>
               )}
             </div>
 
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl shadow-sm">
-                <Loader2 className="h-10 w-10 text-purple-600 animate-spin mb-4" />
+              <div className="flex flex-col items-center justify-center py-16 bg-white rounded-[16px] border border-[#dedede]">
+                <Loader2 className="h-10 w-10 text-[#b525fe] animate-spin mb-4" />
                 <p className="text-gray-500 font-medium">
                   Cargando artículos...
                 </p>
               </div>
             ) : filteredData.length > 0 ? (
               <>
-                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 mb-8">
+                <div className="grid gap-4 grid-cols-1 md:grid-cols-2 mb-6">
                   {getCurrentPageItems().map((card) => (
                     <article
                       key={`${card.id_card}-Card`}
-                      className="rounded-xl bg-white overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300"
+                      className="rounded-[18px] bg-white overflow-hidden flex flex-col border border-[#d9d9d9]"
                     >
                       <div className="relative overflow-hidden">
                         <Image
                           src={`${card.public_image}?v=${Date.now()}`}
                           alt={card.blog?.head?.alt || card.titulo} // Le aumento la condicional "?" ya que me tiraba error al entrar a los blog
                           title={card.blog?.head?.title || card.titulo} // Le aumento la condicional "?" ya que me tiraba error al entrar a los blog
-                          className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
+                          className="w-full h-52 object-cover"
                           width={400}
                           height={250}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                       </div>
 
                       <div className="p-5 flex flex-col flex-grow">
                         <h3
-                          className={`text-lg font-semibold text-gray-800 mb-3 ${styles["line-clamp-2"]}`}
+                          className={`text-[21px] md:text-[22px] leading-tight text-[#1f1f1f] mb-3 ${styles["line-clamp-2"]}`}
                         >
                           {card.titulo}
                         </h3>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                        <p className="text-[#5b5b5b] text-[14px] mb-4 line-clamp-3 flex-grow">
                           {card.descripcion}
                         </p>
 
-                                                <a
-                                                    href={`/blog/plantilla${card.id_plantilla}?blog=${card.blog?.link}`}
-                                                    // href={`/blog/plantilla${card.id_plantilla}/${card.blog?.link}`}
-
-                                                    target="_blank"
-                                                    className="group flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300 mt-auto"
-                                                    rel="noreferrer"
-                                                >
-                                                    Leer más
-                                                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                                                </a>
-                                            </div>
-                                        </article>
-                                    ))}
-                                </div>
+                        <a
+                          href={`/blog/plantilla${card.id_plantilla}?blog=${card.blog?.link}`}
+                          target="_blank"
+                          className="group flex items-center justify-center gap-2 bg-[#b525fe] hover:bg-[#8e1fd1] text-white text-[14px] font-semibold py-2.5 px-4 rounded-[8px] transition-colors duration-300 mt-auto"
+                          rel="noreferrer"
+                        >
+                          Leer más
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </a>
+                      </div>
+                    </article>
+                  ))}
+                </div>
 
                 {totalPages > 1 && (
-                  <div className="flex justify-center items-center space-x-2 mt-8">
+                  <div className="flex justify-center items-center gap-1 mt-8">
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage <= 1}
-                      className={`p-2 rounded-md border ${
+                      className={`w-7 h-7 flex items-center justify-center rounded-[6px] border text-sm ${
                         currentPage <= 1
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-gray-50"
+                          ? "bg-[#ececec] text-[#bdbdbd] border-[#dddddd]"
+                          : "bg-white text-[#727272] border-[#d7d7d7]"
                       }`}
                       aria-label="Página anterior"
                     >
-                      <ChevronLeft className="w-5 h-5" />
+                      <ChevronLeft className="w-4 h-4" />
                     </button>
 
-                    <div className="flex space-x-1">
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                        (page) => (
-                          <button
-                            key={page}
-                            onClick={() => handlePageChange(page)}
-                            className={`w-9 h-9 flex items-center justify-center rounded-md ${
-                              currentPage === page
-                                ? "bg-purple-600 text-white"
-                                : "bg-white text-gray-700 hover:bg-gray-50"
-                            }`}
-                            aria-label={`Página ${page}`}
-                            aria-current={
-                              currentPage === page ? "page" : undefined
-                            }
-                          >
-                            {page}
-                          </button>
-                        )
-                      )}
-                    </div>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`w-7 h-7 text-[12px] rounded-[6px] border ${
+                          currentPage === page
+                            ? "bg-[#b525fe] border-[#b525fe] text-white"
+                            : "bg-white border-[#d7d7d7] text-[#4d4d4d]"
+                        }`}
+                        aria-label={`Página ${page}`}
+                        aria-current={currentPage === page ? "page" : undefined}
+                      >
+                        {page}
+                      </button>
+                    ))}
 
                     <button
                       onClick={() => handlePageChange(currentPage + 1)}
                       disabled={currentPage >= totalPages}
-                      className={`p-2 rounded-md border ${
+                      className={`w-7 h-7 flex items-center justify-center rounded-[6px] border text-sm ${
                         currentPage >= totalPages
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-gray-50"
+                          ? "bg-[#ececec] text-[#bdbdbd] border-[#dddddd]"
+                          : "bg-white text-[#727272] border-[#d7d7d7]"
                       }`}
                       aria-label="Página siguiente"
                     >
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 )}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl shadow-sm">
+              <div className="flex flex-col items-center justify-center py-16 bg-white rounded-[16px] border border-[#dedede]">
                 <p className="text-gray-500 font-medium mb-2">
                   No se encontraron artículos
                 </p>
@@ -236,28 +224,28 @@ function EnlacesForm() {
             )}
           </div>
 
-          <div className="lg:w-1/3">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
-                <h3 className="text-xl font-bold text-white mb-4">
+          <aside className="order-1 lg:order-2">
+            <div className="bg-white rounded-[14px] border border-[#cfcfcf] overflow-hidden">
+              <div className="bg-[#f59f00] p-4 md:p-5">
+                <h3 className="text-[24px] md:text-[26px] uppercase text-white mb-3 leading-tight">
                   Explora Nuestro Blog
                 </h3>
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="Buscar artículos..."
-                    className="w-full px-4 py-3 pl-10 rounded-lg outline-none text-gray-700 focus:ring-2 focus:ring-purple-300 transition-all duration-300"
+                    className="w-full h-10 pr-3 pl-9 rounded-[4px] outline-none text-[12px] text-[#5a5a5a]"
                     value={searchTerm}
                     onChange={(e) => {
                       setSearchTerm(e.target.value);
                     }}
                   />
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#707070] w-4 h-4" />
                 </div>
               </div>
 
-              <div className="p-6">
-                <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
+              <div className="p-4 md:p-5">
+                <h4 className="text-[16px] font-semibold text-[#6f6f6f] uppercase tracking-wide mb-4">
                   Categorías
                 </h4>
                 <div className="space-y-3">
@@ -266,17 +254,16 @@ function EnlacesForm() {
                       key={index}
                       href={category.url}
                       target="_blank"
-                      className="flex items-center justify-between p-3 rounded-lg hover:bg-purple-50 text-gray-700 hover:text-purple-700 transition-colors duration-300 group"
+                      className="block text-[#7a7a7a] hover:text-[#b525fe] text-[16px] leading-snug"
                       rel="noreferrer"
                     >
-                      <span className="font-medium">{category.name}</span>
-                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      {category.name}
                     </a>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>
