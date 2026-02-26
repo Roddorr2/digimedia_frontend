@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
 import { apiRequest } from "@/api/fetchApiWhatsApp";
 import { Card, CardTitle, UploadIcon } from "./TabButton";
+import RichTextEditor from "./RichTextEditor";
 
 export function PlantillasTab() {
   const [tipo, setTipo] = useState("whatsapp"); // "whatsapp" | "email"
@@ -24,7 +25,12 @@ export function PlantillasTab() {
     ],
     []
   );
-
+  const renderPreviewText = (text) => {
+  if (!text) return "";
+  // Reemplazamos el placeholder {nombre} por un ejemplo visual llamativo
+  return text.replace(/{nombre}/g, '<span class="text-cyan-600 font-bold tracking-tight">[Nombre del Cliente]</span>');
+  };
+  
   // Cargar plantillas cuando cambia el tipo
   useEffect(() => {
     loadPlantillas();
@@ -105,21 +111,8 @@ export function PlantillasTab() {
   };
 
   const insertPlaceholder = (field) => {
-    const textarea = document.getElementById(field);
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const currentValue = formData[field] || "";
-    const newValue = currentValue.substring(0, start) + "{nombre}" + currentValue.substring(end);
-
-    handleInputChange(field, newValue);
-
-    // Restaurar el foco y posición del cursor
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + 8, start + 8); // 8 = longitud de "{nombre}"
-    }, 0);
+  const currentValue = formData[field] || "";
+  handleInputChange(field, currentValue + " {nombre}");
   };
 
   const hasNombrePlaceholder = (text) => {
@@ -255,7 +248,7 @@ export function PlantillasTab() {
       case 2:
         return "+30 minutos";
       case 3:
-        return "+3 horas";
+        return "+1 horas";
       default:
         return `Plantilla ${numero_plantilla}`;
     }
@@ -441,13 +434,17 @@ export function PlantillasTab() {
                           + Insertar {"{nombre}"}
                         </button>
                       </div>
-                      <textarea
+                      {/* <textarea
                         id="mensaje"
                         value={formData.mensaje || ""}
                         onChange={(e) => handleInputChange("mensaje", e.target.value)}
                         rows={12}
                         className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                         placeholder="Escribe el mensaje aquí... Usa {nombre} para personalizar"
+                      /> */}
+                      <RichTextEditor
+                        value={formData.mensaje || ""}
+                        onChange={(value) => handleInputChange("mensaje", value)}
                       />
                       <div className="mt-2 flex items-start justify-between gap-3">
                         <p className="text-xs text-slate-500">
@@ -548,13 +545,17 @@ export function PlantillasTab() {
                           + Insertar {"{nombre}"}
                         </button>
                       </div>
-                      <textarea
+                      {/* <textarea
                         id="mensaje"
                         value={formData.mensaje || ""}
                         onChange={(e) => handleInputChange("mensaje", e.target.value)}
                         rows={8}
                         className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                         placeholder="Contenido del mensaje... Usa {nombre} para personalizar"
+                      /> */}
+                      <RichTextEditor
+                        value={formData.mensaje || ""}
+                        onChange={(value) => handleInputChange("mensaje", value)}
                       />
                       <div className="mt-2 flex items-start justify-between gap-3">
                         <p className="text-xs text-slate-500">
@@ -643,13 +644,19 @@ export function PlantillasTab() {
                       <label className="block text-sm font-semibold text-slate-700">
                         Footer
                       </label>
-                      <textarea
+                      {/* <textarea
                         value={formData.footer || ""}
                         onChange={(e) => handleInputChange("footer", e.target.value)}
                         rows={3}
                         className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                         placeholder="Pie de página del correo"
+                      /> */}
+                      <RichTextEditor
+                        value={formData.footer}
+                        onChange={(value) => handleInputChange("footer", value)}
                       />
+                      
+                      
                     </div>
 
                     <div>
@@ -708,7 +715,81 @@ export function PlantillasTab() {
             </Card>
           )}
         </div>
+       <div className="lg:col-span-4 sticky top-6">
+    {selectedPlantilla ? (
+      <div className="rounded-xl border border-slate-200 bg-slate-100 p-4 shadow-sm">
+        <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          Vista Previa Final
+        </p>
+
+        <div className="mx-auto max-w-[350px] overflow-hidden bg-white shadow-lg">
+          {/* Encabezado Púrpura (Igual a tu imagen) */}
+          <div className="bg-[#9333ea] p-4 text-center">
+            <h2 className="text-sm font-bold text-white leading-tight">
+              {formData.encabezado || "¿Listo para incrementar el valor?"}
+            </h2>
+          </div>
+
+          {/* Imagen */}
+          <div className="bg-white">
+            {imagePreview ? (
+              <img src={imagePreview} alt="Header" className="w-full object-cover" />
+            ) : (
+              <div className="flex h-32 items-center justify-center bg-slate-100 text-[10px] text-slate-400 italic">
+                Sin imagen seleccionada
+              </div>
+            )}
+          </div>
+
+          {/* Mensaje */}
+          <div className="p-6">
+            <div 
+              className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700"
+              dangerouslySetInnerHTML={{ 
+                __html: (formData.mensaje || "Escribe un mensaje...").replace(/{nombre}/g, '<b class="text-[#9333ea]">[Nombre]</b>') 
+              }}
+            />
+
+            {/* Botón dinámico */}
+            {formData.mensaje_boton && (
+              <div className="mt-6 text-center">
+                <div className="inline-block rounded-md bg-[#9333ea] px-6 py-2.5 text-[11px] font-bold text-white uppercase tracking-wider">
+                  {formData.mensaje_boton}
+                </div>
+              </div>
+            )}
+
+            {/* Footer con Rich Text */}
+            <div 
+              className="mt-6 border-t pt-4 text-[11px] text-slate-500"
+              dangerouslySetInnerHTML={{ 
+                __html: (formData.footer || "").replace(/{nombre}/g, '<b>[Nombre]</b>') 
+              }}
+            />
+          </div>
+
+          {/* Redes Sociales (Simuladas) */}
+          <div className="bg-slate-50 p-4 text-center">
+            <div className="mb-2 flex justify-center gap-3 grayscale opacity-70">
+              {formData.red_facebook && <div className="h-4 w-4 bg-blue-600 rounded-full" />}
+              {formData.red_instagram && <div className="h-4 w-4 bg-pink-500 rounded-full" />}
+              {formData.red_linkedin && <div className="h-4 w-4 bg-blue-800 rounded-full" />}
+              {formData.red_tiktok && <div className="h-4 w-4 bg-black rounded-full" />}
+            </div>
+            <p className="text-[8px] text-slate-400">© 2026 DigiMedia Marketing</p>
+          </div>
+        </div>
       </div>
+    ) : (
+      <div className="rounded-xl border-2 border-dashed border-slate-200 p-12 text-center text-slate-400 text-sm italic">
+        Selecciona una plantilla para ver la previsualización
+      </div>
+    )}
+  </div> 
+      </div>
+      
     </div>
+  
   );
+  
 }
