@@ -9,6 +9,7 @@ import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import { TestSendTab } from "./components/TestSendTab";
 import { PlantillasTab } from "./components/PlantillasTab";
+import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
@@ -147,6 +148,13 @@ export default function WhatsAppPage() {
             <div className="flex flex-col items-center justify-center p-20">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
               <p className="mt-4 text-slate-500">Cargando sesión...</p>
+            </div>
+          )}
+
+          {/* Monitor de Progreso de Campañas (siempre visible) */}
+          {!isAuthLoading && (
+            <div className="mb-6">
+              <CampaignProgressMonitor />
             </div>
           )}
 
