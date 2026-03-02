@@ -10,6 +10,7 @@ import { QrDisplay } from "./components/QrDisplay";
 import { TestSendTab } from "./components/TestSendTab";
 import { PlantillasTab } from "./components/PlantillasTab";
 import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
+import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
@@ -143,7 +144,7 @@ export default function WhatsAppPage() {
 
       {/* Content */}
       <main className="mb-12 flex-1 w-full px-4 py-8 overflow-y-auto">
-        <div className="mx-auto w-full max-w-5xl">
+        <div className="mx-auto w-full max-w-7xl">
           {isAuthLoading && (
             <div className="flex flex-col items-center justify-center p-20">
               <div className="h-12 w-12 animate-spin rounded-full border-4 border-[rgba(140,82,255,1)] border-t-transparent" />
@@ -158,55 +159,68 @@ export default function WhatsAppPage() {
             </div>
           )}
 
-          {!isAuthLoading && tab === "conexion" && (
-            <section className="space-y-6">
-              <Card>
-                <CardTitle>Estado de Conexión WhatsApp</CardTitle>
+          {/* Layout con sidebar para pestaña Prueba */}
+          {!isAuthLoading && tab === "prueba" ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Columna principal (2/3) */}
+              <div className="lg:col-span-2">
+                <TestSendTab
+                  services={services}
+                  isConnected={isConnected}
+                  connectedNumber={connectedNumber}
+                />
+              </div>
 
-                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`h-3 w-3 rounded-full ${
-                          isConnected ? "bg-emerald-500" : "bg-rose-500"
-                        }`}
-                      />
-                      <div>
-                        <p className="font-semibold text-slate-900">{statusText}</p>
-                        <p className="text-sm text-slate-500">{statusHint}</p>
+              {/* Sidebar derecha (1/3) */}
+              <div className="lg:col-span-1">
+                <CampaignQueuePanel />
+              </div>
+            </div>
+          ) : (
+            <>
+              {!isAuthLoading && tab === "conexion" && (
+                <section className="space-y-6">
+                  <Card>
+                    <CardTitle>Estado de Conexión WhatsApp</CardTitle>
+
+                    <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className={`h-3 w-3 rounded-full ${
+                              isConnected ? "bg-emerald-500" : "bg-rose-500"
+                            }`}
+                          />
+                          <div>
+                            <p className="font-semibold text-slate-900">{statusText}</p>
+                            <p className="text-sm text-slate-500">{statusHint}</p>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={handleRestartSession}
+                          className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
+                        >
+                          Reiniciar Sesión
+                        </button>
+                      </div>
+
+                      <div className="mt-6 flex justify-center">
+                        <QrDisplay
+                          qrData={qrData}
+                          isConnected={isConnected}
+                          loading={wsLoading}
+                        />
                       </div>
                     </div>
+                  </Card>
+                </section>
+              )}
 
-                    <button
-                      onClick={handleRestartSession}
-                      className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
-                    >
-                      Reiniciar Sesión
-                    </button>
-                  </div>
-
-                  <div className="mt-6 flex justify-center">
-                    <QrDisplay
-                      qrData={qrData}
-                      isConnected={isConnected}
-                      loading={wsLoading}
-                    />
-                  </div>
-                </div>
-              </Card>
-            </section>
-          )}
-
-          {!isAuthLoading && tab === "prueba" && (
-            <TestSendTab
-              services={services}
-              isConnected={isConnected}
-              connectedNumber={connectedNumber}
-            />
-          )}
-
-          {!isAuthLoading && tab === "plantillas" && (
-            <PlantillasTab />
+              {!isAuthLoading && tab === "plantillas" && (
+                <PlantillasTab />
+              )}
+            </>
           )}
         </div>
       </main>
