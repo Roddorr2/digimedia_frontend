@@ -43,12 +43,12 @@ function UXUIComponent() {
       title: "Diseño de pautas",
       title: (
         <>
-          DISEÑO DE <br />
-          EXPERIENCIA (UX)
+          EXPERIENCIA DE <br />
+          USUARIO (UX)
         </>
       ),
       description:
-        "Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.",
+        "Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.",
     },
     {
       icon: (
@@ -67,7 +67,7 @@ function UXUIComponent() {
         </>
       ),
       description:
-        "Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.",
+        "Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.",
     },
   ];
 
@@ -83,16 +83,16 @@ function UXUIComponent() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="Diseñamos experiencias digitales que combinan funcionalidad y estética. Creamos interfaces intuitivas, alineadas a la identidad de marca y orientadas a facilitar la navegación y la conversión."
+        mainDescription="Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes."
         backgroundImage={backgroundImage}
-        heroTitle=<>DISEÑO UX Y UI</>
+        heroTitle=<>EXPERIENCIA DE USUARIO Y DISEÑO</>
         alt="Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital."
         title="Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp"
-        // heroBulletPoints={[
-        //   'MAYOR SATISFACCIÓN DEL USUARIO: UN DISEÑO INTUITIVO Y AGRADABLE HACE QUE LOS USUARIOS DISFRUTEN USANDO EL PRODUCTO O SERVICIO.',
-        //   'AUMENTO DE LA USABILIDAD: FACILITA LA NAVEGACIÓN Y LA REALIZACIÓN DE TAREAS, REDUCIENDO LA FRUSTRACIÓN.',
-        //   'MEJORA DE LA ACCESIBILIDAD: PERMITE QUE PERSONAS CON DIVERSAS CAPACIDADES PUEDAN UTILIZAR EL PRODUCTO O SERVICIO.',
-        // ]}
+      // heroBulletPoints={[
+      //   'MAYOR SATISFACCIÓN DEL USUARIO: UN DISEÑO INTUITIVO Y AGRADABLE HACE QUE LOS USUARIOS DISFRUTEN USANDO EL PRODUCTO O SERVICIO.',
+      //   'AUMENTO DE LA USABILIDAD: FACILITA LA NAVEGACIÓN Y LA REALIZACIÓN DE TAREAS, REDUCIENDO LA FRUSTRACIÓN.',
+      //   'MEJORA DE LA ACCESIBILIDAD: PERMITE QUE PERSONAS CON DIVERSAS CAPACIDADES PUEDAN UTILIZAR EL PRODUCTO O SERVICIO.',
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

@@ -56,16 +56,16 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="Desarrollamos sitios web adaptables a todos los dispositivos y los integramos con herramientas digitales estratégicas. Implementamos conexiones con redes sociales, WhatsApp, formularios y sistemas de automatización para mejorar la experiencia del usuario y facilitar la conversión."
+        mainDescription="Creamos sitios web adaptables a todos los dispositivos e integramos herramientas digitales clave, pasarelas de pago, automatizaciones y analítica para optimizar la experiencia del usuario y potenciar la conversión."
         backgroundImage="/servicios/diseno_desarrollo_web/seo/seo_principal.webp"
-        heroTitle="DESARROLLO WEB E INTEGRACIONES"
+        heroTitle="DESARROLLO RESPONSIVE E INTEGRACIONES DIGITALES"
         alt="Posicionamiento web,  SEO on page, SEO off page, auditoría SEO, optimización web, herramienta SEO"
         title="Diseño y desarrollo web, SEO, Digimedia.webp"
-        // heroBulletPoints={[
-        //   "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
-        //   "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
-        //   "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
-        // ]}
+      // heroBulletPoints={[
+      //   "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
+      //   "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
+      //   "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
