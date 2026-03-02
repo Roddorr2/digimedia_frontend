@@ -1,53 +1,55 @@
-import Script from "next/script";
-import "./globals.css";
-import localFont from "next/font/local";
-import { AuthProvider } from "./context/AuthContext";
+import Script from 'next/script';
+import './globals.css';
+import localFont from 'next/font/local';
+import { AuthProvider } from './context/AuthContext';
+import PerformanceOptimizations from './components/PerformanceOptimizations';
 
 const montserrat = localFont({
   src: [
     {
-      path: "../public/fonts/montserrat/Montserrat-Regular.woff2",
-      weight: "400",
-      style: "normal",
+      path: '../public/fonts/montserrat/Montserrat-Regular.woff2',
+      weight: '400',
+      style: 'normal',
     },
     {
-      path: "../public/fonts/montserrat/Montserrat-Bold.woff2",
-      weight: "700",
-      style: "normal",
+      path: '../public/fonts/montserrat/Montserrat-Bold.woff2',
+      weight: '700',
+      style: 'normal',
     },
   ],
-  variable: "--font-montserrat",
-  display: "swap",
+  variable: '--font-montserrat',
+  display: 'swap',
 });
 
 const telegraf = localFont({
   src: [
     {
-      path: "../public/fonts/telegraf/Telegraf-Regular.woff2",
-      weight: "400",
-      style: "normal",
+      path: '../public/fonts/telegraf/Telegraf-Regular.woff2',
+      weight: '400',
+      style: 'normal',
     },
     {
-      path: "../public/fonts/telegraf/Telegraf-UltraBold.woff2",
-      weight: "800",
-      style: "normal",
+      path: '../public/fonts/telegraf/Telegraf-UltraBold.woff2',
+      weight: '800',
+      style: 'normal',
     },
   ],
-  variable: "--font-telegraf",
-  display: "swap",
+  variable: '--font-telegraf',
+  display: 'swap',
 });
 
 export const metadata = {
   verification: {
-    google: "xhfnSm5zX45Ov_N5NO-py7sXFqI6VC5EDAb4FhYafNQ",
+    google: 'xhfnSm5zX45Ov_N5NO-py7sXFqI6VC5EDAb4FhYafNQ',
   },
+  // Preconnect a servicios externos para mejorar TTFB
+  metadataBase: new URL('https://digimedia-marketing.com'),
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Dark mode init — evita el flash blanco */}
         <Script id="theme-init" strategy="beforeInteractive">
           {`
             try {
@@ -63,7 +65,7 @@ export default function RootLayout({ children }) {
         </Script>
 
         {/* Google Tag Manager */}
-        <Script id="gtm-script" strategy="lazyOnload">
+        <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
             w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
@@ -75,13 +77,13 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-
       <body
         className={`${montserrat.variable} ${telegraf.variable} antialiased`}
       >
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        {/* Optimizaciones de rendimiento */}
+        <PerformanceOptimizations />
+        {/* El AuthProvider debe envolver todo el contenido */}
+        <AuthProvider>{children}</AuthProvider>
 
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -89,8 +91,8 @@ export default function RootLayout({ children }) {
             src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"
             height="0"
             width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
         </noscript>
       </body>
     </html>
