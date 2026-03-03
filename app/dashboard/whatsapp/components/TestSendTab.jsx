@@ -90,12 +90,37 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
     setLastResponse(null);
 
     try {
+      const previewRes = await apiRequest(`/api/whatsapp/campaign/preview/${service}`);
+      const totalDestinatarios = Number(previewRes?.data?.total_destinatarios);
+      const estimatedDays = Number.isFinite(totalDestinatarios) && totalDestinatarios > 0
+        ? Math.max(1, Math.ceil(totalDestinatarios / 50))
+        : null;
+
+      // Mostrar confirmación (aún no se envia nada al backend)
+      const confirmStart = await Swal.fire({
+        title: "Confirmar campaña",
+        html: `
+          <p>Esta campaña tiene <strong>${totalDestinatarios > 0 ? totalDestinatarios : "?"}</strong> destinatarios.</p>
+          <p class="mt-1">Duración estimada - Sin interrupciones: <strong>${estimatedDays ?? "?"} día(s)</strong> (50 envíos/día).</p>
+        `,
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "rgba(140,82,255,1)",
+      });
+
+      if (!confirmStart.isConfirmed) {
+        // El usuario canceló - no se crea nada
+        return;
+      }
+
+      // Recién ahora crear la campaña como borrador
       const formData = new FormData();
       formData.append("service", service);
       formData.append("paragraph", paragraph);
       formData.append("image", imageFile);
 
-      // 🆕 FASE 2: Primero CREAR campaña en borrador
       const createRes = await apiRequest("/api/whatsapp/campaign/create", {
         method: "POST",
         body: formData,
@@ -108,20 +133,20 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
       }
 
       const campaniaId = createRes.data?.campania_id;
-      
-      // Luego INICIAR campaña (con validación FIFO)
+
+      // PASO 3: iniciar la campaña (FIFO) 
       const startRes = await apiRequest(`/api/whatsapp/campaign/${campaniaId}/start`, {
         method: "POST",
       });
 
-      setLastResponse({ create: createRes, start: startRes });
+      setLastResponse({ preview: previewRes, create: createRes, start: startRes });
 
       if (startRes?.success) {
         Swal.fire({
           title: "Campaña iniciada",
           html: `
             <p>Campaña #${campaniaId}</p>
-            <p>Total destinatarios: ${createRes.data?.total_destinatarios ?? "?"}</p>
+            <p>Total destinatarios: ${createRes.data?.total_destinatarios ?? totalDestinatarios ?? "?"}</p>
             <p class="text-xs text-slate-500 mt-2">✅ Sistema FIFO activo - Solo una campaña a la vez</p>
           `,
           icon: "success",
