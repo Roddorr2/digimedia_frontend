@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
 import { TabButton, Card, CardTitle } from "./components/TabButton";
 import { useAuth } from "@/hooks/useAuth";
-import { whatsappApi } from "@/api/fetchApiWhatsApp";
+import { whatsappApi, apiRequest } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import { TestSendTab } from "./components/TestSendTab";
@@ -16,6 +16,7 @@ export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [hasActiveCampaigns, setHasActiveCampaigns] = useState(false);
   const { isLoading: isAuthLoading } = useAuth();
 
   // Token cliente (para socket)
@@ -55,6 +56,28 @@ export default function WhatsAppPage() {
   useEffect(() => {
     if (wsConnected !== undefined) setIsConnected(wsConnected);
   }, [wsConnected]);
+
+  // 🔒 Verificar si hay campañas activas para deshabilitar botón de reinicio
+  useEffect(() => {
+    const checkActiveCampaigns = async () => {
+      try {
+        const res = await apiRequest("/api/whatsapp/campaigns?limit=10");
+        const campaigns = res?.data?.data || [];
+        
+        // Considerar activa si está en_proceso o ejecutándose
+        const hasActive = campaigns.some(c => c.estado === "en_proceso");
+        setHasActiveCampaigns(hasActive);
+      } catch (err) {
+        console.error("Error checking active campaigns:", err);
+      }
+    };
+
+    checkActiveCampaigns();
+    // Verificar cada 5 segundos
+    const interval = setInterval(checkActiveCampaigns, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   const handleRestartSession = async () => {
     try {
@@ -197,12 +220,25 @@ export default function WhatsAppPage() {
                           </div>
                         </div>
 
-                        <button
-                          onClick={handleRestartSession}
-                          className="inline-flex items-center justify-center rounded-full bg-[rgba(140,82,255,1)] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
-                        >
-                          Reiniciar Sesión
-                        </button>
+                        <div className="flex flex-col items-end gap-2">
+                          <button
+                            onClick={handleRestartSession}
+                            disabled={hasActiveCampaigns}
+                            className={`inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all ${
+                              hasActiveCampaigns
+                                ? "bg-gray-400 cursor-not-allowed opacity-60"
+                                : "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
+                            }`}
+                            title={hasActiveCampaigns ? "No se puede reiniciar mientras hay campañas ejecutándose" : ""}
+                          >
+                            {hasActiveCampaigns ? "🔒 Campaña en Proceso" : "Reiniciar Sesión"}
+                          </button>
+                          {hasActiveCampaigns && (
+                            <p className="text-xs text-amber-600">
+                              ⚠️ Espera a que termine la campaña activa
+                            </p>
+                          )}
+                        </div>
                       </div>
 
                       <div className="mt-6 flex justify-center">

@@ -96,8 +96,8 @@ export function CampaignQueuePanel() {
 
   // Filtrar campañas por categoría
   const draftCampaigns = campaigns.filter((c) => c.estado === "borrador");
-  const pausedCampaigns = campaigns.filter((c) => 
-    ["pausada_hasta_mañana", "pausada_fuera_horario"].includes(c.estado)
+  const pausedCampaigns = campaigns.filter((c) =>
+    ["pausada_hasta_mañana", "pausada_fuera_horario", "pausada_sin_conexion"].includes(c.estado)
   );
   const recentCompletedCampaigns = campaigns.filter((c) => 
     c.estado === "completada"
@@ -110,6 +110,7 @@ export function CampaignQueuePanel() {
       en_proceso: { bg: "bg-purple-100", text: "text-purple-700", label: "🚀 En Proceso" },
       pausada_hasta_mañana: { bg: "bg-amber-100", text: "text-amber-700", label: "⏸️ Pausada (Límite)" },
       pausada_fuera_horario: { bg: "bg-orange-100", text: "text-orange-700", label: "🌙 Pausada (Horario)" },
+      pausada_sin_conexion: { bg: "bg-red-100", text: "text-red-700", label: "📵 Pausada (Sin Conexión)" },
       completada: { bg: "bg-emerald-100", text: "text-emerald-700", label: "✅ Completada" },
       cancelada: { bg: "bg-rose-100", text: "text-rose-700", label: "❌ Cancelada" },
       error: { bg: "bg-red-100", text: "text-red-700", label: "⚠️ Error" },
@@ -253,9 +254,15 @@ export function CampaignQueuePanel() {
                     </span>
                   </div>
 
-                  <div className="mt-2 text-xs text-amber-700 bg-amber-100 rounded px-2 py-1 text-center">
+                  <div className={`mt-2 text-xs rounded px-2 py-1 text-center ${
+                    campaign.estado === "pausada_sin_conexion" 
+                      ? "text-red-700 bg-red-100" 
+                      : "text-amber-700 bg-amber-100"
+                  }`}>
                     {campaign.estado === "pausada_hasta_mañana"
                       ? "⏰ Se reanudará mañana automáticamente"
+                      : campaign.estado === "pausada_sin_conexion"
+                      ? "📵 Se reanudará cuando WhatsApp se reconecte"
                       : "🌙 Se reanudará a las 8am automáticamente"}
                   </div>
                 </div>
