@@ -36,8 +36,10 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
       image: imageFile ? { name: imageFile.name, size: imageFile.size, type: imageFile.type } : null,
       meta: {
         connected_as: connectedNumber || null,
-        endpoint: "/api/whatsapp/campaign/activate",
+        step_1_endpoint: "/api/whatsapp/campaign/create",
+        step_2_endpoint: "/api/whatsapp/campaign/{id}/start",
         content_type: "multipart/form-data",
+        fase: "FASE 2 - FIFO Campaign System",
       },
     };
   }, [service, serviceIdAsNumber, paragraph, imageFile, connectedNumber]);
@@ -88,32 +90,88 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
     setLastResponse(null);
 
     try {
+      const previewRes = await apiRequest(`/api/whatsapp/campaign/preview/${service}`);
+      const totalDestinatarios = Number(previewRes?.data?.total_destinatarios);
+      const estimatedDays = Number.isFinite(totalDestinatarios) && totalDestinatarios > 0
+        ? Math.max(1, Math.ceil(totalDestinatarios / 50))
+        : null;
+
+      // Mostrar confirmación (aún no se envia nada al backend)
+      const confirmStart = await Swal.fire({
+        title: "Confirmar campaña",
+        html: `
+          <p>Esta campaña tiene <strong>${totalDestinatarios > 0 ? totalDestinatarios : "?"}</strong> destinatarios.</p>
+          <p class="mt-1">Duración estimada - Sin interrupciones: <strong>${estimatedDays ?? "?"} día(s)</strong> (50 envíos/día).</p>
+        `,
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "rgba(140,82,255,1)",
+      });
+
+      if (!confirmStart.isConfirmed) {
+        // El usuario canceló - no se crea nada
+        return;
+      }
+
+      // Recién ahora crear la campaña como borrador
       const formData = new FormData();
       formData.append("service", service);
       formData.append("paragraph", paragraph);
       formData.append("image", imageFile);
 
-      // IMPORTANTE: no seteamos Content-Type manualmente
-      const res = await apiRequest("/api/whatsapp/campaign/activate", {
+      const createRes = await apiRequest("/api/whatsapp/campaign/create", {
         method: "POST",
         body: formData,
       });
 
-      setLastResponse(res);
+      if (!createRes?.success) {
+        setLastResponse(createRes);
+        Swal.fire("Error al crear", createRes?.message || "No se pudo crear la campaña en borrador.", "error");
+        return;
+      }
 
-      if (res?.success) {
+      const campaniaId = createRes.data?.campania_id;
+
+      // PASO 3: iniciar la campaña (FIFO) 
+      const startRes = await apiRequest(`/api/whatsapp/campaign/${campaniaId}/start`, {
+        method: "POST",
+      });
+
+      setLastResponse({ preview: previewRes, create: createRes, start: startRes });
+
+      if (startRes?.success) {
         Swal.fire({
           title: "Campaña iniciada",
-          text: `Campaña #${res.data?.campania_id} - Total: ${res.data?.total_destinatarios ?? "?"}`,
+          html: `
+            <p>Campaña #${campaniaId}</p>
+            <p>Total destinatarios: ${createRes.data?.total_destinatarios ?? totalDestinatarios ?? "?"}</p>
+            <p class="text-xs text-slate-500 mt-2">✅ Sistema FIFO activo - Solo una campaña a la vez</p>
+          `,
           icon: "success",
           confirmButtonColor: "rgba(140,82,255,1)",
         });
       } else {
-        Swal.fire("Error", res?.message || "No se pudo iniciar la campaña.", "error");
+        // Si falló al iniciar, pero la campaña se creó
+        if (startRes?.active_campaign) {
+          Swal.fire({
+            title: "Campaña creada en borrador",
+            html: `
+              <p>La campaña #${campaniaId} se creó correctamente.</p>
+              <p class="text-sm text-rose-600 mt-2">⚠️ No se pudo iniciar porque hay otra campaña activa:</p>
+              <p class="text-xs mt-1">Campaña #${startRes.active_campaign?.id} - ${startRes.active_campaign?.estado} - ${startRes.active_campaign?.progreso}%</p>
+            `,
+            icon: "info",
+            confirmButtonColor: "rgba(140,82,255,1)",
+          });
+        } else {
+          Swal.fire("Error al iniciar", startRes?.message || "La campaña se creó pero no se pudo iniciar.", "error");
+        }
       }
     } catch (error) {
       console.error(error);
-      Swal.fire("Error", "No se pudo iniciar la campaña. Revisa Network/Console.", "error");
+      Swal.fire("Error", "No se pudo crear/iniciar la campaña. Revisa Network/Console.", "error");
     } finally {
       setLoading(false);
     }
@@ -127,9 +185,9 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-700 dark:bg-slate-800/60">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Activar campaña (real)</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Crear e Iniciar Campaña</p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Este tab llama al backend y crea la campaña (Cloudinary + Job Queue).
+                Crea campaña en borrador y luego la inicia (sistema FIFO).
               </p>
             </div>
 
