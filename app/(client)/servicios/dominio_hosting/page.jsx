@@ -57,17 +57,17 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="Optimizamos tu sitio web para mejorar su posicionamiento en Google y otros buscadores. Trabajamos palabras clave, estructura y rendimiento para atraer tráfico cualificado y convertir búsquedas en clientes."
+        mainDescription="Mejoramos la visibilidad de tu sitio web en los motores de búsqueda mediante una optimización técnica y estratégica. Trabajamos palabras clave, estructura, velocidad y contenido para atraer tráfico cualificado y aumentar tus conversiones de forma orgánica."
         backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/dominio_hosting_principal.webp"
         heroTitle=<>
-          ESTRATEGIA SEO
+          OPTIMIZACIÓN SEO
           <br /> PARA BUSCADORES
         </>
         alt="Dominio web, hosting profesional, hosting optimizado, alojamiento web, servidor seguro, mantenimiento web, seguridad web"
         title="Diseño y desarrollo web, Dominio y Hosting, Digimedia.webp"
-        // heroBulletPoints={[
-        //   "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET.",
-        // ]}
+      // heroBulletPoints={[
+      //   "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET.",
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
