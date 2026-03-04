@@ -11,7 +11,7 @@ export default function DisenoPauta() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
       serviceName: "4",
     },
@@ -21,7 +21,7 @@ export default function DisenoPauta() {
     {
       icon: (
         <img
-          src="/servicios/branding_diseno/publicidad_digital/icons/diseno-de-logo-card-01.webp"
+          src="/servicios/branding_diseno/publicidad_digital/icons/diseno-de-logo_card1-DISENO-DE-LOGO.webp"
           alt="Computadora con iconos de publicidad"
           className="w-full h-full object-contain"
         />
@@ -44,7 +44,7 @@ export default function DisenoPauta() {
       <UxUiSection
         features={features}
         mainDescription="Creamos logotipos profesionales que reflejan la identidad y propósito de tu marca. Cada diseño es único, pensado estratégicamente para comunicar los valores, personalidad y posicionamiento de tu empresa ante tu público objetivo."
-        backgroundImage="/servicios/gestion/diseno-pautas/publicidad_digital1.webp"
+        backgroundImage="/servicios/gestion/diseno-pautas/diseno-de-logo.webp"
         heroTitle=<>
           DISEÑO <br /> DE LOGO
         </>

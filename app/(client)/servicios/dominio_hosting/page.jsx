@@ -9,7 +9,7 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
     },
@@ -58,7 +58,7 @@ export default function UXUI() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Optimizamos tu sitio web para mejorar su posicionamiento en Google y otros buscadores. Trabajamos palabras clave, estructura y rendimiento para atraer tráfico cualificado y convertir búsquedas en clientes."
-        backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/dominio_hosting_principal.webp"
+        backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO-para-buscadores.webp"
         heroTitle=<>
           ESTRATEGIA SEO
           <br /> PARA BUSCADORES

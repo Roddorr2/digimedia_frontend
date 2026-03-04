@@ -10,7 +10,7 @@ export default function ProduccionPautas() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
       serviceName: "4",
     },
@@ -20,7 +20,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <Image
-          src="/servicios/branding_diseno/monitoreo_reporting/icons/manual-de-marca-card2-manual-de-identidad-de-marca.webp"
+          src="/servicios/branding_diseno/monitoreo_reporting/icons/manual-de-marca_card1-MANUAL-DE-IDENTIDAD-DE-MARCA.webp"
           alt="Icono de diagrama de arquitectura y diseño de sistemas"
           className="w-full h-full object-contain"
           width={48}
@@ -45,7 +45,7 @@ export default function ProduccionPautas() {
       <UxUiSection
         features={features}
         mainDescription="Desarrollamos manuales de identidad de marca que definen los lineamientos visuales y normas necesarias para garantizar coherencia y consistencia en la comunicación de tu empresa."
-        backgroundImage="/servicios/monitoreo_reporting/monitoreo_reporting_principal.webp"
+        backgroundImage="/servicios/monitoreo_reporting/manual-de-marca.webp"
         heroTitle="MANUAL DE MARCA"
         // heroBulletPoints={[
         //   "PERMITE TOMAR DECISIONES INFORMADAS, IMPLEMENTAR MEDIDAS CORRECTIVAS Y OPTIMIZAR LA GESTIÓN DEL PROYECTO.",

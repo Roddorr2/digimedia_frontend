@@ -8,7 +8,7 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
     },
@@ -18,7 +18,7 @@ export default function UXUI() {
     {
       icon: (
         <img
-          src="/servicios/diseno_desarrollo_web/seo/desarrollo-web-card-1-diseno-responsive.webp"
+          src="/servicios/diseno_desarrollo_web/seo/desarrollo-web_card-1-DISENO-RESPONSIVE.webp"
           alt="Lupa del seo "
           className="w-full h-full stroke-1"
         />
@@ -30,7 +30,7 @@ export default function UXUI() {
     {
       icon: (
         <img
-          src="/servicios/diseno_desarrollo_web/seo/desarrollo-web-card-2-integraciones-digitales.webp"
+          src="/servicios/diseno_desarrollo_web/seo/desarrollo-web_card 2-INTEGRACIONES DIGITALES.webp"
           alt="Lupa del seo buscando en la red"
           className="w-full h-full stroke-1"
         />
@@ -57,7 +57,7 @@ export default function UXUI() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Desarrollamos sitios web adaptables a todos los dispositivos y los integramos con herramientas digitales estratégicas. Implementamos conexiones con redes sociales, WhatsApp, formularios y sistemas de automatización para mejorar la experiencia del usuario y facilitar la conversión."
-        backgroundImage="/servicios/diseno_desarrollo_web/seo/seo_principal.webp"
+        backgroundImage="/servicios/diseno_desarrollo_web/seo/desarrollo-web-e-integraciones.webp"
         heroTitle="DESARROLLO WEB E INTEGRACIONES"
         alt="Posicionamiento web,  SEO on page, SEO off page, auditoría SEO, optimización web, herramienta SEO"
         title="Diseño y desarrollo web, SEO, Digimedia.webp"

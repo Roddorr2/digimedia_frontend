@@ -15,25 +15,25 @@ function UXUIComponent() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
     },
   };
 
   const backgroundImages = {
-    disenoDesarrollo: "/servicios/DisenoUI/diseno_1.webp",
+    disenoDesarrollo: "/servicios/DisenoUI/diseno-UX-y-UI.webp",
     gestionRedes: "/servicios/DisenoUI/diseno_principal.webp",
   };
 
   const backgroundImage =
-    backgroundImages[from] || "/servicios/DisenoUI/diseno_1.webp";
+    backgroundImages[from] || "/servicios/DisenoUI/diseno-UX-y-UI.webp";
 
   const featuresuxui = [
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UX blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card1-EXPERIENCIA-DE-USUARIO-(UX).webp"
           alt="Web con diseño UX"
           className="w-full h-full object-contain"
           width={200}
@@ -53,7 +53,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UI blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card2-DISENO-DE-INTERFACES-(UI).webp"
           alt="Web con diseño UI"
           className="w-full h-full object-contain"
           width={200}

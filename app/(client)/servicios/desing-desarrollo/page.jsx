@@ -15,7 +15,7 @@ export default function Page() {
         </>
       ),
       text: "Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.",
-      icon: "/servicios/desarrollo/icon1.svg",
+      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub1-CREACION-Y-DESARROLLO-WEB.webp",
       ruta: "/servicios/desarrollo-webs/",
     },
     {
@@ -25,7 +25,7 @@ export default function Page() {
         </>
       ),
       text: "Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
-      icon: "/servicios/desarrollo/icon2.svg",
+      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub2-EXPERIENCIA-DE-USUARIO-Y-DISENO.webp",
       ruta: "/servicios/ui/?from=disenoDesarrollo",
     },
     {
@@ -35,7 +35,7 @@ export default function Page() {
         </>
       ),
       text: "Mayor visibilidad, mejor posicionamiento y más clientes potenciales. Llevamos tu sitio web a los primeros resultados de búsqueda.",
-      icon: "/servicios/desarrollo/icon3.svg",
+      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub3-OPTIMIZACION-SEO-PARA-BUSCADORES.webp",
       ruta: "/servicios/dominio_hosting/",
     },
     {
@@ -48,7 +48,7 @@ export default function Page() {
         </>
       ),
       text: "Desarrollamos sitios web adaptables y conectados con herramientas digitales que potencian la conversión y optimizan tu gestión.",
-      icon: "/servicios/desarrollo/icon4.svg",
+      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub4-DESARROLLO-RESPONSIVE-E-INTEGRACIONES-DIGITALES.webp",
       ruta: "/servicios/seo/",
     },
   ];
@@ -56,7 +56,7 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
       width: 256,
@@ -85,7 +85,7 @@ export default function Page() {
           </>
         }
         text="Transformamos tu visión en una presencia digital impactante. Diseñamos y desarrollamos sitios web modernos, rápidos y seguros, enfocados en convertir visitantes en clientes y fortalecer la lealtad de su audiencia. Tu éxito online comienza aquí."
-        image="/servicios/desarrollo/disenio-y-desarrollo-web.webp"
+        image="/servicios/desarrollo/diseno-y-desarrollo-web.webp"
       />
 
       <Description
