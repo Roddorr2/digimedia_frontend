@@ -9,7 +9,7 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketingygestiondigital.jpg",
+      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
       serviceName: "3",
     },
@@ -19,7 +19,7 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/identidad_visual/icons/Identidad-visual_card1-IVC.webp"
+          src="/servicios/marketing_gestion_digital/identidad_visual/icons/identidad-visual_card1-IVC.webp"
           alt="Icono de una tarjeta y firma con lápiz"
           className="w-full h-full object-contain"
           width={48}
@@ -45,7 +45,7 @@ export default function UXUI() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Desarrollamos la manifestación visual de su marca, creando un sistema gráfico coherente que incluye logotipos, colores y tipografías. Esta identidad estratégica asegura el reconocimiento, la diferenciación y el posicionamiento de su empresa en el mercado."
-        backgroundImage="/servicios/DisenoUI/Identidad-visual-y-corporativa.webp"
+        backgroundImage="/servicios/DisenoUI/identidad-visual-y-corporativa.webp"
         heroTitle=<>
           IDENTIDAD VISUAL <br />Y CORPORATIVA
         </>

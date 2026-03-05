@@ -23,7 +23,7 @@ function UXUIComponent() {
 
   const backgroundImages = {
     disenoDesarrollo: "/servicios/DisenoUI/diseno_1.webp",
-    gestionRedes: "/servicios/DisenoUI/diseno_principal.webp",
+    gestionRedes: "/servicios/DisenoUI/disenio-UX-y-UI.webp",
   };
 
   const backgroundImage =
@@ -33,7 +33,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UX blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseño-UX-y-UI_card1-disenio-de-experiencia.webp"
           alt="Web con diseño UX"
           className="w-full h-full object-contain"
           width={200}
@@ -53,7 +53,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UI blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseño-UX-y-UI_card2-disenio-de-interfaz.webp"
           alt="Web con diseño UI"
           className="w-full h-full object-contain"
           width={200}

@@ -16,7 +16,7 @@ export default function Page() {
         </>
       ),
       text: "Definimos la narrativa, los pilares de contenido y el tono de tu marca para comunicar con coherencia y propósito en redes sociales.",
-      icon: "/servicios/gestion/icon1.svg",
+      icon: "/servicios/gestion/gestion-de-redes_sub1-estrategia-de-contenido.svg",
       ruta: "/servicios/planificacion-cronograma/",
     },
     {
@@ -27,7 +27,7 @@ export default function Page() {
         </>
       ),
       text: "Diseñamos y optimizamos campañas de pauta en redes sociales enfocadas en alcance, tráfico, leads y conversiones.",
-      icon: "/servicios/gestion/icon3.svg",
+      icon: "/servicios/gestion/gestion-redes-sociales-sub2-social-ads-performance.svg",
       ruta: "/servicios/diseno-pautas/",
     },
     {
@@ -38,7 +38,7 @@ export default function Page() {
         </>
       ),
       text: "Creamos contenido audiovisual pensado para redes sociales, optimizado para captar atención y generar engagement.",
-      icon: "/servicios/gestion/icon2.svg",
+      icon: "/servicios/gestion/gestion-redes-sociales-card3-social-ads-performance.svg",
       ruta: "/servicios/produccion-pautas/",
     },
     {
@@ -49,14 +49,14 @@ export default function Page() {
         </>
       ),
       text: "Diseñamos experiencias digitales funcionales y atractivas que acompañan la estrategia de redes y mejoran la conversión.",
-      icon: "/servicios/gestion/icon4.svg",
+      icon: "/servicios/gestion/gestion-redes-sociales-card4-produccion-audiovisual.svg",
       ruta: "/servicios/ui/?from=gestionRedes",
     },
   ];
   const modales = {
     modalA: {
       text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/gestionderedessociales.png",
+      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
       serviceName: "2",
       width: 256,
