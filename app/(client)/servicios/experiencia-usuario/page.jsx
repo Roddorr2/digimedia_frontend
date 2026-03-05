@@ -10,7 +10,7 @@ export default function ExperienciaUsuario() {
   const modales = {
     modalA: {
       text: 'EXPERIENCIA DE USUARIO',
-      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
+      fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
     },
@@ -20,7 +20,7 @@ export default function ExperienciaUsuario() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UX blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card1-EXPERIENCIA-DE-USUARIO-(UX).webp"
           alt="Research UX"
           className="w-full h-full object-contain"
           width={200}
@@ -39,7 +39,7 @@ export default function ExperienciaUsuario() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UI blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card2-DISENO-DE-INTERFACES-(UI).webp"
           alt="Arquitectura de Información UX"
           className="w-full h-full object-contain"
           width={200}
@@ -70,7 +70,7 @@ export default function ExperienciaUsuario() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes."
-        backgroundImage="/servicios/DisenoUI/diseno_1.webp"
+        backgroundImage="/servicios/DisenoUI/diseno-UX-y-UI.webp"
         heroTitle=<>EXPERIENCIA DE USUARIO Y DISEÑO</>
         alt="Diseño de Experiencia de Usuario (UX) enfocado en usabilidad, investigación y arquitectura de información."
         title="Diseño UX, experiencia de usuario, usabilidad, investigación de usuarios, arquitectura de información, interacciones digitales, Digimedia.webp"

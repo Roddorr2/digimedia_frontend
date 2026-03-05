@@ -13,8 +13,8 @@ function UXUIComponent() {
   const from = searchParams.get('from') || 'disenoDesarrollo';
 
   const backgroundImages = {
-    disenoDesarrollo: '/servicios/DisenoUI/diseno_1.webp',
-    gestionRedes: '/servicios/DisenoUI/diseno_principal.webp',
+    disenoDesarrollo: '/servicios/DisenoUI/diseno-UX-y-UI.webp',
+    gestionRedes: '/servicios/DisenoUI/disenio-ux-y-ui.webp',
   };
 
   const dynamicTexts = {
@@ -99,7 +99,8 @@ function UXUIComponent() {
   const modales = {
     modalA: {
       text: currentTexts.modalAText,
-      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
+      fondo:
+        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: currentTexts.serviceName,
     },
@@ -109,7 +110,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UX blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card1-EXPERIENCIA-DE-USUARIO-(UX).webp"
           alt="Web con diseño UX"
           className="w-full h-full object-contain"
           width={200}
@@ -122,7 +123,7 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/UI blanco.png"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card2-DISENO-DE-INTERFACES-(UI).webp"
           alt="Web con diseño UI"
           className="w-full h-full object-contain"
           width={200}
@@ -151,6 +152,7 @@ function UXUIComponent() {
         heroTitle={currentTexts.heroTitle}
         alt={currentTexts.uxUiSectionAlt}
         title={currentTexts.uxUiSectionTitle}
+        category="Gestión de redes Sociales"
       />
       <Contactanos
         text={currentTexts.contactanosText}

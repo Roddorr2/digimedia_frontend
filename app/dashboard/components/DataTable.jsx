@@ -91,12 +91,12 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
 
           return (
             <Card
-              key={dataRow.id || `card-${index}`}
+              key={dataRow.id_empleado || `card-${index}`}
               className={`overflow-hidden ${esMismoUsuario ? "border-[#8c52ff] border-2 dark:bg-gray-900" : "border-gray-200"}`}
             >
               <div className={`p-3 ${esMismoUsuario ? "bg-[#f0ebff] dark:bg-gray-900" : "bg-white"}`}>
                 {headers.slice(0, 2).map((header) => (
-                  <div key={`mobile-${dataRow.id}-${header}`} className="mb-1">
+                  <div key={`mobile-${dataRow.id_empleado}-${header}`} className="mb-1">
                     <span className="font-semibold text-xs text-gray-500 dark:bg-gray-900">{header.toUpperCase()}: </span>
                     <span className="font-medium dark:bg-gray-900">{dataRow[header]}</span>
                   </div>
@@ -119,7 +119,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-[#8c52ff]"
-                        onClick={() => onShow(dataRow.id)}
+                        onClick={() => onShow(dataRow.id_empleado)}
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
@@ -131,7 +131,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-amber-500"
-                        onClick={() => onUpdate(dataRow.id)}
+                        onClick={() => onUpdate(dataRow.id_empleado)}
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
@@ -143,7 +143,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-red-500"
-                        onClick={() => onDelete(dataRow.id)}
+                        onClick={() => onDelete(dataRow.id_empleado)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -166,7 +166,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
               {expandedRow === index && (
                 <div className="p-3 bg-gray-50 border-t border-gray-200">
                   {headers.slice(2).map((header) => (
-                    <div key={`mobile-expanded-${dataRow.id}-${header}`} className="mb-1">
+                    <div key={`mobile-expanded-${dataRow.id_empleado}-${header}`} className="mb-1">
                       <span className="font-semibold text-xs text-gray-500">{header.toUpperCase()}: </span>
                       <span className="font-medium">{dataRow[header]}</span>
                     </div>
@@ -201,7 +201,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
 
               return (
                 <TableRow 
-                  key={dataRow.id || `row-${index}`}
+                  key={dataRow.id_empleado || `row-${index}`}
                   className={`${
                     esMismoUsuario 
                       ? "bg-[#caeafe] text-black" 
@@ -209,7 +209,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                   } hover:bg-neutral-200 transition-colors`}
                 >
                   {headers.map((header) => (
-                    <TableCell key={`${dataRow.id}-${header}`} className="text-center">
+                    <TableCell key={`${dataRow.id_empleado}-${header}`} className="text-center">
                       {dataRow[header]}
                     </TableCell>
                   ))}

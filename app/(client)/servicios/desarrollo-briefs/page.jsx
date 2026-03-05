@@ -10,7 +10,7 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
       serviceName: "4",
     },
@@ -20,7 +20,7 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/branding_diseno/desarrollo_brief/icons/brief blanco.png"
+          src="/servicios/branding_diseno/desarrollo_brief/icons/desarrollo-de-brief_card1-BRIEF.webp"
           alt="Icono de una computadora con mapas y graficos"
           className="w-full h-full object-contain"
           width={200}
