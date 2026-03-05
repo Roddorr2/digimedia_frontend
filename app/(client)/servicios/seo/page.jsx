@@ -56,9 +56,9 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="Desarrollamos sitios web adaptables a todos los dispositivos y los integramos con herramientas digitales estratégicas. Implementamos conexiones con redes sociales, WhatsApp, formularios y sistemas de automatización para mejorar la experiencia del usuario y facilitar la conversión."
+        mainDescription="Creamos sitios web adaptables a todos los dispositivos e integramos herramientas digitales clave, pasarelas de pago, automatizaciones y analítica para optimizar la experiencia del usuario y potenciar la conversión."
         backgroundImage="/servicios/diseno_desarrollo_web/seo/desarrollo-web-e-integraciones.webp"
-        heroTitle="DESARROLLO WEB E INTEGRACIONES"
+        heroTitle="DESARROLLO RESPONSIVE E INTEGRACIONES DIGITALES"
         alt="Posicionamiento web,  SEO on page, SEO off page, auditoría SEO, optimización web, herramienta SEO"
         title="Diseño y desarrollo web, SEO, Digimedia.webp"
       // heroBulletPoints={[

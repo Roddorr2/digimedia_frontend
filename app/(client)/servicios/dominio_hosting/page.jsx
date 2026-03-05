@@ -57,7 +57,7 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription="Optimizamos tu sitio web para mejorar su posicionamiento en Google y otros buscadores. Trabajamos palabras clave, estructura y rendimiento para atraer tráfico cualificado y convertir búsquedas en clientes."
+        mainDescription="Mejoramos la visibilidad de tu sitio web en los motores de búsqueda mediante una optimización técnica y estratégica. Trabajamos palabras clave, estructura, velocidad y contenido para atraer tráfico cualificado y aumentar tus conversiones de forma orgánica."
         backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO-para-buscadores.webp"
         heroTitle=<>
           OPTIMIZACIÓN SEO

@@ -10,7 +10,7 @@ export default function ExperienciaUsuario() {
   const modales = {
     modalA: {
       text: 'EXPERIENCIA DE USUARIO',
-      fondo: '/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png',
+      fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
     },

@@ -12,22 +12,99 @@ function UXUIComponent() {
   const searchParams = useSearchParams();
   const from = searchParams.get('from') || 'disenoDesarrollo';
 
-  const modales = {
-    modalA: {
-      text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
+  const backgroundImages = {
+    disenoDesarrollo: '/servicios/DisenoUI/diseno-UX-y-UI.webp',
+    gestionRedes: '/servicios/DisenoUI/disenio-ux-y-ui.webp',
+  };
+
+  const dynamicTexts = {
+    disenoDesarrollo: {
+      modalAText: 'DISEÑO Y DESARROLLO WEB',
+      heroTitle: <>EXPERIENCIA DE USUARIO Y DISEÑO</>,
+      mainDescription:
+        'Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes.',
+      modalButtonText: 'DISEÑO Y DESARROLLO WEB',
+      contactanosText:
+        'Consolida tu presencia web, diseña con nosotros tu página web',
+      serviceName: '1',
+      features: [
+        {
+          title: (
+            <>
+              DISEÑO DE <br />
+              EXPERIENCIA (UX)
+            </>
+          ),
+          description:
+            'Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.',
+        },
+        {
+          title: (
+            <>
+              DISEÑO DE <br />
+              INTERFAZ (UI)
+            </>
+          ),
+          description:
+            'Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.',
+        },
+      ],
+      uxUiSectionAlt:
+        'Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital.',
+      uxUiSectionTitle:
+        'Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp',
+    },
+    gestionRedes: {
+      modalAText: 'GESTIÓN DE REDES SOCIALES',
+      heroTitle: <>DISEÑO UX Y UI</>,
+      mainDescription:
+        'Diseñamos experiencias digitales que combinan funcionalidad y estética. Creamos interfaces intuitivas, alineadas con la identidad de marca y orientadas a facilitar la navegación y la conversión.',
+      modalButtonText: 'GESTIÓN DE REDES SOCIALES',
+      contactanosText:
+        'Impulsa tus redes sociales con diseño gráfico de calidad',
+      serviceName: '2',
+      features: [
+        {
+          title: (
+            <>
+              DISEÑO DE <br />
+              EXPERIENCIA (UX)
+            </>
+          ),
+          description:
+            'Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.',
+        },
+        {
+          title: (
+            <>
+              DISEÑO DE <br />
+              INTERFAZ (UI)
+            </>
+          ),
+          description:
+            'Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.',
+        },
+      ],
+      uxUiSectionAlt:
+        'Diseño de piezas gráficas y contenido visual enfocado en redes sociales y engagement digital.',
+      uxUiSectionTitle:
+        'Diseño gráfico, piezas visuales, redes sociales, contenido digital, engagement, branding visualTÍTULO: Gestión de Redes, Piezas Gráficas, Digimedia.webp',
     },
   };
 
-  const backgroundImages = {
-    disenoDesarrollo: "/servicios/DisenoUI/diseno-UX-y-UI.webp",
-    gestionRedes: "/servicios/DisenoUI/disenio-UX-y-UI.webp",
-  };
-
   const backgroundImage =
-    backgroundImages[from] || "/servicios/DisenoUI/diseno-UX-y-UI.webp";
+    backgroundImages[from] || backgroundImages.disenoDesarrollo;
+  const currentTexts = dynamicTexts[from] || dynamicTexts.disenoDesarrollo;
+
+  const modales = {
+    modalA: {
+      text: currentTexts.modalAText,
+      fondo:
+        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
+      serviceName: currentTexts.serviceName,
+    },
+  };
 
   const featuresuxui = [
     {
@@ -75,6 +152,7 @@ function UXUIComponent() {
         heroTitle={currentTexts.heroTitle}
         alt={currentTexts.uxUiSectionAlt}
         title={currentTexts.uxUiSectionTitle}
+        category="Gestión de redes Sociales"
       />
       <Contactanos
         text={currentTexts.contactanosText}
