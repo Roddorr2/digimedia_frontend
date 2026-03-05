@@ -8,7 +8,7 @@ export default function Web() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/disenoydesarrolloweb.png",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1", // Ajusta según corresponda
     },
@@ -18,7 +18,7 @@ export default function Web() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/desarrollo_web/desarrollo_front blanco.png"
+          src="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-y-desarrollo_card1-DESARROLLO-FRONT-END.webp"
           alt="Icono de una computadora"
           className="w-full h-full object-contain"
           width={200}
@@ -32,7 +32,7 @@ export default function Web() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/desarrollo_web/desarrollo-back blanco.png"
+          src="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-y-desarrollo_card2-DESARROLLO-BACK-END.webp"
           alt="Icono de una base de datos"
           className="w-full h-full object-contain"
           width={200}

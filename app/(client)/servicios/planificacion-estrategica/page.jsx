@@ -11,7 +11,7 @@ export default function PlanificacionEstrategica() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
       serviceName: "4",
     },
@@ -21,7 +21,7 @@ export default function PlanificacionEstrategica() {
     {
       icon: (
         <img
-          src="/servicios/branding_diseno/planificacion_estrategica/icons/planificacion blanco.png"
+          src="/servicios/branding_diseno/planificacion_estrategica/icons/planificacion-estrategica_card1-PLANIFICACION.webp"
           alt="Hoja de planificación"
           className="w-full h-full object-contain"
         />
@@ -44,7 +44,7 @@ export default function PlanificacionEstrategica() {
       <UxUiSection
         features={features}
         mainDescription="Definimos la dirección de su organización, establecemos objetivos claros y desarrollamos estrategias accionables para alcanzarlos. Nuestro enfoque sistemático asegura que su negocio no solo compita, sino que lidere en su sector."
-        backgroundImage="/servicios/planificacion-estrategica/planificacion-estrategica-main.webp"
+        backgroundImage="/servicios/planificacion-estrategica/planificacion-estrategica.webp"
         heroTitle="PLANIFICACIÓN ESTRATÉGICA"
         alt="Planificación estratégica, marketing digital, gestión digital, toma de decisiones, posicionamiento de marca, análisis de mercado, estructura de campañas, crecimiento digital, estrategia de contenidos, agencia Digimedia"
         title="Planificación estratégica, gestión digital, agencia de marketing digimedia"

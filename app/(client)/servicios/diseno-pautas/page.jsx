@@ -12,7 +12,7 @@ export default function DisenoPauta() {
   const modales = {
     modalA: {
       text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/gestionderedessociales.png",
+      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
       serviceName: "2",
     },
@@ -22,7 +22,7 @@ export default function DisenoPauta() {
     {
       icon: (
         <Image
-          src="/servicios/gestion/diseno-pautas/icons/first blanco 1.png"
+          src="/servicios/gestion/diseno-pautas/icons/social-ads_card1-planificacion-de-campanias.webp"
           alt="Icono de una hoja con un lápiz"
           className="w-full h-full object-contain"
           width={48}
