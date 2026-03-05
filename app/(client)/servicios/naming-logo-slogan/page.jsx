@@ -8,7 +8,7 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketingygestiondigital.jpg",
+      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
       serviceName: "3",
     },
@@ -18,7 +18,7 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-de-campanas_card1-gestion-de-campanas.webp"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-de-campanias_card1-gestion-de-campanias.webp"
           alt="Icono de una anuncio marketing"
           className="w-full h-full object-contain"
           width={48}
@@ -59,7 +59,7 @@ export default function UXUI() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Desarrollamos campañas digitales orientadas a resultados, combinando análisis de datos, segmentación estratégica y optimización continua. Nuestro enfoque permite mejorar el desempeño de la inversión publicitaria, alcanzar a la audiencia correcta y potenciar el crecimiento de la marca de manera sostenible."
-        backgroundImage="/servicios/DisenoUI/branding4.webp"
+        backgroundImage="/servicios/DisenoUI/campanias-digitales.webp"
         heroTitle=<>
           CAMPAÑAS
           <br /> DIGITALES

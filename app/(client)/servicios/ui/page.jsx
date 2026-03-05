@@ -23,7 +23,7 @@ function UXUIComponent() {
 
   const backgroundImages = {
     disenoDesarrollo: "/servicios/DisenoUI/diseno-UX-y-UI.webp",
-    gestionRedes: "/servicios/DisenoUI/diseno_principal.webp",
+    gestionRedes: "/servicios/DisenoUI/disenio-UX-y-UI.webp",
   };
 
   const backgroundImage =

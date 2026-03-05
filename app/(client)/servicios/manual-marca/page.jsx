@@ -9,7 +9,7 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketingygestiondigital.jpg",
+      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
       serviceName: "3",
     },

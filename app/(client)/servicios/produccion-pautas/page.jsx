@@ -9,7 +9,7 @@ export default function ProduccionPautas() {
   const modales = {
     modalA: {
       text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/gestionderedessociales.png",
+      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
       serviceName: "2",
     },
@@ -19,7 +19,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/gestion/produccion-pautas/icons/first blanco.png"
+          src="/servicios/gestion/produccion-pautas/icons/producción-audiovisual_card 1-conceptualizacion-y-guion.webp"
           alt="Conceptualización y guión"
           className="w-full h-full object-contain"
         />
@@ -31,7 +31,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/gestion/produccion-pautas/icons/first 2 blanco.png"
+          src="/servicios/gestion/produccion-pautas/icons/producción-audiovisual_card 1-produccion-y-edicion.webp"
           alt="Producción y edición"
           className="w-full h-full object-contain"
         />

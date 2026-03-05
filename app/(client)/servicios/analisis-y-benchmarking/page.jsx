@@ -9,7 +9,7 @@ export default function ProduccionPautas() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketingygestiondigital.jpg",
+      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
       serviceName: "3",
     },
@@ -19,7 +19,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/marketing_gestion_digital/analisis_benchmarking/icons/analisis blanco.png"
+          src="/servicios/marketing_gestion_digital/analisis_benchmarking/icons/analisis-y-benchmarking-card1-analisis.webp"
           alt="Icono de una hoja y una lupa de color morado y fondo oscuro"
           className="w-full h-full object-contain"
         />
@@ -31,7 +31,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/marketing_gestion_digital/analisis_benchmarking/icons/benchmarking blanco.png"
+          src="/servicios/marketing_gestion_digital/analisis_benchmarking/icons/analisis-y-benchmarking-card2-benchmarking.webp"
           alt="Icono de una computadora con gráfico color morado y fondo oscuro"
           className="w-full h-full object-contain"
         />
