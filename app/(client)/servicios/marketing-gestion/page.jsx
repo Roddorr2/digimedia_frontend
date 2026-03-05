@@ -16,7 +16,7 @@ export default function Page() {
         </>
       ),
       text: "Evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.",
-      icon: "/servicios/marketing/marketing-gestion-sub1-analisis-benchmarking.svg",
+      icon: "/servicios/marketing/marketing-y-gestion_sub1-ANALISIS-Y-BENCHMARKING.webp",
       ruta: "/servicios/analisis-y-benchmarking/",
     },
     {
@@ -28,7 +28,7 @@ export default function Page() {
         </>
       ),
       text: "Planificamos y optimizamos campañas en plataformas digitales para mejorar el rendimiento, la conversión y el retorno de inversión de tu marca.",
-      icon: "/servicios/marketing/marketing-gestion-sub2-campanas-digitales.svg",
+      icon: "/servicios/marketing/marketing-y-gestion_sub2-CAMPANAS-DIGITALES.webp",
       ruta: "/servicios/naming-logo-slogan/",
     },
     {
@@ -39,7 +39,7 @@ export default function Page() {
         </>
       ),
       text: "Aseguramos que tu presencia online sea segura, rápida y eficiente para la disponibilidad de tus clientes.",
-      icon: "/servicios/marketing/marketing-gestion-sub3-identidad-visual-corporativa.svg",
+      icon: "/servicios/marketing/marketing-y-gestion_sub3-IDENTIDAD-VISUAL-Y-CORPORATIVA.webp",
       ruta: "/servicios/identidad-visual/",
     },
     {
@@ -50,7 +50,7 @@ export default function Page() {
         </>
       ),
       text: "Evaluamos el desempeño de tus estrategias digitales mediante métricas clave para optimizar acciones y tomar decisiones basadas en resultados.",
-      icon: "/servicios/marketing/marketing-gestion-sub4-analisis-metricas.svg",
+      icon: "/servicios/marketing/marketing-y-gestion_sub4-ANALISIS-DE-METRICAS.webp",
       ruta: "/servicios/manual-marca/",
     },
   ];

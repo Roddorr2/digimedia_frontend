@@ -19,7 +19,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/gestion/produccion-pautas/icons/producción-audiovisual_card 1-conceptualizacion-y-guion.webp"
+          src="/servicios/gestion/produccion-pautas/icons/produccion-audiovisual_card-1-conceptualizacion-y-guion.webp"
           alt="Conceptualización y guión"
           className="w-full h-full object-contain"
         />
@@ -31,7 +31,7 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/gestion/produccion-pautas/icons/producción-audiovisual_card 1-produccion-y-edicion.webp"
+          src="/servicios/gestion/produccion-pautas/icons/produccion-audiovisual_card-1-produccion-y-edicion.webp"
           alt="Producción y edición"
           className="w-full h-full object-contain"
         />
