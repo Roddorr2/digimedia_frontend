@@ -1,17 +1,18 @@
-import Image from "next/image";
-import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
-import { UxUiSection } from "../components/uxui-section";
-import { Lightbulb, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
+import Image from 'next/image';
+import Contactanos from '../components/Contactanos';
+import ModalScroll from '../components/ModalScroll';
+import { UxUiSection } from '../components/uxui-section';
+import { Lightbulb, Smartphone, PenTool, Layers } from 'lucide-react';
+import ModalButton from '../components/ModalButton';
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketingygestiondigital.jpg",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
-      serviceName: "3",
+      text: 'MARKETING Y GESTIÓN DIGITAL',
+      fondo:
+        '/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp',
+      title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
+      serviceName: '3',
     },
   };
 
@@ -19,6 +20,7 @@ export default function UXUI() {
     {
       icon: (
         <Image
+          // src="/servicios/marketing_gestion_digital/identidad_visual/icons/identidad-visual_card1-IVC.webp"
           src="/servicios/marketing_gestion_digital/identidad_visual/icons/Identidad-visual_card1-IVC.webp"
           alt="Icono de una tarjeta y firma con lápiz"
           className="w-full h-full object-contain"
@@ -26,9 +28,9 @@ export default function UXUI() {
           height={48}
         />
       ),
-      title: "IVC",
+      title: 'IVC',
       description:
-        "A través de ella comunicaremos su personalidad, valores y propuesta de valor, estableciendo un posicionamiento claro y distintivo en la mente de sus clientes.",
+        'A través de ella comunicaremos su personalidad, valores y propuesta de valor, estableciendo un posicionamiento claro y distintivo en la mente de sus clientes.',
     },
   ];
 

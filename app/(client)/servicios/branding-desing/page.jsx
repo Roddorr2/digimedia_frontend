@@ -15,7 +15,7 @@ export default function Page() {
         </>
       ),
       text: "Estudiamos tu empresa y competencia para definir una marca clara, estratégica y sólida.",
-      icon: "/servicios/branding/icon1.svg",
+      icon: "/servicios/branding/branding-y-diseno_sub1-DESARROLLO-DE-BRIEF.webp",
       ruta: "/servicios/desarrollo-briefs/",
     },
     {
@@ -25,7 +25,7 @@ export default function Page() {
         </>
       ),
       text: "Creamos identidades visuales únicas que reflejan tu esencia que destacan en el mercado.",
-      icon: "/servicios/branding/icon2.svg",
+      icon: "/servicios/branding/branding-y-diseno_sub2-PLANIFICACION-ESTRATEGICA.webp",
       ruta: "/servicios/planificacion-estrategica/",
     },
     {
@@ -35,7 +35,7 @@ export default function Page() {
         </>
       ),
       text: "Diseñamos logotipos memorables y profesionales que representan lo que tu marca es y lo que aspira a ser.",
-      icon: "/servicios/branding/icon3.svg",
+      icon: "/servicios/branding/branding-y-diseno_sub3-DISENO-DE-LOGO.webp",
       ruta: "/servicios/publicidad-digital/",
     },
     {
@@ -45,7 +45,7 @@ export default function Page() {
         </>
       ),
       text: "Desarrollamos manuales de marca que establecen lineamientos visuales claros para asegurar coherencia en toda la comunicación de tu empresa.",
-      icon: "/servicios/branding/icon4.svg",
+      icon: "/servicios/branding/branding-y-diseno_sub4-MANUAL-DE-MARCA.webp",
       ruta: "/servicios/monitoreo-y-reporting/",
     },
   ];
@@ -53,7 +53,7 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/brandingydiseno.png",
+      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
       serviceName: "4",
     },
@@ -81,7 +81,7 @@ export default function Page() {
         title="BRANDING Y DISEÑO"
         subtitle="Diseñamos marcas con próposito y personalidad"
         text="Creamos marcas que hablan, emocionan y conectan. Desde una identidad visual memorable hasta mensajes que resuenan profundamente, hacemos que tu empresa sea tan única como inolvidable."
-        image="/servicios/branding/branding-y-disenio.webp"
+        image="/servicios/branding/branding-y-diseno.webp"
       />
 
       <Description

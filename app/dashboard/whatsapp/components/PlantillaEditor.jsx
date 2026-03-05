@@ -74,13 +74,13 @@ export function PlantillaEditor({
             <>
               <div>
                 <div className="flex items-center justify-between">
-                  <label className="block text-sm font-semibold text-slate-700">
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Mensaje
                   </label>
                   <button
                     type="button"
                     onClick={() => insertPlaceholder('mensaje')}
-                    className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200 active:bg-slate-300"
+                    className="rounded-lg bg-slate-100 dark:bg-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 active:bg-slate-300 dark:active:bg-slate-800"
                   >
                     + Insertar {'{nombre}'}
                   </button>
@@ -90,12 +90,14 @@ export function PlantillaEditor({
                   value={formData.mensaje || ''}
                   onChange={(e) => handleInputChange('mensaje', e.target.value)}
                   rows={12}
-                  className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                  className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-3 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                   placeholder="Escribe el mensaje aquí... Usa {nombre} para personalizar. Puedes usar *negrita* y _cursiva_."
                 />
                 <div className="mt-2 flex items-start justify-between gap-3">
-                  <p className="text-xs text-slate-500">
-                    <strong className="text-slate-700">Importante:</strong>{' '}
+                  <p className="text-xs text-slate-500 dark:text-slate-100">
+                    <strong className="text-slate-700 dark:text-slate-300">
+                      Importante:
+                    </strong>{' '}
                     <code className="rounded bg-cyan-50 border border-cyan-200 px-1.5 py-0.5 font-semibold text-cyan-700">
                       {'{nombre}'}
                     </code>{' '}
@@ -124,7 +126,7 @@ export function PlantillaEditor({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Imagen
                 </label>
 
@@ -178,20 +180,20 @@ export function PlantillaEditor({
           {tipo === 'email' && (
             <>
               <div>
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Asunto del correo
                 </label>
                 <input
                   type="text"
                   value={formData.asunto || ''}
                   onChange={(e) => handleInputChange('asunto', e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                  className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                   placeholder="Asunto del email"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Encabezado
                 </label>
                 <input
@@ -200,20 +202,20 @@ export function PlantillaEditor({
                   onChange={(e) =>
                     handleInputChange('encabezado', e.target.value)
                   }
-                  className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                  className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                   placeholder="Título principal del correo"
                 />
               </div>
 
               <div>
                 <div className="flex items-center justify-between">
-                  <label className="block text-sm font-semibold text-slate-700">
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Mensaje
                   </label>
                   <button
                     type="button"
                     onClick={() => insertPlaceholder('mensaje')}
-                    className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200 active:bg-slate-300"
+                    className="rounded-lg bg-slate-100 dark:bg-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 active:bg-slate-300 dark:active:bg-slate-800"
                   >
                     + Insertar {'{nombre}'}
                   </button>
@@ -223,8 +225,10 @@ export function PlantillaEditor({
                   onChange={(value) => handleInputChange('mensaje', value)}
                 />
                 <div className="mt-2 flex items-start justify-between gap-3">
-                  <p className="text-xs text-slate-500">
-                    <strong className="text-slate-700">Importante:</strong>{' '}
+                  <p className="text-xs text-slate-500 dark:text-slate-100">
+                    <strong className="text-slate-700 dark:text-slate-300">
+                      Importante:
+                    </strong>{' '}
                     <code className="rounded bg-cyan-50 border border-cyan-200 px-1.5 py-0.5 font-semibold text-cyan-700">
                       {'{nombre}'}
                     </code>{' '}
@@ -253,14 +257,15 @@ export function PlantillaEditor({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Imagen
                 </label>
                 <div className="mt-2 grid gap-4 sm:grid-cols-2">
-                  <div
+                  <label
+                    htmlFor="imageUpload"
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
-                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30"
+                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30 cursor-pointer transition active:scale-[0.99]"
                   >
                     <UploadIcon />
                     <p className="mt-2 text-sm font-semibold text-slate-700">
@@ -269,13 +274,16 @@ export function PlantillaEditor({
                     <p className="text-xs text-slate-500">
                       o haz clic para buscar
                     </p>
+
+                    {/* INPUT OCULTO */}
                     <input
+                      id="imageUpload"
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
                       onChange={(e) => handleImageChange(e.target.files[0])}
-                      className="mt-3 text-xs"
+                      className="hidden"
                     />
-                  </div>
+                  </label>
 
                   {imagePreview && (
                     <div className="relative overflow-hidden rounded-lg border border-slate-200">
@@ -296,7 +304,7 @@ export function PlantillaEditor({
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700">
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Texto del botón
                   </label>
                   <input
@@ -305,13 +313,13 @@ export function PlantillaEditor({
                     onChange={(e) =>
                       handleInputChange('mensaje_boton', e.target.value)
                     }
-                    className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                    className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                     placeholder="Ej: Ver más información"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700">
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     URL del botón
                   </label>
                   <input
@@ -320,14 +328,14 @@ export function PlantillaEditor({
                     onChange={(e) =>
                       handleInputChange('url_boton', e.target.value)
                     }
-                    className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                    className="mt-2 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                     placeholder="https://..."
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Footer
                 </label>
                 <RichTextEditor
@@ -337,12 +345,12 @@ export function PlantillaEditor({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Redes Sociales
                 </label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="block text-xs text-slate-600 mb-1">
+                    <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
                       Facebook
                     </label>
                     <input
@@ -351,13 +359,13 @@ export function PlantillaEditor({
                       onChange={(e) =>
                         handleInputChange('red_facebook', e.target.value)
                       }
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                       placeholder="https://facebook.com/..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs text-slate-600 mb-1">
+                    <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
                       Instagram
                     </label>
                     <input
@@ -366,13 +374,13 @@ export function PlantillaEditor({
                       onChange={(e) =>
                         handleInputChange('red_instagram', e.target.value)
                       }
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                       placeholder="https://instagram.com/..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs text-slate-600 mb-1">
+                    <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
                       LinkedIn
                     </label>
                     <input
@@ -381,13 +389,13 @@ export function PlantillaEditor({
                       onChange={(e) =>
                         handleInputChange('red_linkedin', e.target.value)
                       }
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                       placeholder="https://linkedin.com/..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs text-slate-600 mb-1">
+                    <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
                       TikTok
                     </label>
                     <input
@@ -396,7 +404,7 @@ export function PlantillaEditor({
                       onChange={(e) =>
                         handleInputChange('red_tiktok', e.target.value)
                       }
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
+                      className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20"
                       placeholder="https://tiktok.com/@..."
                     />
                   </div>
