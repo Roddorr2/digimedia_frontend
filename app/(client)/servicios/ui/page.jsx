@@ -99,7 +99,8 @@ function UXUIComponent() {
   const modales = {
     modalA: {
       text: currentTexts.modalAText,
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      fondo:
+        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: currentTexts.serviceName,
     },
@@ -151,6 +152,7 @@ function UXUIComponent() {
         heroTitle={currentTexts.heroTitle}
         alt={currentTexts.uxUiSectionAlt}
         title={currentTexts.uxUiSectionTitle}
+        category="Gestión de redes Sociales"
       />
       <Contactanos
         text={currentTexts.contactanosText}
