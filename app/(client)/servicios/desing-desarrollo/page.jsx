@@ -26,7 +26,7 @@ export default function Page() {
       ),
       text: "Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
       icon: "/servicios/desarrollo/diseno-y-desarrollo_sub2-EXPERIENCIA-DE-USUARIO-Y-DISENO.webp",
-      ruta: "/servicios/ui/?from=disenoDesarrollo",
+      ruta: "/servicios/experiencia-usuario/",
     },
     {
       title: (
