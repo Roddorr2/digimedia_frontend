@@ -1,18 +1,18 @@
-'use client';
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+"use client";
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function ProduccionPautas() {
   const modales = {
     modalA: {
-      text: 'BRANDING Y DISEÑO',
-      fondo: '/servicios/branding/modal-scroll/fondo.webp',
-      title: 'TU PRIMERA CONSULTA ¡ES GRATIS!',
-      serviceName: '4',
+      text: "BRANDING Y DISEÑO",
+      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
+      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      serviceName: "4",
     },
   };
 
@@ -20,30 +20,16 @@ export default function ProduccionPautas() {
     {
       icon: (
         <Image
-          src="/servicios/branding_diseno/monitoreo_reporting/icons/monitoreo blanco.png"
-          alt="Icono de una computadora y una lupa con un ojo"
+          src="/servicios/branding_diseno/monitoreo_reporting/icons/manual-de-marca_card1-MANUAL-DE-IDENTIDAD-DE-MARCA.webp"
+          alt="Icono de diagrama de arquitectura y diseño de sistemas"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: 'MONITOREO',
+      title: "MANUAL DE IDENTIDAD DE MARCA",
       description:
-        'Monitoreamos de forma constante los indicadores clave (KPIs) y los datos relevantes para brindarle una visión clara, estratégica y en tiempo real del desempeño.',
-    },
-    {
-      icon: (
-        <Image
-          src="/servicios/branding_diseno/monitoreo_reporting/icons/reporting blanco.png"
-          alt="Icono de un gráfico del rendimiento"
-          className="w-full h-full object-contain"
-          width={48}
-          height={48}
-        />
-      ),
-      title: 'REPORTING',
-      description:
-        'Presentamos la información mediante informes y paneles de control, transformando los datos en insights accionables para apoyar su toma de decisiones.',
+        "Un manual de identidad garantiza coherencia y uniformidad en todas las aplicaciones de tu marca. Evita errores visuales y refuerza una imagen profesional en cada punto de contacto.",
     },
   ];
 
@@ -58,9 +44,9 @@ export default function ProduccionPautas() {
       />
       <UxUiSection
         features={features}
-        mainDescription="Implementamos procesos interrelacionados de recolección, análisis y presentación de datos clave. Esto permite evaluar el rendimiento de sus proyectos y estrategias, facilitando la toma de decisiones informadas para optimizar la gestión y asegurar la mejora continua."
-        backgroundImage="/servicios/monitoreo_reporting/monitoreo_reporting_principal.webp"
-        heroTitle="MONITOREO Y REPORTING"
+        mainDescription="Desarrollamos manuales de identidad de marca que definen los lineamientos visuales y normas necesarias para garantizar coherencia y consistencia en la comunicación de tu empresa."
+        backgroundImage="/servicios/monitoreo_reporting/manual-de-marca.webp"
+        heroTitle="MANUAL DE MARCA"
         // heroBulletPoints={[
         //   "PERMITE TOMAR DECISIONES INFORMADAS, IMPLEMENTAR MEDIDAS CORRECTIVAS Y OPTIMIZAR LA GESTIÓN DEL PROYECTO.",
         //   "FACILITA LA TOMA DE DECISIONES, LA COMUNICACIÓN DE LOS RESULTADOS Y LA MEJORA CONTINUA DEL PROCESO.",

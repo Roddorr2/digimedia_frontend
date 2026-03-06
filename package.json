@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:staging": "env-cmd -f .env.produ next build",
+    "export:staging": "next export"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.12",
@@ -31,8 +33,9 @@
     "@radix-ui/react-toast": "^1.2.7",
     "@radix-ui/react-tooltip": "^1.2.0",
     "@tiptap/extension-image": "^2.11.6",
-    "@tiptap/react": "^2.11.6",
-    "@tiptap/starter-kit": "^2.11.6",
+    "@tiptap/extension-link": "^2.27.2",
+    "@tiptap/react": "^2.27.2",
+    "@tiptap/starter-kit": "^2.27.2",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.6.0",
@@ -58,9 +61,11 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "autoprefixer": "^10.4.20",
+    "env-cmd": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "sharp": "^0.32.4"
   }
 }

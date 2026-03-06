@@ -1,17 +1,17 @@
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/fondo.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
     },
   };
 
@@ -19,30 +19,31 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/dominio_hosting/dominio blanco.png"
+          src="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO_card1-SEO ON-PAGE.webp"
           alt="Icono de busqueda en la web y una lupa"
           className="w-full h-full stroke-1"
           width={100}
           height={100}
         />
       ),
-      title: 'DOMINIO',
+      title: "SEO ON-PAGE",
       description:
-        "Es tu dirección exclusiva en internet. No es solo un nombre; es tu activo digital más valioso.",
+        "Analizamos y optimizamos la estructura web para asegurar su correcta indexación, mejorando la velocidad de carga, la jerarquía de contenidos y el posicionamiento en buscadores.",
     },
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/dominio_hosting/hosting blanco.png"
+          src="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO_card2-SEO OFF-PAGE.webp"
           alt="Icono de un servidor en la nube"
           className="w-full h-full stroke-1"
           width={100}
           height={100}
         />
       ),
-      title: 'HOSTING',
+      title: "SEO OFF-PAGE",
       description:
-        "Es el motor invisible que mantiene tu web online 24/7. Olvídate de caídas o webs lentas.",},
+        "Desarrollamos enlaces de calidad para aumentar la autoridad del dominio y reforzar la relevancia de su marca en su sector.",
+    },
   ];
 
   return (
@@ -56,14 +57,17 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription=" El hosting es la infraestructura esencial que permite que tu sitio web exista. Te aseguramos un Hosting de Alta Velocidad y el registro seguro de tu Nombre de Dominio para proteger tu marca de imitadores."
-        backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/dominio_hosting_principal.webp"
-        heroTitle=<>DOMINIO Y<br /> HOSTING</>
+        mainDescription="Mejoramos la visibilidad de tu sitio web en los motores de búsqueda mediante una optimización técnica y estratégica. Trabajamos palabras clave, estructura, velocidad y contenido para atraer tráfico cualificado y aumentar tus conversiones de forma orgánica."
+        backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO-para-buscadores.webp"
+        heroTitle=<>
+          OPTIMIZACIÓN SEO
+          <br /> PARA BUSCADORES
+        </>
         alt="Dominio web, hosting profesional, hosting optimizado, alojamiento web, servidor seguro, mantenimiento web, seguridad web"
         title="Diseño y desarrollo web, Dominio y Hosting, Digimedia.webp"
-        // heroBulletPoints={[
-        //   "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET.",
-        // ]}
+      // heroBulletPoints={[
+      //   "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET.",
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

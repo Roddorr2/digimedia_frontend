@@ -67,6 +67,7 @@ export default function Header2() {
               className="my-auto"
               decoding="async"
               priority={true}
+              sizes="(max-width: 768px) 120px, 200px"
             />
           </Link>
         </div>
@@ -298,9 +299,8 @@ export default function Header2() {
                     </ul>
                   )}
                 </>
-              ) : (
-                null //Boton antiguo
-              )}
+              ) : null //Boton antiguo
+              }
             </li>
           </ul>
         </div>

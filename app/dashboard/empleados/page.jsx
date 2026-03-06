@@ -4,8 +4,7 @@ import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Swal from "sweetalert2"
-import { PlusCircle, Users, Search, RefreshCw, Filter } from "lucide-react"
-
+import { PlusCircle, Users, Search, RefreshCw, Filter, Eye, Pencil, Trash2, User, ShieldAlert } from "lucide-react"
 import Pagination from "../components/Pagination"
 import Table from "../components/DataTable"
 import ModalEmpleado from "./components/modal_empleado"
@@ -33,6 +32,8 @@ export default function Page() {
   const [roles, setRoles] = useState([])
   const [selectedRole, setSelectedRole] = useState("all")
   const router = useRouter()
+  //New Declaration
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   const handleShow = async (id) => {
     try {
@@ -168,12 +169,31 @@ export default function Page() {
   }
 
   function onUpdate(idUpdate) {
-    const selectedData = data.find((r) => r.id == idUpdate)
+    const selectedData = data.find((r) => r.id_empleado == idUpdate)
+    // New declarations
+    const empleadoAutenticado = auth_service.getCurrentEmpleado();
+    const empleadoAutenticadoId = empleadoAutenticado?.id_empleado;
+    
+    /* OLD CONDITIONAL
+    if(!selectedData) {
+      console.error("No se encontró el empleado con el ID: " + idUpdate);
+      return;
+    }*/
+
+    if(selectedData && selectedData.id_user !== empleadoAutenticadoId){
+      //alert("Solo puedes editar los datos de tu propia cuenta.")
+      setShowPrivacyModal(true);
+      return;
+    }
+
+    if(!selectedData)
+      return;
 
     const preparedData = {
       ...selectedData,
       id_empleado: selectedData.id || selectedData.id_empleado,
       id_rol: selectedData.rol?.id_rol ? String(selectedData.rol.id_rol) : "",
+      
     }
 
     console.log("Datos preparados para el modal:", preparedData)
@@ -197,7 +217,7 @@ export default function Page() {
   
   const handleUpdateSuccess = (updatedData) => {
     setData((prevData) =>
-      prevData.map((item) => (item.id === updatedData.id_empleado ? { ...item, ...updatedData } : item)),
+      prevData.map((item) => (item.id_empleado === updatedData.id_empleado ? { ...item, ...updatedData } : item)),
     )
   }
 
@@ -385,6 +405,35 @@ export default function Page() {
         }}
         onUpdateSuccess={handleUpdateSuccess}
       />
+
+      {/* NUEVO POP-UP DE PRIVACIDAD */}
+      {showPrivacyModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <Card className="w-full max-w-md p-6 shadow-2xl border-t-4 border-t-amber-500 bg-white dark:bg-gray-900">
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-4 rounded-full bg-amber-100 dark:bg-amber-900/30 p-3">
+                {/* Usamos el icono de Alerta o Escudo de Lucide */}
+                <ShieldAlert className="h-8 w-8 text-amber-600" />
+              </div>
+              <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
+                Privacidad de Datos
+              </CardTitle>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                Incluso con permisos de <strong>Administrador</strong>, las políticas de seguridad impiden modificar datos personales de otros empleados.
+              </p>
+              <p className="mt-2 text-xs text-gray-500 italic">
+                Cada usuario es responsable de actualizar su propia información desde su cuenta.
+              </p>
+              <Button 
+                className="mt-6 w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold transition-all"
+                onClick={() => setShowPrivacyModal(false)}
+              >
+                Entendido
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }

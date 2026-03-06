@@ -8,24 +8,35 @@ export default function Pregunta({ question, answer }) {
 
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+      className={[
+        "rounded-xl overflow-hidden transition-all duration-300",
+        isOpen
+          ? "bg-[#f5a000] shadow-md"
+          : "bg-white shadow-sm hover:shadow-md",
+      ].join(" ")}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <div
-        className="p-6 cursor-pointer flex justify-between items-start"
+      <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left p-6 flex justify-between items-start"
       >
-        {/* Pregunta como h3 */}
-        <h3 className="font-medium text-lg sm:text-xl text-slate-800 pr-8">
+        <h3
+          className={[
+            "font-medium text-lg sm:text-xl pr-8 transition-colors",
+            isOpen ? "text-white" : "text-slate-800",
+          ].join(" ")}
+        >
           {question}
         </h3>
 
         <div
-          className={`text-[#b525fe] transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={[
+            "transition-transform duration-300",
+            isOpen ? "rotate-180 text-white" : "text-[#b525fe]",
+          ].join(" ")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +52,7 @@ export default function Pregunta({ question, answer }) {
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
-      </div>
+      </button>
 
       <AnimatePresence>
         {isOpen && (
@@ -51,7 +62,14 @@ export default function Pregunta({ question, answer }) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="px-6 pb-6 text-slate-600 border-t border-[#b525fe]/20 pt-4">
+            <div
+              className={[
+                "px-6 pb-6 pt-4",
+                isOpen
+                  ? "text-white/95 border-t border-white/30"
+                  : "text-slate-600 border-t border-[#b525fe]/20",
+              ].join(" ")}
+            >
               <p>{answer}</p>
             </div>
           </motion.div>

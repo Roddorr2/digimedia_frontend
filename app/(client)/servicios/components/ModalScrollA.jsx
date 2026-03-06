@@ -140,7 +140,7 @@ export default function ModalScrollA({ data, time }) {
           <Image className="w-full object-cover" src={fondo} alt={title} width={width || 200} height={height || 100} />
           <Image
             className="absolute top-4 left-4"
-            src="/servicios/logo-modal.webp"
+            src="/servicios/logo-digimedia-agencia-marketing-digital-peru.webp"
             alt="Logo de digimedia marketing de color rosado y azul"
             width={60}
             height={40}
@@ -150,7 +150,7 @@ export default function ModalScrollA({ data, time }) {
           </p>
         </div>
 
-        <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#0095ff] to-[#ff037f]">
+        <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#8B3FD9] via-[#A855D9] to-[#FF6B35]">
           <p className="text-3xl text-center font-bold">{title}</p>
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <Input label="Nombre" type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
@@ -158,7 +158,7 @@ export default function ModalScrollA({ data, time }) {
             <Input label="Correo" type="text" name="correo" value={formData.correo} onChange={handleChange} required />
             <input type="hidden" name="id_servicio" value={formData.id_servicio} readOnly />
 
-            <button disabled={loading} className="bg-[#0095ff] p-2 text-2xl font-bold rounded-2xl mt-4" type="submit">
+            <button disabled={loading} className="bg-[#7C3FD9] p-2 text-2xl font-bold rounded-2xl mt-4" type="submit">
               {loading ? <Loader2 className="animate-spin h-4 w-4 mx-auto" /> : "HAZLO YA"}
             </button>
           </form>

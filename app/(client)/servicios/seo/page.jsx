@@ -1,16 +1,16 @@
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/fondo.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
     },
   };
 
@@ -18,26 +18,30 @@ export default function UXUI() {
     {
       icon: (
         <img
-          src="/servicios/diseno_desarrollo_web/seo/seo_on blanco.png"
+          src="/servicios/diseno_desarrollo_web/seo/desarrollo-web_card-1-DISENO-RESPONSIVE.webp"
           alt="Lupa del seo "
           className="w-full h-full stroke-1"
         />
       ),
-      title: 'SEO ON-PAGE',
+      title: "DISEÑO RESPONSIVE",
       description:
-        "Analizamos y optimizamos la estructura web para asegurar su correcta indexación, mejorando la velocidad de carga, la jerarquía de contenidos y el posicionamiento en buscadores.",
+        "Adaptamos tu sitio a todos los dispositivos para garantizar una experiencia fluida y profesional.",
     },
     {
       icon: (
         <img
-          src="/servicios/diseno_desarrollo_web/seo/seo_off blanco.png"
+          src="/servicios/diseno_desarrollo_web/seo/desarrollo-web_card 2-INTEGRACIONES DIGITALES.webp"
           alt="Lupa del seo buscando en la red"
           className="w-full h-full stroke-1"
         />
       ),
-      title: 'SEO OFF-PAGE',
+      title: (
+        <>
+          INTEGRACIONES <br /> DIGITALES
+        </>
+      ),
       description:
-        "Desarrollamos enlaces de calidad para aumentar la autoridad del dominio y reforzar la relevancia de su marca en su sector.",
+        "Conectamos tu web con herramientas como WhatsApp, redes sociales y formularios para facilitar la conversión.",
     },
   ];
 
@@ -52,16 +56,16 @@ export default function UXUI() {
       />
       <UxUiSection
         features={featuresuxui}
-        mainDescription='La visibilidad en buscadores es un activo crítico para la captación de tráfico cualificado. En DigiMedia, implementamos metodologías de posicionamiento basadas en datos y análisis técnico. Nuestro objetivo es alinear su infraestructura digital con los estándares de calidad de Google para asegurar un crecimiento sostenible en los resultados de búsqueda, sin depender exclusivamente de la inversión publicitaria.'
-        backgroundImage='/servicios/diseno_desarrollo_web/seo/seo_principal.webp'
-        heroTitle="SEO  "
+        mainDescription="Creamos sitios web adaptables a todos los dispositivos e integramos herramientas digitales clave, pasarelas de pago, automatizaciones y analítica para optimizar la experiencia del usuario y potenciar la conversión."
+        backgroundImage="/servicios/diseno_desarrollo_web/seo/desarrollo-web-e-integraciones.webp"
+        heroTitle="DESARROLLO RESPONSIVE E INTEGRACIONES DIGITALES"
         alt="Posicionamiento web,  SEO on page, SEO off page, auditoría SEO, optimización web, herramienta SEO"
         title="Diseño y desarrollo web, SEO, Digimedia.webp"
-        // heroBulletPoints={[
-        //   "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
-        //   "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
-        //   "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
-        // ]}
+      // heroBulletPoints={[
+      //   "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
+      //   "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
+      //   "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
+      // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

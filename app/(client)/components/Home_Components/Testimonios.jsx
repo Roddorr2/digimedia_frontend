@@ -19,11 +19,12 @@ export default function Testimonios() {
             "
           >
             <Image
-              src="/image-home/opiniones.jpg"
+              src="/optimized_images/image-home/opiniones.avif"
               alt="Personas conversando"
               fill
               className="object-cover object-center -scale-x-100"
               priority
+              sizes="(max-width: 768px) 100vw, 55vw"
             />
           </div>
         </div>

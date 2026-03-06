@@ -1,6 +1,6 @@
-import { HeroSection } from './hero-section';
-import { FeaturesSection } from './features-section';
-import { MonitorIcon, Smartphone } from 'lucide-react';
+import { HeroSection } from "./hero-section";
+import { FeaturesSection } from "./features-section";
+import { MonitorIcon, Smartphone } from "lucide-react";
 
 export function UxUiSection({
   // backgroundImage = "/servicios/DiseñoUI/background_ui.svg",
@@ -27,6 +27,7 @@ export function UxUiSection({
   //   },
   // ],
   backgroundImage,
+  imageClassName,
   heroTitle,
   mainDescription,
   heroBulletPoints,
@@ -42,6 +43,7 @@ export function UxUiSection({
         description={mainDescription}
         bulletPoints={heroBulletPoints}
         imageUrl={backgroundImage}
+        imageClassName={imageClassName}
         imageAlt={alt}
       />
 

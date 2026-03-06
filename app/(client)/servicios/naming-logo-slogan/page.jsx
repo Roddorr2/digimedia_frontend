@@ -1,16 +1,16 @@
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import ModalButton from '../components/ModalButton';
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import ModalButton from "../components/ModalButton";
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'MARKETING Y GESTIÓN DIGITAL',
-      fondo: '/servicios/marketing/modal-scroll/fondo.webp',
-      title: 'HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!',
-      serviceName: '3',
+      text: "MARKETING Y GESTIÓN DIGITAL",
+      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      serviceName: "3",
     },
   };
 
@@ -18,46 +18,31 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/naming blanco.png"
-          alt="Icono de una tarjeta y firma con lápiz"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-de-campanias_card1-gestion-de-campanias.webp"
+          alt="Icono de una anuncio marketing"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: 'NAMING',
+      title: "GESTIÓN DE CAMPAÑAS",
       description:
-        'Creamos y seleccionar el nombre de una marca, producto o servicio.',
+        "Creamos y administramos campañas digitales desde su planificación hasta su ejecución, definiendo objetivos claros, segmentación precisa y estrategias alineadas con tu público objetivo.",
     },
 
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/logo blanco.png"
-          alt="Icono de un logotipo"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-de-campanas_card2-optimizacion-continua.webp"
+          alt="Icono de gestión campaña"
           className="w-full h-full object-contain"
           width={48}
           height={48}
         />
       ),
-      title: 'LOGO',
+      title: "OPTIMIZACIÓN CONTINUA",
       description:
-        'Diseñamos tu símbolo grafico que identifica visualmente a tu marca o producto.',
-    },
-
-    {
-      icon: (
-        <Image
-          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/slogan blanco.png"
-          alt="Icono de un cartel"
-          className="w-full h-full object-contain"
-          width={48}
-          height={48}
-        />
-      ),
-      title: 'SLOGAN',
-      description:
-        'Diseñamos una frase breve y memorable que comunica la esencia o el beneficio clave de tu marca.',
+        "Supervisamos el rendimiento en tiempo real y realizamos ajustes estratégicos en presupuesto, anuncios y segmentación para mejorar resultados y reducir costos por conversión.",
     },
   ];
 
@@ -73,10 +58,11 @@ export default function UXUI() {
 
       <UxUiSection
         features={featuresuxui}
-        mainDescription="Desarrollamos los pilares fundamentales de su identidad de marca: naming, logo y slogan. Cada elemento se diseña estratégicamente para construir una percepción sólida, asegurar el reconocimiento de su empresa y diferenciar su producto o servicio en el mercado."
-        backgroundImage="/servicios/DisenoUI/branding4.webp"
+        mainDescription="Desarrollamos campañas digitales orientadas a resultados, combinando análisis de datos, segmentación estratégica y optimización continua. Nuestro enfoque permite mejorar el desempeño de la inversión publicitaria, alcanzar a la audiencia correcta y potenciar el crecimiento de la marca de manera sostenible."
+        backgroundImage="/servicios/DisenoUI/campanias-digitales.webp"
         heroTitle=<>
-          NAMING, LOGO Y<br /> SLOGAN
+          CAMPAÑAS
+          <br /> DIGITALES
         </>
         // heroBulletPoints={[]}
         alt="Naming, logo, slogan, piezas gráficas, redes sociales, aplicaciones digitales, señalética, merchandising, lenguaje visual, tono y voz de marca"

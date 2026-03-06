@@ -1,18 +1,18 @@
-'use client';
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+"use client";
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
 
 export default function PlanificacionCronograma() {
   const modales = {
     modalA: {
-      text: 'GESTIÓN DE REDES SOCIALES',
-      fondo: '/servicios/gestion/modal-scroll/fondo.webp',
-      title: 'SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!',
-      serviceName: '2',
+      text: "GESTIÓN DE REDES SOCIALES",
+      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
+      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      serviceName: "2",
     },
   };
 
@@ -20,30 +20,30 @@ export default function PlanificacionCronograma() {
     {
       icon: (
         <Image
-          src="/servicios/gestion/planificacion/icons/first 2 blanco.png"
+          src="/servicios/gestion/planificacion/icons/estrategia-contenido_car1-planificacion.webp"
           alt="Tabla de apuntes"
           className="w-full h-full object-contain"
           width={200}
           height={150}
         />
       ),
-      title: 'PLANIFICACIÓN',
+      title: "PLANIFICACIÓN",
       description:
-        'Definimos pilares y formatos alineados a sus objetivos trimestrales y acordamos los KPIs para medir el impacto de la comunicación.',
+        "Definimos pilares de contenido, formatos, tono de comunicación y objetivos claros. Establecemos KPIs y una estructura estratégica que guía cada publicación.",
     },
     {
       icon: (
         <Image
-          src="/servicios/gestion/planificacion/icons/second blanco.png"
+          src="/servicios/gestion/planificacion/icons/estrategia-contenido_car1-cronograma.webp"
           alt="Calendario"
           className="w-full h-full object-contain"
           width={200}
           height={150}
         />
       ),
-      title: 'CRONOGRAMA',
+      title: "CRONOGRAMA",
       description:
-        'Gestionamos sus publicaciones para mantener una presencia digital continua y coherente en los momentos clave para su audiencia.',
+        "Organizamos el calendario de contenidos para asegurar coherencia, frecuencia y presencia constante en redes sociales, optimizando cada momento clave de interacción.",
     },
   ];
 
@@ -60,10 +60,10 @@ export default function PlanificacionCronograma() {
 
       <UxUiSection
         features={features}
-        mainDescription="Transformamos datos en decisiones rentables. Realizamos diagnósticos precisos del desempeño actual y comparativas de mercado para identificar ineficiencias y capitalizar oportunidades no explotadas por la competencia."
-        backgroundImage="/servicios/gestion/planificacion/planificacion_principal.webp"
+        mainDescription="Transformamos ideas en planes accionables. Diseñamos estrategias de contenido alineadas a los objetivos de marca, identificando oportunidades, definiendo pilares y construyendo una narrativa coherente que conecte con la audiencia correcta."
+        backgroundImage="/servicios/gestion/planificacion/estrategia-de-contenido.webp"
         heroTitle=<>
-          {' '}
+          {" "}
           ESTRATEGIA DE <br /> CONTENIDO
         </>
         alt="Planificación estratégica de contenido con cronogramas visuales para redes sociales y campañas digitales"
