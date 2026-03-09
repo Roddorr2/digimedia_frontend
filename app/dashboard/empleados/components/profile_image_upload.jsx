@@ -1,7 +1,7 @@
 "use client";
 
 import { CldUploadWidget } from "next-cloudinary";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Loader2, Camera } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { getCookie } from "cookies-next";
@@ -10,6 +10,38 @@ import url from "@/api/url";
 
 export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
   const [uploading, setUploading] = useState(false);
+
+  const generateSignature = useCallback(async (callback, paramsToSign) => {
+    try {
+      const response = await fetch(
+        `${url}/api/empleados/${empleadoId}/upload-signature`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+          body: JSON.stringify(paramsToSign),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}`);
+      }
+
+      const data = await response.json();
+      callback(data.signature, paramsToSign.timestamp);
+    } catch (error) {
+      console.error("Error generando firma de subida:", error);
+      setUploading(false);
+      Swal.fire({
+        icon: "error",
+        title: "Error de autorización",
+        text: "No se pudo autorizar la subida. Por favor, inténtelo de nuevo.",
+        confirmButtonColor: "#8c52ff",
+      });
+    }
+  }, [empleadoId]);
 
   const handleUploadSuccess = async (result) => {
     if (!empleadoId) {
@@ -89,12 +121,14 @@ export default function ProfileImageUpload({ empleadoId, onImageUpload }) {
 
   return (
     <CldUploadWidget
-      uploadPreset="nextjs_digimedia_unsigned"
       options={{
+        uploadSignature: generateSignature,
         folder: `empleados/perfiles/${empleadoId}`,
+        publicId: "profile",
+        overwrite: true,
         resourceType: "image",
         clientAllowedFormats: ["jpg", "png", "webp"],
-        maxFileSize: 5 * 1024 * 1024, 
+        maxFileSize: 5 * 1024 * 1024,
         cropping: true,
         croppingAspectRatio: 1,
         croppingDefaultSelectionRatio: 1,
