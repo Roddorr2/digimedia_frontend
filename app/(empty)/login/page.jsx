@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User, Lock, ArrowLeft } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
@@ -8,12 +8,16 @@ import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { Login } from "@mui/icons-material";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [lockoutSeconds, setLockoutSeconds] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
 
@@ -22,19 +26,64 @@ export default function LoginPage() {
     return regex.test(email);
   };
 
+  const formatCountdown = (totalSeconds) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    if (lockoutSeconds <= 0) return;
+
+    const interval = setInterval(() => {
+      setLockoutSeconds((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lockoutSeconds]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(false);
     setErrorMessage("");
 
+    if (lockoutSeconds > 0) {
+      setError(true);
+      setErrorMessage("Cuenta temporalmente bloqueada.");
+      return;
+    }
+
+    if (!captchaToken) {
+      setError(true);
+      setErrorMessage("Por favor, completa la verificación de seguridad.");
+      return;
+    }
+
+    setLoading(true);
+
+    const payload = {
+      ...formData,
+      captcha_token: captchaToken,
+    };
+
     // Llamada a la funcion login del servicio de autenticacion
-    const result = await login(formData);
+    const result = await login(payload);
 
     if (!result.success) {
       setError(true);
-      setErrorMessage(result.error);
+
+      const retryAfter = Number(result.retryAfter ?? 0);
+
+      if (retryAfter > 0) {
+        setLockoutSeconds(retryAfter);
+        setErrorMessage(result.message || "Cuenta temporalmente bloqueada.");
+      } else {
+        setErrorMessage(result.message || result.error);
+        turnstileRef.current?.reset();
+        setCaptchaToken(null);
+      }
     }
+
     setLoading(false);
   };
 
@@ -85,8 +134,10 @@ export default function LoginPage() {
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
               <p className="text-red-700 text-sm">
-                {errorMessage ||
-                  "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
+                {lockoutSeconds > 0
+                  ? `${errorMessage || "Cuenta temporalmente bloqueada."} (${formatCountdown(lockoutSeconds)})`
+                  : errorMessage ||
+                    "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
               </p>
             </div>
           )}
@@ -146,8 +197,17 @@ export default function LoginPage() {
               </Link>
             </div>
 
+            <Turnstile
+              ref={turnstileRef}
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+              onSuccess={(token) => setCaptchaToken(token)}
+              onError={() => setCaptchaToken(null)}
+              onExpire={() => setCaptchaToken(null)}
+              options={{ theme: "light" }}
+            />
+
             <button
-              disabled={loading}
+              disabled={loading || !captchaToken || lockoutSeconds > 0}
               type="submit"
               className="w-full bg-gradient-to-r from-[#90388b] to-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:opacity-50 hover:scale-105 transition-all duration-300 disabled:cursor-not-allowed"
             >
@@ -171,6 +231,8 @@ export default function LoginPage() {
                   </svg>
                   Iniciando sesión...
                 </span>
+              ) : lockoutSeconds > 0 ? (
+                `Reintentar en ${formatCountdown(lockoutSeconds)}`
               ) : (
                 "Iniciar Sesión"
               )}
