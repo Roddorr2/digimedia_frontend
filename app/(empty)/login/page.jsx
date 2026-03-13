@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { User, Lock, ArrowLeft } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
@@ -13,7 +13,6 @@ import { Turnstile } from "@marsidev/react-turnstile";
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [captchaToken, setCaptchaToken] = useState(null);
-  const [lockoutSeconds, setLockoutSeconds] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,32 +25,10 @@ export default function LoginPage() {
     return regex.test(email);
   };
 
-  const formatCountdown = (totalSeconds) => {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${String(seconds).padStart(2, "0")}`;
-  };
-
-  useEffect(() => {
-    if (lockoutSeconds <= 0) return;
-
-    const interval = setInterval(() => {
-      setLockoutSeconds((prev) => (prev <= 1 ? 0 : prev - 1));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [lockoutSeconds]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
     setErrorMessage("");
-
-    if (lockoutSeconds > 0) {
-      setError(true);
-      setErrorMessage("Cuenta temporalmente bloqueada.");
-      return;
-    }
 
     if (!captchaToken) {
       setError(true);
@@ -71,17 +48,9 @@ export default function LoginPage() {
 
     if (!result.success) {
       setError(true);
-
-      const retryAfter = Number(result.retryAfter ?? 0);
-
-      if (retryAfter > 0) {
-        setLockoutSeconds(retryAfter);
-        setErrorMessage(result.message || "Cuenta temporalmente bloqueada.");
-      } else {
-        setErrorMessage(result.message || result.error);
-        turnstileRef.current?.reset();
-        setCaptchaToken(null);
-      }
+      setErrorMessage(result.message || result.error);
+      turnstileRef.current?.reset();
+      setCaptchaToken(null);
     }
 
     setLoading(false);
@@ -134,10 +103,8 @@ export default function LoginPage() {
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
               <p className="text-red-700 text-sm">
-                {lockoutSeconds > 0
-                  ? `${errorMessage || "Cuenta temporalmente bloqueada."} (${formatCountdown(lockoutSeconds)})`
-                  : errorMessage ||
-                    "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
+                {errorMessage ||
+                  "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
               </p>
             </div>
           )}
@@ -207,7 +174,7 @@ export default function LoginPage() {
             />
 
             <button
-              disabled={loading || !captchaToken || lockoutSeconds > 0}
+              disabled={loading || !captchaToken}
               type="submit"
               className="w-full bg-gradient-to-r from-[#90388b] to-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:opacity-50 hover:scale-105 transition-all duration-300 disabled:cursor-not-allowed"
             >
@@ -231,8 +198,6 @@ export default function LoginPage() {
                   </svg>
                   Iniciando sesión...
                 </span>
-              ) : lockoutSeconds > 0 ? (
-                `Reintentar en ${formatCountdown(lockoutSeconds)}`
               ) : (
                 "Iniciar Sesión"
               )}
