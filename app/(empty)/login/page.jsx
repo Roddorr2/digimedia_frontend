@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { User, Lock, ArrowLeft } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
@@ -16,6 +16,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [lockUntil, setLockUntil] = useState(null);
+  const [now, setNow] = useState(Date.now());
   const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
@@ -25,8 +27,39 @@ export default function LoginPage() {
     return regex.test(email);
   };
 
+  const remainingSeconds = lockUntil
+    ? Math.max(0, Math.ceil((lockUntil - now) / 1000))
+    : 0;
+  const isLocked = remainingSeconds > 0;
+
+  const formatRemaining = (seconds) => {
+    const safeSeconds = Math.max(0, Number(seconds) || 0);
+    const minutes = Math.floor(safeSeconds / 60);
+    const remaining = safeSeconds % 60;
+
+    return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    if (!isLocked) return;
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, [isLocked]);
+
+  useEffect(() => {
+    if (lockUntil && !isLocked) {
+      setError(false);
+      setErrorMessage("");
+      setLockUntil(null);
+    }
+  }, [isLocked, lockUntil]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isLocked) {
+      return;
+    }
+
     setError(false);
     setErrorMessage("");
 
@@ -47,8 +80,24 @@ export default function LoginPage() {
     const result = await login(payload);
 
     if (!result.success) {
-      setError(true);
-      setErrorMessage(result.message || result.error);
+      const retryAfter = Number(result.retryAfter);
+
+      if (
+        result.status === 429 &&
+        Number.isFinite(retryAfter) &&
+        retryAfter > 0
+      ) {
+        const unlockAt = Date.now() + retryAfter * 1000;
+        setLockUntil(unlockAt);
+        setNow(Date.now());
+        setError(true);
+        setErrorMessage(result.message || "Cuenta temporalmente bloqueada.");
+      } else {
+        setError(true);
+        setErrorMessage(
+          result.message || result.error || "Usuario o contraseña incorrectos.",
+        );
+      }
       turnstileRef.current?.reset();
       setCaptchaToken(null);
     }
@@ -174,7 +223,7 @@ export default function LoginPage() {
             />
 
             <button
-              disabled={loading || !captchaToken}
+              disabled={loading || !captchaToken || isLocked}
               type="submit"
               className="w-full bg-gradient-to-r from-[#90388b] to-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:opacity-50 hover:scale-105 transition-all duration-300 disabled:cursor-not-allowed"
             >
@@ -198,6 +247,8 @@ export default function LoginPage() {
                   </svg>
                   Iniciando sesión...
                 </span>
+              ) : isLocked ? (
+                `Reintentar en ${formatRemaining(remainingSeconds)}`
               ) : (
                 "Iniciar Sesión"
               )}
