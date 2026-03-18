@@ -16,6 +16,7 @@ const ContactPage = () => (
           CONTÁCTANOS <br /> AHORA
         </>
       }
+      position="center"
     />
     <Information
       subtitle="SOLUCIONAMOS TUS DUDAS"

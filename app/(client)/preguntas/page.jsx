@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Principal from './components/Principal';
 import Pregunta from './components/Pregunta';
 import WhatsAppButton from '../components/WhatsAppButton';
+import { Hero } from '../components/page_components/Hero';
+import { Information } from '../components/page_components/Information';
 
 export default function Page() {
   const data = [
@@ -80,17 +82,34 @@ export default function Page() {
   return (
     <>
       <div className="bg-gradient-to-b from-slate-50 to-white min-h-screen">
-        <Principal />
+        <Hero
+          backgroundImage="/faq/preguntas-frecuentes.jpg"
+          title="PREGUNTAS"
+          position="center 10%"
+        />
+
+        <Information
+          subtitle=""
+          description={
+            <>
+              Encuentra respuestas a las dudas
+              <br /> más comunes sobre <br /> nuestros servicios.
+            </>
+          }
+        />
+
+        {/* <Principal /> */}
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex overflow-x-auto py-4 scrollbar-hide gap-3 px-4 lg:justify-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 py-4">
             {categories.map((category, index) => (
               <button
                 key={index}
                 onClick={() => setActiveCategory(index)}
-                className={`px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+                className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg
+                ${
                   activeCategory === index
-                    ? 'bg-[#b525fe] text-white shadow-lg shadow-[#b525fe]/20'
+                    ? 'bg-[#b525fe] text-white shadow-lg shadow-[#b525fe]/30'
                     : 'bg-white text-slate-600 hover:bg-slate-100'
                 }`}
               >
@@ -118,7 +137,7 @@ export default function Page() {
         </section>
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="relative overflow-hidden bg-[#b525fe] rounded-2xl p-8 sm:p-12 shadow-xl text-center">
+          <div className="relative overflow-hidden bg-[#b525fe] rounded-tl-[2rem] rounded-br-[2rem] p-8 sm:p-12 shadow-xl text-center">
             {/* Decorative lines - Left */}
             <div className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block w-[22%] opacity-90">
               <svg
@@ -175,7 +194,7 @@ export default function Page() {
 
               <a
                 href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio."
-                className="inline-flex items-center justify-center bg-[#f5a000] text-white px-10 py-3 rounded-full font-bold tracking-wide
+                className="inline-flex items-center justify-center bg-[#f5a000] text-white px-10 py-3 rounded-xl font-bold tracking-wide
                     hover:bg-[#e69500] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 CONTÁCTANOS AHORA

@@ -17,6 +17,7 @@ const Nosotros = () => {
       <Hero
         backgroundImage="/Img-nosotros/NOSOTROS_1680_1050.avif"
         title="NOSOTROS"
+        position="center"
       />
 
       <Information
