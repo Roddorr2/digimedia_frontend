@@ -12,7 +12,7 @@ export const useAuth = () => useContext(AuthContext);
 // Proveedor del contexto
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -34,11 +34,14 @@ export const AuthProvider = ({ children }) => {
           setIsAuthenticated(true);
           setUser({
             ...res.user,
-            permisos: res.permisos || []
+            permisos: res.permisos || [],
           });
 
           // Guardar en cookies por si se recarga
-          setCookie("permisos", JSON.stringify(res.permisos || []), { maxAge: 300 * 60, path: "/" });
+          setCookie("permisos", JSON.stringify(res.permisos || []), {
+            maxAge: 300 * 60,
+            path: "/",
+          });
           setCookie("rol", res.rol, { maxAge: 300 * 60, path: "/" });
 
           // Redirigir si está en login
@@ -65,30 +68,48 @@ export const AuthProvider = ({ children }) => {
     try {
       const data = await auth_service.login(formData);
 
-      if (data.error) throw new Error(data.message);
+      if (data?.success === false) {
+        return {
+          success: false,
+          status: data.status ?? null,
+          message: data.message || "Usuario o contraseña incorrectas. ",
+          retryAfter: Number.isFinite(data.retryAfter) ? data.retryAfter : null,
+        };
+      }
 
       setCookie("token", data.token, { maxAge: 300 * 60, path: "/" });
 
       const userData = await auth_service.me();
-      if (userData.error) throw new Error("Error al obtener información del usuario");
+      if (userData.error)
+        throw new Error("Error al obtener información del usuario");
 
       setUser({
         ...userData.user,
-        permisos: userData.permisos || []
+        permisos: userData.permisos || [],
       });
 
-      setCookie("user", JSON.stringify(userData.user), { maxAge: 300 * 60, path: "/" });
-      setCookie("permisos", JSON.stringify(userData.permisos || []), { maxAge: 300 * 60, path: "/" });
+      setCookie("user", JSON.stringify(userData.user), {
+        maxAge: 300 * 60,
+        path: "/",
+      });
+      setCookie("permisos", JSON.stringify(userData.permisos || []), {
+        maxAge: 300 * 60,
+        path: "/",
+      });
       setCookie("rol", userData.rol, { maxAge: 300 * 60, path: "/" });
 
       setIsAuthenticated(true);
       router.replace("/dashboard/main");
 
-      return { success: true };
+      return { success: true, status: 200, message: "", retryAfter: null };
     } catch (error) {
       return {
         success: false,
-        message: error.message || "Usuario o contraseña incorrectos.",
+        status: error?.status ?? null,
+        message: error?.message || "Usuario o contraseña incorrectos.",
+        retryAfter: Number.isFinite(error?.retryAfter)
+          ? error.retryAfter
+          : null,
       };
     }
   };
@@ -106,33 +127,35 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
- // Normaliza permisos -> elimina tildes, pone minúsculas y cambia espacios por guiones
-const normalize = (str) =>
-  str
-    ?.toString()
-    .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "-");
+  // Normaliza permisos -> elimina tildes, pone minúsculas y cambia espacios por guiones
+  const normalize = (str) =>
+    str
+      ?.toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "-");
 
-// Función para verificar permisos
-const hasPermission = (permiso) => {
-  const rol = user?.rol || getCookie("rol");
+  // Función para verificar permisos
+  const hasPermission = (permiso) => {
+    const rol = user?.rol || getCookie("rol");
 
-  if (rol === "administrador") return true;
+    if (rol === "administrador") return true;
 
-  const permisos = user?.permisos || JSON.parse(getCookie("permisos") || "[]");
+    const permisos =
+      user?.permisos || JSON.parse(getCookie("permisos") || "[]");
 
-  if (!Array.isArray(permisos)) return false;
+    if (!Array.isArray(permisos)) return false;
 
-  const normalizados = permisos.map(p => normalize(p));
+    const normalizados = permisos.map((p) => normalize(p));
 
-  return normalizados.includes(normalize(permiso));
-};
-
-
+    return normalizados.includes(normalize(permiso));
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, hasPermission }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout, hasPermission }}
+    >
       {children}
     </AuthContext.Provider>
   );
