@@ -1,4 +1,4 @@
-export const Hero = ({ backgroundImage, title }) => {
+export const Hero = ({ backgroundImage, title, position = 'center' }) => {
   return (
     <>
       <section
@@ -6,23 +6,36 @@ export const Hero = ({ backgroundImage, title }) => {
           relative 
           h-[300px]            
           md:h-[400px]         
-          lg:h-[458px]         
+          lg:h-[700px]         
           flex items-end justify-center
         "
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: position,
         }}
       >
+        {/* Contenedor morado */}
         <div
           className="
             bg-[#B326FF] 
             rounded-t-[2rem]
             md:rounded-t-[4rem]
-            px-6 py-6           
-            md:px-16 md:py-8    
-            lg:px-32 lg:py-10   
+
+            px-6
+            md:px-16
+            lg:px-32
+
+            min-h-[120px]       
+            md:min-h-[150px]    
+            lg:min-h-[180px]    
+
+            w-full
+            max-w-[80%]
+            md:max-w-[80%]
+            lg:max-w-[40%]
+
+            flex items-center justify-center
           "
         >
           <h1
@@ -40,6 +53,7 @@ export const Hero = ({ backgroundImage, title }) => {
           </h1>
         </div>
 
+        {/* decorativo */}
         <div
           className="
             absolute 
