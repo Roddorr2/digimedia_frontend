@@ -31,10 +31,10 @@ export function PlantillaEditor({
             >
               <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <p className="mt-4 text-lg font-semibold text-slate-700">
+            <p className="mt-4 text-lg font-semibold text-slate-700 dark:text-slate-200">
               Selecciona una plantilla
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               Elige una plantilla de la lista para editarla
             </p>
           </div>
@@ -51,7 +51,7 @@ export function PlantillaEditor({
             <CardTitle>
               {getNombreServicio(selectedPlantilla.id_servicio)}
             </CardTitle>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               {getTiempoEnvio(selectedPlantilla.numero_plantilla)} · ID:{' '}
               {selectedPlantilla.id}
             </p>
@@ -136,13 +136,13 @@ export function PlantillaEditor({
                     htmlFor="imageUpload"
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
-                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30 cursor-pointer transition active:scale-[0.99]"
+                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30 cursor-pointer transition active:scale-[0.99] dark:border-slate-600 dark:bg-slate-800 dark:hover:border-cyan-400 dark:hover:bg-cyan-900/30"
                   >
                     <UploadIcon />
-                    <p className="mt-2 text-sm font-semibold text-slate-700">
+                    <p className="mt-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
                       Arrastra una imagen
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       o haz clic para buscar
                     </p>
 
@@ -158,7 +158,7 @@ export function PlantillaEditor({
 
                   {/* PREVIEW */}
                   {imagePreview && (
-                    <div className="relative overflow-hidden rounded-lg border border-slate-200">
+                    <div className="relative overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
                       <img
                         src={imagePreview}
                         alt="Preview"
@@ -265,13 +265,13 @@ export function PlantillaEditor({
                     htmlFor="imageUpload"
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
-                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30 cursor-pointer transition active:scale-[0.99]"
+                    className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-6 hover:border-cyan-400 hover:bg-cyan-50/30 cursor-pointer transition active:scale-[0.99] dark:border-slate-600 dark:bg-slate-800 dark:hover:border-cyan-400 dark:hover:bg-cyan-900/30"
                   >
                     <UploadIcon />
-                    <p className="mt-2 text-sm font-semibold text-slate-700">
+                    <p className="mt-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
                       Arrastra una imagen
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       o haz clic para buscar
                     </p>
 
@@ -286,7 +286,7 @@ export function PlantillaEditor({
                   </label>
 
                   {imagePreview && (
-                    <div className="relative overflow-hidden rounded-lg border border-slate-200">
+                    <div className="relative overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
                       <img
                         src={imagePreview}
                         alt="Preview"
