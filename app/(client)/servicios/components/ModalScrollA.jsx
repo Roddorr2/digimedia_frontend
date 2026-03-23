@@ -13,7 +13,7 @@ const URL_API = `${url}/api/modales`;
 
 export default function ModalScrollA({ data, time }) {
   const [open, setOpen] = useState(false);
-  const { text, fondo, title, serviceName, width, height } = data;
+  const { text, fondo, title, serviceName, width, height, imageTitle, imageAlt } = data;
 
   const [loading, setLoading] = useState(false);
 
@@ -137,7 +137,7 @@ export default function ModalScrollA({ data, time }) {
         </button>
 
         <div className="hidden md:flex relative md:w-64 overflow-hidden justify-center">
-          <Image className="w-full object-cover" src={fondo} alt={title} width={width || 200} height={height || 100} />
+          <Image className="w-full object-cover" src={fondo} alt={imageAlt || title} title={imageTitle || ''} width={width || 200} height={height || 100} />
           <Image
             className="absolute top-4 left-4"
             src="/servicios/logo-digimedia-agencia-marketing-digital-peru.webp"
