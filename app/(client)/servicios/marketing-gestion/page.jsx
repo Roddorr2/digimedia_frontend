@@ -18,6 +18,8 @@ export default function Page() {
       text: "Evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.",
       icon: "/servicios/marketing/marketing-y-gestion_sub1-ANALISIS-Y-BENCHMARKING.webp",
       ruta: "/servicios/analisis-y-benchmarking/",
+      iconTitle: "Análisis y Benchmarking | Digimedia",
+      iconAlt: "ANÁLISIS Y BENCHMARKING",
     },
     {
       title: (
@@ -30,6 +32,8 @@ export default function Page() {
       text: "Planificamos y optimizamos campañas en plataformas digitales para mejorar el rendimiento, la conversión y el retorno de inversión de tu marca.",
       icon: "/servicios/marketing/marketing-y-gestion_sub2-CAMPANAS-DIGITALES.webp",
       ruta: "/servicios/naming-logo-slogan/",
+      iconTitle: "Campañas Digitales | Digimedia",
+      iconAlt: "CAMPAÑAS DIGITALES",
     },
     {
       title: (
@@ -41,6 +45,8 @@ export default function Page() {
       text: "Aseguramos que tu presencia online sea segura, rápida y eficiente para la disponibilidad de tus clientes.",
       icon: "/servicios/marketing/marketing-y-gestion_sub3-IDENTIDAD-VISUAL-Y-CORPORATIVA.webp",
       ruta: "/servicios/identidad-visual/",
+      iconTitle: "Identidad Visual y Corporativa | Digimedia",
+      iconAlt: "IDENTIDAD VISUAL Y CORPORATIVA",
     },
     {
       title: (
@@ -57,11 +63,13 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      fondo: "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
       serviceName: "3",
       width: 256,
       height: 144,
+      imageTitle: "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
+      imageAlt: "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
     },
   };
   return (
@@ -70,9 +78,11 @@ export default function Page() {
 
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
-        fondo="/servicios/marketing/modal-button/imagen.webp"
+        fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"
         text="MARKETING Y GESTIÓN DIGITAL"
         serviceName="3"
+        imageTitle="Inicio de sesión en plataforma digital | Acceso seguro"
+        imageAlt="Ilustración de usuarios accediendo a una plataforma digital mediante inicio de sesión con usuario y contraseña."
       />
 
       <Main
@@ -80,6 +90,8 @@ export default function Page() {
         subtitle="Conecta, impacta y haz crecer tu marca en el entorno digital"
         text="¡Haz despegar tu marca al éxito digital! Conecta, Impacta y Crece: El poder de despegar tu marca con el Marketing y la Gestión Digital en la era online."
         image="/servicios/marketing/marketing-y-gestion-digital.webp"
+        imageTitle="Marketing y Gestión Digital | Digimedia"
+        imageAlt="Imagen de MARKETING Y GESTIÓN DIGITAL"
       />
 
       <Description

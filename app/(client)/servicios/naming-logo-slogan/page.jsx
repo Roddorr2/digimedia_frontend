@@ -8,9 +8,11 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      fondo: "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
       serviceName: "3",
+      imageTitle: "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
+      imageAlt: "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
     },
   };
 
@@ -51,9 +53,11 @@ export default function UXUI() {
       <ModalScroll data={modales} />
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
-        fondo="/servicios/marketing/modal-button/imagen.webp"
+        fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"
         text="MARKETING Y GESTIÓN DIGITAL"
         serviceName="3"
+        imageTitle="Inicio de sesión en plataforma digital | Acceso seguro"
+        imageAlt="Ilustración de usuarios accediendo a una plataforma digital mediante inicio de sesión con usuario y contraseña."
       />
 
       <UxUiSection
