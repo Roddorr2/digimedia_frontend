@@ -7,8 +7,8 @@ export function PlantillaPreview({
   return (
     <div className="lg:col-span-4 sticky top-6">
       {selectedPlantilla ? (
-        <div className="rounded-xl border border-slate-200 bg-slate-100 p-4 shadow-sm">
-          <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
+        <div className="rounded-xl border border-slate-200 bg-slate-100 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
             Vista Previa Final
           </p>
 
@@ -78,7 +78,7 @@ export function PlantillaPreview({
               </div>
             </div>
           ) : (
-            <div className="mx-auto max-w-[350px] overflow-hidden bg-white shadow-lg">
+            <div className="mx-auto max-w-[350px] overflow-hidden bg-white shadow-lg dark:bg-slate-900">
               {/* Encabezado Púrpura (Igual a tu imagen) */}
               <div className="bg-[#9333ea] p-4 text-center">
                 <h2 className="text-sm font-bold text-white leading-tight">
@@ -87,7 +87,7 @@ export function PlantillaPreview({
               </div>
 
               {/* Imagen */}
-              <div className="bg-white">
+              <div className="bg-white dark:bg-slate-900">
                 {imagePreview ? (
                   <img
                     src={imagePreview}
@@ -95,7 +95,7 @@ export function PlantillaPreview({
                     className="w-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-32 items-center justify-center bg-slate-100 text-[10px] text-slate-400 italic">
+                  <div className="flex h-32 items-center justify-center bg-slate-100 dark:bg-slate-800 text-[10px] text-slate-400 dark:text-slate-500 italic">
                     Sin imagen seleccionada
                   </div>
                 )}
@@ -104,7 +104,7 @@ export function PlantillaPreview({
               {/* Mensaje */}
               <div className="p-6">
                 <div
-                  className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700 whitespace-pre-wrap"
+                  className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap"
                   dangerouslySetInnerHTML={{
                     __html: (formData.mensaje || 'Escribe un mensaje...')
                       .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
@@ -128,7 +128,7 @@ export function PlantillaPreview({
 
                 {/* Footer con Rich Text */}
                 <div
-                  className="mt-6 border-t pt-4 text-[11px] text-slate-500"
+                  className="mt-6 border-t dark:border-slate-700 pt-4 text-[11px] text-slate-500 dark:text-slate-400"
                   dangerouslySetInnerHTML={{
                     __html: (formData.footer || '').replace(
                       /{nombre}/g,
@@ -139,7 +139,7 @@ export function PlantillaPreview({
               </div>
 
               {/* Redes Sociales (Simuladas) */}
-              <div className="bg-slate-50 p-4 text-center">
+              <div className="bg-slate-50 p-4 text-center dark:bg-slate-800/80">
                 <div className="mb-2 flex justify-center gap-3 grayscale opacity-70">
                   {formData.red_facebook && (
                     <div className="h-4 w-4 bg-blue-600 rounded-full" />
@@ -162,7 +162,7 @@ export function PlantillaPreview({
           )}
         </div>
       ) : (
-        <div className="rounded-xl border-2 border-dashed border-slate-200 p-12 text-center text-slate-400 text-sm italic">
+        <div className="rounded-xl border-2 border-dashed border-slate-200 p-12 text-center text-slate-400 text-sm italic dark:border-slate-700 dark:text-slate-500">
           Selecciona una plantilla para ver la previsualización
         </div>
       )}

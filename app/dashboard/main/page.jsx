@@ -23,8 +23,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { CldImage } from "next-cloudinary";
-
 import auth_service from "../users/services/auth.service";
 
 import url from "@/api/url";
@@ -249,18 +247,10 @@ export default function Page() {
                   {empleadoData?.imagen_perfil_url &&
                   empleadoData?.imagen_perfil ? (
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-[#7a45e6] shadow-md">
-                      <CldImage
-                        width={280}
-                        height={280}
-                        src={empleadoData.imagen_perfil}
+                      <img
+                        src={empleadoData.imagen_perfil_url}
                         alt={`${nombre} ${apellido}`}
                         className="w-full h-full object-cover"
-                        priority
-                        crop="fill"
-                        gravity="faces"
-                        quality="auto"
-                        fetchPriority="high"
-                        sizes="(max-width: 768px) 100vw, 280px"
                       />
                     </div>
                   ) : (

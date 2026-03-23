@@ -4,7 +4,7 @@ export function PlantillasTipoSelector({ tipo, setTipo, setSelectedPlantilla }) 
     return (
         <Card>
             <CardTitle>Gestión de Plantillas</CardTitle>
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
                 Edita las plantillas de mensajes automáticos para WhatsApp y correos electrónicos.
             </p>
 
@@ -15,8 +15,8 @@ export function PlantillasTipoSelector({ tipo, setTipo, setSelectedPlantilla }) 
                         setSelectedPlantilla(null);
                     }}
                     className={`flex-1 rounded-xl border-2 px-6 py-4 text-sm font-semibold transition ${tipo === "whatsapp"
-                            ? "border-cyan-500 bg-cyan-50 text-cyan-700"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                            ? "border-cyan-500 bg-cyan-50 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-400"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-600"
                         }`}
                 >
                     <div className="flex items-center justify-center gap-2">
@@ -37,8 +37,8 @@ export function PlantillasTipoSelector({ tipo, setTipo, setSelectedPlantilla }) 
                         setSelectedPlantilla(null);
                     }}
                     className={`flex-1 rounded-xl border-2 px-6 py-4 text-sm font-semibold transition ${tipo === "email"
-                            ? "border-cyan-500 bg-cyan-50 text-cyan-700"
-                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                            ? "border-cyan-500 bg-cyan-50 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-400"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-600"
                         }`}
                 >
                     <div className="flex items-center justify-center gap-2">
