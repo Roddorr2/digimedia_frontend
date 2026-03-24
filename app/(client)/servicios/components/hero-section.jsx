@@ -11,6 +11,7 @@ export function HeroSection({
   bulletPoints = [],
   imageUrl,
   imageAlt = "",
+  imageTitle = "",
   imageClassName = "",
 }) {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,7 @@ export function HeroSection({
             <Image
               src={imageUrl}
               alt={imageAlt}
+              title={imageTitle}
               fill
               className={`object-cover ${imageClassName || ""}`}
             />

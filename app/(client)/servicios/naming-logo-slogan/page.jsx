@@ -8,9 +8,11 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/marketing-y-gestión-digital-digimedia-pop-up.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA GRATIS!",
+      fondo: "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
+      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
       serviceName: "3",
+      imageTitle: "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
+      imageAlt: "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
     },
   };
 
@@ -18,11 +20,13 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-de-campanias_card1-gestion-de-campanias.webp"
-          alt="Icono de una anuncio marketing"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-campanas-publicidad-digital-digimedia.webp"
+          alt="Ícono de megáfono representando gestión de campañas y publicidad digital en redes sociales"
           className="w-full h-full object-contain"
+          title= "Gestión de campañas de publicidad digital | Digimedia Marketing"
           width={48}
           height={48}
+          
         />
       ),
       title: "GESTIÓN DE CAMPAÑAS",
@@ -33,8 +37,9 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-de-campanas_card2-optimizacion-continua.webp"
-          alt="Icono de gestión campaña"
+          src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/planificacion-calendario-campanas-digitales-digimedia.webp"
+          alt="Ícono de calendario con reloj representando planificación y programación de campañas digitales"
+          title= "Planificación y programación de campañas digitales | Digimedia Marketing"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -51,9 +56,11 @@ export default function UXUI() {
       <ModalScroll data={modales} />
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
-        fondo="/servicios/marketing/modal-button/imagen.webp"
+        fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"
         text="MARKETING Y GESTIÓN DIGITAL"
         serviceName="3"
+        imageTitle="Inicio de sesión en plataforma digital | Acceso seguro"
+        imageAlt="Ilustración de usuarios accediendo a una plataforma digital mediante inicio de sesión con usuario y contraseña."
       />
 
       <UxUiSection
@@ -66,13 +73,13 @@ export default function UXUI() {
         </>
         // heroBulletPoints={[]}
         alt="Naming, logo, slogan, piezas gráficas, redes sociales, aplicaciones digitales, señalética, merchandising, lenguaje visual, tono y voz de marca"
-        title="Branding y diseño, Manual de marca, Digimedia.webp"
+        title="Campañas Digitales"
         category="Marketing y gestión digital"
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

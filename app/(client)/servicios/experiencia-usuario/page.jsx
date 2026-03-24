@@ -77,8 +77,8 @@ export default function ExperienciaUsuario() {
       />
       <Contactanos
         text="Crea productos digitales pensando en el usuario. ¡Hablemos de tu proyecto!"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );
