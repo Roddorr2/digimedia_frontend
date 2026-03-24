@@ -23,8 +23,9 @@ export default function UXUI() {
       icon: (
         <Image
           // src="/servicios/marketing_gestion_digital/identidad_visual/icons/identidad-visual_card1-IVC.webp"
-          src="/servicios/marketing_gestion_digital/identidad_visual/icons/Identidad-visual_card1-IVC.webp"
-          alt="Icono de una tarjeta y firma con lápiz"
+          src="/servicios/marketing_gestion_digital/identidad_visual/icons/concepto-creativo-identidad-visual-digimedia.webp"
+          title= "Concepto creativo e identidad visual | Digimedia Marketing"
+          alt=" Ícono de bombilla representando concepto creativo y desarrollo de identidad visual"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -66,8 +67,8 @@ export default function UXUI() {
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

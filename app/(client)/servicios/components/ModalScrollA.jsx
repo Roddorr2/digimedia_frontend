@@ -140,8 +140,9 @@ export default function ModalScrollA({ data, time }) {
           <Image className="w-full object-cover" src={fondo} alt={imageAlt || title} title={imageTitle || ''} width={width || 200} height={height || 100} />
           <Image
             className="absolute top-4 left-4"
-            src="/servicios/logo-digimedia-agencia-marketing-digital-peru.webp"
-            alt="Logo de digimedia marketing de color rosado y azul"
+            src="/servicios/digimedia-logo-modal.webp"
+            alt="Logo en rosado y azul de Digimedia Marketing"
+            title="Digimedia + logo + agencia + marketing digital + rosado + azul"
             width={60}
             height={40}
           />

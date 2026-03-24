@@ -60,8 +60,9 @@ export default function Header2() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/digimedia1.png"
-              alt="Logo de digimedia color blanco con fondo oscuro"
+              src="/headerFooter/digimedia-marketing-logo.webp"
+              alt="Logo en blanco y negro de Digimedia Marketing"
+              title= "Digimedia + logo + agencia + marketing digital + blanco + negro"
               width={200}
               height={85}
               className="my-auto"
@@ -88,8 +89,9 @@ export default function Header2() {
           />
           <label htmlFor="menucheckbox">
             <Image
-              src="/headerFooter/menu.avif"
-              alt="Icono de menu de 3 lineas color blanco y fondo oscuro"
+              src="/headerFooter/menu-digimedia-icono.webp"
+              alt="Ícono del menú de navegación de la página web"
+              title="ícono + menú + navegación + página web + Digimedia"
               width={25}
               height={25}
               priority

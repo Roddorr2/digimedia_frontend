@@ -29,8 +29,9 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-de-metricas_card1-analisis-de-kpis.webp"
-          alt="Icono de un check para kpis"
+          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-kpis-rendimiento-digital-digimedia.webp"
+          title= "Análisis de KPIs y métricas de rendimiento digital | Digimedia Marketing"
+          alt="Ícono de check representando análisis y validación de KPIs en estrategia de marketing digital"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -45,8 +46,9 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-de-metricas_card2-interpretacion-de-datos.webp"
-          alt="Icono de crecimiento de interpretacion de datos"
+          src="/servicios/marketing_gestion_digital/manual_marca/icons/interpretacion-crecimiento-metricas-digitales-digimedia.webp"
+          title= "Interpretación de métricas y crecimiento digital | Digimedia Marketing"
+          alt="Ícono de gráfica ascendente representando interpretación de métricas y crecimiento en marketing digital"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -60,9 +62,10 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-de-metricas_card3-reportes-estrategicos.webp"
-          alt="Icono de tendendencia de reportes"
+          src="/servicios/marketing_gestion_digital/manual_marca/icons/reportes-seguimiento-rendimiento-digital-digimedia.webp"
+          alt="Ícono de gráfica circular ascendente representando generación de reportes y seguimiento de resultados en marketing digital"
           className="w-full h-full object-contain"
+          title="Reportes y seguimiento de rendimiento digital | Digimedia Marketing"
           width={48}
           height={48}
         />
@@ -101,8 +104,8 @@ export default function UXUI() {
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

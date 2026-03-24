@@ -57,6 +57,8 @@ export default function Page() {
       ),
       text: "Evaluamos el desempeño de tus estrategias digitales mediante métricas clave para optimizar acciones y tomar decisiones basadas en resultados.",
       icon: "/servicios/marketing/marketing-y-gestion_sub4-ANALISIS-DE-METRICAS.webp",
+      iconTitle: "Campañas Digitales | Digitmedia",
+      iconAlt: "ANÁLISIS DE MÉTRICAS",
       ruta: "/servicios/manual-marca/",
     },
   ];
@@ -107,8 +109,8 @@ export default function Page() {
             aumenta tus ventas con <br /> marketing digital
           </>
         }
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </>
   );
