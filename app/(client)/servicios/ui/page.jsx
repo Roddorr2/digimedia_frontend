@@ -13,7 +13,8 @@ function UXUIComponent() {
   const from = searchParams.get('from') || 'disenoDesarrollo';
 
   const backgroundImages = {
-    disenoDesarrollo: '/servicios/DisenoUI/diseno-UX-y-UI.webp',
+    disenoDesarrollo:
+      '/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp',
     gestionRedes: '/servicios/DisenoUI/disenio-ux-y-ui.webp',
   };
 
@@ -49,10 +50,9 @@ function UXUIComponent() {
             'Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.',
         },
       ],
-      uxUiSectionAlt:
-        'Diseño de interfaz (UI) y experiencia de usuario (UX) enfocado en la usabilidad y conversión digital.',
-      uxUiSectionTitle:
-        'Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivoTÍTULO: Diseño y desarrollo web, Diseño UX UI, Digimedia.webp',
+      imageAlt:
+        'Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de experiencia de usuario y diseño que ayuda a facilitar la navegación y conversión web',
+      imageTitle: 'Subservicio de Experiencia de Usuario y Diseño',
     },
     gestionRedes: {
       modalAText: 'GESTIÓN DE REDES SOCIALES',
@@ -85,10 +85,10 @@ function UXUIComponent() {
             'Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.',
         },
       ],
-      uxUiSectionAlt:
+      imageAlt:
         'Diseño de piezas gráficas y contenido visual enfocado en redes sociales y engagement digital.',
-      uxUiSectionTitle:
-        'Diseño gráfico, piezas visuales, redes sociales, contenido digital, engagement, branding visualTÍTULO: Gestión de Redes, Piezas Gráficas, Digimedia.webp',
+      imageTitle:
+        'Diseño gráfico, piezas visuales, redes sociales, contenido digital, engagement, branding visual',
     },
   };
 
@@ -103,6 +103,9 @@ function UXUIComponent() {
         '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: currentTexts.serviceName,
+      imageTitle: 'Programación y desarrollo web profesional | Digimedia',
+      imageAlt:
+        'Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia',
     },
   };
 
@@ -110,8 +113,9 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card1-EXPERIENCIA-DE-USUARIO-(UX).webp"
-          alt="Web con diseño UX"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/experiencia-de-usuario-digimedia-icono.webp"
+          alt="Ícono que contiene una UX en la pantalla y representa el concepto de experiencia de usuario"
+          title="Sub-subservicio de Experiencia de Usuario (UX)"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -123,8 +127,9 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card2-DISENO-DE-INTERFACES-(UI).webp"
-          alt="Web con diseño UI"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-de-interfaces-digimedia-icono.webp"
+          alt="Ícono que contiene una UI en la pantalla y representa el concepto de diseño de interfaces"
+          title="Sub-subservicio de Diseño de Interfaces (UI)"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -150,8 +155,8 @@ function UXUIComponent() {
         mainDescription={currentTexts.mainDescription}
         backgroundImage={backgroundImage}
         heroTitle={currentTexts.heroTitle}
-        alt={currentTexts.uxUiSectionAlt}
-        title={currentTexts.uxUiSectionTitle}
+        alt={currentTexts.imageAlt}
+        imageTitle={currentTexts.imageTitle}
         category="Gestión de redes Sociales"
       />
       <Contactanos

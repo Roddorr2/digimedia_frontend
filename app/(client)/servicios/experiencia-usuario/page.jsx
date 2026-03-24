@@ -13,6 +13,8 @@ export default function ExperienciaUsuario() {
       fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
+      imageTitle: "Programación y desarrollo web profesional | Digimedia",
+      imageAlt: "Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia"
     },
   };
 
@@ -20,8 +22,9 @@ export default function ExperienciaUsuario() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card1-EXPERIENCIA-DE-USUARIO-(UX).webp"
-          alt="Research UX"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/experiencia-de-usuario-digimedia-icono.webp"
+          alt="Ícono que contiene una UX en la pantalla y representa el concepto de experiencia de usuario"
+          title="Sub-subservicio de Experiencia de Usuario (UX)"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -39,8 +42,9 @@ export default function ExperienciaUsuario() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card2-DISENO-DE-INTERFACES-(UI).webp"
-          alt="Arquitectura de Información UX"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-de-interfaces-digimedia-icono.webp"
+          alt="Ícono que contiene una UI en la pantalla y representa el concepto de diseño de interfaces"
+          title="Sub-subservicio de Diseño de Interfaces (UI)"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -70,10 +74,10 @@ export default function ExperienciaUsuario() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes."
-        backgroundImage="/servicios/DisenoUI/diseno-UX-y-UI.webp"
+        backgroundImage="/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp"
         heroTitle=<>EXPERIENCIA DE USUARIO Y DISEÑO</>
-        alt="Diseño de Experiencia de Usuario (UX) enfocado en usabilidad, investigación y arquitectura de información."
-        title="Diseño UX, experiencia de usuario, usabilidad, investigación de usuarios, arquitectura de información, interacciones digitales, Digimedia.webp"
+        alt="Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de experiencia de usuario y diseño que ayuda a facilitar la navegación y conversión web"
+        imageTitle="Subservicio de Experiencia de Usuario y Diseño"
       />
       <Contactanos
         text="Crea productos digitales pensando en el usuario. ¡Hablemos de tu proyecto!"

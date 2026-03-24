@@ -12,6 +12,8 @@ export default function UXUI() {
       fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
+      imageTitle: "Programación y desarrollo web profesional | Digimedia",
+      imageAlt: "Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia"
     },
   };
 
@@ -19,8 +21,9 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO_card1-SEO ON-PAGE.webp"
-          alt="Icono de busqueda en la web y una lupa"
+          src="/servicios/diseno_desarrollo_web/dominio_hosting/seo-on-page-digimedia-icono.webp"
+          alt="Ícono que contiene las siglas SEO dentro de una lupa y representa la técnica que se usa para optimizar y mejorar la visibilidad de una página web"
+          title="Sub-subservicio de SEO ON-PAGE"
           className="w-full h-full stroke-1"
           width={100}
           height={100}
@@ -33,8 +36,9 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO_card2-SEO OFF-PAGE.webp"
-          alt="Icono de un servidor en la nube"
+          src="/servicios/diseno_desarrollo_web/dominio_hosting/seo-off-page-digimedia-icono.webp"
+          alt="Ícono que contiene las siglas SEO dentro de una lupa por delante de una pantalla y representa los resultados de una búsqueda web"
+          title="Sub-subservicio de SEO OFF-PAGE"
           className="w-full h-full stroke-1"
           width={100}
           height={100}
@@ -58,13 +62,13 @@ export default function UXUI() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Mejoramos la visibilidad de tu sitio web en los motores de búsqueda mediante una optimización técnica y estratégica. Trabajamos palabras clave, estructura, velocidad y contenido para atraer tráfico cualificado y aumentar tus conversiones de forma orgánica."
-        backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-SEO-para-buscadores.webp"
+        backgroundImage="/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-seo-para-buscadores-digimedia.webp"
         heroTitle=<>
           OPTIMIZACIÓN SEO
           <br /> PARA BUSCADORES
         </>
-        alt="Dominio web, hosting profesional, hosting optimizado, alojamiento web, servidor seguro, mantenimiento web, seguridad web"
-        title="Diseño y desarrollo web, Dominio y Hosting, Digimedia.webp"
+        alt="Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de optimización seo para buscadores con el objetivo de optimizar el posicionamiento de una página web"
+        imageTitle="Subservicio de Optimización SEO para buscadores"
       // heroBulletPoints={[
       //   "TE DAN UNA PRESENCIA ONLINE COMPLETA Y PROFESIONAL, GENERAN CONFIANZA, TE DAN CONTROL, AUMENTAN TU VISIBILIDAD Y SON LA BASE PARA CRECER EN INTERNET.",
       // ]}

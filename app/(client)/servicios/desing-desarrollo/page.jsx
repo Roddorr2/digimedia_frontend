@@ -14,9 +14,12 @@ export default function Page() {
           CREACIÓN Y <br /> DESARROLLO WEB
         </>
       ),
-      text: "Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.",
-      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub1-CREACION-Y-DESARROLLO-WEB.webp",
-      ruta: "/servicios/desarrollo-webs/",
+      text: 'Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.',
+      icon: '/servicios/desarrollo/creacion-desarrollo-web-sub-servicio.webp',
+      ruta: '/servicios/desarrollo-webs/',
+      imageTitle: 'Sub servicio de creación y desarrollo web',
+      imageAlt:
+        'ícono del sub servicio de creación y desarrollo web ofrecido por Digimedia',
     },
     {
       title: (
@@ -24,9 +27,12 @@ export default function Page() {
           EXPERIENCIA DE <br /> USUARIO Y DISEÑO
         </>
       ),
-      text: "Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
-      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub2-EXPERIENCIA-DE-USUARIO-Y-DISENO.webp",
-      ruta: "/servicios/experiencia-usuario/",
+      text: 'Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.',
+      icon: '/servicios/desarrollo/experiencia-de-experiencia-de-usuario-sub-servicio.webp',
+      ruta: '/servicios/experiencia-usuario/',
+      imageTitle: 'Sub servicio de experiencia de usuario y diseño',
+      imageAlt:
+        'Ícono del sub servicio de experiencia de usuario y diseño ofrecido por Digimedia',
     },
     {
       title: (
@@ -34,9 +40,11 @@ export default function Page() {
           OPTIMIZACIÓN SEO <br /> PARA BUSCADORES
         </>
       ),
-      text: "Mayor visibilidad, mejor posicionamiento y más clientes potenciales. Llevamos tu sitio web a los primeros resultados de búsqueda.",
-      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub3-OPTIMIZACION-SEO-PARA-BUSCADORES.webp",
-      ruta: "/servicios/dominio_hosting/",
+      text: 'Mayor visibilidad, mejor posicionamiento y más clientes potenciales. Llevamos tu sitio web a los primeros resultados de búsqueda.',
+      icon: '/servicios/desarrollo/optimizacion-seo-para-buscadores-sub-servicio.webp',
+      ruta: '/servicios/dominio_hosting/',
+      imageTitle: 'Sub servicio de optimización SEO para buscadores',
+      imageAlt: 'Ícono del sub servicio de optimización SEO para buscadores',
     },
     {
       title: (
@@ -47,20 +55,28 @@ export default function Page() {
           DIGITALES
         </>
       ),
-      text: "Desarrollamos sitios web adaptables y conectados con herramientas digitales que potencian la conversión y optimizan tu gestión.",
-      icon: "/servicios/desarrollo/diseno-y-desarrollo_sub4-DESARROLLO-RESPONSIVE-E-INTEGRACIONES-DIGITALES.webp",
-      ruta: "/servicios/seo/",
+      text: 'Desarrollamos sitios web adaptables y conectados con herramientas digitales que potencian la conversión y optimizan tu gestión.',
+      icon: '/servicios/desarrollo/desarrollo-responsive-integraciones-digitales-sub-servicio.webp',
+      ruta: '/servicios/seo/',
+      imageTitle:
+        'Sub servicio de desarrollo responsive e integraciones digitales',
+      imageAlt:
+        'Ícono del sub servicio de desarrollo responsive e integraciones digitales',
     },
   ];
 
   const modales = {
     modalA: {
-      text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
+      text: 'DISEÑO Y DESARROLLO WEB',
+      fondo:
+        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
+      serviceName: '1',
       width: 256,
       height: 144,
+      imageTitle: 'Programación y desarrollo web profesional | Digimedia',
+      imageAlt:
+        'Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia',
     },
   };
 
@@ -85,7 +101,9 @@ export default function Page() {
           </>
         }
         text="Transformamos tu visión en una presencia digital impactante. Diseñamos y desarrollamos sitios web modernos, rápidos y seguros, enfocados en convertir visitantes en clientes y fortalecer la lealtad de su audiencia. Tu éxito online comienza aquí."
-        image="/servicios/desarrollo/diseno-y-desarrollo-web.webp"
+        image="/servicios/desarrollo/diseno-desarrollo-web-digimedia-oficial.webp"
+        imageTitle="Servicio de diseño y desarrollo web"
+        imageAlt="Imagen oficial que representa el servicio brindado por Digimedia con respecto al diseño y desarrollo web. Se muestra a una persona diseñando la estructura que va a tener la página"
       />
 
       <Description
