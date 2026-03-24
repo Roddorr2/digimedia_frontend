@@ -24,7 +24,8 @@ export default function Contactanos({ text, iconLeft, iconRight }) {
     pointer-events-none
   "
           src={iconLeft}
-          alt=""
+          alt="ilustración decorativa de líneas de conexión en el lado izquierdo"
+          title="Elemento gráfico de conexión izquierda | Digimedia"
           width={450}
           height={160}
         />
@@ -36,7 +37,8 @@ export default function Contactanos({ text, iconLeft, iconRight }) {
     pointer-events-none
   "
           src={iconRight}
-          alt=""
+          alt="ilustración decorativa de líneas de conexión en el lado izquierdo"
+          title="Elemento gráfico de conexión derecha | Digimedia"
           width={450}
           height={160}
         />

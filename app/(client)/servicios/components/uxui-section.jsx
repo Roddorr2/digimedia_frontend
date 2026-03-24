@@ -33,6 +33,7 @@ export function UxUiSection({
   heroBulletPoints,
   features = [],
   alt,
+  title,
   category,
 }) {
   return (
@@ -45,6 +46,7 @@ export function UxUiSection({
         imageUrl={backgroundImage}
         imageClassName={imageClassName}
         imageAlt={alt}
+        imageTitle={title}
       />
 
       <FeaturesSection features={features} />
