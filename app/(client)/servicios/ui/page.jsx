@@ -161,8 +161,8 @@ function UXUIComponent() {
       />
       <Contactanos
         text={currentTexts.contactanosText}
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

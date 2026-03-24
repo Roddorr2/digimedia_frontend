@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export function HeroSection({
-  category = 'Diseño y desarrollo web',
-  title = 'DISEÑO UX Y UI',
+  category = "Diseño y desarrollo web",
+  title = "DISEÑO UX Y UI",
   description,
   bulletPoints = [],
   imageUrl,
-  imageAlt = '',
-  imageTitle = '',
-  imageClassName = '',
+  imageAlt = "",
+  imageTitle = "",
+  imageClassName = "",
 }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -36,7 +36,7 @@ export function HeroSection({
               alt={imageAlt}
               title={imageTitle}
               fill
-              className={`object-cover ${imageClassName || ''}`}
+              className={`object-cover ${imageClassName || ""}`}
             />
           </div>
 

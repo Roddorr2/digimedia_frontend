@@ -16,8 +16,6 @@ export const apiRequest = async (endpoint, options = {}) => {
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const url = `${API_URL}${cleanEndpoint}`;
 
-    console.log(`📡 (Laravel) ${url}`);
-
     const response = await fetch(url, {
         ...options,
         headers: {

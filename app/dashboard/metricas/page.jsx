@@ -231,7 +231,7 @@ export default function MetricsPage() {
 
   if (loading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="w-full h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 ">
         <span className="text-xl font-bold animate-pulse text-blue-600 dark:text-blue-400">
           Cargando métricas del dashboard…
         </span>
@@ -240,7 +240,7 @@ export default function MetricsPage() {
   }
 
   return (
-    <div className="w-full h-screen overflow-y-auto p-4 lg:p-6 space-y-6 bg-gray-50 dark:bg-gray-900">
+    <div className="w-full h-full overflow-y-auto p-4 lg:p-6 pb-12 space-y-6 bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col gap-3 border-b pb-4 md:flex-row md:items-center md:justify-between bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 px-4 py-3 rounded-xl shadow-sm">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
@@ -426,9 +426,9 @@ export default function MetricsPage() {
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 ">
         <Card title="🏅 Top 5 Meses con Más Blogs">
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-5 gap-2 mb-6">
             {top5Months.slice(0, 5).map((item, idx) => {
               const colors = [
                 'from-yellow-400 to-orange-500',
@@ -475,7 +475,9 @@ export default function MetricsPage() {
             </BarChart>
           </ResponsiveContainer>
         </Card>
+        
       </div>
+      
     </div>
   );
 }

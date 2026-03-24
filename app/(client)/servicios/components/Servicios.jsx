@@ -28,8 +28,8 @@ export default function Servicios({ servicios }) {
             text={servicio.text}
             icon={servicio.icon}
             ruta={servicio.ruta}
-            imageAlt={servicio.imageAlt}
-            imageTitle={servicio.imageTitle}
+            iconTitle={servicio.iconTitle}
+            iconAlt={servicio.iconAlt}
           />
         ))}
       </div>
@@ -57,8 +57,8 @@ export default function Servicios({ servicios }) {
                 text={servicio.text}
                 icon={servicio.icon}
                 ruta={servicio.ruta}
-                imageAlt={servicio.imageAlt}
-                imageTitle={servicio.imageTitle}
+                iconTitle={servicio.iconTitle}
+                iconAlt={servicio.iconAlt}
               />
             </SwiperSlide>
           ))}
@@ -71,7 +71,7 @@ export default function Servicios({ servicios }) {
   );
 }
 
-function Servicio({ title, text, icon, ruta, index, imageAlt, imageTitle }) {
+function Servicio({ title, text, icon, ruta, index, iconTitle, iconAlt }) {
   const rutaValida = ruta ? `${ruta}` : '/';
 
   const colorClass =
@@ -98,8 +98,8 @@ function Servicio({ title, text, icon, ruta, index, imageAlt, imageTitle }) {
           <Image
             className={`max-w-36 w-24 h-24 object-contain ${styles['animate-bounce-slow']}`}
             src={icon || '/placeholder.svg'}
-            alt={imageAlt || ''}
-            title={imageTitle}
+            alt={iconAlt || title}
+            title={iconTitle || ''}
             width={96}
             height={96}
           />
