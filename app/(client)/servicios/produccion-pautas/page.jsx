@@ -11,6 +11,8 @@ export default function ProduccionPautas() {
       text: "GESTIÓN DE REDES SOCIALES",
       fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      imageTitle:"Gestión de Redes Sociales en Perú | Digimedia",
+      imageAlt:"Servicio de gestión de redes sociales en Perú ofrecido por Digimedia para crecimiento de marcas en Instagram, Facebook y TikTok",
       serviceName: "2",
     },
   };
@@ -19,8 +21,9 @@ export default function ProduccionPautas() {
     {
       icon: (
         <img
-          src="/servicios/gestion/produccion-pautas/icons/produccion-audiovisual_card-1-conceptualizacion-y-guion.webp"
-          alt="Conceptualización y guión"
+          src="/servicios/gestion/produccion-pautas/icons/diseno-estrategia-pautas-digitales-digimedia.webp"
+          alt="Ícono de documentos con bombilla representando diseño estratégico de pautas y campañas digitales en Digimedia"
+          title="Diseño estratégico de pautas digitales | Digimedia Marketing"
           className="w-full h-full object-contain"
         />
       ),
@@ -33,6 +36,7 @@ export default function ProduccionPautas() {
         <img
           src="/servicios/gestion/produccion-pautas/icons/produccion-audiovisual_card-1-produccion-y-edicion.webp"
           alt="Producción y edición"
+          title="Producción Audiovisual: Producción y Edición | Digimedia Marketing"
           className="w-full h-full object-contain"
         />
       ),
@@ -47,7 +51,9 @@ export default function ProduccionPautas() {
       <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
-        fondo="/servicios/gestion/modal-button/imagen.webp"
+        fondo="/servicios/gestion/modal-button/marketing-digital-redes-sociales-peru-digimedia.webp"
+        imageTitle="Marketing Digital y Redes Sociales en Perú | Digimedia"
+        imageAlt="Ilustración de herramientas de marketing digital y gestión de redes sociales con iconos de interacción, análisis y contenido"
         text="GESTIÓN DE REDES SOCIALES"
         serviceName="2"
       />
