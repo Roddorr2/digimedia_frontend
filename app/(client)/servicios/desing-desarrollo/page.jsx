@@ -59,24 +59,23 @@ export default function Page() {
       icon: '/servicios/desarrollo/desarrollo-responsive-integraciones-digitales-sub-servicio.webp',
       ruta: '/servicios/seo/',
       imageTitle:
-        'Sub servicio de desarrollo responsive e integraciones digitales',
+        'Subservicio de Desarrollo responsive e integraciones digitales',
       imageAlt:
-        'Ícono del sub servicio de desarrollo responsive e integraciones digitales',
+        'Ícono del subservicio de Desarrollo responsive e integraciones digitales',
     },
   ];
 
   const modales = {
     modalA: {
       text: 'DISEÑO Y DESARROLLO WEB',
-      fondo:
-        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
       width: 256,
       height: 144,
-      imageTitle: 'Programación y desarrollo web profesional | Digimedia',
+      imageTitle: 'Obtén una asesoría ¡Gratis!',
       imageAlt:
-        'Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia',
+        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
     },
   };
 
@@ -102,8 +101,8 @@ export default function Page() {
         }
         text="Transformamos tu visión en una presencia digital impactante. Diseñamos y desarrollamos sitios web modernos, rápidos y seguros, enfocados en convertir visitantes en clientes y fortalecer la lealtad de su audiencia. Tu éxito online comienza aquí."
         image="/servicios/desarrollo/diseno-desarrollo-web-digimedia-oficial.webp"
-        imageTitle="Servicio de diseño y desarrollo web"
-        imageAlt="Imagen oficial que representa el servicio brindado por Digimedia con respecto al diseño y desarrollo web. Se muestra a una persona diseñando la estructura que va a tener la página"
+        imageTitle="Obtén una asesoría ¡Gratis!"
+        imageAlt="La imagen muestra a una persona buscando imágenes en un biblioteca virtual"
       />
 
       <Description

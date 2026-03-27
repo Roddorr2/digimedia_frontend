@@ -10,11 +10,12 @@ export default function ExperienciaUsuario() {
   const modales = {
     modalA: {
       text: 'EXPERIENCIA DE USUARIO',
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
-      imageTitle: "Programación y desarrollo web profesional | Digimedia",
-      imageAlt: "Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia"
+      imageTitle: 'Obtén una asesoría ¡Gratis!',
+      imageAlt:
+        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
     },
   };
 
@@ -77,7 +78,7 @@ export default function ExperienciaUsuario() {
         backgroundImage="/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp"
         heroTitle=<>EXPERIENCIA DE USUARIO Y DISEÑO</>
         alt="Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de experiencia de usuario y diseño que ayuda a facilitar la navegación y conversión web"
-        imageTitle="Subservicio de Experiencia de Usuario y Diseño"
+        title="Subservicio de Experiencia de Usuario y Diseño"
       />
       <Contactanos
         text="Crea productos digitales pensando en el usuario. ¡Hablemos de tu proyecto!"

@@ -9,13 +9,12 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: 'DISEÑO Y DESARROLLO WEB',
-      fondo:
-        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
-      imageTitle: 'Programación y desarrollo web profesional | Digimedia',
+      imageTitle: 'Obtén una asesoría ¡Gratis!',
       imageAlt:
-        'Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia',
+        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
     },
   };
 
@@ -71,7 +70,7 @@ export default function UXUI() {
         backgroundImage="/servicios/diseno_desarrollo_web/seo/desarrollo-responsive-e-integraciones-digitales-digimedia.webp"
         heroTitle="DESARROLLO RESPONSIVE E INTEGRACIONES DIGITALES"
         alt="Imagen que muestra a una persona frente a una pizarra con papeles que contienen estrategias de optimización seo para buscadores con el objetivo de desarrollar sitios webs adaptables a cualquier dispositivo"
-        imageTitle="Sub servicio de desarrollo responsive e integraciones digitales"
+        title="Subservicio de Desarrollo responsive e integraciones digitales"
         // heroBulletPoints={[
         //   "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
         //   "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",

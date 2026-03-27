@@ -99,13 +99,12 @@ function UXUIComponent() {
   const modales = {
     modalA: {
       text: currentTexts.modalAText,
-      fondo:
-        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: currentTexts.serviceName,
-      imageTitle: 'Programación y desarrollo web profesional | Digimedia',
+      imageTitle: 'Obtén una asesoría ¡Gratis!',
       imageAlt:
-        'Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia',
+        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
     },
   };
 
@@ -156,7 +155,7 @@ function UXUIComponent() {
         backgroundImage={backgroundImage}
         heroTitle={currentTexts.heroTitle}
         alt={currentTexts.imageAlt}
-        imageTitle={currentTexts.imageTitle}
+        title={currentTexts.imageTitle}
         category="Gestión de redes Sociales"
       />
       <Contactanos

@@ -9,12 +9,12 @@ export default function Web() {
     modalA: {
       text: 'DISEÑO Y DESARROLLO WEB',
       fondo:
-        '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+        '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1', // Ajusta según corresponda
-      imageTitle: 'Programación y desarrollo web profesional | Digimedia',
+      imageTitle: 'Obtén una asesoría ¡Gratis!',
       imageAlt:
-        'Imagen que aparece en el pop up para contactar el servicio del servicio de Diseño y Desarrollo Web ofrecido por Digimedia',
+        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
     },
   };
 
@@ -69,7 +69,7 @@ export default function Web() {
           CREACIÓN <br /> Y DESARROLLO WEB
         </>
         alt="Imagen que muestra a una persona frente a una laptop realizando el sub servicio de creación y desarrollo web con el objetivo de crear una plataforma que garantice una web en crecimiento"
-        imageTitle="Subservicio de Creación y Desarrollo web"
+        title="Subservicio de Creación y Desarrollo web"
         category="Diseño y desarrollo web"
         // heroBulletPoints={[
         //   "PLANIFICACIÓN: DEFINIR LOS OBJETIVOS DEL SITIO WEB, EL PÚBLICO OBJETIVO Y LAS FUNCIONALIDADES NECESARIAS.",
