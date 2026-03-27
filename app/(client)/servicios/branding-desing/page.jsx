@@ -53,8 +53,11 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
+      fondo:
+        "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      titleAttr: "Digimedia + branding + diseño + marca + servicio",
+      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
       serviceName: "4",
     },
   };

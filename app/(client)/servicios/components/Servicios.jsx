@@ -71,7 +71,7 @@ export default function Servicios({ servicios }) {
   );
 }
 
-function Servicio({ title, text, icon, ruta, index, iconTitle, iconAlt }) {
+function Servicio({ title, text, icon, alt, titleAttr, ruta, index }) {
   const rutaValida = ruta ? `${ruta}` : '/';
 
   const colorClass =

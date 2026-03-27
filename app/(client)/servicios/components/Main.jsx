@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-export default function Main({ title, subtitle, text, image, imageTitle, imageAlt, className = '' }) {
+export default function Main({ title, subtitle, text, image, className = "" }) {
   return (
     <main className="bg-white py-16 md:py-24">
       <div className="w-full max-w-[1200px] mx-auto px-6">
@@ -18,9 +18,8 @@ export default function Main({ title, subtitle, text, image, imageTitle, imageAl
           <div className="order-1 md:order-2 flex justify-center">
             <div className="relative w-full max-w-md">
               <Image
-                src={image || '/placeholder.svg'}
-                alt={imageAlt || `imagen de ${title}`}
-                title={imageTitle || ''}
+                src={image || "/placeholder.svg"}
+                alt={`imagen de ${title}`}
                 width={480}
                 height={480}
                 priority
