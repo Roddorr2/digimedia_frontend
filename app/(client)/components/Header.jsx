@@ -60,9 +60,9 @@ export default function Header2() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/digimedia-marketing-logo.webp"
-              alt="Logo en blanco y negro de Digimedia Marketing"
-              title= "Digimedia + logo + agencia + marketing digital + blanco + negro"
+              src="/headerFooter/digimedia-marketing.webp"
+              alt="Logo de digimedia color blanco y fondo negro"
+              title="Logo digimedia, logo blanco Digimedia"
               width={200}
               height={85}
               className="my-auto"
@@ -70,34 +70,33 @@ export default function Header2() {
               priority={true}
               sizes="(max-width: 768px) 120px, 200px"
             />
-          </Link>
-        </div>
+            </Link>
+            </div>
 
-        <div className={styles.seccionesHeader}>
-          {/* Botón de usuario para ir a Sección principal - solo cuando está autenticado */}
-          {isAuthenticated && (
+            <div className={styles.seccionesHeader}>
+            {/* Botón de usuario para ir a Sección principal - solo cuando está autenticado */}
+            {isAuthenticated && (
             <Link href="/dashboard/main" className={styles.userButton}>
               <UserRound size={20} strokeWidth={2.5} />
             </Link>
-          )}
+            )}
 
-          <input
+            <input
             type="checkbox"
             id="menucheckbox"
             className={styles.menucheckbox}
             onChange={() => setMenuOpen(!menuOpen)}
-          />
-          <label htmlFor="menucheckbox">
+            />
+            <label htmlFor="menucheckbox">
             <Image
-              src="/headerFooter/menu-digimedia-icono.webp"
-              alt="Ícono del menú de navegación de la página web"
-              title="ícono + menú + navegación + página web + Digimedia"
+              src="/headerFooter/menu-principal.webp"
+              alt="icono de menú principal con 3 líneas blancas con fondo negro"
+              title="icono de menú principal, menú color blanco y negro"
               width={25}
               height={25}
               priority
             />
-          </label>
-          <ul className={styles.menuHorizontal}>
+            </label>          <ul className={styles.menuHorizontal}>
             <li
               className={isActive('/') ? styles.active : ''}
               onClick={closeMenu}
@@ -255,53 +254,54 @@ export default function Header2() {
               }`}
               onClick={() => setIsPanelOpen(!isPanelOpen)}
             >
-              {isAuthenticated ? (
-                <>
-                  <p className="flex items-center gap-1">
-                    Panel{' '}
-                    <ChevronDown
-                      className="w-4 h-4"
-                      style={{
-                        display: 'inline-block',
-                        verticalAlign: 'middle',
-                      }}
-                    />
-                  </p>
+              {
+                isAuthenticated ? (
+                  <>
+                    <p className="flex items-center gap-1">
+                      Panel{' '}
+                      <ChevronDown
+                        className="w-4 h-4"
+                        style={{
+                          display: 'inline-block',
+                          verticalAlign: 'middle',
+                        }}
+                      />
+                    </p>
 
-                  {isPanelOpen && (
-                    <ul className={styles.menuVertical}>
-                      {filterLinks.map((link) => (
+                    {isPanelOpen && (
+                      <ul className={styles.menuVertical}>
+                        {filterLinks.map((link) => (
+                          <li
+                            key={link.href}
+                            className={
+                              isActive(link.href) ? styles['active-sub'] : ''
+                            }
+                          >
+                            <Link href={link.href} onClick={closeMenu}>
+                              {link.title}
+                            </Link>
+                          </li>
+                        ))}
                         <li
-                          key={link.href}
                           className={
-                            isActive(link.href) ? styles['active-sub'] : ''
+                            isActive('/login') ? styles['active-sub'] : ''
                           }
                         >
-                          <Link href={link.href} onClick={closeMenu}>
-                            {link.title}
+                          <Link
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              closeMenu();
+                              logout();
+                            }}
+                          >
+                            Cerrar sesión
                           </Link>
                         </li>
-                      ))}
-                      <li
-                        className={
-                          isActive('/login') ? styles['active-sub'] : ''
-                        }
-                      >
-                        <Link
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            closeMenu();
-                            logout();
-                          }}
-                        >
-                          Cerrar sesión
-                        </Link>
-                      </li>
-                    </ul>
-                  )}
-                </>
-              ) : null //Boton antiguo
+                      </ul>
+                    )}
+                  </>
+                ) : null //Boton antiguo
               }
             </li>
           </ul>
