@@ -102,6 +102,8 @@ function UXUIComponent() {
       fondo:
         '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
+      imageTitle: "Diseño y Desarrollo Web Digimedia Pop Up",
+      imageAlt: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: currentTexts.serviceName,
     },
   };
@@ -110,8 +112,9 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card1-EXPERIENCIA-DE-USUARIO-(UX).webp"
-          alt="Web con diseño UX"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-ux-experiencia-usuario-digimedia.webp"
+          alt="Ícono de interfaz web con texto UX representando diseño de experiencia de usuario en sitios web"
+          title="Diseño UX enfocado en experiencia de usuario | Digimedia Marketing"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -123,8 +126,9 @@ function UXUIComponent() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-UX-UI_card2-DISENO-DE-INTERFACES-(UI).webp"
-          alt="Web con diseño UI"
+          src="/servicios/diseno_desarrollo_web/diseno_ux_ui/diseno-ui-interfaz-usuario-digimedia.webp"
+          alt="Ícono de interfaz web con texto UI representando diseño de interfaz de usuario para sitios web"
+          title="Diseño UI e interfaz de usuario profesional | Digimedia Marketing"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -141,9 +145,11 @@ function UXUIComponent() {
 
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/imagen.webp"
+        fondo="/servicios/desarrollo/modal-button/programacion-desarrollo-web-digimedia.webp"
         text={currentTexts.modalButtonText}
         serviceName={currentTexts.serviceName}
+        imageTitle="Programación y desarrollo web profesional | Digimedia Marketing"
+        imageAlt="Ilustración de desarrollador trabajando en programación y desarrollo web con ventanas de código en laptop"
       />
       <UxUiSection
         features={featuresuxui}
