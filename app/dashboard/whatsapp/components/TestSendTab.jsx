@@ -40,13 +40,22 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
 
   const pickFile = (file) => {
     if (!file) return;
+
     const max2mb = 2 * 1024 * 1024;
     if (file.size > max2mb) {
       Swal.fire("Imagen muy pesada", "Debe ser menor a 2MB.", "warning");
       return;
     }
+
+    // --- AQUÍ ESTÁ TU VALIDACIÓN DE VUELTA ---
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowed.includes(file.type)) {
+      Swal.fire("Formato no permitido", "Usa JPG, PNG o WEBP.", "warning");
+      return;
+    }
+
     setImageFile(file);
-    setImagePreviewUrl(URL.createObjectURL(file));
+    setImagePreviewUrl(URL.createObjectURL(file)); // Generar preview para el celular
   };
 
   const handleDrop = (e) => {
