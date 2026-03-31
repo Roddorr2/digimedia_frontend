@@ -1,6 +1,6 @@
 export const Information = ({ subtitle, description }) => (
   <section className="bg-[#B326FF] py-12 md:py-16 lg:py-20 text-center relative">
-    <div className="absolute -left-28 sm:-left-20 md:left-0 top-1/2 -translate-y-1/2">
+    <div className="absolute -left-40 sm:-left-32 md:-left-20 lg:left-0 top-1/2 -translate-y-1/2">
       <svg
         viewBox="0 0 200 120"
         className="w-40 md:w-52 lg:w-64 h-auto text-white"
@@ -22,7 +22,7 @@ export const Information = ({ subtitle, description }) => (
       </svg>
     </div>
 
-    <div className="max-w-3xl mx-auto px-4 md:px-6">
+    <div className="max-w-xl mx-auto px-4 md:px-6 relative z-10">
       <h2
         className="
         text-white 
@@ -50,7 +50,7 @@ export const Information = ({ subtitle, description }) => (
       </p>
     </div>
 
-    <div className="absolute -right-28 sm:-right-20 md:right-0 top-1/2 -translate-y-1/2">
+    <div className="absolute -right-40 sm:-right-32 md:-right-20 lg:right-0 top-1/2 -translate-y-1/2 z-0">
       <svg
         viewBox="0 0 220 140"
         className="w-40 md:w-52 lg:w-64 h-auto text-white"

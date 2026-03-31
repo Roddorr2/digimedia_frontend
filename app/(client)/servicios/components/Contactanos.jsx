@@ -33,7 +33,7 @@ export default function Contactanos({ text, iconLeft, iconRight }) {
         <Image
           className="
     absolute bottom-0 
-    right-[-380px] md:right-0
+    right-[-380px] md:right-0 
     pointer-events-none
   "
           src={iconRight}
