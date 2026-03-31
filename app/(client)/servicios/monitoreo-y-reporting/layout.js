@@ -1,13 +1,13 @@
 export const metadata = {
-  title: "DigiMedia - Monitoreo y Reporte",
+  title: "Digimedia - Manual de Marca",
   description:
-    "Son procesos interrelacionados que se enfocan en la recolección, análisis y presentación de datos para evaluar el rendimiento y la efectividad de un proyecto, programa o estrategia.",
+    "El manual de marca es una guía fundamental que establece las normas y lineamientos para el uso correcto de los elementos visuales y comunicacionales de una empresa. Incluye aspectos como el logotipo, colores corporativos, tipografías, tono de comunicación y aplicaciones gráficas, con el objetivo de asegurar coherencia, reconocimiento y una identidad sólida en todos los puntos de contacto con el público.",
   openGraph: {
-    title: "DigiMedia - Monitoreo y Reporte",
+    title: "Digimedia - Manual de Marca",
     description:
-      "Son procesos interrelacionados que se enfocan en la recolección, análisis y presentación de datos para evaluar el rendimiento y la efectividad de un proyecto, programa o estrategia.",
+      "El manual de marca es una guía fundamental que establece las normas y lineamientos para el uso correcto de los elementos visuales y comunicacionales de una empresa. Incluye aspectos como el logotipo, colores corporativos, tipografías, tono de comunicación y aplicaciones gráficas, con el objetivo de asegurar coherencia, reconocimiento y una identidad sólida en todos los puntos de contacto con el público.",
     url: "https://digimedia-marketing.com/servicios/monitoreo-y-reporting/",
-    siteName: "DigiMedia - Monitoreo y Reporte",
+    siteName: "Digimedia - Manual de Marca",
     images: [], // se mantiene vacío por tu preferencia
     locale: "es_PE",
     type: "website",

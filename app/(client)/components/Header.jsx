@@ -60,7 +60,7 @@ export default function Header() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/digimedia1.png"
+              src="/headerFooter/digimedia-marketing-logo.webp"
               alt="Logo en blanco y negro de Digimedia Marketing"
               title="Digimedia +logo + agencia + marketing digital + blanco + negro"
               width={200}
@@ -89,7 +89,7 @@ export default function Header() {
           />
           <label htmlFor="menucheckbox">
             <Image
-              src="/headerFooter/menu.avif"
+              src="/headerFooter/menu-digimedia-icono.webp"
               alt="Ícono del menú de navegación de la página web"
               title="ícono + menú + navegación + página web + Digimedia"
               width={25}
@@ -97,7 +97,7 @@ export default function Header() {
               priority
             />
           </label>
-          <ul className={styles.menu}>
+          <ul className={styles.menuHorizontal}>
             <li
               className={isActive("/") ? styles.active : ""}
               onClick={closeMenu}>

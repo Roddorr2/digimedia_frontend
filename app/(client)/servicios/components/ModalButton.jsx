@@ -10,7 +10,14 @@ import styles from "./modal.module.css";
 
 const URL_API = `${url}/api/modales`;
 
-export default function ModalClick({ text, fondo, title, serviceName, alt, titleAttr }) {
+export default function ModalClick({
+  text,
+  fondo,
+  title,
+  serviceName,
+  alt,
+  titleAttr,
+}) {
   const modalRef = useRef(null);
   const backgroundRef = useRef(null);
 
@@ -182,8 +189,8 @@ export default function ModalClick({ text, fondo, title, serviceName, alt, title
           <img
             className="max-w-60 max-h-52 w-auto"
             src={fondo}
-            alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
-            title="Digimedia + contacto + branding + diseño + marca + servicio"
+            alt={alt || text}
+            title={titleAttr || ""}
           />
           <p className="font-medium max-w-48 text-center">{text}</p>
         </div>

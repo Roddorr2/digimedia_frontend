@@ -1,6 +1,14 @@
 import Image from "next/image";
 
-export default function Main({ title, subtitle, text, image, className = "" }) {
+export default function Main({
+  title,
+  subtitle,
+  text,
+  image,
+  alt,
+  titleAttr,
+  className = "",
+}) {
   return (
     <main className="bg-white py-16 md:py-24">
       <div className="w-full max-w-[1200px] mx-auto px-6">
@@ -19,7 +27,8 @@ export default function Main({ title, subtitle, text, image, className = "" }) {
             <div className="relative w-full max-w-md">
               <Image
                 src={image || "/placeholder.svg"}
-                alt={`imagen de ${title}`}
+                title={titleAttr || ""}
+                alt={alt || `Imagen del servicio ${title}`}
                 width={480}
                 height={480}
                 priority
