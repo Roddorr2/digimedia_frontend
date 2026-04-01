@@ -1,13 +1,13 @@
 export const metadata = {
-  title: "DigiMedia - Publicidad Digital",
+  title: "Digimedia - Diseño de Logo",
   description:
-    "La publicidad digital permite a las empresas dirigirse a un público específico, medir el rendimiento de las campañas en tiempo real y ajustar las estrategias para optimizar los resultados.",
+    "El diseño de logo es un elemento clave para la identidad de marca, ya que representa visualmente los valores, personalidad y propósito de una empresa. Un buen logo debe ser memorable, versátil y coherente, permitiendo diferenciarse en el mercado y conectar emocionalmente con el público objetivo.",
   openGraph: {
-    title: "DigiMedia - Publicidad Digital",
+    title: "Digimedia - Diseño de Logo",
     description:
-      "La publicidad digital permite a las empresas dirigirse a un público específico, medir el rendimiento de las campañas en tiempo real y ajustar las estrategias para optimizar los resultados.",
+      "El diseño de logo es un elemento clave para la identidad de marca, ya que representa visualmente los valores, personalidad y propósito de una empresa. Un buen logo debe ser memorable, versátil y coherente, permitiendo diferenciarse en el mercado y conectar emocionalmente con el público objetivo.",
     url: "https://digimedia-marketing.com/servicios/publicidad-digital/",
-    siteName: "DigiMedia - Publicidad Digital",
+    siteName: "Digimedia - Diseño de Logo",
     images: [], // se mantiene vacío por tu preferencia
     locale: "es_PE",
     type: "website",

@@ -10,8 +10,11 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
+      fondo:
+        "/servicios/branding/modal-scroll/branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      titleAttr: "Digimedia + branding + diseño + marca + servicio",
+      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
       serviceName: "4",
     },
   };
@@ -20,8 +23,9 @@ export default function UXUI() {
     {
       icon: (
         <Image
-          src="/servicios/branding_diseno/desarrollo_brief/icons/desarrollo-de-brief_card1-BRIEF.webp"
-          alt="Icono de una computadora con mapas y graficos"
+          src="/servicios/branding_diseno/desarrollo_brief/icons/brief-digimedia-icono.webp"
+          alt="Icono que representa la creación y edición de elementos visuales, como diagramas, interfaces o piezas gráficas digitales."
+          title="Desarrollo de Brief"
           className="w-full h-full object-contain"
           width={200}
           height={100}
@@ -38,8 +42,10 @@ export default function UXUI() {
       <ModalScroll data={modales} />
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
-        fondo="/servicios/branding/modal-button/imagen.webp"
+        fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"
         text="BRANDING Y DISEÑO"
+        alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
+        titleAttr="Digimedia + contacto + branding + diseño + marca + servicio"
         serviceName="4"
       />
       <UxUiSection
