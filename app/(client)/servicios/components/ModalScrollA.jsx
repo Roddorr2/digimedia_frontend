@@ -1,26 +1,27 @@
-'use client';
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getCookie } from "cookies-next";
-import url from '../../../../api/url';
-import { Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import styles from './modal.module.css'
-import Image from 'next/image';
+import url from "../../../../api/url";
+import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import styles from "./modal.module.css";
+import Image from "next/image";
 
 const URL_API = `${url}/api/modales`;
 
 export default function ModalScrollA({ data, time }) {
   const [open, setOpen] = useState(false);
-  const { text, fondo, title, serviceName, width, height, imageTitle, imageAlt } = data;
+  const { text, fondo, title, alt, titleAttr, serviceName, width, height } =
+    data;
 
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    nombre: '',
-    telefono: '',
-    correo: '',
+    nombre: "",
+    telefono: "",
+    correo: "",
     id_servicio: serviceName,
   });
 
@@ -72,7 +73,7 @@ export default function ModalScrollA({ data, time }) {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       setOpen(false);
@@ -92,7 +93,6 @@ export default function ModalScrollA({ data, time }) {
           confirmButtonText: "OK",
         });
       }
-
     } catch (error) {
       setOpen(false);
 
@@ -119,25 +119,29 @@ export default function ModalScrollA({ data, time }) {
       onClick={() => setOpen(false)}
       className={cn(
         open ? "fade-in flex" : "hidden",
-        "seccionA bg-[rgba(0,0,0,0.43)] w-screen h-screen items-center justify-center fixed top-0 left-0 z-[9998]"
-      )}
-    >
+        "seccionA bg-[rgba(0,0,0,0.43)] w-screen h-screen items-center justify-center fixed top-0 left-0 z-[9998]",
+      )}>
       <div
         onClick={(e) => e.stopPropagation()}
         className={cn(
           open ? styles["modal-content"] : "",
-          "flex w-[65%] md:w-[600px] relative text-white rounded-2xl overflow-hidden"
-        )}
-      >
+          "flex w-[65%] md:w-[600px] relative text-white rounded-2xl overflow-hidden",
+        )}>
         <button
           onClick={() => setOpen(false)}
-          className="absolute top-3 right-3 z-50 text-white text-lg font-bold"
-        >
+          className="absolute top-3 right-3 z-50 text-white text-lg font-bold">
           X
         </button>
 
         <div className="hidden md:flex relative md:w-64 overflow-hidden justify-center">
-          <Image className="w-full object-cover" src={fondo} alt={imageAlt || title} title={imageTitle || ''} width={width || 200} height={height || 100} />
+          <Image
+            className="w-full object-cover"
+            src={fondo}
+            alt={alt || title}
+            title={titleAttr}
+            width={width || 200}
+            height={height || 100}
+          />
           <Image
             className="absolute top-4 left-4"
             src="/servicios/digimedia-logo-modal.webp"
@@ -154,13 +158,46 @@ export default function ModalScrollA({ data, time }) {
         <div className="p-8 flex flex-col w-full md:w-96 justify-between gap-8 bg-gradient-to-b from-[#8B3FD9] via-[#A855D9] to-[#FF6B35]">
           <p className="text-3xl text-center font-bold">{title}</p>
           <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-            <Input label="Nombre" type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
-            <Input label="Teléfono" type="tel" name="telefono" value={formData.telefono} onChange={handleChange} required />
-            <Input label="Correo" type="text" name="correo" value={formData.correo} onChange={handleChange} required />
-            <input type="hidden" name="id_servicio" value={formData.id_servicio} readOnly />
+            <Input
+              label="Nombre"
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Teléfono"
+              type="tel"
+              name="telefono"
+              value={formData.telefono}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              label="Correo"
+              type="text"
+              name="correo"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="hidden"
+              name="id_servicio"
+              value={formData.id_servicio}
+              readOnly
+            />
 
-            <button disabled={loading} className="bg-[#7C3FD9] p-2 text-2xl font-bold rounded-2xl mt-4" type="submit">
-              {loading ? <Loader2 className="animate-spin h-4 w-4 mx-auto" /> : "HAZLO YA"}
+            <button
+              disabled={loading}
+              className="bg-[#7C3FD9] p-2 text-2xl font-bold rounded-2xl mt-4"
+              type="submit">
+              {loading ? (
+                <Loader2 className="animate-spin h-4 w-4 mx-auto" />
+              ) : (
+                "HAZLO YA"
+              )}
             </button>
           </form>
         </div>
@@ -172,7 +209,9 @@ export default function ModalScrollA({ data, time }) {
 function Input({ label, type, name, value, onChange, ...props }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-semibold" htmlFor={name}>{label}</label>
+      <label className="font-semibold" htmlFor={name}>
+        {label}
+      </label>
       <input
         className="p-1 outline-none rounded-md text-black"
         id={name}

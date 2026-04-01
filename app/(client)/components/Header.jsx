@@ -61,8 +61,8 @@ export default function Header2() {
           <Link href="/" onClick={closeMenu}>
             <Image
               src="/headerFooter/digimedia-marketing.webp"
-              alt="Logo de digimedia color blanco y fondo negro"
-              title="Logo digimedia, logo blanco Digimedia"
+              alt="Logo en blanco y negro de Digimedia Marketing"
+              title="Digimedia + logo + agencia + marketing digital + blanco + negro"
               width={200}
               height={85}
               className="my-auto"
