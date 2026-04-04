@@ -180,6 +180,24 @@ export function CampaignQueuePanel() {
     );
   }
 
+  // --- CÁLCULOS CORREGIDOS: SUMA TODO LO ENVIADO HOY ---
+  const enviosHoy = campaigns.reduce((total, camp) => {
+    // Obtenemos la fecha de la campaña (creación)
+    const fechaCamp = new Date(camp.created_at).toLocaleDateString();
+    // Obtenemos la fecha de hoy
+    const hoy = new Date().toLocaleDateString();
+    
+    // Si la campaña es de hoy, sumamos sus envíos al total general
+    if (fechaCamp === hoy) {
+      return total + (camp.envios_hoy || 0);
+    }
+    return total;
+  }, 0);
+
+  const limiteDiario = 50; 
+  const porcentajeDiario = limiteDiario > 0 ? (enviosHoy / limiteDiario) * 100 : 0;
+  const disponibles = Math.max(0, limiteDiario - enviosHoy);
+
   return (
     <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden dark:border dark:border-slate-700">
       {/* Header */}
@@ -191,6 +209,39 @@ export function CampaignQueuePanel() {
           {activeCampaign ? '1 campaña activa' : 'Sin campañas activas'}
         </p>
       </div>
+
+      {/* --- NUEVO: BARRA DE PROGRESO DE ENVÍOS HOY --- */}
+      <div className="p-5 border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-[13px] font-bold text-slate-700 dark:text-slate-300">
+            Envíos hoy (Límite: {limiteDiario})
+          </span>
+          <span className="text-[13px] font-bold text-purple-600 dark:text-purple-400">
+            {enviosHoy}/{limiteDiario}
+          </span>
+        </div>
+        <div className="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mb-2">
+          <div
+            className={`h-full rounded-full transition-all duration-500 ${
+              enviosHoy >= limiteDiario
+                ? "bg-rose-500"
+                : enviosHoy >= limiteDiario * 0.8
+                ? "bg-amber-500"
+                : "bg-purple-600"
+            }`}
+            style={{ width: `${Math.min(porcentajeDiario, 100)}%` }}
+          ></div>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-[11px] text-slate-500 dark:text-slate-400">
+            {disponibles} envíos disponibles
+          </span>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+            {porcentajeDiario.toFixed(1)}%
+          </span>
+        </div>
+      </div>
+      {/* ---------------------------------------------- */}
 
       <div className="p-6 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
         {/* Campañas en Borrador */}
