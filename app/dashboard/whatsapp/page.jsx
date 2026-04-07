@@ -11,6 +11,7 @@ import { TestSendTab } from './components/TestSendTab';
 import { PlantillasTab } from './components/PlantillasTab';
 import { CampaignProgressMonitor } from './components/CampaignProgressMonitor';
 import { CampaignQueuePanel } from './components/CampaignQueuePanel';
+import Swal from "sweetalert2";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState('conexion');
