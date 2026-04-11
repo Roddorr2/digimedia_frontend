@@ -26,50 +26,41 @@ export default function Page() {
   const router = useRouter()
 
 
-  async function fetchModals() {
+  async function fetchModals(pageTarget = 1) {
     setIsRefreshing(true)
-    let page = 1
-    let allData = []
-    let hasMorePages = true
+    setIsLoading(true)
 
-    while (hasMorePages) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
+    try {
+      const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      })
+
+      const dataArray = response.data.data; 
+      
+      setData(dataArray)
+      setFilteredData(dataArray)
+      setTotalPages(response.data.last_page || 1) 
+
+    } catch (error) {
+      console.error("Error al obtener los datos:", error.message)
+
+      if (error.response && error.response.status === 401) {
+        Swal.fire({
+          title: "Sesión Expirada",
+          text: "Por favor, inicia sesión nuevamente.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then(() => {
+          deleteCookie("modal");
+          user_service.logoutClient(router)
         })
-
-        if (response.data.data.length === 0) {
-          hasMorePages = false
-          break
-        }
-
-        allData = [...allData, ...response.data.data]
-        page++
-      } catch (error) {
-        hasMorePages = false
-        console.error("Error al obtener los datos:", error.message)
-
-        if (error.response && error.response.status === 401) {
-          Swal.fire({
-            title: "Sesión Expirada",
-            text: "Por favor, inicia sesión nuevamente.",
-            icon: "warning",
-            confirmButtonText: "OK",
-          }).then(() => {
-            deleteCookie("modal");
-            user_service.logoutClient(router)
-          })
-        }
       }
+    } finally {
+      setIsLoading(false)
+      setIsRefreshing(false)
     }
-
-    setData(allData)
-    setFilteredData(allData)
-    setTotalPages(Math.ceil(allData.length / 4))
-    setIsLoading(false)
-    setIsRefreshing(false)
   }
 
   async function deleteModal(id) {
@@ -401,16 +392,17 @@ export default function Page() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                   {filteredData.length > 0 ? (
-                    filteredData
-                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
-                    .map((modal)=> (
+                    filteredData.map((modal)=> (
                       <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"> 
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {modal.id_modalservicio}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio.nombre}</td>
+                        
+                        {/* 👇 CORRECCIÓN 1: Aquí agregamos el signo de interrogación (?) 👇 */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio?.nombre}</td>
+                        
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
