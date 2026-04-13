@@ -1,10 +1,6 @@
 import { getCookie } from "cookies-next";
-
-// ✅ Laravel (campañas, BD, etc.)
-const API_URL = process.env.NEXT_PUBLIC_API_URL_PROD || "http://127.0.0.1:8000";
-
-// ✅ WhatsApp-service (Node + Baileys)
-const WS_URL = process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD || "http://localhost:5111";
+import API_URL from './url'; 
+import url_whatsapp from './url_whasapp';
 
 /**
  * ✅ Request hacia Laravel
@@ -49,7 +45,7 @@ const wsRequest = async (endpoint, options = {}) => {
     const isFormData = options.body instanceof FormData;
 
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-    const url = `${WS_URL}${cleanEndpoint}`;
+    const url = `${url_whatsapp}${cleanEndpoint}`;
 
     if (process.env.NODE_ENV !== 'production') {
             console.log(`📡 (WS) ${url}`);
