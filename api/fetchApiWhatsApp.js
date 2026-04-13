@@ -30,9 +30,11 @@ export const apiRequest = async (endpoint, options = {}) => {
     const raw = await response.text();
 
     if (!contentType.includes("application/json")) {
-        console.error(
-            `Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio: ${raw.substring(0, 120)}`
-        );
+        if (process.env.NODE_ENV !== 'production') {
+            console.error(
+                `Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio: ${raw.substring(0, 120)}`
+            );
+        }
         return { success: response.ok, text: raw, status: response.status };
     }
 
@@ -49,7 +51,9 @@ const wsRequest = async (endpoint, options = {}) => {
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const url = `${WS_URL}${cleanEndpoint}`;
 
-    console.log(`📡 (WS) ${url}`);
+    if (process.env.NODE_ENV !== 'production') {
+            console.log(`📡 (WS) ${url}`);
+    }
 
     const res = await fetch(url, {
         ...options,
