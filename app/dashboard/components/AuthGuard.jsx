@@ -29,15 +29,15 @@ export default function AuthGuard({ children, requiredRole = null }) {
         
         // info de cookies
         if (!getCookie('user')) {
-          setCookie("user", JSON.stringify(userData.user), { maxAge: 30 * 24 * 60 * 60, path: "/" });
+          setCookie("user", JSON.stringify(userData.user), { maxAge: 5 * 60 * 60, path: "/" });
         }
         
         if (!getCookie('empleado')) {
-          setCookie("empleado", JSON.stringify(userData.empleado), { maxAge: 30 * 24 * 60 * 60, path: "/" });
+          setCookie("empleado", JSON.stringify(userData.empleado), { maxAge: 5 * 60 * 60, path: "/" });
         }
         
         if (!getCookie('rol')) {
-          setCookie("rol", userData.rol, { maxAge: 30 * 24 * 60 * 60, path: "/" });
+          setCookie("rol", userData.rol, { maxAge: 5 * 60 * 60, path: "/" });
         }
         
         // verificar uno o varios roles
