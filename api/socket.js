@@ -10,7 +10,10 @@ export const useWhatsAppSocket = (token) => {
     });
 
     useEffect(() => {
-        if (!token) return;
+        if (!token) {
+            setData(prev => ({ ...prev, loading: false })); // Apaga la carga primero
+            return; // Luego cancela
+        }   
 
         const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL_PROD || process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD || "http://localhost:5111";
 
