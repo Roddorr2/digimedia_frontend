@@ -18,14 +18,14 @@ export default function Clientes() {
     },
 
     {
-      src: '/image-home/digimedia color.png',
+      src: '/image-home/digimedia+color.webp',
       alt: 'Digimedia logo',
       width: 180,
       height: 95,
     },
 
     {
-      src: '/image-home/nhl color.png',
+      src: '/image-home/nhl color.webp',
       alt: 'NHL logo',
       width: 130,
       height: 75,
@@ -37,13 +37,13 @@ export default function Clientes() {
       height: 95,
     },
     {
-      src: '/image-home/yuntas color.png',
+      src: '/image-home/yuntas color.webp',
       alt: 'Yuntas logo',
       width: 150,
       height: 75,
     },
     {
-      src: '/image-home/prevemedic color.png',
+      src: '/image-home/prevemedic color.webp',
       alt: 'prevemedic logo',
       width: 300,
       height: 100,

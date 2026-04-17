@@ -25,15 +25,13 @@ export default function Footer() {
             <div className={styles.footerContenido}>
               <div className={`${styles.imgFooter}`}>
                 <Image
-                  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado.webp"
-                  alt="Logo de Digimedia agencia de marketing digital en Perú especializada en gestión de redes sociales, branding y desarrollo web"
-                  title="Digimedia Agencia de Marketing Digital en Perú"
-                  width={320}
-                  height={160}
-                  className="my-auto"
-                  decoding="async"
-                  priority={true}
-                />
+  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado.svg"
+  alt="Logo Digimedia Marketing Digital Perú"
+  width={320}
+  height={160}
+  className="my-auto"
+  sizes="320px"
+/>
               </div>
               <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
                 <h2>CONTACTO</h2>
