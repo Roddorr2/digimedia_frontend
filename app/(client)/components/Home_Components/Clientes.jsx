@@ -1,62 +1,62 @@
-'use client';
-import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+"use client";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
-import 'swiper/css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css/navigation';
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css/navigation";
 
 export default function Clientes() {
   // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
     {
-      src: '/image-home/contigo_voy color.png',
-      alt: 'Contigo Voy logo',
+      src: "/image-home/contigo_voy color.webp",
+      alt: "Contigo Voy logo",
       width: 200,
       height: 100,
     },
 
     {
-      src: '/image-home/digimedia+color.webp',
-      alt: 'Digimedia logo',
+      src: "/image-home/digimedia color.webp",
+      alt: "Digimedia logo",
       width: 180,
       height: 95,
     },
 
     {
-      src: '/image-home/nhl color.webp',
-      alt: 'NHL logo',
+      src: "/image-home/nhl color.webp",
+      alt: "NHL logo",
       width: 130,
       height: 75,
     },
     {
-      src: '/image-home/tami color.png',
-      alt: 'Tami logo',
+      src: "/image-home/tami color.webp",
+      alt: "Tami logo",
       width: 190,
       height: 95,
     },
     {
-      src: '/image-home/yuntas color.webp',
-      alt: 'Yuntas logo',
+      src: "/image-home/yuntas color.webp",
+      alt: "Yuntas logo",
       width: 150,
       height: 75,
     },
     {
-      src: '/image-home/prevemedic color.webp',
-      alt: 'prevemedic logo',
+      src: "/image-home/prevemedic color.webp",
+      alt: "prevemedic logo",
       width: 300,
       height: 100,
     },
     {
-      src: '/image-home/mj-eventos color.png',
-      alt: 'MJ eventos logo',
+      src: "/image-home/mj-eventos color.png",
+      alt: "MJ eventos logo",
       width: 180,
       height: 95,
     },
     {
-      src: '/image-home/asden color.png',
-      alt: 'Asden logo',
+      src: "/image-home/asden color.png",
+      alt: "Asden logo",
       width: 100,
       height: 65,
     },
@@ -110,14 +110,14 @@ export default function Clientes() {
           speed={700}
           spaceBetween={0}
           navigation={{
-            prevEl: '.clients-prev',
-            nextEl: '.clients-next',
+            prevEl: ".clients-prev",
+            nextEl: ".clients-next",
           }}
           pagination={{
             clickable: true,
-            el: '.clients-pagination',
-            bulletClass: 'clients-bullet',
-            bulletActiveClass: 'clients-bullet-active',
+            el: ".clients-pagination",
+            bulletClass: "clients-bullet",
+            bulletActiveClass: "clients-bullet-active",
           }}
           breakpoints={{
             0: { slidesPerView: 1 },
