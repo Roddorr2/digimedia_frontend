@@ -28,50 +28,49 @@ export default function Page() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const router = useRouter()
 
-  async function fetchReclamacion() {
+  // Modificamos la función para que reciba la página actual que queremos consultar
+  async function fetchReclamacion(pageToFetch = currentPage) {
     setIsRefreshing(true)
-    let page = 1
-    let allData = []
-    let hasMorePages = true
+    
+    
+    try {
+      
+      const response = await axios.get(`${API_BASE_URL}?page=${pageToFetch}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      })
 
-    while (hasMorePages) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
+      // Extraemos la data de la página actual
+      const pageData = response.data.data || []
+      
+     
+      setData(pageData)
+      setFilteredData(pageData)
+
+      
+      const total = response.data.last_page || response.data.meta?.last_page || 1;
+      setTotalPages(total)
+
+    } catch (error) {
+      console.error("Error al obtener los datos:", error.message)
+
+      if (error.response && error.response.status === 401) {
+        Swal.fire({
+          title: "Sesión Expirada",
+          text: "Por favor, inicia sesión nuevamente.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then(() => {
+          deleteCookie("reclamacion");
+          user_service.logoutClient(router)
         })
-
-        if (response.data.data.length === 0) {
-          hasMorePages = false
-          break
-        }
-
-        allData = [...allData, ...response.data.data]
-        page++
-      } catch (error) {
-        hasMorePages = false
-        console.error("Error al obtener los datos:", error.message)
-
-        if (error.response && error.response.status === 401) {
-          Swal.fire({
-            title: "Sesión Expirada",
-            text: "Por favor, inicia sesión nuevamente.",
-            icon: "warning",
-            confirmButtonText: "OK",
-          }).then(() => {
-            deleteCookie("reclamacion");
-            user_service.logoutClient(router)
-          })
-        }
       }
+    } finally {
+      
+      setIsLoading(false)
+      setIsRefreshing(false)
     }
-
-    setData(allData)
-    setFilteredData(allData)
-    setTotalPages(Math.ceil(allData.length / 4))
-    setIsLoading(false)
-    setIsRefreshing(false)
   }
 
   async function deleteReclamacion(id) {
