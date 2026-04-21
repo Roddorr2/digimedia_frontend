@@ -1,10 +1,21 @@
+'use client'
+
 // Componentes
 import Servicios from '../components/Servicios';
 import Contactanos from '../components/Contactanos';
 import Description from '../components/Description';
 import Main from '../components/Main';
-import ModalScroll from '../components/ModalScroll';
 import ModalButton from '../components/ModalButton';
+
+import ModalScroll from '../components/ModalScroll';
+
+/*
+import dynamic from "next/dynamic";
+
+const ModalScroll = dynamic(() => import('../components/ModalScroll'), {
+  ssr: false,
+});
+*/
 
 export default function Page() {
   const servicios = [
@@ -120,3 +131,5 @@ export default function Page() {
     </>
   );
 }
+
+

@@ -1,9 +1,9 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 const WhatsAppButton = () => {
-  const phoneNumber = '51983027828';
+  const phoneNumber = "51983027828";
   const message =
-    'Hola, me gustaría obtener más información sobre sus servicios.';
+    "Hola, me gustaría obtener más información sobre sus servicios.";
 
   return (
     <a
@@ -14,7 +14,7 @@ const WhatsAppButton = () => {
       aria-label="Chat on WhatsApp"
     >
       <Image
-        src="/image-home/WhatsApp.svg.webp"
+        src="/image-home/WhatsAppIcon.webp"
         alt="Icono de WhatsApp color blanco con fondo oscuro"
         width={60}
         height={60}
