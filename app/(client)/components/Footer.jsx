@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import styles from './Footer.module.css';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import styles from "./Footer.module.css";
+import Image from "next/image";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -20,18 +20,17 @@ export default function Footer() {
     <>
       <footer>
         <div className={styles.mainFooter}>
-
           <div className={styles.footerInner}>
             <div className={styles.footerContenido}>
               <div className={`${styles.imgFooter}`}>
                 <Image
-  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado.svg"
-  alt="Logo Digimedia Marketing Digital Perú"
-  width={320}
-  height={160}
-  className="my-auto"
-  sizes="320px"
-/>
+                  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado(1).svg"
+                  alt="Logo Digimedia Marketing Digital Perú"
+                  width={320}
+                  height={160}
+                  className="my-auto"
+                  sizes="320px"
+                />
               </div>
               <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
                 <h2>CONTACTO</h2>
@@ -52,8 +51,8 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li className={styles.emailContainer}>
-                    <div 
-                      onClick={handleCopyEmail} 
+                    <div
+                      onClick={handleCopyEmail}
                       className={styles.emailLink}
                       title="Haz clic para copiar el correo"
                     >
@@ -65,7 +64,9 @@ export default function Footer() {
                         height={24}
                       />
                       digi.mediamkt@gmail.com
-                      {copied && <span className={styles.copiedTooltip}>¡Copiado!</span>}
+                      {copied && (
+                        <span className={styles.copiedTooltip}>¡Copiado!</span>
+                      )}
                     </div>
                   </li>
                   <li>
@@ -83,7 +84,6 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-                
                 <h2>LEGALES</h2>
                 <ul>
                   <li>
@@ -106,7 +106,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-                <h2 >REDES SOCIALES</h2>
+                <h2>REDES SOCIALES</h2>
                 <ul>
                   <li>
                     <Link
@@ -194,13 +194,12 @@ export default function Footer() {
               </div>
               <div className={styles.derechosFooter}>
                 <p>
-                  © {new Date().getFullYear()} Digimedia.  Todos los derechos
+                  © {new Date().getFullYear()} Digimedia. Todos los derechos
                   reservados.
                 </p>
               </div>
             </div>
           </div>
-          
         </div>
       </footer>
     </>
