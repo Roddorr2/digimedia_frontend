@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import axios from "axios";
 import Swal from "sweetalert2";
+
 import { getCookie } from "cookies-next";
 import url from "../../../../api/url";
 import { Loader2 } from "lucide-react";
@@ -48,6 +50,11 @@ export default function ModalScrollA({ data, time }) {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+
+    /*
+    const axios = (await import("axios")).default;
+    const Swal = (await import("sweetalert2")).default;
+    */
 
     try {
       if (formData.telefono.length !== 9) {
