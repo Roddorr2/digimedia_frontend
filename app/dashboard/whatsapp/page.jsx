@@ -9,7 +9,7 @@ import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import { TestSendTab } from "./components/TestSendTab";
 import { PlantillasTab } from "./components/PlantillasTab";
-import { PopUpsTab } from "./components/PopUpsTab";
+import { PopupsTab } from "./components/PopupsTab";
 import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
 import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 import Swal from "sweetalert2";
@@ -168,7 +168,7 @@ export default function WhatsAppPage() {
                 <TabButton
                   active={tab === "popups"}
                   onClick={() => setTab("popups")}
-                  label="PopUps"
+                  label="Pop-Ups"
                 />
               </div>
             </div>
@@ -277,7 +277,7 @@ export default function WhatsAppPage() {
               )}
 
               {!isAuthLoading && tab === "plantillas" && <PlantillasTab />}
-              {!isAuthLoading && tab === "popups" && <PopUpsTab />}
+              {!isAuthLoading && tab === "popups" && <PopupsTab />}
             </>
           )}
         </div>
