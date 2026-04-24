@@ -27,42 +27,52 @@ export default function Page() {
 
 
   async function fetchModals(pageTarget = 1) {
-    setIsRefreshing(true)
-    setIsLoading(true)
+  setIsRefreshing(true)
+  setIsLoading(true)
 
-    try {
-      const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}`, {
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
-        },
-      })
+  try {
+    const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+    })
 
-      const dataArray = response.data.data; 
-      
-      setData(dataArray)
-      setFilteredData(dataArray)
-      setTotalPages(response.data.last_page || 1) 
+    const dataArray = response.data.data || []
+    
+    setData(dataArray)
+    setFilteredData(dataArray)
 
-    } catch (error) {
-      console.error("Error al obtener los datos:", error.message)
+    let totalPaginas = 1
 
-      if (error.response && error.response.status === 401) {
-        Swal.fire({
-          title: "Sesión Expirada",
-          text: "Por favor, inicia sesión nuevamente.",
-          icon: "warning",
-          confirmButtonText: "OK",
-        }).then(() => {
-          deleteCookie("modal");
-          user_service.logoutClient(router)
-        })
-      }
-    } finally {
-      setIsLoading(false)
-      setIsRefreshing(false)
+    if (response.data.last_page) {
+        totalPaginas = response.data.last_page
+    } else if (response.data.meta && response.data.meta.last_page) {
+        totalPaginas = response.data.meta.last_page
+    } else if (response.data.total) {
+        totalPaginas = Math.ceil(response.data.total / 15)
+    } else if (response.data.meta && response.data.meta.total) {
+        totalPaginas = Math.ceil(response.data.meta.total / 15)
     }
-  }
 
+    setTotalPages(totalPaginas)
+
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        title: "Sesión Expirada",
+        text: "Por favor, inicia sesión nuevamente.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then(() => {
+        deleteCookie("modal")
+        user_service.logoutClient(router)
+      })
+    }
+  } finally {
+    setIsLoading(false)
+    setIsRefreshing(false)
+  }
+}
   async function deleteModal(id) {
     try {
       const response = await axios.delete(`${API_BASE_URL}/${id}`, {
