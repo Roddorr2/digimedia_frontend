@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
-import { getCookie } from 'cookies-next';
-import { useMemo, useState, useEffect } from 'react';
-import { TabButton, Card, CardTitle } from './components/TabButton';
-import { useAuth } from '@/hooks/useAuth';
-import { whatsappApi, apiRequest } from '@/api/fetchApiWhatsApp';
-import { useWhatsAppSocket } from '@/api/socket';
-import { QrDisplay } from './components/QrDisplay';
-import { TestSendTab } from './components/TestSendTab';
-import { PlantillasTab } from './components/PlantillasTab';
-import { CampaignProgressMonitor } from './components/CampaignProgressMonitor';
-import { CampaignQueuePanel } from './components/CampaignQueuePanel';
+import { getCookie } from "cookies-next";
+import { useMemo, useState, useEffect } from "react";
+import { TabButton, Card, CardTitle } from "./components/TabButton";
+import { useAuth } from "@/hooks/useAuth";
+import { whatsappApi, apiRequest } from "@/api/fetchApiWhatsApp";
+import { useWhatsAppSocket } from "@/api/socket";
+import { QrDisplay } from "./components/QrDisplay";
+import { TestSendTab } from "./components/TestSendTab";
+import { PlantillasTab } from "./components/PlantillasTab";
+import { PopupsTab } from "./components/PopupsTab";
+import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
+import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 import Swal from "sweetalert2";
 
 export default function WhatsAppPage() {
-  const [tab, setTab] = useState('conexion');
+  const [tab, setTab] = useState("conexion");
   const [isConnected, setIsConnected] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [hasActiveCampaigns, setHasActiveCampaigns] = useState(false);
@@ -25,10 +26,10 @@ export default function WhatsAppPage() {
 
   const services = useMemo(
     () => [
-      { id: 'p1', name: 'Diseño y Desarrollo Web' },
-      { id: 'p2', name: 'Gestión de Redes Sociales' },
-      { id: 'p3', name: 'Marketing y Gestión Digital' },
-      { id: 'p4', name: 'Branding y Diseño' },
+      { id: "p1", name: "Diseño y Desarrollo Web" },
+      { id: "p2", name: "Gestión de Redes Sociales" },
+      { id: "p3", name: "Marketing y Gestión Digital" },
+      { id: "p4", name: "Branding y Diseño" },
     ],
     [],
   );
@@ -42,18 +43,18 @@ export default function WhatsAppPage() {
 
   const connected = Boolean(wsConnected);
   const connectedNumber =
-    qrData?.me?.id?.split(':')[0] || qrData?.me?.id?.split('@')[0];
+    qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
 
   const statusText = isConnected
-    ? `Conectado: ${connectedNumber || 'WhatsApp'}`
-    : 'WhatsApp Desconectado';
+    ? `Conectado: ${connectedNumber || "WhatsApp"}`
+    : "WhatsApp Desconectado";
 
   const statusHint = isConnected
     ? `Tu cuenta (${connectedNumber}) está vinculada y lista para enviar mensajes.`
-    : 'Vincula tu cuenta para poder enviar mensajes.';
+    : "Vincula tu cuenta para poder enviar mensajes.";
 
   useEffect(() => {
-    const token = getCookie('token') || localStorage.getItem('token');
+    const token = getCookie("token") || localStorage.getItem("token");
     setClientToken(token);
   }, []);
 
@@ -65,14 +66,14 @@ export default function WhatsAppPage() {
   useEffect(() => {
     const checkActiveCampaigns = async () => {
       try {
-        const res = await apiRequest('/api/whatsapp/campaigns?limit=10');
+        const res = await apiRequest("/api/whatsapp/campaigns?limit=10");
         const campaigns = res?.data?.data || [];
 
         // Considerar activa si está en_proceso o ejecutándose
-        const hasActive = campaigns.some((c) => c.estado === 'en_proceso');
+        const hasActive = campaigns.some((c) => c.estado === "en_proceso");
         setHasActiveCampaigns(hasActive);
       } catch (err) {
-        console.error('Error checking active campaigns:', err);
+        console.error("Error checking active campaigns:", err);
       }
     };
 
@@ -87,10 +88,10 @@ export default function WhatsAppPage() {
     try {
       await whatsappApi.restart();
       setIsConnected(false);
-      Swal.fire('Reiniciando', 'La sesión se está reiniciando...', 'info');
+      Swal.fire("Reiniciando", "La sesión se está reiniciando...", "info");
     } catch (error) {
       console.error(error);
-      Swal.fire('Error', 'No se pudo reiniciar la sesión.', 'error');
+      Swal.fire("Error", "No se pudo reiniciar la sesión.", "error");
     }
   };
 
@@ -109,10 +110,10 @@ export default function WhatsAppPage() {
             key={notification.id}
             className={`
               px-4 py-3 rounded-lg shadow-lg border animate-slide-in-right
-              ${notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : ''}
-              ${notification.type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' : ''}
-              ${notification.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' : ''}
-              ${notification.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-800' : ''}
+              ${notification.type === "success" ? "bg-green-50 border-green-200 text-green-800" : ""}
+              ${notification.type === "warning" ? "bg-yellow-50 border-yellow-200 text-yellow-800" : ""}
+              ${notification.type === "error" ? "bg-red-50 border-red-200 text-red-800" : ""}
+              ${notification.type === "info" ? "bg-blue-50 border-blue-200 text-blue-800" : ""}
             `}
           >
             <p className="text-sm font-medium">{notification.message}</p>
@@ -138,7 +139,7 @@ export default function WhatsAppPage() {
                 <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
-                      isConnected ? 'bg-emerald-500' : 'bg-rose-500'
+                      isConnected ? "bg-emerald-500" : "bg-rose-500"
                     }`}
                   />
                   {statusText}
@@ -150,19 +151,24 @@ export default function WhatsAppPage() {
             <div className="mt-4">
               <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700">
                 <TabButton
-                  active={tab === 'conexion'}
-                  onClick={() => setTab('conexion')}
+                  active={tab === "conexion"}
+                  onClick={() => setTab("conexion")}
                   label="Conexión"
                 />
                 <TabButton
-                  active={tab === 'prueba'}
-                  onClick={() => setTab('prueba')}
+                  active={tab === "prueba"}
+                  onClick={() => setTab("prueba")}
                   label="Prueba"
                 />
                 <TabButton
-                  active={tab === 'plantillas'}
-                  onClick={() => setTab('plantillas')}
+                  active={tab === "plantillas"}
+                  onClick={() => setTab("plantillas")}
                   label="Plantillas"
+                />
+                <TabButton
+                  active={tab === "popups"}
+                  onClick={() => setTab("popups")}
+                  label="Pop-Ups"
                 />
               </div>
             </div>
@@ -190,7 +196,7 @@ export default function WhatsAppPage() {
           )}
 
           {/* Layout con sidebar para pestaña Prueba */}
-          {!isAuthLoading && tab === 'prueba' ? (
+          {!isAuthLoading && tab === "prueba" ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Columna principal (2/3) */}
               <div className="lg:col-span-2">
@@ -208,7 +214,7 @@ export default function WhatsAppPage() {
             </div>
           ) : (
             <>
-              {!isAuthLoading && tab === 'conexion' && (
+              {!isAuthLoading && tab === "conexion" && (
                 <section className="space-y-6">
                   <Card>
                     <CardTitle>Estado de Conexión WhatsApp</CardTitle>
@@ -218,7 +224,7 @@ export default function WhatsAppPage() {
                         <div className="flex items-center gap-3">
                           <span
                             className={`h-3 w-3 rounded-full ${
-                              isConnected ? 'bg-emerald-500' : 'bg-rose-500'
+                              isConnected ? "bg-emerald-500" : "bg-rose-500"
                             }`}
                           />
                           <div>
@@ -237,18 +243,18 @@ export default function WhatsAppPage() {
                             disabled={hasActiveCampaigns}
                             className={`inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all ${
                               hasActiveCampaigns
-                                ? 'bg-gray-400 cursor-not-allowed opacity-60'
-                                : 'bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]'
+                                ? "bg-gray-400 cursor-not-allowed opacity-60"
+                                : "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                             }`}
                             title={
                               hasActiveCampaigns
-                                ? 'No se puede reiniciar mientras hay campañas ejecutándose'
-                                : ''
+                                ? "No se puede reiniciar mientras hay campañas ejecutándose"
+                                : ""
                             }
                           >
                             {hasActiveCampaigns
-                              ? '🔒 Campaña en Proceso'
-                              : 'Reiniciar Sesión'}
+                              ? "🔒 Campaña en Proceso"
+                              : "Reiniciar Sesión"}
                           </button>
                           {hasActiveCampaigns && (
                             <p className="text-xs text-amber-600">
@@ -270,7 +276,8 @@ export default function WhatsAppPage() {
                 </section>
               )}
 
-              {!isAuthLoading && tab === 'plantillas' && <PlantillasTab />}
+              {!isAuthLoading && tab === "plantillas" && <PlantillasTab />}
+              {!isAuthLoading && tab === "popups" && <PopupsTab />}
             </>
           )}
         </div>
