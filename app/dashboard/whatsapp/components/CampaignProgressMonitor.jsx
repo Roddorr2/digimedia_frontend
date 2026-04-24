@@ -11,17 +11,17 @@ export function CampaignProgressMonitor() {
   const fetchActiveCampaign = async () => {
     try {
       const res = await apiRequest("/api/whatsapp/campaigns?limit=10");
-      
-      if (res?.success && res?.data) {
-        // Buscar campaña activa (en_proceso o pausada_hasta_mañana)
-        const active = res.data.campanias?.find(
-          (c) => c.estado === "en_proceso" || c.estado === "pausada_hasta_mañana"
-        );
-        
-        if (active && active.id_campania) {
-          // Obtener detalles completos
-          const statusRes = await apiRequest(`/api/whatsapp/campaign/${active.id_campania}/status`);
-          
+
+      if (res?.success) {
+        // El backend ya expone la campaña activa directamente en res.active_campaign
+        const activeCampaignInfo = res.active_campaign;
+
+        if (activeCampaignInfo?.id_campania) {
+          // Obtener detalles completos (porcentaje, contadores, etc.)
+          const statusRes = await apiRequest(
+            `/api/whatsapp/campaign/${activeCampaignInfo.id_campania}/status`
+          );
+
           if (statusRes?.success) {
             setActiveCampaign(statusRes.data);
             setError(null);
