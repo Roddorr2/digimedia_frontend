@@ -66,10 +66,9 @@ export default function WhatsAppPage() {
     const checkActiveCampaigns = async () => {
       try {
         const res = await apiRequest('/api/whatsapp/campaigns?limit=10');
-        const campaigns = res?.data?.data || [];
-
-        // Considerar activa si está en_proceso o ejecutándose
-        const hasActive = campaigns.some((c) => c.estado === 'en_proceso');
+        // El backend expone la campaña activa en res.active_campaign (campo raíz)
+        // y el listado paginado en res.data.campanias
+        const hasActive = !!res?.active_campaign?.id_campania;
         setHasActiveCampaigns(hasActive);
       } catch (err) {
         console.error('Error checking active campaigns:', err);
