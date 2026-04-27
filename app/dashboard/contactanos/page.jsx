@@ -28,6 +28,8 @@ export default function Page() {
 
 async function fetchContacts(pageToFetch = currentPage) {
     setIsRefreshing(true)
+    // Es buena práctica agregar setIsLoading(true) aquí también si tienes el estado
+    // setIsLoading(true) 
 
     try {
       const response = await axios.get(`${URL_API}?page=${pageToFetch}`, {
@@ -40,9 +42,19 @@ async function fetchContacts(pageToFetch = currentPage) {
       setData(pageData)
       setFilteredData(pageData)
 
-      // Leemos el total de páginas desde la respuesta del servidor
-      const total = response.data.last_page || response.data.meta?.last_page || 1;
-      setTotalPages(total)
+      let totalPaginas = 1
+
+      if (response.data.last_page) {
+          totalPaginas = response.data.last_page
+      } else if (response.data.meta && response.data.meta.last_page) {
+          totalPaginas = response.data.meta.last_page
+      } else if (response.data.total) {
+          totalPaginas = Math.ceil(response.data.total / 15)
+      } else if (response.data.meta && response.data.meta.total) {
+          totalPaginas = Math.ceil(response.data.meta.total / 15)
+      }
+
+      setTotalPages(totalPaginas)
 
     } catch (error) {
       console.error("Error al obtener los datos:", error.message)
@@ -63,7 +75,6 @@ async function fetchContacts(pageToFetch = currentPage) {
       setIsRefreshing(false)
     }
   }
-
   async function deleteContact(id) {
     try {
       const response = await axios.delete(`${URL_API}/${id}`, {
