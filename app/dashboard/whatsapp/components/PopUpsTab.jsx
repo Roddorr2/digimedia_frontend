@@ -258,7 +258,7 @@ export function PopupsTab() {
       try {
         const res = await popupApi.getServicios();
 
-        if (res.success) setServicios(res.data);
+        if (res.success) setServicios(res.data ?? []);
       } catch (error) {}
     };
     fetchServicios();
@@ -503,16 +503,16 @@ export function PopupsTab() {
                     resetForm();
                   }}
                 >
-                  <option className="text-salte-800 bg-white" value="">
+                  <option className="text-slate-800 bg-white" value="">
                     — Selecciona un servicio —
                   </option>
                   {servicios.map((s) => (
                     <option
-                      className="text-salte-800 bg-white"
+                      className="text-slate-800 bg-white"
                       key={s.id_servicio}
                       value={s.id_servicio}
                     >
-                      {s.nombre_servicio}
+                      {s.nombre}
                     </option>
                   ))}
                 </select>
@@ -527,12 +527,12 @@ export function PopupsTab() {
                     setSubservicioId(Number(e.target.value) || null)
                   }
                 >
-                  <option className="text-salte-800 bg-white" value="">
+                  <option className="text-slate-800 bg-white" value="">
                     — Selecciona un subservicio —
                   </option>
                   {subservicios.map((s) => (
                     <option
-                      className="text-salte-800 bg-white"
+                      className="text-slate-800 bg-white"
                       key={s.id_subservicio}
                       value={s.id_subservicio}
                     >
