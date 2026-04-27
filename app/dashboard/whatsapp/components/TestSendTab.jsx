@@ -394,20 +394,7 @@ export function TestSendTab({ services, isConnected, connectedNumber }) {
           </div>
         </div>
 
-        {/* --- DEBUG: PAYLOAD + RESPUESTA (Responsivos) --- */}
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50 w-full overflow-hidden">
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Payload preview</p>
-            <pre className="mt-3 overflow-auto p-3 text-xs bg-white border rounded-xl w-full">{JSON.stringify(payloadPreview, null, 2)}</pre>
-            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-              Nota: el envío real es multipart/form-data (no JSON).
-            </p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50 w-full overflow-hidden">
-            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Última respuesta</p>
-            <pre className="mt-3 overflow-auto p-3 text-xs bg-white border rounded-xl w-full">{lastResponse ? JSON.stringify(lastResponse, null, 2) : "// Sin respuesta aún"}</pre>
-          </div>
-        </div>
+        
       </Card>
     </section>
   );
