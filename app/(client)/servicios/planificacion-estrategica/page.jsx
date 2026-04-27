@@ -6,6 +6,7 @@ import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function PlanificacionEstrategica() {
   const modales = {
@@ -38,6 +39,7 @@ export default function PlanificacionEstrategica() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={14} />
       <ModalScroll data={modales} />
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"

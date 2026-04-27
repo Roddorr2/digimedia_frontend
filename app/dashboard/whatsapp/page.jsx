@@ -9,10 +9,10 @@ import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
 import { TestSendTab } from "./components/TestSendTab";
 import { PlantillasTab } from "./components/PlantillasTab";
-import { PopupsTab } from "./components/PopupsTab";
 import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
 import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 import Swal from "sweetalert2";
+import { PopupsTab } from "./components/PopupsTab";
 
 export default function WhatsAppPage() {
   const [tab, setTab] = useState("conexion");

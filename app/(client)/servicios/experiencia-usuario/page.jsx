@@ -1,21 +1,22 @@
-'use client';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import Image from 'next/image';
-import ModalButton from '../components/ModalButton';
+"use client";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import Image from "next/image";
+import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function ExperienciaUsuario() {
   const modales = {
     modalA: {
-      text: 'EXPERIENCIA DE USUARIO',
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
-      imageTitle: 'Obtén una asesoría ¡Gratis!',
+      text: "EXPERIENCIA DE USUARIO",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
+      imageTitle: "Obtén una asesoría ¡Gratis!",
       imageAlt:
-        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
+        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
     },
   };
 
@@ -38,7 +39,7 @@ export default function ExperienciaUsuario() {
         </>
       ),
       description:
-        'Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.',
+        "Nos enfocamos en la funcionalidad. Diseñamos sitios web intuitivos y efectivos basados en las necesidades, comportamientos y objetivos reales de tus clientes para eliminar frustraciones.",
     },
     {
       icon: (
@@ -58,12 +59,13 @@ export default function ExperienciaUsuario() {
         </>
       ),
       description:
-        'Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.',
+        "Nos encargamos de la apariencia visual de tu marca. Creamos interfaces atractivas y coherentes usando colores, tipografía e imágenes que guían al usuario emocionalmente.",
     },
   ];
 
   return (
     <div>
+      <ServicePopup idSubservicio={1} />
       <ModalScroll data={modales} />
 
       <ModalButton
