@@ -9,10 +9,6 @@ const TIEMPOS = [
   { value: 3, label: "3s - Muy inmediato" },
   { value: 5, label: "5s - Rápido" },
   { value: 8, label: "8s - Normal" },
-  { value: 12, label: "12s - Usuario explorando" },
-  { value: 20, label: "20s - Lectura en progreso" },
-  { value: 30, label: "30s - Alta intención" },
-  { value: 60, label: "60s - Usuario muy activo" },
 ];
 
 const GRADIENT_DIRS = [
