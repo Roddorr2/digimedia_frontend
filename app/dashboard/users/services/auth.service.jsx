@@ -283,10 +283,17 @@ const auth_service = {
     return getCookie("token");
   },
 
-  hasRole: (role) => {
+  hasRole: (roles) => {
     const userRole = auth_service.getCurrentRole();
     if (!userRole) return false;
-    return userRole.toLowerCase() === role.toLowerCase();
+
+    if (Array.isArray(roles)) {
+      return roles.some(
+        (role) => role.toLowerCase() === userRole.toLowerCase(),
+      );
+    }
+
+    return userRole.toLowerCase() === roles.toLowerCase();
   },
 
   hasPermission: (permission) => {
