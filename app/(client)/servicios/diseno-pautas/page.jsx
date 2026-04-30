@@ -7,6 +7,7 @@ import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function DisenoPauta() {
   const modales = {
@@ -55,6 +56,7 @@ export default function DisenoPauta() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={6}/>
       <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"

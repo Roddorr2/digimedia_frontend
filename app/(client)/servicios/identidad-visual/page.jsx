@@ -4,6 +4,7 @@ import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from '../components/uxui-section';
 import { Lightbulb, Smartphone, PenTool, Layers } from 'lucide-react';
 import ModalButton from '../components/ModalButton';
+import ServicePopup from '@/app/dashboard/whatsapp/components/ServicePopup';
 
 export default function UXUI() {
   const modales = {
@@ -39,6 +40,7 @@ export default function UXUI() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={11} />
       <ModalScroll data={modales} />
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"

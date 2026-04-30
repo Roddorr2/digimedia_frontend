@@ -1,20 +1,20 @@
-import Image from 'next/image';
-import ModalScroll from '../components/ModalScroll';
-import Contactanos from '../components/Contactanos';
-import { UxUiSection } from '../components/uxui-section';
-import ModalButton from '../components/ModalButton';
+import Image from "next/image";
+import ModalScroll from "../components/ModalScroll";
+import Contactanos from "../components/Contactanos";
+import { UxUiSection } from "../components/uxui-section";
+import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function Web() {
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo:
-        '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1', // Ajusta según corresponda
-      imageTitle: 'Obtén una asesoría ¡Gratis!',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1", // Ajusta según corresponda
+      imageTitle: "Obtén una asesoría ¡Gratis!",
       imageAlt:
-        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
+        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
     },
   };
 
@@ -30,9 +30,9 @@ export default function Web() {
           height={100}
         />
       ),
-      title: 'DESARROLLO FRONT-END',
+      title: "DESARROLLO FRONT-END",
       description:
-        'Creamos la cara visible de tu negocio. Usamos HTML5, CSS3 y JavaScript para construir interfaces rápidas y adaptables a móviles que encantan a tus visitas desde el primer clic.',
+        "Creamos la cara visible de tu negocio. Usamos HTML5, CSS3 y JavaScript para construir interfaces rápidas y adaptables a móviles que encantan a tus visitas desde el primer clic.",
     },
     {
       icon: (
@@ -45,14 +45,15 @@ export default function Web() {
           height={100}
         />
       ),
-      title: 'DESARROLLO BACK-END',
+      title: "DESARROLLO BACK-END",
       description:
-        'Desarrollamos la lógica robusta que tu operación necesita. Gestionamos servidores y bases de datos con tecnologías líderes como Python, Java, PHP y Node.js para asegurar que tu web nunca se detenga.',
+        "Desarrollamos la lógica robusta que tu operación necesita. Gestionamos servidores y bases de datos con tecnologías líderes como Python, Java, PHP y Node.js para asegurar que tu web nunca se detenga.",
     },
   ];
 
   return (
     <div>
+      <ServicePopup idSubservicio={3} />
       <ModalScroll data={modales} />
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"

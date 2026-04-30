@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import ModalButton from '../components/ModalButton';
+import ServicePopup from '@/app/dashboard/whatsapp/components/ServicePopup';
 
 function UXUIComponent() {
   const searchParams = useSearchParams();
@@ -143,6 +144,7 @@ function UXUIComponent() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={8}/>
       <ModalScroll data={modales} />
 
       <ModalButton

@@ -1,20 +1,21 @@
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import ModalScroll from "../components/ModalScroll";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
-      imageTitle: 'Obtén una asesoría ¡Gratis!',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
+      imageTitle: "Obtén una asesoría ¡Gratis!",
       imageAlt:
-        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
+        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
     },
   };
 
@@ -30,9 +31,9 @@ export default function UXUI() {
           height={100}
         />
       ),
-      title: 'DISEÑO RESPONSIVE',
+      title: "DISEÑO RESPONSIVE",
       description:
-        'Adaptamos tu sitio a todos los dispositivos para garantizar una experiencia fluida y profesional.',
+        "Adaptamos tu sitio a todos los dispositivos para garantizar una experiencia fluida y profesional.",
     },
     {
       icon: (
@@ -51,12 +52,13 @@ export default function UXUI() {
         </>
       ),
       description:
-        'Conectamos tu web con herramientas como WhatsApp, redes sociales y formularios para facilitar la conversión.',
+        "Conectamos tu web con herramientas como WhatsApp, redes sociales y formularios para facilitar la conversión.",
     },
   ];
 
   return (
     <div>
+      <ServicePopup idSubservicio={2} />
       <ModalScroll data={modales} />
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"

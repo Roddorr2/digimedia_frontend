@@ -4,16 +4,20 @@ import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
+      fondo:
+        "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
       serviceName: "3",
-      imageTitle: "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
-      imageAlt: "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
+      imageTitle:
+        "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
+      imageAlt:
+        "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
     },
   };
 
@@ -30,7 +34,7 @@ export default function UXUI() {
       icon: (
         <Image
           src="/servicios/marketing_gestion_digital/manual_marca/icons/analisis-kpis-rendimiento-digital-digimedia.webp"
-          title= "Análisis de KPIs y métricas de rendimiento digital | Digimedia Marketing"
+          title="Análisis de KPIs y métricas de rendimiento digital | Digimedia Marketing"
           alt="Ícono de check representando análisis y validación de KPIs en estrategia de marketing digital"
           className="w-full h-full object-contain"
           width={48}
@@ -47,7 +51,7 @@ export default function UXUI() {
       icon: (
         <Image
           src="/servicios/marketing_gestion_digital/manual_marca/icons/interpretacion-crecimiento-metricas-digitales-digimedia.webp"
-          title= "Interpretación de métricas y crecimiento digital | Digimedia Marketing"
+          title="Interpretación de métricas y crecimiento digital | Digimedia Marketing"
           alt="Ícono de gráfica ascendente representando interpretación de métricas y crecimiento en marketing digital"
           className="w-full h-full object-contain"
           width={48}
@@ -79,6 +83,7 @@ export default function UXUI() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={16} />
       <ModalScroll data={modales} />
 
       <ModalButton

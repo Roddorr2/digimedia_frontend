@@ -26,43 +26,53 @@ export default function Page() {
   const router = useRouter()
 
 
-  async function fetchModals(pageTarget = 1) {
-    setIsRefreshing(true)
-    setIsLoading(true)
+  async function fetchModals(pageTarget = 1, query = "") {
+  setIsRefreshing(true)
+  setIsLoading(true)
 
-    try {
-      const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}`, {
-        headers: {
-          Authorization: `Bearer ${getCookie("token")}`,
-        },
-      })
+  try {
+    const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}&search=${query}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+    })
 
-      const dataArray = response.data.data; 
-      
-      setData(dataArray)
-      setFilteredData(dataArray)
-      setTotalPages(response.data.last_page || 1) 
+    const dataArray = response.data.data || []
+    
+    setData(dataArray)
+    setFilteredData(dataArray)
 
-    } catch (error) {
-      console.error("Error al obtener los datos:", error.message)
+    let totalPaginas = 1
 
-      if (error.response && error.response.status === 401) {
-        Swal.fire({
-          title: "Sesión Expirada",
-          text: "Por favor, inicia sesión nuevamente.",
-          icon: "warning",
-          confirmButtonText: "OK",
-        }).then(() => {
-          deleteCookie("modal");
-          user_service.logoutClient(router)
-        })
-      }
-    } finally {
-      setIsLoading(false)
-      setIsRefreshing(false)
+    if (response.data.last_page) {
+        totalPaginas = response.data.last_page
+    } else if (response.data.meta && response.data.meta.last_page) {
+        totalPaginas = response.data.meta.last_page
+    } else if (response.data.total) {
+        totalPaginas = Math.ceil(response.data.total / 15)
+    } else if (response.data.meta && response.data.meta.total) {
+        totalPaginas = Math.ceil(response.data.meta.total / 15)
     }
-  }
 
+    setTotalPages(totalPaginas)
+
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        title: "Sesión Expirada",
+        text: "Por favor, inicia sesión nuevamente.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then(() => {
+        deleteCookie("modal")
+        user_service.logoutClient(router)
+      })
+    }
+  } finally {
+    setIsLoading(false)
+    setIsRefreshing(false)
+  }
+}
   async function deleteModal(id) {
     try {
       const response = await axios.delete(`${API_BASE_URL}/${id}`, {
@@ -78,7 +88,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage)
+        fetchModals(currentPage, searchTerm)
       } else {
         Swal.fire({
           title: "Error",
@@ -164,7 +174,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage)
+        fetchModals(currentPage, searchTerm)
       } else {
         Swal.fire({
           title: "Error",
@@ -247,24 +257,12 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchModals(currentPage)
-  }, [currentPage])
+    const delayDebounceFn = setTimeout(() => {
+      fetchModals(currentPage, searchTerm)
+    }, 400)
 
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredData(data)
-      setTotalPages(Math.ceil(data.length / 4)) // ⚠️ RECALCULAR totalPages
-    } else {
-      const filtered = data.filter(
-        (modal) =>
-          modal.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          modal.correo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          modal.id_modalservicio.toString().includes(searchTerm),
-      )
-      setFilteredData(filtered)
-      setTotalPages(Math.ceil(filtered.length / 4)) // ⚠️ RECALCULAR totalPages
-    }
-  }, [searchTerm, data])
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchTerm, currentPage])
 
   const exportToCSV = () => {
     if (filteredData.length === 0) {
@@ -329,7 +327,7 @@ export default function Page() {
               </button>
 
               <button
-                onClick={() => fetchModals()}
+                onClick={() => fetchModals(currentPage, searchTerm)}
                 disabled={isRefreshing}
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"

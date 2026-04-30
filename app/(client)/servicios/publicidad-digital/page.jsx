@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-// TODO
 import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function DisenoPauta() {
   const modales = {
@@ -38,6 +38,7 @@ export default function DisenoPauta() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={10} />
       <ModalScroll data={modales} />
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
