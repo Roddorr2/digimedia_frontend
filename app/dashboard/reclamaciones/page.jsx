@@ -29,28 +29,35 @@ export default function Page() {
   const router = useRouter()
 
   // Modificamos la función para que reciba la página actual que queremos consultar
-  async function fetchReclamacion(pageToFetch = currentPage) {
+ async function fetchReclamacion(pageToFetch = currentPage) {
     setIsRefreshing(true)
-    
+    setIsLoading(true)
     
     try {
-      
       const response = await axios.get(`${API_BASE_URL}?page=${pageToFetch}`, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
       })
 
-      // Extraemos la data de la página actual
       const pageData = response.data.data || []
       
-     
       setData(pageData)
       setFilteredData(pageData)
 
-      
-      const total = response.data.last_page || response.data.meta?.last_page || 1;
-      setTotalPages(total)
+      let totalPaginas = 1
+
+      if (response.data.last_page) {
+          totalPaginas = response.data.last_page
+      } else if (response.data.meta && response.data.meta.last_page) {
+          totalPaginas = response.data.meta.last_page
+      } else if (response.data.total) {
+          totalPaginas = Math.ceil(response.data.total / 15)
+      } else if (response.data.meta && response.data.meta.total) {
+          totalPaginas = Math.ceil(response.data.meta.total / 15)
+      }
+
+      setTotalPages(totalPaginas)
 
     } catch (error) {
       console.error("Error al obtener los datos:", error.message)
@@ -62,12 +69,11 @@ export default function Page() {
           icon: "warning",
           confirmButtonText: "OK",
         }).then(() => {
-          deleteCookie("reclamacion");
+          deleteCookie("reclamacion")
           user_service.logoutClient(router)
         })
       }
     } finally {
-      
       setIsLoading(false)
       setIsRefreshing(false)
     }

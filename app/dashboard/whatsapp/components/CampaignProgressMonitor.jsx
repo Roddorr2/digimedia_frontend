@@ -11,17 +11,17 @@ export function CampaignProgressMonitor() {
   const fetchActiveCampaign = async () => {
     try {
       const res = await apiRequest("/api/whatsapp/campaigns?limit=10");
-      
-      if (res?.success && res?.data) {
-        // Buscar campaña activa (en_proceso o pausada_hasta_mañana)
-        const active = res.data.campanias?.find(
-          (c) => c.estado === "en_proceso" || c.estado === "pausada_hasta_mañana"
-        );
-        
-        if (active && active.id_campania) {
-          // Obtener detalles completos
-          const statusRes = await apiRequest(`/api/whatsapp/campaign/${active.id_campania}/status`);
-          
+
+      if (res?.success) {
+        // El backend ya expone la campaña activa directamente en res.active_campaign
+        const activeCampaignInfo = res.active_campaign;
+
+        if (activeCampaignInfo?.id_campania) {
+          // Obtener detalles completos (porcentaje, contadores, etc.)
+          const statusRes = await apiRequest(
+            `/api/whatsapp/campaign/${activeCampaignInfo.id_campania}/status`
+          );
+
           if (statusRes?.success) {
             setActiveCampaign(statusRes.data);
             setError(null);
@@ -174,30 +174,6 @@ export function CampaignProgressMonitor() {
         <div className="rounded-xl bg-white/50 p-3 dark:bg-slate-900/30">
           <p className="text-xs text-slate-500 dark:text-slate-400">Pendientes</p>
           <p className="text-xl font-bold text-slate-700 dark:text-slate-300">{pendientes}</p>
-        </div>
-      </div>
-
-      {/* Límite diario */}
-      <div className="mt-4 rounded-xl bg-white/50 p-4 dark:bg-slate-900/30">
-        <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="font-semibold text-slate-700 dark:text-slate-300">
-            Envíos hoy (Límite: {limiteDiario})
-          </span>
-          <span className="font-bold text-purple-600 dark:text-purple-400">
-            {enviosHoy}/{limiteDiario}
-          </span>
-        </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
-          <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              enviosHoy >= limiteDiario
-                ? "bg-rose-500"
-                : enviosHoy >= limiteDiario * 0.8
-                ? "bg-amber-500"
-                : "bg-emerald-500"
-            }`}
-            style={{ width: `${(enviosHoy / limiteDiario) * 100}%` }}
-          ></div>
         </div>
       </div>
 
