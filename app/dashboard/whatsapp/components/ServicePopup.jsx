@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL_DEV || url;
+const API_URL = process.env.NEXT_PUBLIC_API_URL_PROD || process.env.NEXT_PUBLIC_API_URL_DEV || url;
 
 const getBg = (config) => {
   if (
