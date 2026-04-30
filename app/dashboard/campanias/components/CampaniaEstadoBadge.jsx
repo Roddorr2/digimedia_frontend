@@ -1,6 +1,6 @@
 "use client";
 
-const ESTADO_BADGES = {
+const ESTADO_CONFIG = {
   borrador: {
     bg: "bg-slate-100",
     text: "text-slate-700",
@@ -48,14 +48,14 @@ const ESTADO_BADGES = {
   },
 };
 
-export default function CampaniaEstadoBadge({ estado }) {
-  const badge = ESTADO_BADGES[estado] || ESTADO_BADGES.borrador;
+export function CampaniaEstadoBadge({ estado }) {
+  const config = ESTADO_BADGES[estado] || ESTADO_BADGES.borrador;
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.bg} ${config.text}`}
     >
-      {badge.label}
+      {config.label}
     </span>
   );
 }

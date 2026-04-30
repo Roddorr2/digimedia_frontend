@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import CampaniaEstadoBadge from "./CampaniaEstadoBadge";
+import { CampaniaEstadoBadge } from "./CampaniaEstadoBadge";
 
 export default function CampaniaCard({ campania }) {
   const router = useRouter();
