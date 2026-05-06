@@ -15,6 +15,7 @@ const WhatsAppButton = () => {
     >
       <Image
         src="/image-home/WhatsApp.svg.webp"
+        title='Botón de WhatsApp'
         alt="Icono de WhatsApp color blanco con fondo oscuro"
         width={60}
         height={60}

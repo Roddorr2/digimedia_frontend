@@ -11,6 +11,7 @@ export default function ExperienciaUsuario() {
     modalA: {
       text: 'EXPERIENCIA DE USUARIO',
       fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
+      alt:'diseno digimedia pop up',
       title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
       serviceName: '1',
     },

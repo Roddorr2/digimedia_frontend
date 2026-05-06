@@ -57,6 +57,7 @@ export default function Page() {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
       fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      alt:'diseno digimedia pop up',
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
       width: 256,
