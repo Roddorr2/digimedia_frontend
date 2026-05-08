@@ -14,22 +14,26 @@ export default function CampaniaListPage() {
 
   const fetchCampanias = async () => {
     setLoading(true);
+
     try {
-      const res = await campaniaApi.getAll({
-        estado,
-        page,
-      });
+      const response = await campaniaApi.getAll({ estado, page });
 
-      const data = res.data.data;
+      const paginated = response?.data ?? response;
 
-      setCampanias(data.data);
+      const campanias = paginated?.data?.data ?? paginated?.data ?? [];
+
+      setCampanias(campanias);
+
+      const meta = paginated?.data;
+
       setPagination({
-        current_page: data.current_page,
-        last_page: data.last_page,
-        total: data.total,
+        current_page: meta?.current_page ?? 1,
+        last_page: meta?.last_page ?? 1,
+        total: meta?.total ?? campanias.length,
       });
-    } catch (error) {
-      console.error("Error cargando campañas", error);
+    } catch (e) {
+      console.error(e);
+      setCampanias([]);
     } finally {
       setLoading(false);
     }

@@ -47,6 +47,7 @@ export default function LeadsTable({ campaniaId }) {
         {[
           { label: "Todos", value: "" },
           { label: "Enviados", value: "enviado" },
+          { label: "Pendientes", value: "pendiente" },
           { label: "Fallidos", value: "fallido" },
         ].map((f) => (
           <button

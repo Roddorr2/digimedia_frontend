@@ -49,7 +49,7 @@ const ESTADO_CONFIG = {
 };
 
 export function CampaniaEstadoBadge({ estado }) {
-  const config = ESTADO_BADGES[estado] || ESTADO_BADGES.borrador;
+  const config = ESTADO_CONFIG[estado] || ESTADO_CONFIG.borrador;
 
   return (
     <span
