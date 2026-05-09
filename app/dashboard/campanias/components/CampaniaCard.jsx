@@ -43,7 +43,7 @@ export default function CampaniaCard({ campania }) {
             `/dashboard/campanias/detalles?id=${campania.id_campania}`,
           )
         }
-        className="text-blue-600 text-sm"
+        className="mt-2 bg-[#8c52ff] hover:bg-[#7b45e0] text-white text-sm font-medium px-5 py-2 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
       >
         Ver detalle
       </button>
