@@ -7,6 +7,7 @@ import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function DisenoPauta() {
   const modales = {
@@ -14,6 +15,8 @@ export default function DisenoPauta() {
       text: "GESTIÓN DE REDES SOCIALES",
       fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      imageAlt:"Ilustración de gestión profesional de redes sociales desde una computadora",
+      imageTitle:"Gestión estratégica de redes sociales en Perú | Digimedia",
       serviceName: "2",
     },
   };
@@ -22,8 +25,9 @@ export default function DisenoPauta() {
     {
       icon: (
         <Image
-          src="/servicios/gestion/diseno-pautas/icons/social-ads_card1-planificacion-de-campanias.webp"
-          alt="Icono de una hoja con un lápiz"
+          src="/servicios/gestion/diseno-pautas/icons/creacion-contenido-planificacion-digital-digimedia.png"
+          title="Creación y planificación de contenido digital | Digimedia Marketing"
+          alt="Ícono de documento con lápiz representando creación y planificación de contenido para marketing digital en Digimedia"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -37,6 +41,7 @@ export default function DisenoPauta() {
       icon: (
         <Image
           src="/servicios/gestion/diseno-pautas/icons/social-ads_card2-optimizacion-y-analisis.webp"
+          title="Social Ads Optimización y Análisis Web"
           alt="Icono de una hoja con un lápiz"
           className="w-full h-full object-contain"
           width={48}
@@ -51,10 +56,13 @@ export default function DisenoPauta() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={6}/>
       <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
-        fondo="/servicios/gestion/modal-button/imagen.webp"
+        fondo="/servicios/gestion/modal-button/marketing-digital-redes-sociales-peru-digimedia.webp"
+        imageTitle="Marketing Digital y Redes Sociales en Perú | Digimedia"
+        imageAlt="Ilustración de herramientas de marketing digital y gestión de redes sociales con iconos de interacción, análisis y contenido"
         text="GESTIÓN DE REDES SOCIALES"
         serviceName="2"
       />
@@ -79,8 +87,8 @@ export default function DisenoPauta() {
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

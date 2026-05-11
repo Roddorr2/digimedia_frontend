@@ -12,6 +12,8 @@ export default function PlanificacionCronograma() {
       text: "GESTIÓN DE REDES SOCIALES",
       fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
+      imageTitle:"Gestión de Redes Sociales en Perú | Digimedia",
+      imageAlt:"Servicio de gestión de redes sociales en Perú ofrecido por Digimedia para crecimiento de marcas en Instagram, Facebook y TikTok",
       serviceName: "2",
     },
   };
@@ -20,8 +22,9 @@ export default function PlanificacionCronograma() {
     {
       icon: (
         <Image
-          src="/servicios/gestion/planificacion/icons/estrategia-contenido_car1-planificacion.webp"
-          alt="Tabla de apuntes"
+          src="/servicios/gestion/planificacion/icons/tabla-apuntes-planificacion-estrategia-digital-digimedia.webp"
+          alt="Ícono de tabla de apuntes con checklist representando planificación y gestión de estrategia de marketing digital en Digimedia"
+          title="Tabla de apuntes para planificación de estrategia digital | Digimedia Marketing"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -34,8 +37,9 @@ export default function PlanificacionCronograma() {
     {
       icon: (
         <Image
-          src="/servicios/gestion/planificacion/icons/estrategia-contenido_car1-cronograma.webp"
-          alt="Calendario"
+          src="/servicios/gestion/planificacion/icons/calendario-planificacion-contenido-redes-sociales-digimedia.webp"
+          alt="Ícono de calendario representando planificación y programación de contenido para redes sociales y marketing digital en Digimedia"
+          title="Calendario de planificación de contenido para redes sociales | Digimedia Marketing"
           className="w-full h-full object-contain"
           width={200}
           height={150}
@@ -53,7 +57,9 @@ export default function PlanificacionCronograma() {
       <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
-        fondo="/servicios/gestion/modal-button/imagen.webp"
+        fondo="/servicios/gestion/modal-button/marketing-digital-redes-sociales-peru-digimedia.webp"
+        imageTitle="Marketing Digital y Redes Sociales en Perú | Digimedia"
+        imageAlt="Ilustración de herramientas de marketing digital y gestión de redes sociales con iconos de interacción, análisis y contenido"
         text="GESTIÓN DE REDES SOCIALES"
         serviceName="2"
       />
@@ -78,8 +84,8 @@ export default function PlanificacionCronograma() {
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

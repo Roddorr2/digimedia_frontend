@@ -10,11 +10,16 @@ export const useWhatsAppSocket = (token) => {
     });
 
     useEffect(() => {
-        if (!token) return;
+        if (!token) {
+            setData(prev => ({ ...prev, loading: false })); // Apaga la carga primero
+            return; // Luego cancela
+        }   
 
         const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL_PROD || process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD || "http://localhost:5111";
 
-        console.log("🔌 Conectando socket a:", socketUrl);
+        if (process.env.NODE_ENV !== 'production') {
+                console.log("🔌 Conectando socket a:", socketUrl);
+        }
 
         const socket = io(socketUrl, {
             auth: { token },
@@ -31,9 +36,9 @@ export const useWhatsAppSocket = (token) => {
             });
         });
 
-        socket.on('connect', () => console.log("✅ [Socket] Conectado con ID:", socket.id));
-        socket.on('disconnect', (reason) => console.log("❌ [Socket] Desconectado:", reason));
-        socket.on('connect_error', (err) => console.error("⚠️ [Socket] Error de conexión:", err));
+        socket.on('connect', () => {if (process.env.NODE_ENV !== 'production') console.log("✅ [Socket] Conectado con ID:", socket.id);});
+        socket.on('disconnect', (reason) => {if (process.env.NODE_ENV !== 'production') console.log("❌ [Socket] Desconectado:", reason);});
+        socket.on('connect_error', (err) => {if (process.env.NODE_ENV !== 'production') console.error("⚠️ [Socket] Error de conexión:", err);});
 
         return () => socket.disconnect();
     }, [token]);

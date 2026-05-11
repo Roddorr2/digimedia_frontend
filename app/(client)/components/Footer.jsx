@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import styles from './Footer.module.css';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import styles from "./Footer.module.css";
+import Image from "next/image";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -20,18 +20,16 @@ export default function Footer() {
     <>
       <footer>
         <div className={styles.mainFooter}>
-
           <div className={styles.footerInner}>
             <div className={styles.footerContenido}>
               <div className={`${styles.imgFooter}`}>
                 <Image
-                  src="/headerFooter/digimedia.png"
-                  alt="Logo de digimedia color blanco con fondo oscuro"
+                  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado(1).svg"
+                  alt="Logo Digimedia Marketing Digital Perú"
                   width={320}
                   height={160}
                   className="my-auto"
-                  decoding="async"
-                  priority={true}
+                  sizes="320px"
                 />
               </div>
               <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
@@ -43,8 +41,9 @@ export default function Footer() {
                       target="_blank"
                     >
                       <Image
-                        src="/headerFooter/phone.webp"
-                        alt="Icono de teléfono de color blanco con fondo oscuro"
+                        src="/headerFooter/icono-telefono-digimedia.webp"
+                        alt="Ícono de teléfono para contactar a Digimedia"
+                        title="Teléfono de contacto Digimedia"
                         width={24}
                         height={24}
                       />
@@ -52,26 +51,30 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li className={styles.emailContainer}>
-                    <div 
-                      onClick={handleCopyEmail} 
+                    <div
+                      onClick={handleCopyEmail}
                       className={styles.emailLink}
                       title="Haz clic para copiar el correo"
                     >
                       <Image
-                        src="/headerFooter/correo.webp"
-                        alt="Icono de correo color blanco con fondo oscuro"
+                        src="/headerFooter/icono-correo-digimedia.webp"
+                        alt="Ícono de correo electrónico para contactar a Digimedia"
+                        title="Correo electrónico Digimedia"
                         width={24}
                         height={24}
                       />
                       digi.mediamkt@gmail.com
-                      {copied && <span className={styles.copiedTooltip}>¡Copiado!</span>}
+                      {copied && (
+                        <span className={styles.copiedTooltip}>¡Copiado!</span>
+                      )}
                     </div>
                   </li>
                   <li>
                     <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
                       <Image
-                        src="/headerFooter/location.webp"
-                        alt="Icono de Ubicación color blanco con fondo oscuro"
+                        src="/headerFooter/icono-ubicacion-digimedia.webp"
+                        alt="Ícono de ubicación de la oficina de Digimedia en Perú"
+                        title="Ubicación Digimedia Perú"
                         width={24}
                         height={24}
                       />
@@ -81,7 +84,6 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-                
                 <h2>LEGALES</h2>
                 <ul>
                   <li>
@@ -104,7 +106,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-                <h2 >REDES SOCIALES</h2>
+                <h2>REDES SOCIALES</h2>
                 <ul>
                   <li>
                     <Link
@@ -112,8 +114,9 @@ export default function Footer() {
                       target="_blank"
                     >
                       <Image
-                        src="/headerFooter/tiktok.webp"
-                        alt="Icono de TikTok color blanco con fondo oscuro"
+                        src="/headerFooter/icono-tiktok-digimedia.webp"
+                        alt="Ícono de TikTok con enlace al perfil oficial de Digimedia"
+                        title="TikTok Digimedia"
                         width={24}
                         height={24}
                       />
@@ -125,8 +128,9 @@ export default function Footer() {
                       target="_blank"
                     >
                       <Image
-                        src="/headerFooter/instagram.webp"
-                        alt="Icono de Instagram color blanco con fondo oscuro"
+                        src="/headerFooter/icono-instagram-digimedia.webp"
+                        alt="Ícono de Instagram con enlace al perfil oficial de Digimedia"
+                        title="Instagram Digimedia"
                         width={24}
                         height={24}
                       />
@@ -138,8 +142,9 @@ export default function Footer() {
                       target="_blank"
                     >
                       <Image
-                        src="/headerFooter/youtube.webp"
-                        alt="Icono de YouTube color blanco con fondo oscuro"
+                        src="/headerFooter/icono-youtube-digimedia.webp"
+                        alt="Ícono de YouTube con enlace al canal oficial de Digimedia"
+                        title="YouTube Digimedia"
                         width={24}
                         height={24}
                       />
@@ -151,8 +156,9 @@ export default function Footer() {
                       target="_blank"
                     >
                       <Image
-                        src="/headerFooter/linkedin.webp"
-                        alt="Icono de Linkedin color blanco con fondo oscuro"
+                        src="/headerFooter/linkedln-digimedia-icono-redes-sociales.webp"
+                        alt="Ícono del logo de la cuenta de LinkedIn de Digimedia que aparece al final de la página web"
+                        title="LinkedIn de Digimedia"
                         width={24}
                         height={24}
                       />
@@ -164,8 +170,9 @@ export default function Footer() {
                       target="_blank"
                     >
                       <Image
-                        src="/headerFooter/facebook.webp"
-                        alt="Icono de Facebook color blanco con fondo oscuro"
+                        src="/headerFooter/icono-facebook-digimedia.webp"
+                        alt="Ícono de Facebook con enlace al perfil oficial de Digimedia"
+                        title="Facebook Digimedia"
                         width={24}
                         height={24}
                       />
@@ -187,13 +194,12 @@ export default function Footer() {
               </div>
               <div className={styles.derechosFooter}>
                 <p>
-                  © {new Date().getFullYear()} Digimedia.  Todos los derechos
+                  © {new Date().getFullYear()} Digimedia. Todos los derechos
                   reservados.
                 </p>
               </div>
             </div>
           </div>
-          
         </div>
       </footer>
     </>

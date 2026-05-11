@@ -26,52 +26,55 @@ export default function Page() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const router = useRouter()
 
-  async function fetchContacts() {
+async function fetchContacts(pageToFetch = currentPage) {
     setIsRefreshing(true)
-    let page = 1
-    let allData = []
-    let hasMorePages = true
+    // Es buena práctica agregar setIsLoading(true) aquí también si tienes el estado
+    // setIsLoading(true) 
 
-    while (hasMorePages) {
-      try {
-        const response = await axios.get(`${URL_API}?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        })
+    try {
+      const response = await axios.get(`${URL_API}?page=${pageToFetch}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      })
 
-        if (response.data.data.length === 0) {
-          hasMorePages = false
-          break
-        }
+      const pageData = response.data.data || []
+      setData(pageData)
+      setFilteredData(pageData)
 
-        allData = [...allData, ...response.data.data]
-        page++
-      } catch (error) {
-        hasMorePages = false
-        console.error("Error al obtener los datos:", error.message)
+      let totalPaginas = 1
 
-        if (error.response && error.response.status === 401) {
-          Swal.fire({
-            title: "Sesión Expirada",
-            text: "Por favor, inicia sesión nuevamente.",
-            icon: "warning",
-            confirmButtonText: "OK",
-          }).then(() => {
-            deleteCookie("contacto")
-            user_service.logoutClient(router)
-          })
-        }
+      if (response.data.last_page) {
+          totalPaginas = response.data.last_page
+      } else if (response.data.meta && response.data.meta.last_page) {
+          totalPaginas = response.data.meta.last_page
+      } else if (response.data.total) {
+          totalPaginas = Math.ceil(response.data.total / 15)
+      } else if (response.data.meta && response.data.meta.total) {
+          totalPaginas = Math.ceil(response.data.meta.total / 15)
       }
+
+      setTotalPages(totalPaginas)
+
+    } catch (error) {
+      console.error("Error al obtener los datos:", error.message)
+
+      if (error.response && error.response.status === 401) {
+        Swal.fire({
+          title: "Sesión Expirada",
+          text: "Por favor, inicia sesión nuevamente.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then(() => {
+          deleteCookie("contacto")
+          user_service.logoutClient(router)
+        })
+      }
+    } finally {
+      setIsLoading(false)
+      setIsRefreshing(false)
     }
-
-    setData(allData)
-    setFilteredData(allData)
-    setTotalPages(Math.ceil(allData.length / 4))
-    setIsLoading(false)
-    setIsRefreshing(false)
   }
-
   async function deleteContact(id) {
     try {
       const response = await axios.delete(`${URL_API}/${id}`, {

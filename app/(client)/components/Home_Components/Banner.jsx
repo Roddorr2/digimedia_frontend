@@ -24,6 +24,9 @@ export default function Banner() {
             alt="Inicio"
             className="w-full h-full object-cover object-[70%] md:object-[30%]"
             fetchPriority="high"
+
+            loading="eager"
+            decoding="async"
           />
         </picture>
 

@@ -60,7 +60,7 @@ export default function Servicios() {
           className={`${styles.serviceCard} ${styles.purple}`}
         >
           <Image
-            src="/image-home/diseño.png"
+            src="/image-home/diseno.webp"
             alt="Icono diseño"
             width={150}
             height={160}
@@ -166,7 +166,7 @@ export default function Servicios() {
                 className={`${styles.serviceCard} ${styles.purple}`}
               >
                 <Image
-                  src="/image-home/diseño.png"
+                  src="/image-home/diseno.webp"
                   alt="Icono diseño"
                   width={150}
                   height={160}

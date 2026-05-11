@@ -3,14 +3,18 @@ import ModalScroll from "../components/ModalScroll";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function Web() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1", // Ajusta según corresponda
+      imageTitle: "Obtén una asesoría ¡Gratis!",
+      imageAlt:
+        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
     },
   };
 
@@ -18,8 +22,9 @@ export default function Web() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-y-desarrollo_card1-DESARROLLO-FRONT-END.webp"
-          alt="Icono de una computadora"
+          src="/servicios/diseno_desarrollo_web/desarrollo_web/desarrollo-front-end-digimedia-icono.webp"
+          alt="Ícono que representa el diseño de una página web al mostrar una pantalla con un código de programación"
+          title="Sub-subservicio de Desarrollo y Front-End"
           className="w-full h-full object-contain"
           width={200}
           height={100}
@@ -32,8 +37,9 @@ export default function Web() {
     {
       icon: (
         <Image
-          src="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-y-desarrollo_card2-DESARROLLO-BACK-END.webp"
-          alt="Icono de una base de datos"
+          src="/servicios/diseno_desarrollo_web/desarrollo_web/desarrollo-back-end-digimedia-icono.webp"
+          alt="Ícono que representa la gestión y respaldo de una base de datos y contiene un código de programación"
+          title="Sub-subservicio de Desarrollo y Back-End"
           className="w-full h-full object-contain"
           width={200}
           height={100}
@@ -47,6 +53,7 @@ export default function Web() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={3} />
       <ModalScroll data={modales} />
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
@@ -57,13 +64,13 @@ export default function Web() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Tu sitio web es el corazón de tu negocio digital. Desarrollamos plataformas robustas, rápidas y seguras diseñadas para crecer contigo. Combinamos una arquitectura de software sólida con un diseño impecable para garantizar que tu web no solo funcione, sino que se convierta en un motor de crecimiento."
-        backgroundImage="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-y-desarrollo-web.webp"
+        backgroundImage="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-desarrollo-web-digimedial.webp"
         imageClassName="scale-x-[-1]"
         heroTitle=<>
           CREACIÓN <br /> Y DESARROLLO WEB
         </>
-        alt="Diseño UX, Diseño UI, experiencia de usuario, interacción digital, navegación fluida, interfaz intuitiva, diseño responsivo"
-        title="Diseño y desarrollo web, Diseño UX UI, Digimedia.webp"
+        alt="Imagen que muestra a una persona frente a una laptop realizando el sub servicio de creación y desarrollo web con el objetivo de crear una plataforma que garantice una web en crecimiento"
+        title="Subservicio de Creación y Desarrollo web"
         category="Diseño y desarrollo web"
         // heroBulletPoints={[
         //   "PLANIFICACIÓN: DEFINIR LOS OBJETIVOS DEL SITIO WEB, EL PÚBLICO OBJETIVO Y LAS FUNCIONALIDADES NECESARIAS.",
@@ -73,8 +80,8 @@ export default function Web() {
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/icon-left.svg"
-        iconRight="/servicios/desarrollo/icon-right.svg"
+        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
+        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
     </div>
   );

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import styles from './Header.module.css';
-import { ChevronDown, UserRound } from 'lucide-react';
-import Image from 'next/image';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import styles from "./Header.module.css";
+import { ChevronDown, UserRound } from "lucide-react";
+import Image from "next/image";
 
-import { useEffect } from 'react';
-import { useAuth } from '@/app/context/AuthContext';
-import { dashboardLinks } from '@/app/dashboard/dashboardsLinks/dashboardsLinks';
-import auth_service from '@/app/dashboard/users/services/auth.service';
+import { useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
+import { dashboardLinks } from "@/app/dashboard/dashboardsLinks/dashboardsLinks";
+import auth_service from "@/app/dashboard/users/services/auth.service";
 
 export default function Header2() {
   const pathname = usePathname();
@@ -37,7 +37,7 @@ export default function Header2() {
     setIsMoreOpen(false);
     setIsPanelOpen(false);
 
-    const menucheckbox = document.getElementById('menucheckbox');
+    const menucheckbox = document.getElementById("menucheckbox");
     if (menucheckbox) {
       menucheckbox.checked = false;
     }
@@ -50,8 +50,8 @@ export default function Header2() {
 
     handleResize();
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -60,14 +60,12 @@ export default function Header2() {
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
-              src="/headerFooter/digimedia1.png"
-              alt="Logo de digimedia color blanco con fondo oscuro"
+              src="/headerFooter/digimedia-marketing.svg"
+              alt="Logo Digimedia Marketing"
               width={200}
               height={85}
               className="my-auto"
-              decoding="async"
-              priority={true}
-              sizes="(max-width: 768px) 120px, 200px"
+              sizes="200px"
             />
           </Link>
         </div>
@@ -79,7 +77,6 @@ export default function Header2() {
               <UserRound size={20} strokeWidth={2.5} />
             </Link>
           )}
-
           <input
             type="checkbox"
             id="menucheckbox"
@@ -88,37 +85,38 @@ export default function Header2() {
           />
           <label htmlFor="menucheckbox">
             <Image
-              src="/headerFooter/menu.avif"
-              alt="Icono de menu de 3 lineas color blanco y fondo oscuro"
+              src="/headerFooter/menu-principal.webp"
+              alt="icono de menú principal con 3 líneas blancas con fondo negro"
+              title="icono de menú principal, menú color blanco y negro"
               width={25}
               height={25}
               priority
             />
-          </label>
+          </label>{" "}
           <ul className={styles.menuHorizontal}>
             <li
-              className={isActive('/') ? styles.active : ''}
+              className={isActive("/") ? styles.active : ""}
               onClick={closeMenu}
             >
               <Link href="/">Inicio</Link>
             </li>
             <li
               className={`cursor-pointer ${
-                isActive('/servicios') ? styles.active : ''
+                isActive("/servicios") ? styles.active : ""
               }`}
               onClick={() => setIsServiceOpen(!isServiceOpen)}
             >
               <p
                 className="flex justify-center items-center gap-1"
                 style={{
-                  display: 'flex !important',
-                  alignItems: 'center !important',
+                  display: "flex !important",
+                  alignItems: "center !important",
                 }}
               >
-                Servicios{' '}
+                Servicios{" "}
                 <ChevronDown
                   className="w-4 h-4"
-                  style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
                 />
               </p>
               {isServiceOpen && (
@@ -127,9 +125,9 @@ export default function Header2() {
                 >
                   <li
                     className={
-                      isActive('/servicios/desing-desarrollo')
-                        ? styles['active-sub']
-                        : ''
+                      isActive("/servicios/desing-desarrollo")
+                        ? styles["active-sub"]
+                        : ""
                     }
                     onClick={closeMenu}
                   >
@@ -139,9 +137,9 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive('/servicios/gestion-redes')
-                        ? styles['active-sub']
-                        : ''
+                      isActive("/servicios/gestion-redes")
+                        ? styles["active-sub"]
+                        : ""
                     }
                     onClick={closeMenu}
                   >
@@ -151,9 +149,9 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive('/servicios/marketing-gestion')
-                        ? styles['active-sub']
-                        : ''
+                      isActive("/servicios/marketing-gestion")
+                        ? styles["active-sub"]
+                        : ""
                     }
                     onClick={closeMenu}
                   >
@@ -163,9 +161,9 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive('/servicios/branding-desing')
-                        ? styles['active-sub']
-                        : ''
+                      isActive("/servicios/branding-desing")
+                        ? styles["active-sub"]
+                        : ""
                     }
                     onClick={closeMenu}
                   >
@@ -177,33 +175,33 @@ export default function Header2() {
               )}
             </li>
             <li
-              className={isActive('/nosotros') ? styles.active : ''}
+              className={isActive("/nosotros") ? styles.active : ""}
               onClick={closeMenu}
             >
               <Link href="/nosotros">Nosotros</Link>
             </li>
             <li
               className={`cursor-pointer ${
-                isActive('/blog') ||
-                isActive('/preguntas') ||
-                isActive('/contactanos') ||
-                (!isAuthenticated && isActive('/login'))
+                isActive("/blog") ||
+                isActive("/preguntas") ||
+                isActive("/contactanos") ||
+                (!isAuthenticated && isActive("/login"))
                   ? styles.active
-                  : ''
+                  : ""
               }`}
               onClick={() => setIsMoreOpen(!isMoreOpen)}
             >
               <p
                 className="flex justify-center items-center gap-1"
                 style={{
-                  display: 'flex !important',
-                  alignItems: 'center !important',
+                  display: "flex !important",
+                  alignItems: "center !important",
                 }}
               >
-                Más{' '}
+                Más{" "}
                 <ChevronDown
                   className="w-4 h-4"
-                  style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                  style={{ display: "inline-block", verticalAlign: "middle" }}
                 />
               </p>
               {isMoreOpen && (
@@ -211,14 +209,14 @@ export default function Header2() {
                   className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
                 >
                   <li
-                    className={isActive('/blog') ? styles['active-sub'] : ''}
+                    className={isActive("/blog") ? styles["active-sub"] : ""}
                     onClick={closeMenu}
                   >
                     <Link href="/blog">Blog</Link>
                   </li>
                   <li
                     className={
-                      isActive('/preguntas') ? styles['active-sub'] : ''
+                      isActive("/preguntas") ? styles["active-sub"] : ""
                     }
                     onClick={closeMenu}
                   >
@@ -226,7 +224,7 @@ export default function Header2() {
                   </li>
                   <li
                     className={
-                      isActive('/contactanos') ? styles['active-sub'] : ''
+                      isActive("/contactanos") ? styles["active-sub"] : ""
                     }
                     onClick={closeMenu}
                   >
@@ -234,7 +232,7 @@ export default function Header2() {
                   </li>
                   {!isAuthenticated && (
                     <li
-                      className={isActive('/login') ? styles['active-sub'] : ''}
+                      className={isActive("/login") ? styles["active-sub"] : ""}
                       onClick={closeMenu}
                     >
                       <Link href="/login">Ingresar</Link>
@@ -247,59 +245,60 @@ export default function Header2() {
 
             <li
               className={`cursor-pointer ${styles.panelItem} ${
-                isActive('/login') || isActive('/dashboard/main')
+                isActive("/login") || isActive("/dashboard/main")
                   ? styles.active
-                  : ''
+                  : ""
               }`}
               onClick={() => setIsPanelOpen(!isPanelOpen)}
             >
-              {isAuthenticated ? (
-                <>
-                  <p className="flex items-center gap-1">
-                    Panel{' '}
-                    <ChevronDown
-                      className="w-4 h-4"
-                      style={{
-                        display: 'inline-block',
-                        verticalAlign: 'middle',
-                      }}
-                    />
-                  </p>
+              {
+                isAuthenticated ? (
+                  <>
+                    <p className="flex items-center gap-1">
+                      Panel{" "}
+                      <ChevronDown
+                        className="w-4 h-4"
+                        style={{
+                          display: "inline-block",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                    </p>
 
-                  {isPanelOpen && (
-                    <ul className={styles.menuVertical}>
-                      {filterLinks.map((link) => (
+                    {isPanelOpen && (
+                      <ul className={styles.menuVertical}>
+                        {filterLinks.map((link) => (
+                          <li
+                            key={link.href}
+                            className={
+                              isActive(link.href) ? styles["active-sub"] : ""
+                            }
+                          >
+                            <Link href={link.href} onClick={closeMenu}>
+                              {link.title}
+                            </Link>
+                          </li>
+                        ))}
                         <li
-                          key={link.href}
                           className={
-                            isActive(link.href) ? styles['active-sub'] : ''
+                            isActive("/login") ? styles["active-sub"] : ""
                           }
                         >
-                          <Link href={link.href} onClick={closeMenu}>
-                            {link.title}
+                          <Link
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              closeMenu();
+                              logout();
+                            }}
+                          >
+                            Cerrar sesión
                           </Link>
                         </li>
-                      ))}
-                      <li
-                        className={
-                          isActive('/login') ? styles['active-sub'] : ''
-                        }
-                      >
-                        <Link
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            closeMenu();
-                            logout();
-                          }}
-                        >
-                          Cerrar sesión
-                        </Link>
-                      </li>
-                    </ul>
-                  )}
-                </>
-              ) : null //Boton antiguo
+                      </ul>
+                    )}
+                  </>
+                ) : null //Boton antiguo
               }
             </li>
           </ul>

@@ -26,52 +26,53 @@ export default function Page() {
   const router = useRouter()
 
 
-  async function fetchModals() {
-    setIsRefreshing(true)
-    let page = 1
-    let allData = []
-    let hasMorePages = true
+  async function fetchModals(pageTarget = 1, query = "") {
+  setIsRefreshing(true)
+  setIsLoading(true)
 
-    while (hasMorePages) {
-      try {
-        const response = await axios.get(`${API_BASE_URL}?page=${page}`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        })
+  try {
+    const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}&search=${query}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+    })
 
-        if (response.data.data.length === 0) {
-          hasMorePages = false
-          break
-        }
+    const dataArray = response.data.data || []
+    
+    setData(dataArray)
+    setFilteredData(dataArray)
 
-        allData = [...allData, ...response.data.data]
-        page++
-      } catch (error) {
-        hasMorePages = false
-        console.error("Error al obtener los datos:", error.message)
+    let totalPaginas = 1
 
-        if (error.response && error.response.status === 401) {
-          Swal.fire({
-            title: "Sesión Expirada",
-            text: "Por favor, inicia sesión nuevamente.",
-            icon: "warning",
-            confirmButtonText: "OK",
-          }).then(() => {
-            deleteCookie("modal");
-            user_service.logoutClient(router)
-          })
-        }
-      }
+    if (response.data.last_page) {
+        totalPaginas = response.data.last_page
+    } else if (response.data.meta && response.data.meta.last_page) {
+        totalPaginas = response.data.meta.last_page
+    } else if (response.data.total) {
+        totalPaginas = Math.ceil(response.data.total / 15)
+    } else if (response.data.meta && response.data.meta.total) {
+        totalPaginas = Math.ceil(response.data.meta.total / 15)
     }
 
-    setData(allData)
-    setFilteredData(allData)
-    setTotalPages(Math.ceil(allData.length / 4))
+    setTotalPages(totalPaginas)
+
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        title: "Sesión Expirada",
+        text: "Por favor, inicia sesión nuevamente.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then(() => {
+        deleteCookie("modal")
+        user_service.logoutClient(router)
+      })
+    }
+  } finally {
     setIsLoading(false)
     setIsRefreshing(false)
   }
-
+}
   async function deleteModal(id) {
     try {
       const response = await axios.delete(`${API_BASE_URL}/${id}`, {
@@ -87,7 +88,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage)
+        fetchModals(currentPage, searchTerm)
       } else {
         Swal.fire({
           title: "Error",
@@ -173,7 +174,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage)
+        fetchModals(currentPage, searchTerm)
       } else {
         Swal.fire({
           title: "Error",
@@ -256,24 +257,12 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchModals(currentPage)
-  }, [currentPage])
+    const delayDebounceFn = setTimeout(() => {
+      fetchModals(currentPage, searchTerm)
+    }, 400)
 
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredData(data)
-      setTotalPages(Math.ceil(data.length / 4)) // ⚠️ RECALCULAR totalPages
-    } else {
-      const filtered = data.filter(
-        (modal) =>
-          modal.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          modal.correo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          modal.id_modalservicio.toString().includes(searchTerm),
-      )
-      setFilteredData(filtered)
-      setTotalPages(Math.ceil(filtered.length / 4)) // ⚠️ RECALCULAR totalPages
-    }
-  }, [searchTerm, data])
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchTerm, currentPage])
 
   const exportToCSV = () => {
     if (filteredData.length === 0) {
@@ -338,7 +327,7 @@ export default function Page() {
               </button>
 
               <button
-                onClick={() => fetchModals()}
+                onClick={() => fetchModals(currentPage, searchTerm)}
                 disabled={isRefreshing}
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
@@ -401,16 +390,17 @@ export default function Page() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
                   {filteredData.length > 0 ? (
-                    filteredData
-                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
-                    .map((modal)=> (
+                    filteredData.map((modal)=> (
                       <tr key={`${modal.id_modalservicio}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"> 
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {modal.id_modalservicio}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.nombre}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.correo}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio.nombre}</td>
+                        
+                        {/* 👇 CORRECCIÓN 1: Aquí agregamos el signo de interrogación (?) 👇 */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{modal.servicio?.nombre}</td>
+                        
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${

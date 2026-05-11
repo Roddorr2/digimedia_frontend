@@ -1,13 +1,13 @@
 export const metadata = {
-  title: 'DigiMedia - Experiencia de Usuario',
+  title: 'Sub servicio de Experiencia de Usuario y Diseño | Digimedia',
   description:
-    'La experiencia de usuario (UX) se enfoca en comprender las necesidades de tus clientes, estructurando procesos y recorridos eficientes para generar satisfacción y cumplir los objetivos de tu negocio.',
+    'Sub servicio de Experiencia de Usuario y Diseño Digimedia ofrece investigación, prototipado y diseño centrado en el usuario para crear interfaces intuitivas y accesibles. Mejoramos interacción y conversión mediante pruebas UX y guías de estilo coherentes.',
   openGraph: {
-    title: 'DigiMedia - Experiencia de Usuario',
+    title: 'Sub servicio de Experiencia de Usuario y Diseño | Digimedia',
     description:
-      'La experiencia de usuario (UX) se enfoca en comprender las necesidades de tus clientes, estructurando procesos y recorridos eficientes para generar satisfacción y cumplir los objetivos de tu negocio.',
+      'Sub servicio de Experiencia de Usuario y Diseño Digimedia ofrece investigación, prototipado y diseño centrado en el usuario para crear interfaces intuitivas y accesibles. Mejoramos interacción y conversión mediante pruebas UX y guías de estilo coherentes.',
     url: 'https://digimedia-marketing.com/servicios/experiencia-usuario/',
-    siteName: 'DigiMedia - Experiencia de Usuario',
+    siteName: 'Sub servicio de Experiencia de Usuario y Diseño | Digimedia',
     images: [],
     locale: 'es_PE',
     type: 'website',

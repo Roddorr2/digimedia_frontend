@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import styles from './servicios.module.css';
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./servicios.module.css";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/pagination";
 
 export default function Servicios({ servicios }) {
   return (
@@ -28,25 +28,25 @@ export default function Servicios({ servicios }) {
             text={servicio.text}
             icon={servicio.icon}
             ruta={servicio.ruta}
+            iconTitle={servicio.iconTitle}
+            iconAlt={servicio.iconAlt}
           />
         ))}
       </div>
 
       {/* Mobile / Tablet Carousel */}
       <div
-        className={`lg:hidden ${styles.swiperClip} ${styles.paginationWrapper}`}
-      >
+        className={`lg:hidden ${styles.swiperClip} ${styles.paginationWrapper}`}>
         <Swiper
           modules={[Pagination]}
-          pagination={{ clickable: true, el: '.servicios-pagination' }}
+          pagination={{ clickable: true, el: ".servicios-pagination" }}
           spaceBetween={20}
           loop
           breakpoints={{
             0: { slidesPerView: 1, centeredSlides: true },
             768: { slidesPerView: 1, centeredSlides: false },
           }}
-          className={styles.swiper}
-        >
+          className={styles.swiper}>
           {servicios?.map((servicio, index) => (
             <SwiperSlide key={index}>
               <Servicio
@@ -55,6 +55,8 @@ export default function Servicios({ servicios }) {
                 text={servicio.text}
                 icon={servicio.icon}
                 ruta={servicio.ruta}
+                iconTitle={servicio.iconTitle}
+                iconAlt={servicio.iconAlt}
               />
             </SwiperSlide>
           ))}
@@ -67,34 +69,33 @@ export default function Servicios({ servicios }) {
   );
 }
 
-function Servicio({ title, text, icon, ruta, index }) {
-  const rutaValida = ruta ? `${ruta}` : '/';
+function Servicio({ title, text, icon, iconTitle, iconAlt, ruta, index }) {
+  const rutaValida = ruta ? `${ruta}` : "/";
 
   const colorClass =
     index % 2 === 0
-      ? 'bg-gradient-to-br from-[#FFA000] to-[#FFB300] text-white'
-      : 'bg-gradient-to-br from-[#B326FF] to-[#7B12B3] text-white';
+      ? "bg-gradient-to-br from-[#FFA000] to-[#FFB300] text-white"
+      : "bg-gradient-to-br from-[#B326FF] to-[#7B12B3] text-white";
 
   return (
     <div
       className={`relative ${colorClass} rounded-3xl py-8 px-2 shadow-lg
       md:hover:shadow-2xl transition-all duration-500 transform md:hover:-translate-y-2
       w-[85%] max-w-[480px] md:w-auto basis-64 flex-1 shrink-0
-      min-[832px]:max-[1118px]:basis-96 group overflow-hidden h-[450px]`}
-    >
+      min-[832px]:max-[1118px]:basis-96 group overflow-hidden h-[450px]`}>
       <Link
         href={rutaValida}
-        className="grid grid-cols-1 grid-rows-[120px_100px_1px_100%] items-center h-full w-full"
-      >
+        className="grid grid-cols-1 grid-rows-[120px_100px_1px_100%] items-center h-full w-full">
         {/* Efecto de brillo */}
         <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#FF037F]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
         {/* Ícono */}
         <figure className="flex h-full justify-center align-middle py-3">
           <Image
-            className={`max-w-36 w-24 h-24 object-contain ${styles['animate-bounce-slow']}`}
-            src={icon || '/placeholder.svg'}
-            alt={title}
+            className={`max-w-36 w-24 h-24 object-contain ${styles["animate-bounce-slow"]}`}
+            src={icon || "/placeholder.svg"}
+            alt={iconAlt || title}
+            title={iconTitle || ""}
             width={96}
             height={96}
           />

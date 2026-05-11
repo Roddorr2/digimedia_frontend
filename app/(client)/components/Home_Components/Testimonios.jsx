@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function Testimonios() {
   return (
@@ -19,12 +19,13 @@ export default function Testimonios() {
             "
           >
             <Image
-              src="/optimized_images/image-home/opiniones.avif"
+              src="/optimized_images/image-home/opinionesNew.webp"
               alt="Personas conversando"
               fill
               className="object-cover object-center -scale-x-100"
               priority
-              sizes="(max-width: 768px) 100vw, 55vw"
+              quality={60}
+              sizes="(max-width: 768px) 100vw, 660px"
             />
           </div>
         </div>
