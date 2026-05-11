@@ -2,8 +2,8 @@
 
 import { getCookie } from "cookies-next";
 import { useMemo, useState, useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
 import { TabButton, Card, CardTitle } from "./components/TabButton";
-import { useAuth } from "@/hooks/useAuth";
 import { whatsappApi, apiRequest } from "@/api/fetchApiWhatsApp";
 import { useWhatsAppSocket } from "@/api/socket";
 import { QrDisplay } from "./components/QrDisplay";
@@ -35,9 +35,11 @@ export default function WhatsAppPage() {
     [],
   );
 
+  console.log("Este es el usuario: ", user);
+
   useEffect(() => {
     if (!isAuthLoading) {
-      if (!user || (!hasRole("administrador") && !hasRole("marketing"))) {
+      if (!user || !hasRole("administrador", "marketing")) {
         router.push("/dashboard/main");
       }
     }
@@ -108,7 +110,7 @@ export default function WhatsAppPage() {
     );
   }
 
-  if (!user || (!hasRole("administrador") && !hasRole("marketing"))) {
+  if (!user || !hasRole("administrador", "marketing")) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         Redirigiendo...

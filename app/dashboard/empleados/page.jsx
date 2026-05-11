@@ -62,12 +62,12 @@ export default function Page() {
   const [roles, setRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState("all");
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleShow = async (id) => {
     try {
       router.push(`/dashboard/main?id_empleado=${id}`);
     } catch (error) {
-      console.error("Error al cargar el perfil del empleado:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
