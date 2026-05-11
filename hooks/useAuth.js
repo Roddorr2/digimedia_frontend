@@ -23,7 +23,6 @@ export const useAuth = () => {
       );
 
       if (response.status === 401) {
-        console.log("Token expirado o inválido");
         return false;
       }
 
@@ -32,10 +31,10 @@ export const useAuth = () => {
         if (data.success) {
           const normalized = {
             ...data.user,
-            role: data.rol || data.user?.rol || data.user?.role, 
+            role: data.rol || data.user?.rol || data.user?.role,
           };
           setUser(normalized);
-          return true;  
+          return true;
         }
       }
 
@@ -71,7 +70,6 @@ export const useAuth = () => {
         localStorage.removeItem("user");
         setIsAuthenticated(false);
         setUser(null);
-        console.log("Sesión expirada, redirigiendo al login");
       }
     } catch (error) {
       console.error("Error verificando autenticación:", error);
@@ -123,7 +121,6 @@ export const useAuth = () => {
         if (token) {
           validateToken(token).then((isValid) => {
             if (!isValid) {
-              console.log("Token expirado durante verificación periódica");
               logout();
             }
           });

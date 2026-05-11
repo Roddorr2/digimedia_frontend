@@ -41,10 +41,7 @@ const role_service = {
       } 
       else if (data && Array.isArray(data.data)) {
         roles = data.data;
-      }
-      
-      console.log("Roles obtenidos:", roles); 
-      return roles;
+      }      return roles;
     } catch (error) {
       console.error("Error al obtener roles:", error);
       return [];
@@ -94,9 +91,7 @@ const role_service = {
         }
       });
       
-      const data = await handleResponse(response);
-      console.log("Permisos del rol obtenidos:", data);
-      
+      const data = await handleResponse(response);      
       let permisos = [];
       
       if (Array.isArray(data)) {

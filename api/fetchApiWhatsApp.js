@@ -47,10 +47,6 @@ const wsRequest = async (endpoint, options = {}) => {
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   const url = `${url_whatsapp}${cleanEndpoint}`;
 
-  if (process.env.NODE_ENV !== "production") {
-    console.log(`📡 (WS) ${url}`);
-  }
-
   const res = await fetch(url, {
     ...options,
     headers: {

@@ -45,49 +45,34 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
       return 20;
     }
     return empleado.subtipo_admin.hierarchy
-  }
-
-  console.log("Empleado autenticado:", empleadoAutenticado)
-  console.log("puntos de jerarquía:", AuthHierarchy)
-  
+  }  
   const toggleRowExpansion = (index) => {
     setExpandedRow(expandedRow === index ? null : index)
   }
 
-  const verificarEditDelete = (dataRow) => {
-    console.log("verificarEditDelete - dataRow:", dataRow)
-
-    if (dataRow.id_empleado === empleadoAutenticadoId) {
-      console.log("Registro es propio. Permitir editar/eliminar (mostrar perfil).")
-      return true
+  const verificarEditDelete = (dataRow) => {
+    if (dataRow.id_empleado === empleadoAutenticadoId) {      return true
     }
 
-    if (AuthHierarchy === 100) {
-      console.log("Usuario privilegiado. Permitir editar/eliminar.")
-      return true
+    if (AuthHierarchy === 100) {      return true
     }
     
     return AuthHierarchy > getDataRowHierarchy(dataRow)
   }
 
   const verificarShow = (dataRow) => {
-    // console.log("verificarShow - dataRow:", dataRow)
   
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      // console.log("Registro es propio. No se muestra botón Show.")
       return false
     }
   
-    // console.log("Permitir mostrar registro para cualquier usuario.")
     return true
   }
 
   const renderMobileView = () => {
     return (
       <div className="grid gap-4 md:hidden ">
-        {data.map((dataRow, index) => {
-          console.log(dataRow)
-          const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
+        {data.map((dataRow, index) => {          const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
 
           return (
             <Card
@@ -197,7 +182,6 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
           <TableBody>
             {data.map((dataRow, index) => {
               const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-              // console.log(`DesktopView - Fila ${index}:`, { esMismoUsuario, dataRow })
 
               return (
                 <TableRow 
@@ -273,9 +257,7 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
     )
   }
 
-  if (!data || data.length === 0) {
-    console.log("No hay datos disponibles")
-    return (
+  if (!data || data.length === 0) {    return (
       <div className="text-center p-8 bg-gray-50 rounded-md border border-gray-200">
         <p className="text-gray-500">No hay datos disponibles</p>
       </div>

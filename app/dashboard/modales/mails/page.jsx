@@ -36,9 +36,7 @@ function PageContent() {
     const [isLoading, setIsLoading] = useState(true)
     const searchParams = useSearchParams()
     const router = useRouter()
-    const id_modal = searchParams.get("id_modal")
-    console.log("id_modal extraído:", id_modal);
-
+    const id_modal = searchParams.get("id_modal")
     const [isLoadingMail, setIsLoadingMail] = useState(false)
 
     const [isModalError, setIsModalError] = useState(false);
@@ -114,18 +112,14 @@ function PageContent() {
                     text: "No se pudo enviar el mensaje.",
                     icon: "error",
                     confirmButtonText: "OK",
-                })
-                console.log(response.message)
-            }
+                })            }
         } catch (error) {
             Swal.fire({
                 title: "Error",
                 text: error.message,
                 icon: "error",
                 confirmButtonText: "OK",
-            })
-            console.log(error.message)
-        } finally {
+            })        } finally {
             setIsLoadingMail(false)
         }
     }

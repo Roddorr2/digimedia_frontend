@@ -33,10 +33,7 @@ export default function WhatsAppPage() {
       { id: "p4", name: "Branding y Diseño" },
     ],
     [],
-  );
-
-  console.log("Este es el usuario: ", user);
-
+  );
   useEffect(() => {
     if (!isAuthLoading) {
       if (!user || !hasRole("administrador", "marketing")) {

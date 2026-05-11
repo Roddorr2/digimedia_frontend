@@ -85,9 +85,7 @@ const auth_service = {
         body: JSON.stringify(form),
       });
 
-      const data = await response.json();
-      console.log("Usuario autenticado: \n", data);
-      if (!response.ok) {
+      const data = await response.json();      if (!response.ok) {
         return {
           success: false,
           status: response.status,
