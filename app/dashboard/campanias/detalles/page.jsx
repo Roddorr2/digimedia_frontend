@@ -5,19 +5,27 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { campaniaApi } from "@/api/fetchApiWhatsApp";
 import { CampaniaEstadoBadge } from "../components/CampaniaEstadoBadge";
 import LeadsTable from "../components/LeadsTable";
-import { CheckCircle2, Clock3, XCircle } from "lucide-react";
+
+import {
+  CheckCircle2,
+  Clock3,
+  XCircle,
+  Activity,
+  CalendarCheck,
+  PauseCircle,
+} from "lucide-react";
 
 export default function Page() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const router = useRouter();
+
   const [campania, setCampania] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchCampania = async () => {
     try {
       const res = await campaniaApi.getById(id);
-
       setCampania(res.data);
     } catch (err) {
       console.error("Error cargando campaña", err);
@@ -27,17 +35,32 @@ export default function Page() {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchCampania();
+    if (!id) return;
+
+    fetchCampania();
+
+    let interval;
+
+    // POLLING SOLO SI ESTÁ EN PROCESO
+    if (campania?.estado === "en_proceso") {
+      interval = setInterval(() => {
+        fetchCampania();
+      }, 5000);
     }
-  }, [id]);
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [id, campania?.estado]);
 
   if (!id) {
     return <p className="p-6">Falta ID de campaña</p>;
   }
+
   if (loading) {
     return <p className="p-6">Cargando...</p>;
   }
+
   if (!campania) {
     return <p className="p-6">No encontrada</p>;
   }
@@ -54,64 +77,159 @@ export default function Page() {
         ? "bg-yellow-500"
         : "bg-green-500";
 
+  const total =
+    (campania.envios_exitosos || 0) +
+    (campania.envios_fallidos || 0) +
+    (campania.envios_pendientes || 0);
+
+  const estadosFinalizados = ["completada", "cancelada", "error"];
+
+  const estadosPausados = [
+    "pausada_hasta_mañana",
+    "pausada_fuera_horario",
+    "pausada_sin_conexion",
+  ];
+
+  const estaFinalizada = estadosFinalizados.includes(campania.estado);
+
+  const estaPausada = estadosPausados.includes(campania.estado);
+
+  const fechaFinalizacion = campania.fecha_fin || campania.updated_at;
   return (
-    <main className="flex-1 w-full px-4 py-8 overflow-y-auto">
+    <main className="flex-1 w-full px-4 py-6 overflow-y-auto">
       {/* HEADER */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mb-6 dark:bg-gray-800 dark:text-white">
+      <div className="bg-white rounded-2xl shadow-sm p-5 mb-5 dark:bg-gray-800 dark:text-white">
+        {/* TOP */}
         <div className="flex justify-between items-center mb-4">
           <button
             onClick={() => router.push("/dashboard/campanias")}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition"
           >
-            ← Volver a campañas
+            ← Volver
           </button>
+
+          <CampaniaEstadoBadge estado={campania.estado} />
         </div>
 
-        <div className="border rounded-xl p-4 space-y-3 shadow-sm">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold">
-              Campaña #{campania.id_campania}
-            </h1>
+        {/* CARD */}
+        <div className="border rounded-2xl p-4 shadow-sm space-y-4">
+          {/* TITULO */}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-xl font-bold">
+                Campaña #{campania.id_campania}
+              </h1>
 
-            <CampaniaEstadoBadge estado={campania.estado} />
-          </div>
-
-          <p className="text-gray-600">{campania.servicio?.nombre}</p>
-
-          <p className="text-sm text-gray-400">
-            {new Date(campania.created_at).toLocaleString("es-PE")}
-          </p>
-
-          <div className="flex gap-6 text-sm font-medium">
-            <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
-              <CheckCircle2 size={18} />
-              <span>{campania.envios_exitosos}</span>
+              {/* SERVICIO */}
+              <div className="mt-2 inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-900/40 px-3 py-1">
+                <span className="text-sm font-semibold text-purple-700 dark:text-purple-300">
+                  {campania.servicio?.nombre || "Sin servicio"}
+                </span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 text-yellow-600 dark:text-yellow-400">
-              <Clock3 size={18} />
-              <span>{campania.envios_pendientes}</span>
-            </div>
+            {/* PORCENTAJE */}
+            <div className="text-right">
+              <p className="text-2xl font-bold text-purple-600">
+                {porcentaje.toFixed(0)}%
+              </p>
 
-            <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
-              <XCircle size={18} />
-              <span>{campania.envios_fallidos}</span>
+              <p className="text-xs text-gray-400">progreso</p>
             </div>
           </div>
 
-          <div className="w-full bg-gray-200 dark:bg-gray-700 h-3 rounded">
+          {/* FECHAS / INFO */}
+          <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+            <span>
+              Creada: {new Date(campania.created_at).toLocaleString("es-PE")}
+            </span>
+
+            {estaFinalizada && fechaFinalizacion && (
+              <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                <CalendarCheck size={14} />
+                Finalizó: {new Date(fechaFinalizacion).toLocaleString("es-PE")}
+              </span>
+            )}
+
+            {estaPausada && campania.motivo_pausa && (
+              <span className="flex items-center gap-1 text-yellow-600 dark:text-yellow-400">
+                <PauseCircle size={14} />
+                {campania.motivo_pausa}
+              </span>
+            )}
+          </div>
+
+          {/* PROGRESS */}
+          <div className="w-full bg-gray-200 dark:bg-gray-700 h-2.5 rounded-full overflow-hidden">
             <div
-              className={`${progressColor} h-3 rounded transition-all duration-300`}
+              className={`${progressColor} h-2.5 rounded-full transition-all duration-500`}
               style={{ width: `${porcentaje}%` }}
             />
           </div>
+
+          {/* METRICAS */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+            <MetricCard
+              icon={<Activity size={16} />}
+              color="text-blue-600"
+              label="Total"
+              value={total}
+            />
+
+            <MetricCard
+              icon={<CheckCircle2 size={16} />}
+              color="text-green-600"
+              label="Exitosos"
+              value={campania.envios_exitosos}
+            />
+
+            <MetricCard
+              icon={<Clock3 size={16} />}
+              color="text-yellow-600"
+              label="Pendientes"
+              value={campania.envios_pendientes}
+            />
+
+            <MetricCard
+              icon={<XCircle size={16} />}
+              color="text-red-600"
+              label="Fallidos"
+              value={campania.envios_fallidos}
+            />
+          </div>
+
+          {/* POLLING INDICATOR */}
+          {campania.estado === "en_proceso" && (
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+              Actualizando cada 5 segundos
+            </div>
+          )}
         </div>
       </div>
 
       {/* TABLE */}
-      <div className="bg-white rounded-xl shadow-sm p-6 dark:bg-gray-800">
-        <LeadsTable campaniaId={id} />
+      <div className="bg-white rounded-2xl shadow-sm p-6 dark:bg-gray-800">
+        <LeadsTable
+          campaniaId={id}
+          enablePolling={campania?.estado === "en_proceso"}
+        />
       </div>
     </main>
+  );
+}
+
+function MetricCard({ icon, label, value, color }) {
+  return (
+    <div className="rounded-xl border border-gray-200 dark:border-gray-700 px-3 py-2 bg-gray-50 dark:bg-gray-900/30">
+      <div className={`flex items-center gap-2 ${color}`}>
+        {icon}
+        <span className="text-xs font-medium">{label}</span>
+      </div>
+
+      <p className="mt-1 text-lg font-bold text-gray-900 dark:text-white">
+        {value || 0}
+      </p>
+    </div>
   );
 }

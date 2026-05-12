@@ -3,9 +3,20 @@
 import { useEffect, useState } from "react";
 import { campaniaApi } from "@/api/fetchApiWhatsApp";
 
-export default function LeadsTable({ campaniaId }) {
-  const [retryingId, setRetryingId] = useState(null);
+import {
+  CheckCircle2,
+  Clock3,
+  XCircle,
+  AlertTriangle,
+  RotateCcw,
+  Loader2,
+  Copy,
+  Check,
+} from "lucide-react";
 
+export default function LeadsTable({ campaniaId, enablePolling = false }) {
+  const [retryingId, setRetryingId] = useState(null);
+  const [copiedPhone, setCopiedPhone] = useState(null);
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -42,8 +53,6 @@ export default function LeadsTable({ campaniaId }) {
         last_page: payload.last_page || 1,
         total: payload.total || 0,
       });
-      console.log("res.data:", res?.data);
-      console.log("payload:", res?.data?.data);
     } catch (err) {
       console.error("Error cargando leads", err);
 
@@ -67,7 +76,6 @@ export default function LeadsTable({ campaniaId }) {
 
       await campaniaApi.retryLead(campaniaId, watModalId);
 
-      // refrescar tabla
       await fetchLeads();
     } catch (err) {
       console.error("Error reintentando lead", err);
@@ -76,6 +84,22 @@ export default function LeadsTable({ campaniaId }) {
     }
   };
 
+  const handleCopyPhone = async (phone) => {
+    if (!phone) return;
+
+    try {
+      await navigator.clipboard.writeText(phone);
+
+      setCopiedPhone(phone);
+
+      setTimeout(() => {
+        setCopiedPhone(null);
+      }, 2000);
+    } catch (err) {
+      console.error("Error copiando teléfono", err);
+    }
+  };
+  // FETCH NORMAL
   useEffect(() => {
     if (!campaniaId) return;
 
@@ -86,37 +110,75 @@ export default function LeadsTable({ campaniaId }) {
     return () => clearTimeout(timer);
   }, [estado, search, page, campaniaId]);
 
-  const renderEstado = (estado) => {
-    switch (estado) {
-      case "enviado":
-        return "🟢 Enviado";
+  // POLLING
+  useEffect(() => {
+    if (!enablePolling || !campaniaId) return;
 
-      case "fallido":
-        return "🔴 Fallido";
+    const interval = setInterval(() => {
+      fetchLeads();
+    }, 5000);
 
-      case "pendiente":
-        return "🟡 Pendiente";
+    return () => clearInterval(interval);
+  }, [enablePolling, campaniaId, estado, search, page]);
 
-      default:
-        return "⚪ Desconocido";
-    }
+  const renderEstado = (lead) => {
+    const config = {
+      enviado: {
+        icon: <CheckCircle2 size={14} />,
+        color:
+          "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+        label: "Enviado",
+      },
+
+      pendiente: {
+        icon: <Clock3 size={14} />,
+        color:
+          "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+        label: "Pendiente",
+      },
+
+      fallido: {
+        icon: <XCircle size={14} />,
+        color:
+          "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+        label: "Fallido",
+      },
+    };
+
+    const current = config[lead.estado] || {
+      icon: <AlertTriangle size={14} />,
+      color: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
+      label: "Desconocido",
+    };
+
+    return (
+      <div className="space-y-1">
+        <div
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${current.color}`}
+        >
+          {current.icon}
+          {current.label}
+        </div>
+
+        {lead.error && (
+          <p className="text-xs text-rose-500 max-w-[220px] truncate">
+            {lead.error}
+          </p>
+        )}
+      </div>
+    );
   };
 
   const formatDate = (dateString) => {
     if (!dateString) return "-";
 
-    const datePart = dateString.split("T")[0];
-
-    const [year, month, day] = datePart.split("-");
-
-    const date = new Date(Number(year), Number(month) - 1, Number(day));
-
     return new Intl.DateTimeFormat("es-PE", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
-    }).format(date);
+    }).format(new Date(dateString));
   };
+
   return (
     <div className="space-y-4">
       {/* FILTROS */}
@@ -133,27 +195,27 @@ export default function LeadsTable({ campaniaId }) {
               setEstado(filtro.value);
               setPage(1);
             }}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition border ${
               estado === filtro.value
-                ? "bg-blue-600 text-white border-blue-600 shadow-sm"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800"
+                ? "bg-blue-600 text-white border-blue-600"
+                : "bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
             }`}
           >
             {filtro.label}
           </button>
         ))}
 
-        {/* BUSCADOR */}
+        {/* SEARCH */}
         <div className="ml-auto relative w-full sm:w-72">
           <input
             type="text"
-            placeholder="Buscar nombre o teléfono..."
+            placeholder="Buscar lead..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
               setPage(1);
             }}
-            className="w-full rounded-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 px-4 py-2 pl-10 text-sm text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            className="w-full rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 pl-10 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
           />
 
           <svg
@@ -173,71 +235,134 @@ export default function LeadsTable({ campaniaId }) {
         </div>
       </div>
 
-      {/* TABLA */}
-      {loading ? (
-        <div className="border rounded-lg p-6 text-center text-gray-500">
-          Cargando leads...
+      {/* POLLING INFO */}
+      {enablePolling && (
+        <div className="flex items-center gap-2 text-xs text-gray-400">
+          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+          Actualizando automáticamente
         </div>
-      ) : (
-        <div className="overflow-x-auto border rounded-lg">
-          <table className="min-w-full text-sm text-gray-800 dark:text-gray-200">
-            <thead className="bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-100 text-left shadow-sm">
+      )}
+
+      {/* TABLE */}
+      <div className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-100">
               <tr>
-                <th className="p-3 font-semibold">Nombre</th>
-                <th className="p-3 font-semibold">Teléfono</th>
-                <th className="p-3 font-semibold">Estado</th>
-                <th className="p-3 font-semibold">Intentos</th>
-                <th className="p-3 font-semibold">Fecha</th>
-                <th className="p-3 font-semibold">Acciones</th>
+                <th className="p-4 text-left font-semibold">nombre</th>
+                <th className="p-4 text-left font-semibold">Teléfono</th>
+                <th className="p-4 text-left font-semibold">Estado</th>
+                <th className="p-4 text-left font-semibold">Intentos</th>
+                <th className="p-4 text-left font-semibold">Fecha</th>
+                <th className="p-4 text-left font-semibold">Acción</th>
               </tr>
             </thead>
 
             <tbody className="bg-white dark:bg-gray-900">
-              {leads.map((lead) => (
-                <tr
-                  key={
-                    lead.id_modal_wat ?? `pendiente-${lead.id_modalservicio}`
-                  }
-                  className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-                >
-                  <td className="p-3 text-left">{lead.nombre || "-"}</td>
-
-                  <td className="p-3 text-left">{lead.telefono || "-"}</td>
-
-                  <td className="p-3 text-left">{renderEstado(lead.estado)}</td>
-
-                  <td className="p-3 text-left">{lead.intentos || 0}/3</td>
-
-                  <td className="p-3 text-left">{formatDate(lead.fecha)}</td>
-
-                  <td className="p-3 text-left">
-                    {lead.estado === "fallido" && lead.id_modal_wat && (
-                      <button
-                        onClick={() => handleRetry(lead.id_modal_wat)}
-                        disabled={retryingId === lead.id_modal_wat}
-                        className="px-2 py-1 text-xs rounded bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 shadow-sm"
-                      >
-                        {retryingId === lead.id_modal_wat
-                          ? "Reintentando..."
-                          : "Reintentar"}
-                      </button>
-                    )}
+              {loading ? (
+                <tr>
+                  <td colSpan={8}>
+                    <div className="flex items-center justify-center gap-2 py-10 text-gray-500">
+                      <Loader2 size={18} className="animate-spin" />
+                      Cargando leads...
+                    </div>
                   </td>
                 </tr>
-              ))}
+              ) : leads.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-10 text-gray-500">
+                    No hay leads
+                  </td>
+                </tr>
+              ) : (
+                leads.map((lead) => (
+                  <tr
+                    key={
+                      lead.id_modal_wat ?? `pendiente-${lead.id_modalservicio}`
+                    }
+                    className="border-t border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition"
+                  >
+                    {/* LEAD */}
+                    <td className="p-4">
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {lead.nombre || "-"}
+                      </p>
+                    </td>
+
+                    {/* TELEFONO */}
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-mono text-gray-600 dark:text-gray-300">
+                          {lead.telefono || "-"}
+                        </span>
+
+                        {lead.telefono && (
+                          <button
+                            onClick={() => handleCopyPhone(lead.telefono)}
+                            className="inline-flex items-center justify-center rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition"
+                          >
+                            {copiedPhone === lead.telefono ? (
+                              <Check size={14} className="text-green-500" />
+                            ) : (
+                              <Copy size={14} />
+                            )}
+                          </button>
+                        )}
+                      </div>
+                    </td>
+
+                    {/* ESTADO */}
+                    <td className="p-4">{renderEstado(lead)}</td>
+
+                    {/* INTENTOS */}
+                    <td className="p-4">
+                      <div className="inline-flex items-center gap-2 text-sm">
+                        <span className="font-semibold">
+                          {lead.intentos || 0}
+                        </span>
+
+                        <span className="text-gray-400">/ 3</span>
+                      </div>
+                    </td>
+
+                    {/* FECHA */}
+                    <td className="p-4 text-gray-500">
+                      {formatDate(lead.fecha)}
+                    </td>
+
+                    {/* ACTION */}
+                    <td className="p-4">
+                      {lead.estado === "fallido" &&
+                        lead.id_modal_wat &&
+                        lead.puede_reintentar && (
+                          <button
+                            onClick={() => handleRetry(lead.id_modal_wat)}
+                            disabled={retryingId === lead.id_modal_wat}
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium transition disabled:opacity-50"
+                          >
+                            {retryingId === lead.id_modal_wat ? (
+                              <>
+                                <Loader2 size={14} className="animate-spin" />
+                                Reintentando
+                              </>
+                            ) : (
+                              <>
+                                <RotateCcw size={14} />
+                                Reintentar
+                              </>
+                            )}
+                          </button>
+                        )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
-      )}
+      </div>
 
-      {/* EMPTY */}
-      {!loading && leads.length === 0 && (
-        <div className="border rounded-lg p-6 text-center text-gray-500">
-          No hay leads
-        </div>
-      )}
-
-      {/* PAGINACIÓN */}
+      {/* PAGINACION */}
       {pagination.last_page > 1 && (
         <div className="flex flex-wrap gap-2">
           {Array.from({
@@ -249,10 +374,10 @@ export default function LeadsTable({ campaniaId }) {
               <button
                 key={pageNumber}
                 onClick={() => setPage(pageNumber)}
-                className={`px-3 py-1 border rounded text-sm ${
+                className={`w-9 h-9 rounded-lg text-sm font-medium transition ${
                   page === pageNumber
                     ? "bg-blue-600 text-white"
-                    : "bg-white hover:bg-gray-100"
+                    : "bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
                 }`}
               >
                 {pageNumber}
