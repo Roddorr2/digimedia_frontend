@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { campaniaApi } from "@/api/fetchApiWhatsApp";
 
 import {
@@ -30,12 +30,18 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
     total: 0,
   });
 
+  const leadsRef = useRef([]);
+  const paginationRef = useRef({});
+
   const fetchLeads = async (
     currentEstado = estado,
     currentSearch = search,
     currentPage = page,
+    showLoading = true,
   ) => {
-    setLoading(true);
+    if (showLoading) {
+      setLoading(true);
+    }
 
     try {
       const res = await campaniaApi.getLeads(campaniaId, {
@@ -46,25 +52,35 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
 
       const payload = res?.data ?? {};
 
-      setLeads(Array.isArray(payload.data) ? payload.data : []);
+      const newLeads = Array.isArray(payload.data) ? payload.data : [];
 
-      setPagination({
+      const newPagination = {
         current_page: payload.current_page || 1,
         last_page: payload.last_page || 1,
         total: payload.total || 0,
-      });
+      };
+
+      // comparar datos
+      const leadsChanged =
+        JSON.stringify(leadsRef.current) !== JSON.stringify(newLeads);
+
+      const paginationChanged =
+        JSON.stringify(paginationRef.current) !== JSON.stringify(newPagination);
+
+      // solo actualiza si cambió
+      if (leadsChanged) {
+        setLeads(newLeads);
+      }
+
+      if (paginationChanged) {
+        setPagination(newPagination);
+      }
     } catch (err) {
       console.error("Error cargando leads", err);
-
-      setLeads([]);
-
-      setPagination({
-        current_page: 1,
-        last_page: 1,
-        total: 0,
-      });
     } finally {
-      setLoading(false);
+      if (showLoading) {
+        setLoading(false);
+      }
     }
   };
 
@@ -99,6 +115,7 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
       console.error("Error copiando teléfono", err);
     }
   };
+  const shouldPoll = leads.some((lead) => lead.estado === "pendiente");
   // FETCH NORMAL
   useEffect(() => {
     if (!campaniaId) return;
@@ -112,14 +129,16 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
 
   // POLLING
   useEffect(() => {
-    if (!enablePolling || !campaniaId) return;
+    if (!enablePolling || !campaniaId || !shouldPoll) {
+      return;
+    }
 
     const interval = setInterval(() => {
-      fetchLeads();
+      fetchLeads(estado, search, page, false);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [enablePolling, campaniaId, estado, search, page]);
+  }, [enablePolling, campaniaId, estado, search, page, shouldPoll]);
 
   const renderEstado = (lead) => {
     const config = {
@@ -178,6 +197,14 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
       year: "numeric",
     }).format(new Date(dateString));
   };
+
+  useEffect(() => {
+    leadsRef.current = leads;
+  }, [leads]);
+
+  useEffect(() => {
+    paginationRef.current = pagination;
+  }, [pagination]);
 
   return (
     <div className="space-y-4">
