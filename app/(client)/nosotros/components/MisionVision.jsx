@@ -7,6 +7,7 @@ export const MisionVision = () => (
       <div className="flex-1 min-w-0">
         <img
           src="/Img-nosotros/mision_vision.png"
+          title="MisiónVisión de Digimedia"
           alt="Nuestros servicios"
           
           className="w-full h-full object-cover rounded-tl-[4rem] md:rounded-bl-[2.5rem]"
