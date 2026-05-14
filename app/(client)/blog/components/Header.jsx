@@ -102,7 +102,6 @@ export default function Header({ id_blog_head }) {
     <section className="relative w-screen h-screen md:h-[80vh] overflow-hidden">
       {/* Imagen de fondo visible */}
       <Image
-        // src={`${data.public_image}?v=${Date.now()}`}
         src={`${data.imagen.path}?v=${Date.now()}`}
         alt={data.alt || "Imagen de encabezado"}
         title={data.title || ""}
