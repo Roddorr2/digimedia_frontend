@@ -108,9 +108,7 @@ export default function ModalScrollA({ data, time }) {
         text: "Ocurrió un error inesperado.",
         icon: "error",
         confirmButtonText: "OK",
-      });
-      console.log(error);
-    } finally {
+      });    } finally {
       setLoading(false);
       setFormData({
         nombre: "",

@@ -86,7 +86,6 @@ const auth_service = {
       });
 
       const data = await response.json();
-      console.log("Usuario autenticado: \n", data);
       if (!response.ok) {
         return {
           success: false,
@@ -286,20 +285,9 @@ const auth_service = {
   hasRole: (roles) => {
     const userRole = auth_service.getCurrentRole();
     if (!userRole) return false;
-<<<<<<< HEAD
     
     const rolesArray = roles.split(",").map(r => r.trim().toLowerCase());
     return rolesArray.includes(userRole.toLowerCase());
-=======
-
-    if (Array.isArray(roles)) {
-      return roles.some(
-        (role) => role.toLowerCase() === userRole.toLowerCase(),
-      );
-    }
-
-    return userRole.toLowerCase() === roles.toLowerCase();
->>>>>>> origin/feat/frontend-campanias
   },
 
   hasPermission: (permission) => {

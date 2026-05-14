@@ -28,9 +28,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
   const [button, setButtonStatus] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    console.log("updateDisplayName en ModalEmpleado:", typeof updateDisplayName);
-  }, [updateDisplayName]);
+  useEffect(() => {  }, [updateDisplayName]);
 
   // Resetear estados cuando el modal se cierra
   useEffect(() => {
@@ -203,9 +201,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
                 setCookie('empleado', JSON.stringify(updatedEmpleadoData));
   
                 // Actualizamos el displayName mediante el contexto
-                if (isProfileEdit && typeof updateDisplayName === 'function') {
-                  console.log("Llamando a updateDisplayName con:", `${formData.nombre} ${formData.apellido}`);
-                  updateDisplayName(`${formData.nombre}`);
+                if (isProfileEdit && typeof updateDisplayName === 'function') {                  updateDisplayName(`${formData.nombre}`);
                 }
               }
             }
@@ -216,10 +212,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
   
             setTimeout(() => {
               handleClose();
-            }, 1000);
-  
-            console.log("Datos actualizados:", data);
-          } else {
+            }, 1000);          } else {
             setError({ status: true, message: response.message });
             setButtonStatus(true);
           }
