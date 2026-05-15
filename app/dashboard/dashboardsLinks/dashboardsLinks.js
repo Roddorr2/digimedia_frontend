@@ -68,6 +68,6 @@ export const dashboardLinks = [
     title: "Campañas",
     href: "/dashboard/campanias",
     icon: Megaphone,
-    role: ["marketing", "administrador"],
+    role: "marketing, administrador",
   },
 ];
