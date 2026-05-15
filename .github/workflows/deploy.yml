@@ -2,9 +2,8 @@ name: Deploy to Git Branch
 
 on:
   push:
-    branches:
-      - rama_produccion
-
+    branches: 
+      - rama-staning-frontend
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -30,6 +29,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
-          branch: deploy
+          branch: deploy_staging_frontend
           folder: out
           clean: true

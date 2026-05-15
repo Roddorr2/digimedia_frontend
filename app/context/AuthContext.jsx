@@ -136,6 +136,14 @@ export const AuthProvider = ({ children }) => {
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/\s+/g, "-");
 
+  const hasRole = (roles) => {
+    const rol = user?.rol || getCookie("rol");
+    if (!rol) return false;
+
+    const rolesArray = roles.split(",").map((r) => r.trim().toLowerCase());
+    return rolesArray.includes(rol.toLowerCase());
+  };
+
   // Función para verificar permisos
   const hasPermission = (permiso) => {
     const rol = user?.rol || getCookie("rol");
@@ -154,7 +162,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, login, logout, hasPermission }}
+      value={{ isAuthenticated, user, login, logout, hasPermission, hasRole }}
     >
       {children}
     </AuthContext.Provider>

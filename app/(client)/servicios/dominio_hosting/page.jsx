@@ -9,13 +9,11 @@ import ServicePopup from '@/app/dashboard/whatsapp/components/ServicePopup';
 export default function UXUI() {
   const modales = {
     modalA: {
-      text: 'DISEÑO Y DESARROLLO WEB',
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
-      imageTitle: 'Obtén una asesoría ¡Gratis!',
-      imageAlt:
-        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
+      text: "DISEÑO Y DESARROLLO WEB",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      alt:'diseno digimedia pop up',
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
     },
   };
 

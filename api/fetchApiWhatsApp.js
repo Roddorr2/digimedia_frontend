@@ -47,10 +47,6 @@ const wsRequest = async (endpoint, options = {}) => {
   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
   const url = `${url_whatsapp}${cleanEndpoint}`;
 
-  if (process.env.NODE_ENV !== "production") {
-    console.log(`📡 (WS) ${url}`);
-  }
-
   const res = await fetch(url, {
     ...options,
     headers: {
@@ -123,4 +119,30 @@ export const popupApi = {
     }),
 
   destroy: (id) => apiRequest(`/api/popup-configs/${id}`, { method: "DELETE" }),
+}
+
+export const campaniaApi = {
+  //GET /api/campanias?estado=completada&page=1
+  getAll: (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return apiRequest(`/api/campanias${query ? `?${query}` : ""}`, {
+      method: "GET",
+    });
+  },
+
+  //GET /api/campanias/{id}
+  getById: (id) => apiRequest(`/api/campanias/${id}`, { method: "GET" }),
+
+  getLeads: (id, params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return apiRequest(`/api/campanias/${id}/leads${query ? `?${query}` : ""}`, {
+      method: "GET",
+    });
+  },
+
+  //POST /api/campanias/{id}/leads/{watModalId}/retry (Fase 2)
+  retryLead: (campaniaId, watModalId) =>
+    apiRequest(`/api/campanias/${campaniaId}/leads/${watModalId}/retry`, {
+      method: "POST",
+    }),
 };
