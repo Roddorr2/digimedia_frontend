@@ -181,8 +181,13 @@ export default function Header2() {
               <Link href="/nosotros">Nosotros</Link>
             </li>
             <li
+              className={isActive("/blog") ? styles.active : ""}
+              onClick={closeMenu}
+            >
+              <Link href="/blog">Blog</Link>
+            </li>
+            <li
               className={`cursor-pointer ${
-                isActive("/blog") ||
                 isActive("/preguntas") ||
                 isActive("/contactanos") ||
                 (!isAuthenticated && isActive("/login"))
@@ -208,12 +213,6 @@ export default function Header2() {
                 <ul
                   className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
                 >
-                  <li
-                    className={isActive("/blog") ? styles["active-sub"] : ""}
-                    onClick={closeMenu}
-                  >
-                    <Link href="/blog">Blog</Link>
-                  </li>
                   <li
                     className={
                       isActive("/preguntas") ? styles["active-sub"] : ""

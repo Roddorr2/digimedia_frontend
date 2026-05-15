@@ -89,9 +89,7 @@ const Dashboard = ({ user, onLogout }) => {
       } else {
         setError(data.message || "Error al eliminar la carpeta auth");
       }
-    } catch (err) {
-      console.log(err);
-      setError(
+    } catch (err) {      setError(
         "Error de conexión. Verifica que el backend esté funcionando en el puerto 5111."
       );
     } finally {
@@ -124,20 +122,13 @@ const Dashboard = ({ user, onLogout }) => {
       } else {
         setError(data.message || "Error al verificar estado de auth");
       }
-    } catch (err) {
-      console.log(err);
-      setError("Error de conexión al verificar estado de auth");
+    } catch (err) {      setError("Error de conexión al verificar estado de auth");
     }
   };
 
   // Conectar WebSocket
   const connectWebSocket = useCallback(() => {
-    // if (!token || socketRef.current?.connected) return;
-    console.log("a");
-    try {
-      console.log("b");
-      console.log("🔌 Conectando WebSocket...");
-
+    // if (!token || socketRef.current?.connected) return;    try {
       const socket = io(apiBaseUrl, {
         // auth: { token: token },
         auth: {
@@ -152,18 +143,10 @@ const Dashboard = ({ user, onLogout }) => {
         forceNew: true, // Fuerza una nueva conexión
       });
 
-      socket.on("connect", () => {
-        console.log("c");
-
-        console.log("✅ WebSocket conectado");
-        addNotification("Conexión en tiempo real establecida", "success");
+      socket.on("connect", () => {        addNotification("Conexión en tiempo real establecida", "success");
       });
 
-      socket.on("disconnect", (reason) => {
-        console.log("d");
-
-        console.log("❌ WebSocket desconectado:", reason);
-
+      socket.on("disconnect", (reason) => {
         // NO reconectes automáticamente - deja que socket.io maneje esto
         // Solo notifica al usuario
         if (reason === "io server disconnect") {
@@ -175,46 +158,28 @@ const Dashboard = ({ user, onLogout }) => {
         }
       });
 
-      socket.on("reconnect", (attemptNumber) => {
-        console.log("e");
-
-        console.log("🔄 Reconectado después de", attemptNumber, "intentos");
-        addNotification("Reconectado exitosamente", "success");
+      socket.on("reconnect", (attemptNumber) => {        addNotification("Reconectado exitosamente", "success");
       });
 
-      socket.on("reconnect_error", (error) => {
-        console.log("f");
-
+      socket.on("reconnect_error", (error) => {
         console.error("❌ Error de reconexión:", error);
         addNotification("Error al reconectar", "error");
       });
 
-      socket.on("reconnect_failed", () => {
-        console.log("g");
-
+      socket.on("reconnect_failed", () => {
         console.error("❌ Falló la reconexión después de todos los intentos");
         addNotification("No se pudo reconectar. Recarga la página.", "error");
       });
 
-      socket.on("connect_error", (err) => {
-        console.log("h");
-
+      socket.on("connect_error", (err) => {
         console.error("❌ Error de conexión WebSocket:", err.message);
         addNotification(`Error de conexión: ${err.message}`, "error");
       });
 
-      socket.on("qr-status-update", (status) => {
-        console.log("i");
-
-        console.log("📊 Actualización de estado:", status);
-        handleStatusUpdate(status);
-      });
-      console.log("j");
-
+      socket.on("qr-status-update", (status) => {        handleStatusUpdate(status);
+      });
       socketRef.current = socket;
-    } catch (error) {
-      console.log("k");
-
+    } catch (error) {
       console.error("❌ Error al conectar WebSocket:", error);
       addNotification("Error al conectar con el servidor", "error");
     }
@@ -225,15 +190,11 @@ const Dashboard = ({ user, onLogout }) => {
     if (socketRef.current) {
       socketRef.current.removeAllListeners(); // Limpia todos los listeners
       socketRef.current.disconnect();
-      socketRef.current = null;
-      console.log("❌ WebSocket desconectado y limpiado");
-    }
+      socketRef.current = null;    }
   }, []);
 
   // Manejar actualizaciones de estado
-  const handleStatusUpdate = useCallback((data) => {
-    console.log("📊 Actualizando estado:", data);
-
+  const handleStatusUpdate = useCallback((data) => {
     setConnectionStatus((prev) => ({
       ...prev,
       hasActiveQR: data.hasActiveQR || false,
@@ -254,10 +215,7 @@ const Dashboard = ({ user, onLogout }) => {
 
       const now = Date.now();
       const expiresAt = new Date(data.qrData.expiresAt).getTime();
-      const remaining = Math.max(0, Math.floor((expiresAt - now) / 1000));
-
-      console.log(`⏰ Tiempo restante calculado: ${remaining}s`);
-      setTimeRemaining(remaining);
+      const remaining = Math.max(0, Math.floor((expiresAt - now) / 1000));      setTimeRemaining(remaining);
 
       if (remaining > 0) {
         startCountdown(remaining);
@@ -292,9 +250,7 @@ const Dashboard = ({ user, onLogout }) => {
             // Authorization: `Bearer ${token}`,
           },
           body: options.body ? JSON.stringify(options.body) : undefined,
-        });
-        console.log(response);
-
+        });
         if (response.status === 401) {
           setTokenExpired(true);
           throw new Error("Token expirado");
@@ -325,11 +281,7 @@ const Dashboard = ({ user, onLogout }) => {
       const user = getCookie("user");
       const username = getCookie("user")
         ? JSON.parse(getCookie("user")).email
-        : null;
-
-      console.log(username);
-      console.log(getCookie("user"));
-      const result = await apiCall("/api/qr-request-admin", {
+        : null;      const result = await apiCall("/api/qr-request-admin", {
         method: "POST",
         body: { username }, // 👈 se envía aquí
       });

@@ -42,6 +42,8 @@ title {
   }
 }
 
+/* Este es un nuevo comentario */
+
 .animate-bounce-slow {
   animation: bounce-slow 3s infinite;
 }

@@ -115,9 +115,7 @@ export default function Page() {
           icon: "error",
           confirmButtonText: "OK",
         })
-      }
-      console.log(error)
-    }
+      }    }
   }
 
   function confirmarEliminacion(id) {

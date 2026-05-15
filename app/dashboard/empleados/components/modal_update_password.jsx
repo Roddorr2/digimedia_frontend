@@ -99,9 +99,7 @@ export default function ModalUpdatePassword({ isVisible, onClose }) {
                     if (errorData && errorData.message) {
                         errorMessage = errorData.message;
                     }
-                } catch (jsonError) {
-                    console.log("No se pudo leer la respuesta como JSON:", jsonError);
-                }
+                } catch (jsonError) {                }
                 
                 setError({ 
                     status: true, 

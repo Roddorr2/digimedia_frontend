@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { User, Lock, ArrowLeft } from "lucide-react";
+import { User, Lock, ArrowLeft, Sun, Moon } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
@@ -21,6 +21,28 @@ export default function LoginPage() {
   const turnstileRef = useRef(null);
   const { login } = useAuth();
   const router = useRouter();
+
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isDark = document.documentElement.classList.contains("dark") || 
+                     window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setIsDarkMode(isDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      }
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  };
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -76,7 +98,6 @@ export default function LoginPage() {
       captcha_token: captchaToken,
     };
 
-    // Llamada a la funcion login del servicio de autenticacion
     const result = await login(payload);
 
     if (!result.success) {
@@ -110,8 +131,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
-      {/* Sección izquierda con diseño mejorado */}
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
       <div className="lg:w-1/2 w-full bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex flex-col items-center justify-center p-8 relative overflow-hidden">
         <div className="relative z-10 text-center">
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -128,30 +148,37 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Sección derecha con el formulario mejorado */}
       <div className="lg:w-1/2 w-full flex flex-col items-center justify-center p-6 relative">
-        {/* Botón regresar rediseñado */}
-        <a href="/" className="absolute top-4 right-4">
-          <button className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg text-gray-700">
+        
+        <button
+          type="button"
+          onClick={toggleDarkMode}
+          className="absolute top-4 left-4 lg:left-8 flex items-center justify-center p-2.5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-300 shadow-lg text-gray-700 dark:text-yellow-400 z-50"
+          aria-label="Toggle Dark Mode"
+        >
+          {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+
+        <a href="/" className="absolute top-4 right-4 z-50">
+          <button className="flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-300 shadow-lg text-gray-700 dark:text-slate-200">
             <ArrowLeft className="w-4 h-4" />
             Regresar
           </button>
         </a>
 
-        {/* Formulario con diseño mejorado */}
-        <div className="bg-white p-8 lg:p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
+        <div className="bg-white dark:bg-slate-800 p-8 lg:p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-100 dark:border-slate-700 transition-colors duration-300 mt-12 lg:mt-0">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 bg-clip-text text-transparent">
               Iniciar Sesión
             </h2>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 dark:text-slate-400 mt-2">
               Ingresa tus credenciales para continuar
             </p>
           </div>
 
           {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
-              <p className="text-red-700 text-sm">
+            <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 mb-6 rounded-r">
+              <p className="text-red-700 dark:text-red-400 text-sm">
                 {errorMessage ||
                   "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
               </p>
@@ -162,18 +189,18 @@ export default function LoginPage() {
             <div className="space-y-2">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-700 dark:text-slate-300"
               >
                 Usuario
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
+                  <User className="h-5 w-5 text-gray-400 dark:text-slate-500" />
                 </div>
                 <input
                   type="text"
                   id="email"
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-50 transition-colors duration-200"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-50 dark:bg-slate-900/50 text-gray-900 dark:text-white transition-colors duration-200 placeholder-gray-400 dark:placeholder-slate-500"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Ingresa tu usuario"
@@ -185,18 +212,18 @@ export default function LoginPage() {
             <div className="space-y-2">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-700 dark:text-slate-300"
               >
                 Contraseña
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-gray-400 dark:text-slate-500" />
                 </div>
                 <input
                   type="password"
                   id="password"
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-50 transition-colors duration-200"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-gray-50 dark:bg-slate-900/50 text-gray-900 dark:text-white transition-colors duration-200 placeholder-gray-400 dark:placeholder-slate-500"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Ingresa tu contraseña"
@@ -207,25 +234,27 @@ export default function LoginPage() {
             <div className="mt-4">
               <Link
                 href="./email/"
-                className="text-sm text-blue-500 hover:underline"
+                className="text-sm text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 hover:underline transition-colors"
               >
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
 
-            <Turnstile
-              ref={turnstileRef}
-              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-              onSuccess={(token) => setCaptchaToken(token)}
-              onError={() => setCaptchaToken(null)}
-              onExpire={() => setCaptchaToken(null)}
-              options={{ theme: "light" }}
-            />
+            <div className="flex justify-center">
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                onSuccess={(token) => setCaptchaToken(token)}
+                onError={() => setCaptchaToken(null)}
+                onExpire={() => setCaptchaToken(null)}
+                options={{ theme: "auto" }} 
+              />
+            </div>
 
             <button
               disabled={loading || !captchaToken || isLocked}
               type="submit"
-              className="w-full bg-gradient-to-r from-[#90388b] to-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 disabled:opacity-50 hover:scale-105 transition-all duration-300 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-[#90388b] to-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 dark:focus:ring-offset-slate-800 disabled:opacity-50 hover:scale-105 transition-all duration-300 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
