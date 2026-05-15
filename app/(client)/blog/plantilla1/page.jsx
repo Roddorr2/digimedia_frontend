@@ -1,6 +1,5 @@
 "use client";
 
-
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
@@ -66,7 +65,7 @@ const PageContent = () => {
     if (blog) fetchBlog();
   }, [blog]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (data) {
       const title = data?.head?.meta_title || data?.titulo || "Mi Blog";
       const description =
@@ -109,7 +108,6 @@ const PageContent = () => {
       canonicalLink.href = `https://digimedia-marketing.com/blog/${blog}`;
     }
   }, [data, blog]);
-
 
   if (error) {
     return (
@@ -165,30 +163,30 @@ const PageContent = () => {
 
   return (
     <>
-        <div>
-              <Header id_blog_head={data.id_blog_head} />
+      <div>
+        <Header id_blog_head={data?.id_blog_head} />
 
-              <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
-                <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
+        <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
+          <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
 
-                <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
+          <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
 
-                {data.body?.service_url && (
-                  <div className="flex justify-center my-8">
-                    <a
-                      href={data.body.service_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg"
-                    >
-                      Conoce nuestro servicio
-                    </a>
-                  </div>
-                )}
+          {data.body?.service_url && (
+            <div className="flex justify-center my-8">
+              <a
+                href={data.body.service_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg"
+              >
+                Conoce nuestro servicio
+              </a>
+            </div>
+          )}
 
-                <Footer id_blog_footer={data.id_blog_footer} />
-              </div>
+          <Footer id_blog_footer={data.id_blog_footer} />
         </div>
+      </div>
 
 
     </>

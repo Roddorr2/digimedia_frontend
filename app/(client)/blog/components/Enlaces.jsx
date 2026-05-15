@@ -33,9 +33,7 @@ function EnlacesForm() {
       } else {
         setDataResponse([]);
       }
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
+    } catch (error) {      Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",
         icon: "error",

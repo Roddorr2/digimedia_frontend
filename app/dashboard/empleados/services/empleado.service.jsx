@@ -142,10 +142,7 @@ const empleado_service = {
             const requestBody = { ...form };
             if (!requestBody.id) {
                 requestBody.id = id;
-            }
-    
-            console.log('Enviando solicitud de cambio de contraseña:', requestBody);
-            
+            }            
             const response = await fetch(`${api_url}/pass/${id}`, {
                 method: "PUT",
                 headers: {
@@ -153,10 +150,7 @@ const empleado_service = {
                     "Authorization": `Bearer ${getCookie('token')}`
                 },
                 body: JSON.stringify(requestBody)
-            });
-    
-            console.log('Respuesta del servidor (status):', response.status);
-            
+            });            
             return response;
         } catch (error) {
             return new Response(JSON.stringify({
