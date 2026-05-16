@@ -60,7 +60,7 @@ export function PlantillasList({
                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed dark:bg-slate-800/50 dark:text-slate-600'
                           }`}
                         >
-                          {getTiempoEnvio(numero)}
+                          {getTiempoEnvio(numero, servicio.id)}
                         </button>
                       );
                     })}
