@@ -72,7 +72,8 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      //fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
       alt:'diseno digimedia pop up',
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
@@ -86,7 +87,7 @@ export default function Page() {
 
   return (
     <>
-      // <ServicePopup idSubservicio={4} />
+      <ServicePopup idSubservicio={4} />
       <ModalScroll data={modales} />
 
       <ModalButton
