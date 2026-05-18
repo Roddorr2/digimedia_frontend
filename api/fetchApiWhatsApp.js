@@ -71,22 +71,18 @@ const wsRequest = async (endpoint, options = {}) => {
 };
 
 export const whatsappApi = {
-  // ✅ Genera/renueva QR (tu router lo expone como /api/whatsapp/restart)
   restart: async () => {
     return wsRequest("/api/whatsapp/restart", { method: "POST" });
   },
 
-  // ✅ Alternativa directa para pedir QR
   requestNewQr: async () => {
     return wsRequest("/api/whatsapp/qr-request", { method: "POST" });
   },
 
-  // ✅ Estado de conexión
   getStatus: async () => {
     return wsRequest("/api/whatsapp/status", { method: "GET" });
   },
 
-  // ✅ Estado del QR (si lo usas)
   getQrStatus: async () => {
     return wsRequest("/api/whatsapp/qr-status", { method: "GET" });
   },
@@ -119,7 +115,7 @@ export const popupApi = {
     }),
 
   destroy: (id) => apiRequest(`/api/popup-configs/${id}`, { method: "DELETE" }),
-}
+};
 
 export const campaniaApi = {
   //GET /api/campanias?estado=completada&page=1
@@ -145,4 +141,29 @@ export const campaniaApi = {
     apiRequest(`/api/campanias/${campaniaId}/leads/${watModalId}/retry`, {
       method: "POST",
     }),
+};
+
+export const tiemposApi = {
+  getByServicio: (idServicio) =>
+    apiRequest(`/api/servicios/${idServicio}/tiempos`, { method: "GET" }),
+
+  update: (idServicio, data) =>
+    apiRequest(`/api/servicios/${idServicio}/tiempos`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  store: (idServicio, data) =>
+    apiRequest(`/api/servicios/${idServicio}/tiempos`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  destroy: (idServicio, tipo, numeroMensaje) =>
+    apiRequest(
+      `/api/servicios/${idServicio}/tiempos/${tipo}/${numeroMensaje}`,
+      {
+        method: "DELETE",
+      },
+    ),
 };
