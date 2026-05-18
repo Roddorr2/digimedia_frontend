@@ -10,6 +10,7 @@ import {
   Settings,
   User,
   PhoneCall,
+  Megaphone,
 } from "lucide-react";
 
 export const dashboardLinks = [
@@ -62,5 +63,11 @@ export const dashboardLinks = [
     href: "/dashboard/whatsapp",
     icon: PhoneCall,
     role: "administrador, marketing",
+  },
+  {
+    title: "Campañas",
+    href: "/dashboard/campanias",
+    icon: Megaphone,
+    role: "marketing, administrador",
   },
 ];

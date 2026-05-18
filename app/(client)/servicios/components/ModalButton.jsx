@@ -109,9 +109,7 @@ export default function ModalClick({
         text: "Ocurrió un error inesperado.",
         icon: "error",
         confirmButtonText: "OK",
-      });
-      console.log(error);
-    } finally {
+      });    } finally {
       setLoading(false);
       setEmail("");
       setNombre("");

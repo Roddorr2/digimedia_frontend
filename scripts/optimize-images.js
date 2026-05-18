@@ -47,17 +47,12 @@ async function processFile(srcPath, relOutName) {
     );
 
     await Promise.all(promises);
-
-    console.log(
-      `Optimized: ${path.relative(PUBLIC_DIR, srcPath)} -> ${path.relative(PUBLIC_DIR, avifPath)}, ${path.relative(PUBLIC_DIR, webpPath)} (${metadata.width}x${metadata.height})`,
-    );
   } catch (err) {
     console.error('Failed to process', srcPath, err.message);
   }
 }
 
 (async function main() {
-  console.log('Scanning public image folders:', SCAN_FOLDERS.join(', '));
   for (const folder of SCAN_FOLDERS) {
     const dir = path.join(PUBLIC_DIR, folder);
     if (!fs.existsSync(dir)) continue;
@@ -93,7 +88,4 @@ async function processFile(srcPath, relOutName) {
       }
     }
   }
-  console.log(
-    'Done. Optimized images are in public/optimized_images. Review and use them (update markup or use responsive picture/srcset).',
-  );
 })();

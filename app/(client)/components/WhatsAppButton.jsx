@@ -14,7 +14,8 @@ const WhatsAppButton = () => {
       aria-label="Chat on WhatsApp"
     >
       <Image
-        src="/image-home/WhatsAppIcon.webp"
+        src="/image-home/WhatsApp.svg.webp"
+        title='Botón de WhatsApp'
         alt="Icono de WhatsApp color blanco con fondo oscuro"
         width={60}
         height={60}

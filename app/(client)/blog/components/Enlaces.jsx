@@ -34,7 +34,7 @@ function EnlacesForm() {
         setDataResponse([]);
       }
     } catch (error) {
-      console.log(error);
+      setDataResponse([]);
       Swal.fire({
         title: "Error",
         text: "Ocurrió un error inesperado.",
@@ -51,19 +51,21 @@ function EnlacesForm() {
   }, []);
 
   useEffect(() => {
+    const safeData = Array.isArray(data) ? data : [];
+
     if (searchTerm.trim() === "") {
-      setFilteredData(data);
-      setTotalPages(Math.ceil(data.length / ITEMS_PER_PAGE));
+      setFilteredData(safeData);
+      setTotalPages(Math.ceil(safeData.length / ITEMS_PER_PAGE));
     } else {
-      const filtered = data.filter(
+      const filtered = safeData.filter(
         (card) =>
           card.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          card.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+          card.descripcion.toLowerCase().includes(searchTerm.toLowerCase()),
       );
       setFilteredData(filtered);
       setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
     }
-    setCurrentPage(1); // Reinicia a la primera página al buscar
+    setCurrentPage(1);
   }, [searchTerm, data]);
 
   const getCurrentPageItems = () => {
@@ -111,7 +113,8 @@ function EnlacesForm() {
               </h2>
               {!isLoading && filteredData.length > 0 && (
                 <p className="text-[12px] text-[#8f8f8f]">
-                  Mostrando {getCurrentPageItems().length} de {filteredData.length} elementos
+                  Mostrando {getCurrentPageItems().length} de{" "}
+                  {filteredData.length} elementos
                 </p>
               )}
             </div>
@@ -181,21 +184,25 @@ function EnlacesForm() {
                       <ChevronLeft className="w-4 h-4" />
                     </button>
 
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => handlePageChange(page)}
-                        className={`w-7 h-7 text-[12px] rounded-[6px] border ${
-                          currentPage === page
-                            ? "bg-[#b525fe] border-[#b525fe] text-white"
-                            : "bg-white border-[#d7d7d7] text-[#4d4d4d]"
-                        }`}
-                        aria-label={`Página ${page}`}
-                        aria-current={currentPage === page ? "page" : undefined}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`w-7 h-7 text-[12px] rounded-[6px] border ${
+                            currentPage === page
+                              ? "bg-[#b525fe] border-[#b525fe] text-white"
+                              : "bg-white border-[#d7d7d7] text-[#4d4d4d]"
+                          }`}
+                          aria-label={`Página ${page}`}
+                          aria-current={
+                            currentPage === page ? "page" : undefined
+                          }
+                        >
+                          {page}
+                        </button>
+                      ),
+                    )}
 
                     <button
                       onClick={() => handlePageChange(currentPage + 1)}

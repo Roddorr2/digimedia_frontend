@@ -10,14 +10,6 @@ import ModalButton from "../components/ModalButton";
 import ModalScroll from "../components/ModalScroll";
 import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-/*
-import dynamic from "next/dynamic";
-
-const ModalScroll = dynamic(() => import('../components/ModalScroll'), {
-  ssr: false,
-});
-*/
-
 export default function Page() {
   const servicios = [
     {
@@ -80,7 +72,8 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
+      alt:'diseno digimedia pop up',
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
       width: 256,

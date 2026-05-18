@@ -79,9 +79,7 @@ export default function ModalError({ isVisible, onClose, id_modal_email }) {
                 text: "Ocurrió un error inesperado.",
                 icon: "error",
                 confirmButtonText: "OK",
-            })
-            console.log(error)
-        } finally {
+            })        } finally {
             setIsLoading(false)
         }
     }

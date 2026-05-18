@@ -401,19 +401,24 @@ export default function Page() {
             </div>
 
             {/* Filtro por rol */}
-            <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100 dark:border-gray-800 dark:bg-[#6b3acb]">
-              <Filter className="h-4 w-4 text-[#8c52ff]" />
-              <div className="text-sm font-medium">Filtrar por rol:</div>
-              <Select
-                value={selectedRole}
-                onValueChange={setSelectedRole}
-                className="w-[180px] bg-white dark:bg-gray-800"
-              >
-                <SelectTrigger className="w-[180px] bg-white dark:bg-gray-800">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-gray-50 dark:bg-[#6b3acb] p-3 rounded-lg border border-gray-100 dark:border-gray-800">
+              {/* Icono + label */}
+              <div className="flex items-center gap-2 shrink-0">
+                <Filter className="h-4 w-4 text-[#8c52ff] dark:text-white" />
+                <div className="text-sm font-medium text-gray-900 dark:text-white">
+                  Filtrar por rol:
+                </div>
+              </div>
+
+              {/* Select */}
+              <Select value={selectedRole} onValueChange={setSelectedRole}>
+                <SelectTrigger className="w-full sm:w-[220px] bg-white dark:bg-gray-800">
                   <SelectValue placeholder="Todos los roles" />
                 </SelectTrigger>
+
                 <SelectContent>
                   <SelectItem value="all">Todos los roles</SelectItem>
+
                   {roles.map((rol) => (
                     <SelectItem key={rol.id_rol} value={rol.id_rol}>
                       {formatRoleName(rol.nombre)}
@@ -422,18 +427,20 @@ export default function Page() {
                 </SelectContent>
               </Select>
 
+              {/* Botón limpiar */}
               {selectedRole !== "all" && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setSelectedRole("all")}
-                  className="h-8 px-2 text-xs"
+                  className="h-8 px-2 text-xs w-full sm:w-auto"
                 >
                   Limpiar filtro
                 </Button>
               )}
 
-              <div className="ml-auto text-xs text-gray-500 dark:text-gray-200">
+              {/* Contador */}
+              <div className="text-xs text-gray-500 dark:text-gray-200 sm:ml-auto">
                 {filteredData.length}{" "}
                 {filteredData.length === 1 ? "empleado" : "empleados"}{" "}
                 encontrados
@@ -448,7 +455,7 @@ export default function Page() {
             </div>
           ) : (
             <>
-              <div className="rounded-lg border overflow-hidden">
+              <div className="rounded-lg overflow-hidden">
                 {auth_service.hasPermission("ver-empleados") && (
                   <Table
                     headers={headers}

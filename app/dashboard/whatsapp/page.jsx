@@ -35,8 +35,6 @@ export default function WhatsAppPage() {
     [],
   );
 
-  console.log("Este es el usuario: ", user);
-
   useEffect(() => {
     if (!isAuthLoading) {
       if (!user || !hasRole("administrador", "marketing")) {

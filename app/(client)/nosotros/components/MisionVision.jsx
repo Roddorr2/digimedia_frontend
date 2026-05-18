@@ -7,6 +7,7 @@ export const MisionVision = () => (
       <div className="flex-1 min-w-0">
         <img
           src="/Img-nosotros/mision_vision.png"
+          title="MisiónVisión de Digimedia"
           alt="Nuestros servicios"
           
           className="w-full h-full object-cover rounded-tl-[4rem] md:rounded-bl-[2.5rem]"
@@ -22,9 +23,7 @@ export const MisionVision = () => (
             MISIÓN
           </h3>
           <p className="font-montserrat text-white text-lg md:text-xl leading-relaxed">
-            Ser aliado de los emprendimientos en su posicionamiento digital;
-            mediante la generación de contenido estratégico que garantice el
-            cumplimiento de los objetivos planteados.
+            Impulsar el crecimiento digital de marcas y emprendimientos mediante estrategias creativas, innovación y soluciones digitales enfocadas en generar posicionamiento, conexión y resultados sostenibles.
           </p>
         </div>
         
@@ -33,9 +32,7 @@ export const MisionVision = () => (
             VISIÓN
           </h3>
           <p className="font-montserrat text-white text-lg md:text-xl leading-relaxed">
-            Liderar la transformación digital de las PYME en el Perú;
-            estableciendo vínculos sólidos entre nuestros clientes y su
-            respectiva audiencia.
+            Buscamos impulsar la transformación digital de empresas y emprendimientos mediante estrategias innovadoras que conecten marcas con personas.
           </p>
         </div>
       </div>
