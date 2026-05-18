@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
     : null;
 
   const [displayName, setDisplayName] = useState(
-    empleadoData?.nombre || userData?.name || "Usuario"
+    empleadoData?.nombre || userData?.name || "Usuario",
   );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -62,19 +62,22 @@ export default function RootLayout({ children }) {
       <AuthGuard>
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
           {/* HEADER */}
-          <header className="bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center justify-between px-10 py-2 z-10">
-            <Link href="/" className="flex items-center h-full overflow-hidden">
+          <header className="relative bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center px-3 sm:px-6 lg:px-10 py-2 z-10">
+            <Link
+              href="/"
+              className="flex items-center flex-shrink-0 h-full z-10"
+            >
               <Image
                 src="/dashboard/logo.webp"
-                className="h-full flex-shrink-0"
                 alt="Logo"
-                width={200}
-                height={300}
-                style={{ width: "auto" }}
+                width={160}
+                height={80}
+                className="w-auto h-10 sm:h-12"
               />
             </Link>
-            <h1 className="text-3xl text-white font-semibold">
-              SECCIÓN:{" "}
+
+            <h1 className="flex-1 text-center text-white font-semibold text-sm sm:text-xl lg:text-3xl truncate px-4">
+              <span className="hidden sm:inline">SECCIÓN: </span>
               {pathname.slice(pathname.indexOf("/", 1) + 1, -1).toUpperCase()}
             </h1>
           </header>
@@ -84,8 +87,9 @@ export default function RootLayout({ children }) {
             <div
               onMouseEnter={() => setIsSidebarOpen(true)}
               onMouseLeave={() => setIsSidebarOpen(false)}
-              className={`relative min-h-screen flex flex-col shrink-0 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-all duration-300 pt-5 ${isSidebarOpen ? "w-64" : "w-20"
-                }`}
+              className={`relative min-h-screen flex flex-col shrink-0 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-all duration-300 pt-5 ${
+                isSidebarOpen ? "w-64" : "w-20"
+              }`}
             >
               {/* Navegación principal */}
               <nav className="mb-auto overflow-y-auto">
@@ -123,10 +127,11 @@ export default function RootLayout({ children }) {
                     <PersonIcon className="text-[#8c52ff] dark:text-[#6b3acb] !text-[25px]" />
                   </div>
                   <span
-                    className={`whitespace-nowrap transition-all duration-300 overflow-hidden ${isSidebarOpen
+                    className={`whitespace-nowrap transition-all duration-300 overflow-hidden ${
+                      isSidebarOpen
                         ? "opacity-100 max-w-[190px] ml-0"
                         : "opacity-0 max-w-0"
-                      }`}
+                    }`}
                   >
                     <span className="block font-normal text-sm">
                       {displayName}
@@ -146,10 +151,11 @@ export default function RootLayout({ children }) {
                     <LogOut className="text-[#ff037f] dark:text-[#bf025f] text-[25px]" />
                   </div>
                   <span
-                    className={`whitespace-nowrap transition-all duration-300 overflow-hidden ${isSidebarOpen
+                    className={`whitespace-nowrap transition-all duration-300 overflow-hidden ${
+                      isSidebarOpen
                         ? "opacity-100 max-w-[190px] ml-0"
                         : "opacity-0 max-w-0"
-                      }`}
+                    }`}
                   >
                     {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
                   </span>
@@ -162,16 +168,16 @@ export default function RootLayout({ children }) {
               {/* Selector de tema */}
               <div className="flex items-center flex-col pb-24">
                 <span
-                  className={`block py-2 font-bold transition-all duration-300 whitespace-nowrap overflow-hidden ${isSidebarOpen
-                      ? "opacity-100 max-h-10"
-                      : "opacity-0 max-h-0"
-                    }`}
+                  className={`block py-2 font-bold transition-all duration-300 whitespace-nowrap overflow-hidden ${
+                    isSidebarOpen ? "opacity-100 max-h-10" : "opacity-0 max-h-0"
+                  }`}
                 >
                   Dark Mode
                 </span>
                 <div
-                  className={`transition-all duration-300 ${isSidebarOpen ? "mx-10" : "mx-4"
-                    }`}
+                  className={`transition-all duration-300 ${
+                    isSidebarOpen ? "mx-10" : "mx-4"
+                  }`}
                 >
                   <label className="relative inline-block w-[60px] h-[34px]">
                     <input
@@ -201,30 +207,34 @@ function SidebarLink({ href, title, icon: Icon, isSidebarOpen }) {
 
   return (
     <li
-      className={`my-2 px-[15%] transition-colors ${isActive
+      className={`my-2 px-[15%] transition-colors ${
+        isActive
           ? "bg-purple-100 dark:bg-purple-900/30"
           : "hover:bg-gray-200 dark:hover:bg-gray-700"
-        }`}
+      }`}
     >
       <Link href={href} className="flex items-center py-2 no-underline">
         <div className="p-2 flex relative flex-shrink-0">
           {Icon && (
             <Icon
-              className={`text-[25px] ${isActive
+              className={`text-[25px] ${
+                isActive
                   ? "text-[#8c52ff] dark:text-[#a78bfa]"
                   : "text-gray-600 dark:text-gray-300"
-                }`}
+              }`}
             />
           )}
         </div>
         <span
-          className={`whitespace-nowrap transition-all duration-300 inline-block overflow-hidden ${isSidebarOpen
+          className={`whitespace-nowrap transition-all duration-300 inline-block overflow-hidden ${
+            isSidebarOpen
               ? "opacity-100 max-w-[190px] ml-0"
               : "opacity-0 max-w-0"
-            } ${isActive
+          } ${
+            isActive
               ? "font-semibold text-[#8c52ff] dark:text-[#a78bfa]"
               : "text-gray-800 dark:text-white"
-            }`}
+          }`}
         >
           {title}
         </span>

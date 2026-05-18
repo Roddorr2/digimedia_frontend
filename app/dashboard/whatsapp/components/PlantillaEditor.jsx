@@ -52,7 +52,7 @@ export function PlantillaEditor({
               {getNombreServicio(selectedPlantilla.id_servicio)}
             </CardTitle>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              {getTiempoEnvio(selectedPlantilla.numero_plantilla)} · ID:{' '}
+              {getTiempoEnvio(selectedPlantilla.numero_plantilla, selectedPlantilla.id_servicio)} · ID:{' '}
               {selectedPlantilla.id}
             </p>
           </div>
