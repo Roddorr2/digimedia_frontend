@@ -56,7 +56,7 @@ export const dashboardLinks = [
     title: "Métricas",
     href: "/dashboard/metricas",
     icon: ChartColumn,
-    role: "administrador",
+    role: "administrador, marketing",
   },
   {
     title: "WhatsApp",
