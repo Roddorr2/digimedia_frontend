@@ -72,8 +72,8 @@ export default function Page() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
-      alt:'diseno digimedia pop up',
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      alt: "diseno digimedia pop up",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
       width: 256,
@@ -88,14 +88,12 @@ export default function Page() {
     <>
       // <ServicePopup idSubservicio={4} />
       <ModalScroll data={modales} />
-
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
         fondo="/servicios/desarrollo/modal-button/imagen.webp"
         text="DISEÑO Y DESARROLLO WEB"
         serviceName="1"
       />
-
       <Main
         title="DISEÑO Y DESARROLLO WEB"
         subtitle={
@@ -110,14 +108,11 @@ export default function Page() {
         imageTitle="Obtén una asesoría ¡Gratis!"
         imageAlt="La imagen muestra a una persona buscando imágenes en un biblioteca virtual"
       />
-
       <Description
         title="¿CÓMO FUNCIONA?"
         text="Creamos experiencias digitales que cautivan y funcionan sin interrupciones. Desde el diseño visual hasta la implementación técnica, convertimos su sitio web en una herramienta poderosa que posiciona su marca, comunica su valor y genera resultados tangibles."
       />
-
       <Servicios servicios={servicios} />
-
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
