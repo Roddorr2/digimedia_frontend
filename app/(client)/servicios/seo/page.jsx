@@ -2,7 +2,6 @@ import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
 import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
@@ -10,8 +9,9 @@ export default function UXUI() {
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
-      alt:'diseno digimedia pop up',
+      fondo:
+        "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-oficial.webp",
+      alt: "diseno digimedia pop up",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
       imageTitle: "Obtén una asesoría ¡Gratis!",

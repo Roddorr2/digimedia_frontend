@@ -64,7 +64,7 @@ export default function MetricsPage() {
   }, [month, year, filterMode]);
 
   useEffect(() => {
-    if (!authLoading && user && !hasRole("administrador")) {
+    if (!authLoading && user && !hasRole("administrador, marketing")) {
       router.push("/dashboard/main");
     }
   }, [user, authLoading, hasRole, router]);
@@ -218,7 +218,7 @@ export default function MetricsPage() {
     );
   }
 
-  if (!user || !hasRole("administrador")) {
+  if (!user || !hasRole("administrador, marketing")) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         Redirigiendo...

@@ -10,11 +10,12 @@ import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 export default function ExperienciaUsuario() {
   const modales = {
     modalA: {
-      text: 'EXPERIENCIA DE USUARIO',
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp',
-      alt:'diseno digimedia pop up',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      serviceName: '1',
+      text: "EXPERIENCIA DE USUARIO",
+      fondo:
+        "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      alt: "diseno digimedia pop up",
+      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
+      serviceName: "1",
     },
   };
 
