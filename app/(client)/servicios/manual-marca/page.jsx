@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
@@ -84,7 +83,6 @@ export default function UXUI() {
   return (
     <div>
       <ServicePopup idSubservicio={16} />
-      <ModalScroll data={modales} />
 
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"

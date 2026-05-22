@@ -7,7 +7,6 @@ import Description from "../components/Description";
 import Main from "../components/Main";
 import ModalButton from "../components/ModalButton";
 
-import ModalScroll from "../components/ModalScroll";
 import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function Page() {
@@ -87,7 +86,6 @@ export default function Page() {
   return (
     <>
       // <ServicePopup idSubservicio={4} />
-      <ModalScroll data={modales} />
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
         fondo="/servicios/desarrollo/modal-button/imagen.webp"

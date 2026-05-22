@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import ModalButton from "../components/ModalButton";
 import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
@@ -57,7 +56,6 @@ export default function UXUI() {
   return (
     <div>
       <ServicePopup idSubservicio={15} />
-      <ModalScroll data={modales} />
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
         fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"

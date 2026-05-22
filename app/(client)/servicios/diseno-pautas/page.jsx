@@ -2,7 +2,6 @@
 import React from "react";
 
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
@@ -57,7 +56,6 @@ export default function DisenoPauta() {
   return (
     <div>
       <ServicePopup idSubservicio={6}/>
-      <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
         fondo="/servicios/gestion/modal-button/marketing-digital-redes-sociales-peru-digimedia.webp"

@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
@@ -41,7 +40,6 @@ export default function ProduccionPautas() {
   return (
     <div>
       <ServicePopup idSubservicio={12} />
-      <ModalScroll data={modales} />
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
         fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"

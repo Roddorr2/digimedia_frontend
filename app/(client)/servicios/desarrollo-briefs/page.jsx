@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
-import ModalScroll from "../components/ModalScroll";
 import ModalButton from "../components/ModalButton";
 
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
@@ -41,7 +40,6 @@ export default function UXUI() {
   return (
     <div>
       <ServicePopup idSubservicio={13} />
-      <ModalScroll data={modales} />
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
         fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"

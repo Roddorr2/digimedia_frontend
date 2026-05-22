@@ -1,5 +1,4 @@
 import Image from "next/image";
-import ModalScroll from "../components/ModalScroll";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
 import ModalButton from "../components/ModalButton";
@@ -56,7 +55,6 @@ export default function Web() {
   return (
     <div>
       <ServicePopup idSubservicio={3} />
-      <ModalScroll data={modales} />
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
         fondo="/servicios/desarrollo/modal-button/imagen.webp"

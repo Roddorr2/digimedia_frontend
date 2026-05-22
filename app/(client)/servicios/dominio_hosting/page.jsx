@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from '../components/uxui-section';
 import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
 import ModalButton from '../components/ModalButton';
@@ -53,7 +52,6 @@ export default function UXUI() {
   return (
     <div>
       <ServicePopup idSubservicio={5}/>
-      <ModalScroll data={modales} />
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
         fondo="/servicios/desarrollo/modal-button/imagen.webp"
