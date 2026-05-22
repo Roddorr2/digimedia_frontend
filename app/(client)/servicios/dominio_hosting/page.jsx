@@ -1,22 +1,9 @@
-import Image from 'next/image';
-import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import ModalButton from '../components/ModalButton';
-import ServicePopup from '@/app/dashboard/whatsapp/components/ServicePopup';
+import Image from "next/image";
+import Contactanos from "../components/Contactanos";
+import { UxUiSection } from "../components/uxui-section";
+import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
-export default function UXUI() {
-  const modales = {
-    modalA: {
-      text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
-      alt: "diseno digimedia pop up",
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
-    },
-  };
-
+export default function OptimizacionSEO() {
   const featuresuxui = [
     {
       icon: (
@@ -29,9 +16,9 @@ export default function UXUI() {
           height={100}
         />
       ),
-      title: 'SEO ON-PAGE',
+      title: "SEO ON-PAGE",
       description:
-        'Analizamos y optimizamos la estructura web para asegurar su correcta indexación, mejorando la velocidad de carga, la jerarquía de contenidos y el posicionamiento en buscadores.',
+        "Analizamos y optimizamos la estructura web para asegurar su correcta indexación, mejorando la velocidad de carga, la jerarquía de contenidos y el posicionamiento en buscadores.",
     },
     {
       icon: (
@@ -44,22 +31,15 @@ export default function UXUI() {
           height={100}
         />
       ),
-      title: 'SEO OFF-PAGE',
+      title: "SEO OFF-PAGE",
       description:
-        'Desarrollamos enlaces de calidad para aumentar la autoridad del dominio y reforzar la relevancia de su marca en su sector.',
+        "Desarrollamos enlaces de calidad para aumentar la autoridad del dominio y reforzar la relevancia de su marca en su sector.",
     },
   ];
 
   return (
     <div>
-      <ServicePopup idSubservicio={5}/>
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/imagen.webp"
-        text="DISEÑO Y DESARROLLO WEB"
-        serviceName="1"
-      />
+      {/*Servicio: Diseño Web y Desarrollo Web, Subservicio: Optimización SEO*/}
       <UxUiSection
         features={featuresuxui}
         mainDescription="Mejoramos la visibilidad de tu sitio web en los motores de búsqueda mediante una optimización técnica y estratégica. Trabajamos palabras clave, estructura, velocidad y contenido para atraer tráfico cualificado y aumentar tus conversiones de forma orgánica."
@@ -73,10 +53,6 @@ export default function UXUI() {
         alt="Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de optimización seo para buscadores con el objetivo de optimizar el posicionamiento de una página web"
         title="Subservicio de Optimización SEO para buscadores"
       />
-
-      {/* heroBulletPoints={[
-  "TE DAN UNA PRESENCIA ONLINE COMPLETA..."
-]} */}
 
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

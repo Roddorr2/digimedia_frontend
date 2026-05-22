@@ -1,25 +1,8 @@
 import Image from "next/image";
-import ModalScroll from "../components/ModalScroll";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-export default function Web() {
-  const modales = {
-    modalA: {
-      text: "DISEÑO Y DESARROLLO WEB",
-      fondo:
-        "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
-      alt: "diseno digimedia pop up",
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1", // Ajusta según corresponda
-      imageTitle: "Obtén una asesoría ¡Gratis!",
-      imageAlt:
-        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
-    },
-  };
-
+export default function DesarrolloResponsive() {
   const featuresuxui = [
     {
       icon: (
@@ -55,21 +38,14 @@ export default function Web() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={3} />
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/imagen.webp"
-        text="DISEÑO Y DESARROLLO WEB"
-        serviceName="1"
-      />
+      {/* Servicio: Diseño y Desarrollo Web, Subservicio: Desarrollo Responsive */}
       <UxUiSection
         features={featuresuxui}
         mainDescription="Tu sitio web es el corazón de tu negocio digital. Desarrollamos plataformas robustas, rápidas y seguras diseñadas para crecer contigo. Combinamos una arquitectura de software sólida con un diseño impecable para garantizar que tu web no solo funcione, sino que se convierta en un motor de crecimiento."
         backgroundImage="/servicios/diseno_desarrollo_web/desarrollo_web/creacion-desarrollo-web-digimedial.webp"
         imageClassName="scale-x-[-1]"
         heroTitle=<>
-          CREACIÓN <br /> Y DESARROLLO WEB
+          DESARROLLO <br /> RESPONSIVE
         </>
         alt="Imagen que muestra a una persona frente a una laptop realizando el sub servicio de creación y desarrollo web con el objetivo de crear una plataforma que garantice una web en crecimiento"
         title="Subservicio de Creación y Desarrollo web"

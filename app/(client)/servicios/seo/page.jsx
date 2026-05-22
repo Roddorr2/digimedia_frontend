@@ -1,25 +1,8 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-export default function UXUI() {
-  const modales = {
-    modalA: {
-      text: "DISEÑO Y DESARROLLO WEB",
-      fondo:
-        "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-oficial.webp",
-      alt: "diseno digimedia pop up",
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
-      imageTitle: "Obtén una asesoría ¡Gratis!",
-      imageAlt:
-        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
-    },
-  };
-
+export default function IntegracionesDigitales() {
   const featuresuxui = [
     {
       icon: (
@@ -53,20 +36,13 @@ export default function UXUI() {
         </>
       ),
       description:
-        "Conectamos tu web con herramientas como WhatsApp, redes sociales y formularios para facilitar la conversión.",
+        "Conectamos tu web con herramientas como WhatsApp, redes sociales and formularios para facilitar la conversión.",
     },
   ];
 
   return (
     <div>
-      <ServicePopup idSubservicio={2} />
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/imagen.webp"
-        text="DISEÑO Y DESARROLLO WEB"
-        serviceName="1"
-      />
+      {/* Servicio: Diseño Web y Desarrollo Web, Subservicio: Integraciones Digitales */}
       <UxUiSection
         features={featuresuxui}
         mainDescription="Creamos sitios web adaptables a todos los dispositivos e integramos herramientas digitales clave, pasarelas de pago, automatizaciones y analítica para optimizar la experiencia del usuario y potenciar la conversión."
@@ -74,11 +50,6 @@ export default function UXUI() {
         heroTitle="DESARROLLO RESPONSIVE E INTEGRACIONES DIGITALES"
         alt="Imagen que muestra a una persona frente a una pizarra con papeles que contienen estrategias de optimización seo para buscadores con el objetivo de desarrollar sitios webs adaptables a cualquier dispositivo"
         title="Subservicio de Desarrollo responsive e integraciones digitales"
-        // heroBulletPoints={[
-        //   "MÁS VISIBILIDAD = MÁS TRÁFICO: APARECER ARRIBA EN GOOGLE SIGNIFICA QUE MÁS GENTE INTERESADA ENCONTRARÁ TU SITIO.",
-        //   "TRÁFICO DE CALIDAD = MEJORES RESULTADOS: ATRAES A PERSONAS QUE REALMENTE BUSCAN LO QUE OFRECES, AUMENTANDO TUS POSIBILIDADES DE ÉXITO.",
-        //   "CONFIANZA Y AUTORIDAD: LOS PRIMEROS RESULTADOS SE VEN MÁS CREÍBLES, LO QUE FORTALECE TU MARCA."
-        // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

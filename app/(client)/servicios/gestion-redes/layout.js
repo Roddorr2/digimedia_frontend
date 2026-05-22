@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "Gestión de Redes Sociales - DigiMedia Marketing",
   description:
@@ -84,6 +86,7 @@ export default function gestionLayout({ children }) {
       </script>
 
       {children}
+      <ServicePopup idServicio={2} />
     </>
   );
 }

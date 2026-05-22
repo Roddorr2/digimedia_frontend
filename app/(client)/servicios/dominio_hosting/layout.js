@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: 'Sub servicio de Optimización SEO para buscadores | Digimedia',
   description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function DominioHostingLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={1} idSubservicio={2} />
+    </>
+  );
 }
