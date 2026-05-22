@@ -4,9 +4,13 @@ import url from "@/api/url";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Swal from "sweetalert2";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL_PROD || process.env.NEXT_PUBLIC_API_URL_DEV || url;
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_DEV ||
+  url;
 
 const getBg = (config) => {
   if (
@@ -18,18 +22,35 @@ const getBg = (config) => {
   return config.service_color;
 };
 
+// ── Fuera del componente principal para que React no los recree en cada render ──
+
+const inputCls =
+  "w-full rounded-full px-4 py-2.5 text-gray-700 bg-white border-none focus:outline-none focus:ring-2 focus:ring-white";
+
+function Field({ children, error }) {
+  return (
+    <div>
+      {children}
+      <p className="min-h-[16px] text-xs text-red-200 pl-4 mt-0.5">
+        {error || ""}
+      </p>
+    </div>
+  );
+}
+
+// ────────────────────────────────────────────────────────────────────────────────
+
 export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const [errors, setErrors] = useState({ nombre: "", telefono: "", correo: "" });
+  const [formData, setFormData] = useState({ nombre: "", telefono: "", correo: "" });
 
-  const [formData, setFormData] = useState({
-    nombre: "",
-    telefono: "",
-    correo: "",
-  });
+  useEffect(() => { setIsClient(true); }, []);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -42,13 +63,9 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
     const fetchConfig = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/public/popup-configs/subservicio/${idSubservicio}`,
+          `${API_URL}/api/public/popup-configs/subservicio/${idSubservicio}`
         );
-        if (response.data.success) {
-          setConfig(response.data.data);
-        } else {
-          console.error("No se encontró configuración para este subservicio");
-        }
+        if (response.data.success) setConfig(response.data.data);
       } catch (error) {
         console.error("Error cargando pop-up:", error);
       } finally {
@@ -73,20 +90,34 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
       if (onlyNumbers.length <= 9) {
         setFormData((prev) => ({ ...prev, [name]: onlyNumbers }));
       }
+      if (errors.telefono) setErrors((prev) => ({ ...prev, telefono: "" }));
       return;
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const newErrors = { nombre: "", telefono: "", correo: "" };
+    let hasError = false;
+
+    if (!formData.nombre.trim()) {
+      newErrors.nombre = "Ingresa tu nombre";
+      hasError = true;
+    }
     if (formData.telefono.length !== 9) {
-      Swal.fire({
-        title: "Error",
-        text: "El número de teléfono debe tener 9 dígitos",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      newErrors.telefono = "Debe tener 9 dígitos";
+      hasError = true;
+    }
+    if (!formData.correo.trim()) {
+      newErrors.correo = "Ingresa tu correo";
+      hasError = true;
+    }
+
+    if (hasError) {
+      setErrors(newErrors);
       return;
     }
 
@@ -96,10 +127,14 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
         nombre: formData.nombre,
         telefono: formData.telefono,
         correo: formData.correo,
-        id_servicio:
-          config?.subservicio?.id_servicio || idSubservicio.toString(),
+        id_servicio: config?.subservicio?.id_servicio || idSubservicio.toString(),
       };
       const response = await axios.post(`${API_URL}/api/modales`, payload);
+
+      setOpen(false);
+      setFormData({ nombre: "", telefono: "", correo: "" });
+      setErrors({ nombre: "", telefono: "", correo: "" });
+
       if (response.status === 201) {
         Swal.fire({
           title: "¡Mensaje enviado!",
@@ -107,13 +142,11 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
           icon: "success",
           confirmButtonText: "OK",
         });
-        setOpen(false);
-        setFormData({ nombre: "", telefono: "", correo: "" });
       }
     } catch (error) {
       Swal.fire({
         title: "Error",
-        text: "Ocurrió un error al enviar tu mensaje",
+        text: "Ocurrió un error al enviar. Intenta de nuevo.",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -124,49 +157,31 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
 
   const handleClose = () => setOpen(false);
 
-  if (loading || !config) return null;
-  if (!open) return null;
+  if (!isClient || loading || !config || !open) return null;
 
-  const ImagePanel = ({ src, alt, opacity }) => (
-    <div className="relative w-full h-full">
-      <img
-        src={src}
-        alt={alt || ""}
-        title={alt || ""}
-        className="w-full h-full object-cover"
-        style={{ opacity: opacity / 100 }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 45%, transparent 100%)",
-        }}
-      />
-    </div>
-  );
-
+  // ── DESKTOP ──────────────────────────────────────────────
   if (!isMobile) {
     const leftImg = config.left_image_url;
     const rightImg = config.right_image_url;
 
-    return (
+    return createPortal(
       <div
         onClick={handleClose}
         className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4"
       >
         <div
-          className="relative rounded-2xl overflow-hidden max-w-4xl w-full shadow-2xl"
-          style={{ background: getBg(config), minHeight: 320 }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative rounded-2xl overflow-hidden max-w-2xl w-full shadow-2xl"
+          style={{ background: getBg(config) }}
         >
           <button
+            type="button"
             onClick={handleClose}
-            className="absolute top-3 right-3 z-10 text-white bg-black bg-opacity-50 rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-70 transition"
+            className="absolute top-2 right-2 z-20 text-white bg-black bg-opacity-40 rounded-full w-7 h-7 flex items-center justify-center hover:bg-opacity-60 transition cursor-pointer text-sm font-bold"
           >
             ✕
           </button>
 
-          {/* Imagen derecha = fondo completo */}
           {rightImg && (
             <div className="absolute inset-0 z-0">
               <img
@@ -178,10 +193,9 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
             </div>
           )}
 
-          <div className="relative z-10 flex flex-col md:flex-row">
-            {/* Imagen izquierda */}
+          <div className="relative z-10 flex flex-row">
             {leftImg && (
-              <div className="md:w-2/5 relative min-h-[300px] md:min-h-[500px]">
+              <div className="w-2/5 flex-shrink-0 relative min-h-[300px]">
                 <Image
                   src={leftImg}
                   alt={config.left_alt || "Pop-up izquierda"}
@@ -192,47 +206,50 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
               </div>
             )}
 
-            {/* Formulario */}
-            <div className="flex-1 p-6 md:p-8">
+            <div className="flex-1 px-6 pt-8 pb-6 pr-10 flex flex-col justify-center gap-3">
               <h2
-                className="text-2xl md:text-3xl font-bold text-center mb-6"
+                className="text-xl font-bold text-center leading-snug"
                 style={{ color: config.title_color || "#FFFFFF" }}
               >
                 {config.title_text || "OBTÉN UNA ASESORÍA ¡GRATIS!"}
               </h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="text"
-                  name="nombre"
-                  placeholder="Nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-full px-5 py-3 text-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-white"
-                />
-                <input
-                  type="tel"
-                  name="telefono"
-                  placeholder="Teléfono"
-                  value={formData.telefono}
-                  onChange={handleChange}
-                  required
-                  maxLength={9}
-                  className="w-full rounded-full px-5 py-3 text-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-white"
-                />
-                <input
-                  type="email"
-                  name="correo"
-                  placeholder="Correo electrónico"
-                  value={formData.correo}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-full px-5 py-3 text-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-white"
-                />
+
+              <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+                <Field error={errors.nombre}>
+                  <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </Field>
+                <Field error={errors.telefono}>
+                  <input
+                    type="tel"
+                    name="telefono"
+                    placeholder="Teléfono"
+                    value={formData.telefono}
+                    onChange={handleChange}
+                    maxLength={9}
+                    className={inputCls}
+                  />
+                </Field>
+                <Field error={errors.correo}>
+                  <input
+                    type="email"
+                    name="correo"
+                    placeholder="Correo electrónico"
+                    value={formData.correo}
+                    onChange={handleChange}
+                    className={inputCls}
+                  />
+                </Field>
                 <button
                   type="submit"
                   disabled={sending}
-                  className="w-full rounded-full font-bold py-3 text-white transition-all hover:brightness-110 disabled:opacity-50"
+                  className="w-full rounded-full font-bold py-2.5 text-white transition-all hover:brightness-110 disabled:opacity-50 mt-1"
                   style={{
                     backgroundColor:
                       config.button_color || config.service_color || "#7C3FD9",
@@ -244,30 +261,32 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
             </div>
           </div>
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
-  return (
+  // ── MOBILE ───────────────────────────────────────────────
+  return createPortal(
     <div
       onClick={handleClose}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative bg-white rounded-2xl overflow-hidden max-w-md w-full shadow-2xl"
+        className="relative rounded-2xl overflow-hidden max-w-md w-full shadow-2xl"
         style={{ background: getBg(config) }}
       >
         <button
+          type="button"
           onClick={handleClose}
-          className="absolute top-3 right-3 z-10 text-white bg-black bg-opacity-50 rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-70 transition"
+          className="absolute top-2 right-2 z-20 text-white bg-black bg-opacity-40 rounded-full w-7 h-7 flex items-center justify-center hover:bg-opacity-60 transition cursor-pointer text-sm font-bold"
         >
           ✕
         </button>
 
-        {/* Imagen mobile de fondo */}
         {config.mobile_image_url && (
-          <div className="relative h-48 w-full">
+          <div className="relative h-44 w-full flex-shrink-0">
             <Image
               src={config.mobile_image_url}
               alt={config.mobile_alt || "Pop-up mobile"}
@@ -285,9 +304,8 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
           </div>
         )}
 
-        {/* Formulario */}
         <div
-          className="p-6"
+          className="px-5 pt-8 pb-5 pr-8 flex flex-col gap-3"
           style={
             config.mobile_image_url
               ? { backgroundColor: `${config.service_color}CC` }
@@ -295,44 +313,48 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
           }
         >
           <h2
-            className="text-xl md:text-2xl font-bold text-center mb-6"
+            className="text-xl font-bold text-center leading-snug"
             style={{ color: config.title_color || "#FFFFFF" }}
           >
             {config.title_text || "OBTÉN UNA ASESORÍA ¡GRATIS!"}
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              required
-              className="w-full rounded-full px-4 py-3 text-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-white"
-            />
-            <input
-              type="tel"
-              name="telefono"
-              placeholder="Teléfono"
-              value={formData.telefono}
-              onChange={handleChange}
-              required
-              maxLength={9}
-              className="w-full rounded-full px-4 py-3 text-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-white"
-            />
-            <input
-              type="email"
-              name="correo"
-              placeholder="Correo electrónico"
-              value={formData.correo}
-              onChange={handleChange}
-              required
-              className="w-full rounded-full px-4 py-3 text-gray-700 border-none focus:outline-none focus:ring-2 focus:ring-white"
-            />
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+            <Field error={errors.nombre}>
+              <input
+                type="text"
+                name="nombre"
+                placeholder="Nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                className={inputCls}
+              />
+            </Field>
+            <Field error={errors.telefono}>
+              <input
+                type="tel"
+                name="telefono"
+                placeholder="Teléfono"
+                value={formData.telefono}
+                onChange={handleChange}
+                maxLength={9}
+                className={inputCls}
+              />
+            </Field>
+            <Field error={errors.correo}>
+              <input
+                type="email"
+                name="correo"
+                placeholder="Correo electrónico"
+                value={formData.correo}
+                onChange={handleChange}
+                className={inputCls}
+              />
+            </Field>
             <button
               type="submit"
               disabled={sending}
-              className="w-full rounded-full font-bold py-3 text-white transition-all hover:brightness-110 disabled:opacity-50"
+              className="w-full rounded-full font-bold py-2.5 text-white transition-all hover:brightness-110 disabled:opacity-50 mt-1"
               style={{
                 backgroundColor:
                   config.button_color || config.service_color || "#7C3FD9",
@@ -343,6 +365,7 @@ export default function ServicePopup({ idSubservicio, tiempoGlobal = null }) {
           </form>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
