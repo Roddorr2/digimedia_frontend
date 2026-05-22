@@ -11,8 +11,7 @@ export default function ExperienciaUsuario() {
   const modales = {
     modalA: {
       text: "EXPERIENCIA DE USUARIO",
-      fondo:
-        "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
+      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
       alt: "diseno digimedia pop up",
       title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
       serviceName: "1",
@@ -64,7 +63,8 @@ export default function ExperienciaUsuario() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={1} />
+      {/* Servicio: Diseño Web y Desarrollo Web, Subservicio: Experiencia de Usuario y Diseño */}
+      <ServicePopup idServicio={1} idSubservicio={1} />
       <ModalScroll data={modales} />
 
       <ModalButton

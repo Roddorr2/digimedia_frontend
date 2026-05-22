@@ -105,6 +105,11 @@ export const popupApi = {
       method: "GET",
     }),
 
+  getByServicio: (idServicio) =>
+    apiRequest(`/api/public/popup-configs/servicio/${idServicio}`, {
+      method: "GET",
+    }),
+
   create: (formData) =>
     apiRequest("/api/popup-configs", { method: "POST", body: formData }),
 

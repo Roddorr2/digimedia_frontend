@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "DigiMedia - Analisis Benchmarking",
   description:
@@ -19,5 +21,10 @@ export const metadata = {
 };
 
 export default function AnalisisBenchLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={3} idSubservicio={9} />
+    </>
+  );
 }
