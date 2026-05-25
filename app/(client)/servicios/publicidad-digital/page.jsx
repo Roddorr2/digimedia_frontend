@@ -1,25 +1,10 @@
 "use client";
 import React from "react";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-export default function DisenoPauta() {
-  const modales = {
-    modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo:
-        "/servicios/branding/modal-scroll/branding-y-diseno-digimedia-pop-up.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      titleAttr: "Digimedia + branding + diseño + marca + servicio",
-      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
-      serviceName: "4",
-    },
-  };
-
+export default function DisenoLogo() {
   const features = [
     {
       icon: (
@@ -38,16 +23,7 @@ export default function DisenoPauta() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={10} />
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
-        fondo="/servicios/branding/branding-diseno-de-una-marca-digimedia-pop-up.webp"
-        text="BRANDING Y DISEÑO"
-        alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
-        titleAttr="Digimedia + contacto + branding + diseño + marca + servicio"
-        serviceName="4"
-      />
+      {/* Servicio: Branding & Diseño, Subservicio: Diseño de Logo */}
       <UxUiSection
         features={features}
         mainDescription="Creamos logotipos profesionales que reflejan la identidad y propósito de tu marca. Cada diseño es único, pensado estratégicamente para comunicar los valores, personalidad y posicionamiento de tu empresa ante tu público objetivo."
@@ -58,11 +34,6 @@ export default function DisenoPauta() {
         alt="Representación visual de estrategias de branding digital con iconos de creatividad, redes sociales, análisis de datos y posicionamiento online, parte de los servicios que ofrece Digimedia agencia de marketing Digital"
         title="Publicidad Digital, gestión digital, Agencia de Marketing Digimedia "
         category="Branding y Diseño"
-        // heroBulletPoints={[
-        //   "PERMITE LLEGAR A AUDIENCIAS EN TODO EL MUNDO, SIN IMPORTAR LA UBICACIÓN GEOGRÁFICA.",
-        //   "PERMITE DIRIGIR LOS MENSAJES A GRUPOS ESPECÍFICOS DE PERSONAS CON INTERESES Y COMPORTAMIENTOS SIMILARES.",
-        //   "PUEDE GENERAR UN MAYOR NÚMERO DE LEADS Y VENTAS, ESPECIALMENTE CUANDO SE IMPLEMENTA UNA ESTRATEGIA DE MARKETING DIGITAL EFECTIVA."
-        // ]}
       />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"

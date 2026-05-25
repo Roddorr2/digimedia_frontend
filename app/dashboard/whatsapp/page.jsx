@@ -12,8 +12,9 @@ import { PlantillasTab } from "./components/PlantillasTab";
 import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
 import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 import Swal from "sweetalert2";
-import { PopupsTab } from "./components/PopUpsTab";
+
 import { useRouter } from "next/navigation";
+import { PopupsTab } from "./components/PopupsTab";
 
 export default function WhatsAppPage() {
   const { user, hasRole, isLoading: isAuthLoading } = useAuth();
