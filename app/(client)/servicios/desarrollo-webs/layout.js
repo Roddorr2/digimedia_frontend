@@ -1,7 +1,9 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "Digimedia - Desarrollo Web",
   description:
-    "El desarrollo web es el proceso de crear y mantener sitios web y aplicaciones que se ejecutan en internet. Implica una combinación de diseño, programación y gestión de bases de datos para asegurar que un sitio web sea funcional, atractivo y accesible para los usuarios.",
+    "El desarrollo web es el proceso de crear y mantener sitios web and aplicaciones que se ejecutan en internet. Implica una combinación de diseño, programación y gestión de bases de datos para asegurar que un sitio web sea funcional, atractivo y accesible para los usuarios.",
   openGraph: {
     title: "Digimedia - Desarrollo Web",
     description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function DesarrWebsLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={1} idSubservicio={3} />
+    </>
+  );
 }

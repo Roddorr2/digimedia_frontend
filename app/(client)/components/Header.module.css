@@ -4,8 +4,18 @@
   text-align: center;
   background-color: #b326ff;
   box-shadow: 0px 2px 20px #333333;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 100;
+  transition:
+    box-shadow 0.4s ease,
+    backdrop-filter 0.4s ease;
+}
+
+.headerScrolled {
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .logoHeader img {
@@ -39,10 +49,10 @@
 }
 
 .menuHorizontal li {
-  align-items: center;
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  position: relative;
 }
 
 .menuHorizontal a,
@@ -65,39 +75,55 @@
 
 .seccionesHeader a:hover,
 .seccionesHeader p:hover {
-  background-color: #333333b4;
+  background-color: rgba(51, 51, 51, 0.4);
+}
+
+.chevron {
+  transition: transform 0.25s ease;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
 .menuVertical {
-  display: none;
+  display: flex;
   flex-direction: column;
   position: absolute;
   width: 200px;
   z-index: 1000;
-  background-color: #b525fe;
+  background-color: rgba(181, 37, 254, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   top: 50px;
+  left: 0;
   list-style: none;
   padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+  pointer-events: none;
 }
 
 .menuVerticalDark {
-  background-color: #8e1fd1;
+  background-color: rgba(142, 31, 209, 0.92);
 }
 
-.menuHorizontal li:hover .menuVertical {
-  display: block;
+.menuVerticalRight {
+  left: auto;
+  right: 0;
 }
 
 .menuVertical li.active-sub > a {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Botón de login mobile - oculto por defecto */
-.loginButtonMobile {
-  display: none;
-}
-
-/* Botón de usuario redondo - visible en ambas vistas */
 .userButton {
   display: inline-flex;
   align-items: center;
@@ -107,7 +133,9 @@
   border-radius: 50%;
   background-color: #ffa000;
   color: white;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -122,9 +150,14 @@
     width: 40px;
     height: 40px;
   }
-}
 
-@media screen and (min-width: 700px) {
+  .menuHorizontal li:hover > .menuVertical {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
   .menuHorizontal li.active > a,
   .menuHorizontal li.active > p {
     border-bottom: 4px solid white;
@@ -133,14 +166,8 @@
   }
 }
 
-/* RESPONSIVE */
-
 .menucheckbox {
   display: none;
-}
-
-.menuIcono {
-  width: 25px;
 }
 
 .seccionesHeader label {
@@ -152,19 +179,32 @@
   transform: translateX(14px);
 }
 
-/*--- RESPONSIVE ---*/
+.loginButtonMobile {
+  display: none;
+}
+
 @media screen and (max-width: 700px) {
   .contenidoHeader {
     padding: 0 20px;
-    justify-content: space-between;
-    align-items: center;
   }
 
   .logoHeader {
     margin-right: 16px;
   }
 
-  /* Mostrar botón de login mobile fuera del menú */
+  .seccionesHeader {
+    gap: 12px;
+  }
+
+  .seccionesHeader label {
+    display: flex;
+    align-items: center;
+  }
+
+  .loginButton {
+    display: none !important;
+  }
+
   .loginButtonMobile {
     display: inline-flex;
     align-items: center;
@@ -184,87 +224,87 @@
     background-color: #fb8c00;
   }
 
-  /* Ocultar el botón de login dentro del menú en mobile */
-  .loginButton {
-    display: none !important;
-  }
-
-  /* Ocultar todo el item de Panel cuando no está autenticado en mobile */
   .menuHorizontal > .panelItem:not(:has(p)) {
     display: none;
   }
 
-  .seccionesHeader {
-    gap: 12px;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .menuHorizontal li.active > a,
-  .menuHorizontal li.active > p {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-
   .menuHorizontal {
-    position: absolute;
-    background-color: #b525fe;
-    height: auto;
-    top: 100%;
+    position: fixed;
+    background-color: rgba(181, 37, 254, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    top: 67px;
     left: 0;
     right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    flex-direction: column;
+    align-items: stretch;
     visibility: hidden;
     opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    transform: translateX(100%);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease,
+      visibility 0.3s ease;
     z-index: 9;
   }
 
-  .seccionesHeader label {
-    display: initial;
-    display: flex;
-    align-items: center;
-  }
-
-  .menucheckbox:checked ~ .menuHorizontal {
+  .menuOpen {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0);
-  }
-
-  .seccionesHeader ul {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .menuVertical {
-    width: 100%;
-    position: sticky;
+    transform: translateX(0);
   }
 
   .menuHorizontal li {
     width: 100%;
     display: block;
-    justify-content: center;
-    align-items: center;
+    height: auto !important;
+    min-height: 0 !important;
     padding: 0;
-    transition: background-color 1s;
+  }
+
+  .menuHorizontal a,
+  .menuHorizontal p {
+    height: auto;
+  }
+
+  .menuHorizontal li.active > a,
+  .menuHorizontal li.active > p {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Submenús en mobile — todo controlado por inline style desde JS */
+  .menuVertical {
+    position: static !important;
+    width: 100%;
+    top: auto;
+    left: auto;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    max-height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    display: block;
   }
 
   .loginButton {
     transform: translateX(0);
+  }
+
+  .menuHorizontal::after {
+    content: "";
+    display: block;
+    height: 24px;
   }
 }
 
 @media screen and (max-width: 400px) {
   .logoHeader a img {
     width: 140px;
-  }
-
-  .menuHorizontal {
-    font-size: 10;
-    transform: translateY(-300px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   }
 
   .loginButtonMobile {

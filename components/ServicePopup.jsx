@@ -4,7 +4,6 @@ import url from "@/api/url";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import Swal from "sweetalert2";
 import { User, Phone, Mail } from "lucide-react";
 
@@ -122,19 +121,10 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
       return;
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newErrors = { nombre: "", telefono: "", correo: "" };
-    let hasError = false;
-
-    if (!formData.nombre.trim()) {
-      newErrors.nombre = "Ingresa tu nombre";
-      hasError = true;
-    }
     if (formData.telefono.length !== 9) {
       Swal.fire({ title: "Error", text: "El número de teléfono debe tener 9 dígitos", icon: "error", confirmButtonText: "OK" });
       return;
@@ -148,11 +138,6 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
         id_servicio: config?.subservicio?.id_servicio || idServicio || idSubservicio?.toString(),
       };
       const response = await axios.post(`${API_URL}/api/modales`, payload);
-
-      setOpen(false);
-      setFormData({ nombre: "", telefono: "", correo: "" });
-      setErrors({ nombre: "", telefono: "", correo: "" });
-
       if (response.status === 201) {
         Swal.fire({ title: "¡Mensaje enviado!", text: "Nos pondremos en contacto contigo pronto.", icon: "success", confirmButtonText: "OK" });
         setOpen(false);
@@ -254,8 +239,7 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
             </>
           )}
         </div>
-      </div>,
-      document.body
+      </div>
     );
   }
 
@@ -289,7 +273,6 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
           </form>
         </div>
       </div>
-    </div>,
-    document.body
+    </div>
   );
 }

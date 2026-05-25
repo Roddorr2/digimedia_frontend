@@ -25,12 +25,12 @@ export function PlantillasList({
           <div className="mt-4 space-y-2">
             {servicios.map((servicio) => {
               const plantillasServicio = plantillas.filter(
-                (p) => p.id_servicio === servicio.id,
+                (p) => p.id_servicio === servicio.id_servicio,
               );
 
               return (
                 <div
-                  key={servicio.id}
+                  key={servicio.id_servicio}
                   className="rounded-lg border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900/50"
                 >
                   <h3 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
@@ -60,7 +60,7 @@ export function PlantillasList({
                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed dark:bg-slate-800/50 dark:text-slate-600'
                           }`}
                         >
-                          {getTiempoEnvio(numero, servicio.id)}
+                          {getTiempoEnvio(numero, servicio.id_servicio)}
                         </button>
                       );
                     })}

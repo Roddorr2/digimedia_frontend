@@ -3,8 +3,6 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
 
 export default function Page() {
   const servicios = [
@@ -62,30 +60,9 @@ export default function Page() {
       ruta: "/servicios/manual-marca/",
     },
   ];
-  const modales = {
-    modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
-      serviceName: "3",
-      width: 256,
-      height: 144,
-      imageTitle: "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
-      imageAlt: "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
-    },
-  };
+
   return (
     <>
-      <ModalScroll data={modales} />
-
-      <ModalButton
-        title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
-        fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"
-        text="MARKETING Y GESTIÓN DIGITAL"
-        serviceName="3"
-        imageTitle="Inicio de sesión en plataforma digital | Acceso seguro"
-        imageAlt="Ilustración de usuarios accediendo a una plataforma digital mediante inicio de sesión con usuario y contraseña."
-      />
 
       <Main
         title="MARKETING Y GESTIÓN DIGITAL"

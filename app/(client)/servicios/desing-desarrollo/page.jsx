@@ -1,22 +1,17 @@
 /*
 "use client";
 
-// Componentes
 import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-import ModalButton from "../components/ModalButton";
 
-import ModalScroll from "../components/ModalScroll";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
-
-export default function Page() {
+export default function DisenoDesarrolloWeb() {
   const servicios = [
     {
       title: (
         <>
-          CREACIÓN Y <br /> DESARROLLO WEB
+          DESARROLLO <br /> RESPONSIVE
         </>
       ),
       text: "Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.",
@@ -70,32 +65,8 @@ export default function Page() {
     },
   ];
 
-  const modales = {
-    modalA: {
-      text: "DISEÑO Y DESARROLLO WEB",
-      fondo: "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
-      //fondo: "/servicios/desarrollo/modal-scroll/diseno-desarrollo-web-digimedia-pop-up.webp",
-      alt:'diseno digimedia pop up',
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
-      width: 256,
-      height: 144,
-      imageTitle: "Obtén una asesoría ¡Gratis!",
-      imageAlt:
-        "La imagen muestra a una persona buscando imágenes en un biblioteca virtual",
-    },
-  };
-
   return (
     <>
-      <ServicePopup idSubservicio={4} />
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/imagen.webp"
-        text="DISEÑO Y DESARROLLO WEB"
-        serviceName="1"
-      />
       <Main
         title="DISEÑO Y DESARROLLO WEB"
         subtitle={

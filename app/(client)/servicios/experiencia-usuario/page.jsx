@@ -1,24 +1,9 @@
 "use client";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function ExperienciaUsuario() {
-  const modales = {
-    modalA: {
-      text: "EXPERIENCIA DE USUARIO",
-      fondo:
-        "/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp",
-      alt: "diseno digimedia pop up",
-      title: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: "1",
-    },
-  };
-
   const featuresuxui = [
     {
       icon: (
@@ -64,15 +49,6 @@ export default function ExperienciaUsuario() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={1} />
-      <ModalScroll data={modales} />
-
-      <ModalButton
-        title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/imagen.webp"
-        text="EXPERIENCIA DE USUARIO"
-        serviceName="1"
-      />
       <UxUiSection
         features={featuresuxui}
         mainDescription="Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes."
