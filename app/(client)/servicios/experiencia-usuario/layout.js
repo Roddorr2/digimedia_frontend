@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: 'Sub servicio de Experiencia de Usuario y Diseño | Digimedia',
   description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function ExperienciaUsuarioLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={1} idSubservicio={1} />
+    </>
+  );
 }

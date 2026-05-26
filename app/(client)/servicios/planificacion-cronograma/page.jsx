@@ -1,23 +1,10 @@
 "use client";
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
 
-export default function PlanificacionCronograma() {
-  const modales = {
-    modalA: {
-      text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
-      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
-      imageTitle:"Gestión de Redes Sociales en Perú | Digimedia",
-      imageAlt:"Servicio de gestión de redes sociales en Perú ofrecido por Digimedia para crecimiento de marcas en Instagram, Facebook y TikTok",
-      serviceName: "2",
-    },
-  };
-
+export default function EstrategiaContenido() {
   const features = [
     {
       icon: (
@@ -53,16 +40,7 @@ export default function PlanificacionCronograma() {
 
   return (
     <div>
-      {/*AGREGAR ModalScroll*/}
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
-        fondo="/servicios/gestion/modal-button/marketing-digital-redes-sociales-peru-digimedia.webp"
-        imageTitle="Marketing Digital y Redes Sociales en Perú | Digimedia"
-        imageAlt="Ilustración de herramientas de marketing digital y gestión de redes sociales con iconos de interacción, análisis y contenido"
-        text="GESTIÓN DE REDES SOCIALES"
-        serviceName="2"
-      />
+      {/* Servicio: Gestión de Redes Sociales, Subservicio: Estrategia de Contenido */}
 
       <UxUiSection
         features={features}

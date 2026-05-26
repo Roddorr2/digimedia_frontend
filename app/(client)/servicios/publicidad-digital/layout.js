@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "Digimedia - Diseño de Logo",
   description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function PubliDigitalLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={4} idSubservicio={15} />
+    </>
+  );
 }

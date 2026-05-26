@@ -1,13 +1,10 @@
 'use client';
 import Contactanos from '../components/Contactanos';
-import ModalScroll from '../components/ModalScroll';
 import { UxUiSection } from '../components/uxui-section';
 import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import ModalButton from '../components/ModalButton';
-import ServicePopup from '@/app/dashboard/whatsapp/components/ServicePopup';
 
 function UXUIComponent() {
   const searchParams = useSearchParams();
@@ -16,7 +13,7 @@ function UXUIComponent() {
   const backgroundImages = {
     disenoDesarrollo:
       '/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp',
-    gestionRedes: '/servicios/DisenoUI/disenio-ux-y-ui.webp',
+    gradient: '/servicios/DisenoUI/disenio-ux-y-ui.webp',
   };
 
   const dynamicTexts = {
@@ -97,20 +94,6 @@ function UXUIComponent() {
     backgroundImages[from] || backgroundImages.disenoDesarrollo;
   const currentTexts = dynamicTexts[from] || dynamicTexts.disenoDesarrollo;
 
-  const modales = {
-    modalA: {
-      text: currentTexts.modalAText,
-      fondo: '/servicios/desarrollo/modal-scroll/diseno-y-desarrollo-web.webp',
-      title: 'OBTÉN UNA ASESORÍA ¡GRATIS!',
-      imageTitle: "Diseño y Desarrollo Web Digimedia Pop Up",
-      imageAlt: "OBTÉN UNA ASESORÍA ¡GRATIS!",
-      serviceName: currentTexts.serviceName,
-      imageTitle: 'Obtén una asesoría ¡Gratis!',
-      imageAlt:
-        'La imagen muestra a una persona buscando imágenes en un biblioteca virtual',
-    },
-  };
-
   const featuresuxui = [
     {
       icon: (
@@ -144,17 +127,7 @@ function UXUIComponent() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={8}/>
-      <ModalScroll data={modales} />
-
-      <ModalButton
-        title="Lleva tu negocio al siguiente nivel online"
-        fondo="/servicios/desarrollo/modal-button/programacion-desarrollo-web-digimedia.webp"
-        text={currentTexts.modalButtonText}
-        serviceName={currentTexts.serviceName}
-        imageTitle="Programación y desarrollo web profesional | Digimedia Marketing"
-        imageAlt="Ilustración de desarrollador trabajando en programación y desarrollo web con ventanas de código en laptop"
-      />
+      {/*Servicio: Gestión de Redes Sociales, Subservicio: Diseño UX y UI*/}
       <UxUiSection
         features={featuresuxui}
         mainDescription={currentTexts.mainDescription}

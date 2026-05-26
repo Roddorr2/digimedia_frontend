@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "DigiMedia - Planificacion y cronograma",
   description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function PlanCronogramaLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={2} idSubservicio={5} />
+    </>
+  );
 }

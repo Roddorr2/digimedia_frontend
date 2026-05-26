@@ -2,25 +2,10 @@
 import React from "react";
 
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function PlanificacionEstrategica() {
-  const modales = {
-    modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo:
-        "/servicios/branding/modal-scroll/branding-y-diseno-digimedia-pop-up.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      titleAttr: "Digimedia + branding + diseño + marca + servicio",
-      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
-      serviceName: "4",
-    },
-  };
-
   const features = [
     {
       icon: (
@@ -39,16 +24,7 @@ export default function PlanificacionEstrategica() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={14} />
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
-        fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"
-        text="BRANDING Y DISEÑO"
-        alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
-        titleAttr="Digimedia + contacto + branding + diseño + marca + servicio"
-        serviceName="4"
-      />
+      {/* Servicio: Branding y Diseño, Subservicio: Planificación Estratégica */}
       <UxUiSection
         features={features}
         mainDescription="Definimos la dirección de su organización, establecemos objetivos claros y desarrollamos estrategias accionables para alcanzarlos. Nuestro enfoque sistemático asegura que su negocio no solo compita, sino que lidere en su sector."

@@ -1,25 +1,10 @@
 "use client";
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-export default function ProduccionPautas() {
-  const modales = {
-    modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo:
-        "/servicios/branding/modal-scroll/branding-y-diseno-digimedia-pop-up.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      titleAttr: "Digimedia + branding + diseño + marca + servicio",
-      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
-      serviceName: "4",
-    },
-  };
-
+export default function ManualMarca() {
   const features = [
     {
       icon: (
@@ -40,16 +25,7 @@ export default function ProduccionPautas() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={12} />
-      <ModalScroll data={modales} />
-      <ModalButton
-        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
-        fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"
-        text="BRANDING Y DISEÑO"
-        alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
-        titleAttr="Digimedia + contacto + branding + diseño + marca + servicio"
-        serviceName="4"
-      />
+      {/* Servicio: Branding & Diseño, Subservicio: Manual de Marca */}
       <UxUiSection
         features={features}
         mainDescription="Desarrollamos manuales de identidad de marca que definen los lineamientos visuales y normas necesarias para garantizar coherencia y consistencia en la comunicación de tu empresa."
