@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "DigiMedia - Naming Logo y Slogan",
   description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function NamingLogoSloganLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={3} idSubservicio={10} />
+    </>
+  );
 }

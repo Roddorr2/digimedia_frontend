@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "Diseño y Desarrollo Web Profesional - DigiMedia",
   description:
@@ -84,6 +86,7 @@ export default function desingLayout({ children }) {
       </script>
 
       {children}
+      <ServicePopup idServicio={1} />
     </>
   );
 }

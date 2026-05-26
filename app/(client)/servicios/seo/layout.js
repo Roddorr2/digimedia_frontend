@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title:
     'Sub servicio de Desarrollo responsive e integraciones digitales | Digimedia',
@@ -20,5 +22,10 @@ export const metadata = {
 };
 
 export default function SEOLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={1} idSubservicio={4} />
+    </>
+  );
 }

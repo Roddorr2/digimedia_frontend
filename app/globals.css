@@ -8,7 +8,7 @@ body {
 }
 
 h1,
-h2, 
+h2,
 h3,
 title {
   @apply font-display font-bold;
@@ -23,8 +23,10 @@ title {
   }
 }
 
-html, body {
-  overflow-x: hidden;
+html,
+body {
+  overflow: visible !important;
+  overflow-x: clip !important;
 }
 
 /* Animación para notificaciones Toast */

@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "Digimedia - Manual de Marca",
   description:
@@ -19,5 +21,10 @@ export const metadata = {
 };
 
 export default function MonitoreoReportingLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={4} idSubservicio={16} />
+    </>
+  );
 }

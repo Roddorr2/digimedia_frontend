@@ -18,16 +18,24 @@ export function PlantillasTab() {
   const [imagePreview, setImagePreview] = useState(null);
   const [saving, setSaving] = useState(false);
   const [tiemposPorServicio, setTiemposPorServicio] = useState({});
+  const [servicios, setServicios] = useState([]);
 
-  const servicios = useMemo(
-    () => [
-      { id: 1, nombre: "Diseño y Desarrollo Web" },
-      { id: 2, nombre: "Gestión de Redes Sociales" },
-      { id: 3, nombre: "Marketing y Gestión Digital" },
-      { id: 4, nombre: "Branding y Diseño" },
-    ],
-    [],
-  );
+  useEffect(() => {
+    const fetchServicios = async () => {
+      try {
+        const res = await apiRequest("/api/servicios", { method: "GET" });
+        if (res?.success && res?.data) {
+          const arr = Array.isArray(res.data) ? res.data : res.data?.data || [];
+          setServicios(arr);
+        } else {
+          Swal.fire("Error", "No se pudieron cargar los servicios", "error");
+        }
+      } catch (err) {
+        Swal.fire("Error", "Error de conexión al cargar servicios", "error");
+      }
+    };
+    fetchServicios();
+  }, []);
 
   // Cargar plantillas cuando cambia el tipo
   useEffect(() => {
@@ -103,13 +111,13 @@ export function PlantillasTab() {
       const tiemposPromises = servicios.map(async (servicio) => {
         try {
           const res = await apiRequest(
-            `/api/servicios/${servicio.id}/tiempos`,
+            `/api/servicios/${servicio.id_servicio}/tiempos`,
             {
               method: "GET",
             },
           );
           if (res.status === 200 && res.data) {
-            return { id: servicio.id, config: res.data };
+            return { id: servicio.id_servicio, config: res.data };
           }
         } catch (error) {
           Swal.fire(
@@ -301,7 +309,7 @@ export function PlantillasTab() {
 
   const getNombreServicio = (id_servicio) => {
     return (
-      servicios.find((s) => s.id === id_servicio)?.nombre ||
+      servicios.find((s) => s.id_servicio === id_servicio)?.nombre ||
       `Servicio ${id_servicio}`
     );
   };

@@ -1,26 +1,9 @@
 "use client";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-export default function ProduccionPautas() {
-  const modales = {
-    modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo:
-        "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
-      serviceName: "3",
-      imageTitle:
-        "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
-      imageAlt:
-        "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
-    },
-  };
 
+export default function AnalisisBenchmarking() {
   const features = [
     {
       icon: (
@@ -52,17 +35,7 @@ export default function ProduccionPautas() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={9} />
-      <ModalScroll data={modales} />
-
-      <ModalButton
-        title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
-        fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"
-        text="MARKETING Y GESTIÓN DIGITAL"
-        serviceName="3"
-        imageTitle="Inicio de sesión en plataforma digital | Acceso seguro"
-        imageAlt="Ilustración de usuarios accediendo a una plataforma digital mediante inicio de sesión con usuario y contraseña."
-      />
+      {/*Servicio: Marketing y Gestión Digital, Subservicio: Análisis y Benchmarking*/}
 
       <UxUiSection
         features={features}

@@ -3,10 +3,9 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-import ModalButton from "../components/ModalButton";
-import ModalScroll from "../components/ModalScroll";
 
-export default function Page() {
+
+export default function BrandingDesing() {
   const servicios = [
     {
       title: (
@@ -60,37 +59,8 @@ export default function Page() {
     },
   ];
 
-  const modales = {
-    modalA: {
-      text: "BRANDING Y DISEÑO",
-      fondo:
-        "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
-      title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
-      titleAttr: "Digimedia + branding + diseño + marca + servicio",
-      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
-      serviceName: "4",
-    },
-  };
-
   return (
     <>
-      <ModalScroll data={modales} />
-
-      {/* <ModalScroll
-        text="BRANDING Y DISEÑO"
-        fondo="/servicios/branding/modal-scroll/fondo.webp"
-        title="TU PRIMERA CONSULTA ¡ES GRATIS!"
-        serviceName="4"
-      /> */}
-
-      <ModalButton
-        title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
-        fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"
-        text="BRANDING Y DISEÑO"
-        serviceName="4"
-        alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
-        titleAttr="Digimedia + contacto + branding + diseño + marca + servicio"
-      />
 
       <Main
         title="BRANDING Y DISEÑO"

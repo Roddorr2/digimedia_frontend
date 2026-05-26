@@ -12,8 +12,9 @@ import { PlantillasTab } from "./components/PlantillasTab";
 import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
 import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 import Swal from "sweetalert2";
-import { PopupsTab } from "./components/PopUpsTab";
+
 import { useRouter } from "next/navigation";
+import { PopupsTab } from "./components/PopupsTab";
 
 export default function WhatsAppPage() {
   const { user, hasRole, isLoading: isAuthLoading } = useAuth();
@@ -37,7 +38,7 @@ export default function WhatsAppPage() {
 
   useEffect(() => {
     if (!isAuthLoading) {
-      if (!user || !hasRole("administrador", "marketing")) {
+      if (!user || !hasRole("administrador, marketing")) {
         router.push("/dashboard/main");
       }
     }
@@ -108,7 +109,7 @@ export default function WhatsAppPage() {
     );
   }
 
-  if (!user || !hasRole("administrador", "marketing")) {
+  if (!user || !hasRole("administrador, marketing")) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         Redirigiendo...
@@ -240,21 +241,27 @@ export default function WhatsAppPage() {
                         <div className="flex flex-col items-end gap-2">
                           <button
                             onClick={handleRestartSession}
-                            disabled={hasActiveCampaigns}
+                            disabled={
+                              hasActiveCampaigns || !hasRole("administrador")
+                            }
                             className={`inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all ${
-                              hasActiveCampaigns
+                              hasActiveCampaigns || !hasRole("administrador")
                                 ? "bg-gray-400 cursor-not-allowed opacity-60"
                                 : "bg-[rgba(140,82,255,1)] hover:bg-[rgba(140,82,255,0.9)] active:bg-[rgba(140,82,255,0.8)]"
                             }`}
                             title={
-                              hasActiveCampaigns
-                                ? "No se puede reiniciar mientras hay campañas ejecutándose"
-                                : ""
+                              !hasRole("administrador")
+                                ? "Solo los administradores pueden reiniciar la sesión"
+                                : hasActiveCampaigns
+                                  ? "No se puede reiniciar mientras hay campañas ejecutándose"
+                                  : ""
                             }
                           >
                             {hasActiveCampaigns
                               ? "🔒 Campaña en Proceso"
-                              : "Reiniciar Sesión"}
+                              : !hasRole("administrador")
+                                ? "🔒 Solo Administradores"
+                                : "Reiniciar Sesión"}
                           </button>
                           {hasActiveCampaigns && (
                             <p className="text-xs text-amber-600">
