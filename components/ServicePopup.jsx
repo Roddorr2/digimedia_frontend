@@ -13,13 +13,25 @@ const API_URL =
   url;
 
 const getBg = (config) => {
-  if (config.service_color_2 && config.service_color_2 !== config.service_color) {
+  if (
+    config.service_color_2 &&
+    config.service_color_2 !== config.service_color
+  ) {
     return `linear-gradient(${config.gradient_direction || "to bottom right"}, ${config.service_color}, ${config.service_color_2})`;
   }
   return config.service_color || "#ffffff";
 };
 
-const InputField = ({ icon: Icon, type, name, placeholder, value, onChange, required, maxLength }) => (
+const InputField = ({
+  icon: Icon,
+  type,
+  name,
+  placeholder,
+  value,
+  onChange,
+  required,
+  maxLength,
+}) => (
   <div className="relative w-full">
     <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
     <input
@@ -50,13 +62,67 @@ const SubmitButton = ({ config, sending }) => (
   </button>
 );
 
-export default function ServicePopup({ idServicio, idSubservicio = null, tiempoGlobal = null, buttonId = null }) {
+function FormContent({
+  formData,
+  handleChange,
+  handleSubmit,
+  config,
+  sending,
+}) {
+  return (
+    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2">
+      <InputField
+        icon={User}
+        type="text"
+        name="nombre"
+        placeholder="Nombre"
+        value={formData.nombre}
+        onChange={handleChange}
+        required
+      />
+
+      <InputField
+        icon={Phone}
+        type="tel"
+        name="telefono"
+        placeholder="Teléfono"
+        value={formData.telefono}
+        onChange={handleChange}
+        required
+        maxLength={9}
+      />
+
+      <InputField
+        icon={Mail}
+        type="email"
+        name="correo"
+        placeholder="Correo"
+        value={formData.correo}
+        onChange={handleChange}
+        required
+      />
+
+      <SubmitButton config={config} sending={sending} />
+    </form>
+  );
+}
+
+export default function ServicePopup({
+  idServicio,
+  idSubservicio = null,
+  tiempoGlobal = null,
+  buttonId = null,
+}) {
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [formData, setFormData] = useState({ nombre: "", telefono: "", correo: "" });
+  const [formData, setFormData] = useState({
+    nombre: "",
+    telefono: "",
+    correo: "",
+  });
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -70,9 +136,13 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
       try {
         let response;
         if (idSubservicio) {
-          response = await axios.get(`${API_URL}/api/public/popup-configs/subservicio/${idSubservicio}`);
+          response = await axios.get(
+            `${API_URL}/api/public/popup-configs/subservicio/${idSubservicio}`,
+          );
         } else if (idServicio) {
-          response = await axios.get(`${API_URL}/api/public/popup-configs/servicio/${idServicio}`);
+          response = await axios.get(
+            `${API_URL}/api/public/popup-configs/servicio/${idServicio}`,
+          );
         } else {
           console.error("Debe proporcionar idServicio o idSubservicio");
           setLoading(false);
@@ -95,7 +165,10 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
   useEffect(() => {
     if (!config) return;
     if (config.trigger_type === "time") {
-      const timerDelay = tiempoGlobal !== null ? tiempoGlobal : (config.trigger_time || 5) * 1000;
+      const timerDelay =
+        tiempoGlobal !== null
+          ? tiempoGlobal
+          : (config.trigger_time || 5) * 1000;
       const timer = setTimeout(() => setOpen(true), timerDelay);
       return () => clearTimeout(timer);
     }
@@ -117,7 +190,8 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
     const { name, value } = e.target;
     if (name === "telefono") {
       const onlyNumbers = value.replace(/\D/g, "");
-      if (onlyNumbers.length <= 9) setFormData((prev) => ({ ...prev, [name]: onlyNumbers }));
+      if (onlyNumbers.length <= 9)
+        setFormData((prev) => ({ ...prev, [name]: onlyNumbers }));
       return;
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -126,7 +200,12 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.telefono.length !== 9) {
-      Swal.fire({ title: "Error", text: "El número de teléfono debe tener 9 dígitos", icon: "error", confirmButtonText: "OK" });
+      Swal.fire({
+        title: "Error",
+        text: "El número de teléfono debe tener 9 dígitos",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
       return;
     }
     setSending(true);
@@ -135,16 +214,29 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
         nombre: formData.nombre,
         telefono: formData.telefono,
         correo: formData.correo,
-        id_servicio: config?.subservicio?.id_servicio || idServicio || idSubservicio?.toString(),
+        id_servicio:
+          config?.subservicio?.id_servicio ||
+          idServicio ||
+          idSubservicio?.toString(),
       };
       const response = await axios.post(`${API_URL}/api/modales`, payload);
       if (response.status === 201) {
-        Swal.fire({ title: "¡Mensaje enviado!", text: "Nos pondremos en contacto contigo pronto.", icon: "success", confirmButtonText: "OK" });
+        Swal.fire({
+          title: "¡Mensaje enviado!",
+          text: "Nos pondremos en contacto contigo pronto.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
         setOpen(false);
         setFormData({ nombre: "", telefono: "", correo: "" });
       }
     } catch (error) {
-      Swal.fire({ title: "Error", text: "Ocurrió un error al enviar tu mensaje", icon: "error", confirmButtonText: "OK" });
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un error al enviar tu mensaje",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     } finally {
       setSending(false);
     }
@@ -162,21 +254,15 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
   const leftImg = config.left_image_url;
   const rightImg = config.right_image_url;
 
-  const FormContent = () => (
-    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2">
-      <InputField icon={User} type="text" name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required />
-      <InputField icon={Phone} type="tel" name="telefono" placeholder="Teléfono" value={formData.telefono} onChange={handleChange} required maxLength={9} />
-      <InputField icon={Mail} type="email" name="correo" placeholder="Correo" value={formData.correo} onChange={handleChange} required />
-      <SubmitButton config={config} sending={sending} />
-    </form>
-  );
-
   // ==========================================
   // VERSIÓN DESKTOP
   // ==========================================
   if (!isMobile) {
     return (
-      <div onClick={handleClose} className="fixed inset-0 bg-black/60 flex items-center justify-center z-[9999] p-4 backdrop-blur-sm">
+      <div
+        onClick={handleClose}
+        className="fixed inset-0 bg-black/60 flex items-center justify-center z-[9999] p-4 backdrop-blur-sm"
+      >
         <div
           onClick={(e) => e.stopPropagation()}
           className="relative rounded-3xl overflow-hidden w-[680px] h-[440px] shadow-2xl flex flex-row"
@@ -194,23 +280,59 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
               {/* Fondo derecho */}
               {rightImg && (
                 <div className="absolute inset-0 z-0">
-                  <img src={rightImg} alt={config.right_alt || "Fondo"} className="w-full h-full object-cover" style={{ opacity: (config.right_opacity || 100) / 100 }} />
+                  <img
+                    src={rightImg}
+                    alt={config.right_alt || "Fondo"}
+                    className="w-full h-full object-cover"
+                    style={{ opacity: (config.right_opacity || 100) / 100 }}
+                  />
                 </div>
               )}
 
               {/* Imagen izquierda — solo si existe */}
               {leftImg && (
                 <div className="relative w-[45%] h-full flex-shrink-0">
-                  <Image src={leftImg} alt={config.left_alt || "Pop-up izquierda"} fill className="object-cover" style={{ opacity: (config.left_opacity || 100) / 100 }} unoptimized />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
-                  {config.show_logo && <img src="/servicios/digimedia-logo-modal.webp" alt="Digimedia Marketing" className="absolute top-5 left-5 w-14 z-10 drop-shadow-md" />}
-                  {config.left_text && <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">{config.left_text}</p>}
+                  <Image
+                    src={leftImg}
+                    alt={config.left_alt || "Pop-up izquierda"}
+                    fill
+                    className="object-cover"
+                    style={{ opacity: (config.left_opacity || 100) / 100 }}
+                    unoptimized
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
+                    }}
+                  />
+                  {config.show_logo && (
+                    <img
+                      src="/servicios/digimedia-logo-modal.webp"
+                      alt="Digimedia Marketing"
+                      className="absolute top-5 left-5 w-14 z-10 drop-shadow-md"
+                    />
+                  )}
+                  {config.left_text && (
+                    <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">
+                      {config.left_text}
+                    </p>
+                  )}
                 </div>
               )}
 
               {/* Formulario */}
-              <div className={`flex-1 px-8 flex flex-col items-center ${leftImg ? "justify-end pb-12" : "justify-center"} z-10`}>
-                <FormContent />
+              <div
+                className={`flex-1 px-8 flex flex-col items-center ${leftImg ? "justify-end pb-12" : "justify-center"} z-10`}
+              >
+                <FormContent
+                  formData={formData}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  config={config}
+                  sending={sending}
+                />
               </div>
             </>
           ) : (
@@ -218,22 +340,58 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
               {/* Fondo izquierdo */}
               {leftImg && (
                 <div className="absolute inset-0 z-0">
-                  <img src={leftImg} alt={config.left_alt || "Fondo"} className="w-full h-full object-cover" style={{ opacity: (config.left_opacity || 100) / 100 }} />
+                  <img
+                    src={leftImg}
+                    alt={config.left_alt || "Fondo"}
+                    className="w-full h-full object-cover"
+                    style={{ opacity: (config.left_opacity || 100) / 100 }}
+                  />
                 </div>
               )}
 
               {/* Formulario */}
-              <div className={`flex-1 px-8 flex flex-col items-center ${rightImg ? "justify-end pb-12" : "justify-center"} z-10`}>
-                <FormContent />
+              <div
+                className={`flex-1 px-8 flex flex-col items-center ${rightImg ? "justify-end pb-12" : "justify-center"} z-10`}
+              >
+                <FormContent
+                  formData={formData}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  config={config}
+                  sending={sending}
+                />
               </div>
 
               {/* Imagen derecha — solo si existe */}
               {rightImg && (
                 <div className="relative w-[45%] h-full flex-shrink-0">
-                  <Image src={rightImg} alt={config.right_alt || "Pop-up derecha"} fill className="object-cover" style={{ opacity: (config.right_opacity || 100) / 100 }} unoptimized />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)" }} />
-                  {config.show_logo && <img src="/servicios/digimedia-logo-modal.webp" alt="Digimedia Marketing" className="absolute top-5 left-5 w-14 z-10 drop-shadow-md" />}
-                  {config.left_text && <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">{config.left_text}</p>}
+                  <Image
+                    src={rightImg}
+                    alt={config.right_alt || "Pop-up derecha"}
+                    fill
+                    className="object-cover"
+                    style={{ opacity: (config.right_opacity || 100) / 100 }}
+                    unoptimized
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
+                    }}
+                  />
+                  {config.show_logo && (
+                    <img
+                      src="/servicios/digimedia-logo-modal.webp"
+                      alt="Digimedia Marketing"
+                      className="absolute top-5 left-5 w-14 z-10 drop-shadow-md"
+                    />
+                  )}
+                  {config.left_text && (
+                    <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">
+                      {config.left_text}
+                    </p>
+                  )}
                 </div>
               )}
             </>
@@ -247,28 +405,71 @@ export default function ServicePopup({ idServicio, idSubservicio = null, tiempoG
   // VERSIÓN MOBILE
   // ==========================================
   return (
-    <div onClick={handleClose} className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4">
+    <div
+      onClick={handleClose}
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
+    >
       <div
         onClick={(e) => e.stopPropagation()}
         className="relative rounded-2xl overflow-hidden w-full max-w-sm min-h-[420px] shadow-2xl flex flex-col"
         style={{ background: getBg(config) }}
       >
-        <button onClick={handleClose} className="absolute top-3 right-3 z-20 text-white bg-black/50 rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-black/70 transition">
+        <button
+          onClick={handleClose}
+          className="absolute top-3 right-3 z-20 text-white bg-black/50 rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-black/70 transition"
+        >
           ✕
         </button>
 
         {config.mobile_image_url && (
           <div className="absolute inset-0 z-0">
-            <Image src={config.mobile_image_url} alt={config.mobile_alt || "Pop-up mobile"} fill className="object-cover" unoptimized />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, transparent 100%)" }} />
+            <Image
+              src={config.mobile_image_url}
+              alt={config.mobile_alt || "Pop-up mobile"}
+              fill
+              className="object-cover"
+              unoptimized
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, transparent 100%)",
+              }}
+            />
           </div>
         )}
 
         <div className="px-5 pt-8 pb-5 mt-auto relative z-10">
           <form onSubmit={handleSubmit} className="space-y-2.5">
-            <InputField icon={User} type="text" name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required />
-            <InputField icon={Phone} type="tel" name="telefono" placeholder="Teléfono" value={formData.telefono} onChange={handleChange} required maxLength={9} />
-            <InputField icon={Mail} type="email" name="correo" placeholder="Correo electrónico" value={formData.correo} onChange={handleChange} required />
+            <InputField
+              icon={User}
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
+            <InputField
+              icon={Phone}
+              type="tel"
+              name="telefono"
+              placeholder="Teléfono"
+              value={formData.telefono}
+              onChange={handleChange}
+              required
+              maxLength={9}
+            />
+            <InputField
+              icon={Mail}
+              type="email"
+              name="correo"
+              placeholder="Correo electrónico"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
             <SubmitButton config={config} sending={sending} />
           </form>
         </div>
