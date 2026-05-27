@@ -10,10 +10,10 @@ export const TRIGGER_TYPES = [
 ];
 
 export const GRADIENT_DIRS = [
-  { value: "to bottom", label: "↓ Arriba → Abajo" },
-  { value: "to top", label: "↑ Abajo → Arriba" },
-  { value: "to right", label: "→ Izq → Der" },
-  { value: "to left", label: "← Der → Izq" },
+  { value: "to bottom", label: "↓ Arriba a Abajo" },
+  { value: "to top", label: "↑ Abajo a Arriba" },
+  { value: "to right", label: "→ Izq a Der" },
+  { value: "to left", label: "← Der a Izq" },
   { value: "to bottom right", label: "↘ Diagonal" },
   { value: "to bottom left", label: "↙ Diagonal" },
 ];
