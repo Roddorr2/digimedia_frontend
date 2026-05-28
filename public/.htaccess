@@ -1,3 +1,9 @@
+DirectoryIndex index.html
+
+# Desactivar ModSecurity (si lo necesitas)
+SecFilterEngine Off
+SecFilterScanPOST Off
+
 RewriteEngine On
 RewriteBase /
 
