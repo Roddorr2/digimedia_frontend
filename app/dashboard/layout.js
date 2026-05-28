@@ -10,7 +10,7 @@ import { DisplayNameContext } from "./components/DisplayNameContext";
 import { dashboardLinks } from "./dashboardsLinks/dashboardsLinks";
 import { useAuth } from "../context/AuthContext";
 import Image from "next/image";
-import { ArrowLeft, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -78,7 +78,7 @@ export default function RootLayout({ children }) {
 
             <h1 className="flex-1 text-center text-white font-semibold text-sm sm:text-xl lg:text-3xl truncate px-4">
               <span className="hidden sm:inline">SECCIÓN: </span>
-              {pathname.slice(pathname.indexOf("/", 1) + 1, -1).toUpperCase()}
+              {pathname.slice(pathname.indexOf("/", 1) + 1).replace("/", "").toUpperCase()}
             </h1>
           </header>
 
@@ -144,7 +144,7 @@ export default function RootLayout({ children }) {
 
                 {/* Botón logout */}
                 <div
-                  onClick={logout}
+                  onClick={async () => { setIsLoggingOut(true); await logout(); }}
                   className="flex items-center py-2 px-0 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
                 >
                   <div className="p-2 flex flex-shrink-0">

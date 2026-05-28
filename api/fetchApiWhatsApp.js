@@ -126,7 +126,7 @@ export const campaniaApi = {
   //GET /api/campanias?estado=completada&page=1
   getAll: (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    return apiRequest(`/api/campanias${query ? `?${query}` : ""}`, {
+    return apiRequest(`/api/campaniays${query ? `?${query}` : ""}`, {
       method: "GET",
     });
   },
