@@ -1,11 +1,23 @@
 RewriteEngine On
 RewriteBase /
 
-# Redirigir URLs sin barra final a su versión con barra
-RewriteCond %{REQUEST_FILENAME} !-f
+# 1. Archivos y directorios existentes — no tocar
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2. Excluir _next/ completamente del trailing slash
+RewriteCond %{REQUEST_URI} ^/_next/
+RewriteRule ^ - [L]
+
+# 3. Excluir extensiones estáticas del trailing slash
+RewriteCond %{REQUEST_URI} \.(txt|json|js|css|html|png|jpg|jpeg|svg|webp|ico|woff|woff2|avif)$ [NC]
+RewriteRule ^ - [L]
+
+# 4. Trailing slash solo a rutas limpias
 RewriteCond %{REQUEST_URI} !(.*)/$
 RewriteRule ^(.*)$ /$1/ [R=301,L]
 
-# Servir archivos estáticos y carpetas correctamente
+# 5. Servir index.html
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.*)/$ $1/index.html [L]
