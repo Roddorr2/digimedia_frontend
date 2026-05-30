@@ -5,6 +5,7 @@ import { MisionVision } from './components/MisionVision';
 import WhatsAppButton from '../components/WhatsAppButton';
 import { Hero } from '../components/page_components/Hero';
 import { Information } from '../components/page_components/Information';
+import Link from 'next/link';
 
 const Nosotros = () => {
   return (
@@ -74,13 +75,13 @@ const Nosotros = () => {
 
       {/* --- BOTÓN CTA PEQUEÑO --- */}
       <div className="flex flex-col items-center justify-center py-10 pb-16">
-       
-        <a 
-          href="/contacto" 
+       {/* se modifico la ruta correctamente ya que generaba error 404 con la ruta que tenia (/contacto) y la etiqueta <a> por link <Link> */ }
+        <Link 
+          href="/contactanos" 
           className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-transform hover:-translate-y-1 shadow-lg shadow-orange-500/30 uppercase text-sm"
         >
           Trabajemos juntos
-        </a>
+        </Link>
       </div>
       {/* -------------------------------------- */}
 

@@ -7,23 +7,27 @@ SecFilterScanPOST Off
 RewriteEngine On
 RewriteBase /
 
-# 1. Archivos y directorios existentes — no tocar
+# 1. Ignorar solicitudes RSC/Next.js prefetch que fallen en export estático
+RewriteCond %{QUERY_STRING} _rsc= [NC]
+RewriteRule ^ - [L]
+
+# 2. Archivos y directorios existentes — no tocar
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# 2. Excluir _next/ completamente del trailing slash
+# 3. Excluir _next/ completamente del trailing slash
 RewriteCond %{REQUEST_URI} ^/_next/
 RewriteRule ^ - [L]
 
-# 3. Excluir extensiones estáticas del trailing slash
+# 4. Excluir extensiones estáticas del trailing slash
 RewriteCond %{REQUEST_URI} \.(txt|json|js|css|html|png|jpg|jpeg|svg|webp|ico|woff|woff2|avif)$ [NC]
 RewriteRule ^ - [L]
 
-# 4. Trailing slash solo a rutas limpias
+# 5. Trailing slash solo a rutas limpias
 RewriteCond %{REQUEST_URI} !(.*)/$
 RewriteRule ^(.*)$ /$1/ [R=301,L]
 
-# 5. Servir index.html
+# 6. Servir index.html
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.*)/$ $1/index.html [L]
