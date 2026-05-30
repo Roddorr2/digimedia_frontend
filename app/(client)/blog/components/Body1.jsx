@@ -67,10 +67,10 @@ export default function Body1({ id_blog_body, fecha }) {
     if (!previewImageUrl) return fallback;
 
     if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl; 
+      return previewImageUrl;
     }
 
-    return `${previewImageUrl}?v=${Date.now()}`; 
+    return `${previewImageUrl}?v=${Date.now()}`;
   };
 
   if (isLoading) {
@@ -149,7 +149,7 @@ export default function Body1({ id_blog_body, fecha }) {
   }
 
   return (
-    <div className="relative lg:mx-48 p-0 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
+    <div className="relative lg:mx-48 p-0 text-white rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.45)]">
       <div className="relative h-[400px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
         <Image
@@ -168,29 +168,29 @@ export default function Body1({ id_blog_body, fecha }) {
           height={400}
         />
         <div className="relative z-20 h-full flex flex-col justify-end p-8">
-          <p className="text-red-300 mb-2">{fecha}</p>
+          <p className="text-[#F2C230] mb-2 font-medium">{fecha}</p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
             {data.titulo}
           </h2>
+          <div className="w-32 h-1 bg-gradient-to-r from-[#F2A30F] to-[#F2C230] rounded-full"></div>
         </div>
       </div>
 
-      <div className="bg-black/5 p-8">
-        <div className="relative mb-16 bg-white p-6 rounded-lg shadow-md -mt-12">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500"></div>
-          <p className="text-lg leading-relaxed text-gray-700">
+      <div className="p-8">
+        <div className="relative mb-16 bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-xl -mt-12">
+          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#F2A30F] to-[#F2C230]"></div>
+          <p className="text-lg leading-relaxed text-gray-200">
             {data.descripcion}
           </p>
         </div>
-        {data.flag_consejos!==0 && (
-
-          <div className="mb-16 p-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
+        {data.flag_consejos !== 0 && (
+          <div className="mb-16 p-6 bg-gradient-to-br from-[#060126] to-[#0A0140] rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-white">
             <div className="flex items-center justify-center mb-4">
-              <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
-              <h3 className="text-2xl font-bold text-green-400">
+              <div className="h-0.5 w-12 bg-[#F2A30F] mr-4"></div>
+              <h3 className="text-2xl font-bold text-[#F2C230]">
                 {data.commend_tarjeta?.titulo || "Consejos"}
               </h3>
-              <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
+              <div className="h-0.5 w-12 bg-[#F2A30F] ml-4"></div>
             </div>
 
             <ul className="list-none text-black-600 space-y-3 max-w-2xl mx-auto">
@@ -206,41 +206,37 @@ export default function Body1({ id_blog_body, fecha }) {
                   .map((text, index) => (
                     <li
                       key={`commend-${index}`}
-                      className="flex items-center gap-3 bg-gray-800/50 p-3 rounded-lg"
+                      className="flex items-center gap-3 bg-white/10 p-3 rounded-lg"
                     >
-                      <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
+                      <CheckCircle className="w-6 h-6 text-[#F2C230] flex-shrink-0" />
                       <span className="text-left">{text}</span>
                     </li>
                   ))}
             </ul>
-          
-          
           </div>
-        
         )}
-        
-        {data.flag_galeria!==0 && (
 
+        {data.flag_galeria !== 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
-
-              {[// data.public_image2 || "/blog/blog-10.webp",
+            {[
+              // data.public_image2 || "/blog/blog-10.webp",
               // data.public_image3 || "/blog/blog-1.webp",
-                { 
-                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), 
-                  alt: data.alt_image2 || data.titulo, 
-                  title: data.title_image2 || "" 
-                },
-                { 
-                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"), 
-                  alt: data.alt_image3 || data.titulo, 
-                  title: data.title_image3 || "" 
-                },
-              ].map((image, index) => (
+              {
+                src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
+                alt: data.alt_image2 || data.titulo,
+                title: data.title_image2 || "",
+              },
+              {
+                src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
+                alt: data.alt_image3 || data.titulo,
+                title: data.title_image3 || "",
+              },
+            ].map((image, index) => (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-xl shadow-xl"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 shadow-xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#060126]/95 via-[#0A0140]/70 to-transparent z-10"></div>
                 <Image
                   src={image.src}
                   // alt={`Imagen ${index + 1} del artículo`}
@@ -259,15 +255,12 @@ export default function Body1({ id_blog_body, fecha }) {
               </div>
             ))}
           </div>
-          
         )}
 
-
-        {data.flag_informacion!==0 && (
-
+        {data.flag_informacion !== 0 && (
           <div className="relative">
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-              <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+              <div className="inline-block px-4 py-1 bg-[#F2A30F] text-[#060126] text-sm font-medium rounded-full">
                 {data.titulo_tarjeta || "Información Importante"}
               </div>
             </div>
@@ -276,10 +269,10 @@ export default function Body1({ id_blog_body, fecha }) {
               {data.tarjetas &&
                 data.tarjetas.map((section, index) => {
                   const styles = [
-                    "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-blue-400",
-                    "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-red-400",
-                    "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-green-400",
-                    "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-purple-400",
+                    "bg-white/10 backdrop-blur-md border-l-4 border-[#F2A30F]",
+                    "bg-white/10 backdrop-blur-md border-r-4 border-[#F2C230]",
+                    "bg-white/10 backdrop-blur-md border-l-4 border-[#F2A30F]",
+                    "bg-white/10 backdrop-blur-md border-r-4 border-[#F2C230]",
                   ];
 
                   return (
@@ -289,7 +282,7 @@ export default function Body1({ id_blog_body, fecha }) {
                         styles[index % styles.length]
                       }`}
                     >
-                      <h3 className="text-xl font-bold mb-3 text-blue-400">
+                      <h3 className="text-xl font-bold mb-3 text-[#F2C230]">
                         {section.titulo}
                       </h3>
                       <p className="text-gray-100">
@@ -297,7 +290,7 @@ export default function Body1({ id_blog_body, fecha }) {
                         {renderDescripcion(
                           section.descripcion,
                           section.palabra,
-                          section.enlace
+                          section.enlace,
                         )}
                       </p>
                     </div>
@@ -305,7 +298,6 @@ export default function Body1({ id_blog_body, fecha }) {
                 })}
             </div>
           </div>
-        
         )}
       </div>
     </div>
