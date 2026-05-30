@@ -4,7 +4,7 @@ import { useState } from "react";
 import { UploadIcon } from "../TabButton";
 
 
-export function ImageUploadZone({ label, preview, onFile, onDrop, onRemove }) {
+export function ImageUploadZone({ label, hint, preview, onFile, onDrop, onRemove }) {
   const [fileKey, setFileKey] = useState(0);
 
   const handleRemove = (e) => {
@@ -16,9 +16,14 @@ export function ImageUploadZone({ label, preview, onFile, onDrop, onRemove }) {
 
   return (
     <div>
-      <p className="mb-1 text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+      <p className="mb-0.5 text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
         {label}
       </p>
+      {hint && (
+        <p className="mb-1.5 text-[10px] text-slate-400 dark:text-slate-500 font-mono">
+          {hint}
+        </p>
+      )}
       <div className="relative">
         <label
           className="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-4 cursor-pointer hover:border-violet-400 transition min-h-[110px]"

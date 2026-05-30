@@ -246,9 +246,26 @@ export function PopupsTab() {
       form.append("left_alt", formData.left_alt);
       form.append("right_alt", formData.right_alt);
       form.append("mobile_alt", formData.mobile_alt);
-      if (imageFiles.left) form.append("left_image", imageFiles.left);
-      if (imageFiles.right) form.append("right_image", imageFiles.right);
-      if (imageFiles.mobile) form.append("mobile_image", imageFiles.mobile);
+      if (imageFiles.left) {
+        form.append("left_image", imageFiles.left);
+      } else if (!imagePreviews.left && popupConfig?.left_image_url) {
+        form.append("remove_left_image", "1");
+        form.append("left_image_url", "");
+      }
+
+      if (imageFiles.right) {
+        form.append("right_image", imageFiles.right);
+      } else if (!imagePreviews.right && popupConfig?.right_image_url) {
+        form.append("remove_right_image", "1");
+        form.append("right_image_url", "");
+      }
+
+      if (imageFiles.mobile) {
+        form.append("mobile_image", imageFiles.mobile);
+      } else if (!imagePreviews.mobile && popupConfig?.mobile_image_url) {
+        form.append("remove_mobile_image", "1");
+        form.append("mobile_image_url", "");
+      }
 
       const res = isNew
         ? await popupApi.create(form)
@@ -267,12 +284,22 @@ export function PopupsTab() {
           if (fresh?.success && fresh?.data) {
             setPopupConfig(fresh.data);
             setIsNew(false);
+            setImagePreviews({
+              left: fresh.data.left_image_url || null,
+              right: fresh.data.right_image_url || null,
+              mobile: fresh.data.mobile_image_url || null,
+            });
           }
         } else if (servicioId) {
           const fresh = await popupApi.getByServicio(servicioId);
           if (fresh?.success && fresh?.data) {
             setPopupConfig(fresh.data);
             setIsNew(false);
+            setImagePreviews({
+              left: fresh.data.left_image_url || null,
+              right: fresh.data.right_image_url || null,
+              mobile: fresh.data.mobile_image_url || null,
+            });
           }
         }
         setImageFiles({ left: null, right: null, mobile: null });
