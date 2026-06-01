@@ -11,6 +11,8 @@ import {
   User,
   PhoneCall,
   Megaphone,
+  Shield,
+  KeyIcon
 } from "lucide-react";
 
 export const dashboardLinks = [
@@ -33,6 +35,18 @@ export const dashboardLinks = [
     href: "/dashboard/modales",
     permission: "ver-modales",
     icon: Component,
+  },
+  {
+    title:"Roles",
+    href:"/dashboard/roles",
+    role:"administrador,Ventas",
+    icon: Shield,
+  },
+  {
+    title:"Permisos",
+    href:"/dashboard/permisos",
+    role:"administrador",
+    icon: KeyIcon,
   },
   {
     title: "Reclamaciones",

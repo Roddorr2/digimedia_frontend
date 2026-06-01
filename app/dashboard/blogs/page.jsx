@@ -531,7 +531,7 @@ export default function Page() {
                             <Pencil className="w-4 h-4" />
                           </Link>
 
-                          {auth_service.hasRole("administrador, marketing") && (
+                          {auth_service.hasPermission('eliminar-blogs') && (
                             <button
                               onClick={() => confirmDelete(blog.id_blog)}
                               className="p-2 bg-rose-50 dark:bg-rose-900 text-rose-600 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-800 transition-colors"

@@ -12,6 +12,7 @@ export const useAuth = () => useContext(AuthContext);
 // Proveedor del contexto
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading,setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -19,11 +20,13 @@ export const AuthProvider = ({ children }) => {
   // Verifica token al montar el provider
   useEffect(() => {
     const verifyToken = async () => {
+      setIsLoading(true);
       const token = getCookie("token");
 
       if (!token) {
         setIsAuthenticated(false);
         setUser(null);
+        setIsLoading(false);
         return;
       }
 
@@ -59,6 +62,8 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setUser(null);
         deleteCookie("token");
+      }finally{
+         setIsLoading(false);
       }
     };
     verifyToken();
@@ -162,7 +167,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, login, logout, hasPermission, hasRole }}
+      value={{ isAuthenticated, user, login, logout, hasPermission, hasRole,isLoading }}
     >
       {children}
     </AuthContext.Provider>
