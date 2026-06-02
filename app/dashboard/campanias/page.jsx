@@ -11,6 +11,7 @@ export default function CampaniaListPage() {
   const [estado, setEstado] = useState("");
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
+  const [openMenu, setOpenMenu] = useState(null);
 
   const fetchCampanias = async () => {
     setLoading(true);
@@ -24,7 +25,7 @@ export default function CampaniaListPage() {
 
       setCampanias(campanias);
 
-      const meta = paginated?.data;
+      const meta = paginated;
 
       setPagination({
         current_page: meta?.current_page ?? 1,
@@ -44,11 +45,56 @@ export default function CampaniaListPage() {
   }, [estado, page]);
 
   const filtros = [
-    { label: "Todos", value: "" },
-    { label: "En Proceso", value: "en_proceso" },
-    { label: "Pausadas", value: "pausada" },
-    { label: "Completadas", value: "completada" },
-    { label: "Error", value: "error" },
+    {
+      label: "Pendientes",
+      options: [
+        { label: "Borrador", value: "borrador" },
+        { label: "Pendiente", value: "pendiente" },
+      ],
+    },
+    {
+      label: "Activas",
+      options: [{ label: "En Proceso", value: "en_proceso" }],
+    },
+    {
+      label: "Pausadas",
+      options: [
+        {
+          label: "Pausada (Límite)",
+          value: "pausada_hasta_mañana",
+        },
+        {
+          label: "Pausada (Horario)",
+          value: "pausada_fuera_horario",
+        },
+        {
+          label: "Sin Conexión",
+          value: "pausada_sin_conexion",
+        },
+      ],
+    },
+    {
+      label: "Finalizadas",
+      options: [
+        {
+          label: "Completada",
+          value: "completada",
+        },
+        {
+          label: "Cancelada",
+          value: "cancelada",
+        },
+      ],
+    },
+    {
+      label: "Errores",
+      options: [
+        {
+          label: "Error",
+          value: "error",
+        },
+      ],
+    },
   ];
 
   return (
@@ -61,24 +107,105 @@ export default function CampaniaListPage() {
 
           {/* FILTROS */}
           <div className="flex flex-wrap gap-2">
-            {filtros.map((f) => {
-              const active = estado === f.value;
+            {/* TODOS */}
+            <button
+              onClick={() => {
+                setEstado("");
+                setPage(1);
+                setOpenMenu(null);
+              }}
+              className={`px-4 py-1.5 text-sm rounded-full transition
+      ${
+        estado === ""
+          ? "bg-blue-600 text-white shadow"
+          : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+      }
+    `}
+            >
+              Todos
+            </button>
+
+            {/* GRUPOS */}
+            {/* GRUPOS */}
+            {filtros.map((grupo) => {
+              const activo = grupo.options.some((op) => op.value === estado);
+
+              // SI SOLO TIENE UNA OPCIÓN => BOTÓN DIRECTO
+              if (grupo.options.length === 1) {
+                const opcion = grupo.options[0];
+
+                return (
+                  <button
+                    key={grupo.label}
+                    onClick={() => {
+                      setEstado(opcion.value);
+                      setPage(1);
+                      setOpenMenu(null);
+                    }}
+                    className={`px-4 py-1.5 text-sm rounded-full transition
+          ${
+            estado === opcion.value
+              ? "bg-blue-600 text-white shadow"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+          }
+        `}
+                  >
+                    {grupo.label}
+                  </button>
+                );
+              }
+
+              // SI TIENE VARIAS OPCIONES => DROPDOWN
               return (
-                <button
-                  key={f.value}
-                  onClick={() => {
-                    setEstado(f.value);
-                    setPage(1);
-                  }}
-                  className={`px-4 py-1.5 text-sm rounded-full transition
-                  ${
-                    active
-                      ? "bg-blue-600 text-white shadow"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
-                  }`}
-                >
-                  {f.label}
-                </button>
+                <div key={grupo.label} className="relative">
+                  <button
+                    onClick={() =>
+                      setOpenMenu(openMenu === grupo.label ? null : grupo.label)
+                    }
+                    className={`px-4 py-1.5 text-sm rounded-full transition flex items-center gap-2
+          ${
+            activo
+              ? "bg-blue-600 text-white shadow"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+          }
+        `}
+                  >
+                    {grupo.label}
+                    <span className="text-xs">▼</span>
+                  </button>
+
+                  {openMenu === grupo.label && (
+                    <div
+                      className="
+            absolute z-50 mt-2 min-w-[220px]
+            bg-white dark:bg-gray-800
+            border border-gray-200 dark:border-gray-700
+            rounded-xl shadow-lg overflow-hidden
+          "
+                    >
+                      {grupo.options.map((opcion) => (
+                        <button
+                          key={opcion.value}
+                          onClick={() => {
+                            setEstado(opcion.value);
+                            setPage(1);
+                            setOpenMenu(null);
+                          }}
+                          className={`
+                w-full text-left px-4 py-2 text-sm transition
+                ${
+                  estado === opcion.value
+                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                }
+              `}
+                        >
+                          {opcion.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
