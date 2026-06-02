@@ -1,9 +1,3 @@
-export const TIEMPOS = [
-  { value: 3, label: "3s - Muy inmediato" },
-  { value: 5, label: "5s - Rápido" },
-  { value: 8, label: "8s - Normal" },
-];
-
 export const TRIGGER_TYPES = [
   { value: "time", label: "Por tiempo (segundos)" },
   { value: "click", label: "Por clic (botón)" },

@@ -1,6 +1,6 @@
 "use client";
 
-import { TIEMPOS, TRIGGER_TYPES, LAYOUTS, DEFAULT_FORM } from "./constants";
+import { TRIGGER_TYPES, LAYOUTS, DEFAULT_FORM } from "./constants";
 import { DesktopEditor } from "./DesktopEditor";
 import { MobileEditor } from "./MobileEditor";
 import Swal from "sweetalert2";
@@ -135,22 +135,21 @@ export function EditorForm({
         {formData.trigger_type === "time" && (
           <div className="mt-2">
             <label className={labelCls}>Tiempo de aparición (segundos)</label>
-            <select
+
+            <input
+              type="number"
+              min={1}
+              step={1}
               className={inputCls}
-              value={formData.trigger_time}
+              value={formData.trigger_time || ""}
               onChange={(e) =>
                 setFormData((p) => ({
                   ...p,
                   trigger_time: Number(e.target.value),
                 }))
               }
-            >
-              {TIEMPOS.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
+              placeholder="Ej: 5"
+            />
           </div>
         )}
         {formData.trigger_type === "click" && (
