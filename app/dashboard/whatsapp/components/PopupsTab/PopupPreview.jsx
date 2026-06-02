@@ -12,6 +12,7 @@ const PreviewInput = ({ placeholder }) => (
   </div>
 );
 
+
 export function PopupPreview({ formData, imagePreviews, view }) {
   if (view === "desktop") {
     const hasBgImage = !!imagePreviews.right;
