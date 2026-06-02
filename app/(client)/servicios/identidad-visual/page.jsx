@@ -30,7 +30,7 @@ export default function IdentidadVisualCorporativa() {
       <UxUiSection
         features={featuresuxui}
         mainDescription="Desarrollamos la manifestación visual de su marca, creando un sistema gráfico coherente que incluye logotipos, colores y tipografías. Esta identidad estratégica asegura el reconocimiento, la diferenciación y el posicionamiento de su empresa en el mercado."
-        backgroundImage="/servicios/DisenoUI/identidad-visual-y-corporativa.webp"
+        backgroundImage="/servicios/DisenoUI/Identidad-visual-y-corporativa.webp"
         heroTitle=<>
           IDENTIDAD VISUAL <br />Y CORPORATIVA
         </>

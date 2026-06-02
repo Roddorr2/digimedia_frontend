@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Contactanos({ text }) {
   return (
     <>
@@ -30,12 +32,16 @@ export default function Contactanos({ text }) {
           <h2 className="text-white font-black text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight">
             {text}
           </h2>
-          <button
-            id="modal-button"
-            className="bg-[#FF9F00] text-white px-10 py-4 rounded-2xl font-bold text-lg uppercase hover:opacity-90 transition-opacity shadow-2xl transform hover:scale-105 transition-transform"
-          >
-            Contáctanos Ahora
-          </button>
+          {/* englobe la etiqueta button en link y agregue redireccionamiento para poder hacer que el boton tenga funcionalidad y no este vacio  */}
+          <Link href="/contactanos" >
+            <button  
+              id="modal-button"
+              className="bg-[#FF9F00] text-white px-10 py-4 rounded-2xl font-bold text-lg uppercase hover:opacity-90 transition-opacity shadow-2xl transform hover:scale-105 transition-transform"
+            >
+              Contáctanos Ahora
+            </button>
+          </Link>
+          
         </div>
 
         {/* SVG derecho */}

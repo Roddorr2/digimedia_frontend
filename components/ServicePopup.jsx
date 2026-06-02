@@ -33,7 +33,7 @@ const InputField = ({
   maxLength,
 }) => (
   <div className="relative w-full">
-    <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
+    <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-600" />
     <input
       type={type}
       name={name}
@@ -42,7 +42,7 @@ const InputField = ({
       onChange={onChange}
       required={required}
       maxLength={maxLength}
-      className="w-full rounded-full pl-10 pr-4 py-2 text-sm text-black border border-gray-400 bg-white/90 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent placeholder-gray-600 shadow-sm"
+      className="w-full rounded-full pl-9 pr-3 py-1.5 text-xs text-black border border-gray-400 bg-white/90 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent placeholder-gray-600 shadow-sm"
     />
   </div>
 );
@@ -51,7 +51,7 @@ const SubmitButton = ({ config, sending }) => (
   <button
     type="submit"
     disabled={sending}
-    className="w-3/4 mx-auto block rounded-full font-bold py-2.5 text-white transition-all uppercase tracking-wide text-xs shadow-md hover:opacity-90 disabled:opacity-50 mt-1"
+    className="w-3/4 mx-auto block rounded-full font-bold py-2 text-white transition-all uppercase tracking-wide text-xs shadow-md hover:opacity-90 disabled:opacity-50 mt-4"
     style={{ backgroundColor: config.button_color || "#7029E3" }}
   >
     {sending ? (
@@ -70,7 +70,7 @@ function FormContent({
   sending,
 }) {
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2">
+    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2.5">
       <InputField
         icon={User}
         type="text"
@@ -250,9 +250,11 @@ export default function ServicePopup({
   if (loading || !config) return null;
   if (!open) return null;
 
-  const isLeftImageLayout = config.layout !== "right-image";
+  const isSplitLayout = config.layout === "split";
+  const isLeftImageLayout = config.layout === "left-image" || isSplitLayout;
   const leftImg = config.left_image_url;
   const rightImg = config.right_image_url;
+  const bothImages = isSplitLayout && !!(leftImg && rightImg);
 
   // ==========================================
   // VERSIÓN DESKTOP
@@ -275,125 +277,63 @@ export default function ServicePopup({
             ✕
           </button>
 
-          {isLeftImageLayout ? (
+          {bothImages ? (
             <>
-              {/* Fondo derecho */}
-              {rightImg && (
-                <div className="absolute inset-0 z-0">
-                  <img
-                    src={rightImg}
-                    alt={config.right_alt || "Fondo"}
-                    className="w-full h-full object-cover"
-                    style={{ opacity: (config.right_opacity || 100) / 100 }}
-                  />
+              {/* Imagen izquierda — 43% */}
+              <div className="relative w-[43%] h-full flex-shrink-0">
+                <Image src={leftImg} alt={config.left_alt || "Pop-up izquierda"} fill className="object-cover" style={{ opacity: (config.left_opacity || 100) / 100 }} unoptimized />
+                {config.show_logo && <img src="/servicios/digimedia-logo-modal.webp" alt="Digimedia Marketing" className="absolute top-5 left-5 w-14 z-10 drop-shadow-md" />}
+                {config.left_text && <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">{config.left_text}</p>}
+              </div>
+              {/* Imagen derecha — 57% con formulario */}
+              <div className="relative flex-1 h-full">
+                <Image src={rightImg} alt={config.right_alt || "Pop-up derecha"} fill className="object-cover object-left-top" style={{ opacity: (config.right_opacity || 100) / 100 }} unoptimized />
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-12">
+                  <FormContent formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} config={config} sending={sending} />
                 </div>
-              )}
-
+              </div>
+            </>
+          ) : isLeftImageLayout ? (
+            <>
               {/* Imagen izquierda — solo si existe */}
               {leftImg && (
                 <div className="relative w-[45%] h-full flex-shrink-0">
-                  <Image
-                    src={leftImg}
-                    alt={config.left_alt || "Pop-up izquierda"}
-                    fill
-                    className="object-cover"
-                    style={{ opacity: (config.left_opacity || 100) / 100 }}
-                    unoptimized
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
-                    }}
-                  />
-                  {config.show_logo && (
-                    <img
-                      src="/servicios/digimedia-logo-modal.webp"
-                      alt="Digimedia Marketing"
-                      className="absolute top-5 left-5 w-14 z-10 drop-shadow-md"
-                    />
-                  )}
-                  {config.left_text && (
-                    <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">
-                      {config.left_text}
-                    </p>
-                  )}
+                  <Image src={leftImg} alt={config.left_alt || "Pop-up izquierda"} fill className="object-cover" style={{ opacity: (config.left_opacity || 100) / 100 }} unoptimized />
+                  {config.show_logo && <img src="/servicios/digimedia-logo-modal.webp" alt="Digimedia Marketing" className="absolute top-5 left-5 w-14 z-10 drop-shadow-md" />}
+                  {config.left_text && <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">{config.left_text}</p>}
                 </div>
               )}
 
-              {/* Formulario */}
-              <div
-                className={`flex-1 px-8 flex flex-col items-center ${leftImg ? "justify-end pb-12" : "justify-center"} z-10`}
-              >
-                <FormContent
-                  formData={formData}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  config={config}
-                  sending={sending}
-                />
+              {/* Panel derecho: imagen de fondo (solo en su panel) + formulario */}
+              <div className="flex-1 relative h-full">
+                {rightImg && (
+                  <div className="absolute inset-0 z-0">
+                    <img src={rightImg} alt={config.right_alt || "Fondo"} className="w-full h-full object-cover object-top" style={{ opacity: (config.right_opacity || 100) / 100 }} />
+                  </div>
+                )}
+                <div className={`h-full flex flex-col items-center px-8 ${leftImg ? "justify-end pb-12" : "justify-center"} relative z-10`}>
+                  <FormContent formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} config={config} sending={sending} />
+                </div>
               </div>
             </>
           ) : (
             <>
-              {/* Fondo izquierdo */}
+              {/* Fondo completo — la imagen que exista ocupa todo */}
               {leftImg && (
                 <div className="absolute inset-0 z-0">
-                  <img
-                    src={leftImg}
-                    alt={config.left_alt || "Fondo"}
-                    className="w-full h-full object-cover"
-                    style={{ opacity: (config.left_opacity || 100) / 100 }}
-                  />
+                  <img src={leftImg} alt={config.left_alt || "Fondo"} className="w-full h-full object-cover" style={{ opacity: (config.left_opacity || 100) / 100 }} />
+                </div>
+              )}
+              {rightImg && !leftImg && (
+                <div className="absolute inset-0 z-0">
+                  <img src={rightImg} alt={config.right_alt || "Fondo"} className="w-full h-full object-cover" style={{ opacity: (config.right_opacity || 100) / 100 }} />
                 </div>
               )}
 
               {/* Formulario */}
-              <div
-                className={`flex-1 px-8 flex flex-col items-center ${rightImg ? "justify-end pb-12" : "justify-center"} z-10`}
-              >
-                <FormContent
-                  formData={formData}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  config={config}
-                  sending={sending}
-                />
+              <div className="flex-1 px-8 flex flex-col items-center justify-center z-10">
+                <FormContent formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} config={config} sending={sending} />
               </div>
-
-              {/* Imagen derecha — solo si existe */}
-              {rightImg && (
-                <div className="relative w-[45%] h-full flex-shrink-0">
-                  <Image
-                    src={rightImg}
-                    alt={config.right_alt || "Pop-up derecha"}
-                    fill
-                    className="object-cover"
-                    style={{ opacity: (config.right_opacity || 100) / 100 }}
-                    unoptimized
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)",
-                    }}
-                  />
-                  {config.show_logo && (
-                    <img
-                      src="/servicios/digimedia-logo-modal.webp"
-                      alt="Digimedia Marketing"
-                      className="absolute top-5 left-5 w-14 z-10 drop-shadow-md"
-                    />
-                  )}
-                  {config.left_text && (
-                    <p className="absolute bottom-8 right-5 text-white text-right font-bold text-xl z-10 max-w-[85%] drop-shadow-lg leading-tight">
-                      {config.left_text}
-                    </p>
-                  )}
-                </div>
-              )}
             </>
           )}
         </div>

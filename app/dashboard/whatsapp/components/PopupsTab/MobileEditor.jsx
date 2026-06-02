@@ -19,6 +19,7 @@ export function MobileEditor({
       <div className="max-w-xs space-y-2">
         <ImageUploadZone
           label="Imagen Mobile (única)"
+          hint="1152 × 1350 px — fondo completo mobile (1.5×)"
           preview={imagePreviews.mobile}
           onFile={(f) => handleImageChange("mobile", f)}
           onDrop={(e) => handleDrop("mobile", e)}

@@ -10,10 +10,10 @@ export const TRIGGER_TYPES = [
 ];
 
 export const GRADIENT_DIRS = [
-  { value: "to bottom", label: "↓ Arriba → Abajo" },
-  { value: "to top", label: "↑ Abajo → Arriba" },
-  { value: "to right", label: "→ Izq → Der" },
-  { value: "to left", label: "← Der → Izq" },
+  { value: "to bottom", label: "↓ Arriba a Abajo" },
+  { value: "to top", label: "↑ Abajo a Arriba" },
+  { value: "to right", label: "→ Izq a Der" },
+  { value: "to left", label: "← Der a Izq" },
   { value: "to bottom right", label: "↘ Diagonal" },
   { value: "to bottom left", label: "↙ Diagonal" },
 ];
@@ -21,6 +21,7 @@ export const GRADIENT_DIRS = [
 export const LAYOUTS = [
   { value: "left-image", label: "Imagen izquierda | Formulario derecha" },
   { value: "right-image", label: "Formulario izquierda | Imagen derecha" },
+  { value: "split", label: "Dividido 43/57 (izq + der sin fondo)" },
 ];
 
 export const MAX_ALT = 80;
