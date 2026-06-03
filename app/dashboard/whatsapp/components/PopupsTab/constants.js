@@ -26,6 +26,10 @@ export const LAYOUTS = [
 
 export const MAX_ALT = 80;
 
+export const MAX_IMAGE_SIZE_BYTES = 400 * 1024;        // 400 KB — slots desktop
+export const MAX_MOBILE_IMAGE_SIZE_BYTES = 600 * 1024; // 600 KB — slot mobile
+export const ACCEPTED_IMAGE_TYPE = "image/webp";
+
 export const DEFAULT_FORM = {
   button_text: "HAZLO YA",
   button_color: "#6e26db",

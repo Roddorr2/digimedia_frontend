@@ -1,6 +1,14 @@
 "use client";
 
-import { TIEMPOS, TRIGGER_TYPES, LAYOUTS, DEFAULT_FORM } from "./constants";
+import {
+  TIEMPOS,
+  TRIGGER_TYPES,
+  LAYOUTS,
+  DEFAULT_FORM,
+  MAX_IMAGE_SIZE_BYTES,
+  MAX_MOBILE_IMAGE_SIZE_BYTES,
+  ACCEPTED_IMAGE_TYPE,
+} from "./constants";
 import { DesktopEditor } from "./DesktopEditor";
 import { MobileEditor } from "./MobileEditor";
 import Swal from "sweetalert2";
@@ -24,26 +32,36 @@ export function EditorForm({
   const inputCls =
     "w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-sm text-slate-800 dark:text-slate-100 outline-none focus:ring-2 focus:ring-violet-400";
   const labelCls =
-    "block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1";
+    "block text-base font-semibold text-slate-700 dark:text-slate-300 mb-1";
   const counterCls = (len, max) =>
     `text-xs ${len > max * 0.9 ? "text-red-500" : "text-slate-400"}`;
 
   const handleImageChange = (slot, file) => {
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      Swal.fire("Imagen muy pesada", "Máximo 5 MB.", "warning");
+    if (file.type !== ACCEPTED_IMAGE_TYPE) {
+      Swal.fire("Formato incorrecto", "Solo se aceptan imágenes en formato <strong>WebP</strong>.", "warning");
+      return;
+    }
+    const maxBytes = slot === "mobile" ? MAX_MOBILE_IMAGE_SIZE_BYTES : MAX_IMAGE_SIZE_BYTES;
+    const maxLabel = slot === "mobile" ? "600 KB" : "400 KB";
+    if (file.size > maxBytes) {
+      Swal.fire("Imagen muy pesada", `Máximo ${maxLabel} en formato WebP.`, "warning");
       return;
     }
     setImageFiles((p) => ({ ...p, [slot]: file }));
-    const reader = new FileReader();
-    reader.onloadend = () =>
-      setImagePreviews((p) => ({ ...p, [slot]: reader.result }));
-    reader.readAsDataURL(file);
+    const objectUrl = URL.createObjectURL(file);
+    setImagePreviews((p) => {
+      if (p[slot]?.startsWith("blob:")) URL.revokeObjectURL(p[slot]);
+      return { ...p, [slot]: objectUrl };
+    });
   };
 
   const handleRemoveImage = (slot) => {
     setImageFiles((p) => ({ ...p, [slot]: null }));
-    setImagePreviews((p) => ({ ...p, [slot]: null }));
+    setImagePreviews((p) => {
+      if (p[slot]?.startsWith("blob:")) URL.revokeObjectURL(p[slot]);
+      return { ...p, [slot]: null };
+    });
   };
 
   const handleDrop = (slot, e) => {

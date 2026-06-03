@@ -20,7 +20,8 @@ export function DesktopEditor({
         <div className="space-y-2">
           <ImageUploadZone
             label="Imagen Izquierda"
-            hint="450 × 700 px recomendado"
+            hint="(450 × 700 px recomendado)"
+            maxSizeLabel="400 KB"
             preview={imagePreviews.left}
             onFile={(f) => handleImageChange("left", f)}
             onDrop={(e) => handleDrop("left", e)}
@@ -49,7 +50,8 @@ export function DesktopEditor({
         <div className="space-y-2">
           <ImageUploadZone
             label="Imagen Derecha"
-            hint="550 × 600 px recomendado"
+            hint="(550 × 600 px recomendado)"
+            maxSizeLabel="400 KB"
             preview={imagePreviews.right}
             onFile={(f) => handleImageChange("right", f)}
             onDrop={(e) => handleDrop("right", e)}
