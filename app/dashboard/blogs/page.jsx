@@ -43,6 +43,7 @@ export default function Page() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [mostrarHistorial, setMostrarHistorial] = useState(false);
   const blogsPerPage = 5;
 
   const id_empleado = getCookie("empleado")
@@ -319,7 +320,6 @@ export default function Page() {
     );
   }
 
-  const [mostrarHistorial, setMostrarHistorial] = useState(false);
   return (
     <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50 dark:bg-slate-900">
       <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-6">
