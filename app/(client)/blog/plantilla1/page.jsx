@@ -24,9 +24,7 @@ const Page = () => {
   );
 };
 
-
 const PageContent = () => {
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const blog = searchParams.get("blog");
@@ -69,7 +67,9 @@ const PageContent = () => {
     if (data) {
       const title = data?.head?.meta_title || data?.titulo || "Mi Blog";
       const description =
-        data?.head?.meta_descripcion || data?.descripcion || "Blog de DigiMedia";
+        data?.head?.meta_descripcion ||
+        data?.descripcion ||
+        "Blog de DigiMedia";
 
       document.title = title;
 
@@ -86,7 +86,10 @@ const PageContent = () => {
       const ogTags = [
         { property: "og:title", content: title },
         { property: "og:description", content: description },
-        { property: "og:url", content: `https://digimedia-marketing.com/blog/${blog}` },
+        {
+          property: "og:url",
+          content: `https://digimedia-marketing.com/blog/${blog}`,
+        },
       ];
       ogTags.forEach(({ property, content }) => {
         let tag = document.querySelector(`meta[property='${property}']`);
@@ -166,8 +169,8 @@ const PageContent = () => {
       <div>
         <Header id_blog_head={data?.id_blog_head} />
 
-        <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
-          <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
+        <div className="w-full px-4 py-12 relative bg-[linear-gradient(135deg,_#060126_0%,_#0A0140_50%,_#5A37A6_100%)] text-white min-h-screen">
+          <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-[#060126] via-[#0A0140] to-[#5A37A6] fixed left-0 top-0 h-full -z-10"></div>
 
           <Body1 id_blog_body={data.id_blog_body} fecha={data.fecha} />
 
@@ -177,7 +180,7 @@ const PageContent = () => {
                 href={data.body.service_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg"
+                className="inline-block px-6 py-3 bg-[#F2A30F] text-[#060126] text-lg font-bold rounded-lg hover:bg-[#F2C230] transition-all shadow-lg"
               >
                 Conoce nuestro servicio
               </a>
@@ -187,8 +190,6 @@ const PageContent = () => {
           <Footer id_blog_footer={data.id_blog_footer} />
         </div>
       </div>
-
-
     </>
   );
 };
