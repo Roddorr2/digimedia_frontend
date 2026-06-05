@@ -165,6 +165,23 @@ export const popupApi = {
   destroy: (id) => apiRequest(`/api/popup-configs/${id}`, { method: "DELETE" }),
 };
 
+export const plantillaApi = {
+  getByOwner: (tipo, ownerType, ownerId) =>
+    apiRequest(`/api/plantillas/${tipo}/by-owner/${ownerType}/${ownerId}`, {
+      method: "GET",
+    }),
+
+  inicializar: (tipo, ownerType, ownerId) =>
+    apiRequest(`/api/plantillas/${tipo}/by-owner/${ownerType}/${ownerId}/init`, {
+      method: "POST",
+    }),
+
+  getSubserviciosByServicio: (idServicio) =>
+    apiRequest(`/api/subservicios/by-servicio/${idServicio}`, {
+      method: "GET",
+    }),
+};
+
 export const campaniaApi = {
   //GET /api/campanias?estado=completada&page=1
   getAll: (params = {}) => {
