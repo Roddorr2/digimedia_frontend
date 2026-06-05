@@ -13,11 +13,8 @@ import {
 import Fetch from "../services/fetch";
 import Image from "next/image";
 
-<<<<<<< Updated upstream
-export default function Body2({ id_blog_body, fecha }) {
-=======
 export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_colors }) {
->>>>>>> Stashed changes
+
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -191,11 +188,8 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
     : getBackgroundStyle(data?.bg_color || bg_color, "solid", "");
 
   return (
-<<<<<<< Updated upstream
-    <div className="relative lg:mx-48 bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden">
-=======
     <div className="relative lg:mx-48 bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden" style={bgStyle}>
->>>>>>> Stashed changes
+
       <div className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-2 text-gray-500 text-sm">
           <Clock className="w-4 h-4" />
@@ -383,3 +377,4 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
     </div>
   );
 }
+

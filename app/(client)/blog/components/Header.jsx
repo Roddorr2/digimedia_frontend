@@ -6,12 +6,6 @@ import Fetch from "../services/fetch";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 
-<<<<<<< Updated upstream
-export default function Header({ id_blog_head }) {
-  const [data, setDataResponse] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-=======
 const getBackgroundStyle = (bgColor = "#1E40AF", bgType = "solid", bgColors = "") => {
   if (bgType === "gradient" && bgColors) {
     const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
@@ -29,7 +23,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
    const [data, setDataResponse] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
    const [error, setError] = useState(null);
->>>>>>> Stashed changes
+
 
   useEffect(() => {
     const fetchHeaderData = async () => {
@@ -118,10 +112,6 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
     );
   }
 
-<<<<<<< Updated upstream
-  return (
-    <section className="relative w-screen h-screen md:h-[80vh] overflow-hidden">
-=======
 return (
     <section 
       className="relative w-screen h-screen md:h-[80vh] overflow-hidden"
@@ -133,7 +123,7 @@ return (
         )
       }}
     >
->>>>>>> Stashed changes
+
       {/* Imagen de fondo visible */}
       <Image
         src={`${data.imagen.path}?v=${Date.now()}`}
@@ -144,10 +134,6 @@ return (
         priority
       />
 
-<<<<<<< Updated upstream
-      {/* Capa de oscurecimiento */}
-      <div className="absolute inset-0 bg-black/60"></div>
-=======
       {/* Capa de oscurecimiento según tipo */}
       <div 
         className="absolute inset-0"
@@ -157,7 +143,7 @@ return (
             : `${data?.bg_color || bg_color || "#1E40AF"}33` 
         }}
       ></div>
->>>>>>> Stashed changes
+
 
       {/* Contenido sobre la imagen */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
@@ -178,3 +164,4 @@ return (
     </section>
   );
 }
+

@@ -8,14 +8,11 @@ import {
   Trash2,
   Search,
   FileText,
-<<<<<<< Updated upstream
-  Link2
-=======
   Link2,
   Palette,
   ChevronDown,
   ChevronUp,
->>>>>>> Stashed changes
+
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 
@@ -342,6 +339,25 @@ export default function FormHeader({
     },
   ];
 
+  // Opciones de colores predefinidos
+  const colorOptions = [
+    "#ffffff",
+    "#5A37A6",
+    "#1E40AF",
+    "#059669",
+    "#DC2626",
+    "#7C3AED",
+    "#F59E0B",
+  ];
+
+  // Valores por defecto del header
+  const HEADER_DEFAULTS = {
+    bg_color: "#5A37A6",
+    titulo: "Título del Blog",
+    texto_frase: "Frase destacada",
+    texto_descripcion: "Descripción del blog",
+  };
+
   return (
     <div
       className={`${mergedStyles.container} ${className}`}
@@ -374,15 +390,14 @@ export default function FormHeader({
                 Editar Encabezado
               </h3>
 
-<<<<<<< Updated upstream
-              {/* 1. BLOQUE SEO */}
-=======
 {/* 0. SELECTOR DE COLOR DE FONDO - Header */}
                 <div className="mb-6 p-3 bg-blue-900/20 rounded-lg border border-blue-500/30">
                   <h4 className="text-sm font-semibold text-blue-300 mb-3 flex items-center">
                     <Palette className="w-4 h-4 mr-2" />
                     Fondo del Header
                   </h4>
+
+
 
                   {/* Selector de tipo: sólido o gradiente */}
                   <div className="mb-3">
@@ -437,7 +452,7 @@ export default function FormHeader({
                 </div>
 
                {/* 1. BLOQUE SEO */}
->>>>>>> Stashed changes
+
 
               <div className={mergedStyles.seoSection}>
                 <h4 className="text-sm font-semibold text-green-300 mb-3 flex items-center">
@@ -630,3 +645,4 @@ export default function FormHeader({
     </div>
   );
 }
+

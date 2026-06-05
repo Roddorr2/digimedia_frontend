@@ -403,17 +403,6 @@ export default function useBlogData(
       setLoading(true);
       setError(null);
 
-<<<<<<< Updated upstream
-      const headerPayload = {
-        ...formEncabezadoHeader,
-        public_image: formImagenHeader.public_image?.startsWith("blob:")
-          ? DEFAULT_IMAGES.header.image1
-          : formImagenHeader.public_image || DEFAULT_IMAGES.header.image1,
-        url_image: formImagenHeader.url_image || "",
-        alt: formImagenHeader.alt || HEADER_DEFAULTS.alt,
-        title: formImagenHeader.title || HEADER_DEFAULTS.title,
-      };
-=======
 const headerPayload = {
          ...formEncabezadoHeader,
          public_image: formImagenHeader.public_image?.startsWith("blob:")
@@ -426,7 +415,7 @@ const headerPayload = {
          bg_type: formEncabezadoHeader.bg_type || "solid",
          bg_colors: formEncabezadoHeader.bg_colors || "",
        };
->>>>>>> Stashed changes
+
 
       if (isCreateMode) {
         const result = await Api.createHeader(headerPayload);
@@ -542,136 +531,116 @@ const headerPayload = {
           formCommendBody?.texto2 ||
           formCommendBody?.texto3;
 
-        if (hasConsejos) {
-          const consejosPayload = mapConsejos(formCommendBody, plantillaId);
+if (hasConsejos) {
+           const consejosPayload = mapConsejos(formCommendBody, plantillaId);
 
-          // Garantizar que tenga título
-          if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
-            consejosPayload.titulo = "Consejos Importantes";
-          }
+           // Garantizar que tenga título
+           if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
+             consejosPayload.titulo = "Consejos Importantes";
+           }
 
-          try {
-            // ✅ Si formCommendBody tiene ID, actualizar; si no, crear nuevo
-            if (formCommendBody.id) {
-              // Actualizar commend_tarjeta existente usando el ID guardado
-              await Api.updateCommendTarjeta(
-                formCommendBody.id,
-                consejosPayload
+           try {
+             // ✅ Si formCommendBody tiene ID, actualizar; si no, crear nuevo
+             if (formCommendBody.id) {
+               // Actualizar commend_tarjeta existente usando el ID guardado
+               await Api.updateCommendTarjeta(
+                 formCommendBody.id,
+                 consejosPayload
+               );
+               commendTarjetaId = formCommendBody.id;
+             } else {
+               // Crear nuevo commend_tarjeta
+               const consejosResult = await Api.createCommendTarjeta(
+                 consejosPayload
+               );
+               commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
+             }
+           } catch (err) {
+             console.warn("⚠️ Error actualizando consejos:", err);
+           }
+         }
+
+         const bodyData = {
+           ...formEncabezadoBody,
+           ...formGaleryBody,
+           public_image1: formEncabezadoBody.public_image1?.startsWith("blob:")
+             ? DEFAULT_IMAGES.body.image1
+             : formEncabezadoBody.public_image1,
+           public_image2: formGaleryBody.public_image2?.startsWith("blob:")
+             ? DEFAULT_IMAGES.body.image2
+             : formGaleryBody.public_image2,
+           public_image3: formGaleryBody.public_image3?.startsWith("blob:")
+             ? DEFAULT_IMAGES.body.image3
+             : formGaleryBody.public_image3,
+           plantilla_id: plantillaId,
+           bg_color: formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
+           bg_type: formEncabezadoBody.bg_type || "solid",
+           bg_colors: formEncabezadoBody.bg_colors || "",
+           ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
+         };
+
+const result = await Api.updateBody(bodyId, bodyData);
+
+          // ========== PASO 3: Actualizar Tarjetas de información ==========
+          if (formInfoBody && Array.isArray(formInfoBody)) {
+            try {
+              // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
+              const validTarjetas = formInfoBody.filter(
+                (t) => t.titulo || t.descripcion || t.palabra
               );
-              commendTarjetaId = formCommendBody.id;
-            } else {
-              // Crear nuevo commend_tarjeta
-              const consejosResult = await Api.createCommendTarjeta(
-                consejosPayload
-              );
-              commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
-            }
-          } catch (err) {
-            console.warn("⚠️ Error actualizando consejos:", err);
-          }
-        }
+              for (const [index, tarjeta] of validTarjetas.entries()) {
+                const tarjetaData = {
+                  titulo: tarjeta.titulo || "",
+                  descripcion: tarjeta.descripcion || "",
+                  palabra: tarjeta.palabra || "",
+                  enlace: tarjeta.enlace || "",
+                  id_blog_body: bodyId,
+                };
 
-<<<<<<< Updated upstream
-        // ========== PASO 2: Actualizar Body principal ==========
-        const bodyData = {
-          ...formEncabezadoBody,
-          ...formGaleryBody,
-          public_image1: formEncabezadoBody.public_image1?.startsWith("blob:")
-            ? DEFAULT_IMAGES.body.image1
-            : formEncabezadoBody.public_image1,
-          public_image2: formGaleryBody.public_image2?.startsWith("blob:")
-            ? DEFAULT_IMAGES.body.image2
-            : formGaleryBody.public_image2,
-          public_image3: formGaleryBody.public_image3?.startsWith("blob:")
-            ? DEFAULT_IMAGES.body.image3
-            : formGaleryBody.public_image3,
-          plantilla_id: plantillaId,
-          ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
-        };
-=======
-// ========== PASO 2: Actualizar Body principal ==========
-          const bodyData = {
-            ...formEncabezadoBody,
-            ...formGaleryBody,
-            public_image1: formEncabezadoBody.public_image1?.startsWith("blob:")
-              ? DEFAULT_IMAGES.body.image1
-              : formEncabezadoBody.public_image1,
-            public_image2: formGaleryBody.public_image2?.startsWith("blob:")
-              ? DEFAULT_IMAGES.body.image2
-              : formGaleryBody.public_image2,
-            public_image3: formGaleryBody.public_image3?.startsWith("blob:")
-              ? DEFAULT_IMAGES.body.image3
-              : formGaleryBody.public_image3,
-            plantilla_id: plantillaId,
-            bg_color: formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
-            bg_type: formEncabezadoBody.bg_type || "solid",
-            bg_colors: formEncabezadoBody.bg_colors || "",
-            ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
-          };
->>>>>>> Stashed changes
-
-        const result = await Api.updateBody(bodyId, bodyData);
-
-        // ========== PASO 3: Actualizar Tarjetas de información ==========
-        if (formInfoBody && Array.isArray(formInfoBody)) {
-          try {
-            // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
-            const validTarjetas = formInfoBody.filter(
-              (t) => t.titulo || t.descripcion || t.palabra
-            );
-            for (const [index, tarjeta] of validTarjetas.entries()) {
-              const tarjetaData = {
-                titulo: tarjeta.titulo || "",
-                descripcion: tarjeta.descripcion || "",
-                palabra: tarjeta.palabra || "",
-                enlace: tarjeta.enlace || "",
-                id_blog_body: bodyId,
-              };
-
-              try {
-                // ✅ Si la tarjeta tiene ID, es una actualización
-                if (tarjeta.id) {
-                  await Api.updateTarjeta(tarjeta.id, tarjetaData);
-                } else {
-                  // ❌ Si no tiene ID, es una creación nueva
-                  const result = await Api.createTarjeta(tarjetaData);
-                }
-              } catch (err) {
-                console.warn(`⚠️ Error procesando tarjeta ${index + 1}:`, err);
-              }
-            }
-
-            // ========== ELIMINAR TARJETAS QUE YA NO EXISTEN ==========
-            // Obtener IDs de tarjetas actuales (las que tienen ID)
-            const currentTarjetaIds = validTarjetas
-              .filter((t) => t.id)
-              .map((t) => t.id);
-            // Obtener todas las tarjetas del body desde la DB
-            const allTarjetas = await Api.getTarjetas();
-            const existingTarjetas = allTarjetas.filter(
-              (tarjeta) => tarjeta.id_blog_body === bodyId
-            );
-
-            // Eliminar tarjetas que ya no están en el formulario
-            for (const dbTarjeta of existingTarjetas) {
-              const tarjetaId = dbTarjeta.id || dbTarjeta.id_tarjeta;
-              if (!currentTarjetaIds.includes(tarjetaId)) {
                 try {
-                  await Api.deleteTarjeta(tarjetaId);
+                  // ✅ Si la tarjeta tiene ID, es una actualización
+                  if (tarjeta.id) {
+                    await Api.updateTarjeta(tarjeta.id, tarjetaData);
+                  } else {
+                    // ❌ Si no tiene ID, es una creación nueva
+                    const result = await Api.createTarjeta(tarjetaData);
+                  }
                 } catch (err) {
-                  console.warn(
-                    `⚠️ Error eliminando tarjeta ${tarjetaId}:`,
-                    err
-                  );
+                  console.warn(`⚠️ Error procesando tarjeta ${index + 1}:`, err);
                 }
               }
-            }
-          } catch (err) {
-            console.warn("⚠️ Error actualizando tarjetas de información:", err);
-          }
-        }
 
-        return result;
+              // ========== ELIMINAR TARJETAS QUE YA NO EXISTEN ==========
+              // Obtener IDs de tarjetas actuales (las que tienen ID)
+              const currentTarjetaIds = validTarjetas
+                .filter((t) => t.id)
+                .map((t) => t.id);
+              // Obtener todas las tarjetas del body desde la DB
+              const allTarjetas = await Api.getTarjetas();
+              const existingTarjetas = allTarjetas.filter(
+                (tarjeta) => tarjeta.id_blog_body === bodyId
+              );
+
+              // Eliminar tarjetas que ya no están en el formulario
+              for (const dbTarjeta of existingTarjetas) {
+                const tarjetaId = dbTarjeta.id || dbTarjeta.id_tarjeta;
+                if (!currentTarjetaIds.includes(tarjetaId)) {
+                  try {
+                    await Api.deleteTarjeta(tarjetaId);
+                  } catch (err) {
+                    console.warn(
+                      `⚠️ Error eliminando tarjeta ${tarjetaId}:`,
+                      err
+                    );
+                  }
+                }
+              }
+            } catch (err) {
+              console.warn("⚠️ Error actualizando tarjetas de información:", err);
+            }
+          }
+
+          return result;
       }
     } catch (err) {
       setError("No se pudo guardar el body");
@@ -719,24 +688,19 @@ const headerPayload = {
         titulo: footerEnabled
           ? formEncabezadoFooter.titulo || FOOTER_DEFAULTS.titulo
           : FOOTER_DEFAULTS.titulo,
-        descripcion: footerEnabled
-          ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
-          : FOOTER_DEFAULTS.descripcion,
-        palabra: footerEnabled
-          ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
-          : FOOTER_DEFAULTS.palabra,
-<<<<<<< Updated upstream
-        enlace: footerEnabled
-          ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
-          : FOOTER_DEFAULTS.enlace,
-=======
-enlace: footerEnabled
+descripcion: footerEnabled
+           ? formEncabezadoFooter.descripcion || FOOTER_DEFAULTS.descripcion
+           : FOOTER_DEFAULTS.descripcion,
+         palabra: footerEnabled
+           ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
+           : FOOTER_DEFAULTS.palabra,
+         enlace: footerEnabled
            ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
            : FOOTER_DEFAULTS.enlace,
-        bg_color: formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
+         bg_color: formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
         bg_type: formEncabezadoFooter.bg_type || "solid",
         bg_colors: formEncabezadoFooter.bg_colors || "",
->>>>>>> Stashed changes
+
       };
 
       if (isCreateMode) {
@@ -829,10 +793,6 @@ enlace: footerEnabled
         return result;
       } else {
         // ========== MODO EDICIÓN: Usar orchestrator ==========
-
-        // Primero actualizar Header, Body, Footer por separado (mantener compatibilidad)
-        await Promise.all([saveHeader(), saveBody(), saveFooter(estado_publicacion)]);
-
         const result = await blogOrchestrator.updateBlog({
           blogId,
           headerData: {
@@ -1047,3 +1007,4 @@ enlace: footerEnabled
     cleanupBlobUrls,
   };
 }
+

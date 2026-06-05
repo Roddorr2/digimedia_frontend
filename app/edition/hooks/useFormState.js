@@ -28,12 +28,10 @@ export default function useFormState() {
     titulo_enlace: HEADER_DEFAULTS.titulo_enlace,
     meta_title: HEADER_DEFAULTS.meta_title,
     meta_descripcion: HEADER_DEFAULTS.meta_descripcion,
-<<<<<<< Updated upstream
-=======
     bg_color: HEADER_DEFAULTS.bg_color,
     bg_type: "solid",
     bg_colors: "",
->>>>>>> Stashed changes
+
   });
 
   const [formImagenHeader, setFormImagenHeader] = useState({
@@ -57,12 +55,10 @@ export default function useFormState() {
     flag_consejos: BODY_FLAGS_DEFAULTS.flag_consejos,
     flag_informacion: BODY_FLAGS_DEFAULTS.flag_informacion,
     service_url: "",
-<<<<<<< Updated upstream
-=======
     bg_color: BODY_DEFAULTS.bg_color,
     bg_type: "solid",
     bg_colors: "",
->>>>>>> Stashed changes
+
   });
 
   const [formCommendBody, setFormCommendBody] = useState({
@@ -103,12 +99,10 @@ export default function useFormState() {
     title_image3: FOOTER_DEFAULTS.title_image3,
     palabra: FOOTER_DEFAULTS.palabra,
     enlace: FOOTER_DEFAULTS.enlace,
-<<<<<<< Updated upstream
-=======
     bg_color: FOOTER_DEFAULTS.bg_color,
     bg_type: "solid",
     bg_colors: "",
->>>>>>> Stashed changes
+
   });
 
   const [formImagenFooter, setFormImagenFooter] = useState({
@@ -126,12 +120,10 @@ export default function useFormState() {
       titulo_enlace: HEADER_DEFAULTS.titulo_enlace,
       meta_title: HEADER_DEFAULTS.meta_title,
       meta_descripcion: HEADER_DEFAULTS.meta_descripcion,
-<<<<<<< Updated upstream
-=======
       bg_color: HEADER_DEFAULTS.bg_color,
       bg_type: "solid",
       bg_colors: "",
->>>>>>> Stashed changes
+
     });
 
     setFormImagenHeader({
@@ -154,12 +146,10 @@ export default function useFormState() {
       flag_consejos: BODY_FLAGS_DEFAULTS.flag_consejos,
       flag_informacion: BODY_FLAGS_DEFAULTS.flag_informacion,
       service_url: "",
-<<<<<<< Updated upstream
-=======
       bg_color: BODY_DEFAULTS.bg_color,
       bg_type: "solid",
       bg_colors: "",
->>>>>>> Stashed changes
+
     });
 
     setFormCommendBody({
@@ -198,12 +188,10 @@ export default function useFormState() {
       title_image3: FOOTER_DEFAULTS.title_image3,
       palabra: FOOTER_DEFAULTS.palabra,
       enlace: FOOTER_DEFAULTS.enlace,
-<<<<<<< Updated upstream
-=======
       bg_color: FOOTER_DEFAULTS.bg_color,
       bg_type: "solid",
       bg_colors: "",
->>>>>>> Stashed changes
+
     });
 
     setFormImagenFooter({
@@ -241,3 +229,4 @@ export default function useFormState() {
     resetAllForms,
   };
 }
+

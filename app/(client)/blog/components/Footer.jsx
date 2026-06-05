@@ -6,11 +6,8 @@ import Swal from "sweetalert2";
 import { Loader2, AlertTriangle, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
-<<<<<<< Updated upstream
-export default function Footer({ id_blog_footer }) {
-=======
 export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors }) {
->>>>>>> Stashed changes
+
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -172,9 +169,6 @@ export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors })
   return (
     <>
       {data.estado !== 0 && (
-<<<<<<< Updated upstream
-        <div className="mt-12 max-w-[1000px] mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-[0px_8px_20px_rgba(0,0,0,0.3)] overflow-hidden">
-=======
         <div className="mt-12 max-w-[1000px] mx-auto rounded-lg shadow-[0px_8px_20px_rgba(0,0,0,0.3)] overflow-hidden" style={{
             ...getBackgroundStyle(
               bg_color || data?.bg_color,
@@ -182,7 +176,7 @@ export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors })
               bg_colors || data?.bg_colors
             )
           }}>
->>>>>>> Stashed changes
+
           <div className="relative">
             <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500"></div>
 
@@ -254,3 +248,4 @@ export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors })
     </>
   );
 }
+

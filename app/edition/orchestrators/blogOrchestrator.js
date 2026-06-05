@@ -5,6 +5,7 @@ import { getCurrentDate } from "../utils";
 import {
   DEFAULT_IMAGES,
   HEADER_DEFAULTS,
+  BODY_DEFAULTS,
   FOOTER_DEFAULTS,
 } from "../constants/defaults";
 import { IdCard } from "lucide-react";
@@ -58,12 +59,9 @@ class BlogOrchestrator {
         url_image: "",
         alt: headerData.formImagenHeader.alt || HEADER_DEFAULTS.alt,
         title: headerData.formImagenHeader.title || HEADER_DEFAULTS.title,
-<<<<<<< Updated upstream
-=======
         bg_color: headerData.formEncabezadoHeader.bg_color || HEADER_DEFAULTS.bg_color,
         bg_type: headerData.formEncabezadoHeader.bg_type || "solid",
         bg_colors: headerData.formEncabezadoHeader.bg_colors || "",
->>>>>>> Stashed changes
       };
 
       const headerResult = await API.default.createHeader(headerPayload);
@@ -113,12 +111,10 @@ class BlogOrchestrator {
         url_image2: "",
         url_image3: "",
         plantilla_id: plantillaId,
-<<<<<<< Updated upstream
-=======
         bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
         bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
         bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
->>>>>>> Stashed changes
+
         ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
       };
 
@@ -174,12 +170,9 @@ class BlogOrchestrator {
           ? footerData.formEncabezadoFooter.descripcion ||
             FOOTER_DEFAULTS.descripcion
           : FOOTER_DEFAULTS.descripcion,
-<<<<<<< Updated upstream
-=======
         bg_color: footerData.formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
         bg_type: footerData.formEncabezadoFooter.bg_type || "solid",
         bg_colors: footerData.formEncabezadoFooter.bg_colors || "",
->>>>>>> Stashed changes
       };
 
       const footerResult = await API.default.createFooter(footerPayload);
@@ -197,6 +190,7 @@ class BlogOrchestrator {
         id_blog_footer: result.footerId,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
         id_empleado: empleadoId,
+        link: headerData.formEncabezadoHeader.titulo_enlace || headerData.formEncabezadoHeader.titulo || "",
       };
 
       const blogResult = await API.default.createBlog(blogPayload);
@@ -269,21 +263,137 @@ class BlogOrchestrator {
       errors: [],
     };
 
-<<<<<<< Updated upstream
     try {
+      // Actualizar Header si existe id_blog_head
+      if (blogRelations.id_blog_head) {
+        const headerUpdatePayload = {
+          ...headerData.formEncabezadoHeader,
+          ...headerData.formImagenHeader,
+          alt: headerData.formImagenHeader.alt || HEADER_DEFAULTS.alt,
+          title: headerData.formImagenHeader.title || HEADER_DEFAULTS.title,
+          bg_color: headerData.formEncabezadoHeader.bg_color || HEADER_DEFAULTS.bg_color,
+          bg_type: headerData.formEncabezadoHeader.bg_type || "solid",
+          bg_colors: headerData.formEncabezadoHeader.bg_colors || "",
+        };
+        await API.default.updateHeader(blogRelations.id_blog_head, headerUpdatePayload);
+      }
+
+      // Actualizar Body si existe id_blog_body
+      if (blogRelations.id_blog_body) {
+        const bodyId = blogRelations.id_blog_body;
+
+        // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
+        let commendTarjetaId = null;
+        const hasConsejos =
+          bodyData.formCommendBody?.texto1 ||
+          bodyData.formCommendBody?.texto2 ||
+          bodyData.formCommendBody?.texto3;
+
+        if (hasConsejos) {
+          const consejosPayload = mapConsejos(bodyData.formCommendBody, plantillaId);
+
+          // Garantizar que tenga título
+          if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
+            consejosPayload.titulo = "Consejos Importantes";
+          }
+
+          try {
+            if (bodyData.formCommendBody.id) {
+              await API.default.updateCommendTarjeta(
+                bodyData.formCommendBody.id,
+                consejosPayload
+              );
+              commendTarjetaId = bodyData.formCommendBody.id;
+            } else {
+              const consejosResult = await API.default.createCommendTarjeta(consejosPayload);
+              commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
+            }
+          } catch (err) {
+            result.errors.push({ step: "consejos", error: err.message });
+          }
+        }
+
+        // ========== PASO 2: Actualizar Body principal ==========
+        const bodyUpdatePayload = {
+          ...bodyData.formEncabezadoBody,
+          ...bodyData.formGaleryBody,
+          bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
+          bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
+          bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
+          ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
+        };
+        await API.default.updateBody(bodyId, bodyUpdatePayload);
+
+        // ========== PASO 3: Actualizar Tarjetas de información ==========
+        if (bodyData.formInfoBody && Array.isArray(bodyData.formInfoBody)) {
+          try {
+            const validTarjetas = bodyData.formInfoBody.filter(
+              (t) => t.titulo || t.descripcion || t.palabra
+            );
+            const currentTarjetaIds = [];
+
+            for (const [index, tarjeta] of validTarjetas.entries()) {
+              const tarjetaData = {
+                titulo: tarjeta.titulo || "",
+                descripcion: tarjeta.descripcion || "",
+                palabra: tarjeta.palabra || "",
+                enlace: tarjeta.enlace || "",
+                id_blog_body: bodyId,
+              };
+
+              try {
+                if (tarjeta.id) {
+                  await API.default.updateTarjeta(tarjeta.id, tarjetaData);
+                  currentTarjetaIds.push(tarjeta.id);
+                } else {
+                  const tarjetaResult = await API.default.createTarjeta(tarjetaData);
+                  if (tarjetaResult?.id) {
+                    currentTarjetaIds.push(tarjetaResult.id);
+                  }
+                }
+              } catch (err) {
+                result.errors.push({ step: `tarjeta_${index}`, error: err.message });
+              }
+            }
+
+            // Eliminar tarjetas que ya no están en el formulario
+            const allTarjetas = await API.default.getTarjetas();
+            const existingTarjetas = allTarjetas.filter(
+              (tarjeta) => tarjeta.id_blog_body === bodyId
+            );
+
+            for (const dbTarjeta of existingTarjetas) {
+              const tarjetaId = dbTarjeta.id || dbTarjeta.id_tarjeta;
+              if (!currentTarjetaIds.includes(tarjetaId)) {
+                try {
+                  await API.default.deleteTarjeta(tarjetaId);
+                } catch (err) {
+                  result.errors.push({ step: `delete_tarjeta_${tarjetaId}`, error: err.message });
+                }
+              }
+            }
+          } catch (err) {
+            result.errors.push({ step: "tarjetas", error: err.message });
+          }
+        }
+      }
+
+      // Actualizar Footer si existe id_blog_footer
+      if (blogRelations.id_blog_footer) {
+        const footerUpdatePayload = {
+          ...footerData.formEncabezadoFooter,
+          bg_color: footerData.formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
+          bg_type: footerData.formEncabezadoFooter.bg_type || "solid",
+          bg_colors: footerData.formEncabezadoFooter.bg_colors || "",
+        };
+        await API.default.updateFooter(blogRelations.id_blog_footer, footerUpdatePayload);
+      }
+
+      // Actualizar Blog principal
       const blogPayload = {
-        ...headerData.formEncabezadoHeader,
-        ...headerData.formImagenHeader,
-        // Filtrar URLs blob
-        public_image: headerData.formImagenHeader.public_image?.startsWith(
-          "blob:"
-        )
-          ? DEFAULT_IMAGES.header.image1
-          : headerData.formImagenHeader.public_image,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
-        plantilla_id: plantillaId,
         id_empleado: empleadoId,
-        link: headerData.formEncabezadoHeader.titulo_enlace || "",
+        link: headerData.formEncabezadoHeader.titulo_enlace || headerData.formEncabezadoHeader.titulo || "",
         ...(blogRelations.id_blog_head && {
           id_blog_head: blogRelations.id_blog_head,
         }),
@@ -296,63 +406,8 @@ class BlogOrchestrator {
       };
 
       await API.default.updateBlog(blogId, blogPayload);
-=======
-try {
-// Actualizar Header si existe id_blog_head
-        if (blogRelations.id_blog_head) {
-          const headerUpdatePayload = {
-            ...headerData.formEncabezadoHeader,
-            ...headerData.formImagenHeader,
-            alt: headerData.formImagenHeader.alt || HEADER_DEFAULTS.alt,
-            title: headerData.formImagenHeader.title || HEADER_DEFAULTS.title,
-            bg_color: headerData.formEncabezadoHeader.bg_color || HEADER_DEFAULTS.bg_color,
-            bg_type: headerData.formEncabezadoHeader.bg_type || "solid",
-            bg_colors: headerData.formEncabezadoHeader.bg_colors || "",
-          };
-          await API.default.updateHeader(blogRelations.id_blog_head, headerUpdatePayload);
-        }
 
-        // Actualizar Body si existe id_blog_body
-        if (blogRelations.id_blog_body) {
-          const bodyUpdatePayload = {
-            ...bodyData.formEncabezadoBody,
-            ...bodyData.formGaleryBody,
-            bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
-            bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
-            bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
-          };
-          await API.default.updateBody(blogRelations.id_blog_body, bodyUpdatePayload);
-        }
-
-        // Actualizar Footer si existe id_blog_footer
-        if (blogRelations.id_blog_footer) {
-          const footerUpdatePayload = {
-            ...footerData.formEncabezadoFooter,
-            bg_color: footerData.formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
-            bg_type: footerData.formEncabezadoFooter.bg_type || "solid",
-            bg_colors: footerData.formEncabezadoFooter.bg_colors || "",
-          };
-          await API.default.updateFooter(blogRelations.id_blog_footer, footerUpdatePayload);
-        }
-
-const blogPayload = {
-          fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
-          id_empleado: empleadoId,
-          ...(blogRelations.id_blog_head && {
-            id_blog_head: blogRelations.id_blog_head,
-          }),
-          ...(blogRelations.id_blog_body && {
-            id_blog_body: blogRelations.id_blog_body,
-          }),
-          ...(blogRelations.id_blog_footer && {
-            id_blog_footer: blogRelations.id_blog_footer,
-          }),
-        };
-
-       await API.default.updateBlog(blogId, blogPayload);
->>>>>>> Stashed changes
-
-      // Subir imágenes si hay cardId
+      // Actualizar Card si hay cardId
       if (cardId) {
         const cardPayload = {
           id_blog: blogId,
@@ -369,16 +424,10 @@ const blogPayload = {
         };
 
         await API.default.updateCard(cardId, cardPayload);
-      } else {
-        console.warn("⚠️ No hay cardId disponible, imágenes no se subirán");
-      }
 
-      // Subir imágenes si hay cardId
-      if (cardId) {
+        // Subir imágenes
         const footerEnabled = footerData.formEncabezadoFooter?.estado ?? false;
         await this._uploadAllImages(cardId, files, footerEnabled);
-      } else {
-        console.warn("⚠️ No hay cardId disponible, imágenes no se subirán");
       }
 
       result.success = true;

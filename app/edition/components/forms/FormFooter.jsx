@@ -7,6 +7,7 @@ import {
   Loader2,
   Trash2,
   Eye,
+  Palette,
 } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 
@@ -416,6 +417,24 @@ export default function FormFooter({
     );
   };
 
+  // Opciones de colores predefinidos
+  const colorOptions = [
+    "#ffffff",
+    "#5A37A6",
+    "#1E40AF",
+    "#059669",
+    "#DC2626",
+    "#7C3AED",
+    "#F59E0B",
+  ];
+
+  // Valores por defecto del footer
+  const FOOTER_DEFAULTS = {
+    bg_color: "#060126",
+    titulo: "Título del Footer",
+    descripcion: "Descripción del footer",
+  };
+
   // SE DESCOMENTARA CUANDO SEA NECESARIO O REQUERIDO
   // Función para renderizar descripción con enlace en palabra clave
   // const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
@@ -556,30 +575,6 @@ export default function FormFooter({
               </p>
             </div>
 
-<<<<<<< Updated upstream
-            {/* Campos del Footer - Solo se muestran si está habilitado */}
-            {footerEnabled && (
-              <>
-                {/* Título */}
-                <div className="mb-3">
-                  <label className={mergedStyles.label}>
-                    <Type className={mergedStyles.icon} />
-                    Título
-                    <ValidationMessage fieldName="titulo" />
-                  </label>
-                  <input
-                    type="text"
-                    name="titulo"
-                    maxLength={validationConfig.titulo?.max || 30}
-                    autoComplete="off"
-                    value={data.titulo || ""}
-                    onChange={handleFieldChange}
-                    className={mergedStyles.input}
-                    placeholder={mergedPlaceholders.titulo}
-                    required={validationConfig.titulo?.required}
-                  />
-                </div>
-=======
 {/* Campos del Footer - Solo se muestran si está habilitado */}
               {footerEnabled && (
                 <>
@@ -652,7 +647,7 @@ export default function FormFooter({
                      required={validationConfig.titulo?.required}
                    />
                  </div>
->>>>>>> Stashed changes
+
 
                 {/* Descripción */}
                 <div className="mb-3">
@@ -910,3 +905,4 @@ export default function FormFooter({
     </div>
   );
 }
+

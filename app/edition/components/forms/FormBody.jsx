@@ -735,8 +735,6 @@ export default function FormBody({
 
   {/* Renderizar controles de visibilidad de secciones */}
   const renderSectionControls = () => {
-<<<<<<< Updated upstream
-=======
     // Opciones de colores predefinidos
     const colorOptions = [
       "#ffffff",
@@ -753,7 +751,7 @@ export default function FormBody({
     const currentBgType = formEncabezadoBody?.bg_type || "solid";
     const currentBgColors = formEncabezadoBody?.bg_colors || "";
 
->>>>>>> Stashed changes
+
     return (
       <div className="mb-6 p-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-lg border border-yellow-500/30 shadow-lg">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -765,8 +763,6 @@ export default function FormBody({
             </h4>
           </div>
 
-<<<<<<< Updated upstream
-=======
           {/* Selector de tipo y color de fondo */}
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-300">Fondo:</span>
@@ -834,7 +830,7 @@ export default function FormBody({
             </div>
           )}
 
->>>>>>> Stashed changes
+
           {/* Toggles en fila horizontal en desktop */}
           <div className="flex flex-col sm:flex-row gap-3 lg:gap-6">
             {/* Toggle Consejos */}
@@ -1836,3 +1832,4 @@ export default function FormBody({
 
   return renderMainContent();
 }
+
