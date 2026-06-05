@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { popupApi } from "@/api/fetchApiWhatsApp";
+import { popupApi, apiRequestWithProgress } from "@/api/fetchApiWhatsApp";
+import API_URL from "@/api/url";
 import { Card, CardTitle } from "../TabButton";
 import { EditorForm } from "./EditorForm";
 import { PopupPreview } from "./PopupPreview";
@@ -210,103 +211,154 @@ export function PopupsTab() {
   const handleSave = async () => {
     if (!validate()) return;
     setSaving(true);
+
+    const form = new FormData();
+
+    if (subservicioId) {
+      form.append("id_subservicio", subservicioId);
+    } else if (servicioId) {
+      form.append("id_servicio", servicioId);
+    } else {
+      Swal.fire("Error", "No se ha seleccionado un servicio o subservicio", "warning");
+      setSaving(false);
+      return;
+    }
+
+    form.append("button_text", formData.button_text);
+    form.append("button_color", formData.button_color);
+    form.append("service_color", formData.service_color);
+    form.append("service_color_2", formData.service_color_2);
+    form.append("gradient_direction", formData.gradient_direction);
+    form.append("trigger_time", formData.trigger_time);
+    form.append("trigger_type", formData.trigger_type);
+    form.append("layout", formData.layout);
+    form.append("show_logo", formData.show_logo ? "1" : "0");
+    form.append("left_text", formData.left_text);
+    form.append("left_opacity", formData.left_opacity);
+    form.append("right_opacity", formData.right_opacity);
+    form.append("mobile_opacity", formData.mobile_opacity);
+    form.append("left_alt", formData.left_alt);
+    form.append("right_alt", formData.right_alt);
+    form.append("mobile_alt", formData.mobile_alt);
+
+    if (imageFiles.left) {
+      form.append("left_image", imageFiles.left);
+    } else if (!imagePreviews.left && popupConfig?.left_image_url) {
+      form.append("remove_left_image", "1");
+    }
+    if (imageFiles.right) {
+      form.append("right_image", imageFiles.right);
+    } else if (!imagePreviews.right && popupConfig?.right_image_url) {
+      form.append("remove_right_image", "1");
+    }
+    if (imageFiles.mobile) {
+      form.append("mobile_image", imageFiles.mobile);
+    } else if (!imagePreviews.mobile && popupConfig?.mobile_image_url) {
+      form.append("remove_mobile_image", "1");
+    }
+
+    const hasImages = !!(imageFiles.left || imageFiles.right || imageFiles.mobile);
+    const endpoint = isNew
+      ? "/api/popup-configs"
+      : `/api/popup-configs/${popupConfig.id_popup_config}/actualizar`;
+
+    // Modal de progreso con dos fases: subida real (0-65%) + simulación Cloudinary (65-95%)
+    let simulationInterval = null;
+
+    const updateBar = (pct) => {
+      const bar    = document.getElementById("swal-upload-bar");
+      const pctEl  = document.getElementById("swal-upload-pct");
+      const status = document.getElementById("swal-upload-status");
+      if (bar)    bar.style.width   = `${pct}%`;
+      if (pctEl)  pctEl.textContent = `${Math.round(pct)}%`;
+      if (status) {
+        if (pct < 65)       status.textContent = "Subiendo imagen...";
+        else if (pct < 100) status.textContent = "Procesando en Cloudinary...";
+        else                status.textContent = "¡Listo!";
+      }
+    };
+
+    const updateProgress = (xhrPercent) => {
+      // Fase 1: progreso real del XHR mapeado a 0-65%
+      updateBar(Math.round(xhrPercent * 0.65));
+
+      // Cuando el archivo llega al servidor, arranca la simulación de Cloudinary
+      if (xhrPercent === 100 && !simulationInterval) {
+        let sim = 65;
+        simulationInterval = setInterval(() => {
+          sim += (95 - sim) * 0.07; // easing asintótico: se acerca a 95% pero nunca llega
+          updateBar(sim);
+        }, 300);
+      }
+    };
+
+    if (hasImages) {
+      Swal.fire({
+        title: "Guardando Pop-Up",
+        html: `
+          <div style="padding:0 4px">
+            <p id="swal-upload-status"
+              style="margin-bottom:12px;color:#6b7280;font-size:14px">
+              Subiendo imagen...
+            </p>
+            <div style="background:#e5e7eb;border-radius:9999px;height:8px;overflow:hidden">
+              <div id="swal-upload-bar"
+                style="background:linear-gradient(90deg,#7c3aed,#a855f7);height:100%;width:0%;border-radius:9999px;transition:width 0.3s ease">
+              </div>
+            </div>
+            <p id="swal-upload-pct"
+              style="margin-top:8px;color:#9ca3af;font-size:12px;font-variant-numeric:tabular-nums">
+              0%
+            </p>
+          </div>`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        showCancelButton: false,
+      });
+    }
+
+    const finishProgress = () => {
+      if (simulationInterval) {
+        clearInterval(simulationInterval);
+        simulationInterval = null;
+      }
+      updateBar(100);
+    };
+
     try {
-      const form = new FormData();
+      const res = await apiRequestWithProgress(
+        endpoint,
+        { method: "POST", body: form },
+        hasImages ? updateProgress : null,
+      );
 
-      // Determinar que tipo de owner se esta guardando
-      if (subservicioId) {
-        // Guardar como subservicio
-        form.append("id_subservicio", subservicioId);
-      } else if (servicioId) {
-        // Guardar como servicio directamente
-        form.append("id_servicio", servicioId);
-      } else {
-        Swal.fire(
-          "Error",
-          "No se ha seleccionado un servicio o subservicio",
-          "warning",
-        );
-        setSaving(false);
-        return;
+      if (hasImages) {
+        finishProgress();
+        // Pausa breve para que el usuario vea el 100% antes de cerrar
+        await new Promise((r) => setTimeout(r, 350));
+        Swal.close();
       }
-
-      form.append("button_text", formData.button_text);
-      form.append("button_color", formData.button_color);
-      form.append("service_color", formData.service_color);
-      form.append("service_color_2", formData.service_color_2);
-      form.append("gradient_direction", formData.gradient_direction);
-      form.append("trigger_time", formData.trigger_time);
-      form.append("trigger_type", formData.trigger_type);
-      form.append("layout", formData.layout);
-      form.append("show_logo", formData.show_logo ? "1" : "0");
-      form.append("left_text", formData.left_text);
-      form.append("left_opacity", formData.left_opacity);
-      form.append("right_opacity", formData.right_opacity);
-      form.append("mobile_opacity", formData.mobile_opacity);
-      form.append("left_alt", formData.left_alt);
-      form.append("right_alt", formData.right_alt);
-      form.append("mobile_alt", formData.mobile_alt);
-      if (imageFiles.left) {
-        form.append("left_image", imageFiles.left);
-      } else if (!imagePreviews.left && popupConfig?.left_image_url) {
-        form.append("remove_left_image", "1");
-        form.append("left_image_url", "");
-      }
-
-      if (imageFiles.right) {
-        form.append("right_image", imageFiles.right);
-      } else if (!imagePreviews.right && popupConfig?.right_image_url) {
-        form.append("remove_right_image", "1");
-        form.append("right_image_url", "");
-      }
-
-      if (imageFiles.mobile) {
-        form.append("mobile_image", imageFiles.mobile);
-      } else if (!imagePreviews.mobile && popupConfig?.mobile_image_url) {
-        form.append("remove_mobile_image", "1");
-        form.append("mobile_image_url", "");
-      }
-
-      const res = isNew
-        ? await popupApi.create(form)
-        : await popupApi.update(popupConfig.id_popup_config, form);
 
       if (res?.success) {
-        Swal.fire(
-          "¡Éxito!",
-          isNew ? "Pop-Up creado" : "Pop-Up actualizado",
-          "success",
-        );
+        Swal.fire("¡Éxito!", isNew ? "Pop-Up creado" : "Pop-Up actualizado", "success");
 
-        // Recargar según el tipo
-        if (subservicioId) {
-          const fresh = await popupApi.getBySubservicio(subservicioId);
-          if (fresh?.success && fresh?.data) {
-            setPopupConfig(fresh.data);
-            setIsNew(false);
-            setImagePreviews({
-              left: fresh.data.left_image_url || null,
-              right: fresh.data.right_image_url || null,
-              mobile: fresh.data.mobile_image_url || null,
-            });
-          }
-        } else if (servicioId) {
-          const fresh = await popupApi.getByServicio(servicioId);
-          if (fresh?.success && fresh?.data) {
-            setPopupConfig(fresh.data);
-            setIsNew(false);
-            setImagePreviews({
-              left: fresh.data.left_image_url || null,
-              right: fresh.data.right_image_url || null,
-              mobile: fresh.data.mobile_image_url || null,
-            });
-          }
+        // Usar res.data directamente — sin GET adicional
+        if (res.data) {
+          setPopupConfig(res.data);
+          setIsNew(false);
+          setImagePreviews({
+            left: res.data.left_image_url || null,
+            right: res.data.right_image_url || null,
+            mobile: res.data.mobile_image_url || null,
+          });
         }
         setImageFiles({ left: null, right: null, mobile: null });
       } else {
         Swal.fire("Error", res?.message || "No se pudo guardar", "error");
       }
     } catch (err) {
+      if (simulationInterval) clearInterval(simulationInterval);
+      if (hasImages) Swal.close();
       console.error(err);
       Swal.fire("Error", "Error de conexión al guardar", "error");
     } finally {
