@@ -44,7 +44,8 @@ const PageContent = () => {
 
         if (response) {
           //setData(response);
-          setData(response[0]);
+          //Se quito el [0] para que reciba correctamente los datos del backend
+          setData(response);
         } else {
           setError("Blog no encontrado");
         }
