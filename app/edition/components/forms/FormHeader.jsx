@@ -8,7 +8,14 @@ import {
   Trash2,
   Search,
   FileText,
+<<<<<<< Updated upstream
   Link2
+=======
+  Link2,
+  Palette,
+  ChevronDown,
+  ChevronUp,
+>>>>>>> Stashed changes
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 
@@ -367,7 +374,70 @@ export default function FormHeader({
                 Editar Encabezado
               </h3>
 
+<<<<<<< Updated upstream
               {/* 1. BLOQUE SEO */}
+=======
+{/* 0. SELECTOR DE COLOR DE FONDO - Header */}
+                <div className="mb-6 p-3 bg-blue-900/20 rounded-lg border border-blue-500/30">
+                  <h4 className="text-sm font-semibold text-blue-300 mb-3 flex items-center">
+                    <Palette className="w-4 h-4 mr-2" />
+                    Fondo del Header
+                  </h4>
+
+                  {/* Selector de tipo: sólido o gradiente */}
+                  <div className="mb-3">
+                    <select
+                      value={data.bg_type || "solid"}
+                      onChange={(e) => handleFieldChange({ target: { name: "bg_type", value: e.target.value } })}
+                      className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg p-2"
+                    >
+                      <option value="solid">Color sólido</option>
+                      <option value="gradient">Gradiente</option>
+                    </select>
+                  </div>
+
+                  {/* Selector de color/es */}
+                  <div className="flex gap-2 items-center flex-wrap">
+                    {colorOptions.map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() => handleFieldChange({ target: { name: "bg_color", value: color } })}
+                        className={`w-8 h-8 rounded-full border-2 transition-all ${data.bg_color === color ? "border-white scale-110" : "border-gray-600 hover:border-gray-400"}`}
+                        style={{ backgroundColor: color }}
+                        title={color}
+                      />
+                    ))}
+                    <input
+                      type="color"
+                      value={data.bg_color || HEADER_DEFAULTS.bg_color}
+                      onChange={(e) => handleFieldChange({ target: { name: "bg_color", value: e.target.value } })}
+                      className="w-8 h-8 rounded-full border-2 border-gray-600 cursor-pointer"
+                      title="Seleccionar color personalizado"
+                    />
+
+                    {/* Selector de colores para gradiente */}
+                    {(data.bg_type === "gradient" || true) && (
+                      <input
+                        type="text"
+                        placeholder="#color1,#color2,#color3"
+                        value={data.bg_colors || ""}
+                        onChange={(e) => handleFieldChange({ target: { name: "bg_colors", value: e.target.value } })}
+                        className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
+                        title="Gradiente: #color1,#color2,#color3"
+                      />
+                    )}
+                  </div>
+
+                  {(data.bg_type === "gradient" && data.bg_colors) && (
+                    <div className="mt-2 text-xs text-gray-400">
+                      Preview: {data.bg_colors}
+                    </div>
+                  )}
+                </div>
+
+               {/* 1. BLOQUE SEO */}
+>>>>>>> Stashed changes
 
               <div className={mergedStyles.seoSection}>
                 <h4 className="text-sm font-semibold text-green-300 mb-3 flex items-center">

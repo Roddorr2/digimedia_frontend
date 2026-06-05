@@ -58,6 +58,12 @@ class BlogOrchestrator {
         url_image: "",
         alt: headerData.formImagenHeader.alt || HEADER_DEFAULTS.alt,
         title: headerData.formImagenHeader.title || HEADER_DEFAULTS.title,
+<<<<<<< Updated upstream
+=======
+        bg_color: headerData.formEncabezadoHeader.bg_color || HEADER_DEFAULTS.bg_color,
+        bg_type: headerData.formEncabezadoHeader.bg_type || "solid",
+        bg_colors: headerData.formEncabezadoHeader.bg_colors || "",
+>>>>>>> Stashed changes
       };
 
       const headerResult = await API.default.createHeader(headerPayload);
@@ -107,6 +113,12 @@ class BlogOrchestrator {
         url_image2: "",
         url_image3: "",
         plantilla_id: plantillaId,
+<<<<<<< Updated upstream
+=======
+        bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
+        bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
+        bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
+>>>>>>> Stashed changes
         ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
       };
 
@@ -162,6 +174,12 @@ class BlogOrchestrator {
           ? footerData.formEncabezadoFooter.descripcion ||
             FOOTER_DEFAULTS.descripcion
           : FOOTER_DEFAULTS.descripcion,
+<<<<<<< Updated upstream
+=======
+        bg_color: footerData.formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
+        bg_type: footerData.formEncabezadoFooter.bg_type || "solid",
+        bg_colors: footerData.formEncabezadoFooter.bg_colors || "",
+>>>>>>> Stashed changes
       };
 
       const footerResult = await API.default.createFooter(footerPayload);
@@ -173,17 +191,12 @@ class BlogOrchestrator {
 
       // ========== PASO 4: Crear Blog principal CON IDs de relaciones ==========
       const blogPayload = {
-        ...headerData.formEncabezadoHeader,
-        public_image: DEFAULT_IMAGES.header.image1,
-        url_image: "",
         // ✅ IDs de relaciones
         id_blog_head: result.headerId,
         id_blog_body: result.bodyId,
         id_blog_footer: result.footerId,
         fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
-        plantilla_id: plantillaId,
         id_empleado: empleadoId,
-        link: headerData.formEncabezadoHeader.titulo_enlace || "",
       };
 
       const blogResult = await API.default.createBlog(blogPayload);
@@ -203,7 +216,7 @@ class BlogOrchestrator {
         url_image: "",
         id_plantilla: plantillaId,
         id_empleado: empleadoId,
-        estado_publicacion: isPublicado ? 1 : 0
+        estado_publicacion: Boolean(isPublicado)
       };
 
       const cardResult = await API.default.createCard(cardPayload);
@@ -256,6 +269,7 @@ class BlogOrchestrator {
       errors: [],
     };
 
+<<<<<<< Updated upstream
     try {
       const blogPayload = {
         ...headerData.formEncabezadoHeader,
@@ -282,6 +296,61 @@ class BlogOrchestrator {
       };
 
       await API.default.updateBlog(blogId, blogPayload);
+=======
+try {
+// Actualizar Header si existe id_blog_head
+        if (blogRelations.id_blog_head) {
+          const headerUpdatePayload = {
+            ...headerData.formEncabezadoHeader,
+            ...headerData.formImagenHeader,
+            alt: headerData.formImagenHeader.alt || HEADER_DEFAULTS.alt,
+            title: headerData.formImagenHeader.title || HEADER_DEFAULTS.title,
+            bg_color: headerData.formEncabezadoHeader.bg_color || HEADER_DEFAULTS.bg_color,
+            bg_type: headerData.formEncabezadoHeader.bg_type || "solid",
+            bg_colors: headerData.formEncabezadoHeader.bg_colors || "",
+          };
+          await API.default.updateHeader(blogRelations.id_blog_head, headerUpdatePayload);
+        }
+
+        // Actualizar Body si existe id_blog_body
+        if (blogRelations.id_blog_body) {
+          const bodyUpdatePayload = {
+            ...bodyData.formEncabezadoBody,
+            ...bodyData.formGaleryBody,
+            bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
+            bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
+            bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
+          };
+          await API.default.updateBody(blogRelations.id_blog_body, bodyUpdatePayload);
+        }
+
+        // Actualizar Footer si existe id_blog_footer
+        if (blogRelations.id_blog_footer) {
+          const footerUpdatePayload = {
+            ...footerData.formEncabezadoFooter,
+            bg_color: footerData.formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
+            bg_type: footerData.formEncabezadoFooter.bg_type || "solid",
+            bg_colors: footerData.formEncabezadoFooter.bg_colors || "",
+          };
+          await API.default.updateFooter(blogRelations.id_blog_footer, footerUpdatePayload);
+        }
+
+const blogPayload = {
+          fecha: bodyData.formEncabezadoBody.fecha || getCurrentDate(),
+          id_empleado: empleadoId,
+          ...(blogRelations.id_blog_head && {
+            id_blog_head: blogRelations.id_blog_head,
+          }),
+          ...(blogRelations.id_blog_body && {
+            id_blog_body: blogRelations.id_blog_body,
+          }),
+          ...(blogRelations.id_blog_footer && {
+            id_blog_footer: blogRelations.id_blog_footer,
+          }),
+        };
+
+       await API.default.updateBlog(blogId, blogPayload);
+>>>>>>> Stashed changes
 
       // Subir imágenes si hay cardId
       if (cardId) {

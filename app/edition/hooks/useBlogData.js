@@ -219,6 +219,9 @@ export default function useBlogData(
             texto_descripcion: mappedHeader.texto_descripcion,
             meta_title: mappedHeader.meta_title,
             meta_descripcion: mappedHeader.meta_descripcion,
+            bg_color: mappedHeader.bg_color,
+            bg_type: mappedHeader.bg_type,
+            bg_colors: mappedHeader.bg_colors,
           }));
           setFormImagenHeader({
             public_image: mappedHeader.public_image,
@@ -322,6 +325,9 @@ export default function useBlogData(
             title_image3: mappedFooter.title_image3,
             palabra: mappedFooter.palabra,
             enlace: mappedFooter.enlace,
+            bg_color: mappedFooter.bg_color,
+            bg_type: mappedFooter.bg_type,
+            bg_colors: mappedFooter.bg_colors,
           });
           setFormImagenFooter({
             public_image1: mappedFooter.public_image1,
@@ -397,6 +403,7 @@ export default function useBlogData(
       setLoading(true);
       setError(null);
 
+<<<<<<< Updated upstream
       const headerPayload = {
         ...formEncabezadoHeader,
         public_image: formImagenHeader.public_image?.startsWith("blob:")
@@ -406,6 +413,20 @@ export default function useBlogData(
         alt: formImagenHeader.alt || HEADER_DEFAULTS.alt,
         title: formImagenHeader.title || HEADER_DEFAULTS.title,
       };
+=======
+const headerPayload = {
+         ...formEncabezadoHeader,
+         public_image: formImagenHeader.public_image?.startsWith("blob:")
+           ? DEFAULT_IMAGES.header.image1
+           : formImagenHeader.public_image || DEFAULT_IMAGES.header.image1,
+         url_image: formImagenHeader.url_image || "",
+         alt: formImagenHeader.alt || HEADER_DEFAULTS.alt,
+         title: formImagenHeader.title || HEADER_DEFAULTS.title,
+         bg_color: formEncabezadoHeader.bg_color || HEADER_DEFAULTS.bg_color,
+         bg_type: formEncabezadoHeader.bg_type || "solid",
+         bg_colors: formEncabezadoHeader.bg_colors || "",
+       };
+>>>>>>> Stashed changes
 
       if (isCreateMode) {
         const result = await Api.createHeader(headerPayload);
@@ -550,6 +571,7 @@ export default function useBlogData(
           }
         }
 
+<<<<<<< Updated upstream
         // ========== PASO 2: Actualizar Body principal ==========
         const bodyData = {
           ...formEncabezadoBody,
@@ -566,6 +588,27 @@ export default function useBlogData(
           plantilla_id: plantillaId,
           ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
         };
+=======
+// ========== PASO 2: Actualizar Body principal ==========
+          const bodyData = {
+            ...formEncabezadoBody,
+            ...formGaleryBody,
+            public_image1: formEncabezadoBody.public_image1?.startsWith("blob:")
+              ? DEFAULT_IMAGES.body.image1
+              : formEncabezadoBody.public_image1,
+            public_image2: formGaleryBody.public_image2?.startsWith("blob:")
+              ? DEFAULT_IMAGES.body.image2
+              : formGaleryBody.public_image2,
+            public_image3: formGaleryBody.public_image3?.startsWith("blob:")
+              ? DEFAULT_IMAGES.body.image3
+              : formGaleryBody.public_image3,
+            plantilla_id: plantillaId,
+            bg_color: formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
+            bg_type: formEncabezadoBody.bg_type || "solid",
+            bg_colors: formEncabezadoBody.bg_colors || "",
+            ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
+          };
+>>>>>>> Stashed changes
 
         const result = await Api.updateBody(bodyId, bodyData);
 
@@ -682,9 +725,18 @@ export default function useBlogData(
         palabra: footerEnabled
           ? formEncabezadoFooter.palabra || FOOTER_DEFAULTS.palabra
           : FOOTER_DEFAULTS.palabra,
+<<<<<<< Updated upstream
         enlace: footerEnabled
           ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
           : FOOTER_DEFAULTS.enlace,
+=======
+enlace: footerEnabled
+           ? formEncabezadoFooter.enlace || FOOTER_DEFAULTS.enlace
+           : FOOTER_DEFAULTS.enlace,
+        bg_color: formEncabezadoFooter.bg_color || FOOTER_DEFAULTS.bg_color,
+        bg_type: formEncabezadoFooter.bg_type || "solid",
+        bg_colors: formEncabezadoFooter.bg_colors || "",
+>>>>>>> Stashed changes
       };
 
       if (isCreateMode) {

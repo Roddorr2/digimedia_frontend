@@ -16,6 +16,7 @@ import {
   ExternalLink as ExternalLinkIcon,
   FileText,
   Loader2,
+  Palette,
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -732,8 +733,27 @@ export default function FormBody({
     );
   };
 
-  // Renderizar controles de visibilidad de secciones
+  {/* Renderizar controles de visibilidad de secciones */}
   const renderSectionControls = () => {
+<<<<<<< Updated upstream
+=======
+    // Opciones de colores predefinidos
+    const colorOptions = [
+      "#ffffff",
+      "#5A37A6",
+      "#1E40AF",
+      "#059669",
+      "#DC2626",
+      "#7C3AED",
+      "#F59E0B",
+    ];
+
+    // bg_color viene de formEncabezadoBody, accesible como data.header.bg_color
+    const currentBgColor = formEncabezadoBody?.bg_color || plantillaConfig?.styles?.bgColor || "#5A37A6";
+    const currentBgType = formEncabezadoBody?.bg_type || "solid";
+    const currentBgColors = formEncabezadoBody?.bg_colors || "";
+
+>>>>>>> Stashed changes
     return (
       <div className="mb-6 p-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-lg border border-yellow-500/30 shadow-lg">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -745,6 +765,76 @@ export default function FormBody({
             </h4>
           </div>
 
+<<<<<<< Updated upstream
+=======
+          {/* Selector de tipo y color de fondo */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-300">Fondo:</span>
+            <select
+              value={currentBgType}
+              onChange={(e) => setFormEncabezadoBody((prev) => ({
+                ...prev,
+                bg_type: e.target.value,
+              }))}
+              className="bg-gray-800 text-white border border-gray-600 rounded-lg p-1 text-sm"
+            >
+              <option value="solid">Sólido</option>
+              <option value="gradient">Gradiente</option>
+            </select>
+          </div>
+
+          {/* Selector de color/es */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-300">Color:</span>
+            <div className="flex gap-2">
+              {colorOptions.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setFormEncabezadoBody((prev) => ({
+                    ...prev,
+                    bg_color: color,
+                  }))}
+                  className={`w-8 h-8 rounded-full border-2 transition-all ${currentBgColor === color
+                      ? "border-white scale-110"
+                      : "border-gray-600 hover:border-gray-400"
+                    }`}
+                  style={{ backgroundColor: color }}
+                  title={color}
+                />
+              ))}
+              <input
+                type="color"
+                value={currentBgColor}
+                onChange={(e) => setFormEncabezadoBody((prev) => ({
+                  ...prev,
+                  bg_color: e.target.value,
+                }))}
+                className="w-8 h-8 rounded-full border-2 border-gray-600 cursor-pointer"
+                title="Seleccionar color personalizado"
+              />
+            </div>
+          </div>
+
+          {/* Campo para gradiente */}
+          {currentBgType === "gradient" && (
+            <div className="flex items-center gap-2">
+              <Palette className="w-4 h-4 text-yellow-400" />
+              <input
+                type="text"
+                placeholder="#color1,#color2,#color3"
+                value={currentBgColors}
+                onChange={(e) => setFormEncabezadoBody((prev) => ({
+                  ...prev,
+                  bg_colors: e.target.value,
+                }))}
+                className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
+                title="Gradiente: #color1,#color2,#color3"
+              />
+            </div>
+          )}
+
+>>>>>>> Stashed changes
           {/* Toggles en fila horizontal en desktop */}
           <div className="flex flex-col sm:flex-row gap-3 lg:gap-6">
             {/* Toggle Consejos */}

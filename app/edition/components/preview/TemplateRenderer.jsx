@@ -51,6 +51,37 @@ export default function TemplateRenderer({
     informacion = [],
   } = body;
 
+<<<<<<< Updated upstream
+=======
+  // Obtener colores de fondo por sección
+  const headerBgColor = header.bg_color || "#1E40AF";
+  const headerBgType = header.bg_type || "solid";
+  const headerBgColors = header.bg_colors || "";
+  const bodyBgColor = bodyHeader.bg_color || "#5A37A6";
+  const bodyBgType = bodyHeader.bg_type || "solid";
+  const bodyBgColors = bodyHeader.bg_colors || "";
+  const footerBgColor = footer.bg_color || "#374151";
+  const footerBgType = footer.bg_type || "solid";
+  const footerBgColors = footer.bg_colors || "";
+
+  const getBackgroundStyle = (bgColor, bgType, bgColors) => {
+    if (bgType === "gradient" && bgColors) {
+      const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+      if (colors.length >= 2) {
+        if (colors.length >= 3) {
+          return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+        }
+        return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+      }
+    }
+    return { backgroundColor: bgColor };
+  };
+
+  const headerBgStyle = getBackgroundStyle(headerBgColor, headerBgType, headerBgColors);
+  const bodyBgStyle = getBackgroundStyle(bodyBgColor, bodyBgType, bodyBgColors);
+  const footerBgStyle = getBackgroundStyle(footerBgColor, footerBgType, footerBgColors);
+
+>>>>>>> Stashed changes
   // Verificar visibilidad de secciones según flags
   const sectionsVisibility = useMemo(() => ({
     header: true, // Header siempre visible
@@ -372,8 +403,13 @@ export default function TemplateRenderer({
   const renderFooterSection = () => {
   if (!sectionsVisibility.footer) return null;
 
+<<<<<<< Updated upstream
   return (
     <div className="mt-20 p-16 bg-gradient-to-br from-gray-900 to-black rounded-3xl text-white shadow-[0_8px_40px_rgb(0,0,0,0.5)] space-y-14">
+=======
+    return (
+      <div className="mt-20 p-16 rounded-3xl text-white shadow-[0_8px_40px_rgb(0,0,0,0.5)] space-y-14" style={footerBgStyle}>
+>>>>>>> Stashed changes
 
       <div className="text-center">
         <h3 className="text-4xl font-bold tracking-tight">
@@ -437,7 +473,12 @@ export default function TemplateRenderer({
 
   return (
     <div className={`min-h-screen bg-gray-50 ${className}`}>
+<<<<<<< Updated upstream
       <div className="container mx-auto px-6 py-12">
+=======
+      {/* Header con color de fondo */}
+      <div style={headerBgStyle}>
+>>>>>>> Stashed changes
         {/* Preview Badge */}
         {mode === "preview" && (
           <div className="fixed mr-36 mt-1 top-4 right-4 z-50">
@@ -452,6 +493,14 @@ export default function TemplateRenderer({
           {renderHeaderSection()}
         </div>
 
+<<<<<<< Updated upstream
+=======
+      {/* Body con color de fondo */}
+      <div 
+        className="container mx-auto px-6 py-12"
+        style={bodyBgStyle}
+      >
+>>>>>>> Stashed changes
         {/* Contenido Principal */}
         <div className="mb-16">
           {renderMainContent()}

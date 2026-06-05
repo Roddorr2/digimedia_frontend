@@ -6,7 +6,24 @@ import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
 import Fetch from "../services/fetch";
 import Image from "next/image";
 
+<<<<<<< Updated upstream
 export default function Body1({ id_blog_body, fecha }) {
+=======
+const getBackgroundStyle = (bgColor = "#5A37A6", bgType = "solid", bgColors = "") => {
+  if (bgType === "gradient" && bgColors) {
+    const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+    if (colors.length >= 2) {
+      if (colors.length >= 3) {
+        return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+      }
+      return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+    }
+  }
+  return { backgroundColor: bgColor };
+};
+
+export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_colors }) {
+>>>>>>> Stashed changes
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -149,7 +166,17 @@ export default function Body1({ id_blog_body, fecha }) {
   }
 
   return (
+<<<<<<< Updated upstream
     <div className="relative lg:mx-48 p-0 text-white rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.45)]">
+=======
+    <div className="relative lg:mx-48 p-0 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden" style={{
+        ...getBackgroundStyle(
+          data?.bg_color || bg_color,
+          data?.bg_type || bg_type || "solid",
+          data?.bg_colors || bg_colors
+        )
+      }}>
+>>>>>>> Stashed changes
       <div className="relative h-[400px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
         <Image
