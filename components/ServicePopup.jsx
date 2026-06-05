@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User, Phone, Mail } from "lucide-react";
 
+
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL_PROD ||
   process.env.NEXT_PUBLIC_API_URL_DEV ||
@@ -368,14 +369,8 @@ export default function ServicePopup({
               alt={config.mobile_alt || "Pop-up mobile"}
               fill
               className="object-cover"
+              style={{ opacity: (config.mobile_opacity || 100) / 100 }}
               unoptimized
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, transparent 100%)",
-              }}
             />
           </div>
         )}
