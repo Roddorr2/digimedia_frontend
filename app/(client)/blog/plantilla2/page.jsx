@@ -166,12 +166,25 @@ const PageContent = () => {
     <>
 
       <div>
-        <Header id_blog_head={data.id_blog_head} />
+<Header id_blog_head={data.id_blog_head} bg_color={data?.head?.bg_color} bg_type={data?.head?.bg_type} bg_colors={data?.head?.bg_colors} />
 
-        <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
-          <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
+<div className="container mx-auto px-4 py-12 relative text-black min-h-screen w-full" style={
+          data?.body?.bg_type === "gradient" && data?.body?.bg_colors
+            ? (() => {
+                const colors = data.body.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
+                if (colors.length >= 3) {
+                  return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+                }
+                if (colors.length >= 2) {
+                  return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+                }
+                return { backgroundColor: data.body.bg_color };
+              })()
+            : { backgroundColor: data?.body?.bg_color || "#5A37A6" }
+        }>
 
-          <Body2 id_blog_body={data.id_blog_body} fecha={data.fecha} />
+          <Body2 id_blog_body={data.id_blog_body} fecha={data.fecha} bg_color={data?.body?.bg_color} bg_type={data?.body?.bg_type} bg_colors={data?.body?.bg_colors} />
+
 
           {data.body?.service_url && (
             <div className="flex justify-center my-8">
@@ -185,7 +198,8 @@ const PageContent = () => {
               </a>
             </div>
           )}
-          <Footer id_blog_footer={data.id_blog_footer} />
+          <Footer id_blog_footer={data?.id_blog_footer} bg_color={data?.footer?.bg_color} bg_type={data?.footer?.bg_type} bg_colors={data?.footer?.bg_colors} />
+
         </div>
       </div>
     </>
@@ -193,3 +207,4 @@ const PageContent = () => {
 };
 
 export default Page;
+

@@ -12,10 +12,24 @@ import {
 import Fetch from "../services/fetch";
 import Image from "next/image";
 
-export default function Body3({ id_blog_body, fecha }) {
+export default function Body3({ id_blog_body, fecha, bg_color, bg_type, bg_colors }) {
+
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const getBackgroundStyle = (bgColor = "#5A37A6", bgType = "solid", bgColors = "") => {
+    if (bgType === "gradient" && bgColors) {
+      const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+      if (colors.length >= 2) {
+        if (colors.length >= 3) {
+          return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+        }
+        return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+      }
+    }
+    return { backgroundColor: bgColor };
+  };
 
   function renderDescripcion(texto, palabraClave, enlace) {
     if (!palabraClave || !enlace) {
@@ -161,8 +175,13 @@ export default function Body3({ id_blog_body, fecha }) {
     return `${previewImageUrl}?v=${Date.now()}`;
   };
 
+  const bgStyle = bg_type === "gradient" && bg_colors
+    ? getBackgroundStyle(bg_color, bg_type, bg_colors)
+    : getBackgroundStyle(data?.bg_color || bg_color, "solid", "");
+
   return (
-    <div className="relative lg:mx-48 bg-white text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
+    <div className="relative lg:mx-48 bg-white text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden" style={bgStyle}>
+
       <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center">
         <div className="flex items-center text-white">
           <Calendar className="w-4 h-4 mr-2" />
@@ -368,3 +387,4 @@ export default function Body3({ id_blog_body, fecha }) {
     </div>
   );
 }
+
