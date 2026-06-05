@@ -103,8 +103,10 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
+/*
 import ModalButton from "../components/ModalButton";
 import ModalScroll from "../components/ModalScroll";
+*/
 
 const ServicePopup = dynamic(
   () => import("@/app/dashboard/whatsapp/components/ServicePopup"),
@@ -155,6 +157,7 @@ export default function Page() {
     },
   ];
 
+  /*
   const modales = {
     modalA: {
       text: "DISEÑO Y DESARROLLO WEB",
@@ -170,19 +173,20 @@ export default function Page() {
         "La imagen muestra a una persona buscando imágenes en una biblioteca virtual",
     },
   };
+  */
 
   return (
     <>
       <ServicePopup idSubservicio={4} />
 
-      <ModalScroll data={modales} />
+      {/* <ModalScroll data={modales} />
 
       <ModalButton
         title="Lleva tu negocio al siguiente nivel online"
         fondo="/servicios/desarrollo/modal-button/imagen.webp"
         text="DISEÑO Y DESARROLLO WEB"
         serviceName="1"
-      />
+      /> */}
 
       <Main
         title="DISEÑO Y DESARROLLO WEB"
