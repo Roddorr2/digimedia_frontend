@@ -31,11 +31,15 @@ export function HeroSection({
 
           {/* Card izquierda */}
           <div className="relative h-[450px] md:h-auto overflow-hidden rounded-tl-[60px]">
+            {/* 🛠️ OPTIMIZACIÓN MAESTRA DE RENDIMIENTO LOCAL */}
             <Image
               src={imageUrl}
               alt={imageAlt}
               title={imageTitle}
               fill
+              priority // <-- CRÍTICO: Fuerza la precarga inmediata reduciendo drásticamente el LCP
+              quality={70} // Reduce el peso en el búfer de red local durante 'npm run dev'
+              sizes="(max-width: 768px) 100vw, 40vw" // Informa el ancho exacto del layout para acelerar el pintado gráfico
               className={`object-cover ${imageClassName || ""}`}
             />
           </div>
@@ -100,3 +104,4 @@ export function HeroSection({
     </section>
   );
 }
+
