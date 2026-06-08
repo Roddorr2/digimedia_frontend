@@ -113,6 +113,7 @@ export function PlantillasTab() {
           : {
               asunto: selectedPlantilla.asunto || "",
               encabezado: selectedPlantilla.encabezado || "",
+              color: selectedPlantilla.color || "#9333ea",
               mensaje: selectedPlantilla.mensaje || "",
               imagen_url: selectedPlantilla.imagen_url || "",
               mensaje_boton: selectedPlantilla.mensaje_boton || "",
@@ -322,7 +323,7 @@ export function PlantillasTab() {
         if (!imageFile && formData.imagen_url)
           form.append("imagen_url_actual", formData.imagen_url);
       } else {
-        ["asunto", "encabezado", "mensaje", "mensaje_boton", "url_boton", "footer",
+        ["asunto", "encabezado", "color", "mensaje", "mensaje_boton", "url_boton", "footer",
          "red_facebook", "red_instagram", "red_linkedin", "red_tiktok"].forEach((f) => {
           form.append(f, formData[f] || "");
         });
@@ -339,13 +340,8 @@ export function PlantillasTab() {
 
       if (res.success) {
         Swal.fire("¡Éxito!", "Plantilla actualizada correctamente", "success");
+        setSelectedPlantilla((prev) => prev ? { ...prev, ...res.data } : prev);
         await loadPlantillas();
-        const updatedPlantilla = plantillas.find(
-          (p) => getPlantillaId(p) === plantillaId,
-        );
-        if (updatedPlantilla) {
-          setSelectedPlantilla({ ...updatedPlantilla, ...res.data });
-        }
       } else {
         Swal.fire("Error", res.message || "No se pudo actualizar la plantilla", "error");
       }
