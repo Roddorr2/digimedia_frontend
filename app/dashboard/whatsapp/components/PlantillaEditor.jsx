@@ -208,6 +208,40 @@ export function PlantillaEditor({
               </div>
 
               <div>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Color de acento
+                </label>
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                  Se aplica al encabezado y al botón
+                </p>
+                <div className="mt-2 flex items-center gap-3">
+                  <input
+                    type="color"
+                    value={/^#[0-9A-Fa-f]{6}$/.test(formData.color) ? formData.color : '#9333ea'}
+                    onChange={(e) => handleInputChange('color', e.target.value)}
+                    className="h-10 w-14 cursor-pointer rounded-lg border border-slate-300 dark:border-slate-600 p-0.5 bg-white dark:bg-slate-800"
+                  />
+                  <input
+                    type="text"
+                    value={formData.color || '#9333ea'}
+                    onChange={(e) => {
+                      const val = e.target.value.startsWith('#') ? e.target.value : '#' + e.target.value;
+                      if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+                        handleInputChange('color', val);
+                      }
+                    }}
+                    maxLength={7}
+                    className="w-32 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2.5 text-sm font-mono text-slate-700 dark:text-slate-200 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 uppercase"
+                    placeholder="#9333ea"
+                  />
+                  <div
+                    className="h-10 w-10 flex-shrink-0 rounded-lg border border-slate-200 dark:border-slate-600"
+                    style={{ backgroundColor: /^#[0-9A-Fa-f]{6}$/.test(formData.color) ? formData.color : '#9333ea' }}
+                  />
+                </div>
+              </div>
+
+              <div>
                 <div className="flex items-center justify-between">
                   <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
                     Mensaje

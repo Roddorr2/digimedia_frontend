@@ -7,6 +7,7 @@ import {
   Loader2,
   Trash2,
   Eye,
+  Palette,
 } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 
@@ -416,6 +417,24 @@ export default function FormFooter({
     );
   };
 
+  // Opciones de colores predefinidos
+  const colorOptions = [
+    "#ffffff",
+    "#5A37A6",
+    "#1E40AF",
+    "#059669",
+    "#DC2626",
+    "#7C3AED",
+    "#F59E0B",
+  ];
+
+  // Valores por defecto del footer
+  const FOOTER_DEFAULTS = {
+    bg_color: "#060126",
+    titulo: "Título del Footer",
+    descripcion: "Descripción del footer",
+  };
+
   // SE DESCOMENTARA CUANDO SEA NECESARIO O REQUERIDO
   // Función para renderizar descripción con enlace en palabra clave
   // const renderDescripcion = useCallback((texto, palabraClave, enlace) => {
@@ -556,28 +575,79 @@ export default function FormFooter({
               </p>
             </div>
 
-            {/* Campos del Footer - Solo se muestran si está habilitado */}
-            {footerEnabled && (
-              <>
-                {/* Título */}
-                <div className="mb-3">
-                  <label className={mergedStyles.label}>
-                    <Type className={mergedStyles.icon} />
-                    Título
-                    <ValidationMessage fieldName="titulo" />
-                  </label>
-                  <input
-                    type="text"
-                    name="titulo"
-                    maxLength={validationConfig.titulo?.max || 30}
-                    autoComplete="off"
-                    value={data.titulo || ""}
-                    onChange={handleFieldChange}
-                    className={mergedStyles.input}
-                    placeholder={mergedPlaceholders.titulo}
-                    required={validationConfig.titulo?.required}
-                  />
-                </div>
+{/* Campos del Footer - Solo se muestran si está habilitado */}
+              {footerEnabled && (
+                <>
+                  {/* Selector de tipo y color de fondo - Footer */}
+                  <div className="mb-4 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                    <h4 className="text-sm font-semibold text-yellow-300 mb-3 flex items-center">
+                      <Palette className="w-4 h-4 mr-2" />
+                      Fondo del Footer
+                    </h4>
+
+                    {/* Selector de tipo */}
+                    <div className="mb-2">
+                      <select
+                        value={data.bg_type || "solid"}
+                        onChange={(e) => handleFieldChange({ target: { name: "bg_type", value: e.target.value } })}
+                        className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-2 mb-2"
+                      >
+                        <option value="solid">Color sólido</option>
+                        <option value="gradient">Gradiente</option>
+                      </select>
+                    </div>
+
+                    <div className="flex gap-2 items-center flex-wrap">
+                      {colorOptions.map((color) => (
+                        <button
+                          key={color}
+                          type="button"
+                          onClick={() => handleFieldChange({ target: { name: "bg_color", value: color } })}
+                          className={`w-8 h-8 rounded-full border-2 transition-all ${data.bg_color === color ? "border-white scale-110" : "border-gray-600 hover:border-gray-400"}`}
+                          style={{ backgroundColor: color }}
+                          title={color}
+                        />
+                      ))}
+                      <input
+                        type="color"
+                        value={data.bg_color || FOOTER_DEFAULTS.bg_color}
+                        onChange={(e) => handleFieldChange({ target: { name: "bg_color", value: e.target.value } })}
+                        className="w-8 h-8 rounded-full border-2 border-gray-600 cursor-pointer"
+                        title="Seleccionar color personalizado"
+                      />
+
+                      {/* Campo para gradiente */}
+                      <input
+                        type="text"
+                        placeholder="#color1,#color2,#color3"
+                        value={data.bg_colors || ""}
+                        onChange={(e) => handleFieldChange({ target: { name: "bg_colors", value: e.target.value } })}
+                        className="flex-1 min-w-[200px] bg-gray-900 text-white border border-gray-700 rounded-lg p-1 px-2 text-sm"
+                        title="Gradiente: #color1,#color2,#color3"
+                      />
+                    </div>
+                  </div>
+
+                 {/* Título */}
+                 <div className="mb-3">
+                   <label className={mergedStyles.label}>
+                     <Type className={mergedStyles.icon} />
+                     Título
+                     <ValidationMessage fieldName="titulo" />
+                   </label>
+                   <input
+                     type="text"
+                     name="titulo"
+                     maxLength={validationConfig.titulo?.max || 30}
+                     autoComplete="off"
+                     value={data.titulo || ""}
+                     onChange={handleFieldChange}
+                     className={mergedStyles.input}
+                     placeholder={mergedPlaceholders.titulo}
+                     required={validationConfig.titulo?.required}
+                   />
+                 </div>
+
 
                 {/* Descripción */}
                 <div className="mb-3">
@@ -835,3 +905,4 @@ export default function FormFooter({
     </div>
   );
 }
+

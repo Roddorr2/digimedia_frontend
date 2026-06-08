@@ -79,8 +79,11 @@ export function PlantillaPreview({
             </div>
           ) : (
             <div className="mx-auto max-w-[350px] overflow-hidden bg-white shadow-lg dark:bg-slate-900">
-              {/* Encabezado Púrpura (Igual a tu imagen) */}
-              <div className="bg-[#9333ea] p-4 text-center">
+              {/* Encabezado */}
+              <div
+                className="p-4 text-center"
+                style={{ backgroundColor: /^#[0-9A-Fa-f]{6}$/.test(formData.color) ? formData.color : '#9333ea' }}
+              >
                 <h2 className="text-sm font-bold text-white leading-tight">
                   {formData.encabezado || '¿Listo para incrementar el valor?'}
                 </h2>
@@ -112,7 +115,7 @@ export function PlantillaPreview({
                       .replace(/~(.*?)~/g, '<del>$1</del>')
                       .replace(
                         /{nombre}/g,
-                        '<b class="text-[#9333ea]">[Nombre]</b>',
+                        `<b style="color:${/^#[0-9A-Fa-f]{6}$/.test(formData.color) ? formData.color : '#9333ea'}">[Nombre]</b>`,
                       ),
                   }}
                 />
@@ -120,7 +123,10 @@ export function PlantillaPreview({
                 {/* Botón dinámico */}
                 {formData.mensaje_boton && (
                   <div className="mt-6 text-center">
-                    <div className="inline-block rounded-md bg-[#9333ea] px-6 py-2.5 text-[11px] font-bold text-white uppercase tracking-wider">
+                    <div
+                      className="inline-block rounded-md px-6 py-2.5 text-[11px] font-bold text-white uppercase tracking-wider"
+                      style={{ backgroundColor: /^#[0-9A-Fa-f]{6}$/.test(formData.color) ? formData.color : '#9333ea' }}
+                    >
                       {formData.mensaje_boton}
                     </div>
                   </div>
