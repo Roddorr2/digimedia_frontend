@@ -70,7 +70,11 @@ export const apiRequestWithProgress = (endpoint, options = {}, onProgress) => {
           reject(new Error("Respuesta JSON inválida"));
         }
       } else {
-        resolve({ success: xhr.status >= 200 && xhr.status < 300, text: xhr.responseText, status: xhr.status });
+        resolve({
+          success: xhr.status >= 200 && xhr.status < 300,
+          text: xhr.responseText,
+          status: xhr.status,
+        });
       }
     };
 
@@ -172,9 +176,12 @@ export const plantillaApi = {
     }),
 
   inicializar: (tipo, ownerType, ownerId) =>
-    apiRequest(`/api/plantillas/${tipo}/by-owner/${ownerType}/${ownerId}/init`, {
-      method: "POST",
-    }),
+    apiRequest(
+      `/api/plantillas/${tipo}/by-owner/${ownerType}/${ownerId}/init`,
+      {
+        method: "POST",
+      },
+    ),
 
   getSubserviciosByServicio: (idServicio) =>
     apiRequest(`/api/subservicios/by-servicio/${idServicio}`, {
@@ -186,7 +193,7 @@ export const campaniaApi = {
   //GET /api/campanias?estado=completada&page=1
   getAll: (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    return apiRequest(`/api/campaniays${query ? `?${query}` : ""}`, {
+    return apiRequest(`/api/campanias${query ? `?${query}` : ""}`, {
       method: "GET",
     });
   },
