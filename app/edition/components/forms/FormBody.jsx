@@ -31,6 +31,8 @@ import {
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
+import Swal from "sweetalert2";
+import { validateImageFile } from "../../utils/imageValidation";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -338,6 +340,20 @@ export default function FormBody({
 
       try {
         setUploading(true);
+        
+        // Validar imagen
+        const validation = await validateImageFile(file, "body");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
         const tempUrl = URL.createObjectURL(file);
 
         // Actualizar el estado del header
@@ -378,6 +394,20 @@ export default function FormBody({
 
       try {
         setUploading(true);
+        
+        // Validar imagen
+        const validation = await validateImageFile(file, "body");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
         const tempUrl = URL.createObjectURL(file);
 
         // Actualizar el estado de la galería
@@ -1032,7 +1062,7 @@ export default function FormBody({
                 <input
                   type="file"
                   name="public_image1"
-                  accept="image/*"
+                  accept="image/webp"
                   className="hidden"
                   onChange={handleImageHeader}
                   disabled={uploading}
@@ -1243,7 +1273,7 @@ export default function FormBody({
                             <input
                               type="file"
                               name={campo}
-                              accept="image/*"
+                              accept="image/webp"
                               className="hidden"
                               onChange={handleImageBody}
                               disabled={uploading}
