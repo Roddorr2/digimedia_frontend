@@ -15,6 +15,8 @@ import {
 
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+import Swal from "sweetalert2";
+import { validateImageFile } from "../../utils/imageValidation";
 
 // Configuración centralizada
 import {
@@ -154,6 +156,19 @@ export default function FormHeader({
 
       try {
         setUploading(true);
+        
+        const validation = await validateImageFile(file, "header");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
         const tempUrl = URL.createObjectURL(file);
         setPreviewImageUrl(tempUrl);
 
@@ -594,7 +609,7 @@ export default function FormHeader({
                     )}
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/webp"
                       className="hidden"
                       onChange={handleImageUpload}
                       disabled={uploading}

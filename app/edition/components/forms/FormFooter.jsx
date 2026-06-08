@@ -10,6 +10,8 @@ import {
   Palette,
 } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
+import Swal from "sweetalert2";
+import { validateImageFile } from "../../utils/imageValidation";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -233,6 +235,19 @@ export default function FormFooter({
 
       try {
         setUploading(true);
+
+        // Validar imagen
+        const validation = await validateImageFile(file, "footer");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
 
         // Limpiar blob URL anterior si existe
         const existingImage = imagesPreviews.find(
@@ -768,7 +783,7 @@ export default function FormFooter({
                                     )}
                                     <input
                                       type="file"
-                                      accept="image/*"
+                                      accept="image/webp"
                                       name={fieldBaseName}
                                       className="hidden"
                                       onChange={handleImageUpload}
