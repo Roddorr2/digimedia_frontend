@@ -121,9 +121,7 @@ export default function ModalEstado({ isVisible, onClose, id_modal_wat }) {
                     text: "Ocurrió un error inesperado.",
                     icon: "error",
                     confirmButtonText: "OK",
-                })
-                console.log(error)
-            } finally {
+                })            } finally {
                 setIsLoading(false)
             }
         }

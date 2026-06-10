@@ -86,7 +86,6 @@ const auth_service = {
       });
 
       const data = await response.json();
-      console.log("Usuario autenticado: \n", data);
       if (!response.ok) {
         return {
           success: false,
@@ -267,7 +266,14 @@ const auth_service = {
   },
 
   getCurrentRole: () => {
-    return getCookie("rol") || null;
+    const rol = getCookie("rol");
+    if (!rol) return null;
+    try {
+      const parsed = typeof rol === "string" ? JSON.parse(rol) : rol;
+      return parsed?.nombre || parsed || null;
+    } catch {
+      return rol;
+    }
   },
 
   getCurrentPermissions: () => {
@@ -283,10 +289,15 @@ const auth_service = {
     return getCookie("token");
   },
 
-  hasRole: (role) => {
+  hasRole: (roles) => {
     const userRole = auth_service.getCurrentRole();
     if (!userRole) return false;
-    return userRole.toLowerCase() === role.toLowerCase();
+
+    const rolesArray = Array.isArray(roles)
+      ? roles.map((r) => r.trim().toLowerCase())
+      : roles.split(",").map((r) => r.trim().toLowerCase());
+
+    return rolesArray.includes(userRole.toLowerCase());
   },
 
   hasPermission: (permission) => {

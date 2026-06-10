@@ -74,9 +74,7 @@ export default function RolePermissionManager() {
       try {
     
         setIsLoading(true)
-        const rolesData = await role_service.getRoles()
-        console.log("Roles obtenidos RolePManager:", rolesData)
-
+        const rolesData = await role_service.getRoles()
         setRoles(rolesData)
 
         const permisosData = await role_service.getPermisos()

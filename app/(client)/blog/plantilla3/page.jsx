@@ -43,7 +43,8 @@ const PageContent = () => {
         const response = await Fetch.fetchBlogByLink(blog);
 
         if (response) {
-          setData(response);
+          //setData(response);
+          setData(response[0]);
         } else {
           setError("Blog no encontrado");
         }

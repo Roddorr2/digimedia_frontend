@@ -1,104 +1,126 @@
-"use client"
+"use client";
 
-import { getCookie } from "cookies-next"
-import { useRouter } from "next/navigation"
-import { use, useState } from "react"
-import { Eye, Pencil, Trash2, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import auth_service from "../users/services/auth.service"
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { use, useState } from "react";
+import { Eye, Pencil, Trash2, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import auth_service from "../users/services/auth.service";
 
-export default function DataTable({ headers, data, onDelete, onUpdate, onShow }) {
-  const router = useRouter()
-  const [expandedRow, setExpandedRow] = useState(null)
+export default function DataTable({
+  headers,
+  data,
+  onDelete,
+  onUpdate,
+  onShow,
+}) {
+  const router = useRouter();
+  const [expandedRow, setExpandedRow] = useState(null);
 
-  const empleadoAutenticado = auth_service.getCurrentEmpleado()
-  const empleadoAutenticadoId = empleadoAutenticado?.id_empleado
+  const empleadoAutenticado = auth_service.getCurrentEmpleado();
+  const empleadoAutenticadoId = empleadoAutenticado?.id_empleado;
 
   /**
    * Obtenermos el subtipo de administrador (objeto con descripción y puntos de jerarquía) desde auth_service
    * Inicializamos los puntos de jerarquía en 0
    * Se asignan los puntos de jerarquía desde la cookie mediante la arrow function
    */
-  const subtipoAdministrador = auth_service.getCurrentSubtipoAdmin()
+  const subtipoAdministrador = auth_service.getCurrentSubtipoAdmin();
   let AuthHierarchy = 0;
   (() => {
-    if(empleadoAutenticado.id_rol === 1 && !subtipoAdministrador) {
-      AuthHierarchy = 80
+    if (empleadoAutenticado.id_rol === 1 && !subtipoAdministrador) {
+      AuthHierarchy = 80;
       return;
     }
-    
-    if(subtipoAdministrador?.hierarchy > 0) 
-      AuthHierarchy = subtipoAdministrador.hierarchy
+
+    if (subtipoAdministrador?.hierarchy > 0)
+      AuthHierarchy = subtipoAdministrador.hierarchy;
   })();
 
   /** Obtenemos la jerarquía de los empleados de cada dataRow a mostrar
    *  Si el subtipo fuese null asignamos valores por defecto
    *  Sino retorna los puntos de jerarquía desde el subtipo (objeto)
-  */
+   */
   const getDataRowHierarchy = (empleado) => {
-    if(!empleado) return null
-    if(!empleado.subtipo_admin) {
-      if(empleado.rol === "administrador") return 80;
-      if(empleado.rol === "ventas") return 30;
+    if (!empleado) return null;
+    if (!empleado.subtipo_admin) {
+      if (empleado.rol === "administrador") return 80;
+      if (empleado.rol === "ventas") return 30;
       return 20;
     }
-    return empleado.subtipo_admin.hierarchy
-  }
+    return empleado.subtipo_admin.hierarchy;
+  };
 
-  console.log("Empleado autenticado:", empleadoAutenticado)
-  console.log("puntos de jerarquía:", AuthHierarchy)
-  
   const toggleRowExpansion = (index) => {
-    setExpandedRow(expandedRow === index ? null : index)
-  }
+    setExpandedRow(expandedRow === index ? null : index);
+  };
 
   const verificarEditDelete = (dataRow) => {
-    console.log("verificarEditDelete - dataRow:", dataRow)
-
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      console.log("Registro es propio. Permitir editar/eliminar (mostrar perfil).")
-      return true
+      return true;
     }
 
     if (AuthHierarchy === 100) {
-      console.log("Usuario privilegiado. Permitir editar/eliminar.")
-      return true
+      return true;
     }
-    
-    return AuthHierarchy > getDataRowHierarchy(dataRow)
-  }
+
+    return AuthHierarchy > getDataRowHierarchy(dataRow);
+  };
 
   const verificarShow = (dataRow) => {
-    // console.log("verificarShow - dataRow:", dataRow)
-  
     if (dataRow.id_empleado === empleadoAutenticadoId) {
-      // console.log("Registro es propio. No se muestra botón Show.")
-      return false
+      return false;
     }
-  
-    // console.log("Permitir mostrar registro para cualquier usuario.")
-    return true
-  }
+
+    return true;
+  };
 
   const renderMobileView = () => {
     return (
       <div className="grid gap-4 md:hidden ">
         {data.map((dataRow, index) => {
-          console.log(dataRow)
-          const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
+          const esMismoUsuario =
+            empleadoAutenticadoId &&
+            dataRow.id_empleado === empleadoAutenticadoId;
 
           return (
             <Card
               key={dataRow.id_empleado || `card-${index}`}
-              className={`overflow-hidden ${esMismoUsuario ? "border-[#8c52ff] border-2 dark:bg-gray-900" : "border-gray-200"}`}
+              className={`overflow-hidden transition-colors ${
+                esMismoUsuario
+                  ? "border-[#8c52ff] border-2"
+                  : "border-gray-200 dark:border-gray-700"
+              }`}
             >
-              <div className={`p-3 ${esMismoUsuario ? "bg-[#f0ebff] dark:bg-gray-900" : "bg-white"}`}>
+              <div
+                className={`p-3 ${
+                  esMismoUsuario
+                    ? "bg-[#f0ebff] dark:bg-gray-800"
+                    : "bg-white dark:bg-gray-900"
+                }`}
+              >
                 {headers.slice(0, 2).map((header) => (
-                  <div key={`mobile-${dataRow.id_empleado}-${header}`} className="mb-1">
-                    <span className="font-semibold text-xs text-gray-500 dark:bg-gray-900">{header.toUpperCase()}: </span>
-                    <span className="font-medium dark:bg-gray-900">{dataRow[header]}</span>
+                  <div
+                    key={`mobile-${dataRow.id_empleado}-${header}`}
+                    className="mb-1"
+                  >
+                    <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                      {header.toUpperCase()}:
+                    </span>
+
+                    <span className="font-medium text-gray-900 dark:text-gray-100">
+                      {" "}
+                      {dataRow[header]}
+                    </span>
                   </div>
                 ))}
 
@@ -113,7 +135,6 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                   </Button>
 
                   <div className="flex space-x-1">
-                    {/* Botón Mostrar */}
                     {!esMismoUsuario && verificarShow(dataRow) && (
                       <Button
                         variant="ghost"
@@ -125,29 +146,31 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                       </Button>
                     )}
 
-                    {/* Botón Editar */}
-                    {!esMismoUsuario && onUpdate && verificarEditDelete(dataRow) && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-amber-500"
-                        onClick={() => onUpdate(dataRow.id_empleado)}
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                    )}
+                    {!esMismoUsuario &&
+                      onUpdate &&
+                      verificarEditDelete(dataRow) && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-amber-500"
+                          onClick={() => onUpdate(dataRow.id_empleado)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      )}
 
-                    {/* Botón Eliminar */}
-                    {!esMismoUsuario && onDelete && verificarEditDelete(dataRow) && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-red-500"
-                        onClick={() => onDelete(dataRow.id_empleado)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    )}
+                    {!esMismoUsuario &&
+                      onDelete &&
+                      verificarEditDelete(dataRow) && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-red-500"
+                          onClick={() => onDelete(dataRow.id_empleado)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
 
                     {esMismoUsuario && (
                       <Button
@@ -164,52 +187,72 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
               </div>
 
               {expandedRow === index && (
-                <div className="p-3 bg-gray-50 border-t border-gray-200">
+                <div className="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
                   {headers.slice(2).map((header) => (
-                    <div key={`mobile-expanded-${dataRow.id_empleado}-${header}`} className="mb-1">
-                      <span className="font-semibold text-xs text-gray-500">{header.toUpperCase()}: </span>
-                      <span className="font-medium">{dataRow[header]}</span>
+                    <div
+                      key={`mobile-expanded-${dataRow.id_empleado}-${header}`}
+                      className="mb-1"
+                    >
+                      <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                        {header.toUpperCase()}:
+                      </span>
+
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {" "}
+                        {dataRow[header]}
+                      </span>
                     </div>
                   ))}
                 </div>
               )}
             </Card>
-          )
+          );
         })}
       </div>
-    )
-  }
+    );
+  };
 
-  const renderDesktopView = () => {    
+  const renderDesktopView = () => {
     return (
       <div className="hidden md:block overflow-auto rounded-md border">
         <Table>
           <TableHeader>
             <TableRow className="bg-[#8c52ff] hover:bg-[#8c52ff]">
               {headers.map((header) => (
-                <TableHead key={`header-${header}`} className="text-white font-medium text-center">
+                <TableHead
+                  key={`header-${header}`}
+                  className="text-white font-medium text-center"
+                >
                   {header.toUpperCase()}
                 </TableHead>
               ))}
-              <TableHead className="text-white font-medium text-center">ACCIONES</TableHead>
+              <TableHead className="text-white font-medium text-center">
+                ACCIONES
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((dataRow, index) => {
-              const esMismoUsuario = empleadoAutenticadoId && dataRow.id_empleado === empleadoAutenticadoId
-              // console.log(`DesktopView - Fila ${index}:`, { esMismoUsuario, dataRow })
+              const esMismoUsuario =
+                empleadoAutenticadoId &&
+                dataRow.id_empleado === empleadoAutenticadoId;
 
               return (
-                <TableRow 
+                <TableRow
                   key={dataRow.id_empleado || `row-${index}`}
                   className={`${
-                    esMismoUsuario 
-                      ? "bg-[#caeafe] text-black" 
-                      : index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-700"
+                    esMismoUsuario
+                      ? "bg-[#caeafe] text-black"
+                      : index % 2 === 0
+                        ? "bg-white dark:bg-gray-900"
+                        : "bg-gray-50 dark:bg-gray-700"
                   } hover:bg-neutral-200 transition-colors`}
                 >
                   {headers.map((header) => (
-                    <TableCell key={`${dataRow.id_empleado}-${header}`} className="text-center">
+                    <TableCell
+                      key={`${dataRow.id_empleado}-${header}`}
+                      className="text-center"
+                    >
                       {dataRow[header]}
                     </TableCell>
                   ))}
@@ -228,28 +271,32 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                       )}
 
                       {/* Botón Editar */}
-                      {!esMismoUsuario && onUpdate && verificarEditDelete(dataRow) && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50"
-                          onClick={() => onUpdate(dataRow.id_empleado)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                      )}
+                      {!esMismoUsuario &&
+                        onUpdate &&
+                        verificarEditDelete(dataRow) && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-amber-500 hover:text-amber-600 hover:bg-amber-50"
+                            onClick={() => onUpdate(dataRow.id_empleado)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        )}
 
                       {/* Botón Eliminar */}
-                      {!esMismoUsuario && onDelete && verificarEditDelete(dataRow) && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
-                          onClick={() => onDelete(dataRow.id_empleado)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      )}
+                      {!esMismoUsuario &&
+                        onDelete &&
+                        verificarEditDelete(dataRow) && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
+                            onClick={() => onDelete(dataRow.id_empleado)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
 
                       {/* Botón Mi Perfil: Solo para la fila del usuario autenticado */}
                       {esMismoUsuario && (
@@ -265,21 +312,20 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
                     </div>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </TableBody>
         </Table>
       </div>
-    )
-  }
+    );
+  };
 
   if (!data || data.length === 0) {
-    console.log("No hay datos disponibles")
     return (
       <div className="text-center p-8 bg-gray-50 rounded-md border border-gray-200">
         <p className="text-gray-500">No hay datos disponibles</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -287,5 +333,5 @@ export default function DataTable({ headers, data, onDelete, onUpdate, onShow })
       {renderMobileView()}
       {renderDesktopView()}
     </div>
-  )
+  );
 }

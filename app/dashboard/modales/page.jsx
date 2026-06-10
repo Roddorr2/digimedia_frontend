@@ -26,12 +26,12 @@ export default function Page() {
   const router = useRouter()
 
 
-  async function fetchModals(pageTarget = 1) {
+  async function fetchModals(pageTarget = 1, query = "") {
   setIsRefreshing(true)
   setIsLoading(true)
 
   try {
-    const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}`, {
+    const response = await axios.get(`${API_BASE_URL}?page=${pageTarget}&search=${query}`, {
       headers: {
         Authorization: `Bearer ${getCookie("token")}`,
       },
@@ -88,7 +88,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage)
+        fetchModals(currentPage, searchTerm)
       } else {
         Swal.fire({
           title: "Error",
@@ -115,9 +115,7 @@ export default function Page() {
           icon: "error",
           confirmButtonText: "OK",
         })
-      }
-      console.log(error)
-    }
+      }    }
   }
 
   function confirmarEliminacion(id) {
@@ -174,7 +172,7 @@ export default function Page() {
           icon: "success",
           confirmButtonText: "OK",
         })
-        fetchModals(currentPage)
+        fetchModals(currentPage, searchTerm)
       } else {
         Swal.fire({
           title: "Error",
@@ -257,24 +255,12 @@ export default function Page() {
   }
 
   useEffect(() => {
-    fetchModals(currentPage)
-  }, [currentPage])
+    const delayDebounceFn = setTimeout(() => {
+      fetchModals(currentPage, searchTerm)
+    }, 400)
 
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredData(data)
-      setTotalPages(Math.ceil(data.length / 4)) // ⚠️ RECALCULAR totalPages
-    } else {
-      const filtered = data.filter(
-        (modal) =>
-          modal.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          modal.correo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          modal.id_modalservicio.toString().includes(searchTerm),
-      )
-      setFilteredData(filtered)
-      setTotalPages(Math.ceil(filtered.length / 4)) // ⚠️ RECALCULAR totalPages
-    }
-  }, [searchTerm, data])
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchTerm, currentPage])
 
   const exportToCSV = () => {
     if (filteredData.length === 0) {
@@ -339,7 +325,7 @@ export default function Page() {
               </button>
 
               <button
-                onClick={() => fetchModals()}
+                onClick={() => fetchModals(currentPage, searchTerm)}
                 disabled={isRefreshing}
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"

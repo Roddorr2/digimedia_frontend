@@ -3,16 +3,20 @@ import Contactanos from "../components/Contactanos";
 import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function UXUI() {
   const modales = {
     modalA: {
       text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo: "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
+      fondo:
+        "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
       title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
       serviceName: "3",
-      imageTitle: "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
-      imageAlt: "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
+      imageTitle:
+        "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
+      imageAlt:
+        "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
     },
   };
 
@@ -23,10 +27,9 @@ export default function UXUI() {
           src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/gestion-campanas-publicidad-digital-digimedia.webp"
           alt="Ícono de megáfono representando gestión de campañas y publicidad digital en redes sociales"
           className="w-full h-full object-contain"
-          title= "Gestión de campañas de publicidad digital | Digimedia Marketing"
+          title="Gestión de campañas de publicidad digital | Digimedia Marketing"
           width={48}
           height={48}
-          
         />
       ),
       title: "GESTIÓN DE CAMPAÑAS",
@@ -39,7 +42,7 @@ export default function UXUI() {
         <Image
           src="/servicios/marketing_gestion_digital/naming_logo_slogan/icons/planificacion-calendario-campanas-digitales-digimedia.webp"
           alt="Ícono de calendario con reloj representando planificación y programación de campañas digitales"
-          title= "Planificación y programación de campañas digitales | Digimedia Marketing"
+          title="Planificación y programación de campañas digitales | Digimedia Marketing"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -53,6 +56,7 @@ export default function UXUI() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={15} />
       <ModalScroll data={modales} />
       <ModalButton
         title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"

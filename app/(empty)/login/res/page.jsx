@@ -45,10 +45,7 @@ function ResetPasswordForm() {
         }
 
         setLoading(true);
-        try {
-            console.log("Enviando solicitud a:", URL_API);
-            console.log("Datos enviados:", { token, password, password_confirmation: confirmPassword });
-            
+        try {            
             const response = await axios.post(URL_API, {
                 token: token,
                 password: password,
@@ -58,10 +55,7 @@ function ResetPasswordForm() {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
-            });
-
-            console.log('Respuesta del servidor:', response.data);
-
+            });
             Swal.fire({
                 title: "Éxito",
                 text: response.data.message,

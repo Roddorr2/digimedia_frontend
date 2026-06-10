@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import styles from './Footer.module.css';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import styles from "./Footer.module.css";
+import Image from "next/image";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -16,95 +16,20 @@ export default function Footer() {
       setTimeout(() => setCopied(false), 2000);
     });
   };
-
-  // Datos estructurados con los hipervínculos basados en tu Excel
-  const serviciosData = [
-    {
-      title: "DISEÑO Y DESARROLLO WEB",
-      route: "/servicios/desing-desarrollo/",
-      items: [
-        { name: "Experiencia de Usuario y Diseño", route: "/servicios/experiencia-usuario/" },
-        { name: "Dominio y Hosting", route: "/servicios/dominio_hosting/" },
-        { name: "Optimización SEO", route: "/servicios/seo/" },
-        { name: "Desarrollo Responsive", route: "/servicios/seo/" }, // Cambia esta ruta si es diferente
-      ]
-    },
-    {
-      title: "GESTIÓN DE REDES SOCIALES",
-      route: "/servicios/gestion-redes/",
-      items: [
-        { name: "Estrategia de Contenido", route: "/servicios/planificacion-cronograma/" },
-        { name: "Social Ads & Performance", route: "/servicios/diseno-pautas/" },
-        { name: "Diseño UX y UI", route: "/servicios/ui/?from=gestionRedes" },
-      ]
-    },
-    {
-      title: "MARKETING Y GESTIÓN DIGITAL",
-      route: "/servicios/marketing-gestion/",
-      items: [
-        { name: "Análisis y Benchmarking", route: "/servicios/analisis-y-benchmarking/" },
-        { name: "Campañas Digitales", route: "/servicios/naming-logo-slogan/" },
-        { name: "Identidad Visual y Corporativa", route: "/servicios/identidad-visual/" },
-        { name: "Análisis de Métricas", route: "/servicios/manual-marca/" },
-      ]
-    },
-    {
-      title: "BRANDING Y DISEÑO",
-      route: "/servicios/branding-desing/",
-      items: [
-        { name: "Desarrollo de Brief", route: "/servicios/desarrollo-briefs/" },
-        { name: "Planificación Estratégica", route: "/servicios/planificacion-estrategica/" },
-        { name: "Diseño de Logo", route: "/servicios/publicidad-digital/" },
-        { name: "Manual de Marca", route: "/servicios/monitoreo-y-reporting/" },
-      ]
-    }
-  ];
-
   return (
     <>
       <footer>
         <div className={styles.mainFooter}>
           <div className={styles.footerInner}>
-            
-            {/* --- MEGA FOOTER: SERVICIOS Y SUBSERVICIOS --- */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full border-b border-white/20 pb-10 mb-10 pt-4">
-              {serviciosData.map((servicio, index) => (
-                <div key={index} className={styles.listaFooter}>
-                  <h2>
-                    <Link href={servicio.route} className="hover:text-white/80 transition-colors">
-                      {servicio.title}
-                    </Link>
-                  </h2>
-                  <ul>
-                    {servicio.items.map((item, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="text-white/70 mr-2 font-bold">›</span>
-                        {/* Ahora usa la ruta directa independiente */}
-                        <Link 
-                          href={item.route}
-                          className="hover:text-white/80 transition-colors"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {/* ------------------------------------------------------- */}
-
             <div className={styles.footerContenido}>
               <div className={`${styles.imgFooter}`}>
                 <Image
-                  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado.webp"
-                  alt="Logo de Digimedia agencia de marketing digital en Perú especializada en gestión de redes sociales, branding y desarrollo web"
-                  title="Digimedia Agencia de Marketing Digital en Perú"
+                  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado(1).svg"
+                  alt="Logo Digimedia Marketing Digital Perú"
                   width={320}
                   height={160}
                   className="my-auto"
-                  decoding="async"
-                  priority={true}
+                  sizes="320px"
                 />
               </div>
               <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
@@ -126,9 +51,9 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li className={styles.emailContainer}>
-                    <div 
-                      onClick={handleCopyEmail} 
-                      className={`${styles.emailLink} cursor-pointer`}
+                    <div
+                      onClick={handleCopyEmail}
+                      className={styles.emailLink}
                       title="Haz clic para copiar el correo"
                     >
                       <Image
@@ -139,7 +64,9 @@ export default function Footer() {
                         height={24}
                       />
                       digi.mediamkt@gmail.com
-                      {copied && <span className={styles.copiedTooltip}>¡Copiado!</span>}
+                      {copied && (
+                        <span className={styles.copiedTooltip}>¡Copiado!</span>
+                      )}
                     </div>
                   </li>
                   <li>
@@ -157,7 +84,6 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-                
                 <h2>LEGALES</h2>
                 <ul>
                   <li>
@@ -180,7 +106,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-                <h2 >REDES SOCIALES</h2>
+                <h2>REDES SOCIALES</h2>
                 <ul>
                   <li>
                     <Link
@@ -268,13 +194,12 @@ export default function Footer() {
               </div>
               <div className={styles.derechosFooter}>
                 <p>
-                  © {new Date().getFullYear()} Digimedia.  Todos los derechos
+                  © {new Date().getFullYear()} Digimedia. Todos los derechos
                   reservados.
                 </p>
               </div>
             </div>
           </div>
-          
         </div>
       </footer>
     </>

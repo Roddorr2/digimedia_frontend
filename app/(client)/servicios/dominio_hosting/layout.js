@@ -1,19 +1,19 @@
 export const metadata = {
-  title: "DigiMedia - Dominio Y Hosting",
+  title: 'Sub servicio de Optimización SEO para buscadores | Digimedia',
   description:
-    "El dominio es tu dirección única y tu identidad en internet, facilitando que los usuarios te encuentren y fortaleciendo tu marca. El hosting es la infraestructura esencial que permite que tu sitio web exista, esté disponible y funcione correctamente en la web. Ambos son pilares fundamentales para cualquier presencia online exitosa.",
+    'auditoría técnica, optimización on-page y off-page, estrategia de contenidos y link building para mejorar la visibilidad orgánica. Monitorizamos posiciones y tráfico para aumentar conversiones y crecimiento sostenible.',
   openGraph: {
-    title: "DigiMedia - Dominio Y Hosting",
+    title: 'Sub servicio de Optimización SEO para buscadores | Digimedia',
     description:
-      "El dominio es tu dirección única y tu identidad en internet, facilitando que los usuarios te encuentren y fortaleciendo tu marca. El hosting es la infraestructura esencial que permite que tu sitio web exista, esté disponible y funcione correctamente en la web. Ambos son pilares fundamentales para cualquier presencia online exitosa.",
-    url: "https://digimedia-marketing.com/servicios/dominio_hosting/",
-    siteName: "DigiMedia - Dominio Y Hosting",
+      'auditoría técnica, optimización on-page y off-page, estrategia de contenidos y link building para mejorar la visibilidad orgánica. Monitorizamos posiciones y tráfico para aumentar conversiones y crecimiento sostenible.',
+    url: 'https://digimedia-marketing.com/servicios/dominio_hosting/',
+    siteName: 'DigiMedia - Optimización SEO',
     images: [], // se mantiene vacío por tu preferencia
-    locale: "es_PE",
-    type: "website",
+    locale: 'es_PE',
+    type: 'website',
   },
   alternates: {
-    canonical: "https://digimedia-marketing.com/servicios/dominio_hosting/",
+    canonical: 'https://digimedia-marketing.com/servicios/dominio_hosting/',
   },
 };
 

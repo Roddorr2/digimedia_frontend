@@ -5,13 +5,17 @@ import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function ProduccionPautas() {
   const modales = {
     modalA: {
       text: "BRANDING Y DISEÑO",
-      fondo: "/servicios/branding/modal-scroll/Branding-y-diseno-digimedia-pop-up.webp",
+      fondo:
+        "/servicios/branding/modal-scroll/branding-y-diseno-digimedia-pop-up.webp",
       title: "TU PRIMERA CONSULTA ¡ES GRATIS!",
+      titleAttr: "Digimedia + branding + diseño + marca + servicio",
+      alt: "Imagen del pop up del servicio de branding y diseño de una marca",
       serviceName: "4",
     },
   };
@@ -21,7 +25,8 @@ export default function ProduccionPautas() {
       icon: (
         <Image
           src="/servicios/branding_diseno/monitoreo_reporting/icons/manual-de-marca_card1-MANUAL-DE-IDENTIDAD-DE-MARCA.webp"
-          alt="Icono de diagrama de arquitectura y diseño de sistemas"
+          alt="Manual de Identidad de Marca"
+          title="Ícono de diagrama de arquitectura y diseño de sistemas"
           className="w-full h-full object-contain"
           width={48}
           height={48}
@@ -35,11 +40,14 @@ export default function ProduccionPautas() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={12} />
       <ModalScroll data={modales} />
       <ModalButton
         title="¡DISEÑA TU CAMINO HACIA EL ÉXITO!"
-        fondo="/servicios/branding/modal-button/imagen.webp"
+        fondo="/servicios/branding/modal-button/branding-diseno-de-una-marca-digimedia-pop-up.webp"
         text="BRANDING Y DISEÑO"
+        alt="Imagen del pop up para contactar el servicio de branding y diseño de una marca"
+        titleAttr="Digimedia + contacto + branding + diseño + marca + servicio"
         serviceName="4"
       />
       <UxUiSection

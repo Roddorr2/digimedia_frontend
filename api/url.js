@@ -4,3 +4,4 @@ const url =
     : process.env.NEXT_PUBLIC_API_URL_DEV;
 
 export default url;
+

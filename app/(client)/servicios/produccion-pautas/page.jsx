@@ -4,15 +4,18 @@ import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import ModalButton from "../components/ModalButton";
+import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
 export default function ProduccionPautas() {
   const modales = {
     modalA: {
       text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
+      fondo:
+        "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
       title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
-      imageTitle:"Gestión de Redes Sociales en Perú | Digimedia",
-      imageAlt:"Servicio de gestión de redes sociales en Perú ofrecido por Digimedia para crecimiento de marcas en Instagram, Facebook y TikTok",
+      imageTitle: "Gestión de Redes Sociales en Perú | Digimedia",
+      imageAlt:
+        "Servicio de gestión de redes sociales en Perú ofrecido por Digimedia para crecimiento de marcas en Instagram, Facebook y TikTok",
       serviceName: "2",
     },
   };
@@ -48,6 +51,7 @@ export default function ProduccionPautas() {
 
   return (
     <div>
+      <ServicePopup idSubservicio={7} />
       <ModalScroll data={modales} />
       <ModalButton
         title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"

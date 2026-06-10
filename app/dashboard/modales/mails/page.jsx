@@ -37,7 +37,6 @@ function PageContent() {
     const searchParams = useSearchParams()
     const router = useRouter()
     const id_modal = searchParams.get("id_modal")
-    console.log("id_modal extraído:", id_modal);
 
     const [isLoadingMail, setIsLoadingMail] = useState(false)
 
@@ -115,7 +114,6 @@ function PageContent() {
                     icon: "error",
                     confirmButtonText: "OK",
                 })
-                console.log(response.message)
             }
         } catch (error) {
             Swal.fire({
@@ -124,7 +122,6 @@ function PageContent() {
                 icon: "error",
                 confirmButtonText: "OK",
             })
-            console.log(error.message)
         } finally {
             setIsLoadingMail(false)
         }
