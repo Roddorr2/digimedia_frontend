@@ -1,4 +1,5 @@
-import DynamicPopup from "../components/DynamicPopup"; // <-- Importamos el puente de cliente
+//import DynamicServicePopup from "@/components/DynamicServicePopup";
+import DynamicServicePopup from '../components/DynamicPopup'
 
 export const metadata = {
   title: 'Sub servicio de Desarrollo responsive e integraciones digitales | Digimedia',
@@ -21,9 +22,9 @@ export default function SEOLayout({ children }) {
   return (
     <>
       {children}
-      {/* El Layout corre en el servidor manteniendo el SEO perfecto, 
-          pero delega de forma asíncrona el popup pesado al cliente */}
-      <DynamicPopup />
+      {/* Reutilización del puente global con los IDs correspondientes a la ruta SEO */}
+      <DynamicServicePopup idServicio={1} idSubservicio={4} />
     </>
   );
 }
+

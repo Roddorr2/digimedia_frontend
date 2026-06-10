@@ -1,4 +1,5 @@
-import ServicePopup from "@/components/ServicePopup";
+//import DynamicServicePopup from "@/components/DynamicServicePopup";
+import DynamicServicePopup from '../components/DynamicPopup'
 
 export const metadata = {
   title: 'Sub servicio de Optimización SEO para buscadores | Digimedia',
@@ -23,7 +24,9 @@ export default function DominioHostingLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={1} idSubservicio={2} />
+      {/* Se utiliza el puente global optimizado para evitar el error de ssr en Server Components */}
+      <DynamicServicePopup idServicio={1} idSubservicio={2} />
     </>
   );
 }
+

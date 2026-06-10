@@ -31,6 +31,25 @@ const ContactForm = () => {
     setLoading(true);
 
     try {
+
+      if (!/^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/.test(formData.nombre)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Nombre inválido',
+          text: 'El nombre solo puede contener letras.',
+        });
+        return;
+      }
+
+      if (!/^\d+$/.test(formData.numero)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Teléfono inválido',
+          text: 'El teléfono solo puede contener números.',
+        });
+        return;
+      }
+
       const response = await axios.post(URL_API, formData, {
         headers: {
           Authorization: `Bearer ${getCookie('token')}`,
