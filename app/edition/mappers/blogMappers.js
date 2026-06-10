@@ -82,6 +82,11 @@ function mapHeaderFromServer(data) {
     url_image: ensureRelativePath(data.url_image || data.public_image),
     alt: data.alt || HEADER_DEFAULTS.alt,
     title: data.title || HEADER_DEFAULTS.title,
+
+    // Background colors
+    bg_color: data.bg_color || HEADER_DEFAULTS.bg_color,
+    bg_type: data.bg_type || "solid",
+    bg_colors: data.bg_colors || "",
   };
 }
 
@@ -110,6 +115,11 @@ function mapHeaderToServer(formData, { hasFile = false } = {}) {
       : ensureRelativePath(formData.url_image || formData.public_image),
     alt: formData.alt || HEADER_DEFAULTS.alt,
     title: formData.title || HEADER_DEFAULTS.title,
+
+    // Background colors
+    bg_color: formData.bg_color || HEADER_DEFAULTS.bg_color,
+    bg_type: formData.bg_type || "solid",
+    bg_colors: formData.bg_colors || "",
   };
 }
 
@@ -152,13 +162,18 @@ function mapBodyFromServer(data, plantillaId = 1) {
     alt_image3: data.alt_image3 || BODY_DEFAULTS.alt_image3,
     title_image3: data.title_image3 || BODY_DEFAULTS.title_image3,
 
-    // Flags de control - usar constantes centralizadas
-    flag_galeria: data.flag_galeria ?? BODY_FLAGS_DEFAULTS.flag_galeria,
-    flag_consejos: data.flag_consejos ?? BODY_FLAGS_DEFAULTS.flag_consejos,
-    flag_informacion:
-      data.flag_informacion ?? BODY_FLAGS_DEFAULTS.flag_informacion,
-    service_url: data.service_url || "",
-  };
+// Flags de control - usar constantes centralizadas
+     flag_galeria: data.flag_galeria ?? BODY_FLAGS_DEFAULTS.flag_galeria,
+     flag_consejos: data.flag_consejos ?? BODY_FLAGS_DEFAULTS.flag_consejos,
+     flag_informacion:
+       data.flag_informacion ?? BODY_FLAGS_DEFAULTS.flag_informacion,
+     service_url: data.service_url || "",
+
+     // Background colors
+     bg_color: data.bg_color || BODY_DEFAULTS.bg_color,
+     bg_type: data.bg_type || "solid",
+     bg_colors: data.bg_colors || "",
+   };
 
   // Consejos (mapeo dinámico según plantilla)
   // Si existe commend_tarjeta en data, usarla directamente
@@ -242,16 +257,21 @@ function mapBodyToServer(
     alt_image3: formData.alt_image3 || BODY_DEFAULTS.alt_image3,
     title_image3: formData.title_image3 || BODY_DEFAULTS.title_image3,
 
-    // Flags - usar constantes centralizadas
-    flag_galeria: formData.flag_galeria ?? BODY_FLAGS_DEFAULTS.flag_galeria,
-    flag_consejos: formData.flag_consejos ?? BODY_FLAGS_DEFAULTS.flag_consejos,
-    flag_informacion:
-      formData.flag_informacion ?? BODY_FLAGS_DEFAULTS.flag_informacion,
-    service_url: formData.service_url || "",
+// Flags - usar constantes centralizadas
+     flag_galeria: formData.flag_galeria ?? BODY_FLAGS_DEFAULTS.flag_galeria,
+     flag_consejos: formData.flag_consejos ?? BODY_FLAGS_DEFAULTS.flag_consejos,
+     flag_informacion:
+       formData.flag_informacion ?? BODY_FLAGS_DEFAULTS.flag_informacion,
+     service_url: formData.service_url || "",
 
-    // Metadata
-    plantilla_id: plantillaId,
-  };
+     // Metadata
+     plantilla_id: plantillaId,
+
+     // Background colors
+     bg_color: formData.bg_color || BODY_DEFAULTS.bg_color,
+     bg_type: formData.bg_type || "solid",
+     bg_colors: formData.bg_colors || "",
+   };
 
   // Solo incluir commend_tarjeta si existe
   if (commendTarjetaId) {
@@ -295,10 +315,15 @@ function mapFooterFromServer(data) {
       getDefaultImage("footer", "image3")
     ),
 
-    // Palabra y enlace
-    palabra: data.palabra || FOOTER_DEFAULTS.palabra,
-    enlace: data.enlace || FOOTER_DEFAULTS.enlace,
-  };
+// Palabra y enlace
+     palabra: data.palabra || FOOTER_DEFAULTS.palabra,
+     enlace: data.enlace || FOOTER_DEFAULTS.enlace,
+
+     // Background colors
+     bg_color: data.bg_color || FOOTER_DEFAULTS.bg_color,
+     bg_type: data.bg_type || "solid",
+     bg_colors: data.bg_colors || "",
+   };
 }
 
 /**
@@ -344,10 +369,15 @@ function mapFooterToServer(
           getDefaultImage("footer", "image3")
         ),
 
-    // Palabra y enlace
-    palabra: formData.palabra || FOOTER_DEFAULTS.palabra,
-    enlace: formData.enlace || FOOTER_DEFAULTS.enlace,
-  };
+// Palabra y enlace
+     palabra: formData.palabra || FOOTER_DEFAULTS.palabra,
+     enlace: formData.enlace || FOOTER_DEFAULTS.enlace,
+
+     // Background colors
+     bg_color: formData.bg_color || FOOTER_DEFAULTS.bg_color,
+     bg_type: formData.bg_type || "solid",
+     bg_colors: formData.bg_colors || "",
+   };
 }
 
 // ========== HELPERS ADICIONALES ==========

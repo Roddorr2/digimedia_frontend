@@ -222,6 +222,7 @@ export default function ServicePopup({
           config?.subservicio?.id_servicio ||
           idServicio ||
           idSubservicio?.toString(),
+        ...(idSubservicio ? { id_subservicio: idSubservicio } : {}),
       };
       const response = await axios.post(`${API_URL}/api/modales`, payload);
       if (response.status === 201) {

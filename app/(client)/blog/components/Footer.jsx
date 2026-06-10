@@ -6,10 +6,24 @@ import Swal from "sweetalert2";
 import { Loader2, AlertTriangle, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
-export default function Footer({ id_blog_footer }) {
+export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors }) {
+
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const getBackgroundStyle = (bgColor = "#374151", bgType = "solid", bgColors = "") => {
+    if (bgType === "gradient" && bgColors) {
+      const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+      if (colors.length >= 2) {
+        if (colors.length >= 3) {
+          return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+        }
+        return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+      }
+    }
+    return { backgroundColor: bgColor };
+  };
 
   useEffect(() => {
     const fetchFooterData = async () => {
@@ -155,7 +169,14 @@ export default function Footer({ id_blog_footer }) {
   return (
     <>
       {data.estado !== 0 && (
-        <div className="mt-12 max-w-[1000px] mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-[0px_8px_20px_rgba(0,0,0,0.3)] overflow-hidden">
+        <div className="mt-12 max-w-[1000px] mx-auto rounded-lg shadow-[0px_8px_20px_rgba(0,0,0,0.3)] overflow-hidden" style={{
+            ...getBackgroundStyle(
+              bg_color || data?.bg_color,
+              bg_type || data?.bg_type || "solid",
+              bg_colors || data?.bg_colors
+            )
+          }}>
+
           <div className="relative">
             <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500"></div>
 
@@ -227,3 +248,4 @@ export default function Footer({ id_blog_footer }) {
     </>
   );
 }
+

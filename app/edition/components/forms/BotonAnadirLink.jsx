@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, Trash2, XIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
@@ -9,6 +9,12 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
   const [texto, setTexto] = useState(item.palabra || "");
   const [url, setUrl] = useState(item.enlace || "");
   const [useCustomUrl, setUseCustomUrl] = useState(false);
+
+  // Sincronizar estados locales con props cuando cambian (ej: al cargar datos en edición)
+  useEffect(() => {
+    setTexto(item.palabra || "");
+    setUrl(item.enlace || "");
+  }, [item.palabra, item.enlace]);
 
   const handleGuardar = () => {
     handleChange({ target: { value: texto.trim() } }, index, "palabra");
