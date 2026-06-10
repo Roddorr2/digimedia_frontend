@@ -183,7 +183,7 @@ const PageContent = () => {
                     }
                     return { backgroundColor: data.body.bg_colors };
                   })()
-                : { backgroundColor: data?.body?.bg_color || "#5A37A6" }
+                : { backgroundColor: data?.body?.bg_color || "#FFFFFF" }
             }
           >
 
