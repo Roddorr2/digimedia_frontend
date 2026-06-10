@@ -12,8 +12,9 @@ import { PlantillasTab } from "./components/PlantillasTab";
 import { CampaignProgressMonitor } from "./components/CampaignProgressMonitor";
 import { CampaignQueuePanel } from "./components/CampaignQueuePanel";
 import Swal from "sweetalert2";
-import { PopupsTab } from "./components/PopUpsTab";
+
 import { useRouter } from "next/navigation";
+import { PopupsTab } from "./components/PopupsTab";
 
 export default function WhatsAppPage() {
   const { user, hasRole, isLoading: isAuthLoading } = useAuth();
@@ -90,14 +91,16 @@ export default function WhatsAppPage() {
   };
 
   const connectedNumber =
-    qrData?.me?.id?.split(":")[0] || qrData?.me?.id?.split("@")[0];
+    qrData?.me?.id?.split("@")[0]?.split(":")[0] ||
+    qrData?.phoneNumber ||
+    null;
 
   const statusText = isConnected
     ? `Conectado: ${connectedNumber || "WhatsApp"}`
     : "WhatsApp Desconectado";
 
   const statusHint = isConnected
-    ? `Tu cuenta (${connectedNumber}) está vinculada y lista para enviar mensajes.`
+    ? `Tu cuenta${connectedNumber ? ` (${connectedNumber})` : ""} está vinculada y lista para enviar mensajes.`
     : "Vincula tu cuenta para poder enviar mensajes.";
 
   if (isAuthLoading || !isLoaded) {

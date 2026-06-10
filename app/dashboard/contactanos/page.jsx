@@ -1,63 +1,70 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import axios from "axios"
-import { setCookie, getCookie, deleteCookie } from "cookies-next"
-import user_service from "../users/services/user.service"
-import Swal from "sweetalert2"
-import auth_service from "../users/services/auth.service"
-import { Search, Eye, ToggleLeft, Trash2, Loader2, Filter, Download, RefreshCw } from "lucide-react"
-import Pagination1 from '../components/Pagination1';
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
+import { setCookie, getCookie, deleteCookie } from "cookies-next";
+import user_service from "../users/services/user.service";
+import Swal from "sweetalert2";
+import auth_service from "../users/services/auth.service";
+import {
+  Search,
+  Eye,
+  ToggleLeft,
+  Trash2,
+  Loader2,
+  Filter,
+  Download,
+  RefreshCw,
+} from "lucide-react";
+import Pagination1 from "../components/Pagination1";
 
-import url from '../../../api/url';
-
+import url from "../../../api/url";
 
 const URL_API = `${url}/api/contactanos`;
 
 export default function Page() {
-  const searchParams = useSearchParams()
-  const currentPage = searchParams.get("page") || 1
-  const [data, setData] = useState([])
-  const [filteredData, setFilteredData] = useState([])
-  const [totalPages, setTotalPages] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const router = useRouter()
+  const searchParams = useSearchParams();
+  const currentPage = searchParams.get("page") || 1;
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const router = useRouter();
 
-async function fetchContacts(pageToFetch = currentPage) {
-    setIsRefreshing(true)
+  async function fetchContacts(pageToFetch = currentPage) {
+    setIsRefreshing(true);
     // Es buena práctica agregar setIsLoading(true) aquí también si tienes el estado
-    // setIsLoading(true) 
+    // setIsLoading(true)
 
     try {
       const response = await axios.get(`${URL_API}?page=${pageToFetch}`, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
-      })
+      });
 
-      const pageData = response.data.data || []
-      setData(pageData)
-      setFilteredData(pageData)
+      const pageData = response.data.data || [];
+      setData(pageData);
+      setFilteredData(pageData);
 
-      let totalPaginas = 1
+      let totalPaginas = 1;
 
       if (response.data.last_page) {
-          totalPaginas = response.data.last_page
+        totalPaginas = response.data.last_page;
       } else if (response.data.meta && response.data.meta.last_page) {
-          totalPaginas = response.data.meta.last_page
+        totalPaginas = response.data.meta.last_page;
       } else if (response.data.total) {
-          totalPaginas = Math.ceil(response.data.total / 15)
+        totalPaginas = Math.ceil(response.data.total / 15);
       } else if (response.data.meta && response.data.meta.total) {
-          totalPaginas = Math.ceil(response.data.meta.total / 15)
+        totalPaginas = Math.ceil(response.data.meta.total / 15);
       }
 
-      setTotalPages(totalPaginas)
-
+      setTotalPages(totalPaginas);
     } catch (error) {
-      console.error("Error al obtener los datos:", error.message)
+      console.error("Error al obtener los datos:", error.message);
 
       if (error.response && error.response.status === 401) {
         Swal.fire({
@@ -66,13 +73,13 @@ async function fetchContacts(pageToFetch = currentPage) {
           icon: "warning",
           confirmButtonText: "OK",
         }).then(() => {
-          deleteCookie("contacto")
-          user_service.logoutClient(router)
-        })
+          deleteCookie("contacto");
+          user_service.logoutClient(router);
+        });
       }
     } finally {
-      setIsLoading(false)
-      setIsRefreshing(false)
+      setIsLoading(false);
+      setIsRefreshing(false);
     }
   }
   async function deleteContact(id) {
@@ -81,7 +88,7 @@ async function fetchContacts(pageToFetch = currentPage) {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
-      })
+      });
 
       if (response.status === 200) {
         Swal.fire({
@@ -89,15 +96,15 @@ async function fetchContacts(pageToFetch = currentPage) {
           text: "El contacto ha sido eliminado exitosamente.",
           icon: "success",
           confirmButtonText: "OK",
-        })
-        fetchContacts(currentPage)
+        });
+        fetchContacts(currentPage);
       } else {
         Swal.fire({
           title: "Error",
           text: "No se pudo eliminar el contacto.",
           icon: "error",
           confirmButtonText: "OK",
-        })
+        });
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -108,15 +115,15 @@ async function fetchContacts(pageToFetch = currentPage) {
           confirmButtonText: "OK",
         }).then(() => {
           deleteCookie("contacto");
-          user_service.logoutClient(router)
-        })
+          user_service.logoutClient(router);
+        });
       } else {
         Swal.fire({
           title: "Error",
           text: "Ocurrió un error inesperado.",
           icon: "error",
           confirmButtonText: "OK",
-        })
+        });
       }
     }
   }
@@ -133,9 +140,9 @@ async function fetchContacts(pageToFetch = currentPage) {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteContact(id)
+        deleteContact(id);
       }
-    })
+    });
   }
 
   function confirmarCambiarEstado(id, nuevoEstado) {
@@ -150,9 +157,9 @@ async function fetchContacts(pageToFetch = currentPage) {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        cambiarEstado(id, nuevoEstado)
+        cambiarEstado(id, nuevoEstado);
       }
-    })
+    });
   }
 
   async function cambiarEstado(id, nuevoEstado) {
@@ -167,22 +174,22 @@ async function fetchContacts(pageToFetch = currentPage) {
             "Content-Type": "application/json",
           },
         },
-      )
+      );
       if (response.status === 200) {
         Swal.fire({
           title: "Estado Cambiado",
           text: `El estado del contacto se cambio a ${nuevoEstado == 0 ? "Inactivo" : "Activo"}`,
           icon: "success",
           confirmButtonText: "OK",
-        })
-        fetchContacts(currentPage)
+        });
+        fetchContacts(currentPage);
       } else {
         Swal.fire({
           title: "Error",
           text: "No se pudo cambiar el estado del contacto.",
           icon: "error",
           confirmButtonText: "OK",
-        })
+        });
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -193,15 +200,15 @@ async function fetchContacts(pageToFetch = currentPage) {
           confirmButtonText: "OK",
         }).then(() => {
           deleteCookie("contacto");
-          user_service.logoutClient(router)
-        })
+          user_service.logoutClient(router);
+        });
       } else {
         Swal.fire({
           title: "Error",
           text: "Ocurrió un error inesperado.",
           icon: "error",
           confirmButtonText: "OK",
-        })
+        });
       }
     }
   }
@@ -212,13 +219,13 @@ async function fetchContacts(pageToFetch = currentPage) {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
-      })
+      });
       if (response.status === 200 && response.data) {
         setCookie("contacto", JSON.stringify(response.data.data), {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
-        })
-        router.push(`./view/`)
+        });
+        router.push(`./view/`);
       }
     } catch (error) {
       if (error.response) {
@@ -228,23 +235,23 @@ async function fetchContacts(pageToFetch = currentPage) {
             text: "El contacto no existe en la base de datos.",
             icon: "warning",
             confirmButtonText: "OK",
-          })
+          });
         } else if (error.response.status === 401) {
           Swal.fire({
             title: "Sesión Expirada",
             text: "Por favor, inicia sesión nuevamente.",
             icon: "warning",
             confirmButtonText: "OK",
-          })
+          });
           deleteCookie("contacto");
-          router.push("/login")
+          router.push("/login");
         } else {
           Swal.fire({
             title: "Error",
             text: "Ocurrió un error al obtener los datos.",
             icon: "error",
             confirmButtonText: "OK",
-          })
+          });
         }
       } else {
         Swal.fire({
@@ -252,28 +259,28 @@ async function fetchContacts(pageToFetch = currentPage) {
           text: "No se pudo conectar con el servidor.",
           icon: "error",
           confirmButtonText: "OK",
-        })
+        });
       }
     }
   }
 
   useEffect(() => {
-    fetchContacts(currentPage)
-  }, [currentPage])
+    fetchContacts(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredData(data)
+      setFilteredData(data);
     } else {
       const filtered = data.filter(
         (contacto) =>
           contacto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
           contacto.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
           contacto.id_contactanos.toString().includes(searchTerm),
-      )
-      setFilteredData(filtered)
+      );
+      setFilteredData(filtered);
     }
-  }, [searchTerm, data])
+  }, [searchTerm, data]);
 
   const exportToCSV = () => {
     if (filteredData.length === 0) {
@@ -282,36 +289,41 @@ async function fetchContacts(pageToFetch = currentPage) {
         text: "No hay datos para exportar",
         icon: "info",
         confirmButtonText: "OK",
-      })
-      return
+      });
+      return;
     }
-    const headers = ["ID", "Nombre", "Correo", "Estado"]
+    const headers = ["ID", "Nombre", "Correo", "Estado"];
 
     const csvData = filteredData.map((contacto) => [
       contacto.id_contactanos,
       contacto.nombre,
       contacto.email,
       contacto.estado ? "Activo" : "Inactivo",
-    ])
+    ]);
 
-    const csvContent = [headers.join(","), ...csvData.map((row) => row.join(","))].join("\n")
+    const csvContent = [
+      headers.join(","),
+      ...csvData.map((row) => row.join(",")),
+    ].join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.setAttribute("href", url)
-    link.setAttribute("download", "contactos.csv")
-    link.style.visibility = "hidden"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "contactos.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
-    <main className="p-4 md:p-6 flex flex-col w-full h-[100vh] bg-gray-50 dark:bg-gray-900">
+    <main className="p-4 md:p-6 flex flex-col w-full overflow-y-auto bg-gray-50 dark:bg-gray-900">
       <div className="bg-white rounded-xl shadow-sm p-6 mb-6 dark:bg-gray-800 dark:text-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Gestión de Contactos</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+            Gestión de Contactos
+          </h1>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative flex-grow">
@@ -341,7 +353,11 @@ async function fetchContacts(pageToFetch = currentPage) {
                 className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
               >
-                {isRefreshing ? <Loader2 size={18} className="animate-spin" /> : <RefreshCw size={18} />}
+                {isRefreshing ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  <RefreshCw size={18} />
+                )}
                 <span className="hidden sm:inline">Actualizar</span>
               </button>
             </div>
@@ -355,7 +371,8 @@ async function fetchContacts(pageToFetch = currentPage) {
           </div>
         ) : (
           <>
-            <div className="overflow-x-auto rounded-lg border border-gray-100">
+            {/* TABLA DESKTOP */}
+            <div className="hidden lg:block overflow-x-auto rounded-lg border border-gray-100">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
@@ -401,69 +418,96 @@ async function fetchContacts(pageToFetch = currentPage) {
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
                     filteredData
-                    .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
-                    .map((contacto)=> (
-                      <tr key={`${contacto.id_contactanos}-Row`} className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                          {contacto.id_contactanos}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{contacto.nombre}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{contacto.email}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">{contacto.numero}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              contacto.estado ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {contacto.estado ? "Activo" : "Inactivo"}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex justify-end gap-2">
-                            <button
-                              onClick={() => visualizar(contacto.id_contactanos)}
-                              title="Visualizar"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
-                            >
-                              <Eye size={18} />
-                            </button>
-
-                            <button
-                              onClick={() =>
-                                confirmarCambiarEstado(contacto.id_contactanos, `${contacto.estado ? 0 : 1}`)
-                              }
-                              title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
-                              className={`p-1.5 rounded-lg transition-colors ${
+                      .slice(
+                        (Number(currentPage) - 1) * 4,
+                        Number(currentPage) * 4,
+                      )
+                      .map((contacto) => (
+                        <tr
+                          key={`${contacto.id_contactanos}-Row`}
+                          className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                            {contacto.id_contactanos}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                            {contacto.nombre}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                            {contacto.email}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                            {contacto.numero}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                 contacto.estado
-                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                                  : "bg-green-50 text-green-600 hover:bg-green-100"
+                                  ? "bg-green-100 text-green-800"
+                                  : "bg-red-100 text-red-800"
                               }`}
                             >
-                              <ToggleLeft size={18} />
-                            </button>
-
-                            {auth_service.hasRole("administrador") && (
+                              {contacto.estado ? "Activo" : "Inactivo"}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div className="flex justify-end gap-2">
                               <button
-                                onClick={() => confirmarEliminacion(contacto.id_contactanos)}
-                                title="Eliminar"
-                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                onClick={() =>
+                                  visualizar(contacto.id_contactanos)
+                                }
+                                title="Visualizar"
+                                className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
                               >
-                                <Trash2 size={18} />
+                                <Eye size={18} />
                               </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+
+                              <button
+                                onClick={() =>
+                                  confirmarCambiarEstado(
+                                    contacto.id_contactanos,
+                                    `${contacto.estado ? 0 : 1}`,
+                                  )
+                                }
+                                title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
+                                className={`p-1.5 rounded-lg transition-colors ${
+                                  contacto.estado
+                                    ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                                    : "bg-green-50 text-green-600 hover:bg-green-100"
+                                }`}
+                              >
+                                <ToggleLeft size={18} />
+                              </button>
+
+                              {auth_service.hasRole("administrador") && (
+                                <button
+                                  onClick={() =>
+                                    confirmarEliminacion(
+                                      contacto.id_contactanos,
+                                    )
+                                  }
+                                  title="Eliminar"
+                                  className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                >
+                                  <Trash2 size={18} />
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
                   ) : (
                     <tr>
                       <td colSpan="5" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
-                          <p className="text-gray-500 font-medium mb-1">No hay datos disponibles</p>
+                          <p className="text-gray-500 font-medium mb-1">
+                            No hay datos disponibles
+                          </p>
                           {searchTerm && (
-                            <p className="text-gray-400 text-sm">No se encontraron resultados para "{searchTerm}"</p>
+                            <p className="text-gray-400 text-sm">
+                              No se encontraron resultados para "{searchTerm}"
+                            </p>
                           )}
                           {searchTerm && (
                             <button
@@ -480,16 +524,111 @@ async function fetchContacts(pageToFetch = currentPage) {
                 </tbody>
               </table>
             </div>
+            {/* CARDS MOBILE */}
+            <div className="grid grid-cols-1 gap-4 lg:hidden mt-4">
+              {filteredData.length > 0 ? (
+                filteredData
+                  .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
+                  .map((contacto) => (
+                    <div
+                      key={`${contacto.id_contactanos}-card`}
+                      className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 p-4"
+                    >
+                      {/* Header */}
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <p className="text-xs text-gray-400">ID</p>
+                          <h2 className="font-bold text-lg dark:text-white">
+                            #{contacto.id_contactanos}
+                          </h2>
+                        </div>
+
+                        <span
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                            contacto.estado
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {contacto.estado ? "Activo" : "Inactivo"}
+                        </span>
+                      </div>
+
+                      {/* Datos */}
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-xs text-gray-400">Nombre</p>
+                          <p className="font-medium dark:text-white">
+                            {contacto.nombre}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-400">Correo</p>
+                          <p className="text-sm break-all dark:text-white">
+                            {contacto.email}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-400">Teléfono</p>
+                          <p className="dark:text-white">{contacto.numero}</p>
+                        </div>
+                      </div>
+
+                      {/* Acciones */}
+                      <div className="flex justify-end gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <button
+                          onClick={() => visualizar(contacto.id_contactanos)}
+                          className="p-2 bg-amber-50 text-amber-600 rounded-xl hover:bg-amber-100 transition-colors"
+                        >
+                          <Eye size={18} />
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            confirmarCambiarEstado(
+                              contacto.id_contactanos,
+                              `${contacto.estado ? 0 : 1}`,
+                            )
+                          }
+                          className={`p-2 rounded-xl transition-colors ${
+                            contacto.estado
+                              ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                              : "bg-green-50 text-green-600 hover:bg-green-100"
+                          }`}
+                        >
+                          <ToggleLeft size={18} />
+                        </button>
+
+                        {auth_service.hasRole("administrador") && (
+                          <button
+                            onClick={() =>
+                              confirmarEliminacion(contacto.id_contactanos)
+                            }
+                            className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))
+              ) : (
+                <div className="text-center py-10">
+                  <p className="text-gray-500">No hay datos disponibles</p>
+                </div>
+              )}
+            </div>
 
             <Pagination1
-              filteredData = {filteredData}
-              currentPage = {currentPage}
-              totalPages = {totalPages}
+              filteredData={filteredData}
+              currentPage={currentPage}
+              totalPages={totalPages}
             />
           </>
         )}
       </div>
     </main>
-  )
+  );
 }
-

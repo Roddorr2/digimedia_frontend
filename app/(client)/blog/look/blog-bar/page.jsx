@@ -9,8 +9,8 @@ export default function Page() {
         <div>
             <Header url_image = {"/blog/Blog4_header.webp"}/>
 
-            <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
-                <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
+            <div className="w-full px-4 py-12 relative bg-[linear-gradient(135deg,_#060126_0%,_#0A0140_50%,_#5A37A6_100%)] text-white min-h-screen">
+                <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-[#060126] via-[#0A0140] to-[#5A37A6] fixed left-0 top-0 h-full -z-10"></div>
 
                 <Body1/>
 

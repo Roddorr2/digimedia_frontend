@@ -1,35 +1,10 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
-import ModalScroll from "../components/ModalScroll";
 import { UxUiSection } from "../components/uxui-section";
 import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react";
-import ModalButton from "../components/ModalButton";
-import ServicePopup from "@/app/dashboard/whatsapp/components/ServicePopup";
 
-export default function UXUI() {
-  const modales = {
-    modalA: {
-      text: "MARKETING Y GESTIÓN DIGITAL",
-      fondo:
-        "/servicios/marketing/modal-scroll/estrategia-marketing-gestion-digital-analisis-datos.webp",
-      title: "HAZLO Y CUMPLE TUS SUEÑOS ¡ASESORÍA Gratis!",
-      serviceName: "3",
-      imageTitle:
-        "Estrategia de marketing y gestión digital empresarial | Digimedia Marketing",
-      imageAlt:
-        "Equipo analizando métricas y gráficos en reunión de estrategia de marketing y gestión digital",
-    },
-  };
-
+export default function AnalisisMetricas() {
   const featuresuxui = [
-    // {
-    //   icon: <PencilRuler className="w-full h-full stroke-1" />,
-    //   title: "logotipo y aplicaciones",
-    //   description:
-    //     "INCLUYE DIFERENTES VARIANTES DEL LOGOTIPO, COMO VERSIONES CON Y SIN TEXTO, Y PAUTAS SOBRE CÓMO Y DÓNDE USAR CADA UNA.",
-    //   alt: "Logotipo, Usos correctos/incorrectos, Tipografía, Paleta de colores, Imagotipo, Isotipo, Logotipo, Retícula, Iconografía, Papelería corporativa",
-    // },
-
     {
       icon: (
         <Image
@@ -83,17 +58,7 @@ export default function UXUI() {
 
   return (
     <div>
-      <ServicePopup idSubservicio={16} />
-      <ModalScroll data={modales} />
-
-      <ModalButton
-        title="¡EXPLOTA EL CONTENIDO DE TUS REDES!"
-        fondo="/servicios/marketing/modal-button/inicio-sesion-cuenta-plataforma-digital.webp"
-        text="MARKETING Y GESTIÓN DIGITAL"
-        serviceName="3"
-        imageTitle="Inicio de sesión en plataforma digital | Acceso seguro"
-        imageAlt="Ilustración de usuarios accediendo a una plataforma digital mediante inicio de sesión con usuario y contraseña."
-      />
+      {/* Servicio: Marketing y Gestión Digital, Subservicio: Análisis de Métricas */}
 
       <UxUiSection
         features={featuresuxui}

@@ -1,4 +1,4 @@
-export const Hero = ({ backgroundImage, title, position = 'center' }) => {
+export const Hero = ({ backgroundImage, title, position = "center" }) => {
   return (
     <>
       <section
@@ -11,10 +11,11 @@ export const Hero = ({ backgroundImage, title, position = 'center' }) => {
         "
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
+          backgroundSize: "cover",
           backgroundPosition: position,
         }}
       >
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none" />
         {/* Contenedor morado */}
         <div
           className="

@@ -38,6 +38,53 @@ export const apiRequest = async (endpoint, options = {}) => {
 };
 
 /**
+ * ✅ Request con progreso de subida (para uploads con imágenes)
+ * onProgress(percent: 0-100) se llama durante el upload browser→servidor.
+ * Al llegar a 100%, el servidor todavía procesa en Cloudinary — actualizar el texto en UI.
+ */
+export const apiRequestWithProgress = (endpoint, options = {}, onProgress) => {
+  return new Promise((resolve, reject) => {
+    const token = getCookie("token") || localStorage.getItem("token");
+    const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+    const url = `${API_URL}${cleanEndpoint}`;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open(options.method || "GET", url);
+    xhr.setRequestHeader("Accept", "application/json");
+    if (token) xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+
+    if (onProgress && xhr.upload) {
+      xhr.upload.addEventListener("progress", (e) => {
+        if (e.lengthComputable) {
+          onProgress(Math.round((e.loaded / e.total) * 100));
+        }
+      });
+    }
+
+    xhr.onload = () => {
+      const contentType = xhr.getResponseHeader("content-type") || "";
+      if (contentType.includes("application/json")) {
+        try {
+          resolve(JSON.parse(xhr.responseText));
+        } catch {
+          reject(new Error("Respuesta JSON inválida"));
+        }
+      } else {
+        resolve({
+          success: xhr.status >= 200 && xhr.status < 300,
+          text: xhr.responseText,
+          status: xhr.status,
+        });
+      }
+    };
+
+    xhr.onerror = () => reject(new Error("Error de red"));
+    xhr.ontimeout = () => reject(new Error("Tiempo de espera agotado"));
+    xhr.send(options.body);
+  });
+};
+
+/**
  * ✅ Helper interno para requests al WhatsApp-service
  */
 const wsRequest = async (endpoint, options = {}) => {
@@ -105,6 +152,11 @@ export const popupApi = {
       method: "GET",
     }),
 
+  getByServicio: (idServicio) =>
+    apiRequest(`/api/public/popup-configs/servicio/${idServicio}`, {
+      method: "GET",
+    }),
+
   create: (formData) =>
     apiRequest("/api/popup-configs", { method: "POST", body: formData }),
 
@@ -115,6 +167,26 @@ export const popupApi = {
     }),
 
   destroy: (id) => apiRequest(`/api/popup-configs/${id}`, { method: "DELETE" }),
+};
+
+export const plantillaApi = {
+  getByOwner: (tipo, ownerType, ownerId) =>
+    apiRequest(`/api/plantillas/${tipo}/by-owner/${ownerType}/${ownerId}`, {
+      method: "GET",
+    }),
+
+  inicializar: (tipo, ownerType, ownerId) =>
+    apiRequest(
+      `/api/plantillas/${tipo}/by-owner/${ownerType}/${ownerId}/init`,
+      {
+        method: "POST",
+      },
+    ),
+
+  getSubserviciosByServicio: (idServicio) =>
+    apiRequest(`/api/subservicios/by-servicio/${idServicio}`, {
+      method: "GET",
+    }),
 };
 
 export const campaniaApi = {

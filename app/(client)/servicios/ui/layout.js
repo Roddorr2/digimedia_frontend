@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "DigiMedia - Diseño Ux Y Ui",
   description:
@@ -18,5 +20,10 @@ export const metadata = {
 };
 
 export default function DisenoUxUiLayout({ children }) {
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ServicePopup idServicio={2} idSubservicio={8} />
+    </>
+  );
 }

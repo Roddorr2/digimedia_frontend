@@ -1,3 +1,5 @@
+import ServicePopup from "@/components/ServicePopup";
+
 export const metadata = {
   title: "Branding Profesional y Diseño de Marca que Conecta - DigiMedia",
   description:
@@ -92,6 +94,7 @@ export default function BrandingLayout({ children }) {
       </script>
 
       {children}
+      <ServicePopup idServicio={4} />
     </>
   );
 }

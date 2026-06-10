@@ -14,6 +14,9 @@ export const HEADER_DEFAULTS = {
   meta_descripcion: "",
   alt: "",
   title: "",
+  bg_color: "#5A37A6",
+  bg_type: "solid",
+  bg_colors: "",
 };
 
 /**
@@ -30,6 +33,9 @@ export const BODY_DEFAULTS = {
   title_image2: "",
   alt_image3: "",
   title_image3: "",
+  bg_color: "#5A37A6",
+  bg_type: "solid",
+  bg_colors: "",
 };
 
 /**
@@ -48,6 +54,9 @@ export const FOOTER_DEFAULTS = {
   title_image3: "",
   palabra: "",
   enlace: "",
+  bg_color: "#060126",
+  bg_type: "solid",
+  bg_colors: "",
 };
 
 /**

@@ -10,7 +10,7 @@ import { DisplayNameContext } from "./components/DisplayNameContext";
 import { dashboardLinks } from "./dashboardsLinks/dashboardsLinks";
 import { useAuth } from "../context/AuthContext";
 import Image from "next/image";
-import { ArrowLeft, LogOut } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -63,6 +63,19 @@ export default function RootLayout({ children }) {
         <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-white">
           {/* HEADER */}
           <header className="relative bg-[#8c52ff] dark:bg-[#6b3acb] h-16 flex items-center px-3 sm:px-6 lg:px-10 py-2 z-10">
+            {/* Botón de Menú para Móviles */}
+            <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="md:hidden mr-3 p-1 rounded-md text-white hover:bg-purple-700 dark:hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-white z-20"
+              aria-label="Toggle Menu"
+            >
+              {isSidebarOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+
             <Link
               href="/"
               className="flex items-center flex-shrink-0 h-full z-10"
@@ -78,17 +91,27 @@ export default function RootLayout({ children }) {
 
             <h1 className="flex-1 text-center text-white font-semibold text-sm sm:text-xl lg:text-3xl truncate px-4">
               <span className="hidden sm:inline">SECCIÓN: </span>
-              {pathname.slice(pathname.indexOf("/", 1) + 1, -1).toUpperCase()}
+              {pathname.slice(pathname.indexOf("/", 1) + 1).replace("/", "").toUpperCase()}
             </h1>
           </header>
 
           <div className="flex w-full overflow-hidden h-screen">
+            {/* Overlay para móviles */}
+            {isSidebarOpen && (
+              <div
+                onClick={() => setIsSidebarOpen(false)}
+                className="fixed inset-0 top-16 bg-black/40 z-20 md:hidden transition-opacity"
+              />
+            )}
+
             {/* SIDEBAR CON AUTO-EXPANSIÓN */}
             <div
               onMouseEnter={() => setIsSidebarOpen(true)}
               onMouseLeave={() => setIsSidebarOpen(false)}
-              className={`relative min-h-screen flex flex-col shrink-0 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-all duration-300 pt-5 ${
-                isSidebarOpen ? "w-64" : "w-20"
+              className={`fixed md:relative top-16 md:top-0 left-0 z-30 md:z-auto h-[calc(100vh-4rem)] md:h-auto md:min-h-screen flex flex-col shrink-0 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transition-all duration-300 pt-5 shadow-lg md:shadow-none ${
+                isSidebarOpen
+                  ? "w-64 translate-x-0"
+                  : "w-64 -translate-x-full md:translate-x-0 md:w-20"
               }`}
             >
               {/* Navegación principal */}
@@ -110,6 +133,7 @@ export default function RootLayout({ children }) {
                           href={item.href}
                           icon={item.icon}
                           isSidebarOpen={isSidebarOpen}
+                          onClick={() => setIsSidebarOpen(false)}
                         />
                       );
                     }
@@ -144,7 +168,11 @@ export default function RootLayout({ children }) {
 
                 {/* Botón logout */}
                 <div
-                  onClick={logout}
+                  onClick={async () => {
+                    setIsSidebarOpen(false);
+                    setIsLoggingOut(true);
+                    await logout();
+                  }}
                   className="flex items-center py-2 px-0 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
                 >
                   <div className="p-2 flex flex-shrink-0">
@@ -201,7 +229,7 @@ export default function RootLayout({ children }) {
   );
 }
 
-function SidebarLink({ href, title, icon: Icon, isSidebarOpen }) {
+function SidebarLink({ href, title, icon: Icon, isSidebarOpen, onClick }) {
   const pathname = usePathname();
   const isActive = pathname.startsWith(href);
 
@@ -213,7 +241,7 @@ function SidebarLink({ href, title, icon: Icon, isSidebarOpen }) {
           : "hover:bg-gray-200 dark:hover:bg-gray-700"
       }`}
     >
-      <Link href={href} className="flex items-center py-2 no-underline">
+      <Link href={href} onClick={onClick} className="flex items-center py-2 no-underline">
         <div className="p-2 flex relative flex-shrink-0">
           {Icon && (
             <Icon

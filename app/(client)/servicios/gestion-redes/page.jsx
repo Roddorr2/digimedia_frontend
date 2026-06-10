@@ -3,8 +3,6 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-import ModalScroll from "../components/ModalScroll";
-import ModalButton from "../components/ModalButton";
 import { icon } from "@fortawesome/fontawesome-svg-core";
 
 export default function Page() {
@@ -64,31 +62,9 @@ export default function Page() {
       ruta: "/servicios/ui/?from=gestionRedes",
     },
   ];
-  const modales = {
-    modalA: {
-      text: "GESTIÓN DE REDES SOCIALES",
-      fondo: "/servicios/gestion/modal-scroll/gestion-redes-sociales-peru-digimedia.webp",
-      title: "SOLO POR HOY ACCEDE A UNA ¡ASESORÍA GRATIS!",
-      imageTitle:"Gestión de Redes Sociales en Perú | Digimedia",
-      imageAlt:"Servicio de gestión de redes sociales en Perú ofrecido por Digimedia para crecimiento de marcas en Instagram, Facebook y TikTok",
-      serviceName: "2",
-      width: 256,
-      height: 144,
-    },
-  };
 
   return (
     <>
-      <ModalScroll data={modales} />
-
-      <ModalButton
-        title="¡ELEVA TUS CAMPAÑAS A OTRO NIVEL!"
-        fondo="/servicios/gestion/modal-button/marketing-digital-redes-sociales-peru-digimedia.webp"
-        text="GESTIÓN DE REDES SOCIALES"
-        imageTitle="Marketing Digital y Redes Sociales en Perú | Digimedia"
-        imageAlt="Ilustración de herramientas de marketing digital y gestión de redes sociales con iconos de interacción, análisis y contenido"
-        serviceName="2"
-      />
 
       <Main
         title=<>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import styles from "./Footer.module.css";
-import Image from "next/image";
+import { useState } from 'react';
+import Link from 'next/link';
+import styles from './Footer.module.css';
+import Image from 'next/image';
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -51,9 +51,9 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li className={styles.emailContainer}>
-                    <div
-                      onClick={handleCopyEmail}
-                      className={styles.emailLink}
+                    <div 
+                      onClick={handleCopyEmail} 
+                      className={`${styles.emailLink} cursor-pointer`}
                       title="Haz clic para copiar el correo"
                     >
                       <Image

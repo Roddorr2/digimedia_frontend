@@ -6,10 +6,24 @@ import Fetch from "../services/fetch";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 
-export default function Header({ id_blog_head }) {
-  const [data, setDataResponse] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+const getBackgroundStyle = (bgColor = "#1E40AF", bgType = "solid", bgColors = "") => {
+  if (bgType === "gradient" && bgColors) {
+    const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+    if (colors.length >= 2) {
+      if (colors.length >= 3) {
+        return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+      }
+      return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+    }
+  }
+  return { backgroundColor: bgColor };
+};
+
+export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
+   const [data, setDataResponse] = useState(null);
+   const [isLoading, setIsLoading] = useState(true);
+   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const fetchHeaderData = async () => {
@@ -98,8 +112,18 @@ export default function Header({ id_blog_head }) {
     );
   }
 
-  return (
-    <section className="relative w-screen h-screen md:h-[80vh] overflow-hidden">
+return (
+    <section 
+      className="relative w-screen h-screen md:h-[80vh] overflow-hidden"
+      style={{
+        ...getBackgroundStyle(
+          data?.bg_color || bg_color,
+          data?.bg_type || bg_type || "solid",
+          data?.bg_colors || bg_colors
+        )
+      }}
+    >
+
       {/* Imagen de fondo visible */}
       <Image
         src={`${data.imagen.path}?v=${Date.now()}`}
@@ -110,8 +134,16 @@ export default function Header({ id_blog_head }) {
         priority
       />
 
-      {/* Capa de oscurecimiento */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      {/* Capa de oscurecimiento según tipo */}
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          backgroundColor: data?.bg_type === "gradient" 
+            ? "rgba(0,0,0,0.3)" 
+            : `${data?.bg_color || bg_color || "#1E40AF"}33` 
+        }}
+      ></div>
+
 
       {/* Contenido sobre la imagen */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
@@ -132,3 +164,4 @@ export default function Header({ id_blog_head }) {
     </section>
   );
 }
+
