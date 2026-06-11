@@ -170,7 +170,7 @@ const PageContent = () => {
 <Header id_blog_head={data?.id_blog_head} bg_color={data?.head?.bg_color} bg_type={data?.head?.bg_type} bg_colors={data?.head?.bg_colors} />
 
           <div
-            className="container mx-auto px-4 py-12 relative text-black min-h-screen w-full"
+            className="mx-auto px-4 py-12 relative text-black min-h-screen w-full"
             style={
               data?.body?.bg_type === "gradient" && data?.body?.bg_colors
                 ? (() => {
@@ -183,7 +183,7 @@ const PageContent = () => {
                     }
                     return { backgroundColor: data.body.bg_colors };
                   })()
-                : { backgroundColor: data?.body?.bg_color || "#5A37A6" }
+                : { backgroundColor: data?.body?.bg_color || "#FFFFFF" }
             }
           >
 
