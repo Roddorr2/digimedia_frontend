@@ -144,7 +144,8 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
                   <ServerIcon className="w-6 h-6 text-[#8c52ff]" />
                 </div>
@@ -152,9 +153,22 @@ export default function Page() {
                   Servicio de Interés
                 </h3>
                 <p className="text-lg font-medium text-gray-800">
-                  {modal.servicio.nombre}
+                  {modal.servicio?.nombre || "—"}
                 </p>
               </div>
+
+              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
+                  <ServerIcon className="w-6 h-6 text-[#8c52ff]" />
+                </div>
+                <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                  Subservicio
+                </h3>
+                <p className="text-lg font-medium text-gray-800">
+                  {modal.subservicio?.nombre || "—"}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

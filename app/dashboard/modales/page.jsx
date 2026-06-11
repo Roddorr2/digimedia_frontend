@@ -285,14 +285,15 @@ export default function Page() {
       return;
     }
 
-    const headers = ["ID", "Nombre", "Correo", "Estado", "Servicio Contratado"];
+    const headers = ["ID", "Nombre", "Correo", "Estado", "Servicio Contratado", "Subservicio"];
 
     const csvData = filteredData.map((modal) => [
       modal.id_modalservicio,
       modal.nombre,
       modal.correo,
-      modal.servicio.nombre,
+      modal.servicio?.nombre,
       modal.estado ? "Activo" : "Inactivo",
+      modal.subservicio?.nombre || "",
     ]);
 
     const csvContent = [
@@ -397,6 +398,12 @@ export default function Page() {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
                     >
+                      Subservicio
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                    >
                       Estado
                     </th>
                     <th
@@ -427,6 +434,10 @@ export default function Page() {
                         {/* 👇 CORRECCIÓN 1: Aquí agregamos el signo de interrogación (?) 👇 */}
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
                           {modal.servicio?.nombre}
+                        </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                          {modal.subservicio?.nombre || <span className="text-gray-400">—</span>}
                         </td>
 
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -495,7 +506,7 @@ export default function Page() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="6" className="px-6 py-16 text-center">
+                      <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">
@@ -565,6 +576,15 @@ export default function Page() {
                       </span>
                       <p className="text-gray-700 dark:text-gray-300">
                         {modal.servicio?.nombre || "Sin servicio"}
+                      </p>
+                    </div>
+
+                    <div>
+                      <span className="font-medium text-gray-500">
+                        Subservicio:
+                      </span>
+                      <p className="text-gray-700 dark:text-gray-300">
+                        {modal.subservicio?.nombre || "—"}
                       </p>
                     </div>
                   </div>
