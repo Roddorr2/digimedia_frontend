@@ -80,9 +80,17 @@ export default function Header2() {
     setOpenSubmenu((prev) => (prev === name ? null : name));
   };
 
-  const handleMouseLeave = () => {
-    if (!isMobile) setOpenSubmenu(null);
-  };
+  const handleMouseEnter = (name) => {
+  if (!isMobile) {
+    setOpenSubmenu(name);
+  }
+};
+
+const handleMouseLeave = () => {
+  if (!isMobile) {
+    setOpenSubmenu(null);
+  }
+};
 
   // Inline style — maneja desktop Y mobile sin depender de clase CSS
   const submenuStyle = (name) => {
@@ -185,17 +193,22 @@ export default function Header2() {
 
             {/* Servicios */}
             <li
-              className={`cursor-pointer ${isActive("/servicios") ? styles.active : ""}`}
-              style={touchStyle("services")}
-              onTouchStart={() => setTouchedItem("services")}
-              onTouchEnd={() => setTouchedItem(null)}
-              onClick={() => handleSubmenuClick("services")}
-              onMouseLeave={handleMouseLeave}
-            >
+                className={`cursor-pointer ${
+                  isActive("/servicios") ? styles.active : ""
+                }`}
+                style={touchStyle("services")}
+                onTouchStart={() => setTouchedItem("services")}
+                onTouchEnd={() => setTouchedItem(null)}
+                onClick={() => handleSubmenuClick("services")}
+                onMouseEnter={() => handleMouseEnter("services")}
+                onMouseLeave={handleMouseLeave}
+              >
               <p className="flex justify-center items-center gap-1">
                 Servicios{" "}
                 <ChevronDown
-                  className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "services" ? styles.chevronOpen : ""}`}
+                  className={`w-4 h-4 ${styles.chevron} ${
+                    openSubmenu === "services" ? styles.chevronOpen : ""
+                  }`}
                 />
               </p>
               <ul
@@ -318,12 +331,15 @@ export default function Header2() {
               onTouchStart={() => setTouchedItem("more")}
               onTouchEnd={() => setTouchedItem(null)}
               onClick={() => handleSubmenuClick("more")}
+              onMouseEnter={() => handleMouseEnter("more")}
               onMouseLeave={handleMouseLeave}
             >
               <p className="flex justify-center items-center gap-1">
                 Más{" "}
                 <ChevronDown
-                  className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "more" ? styles.chevronOpen : ""}`}
+                  className={`w-4 h-4 ${styles.chevron} ${
+                    openSubmenu === "more" ? styles.chevronOpen : ""
+                  }`}
                 />
               </p>
               <ul
