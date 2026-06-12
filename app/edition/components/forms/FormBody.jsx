@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Type,
   AlignLeft,
@@ -31,6 +31,8 @@ import {
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
+import Swal from "sweetalert2";
+import { validateImageFile } from "../../utils/imageValidation";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -74,6 +76,7 @@ export default function FormBody({
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
+  const [gradientColorCount, setGradientColorCount] = useState(2);
 
   // Estados para controlar visibilidad dinámica de secciones
   const [sectionsVisibility, setSectionsVisibility] = useState({
@@ -82,7 +85,40 @@ export default function FormBody({
     informacion: formEncabezadoBody?.flag_informacion ?? true,
   });
 
-  // Obtener configuración de la plantilla especificada
+  // Estado local para los colores del gradiente
+  const [gradientColorsLocal, setGradientColorsLocal] = useState([]);
+
+  // Sincronizar gradientColorsLocal con formEncabezadoBody.bg_colors
+  useEffect(() => {
+    if (formEncabezadoBody?.bg_colors) {
+      setGradientColorsLocal(formEncabezadoBody.bg_colors.split(",").map(c => c.trim()).filter(Boolean));
+    }
+  }, [formEncabezadoBody?.bg_colors]);
+
+  // Handler para actualizar color del gradiente
+  const handleGradientColorChange = useCallback((index, value) => {
+    setGradientColorsLocal(prev => {
+      const newColors = [...prev];
+      while (newColors.length < gradientColorCount) {
+        newColors.push("#5A37A6");
+      }
+      newColors[index] = value;
+      return newColors.slice(0, gradientColorCount);
+    });
+  }, [gradientColorCount]);
+
+  // Sincronizar gradientColorsLocal con formEncabezadoBody.bg_colors (debounce)
+  useEffect(() => {
+    if (gradientColorsLocal.length > 0) {
+      const timeout = setTimeout(() => {
+        setFormEncabezadoBody((prev) => ({
+          ...prev,
+          bg_colors: gradientColorsLocal.join(","),
+        }));
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [gradientColorsLocal, setFormEncabezadoBody]);
   const plantillaConfig = getPlantillaConfig(plantillaId);
   const finalValidationConfig = DEFAULT_BODY_VALIDATION_CONFIG;
   const mergedStyles = { ...plantillaConfig.styles };
@@ -338,6 +374,20 @@ export default function FormBody({
 
       try {
         setUploading(true);
+        
+        // Validar imagen
+        const validation = await validateImageFile(file, "body");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
         const tempUrl = URL.createObjectURL(file);
 
         // Actualizar el estado del header
@@ -378,6 +428,20 @@ export default function FormBody({
 
       try {
         setUploading(true);
+        
+        // Validar imagen
+        const validation = await validateImageFile(file, "body");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
         const tempUrl = URL.createObjectURL(file);
 
         // Actualizar el estado de la galería
@@ -812,30 +876,64 @@ export default function FormBody({
             </div>
           </div>
 
-          {/* Campo para gradiente */}
+          {/* Configuración de gradiente - selector de cantidad de colores */}
           {currentBgType === "gradient" && (
-            <div className="flex items-center gap-2">
-              <Palette className="w-4 h-4 text-yellow-400" />
-              <input
-                type="text"
-                placeholder="#color1,#color2,#color3"
-                value={currentBgColors}
-                onChange={(e) => setFormEncabezadoBody((prev) => ({
-                  ...prev,
-                  bg_colors: e.target.value,
-                }))}
-                className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
-                title="Gradiente: #color1,#color2,#color3"
-              />
+            <div className="flex flex-col gap-3 w-full">
+              {/* Selector de cantidad de colores */}
+              <div className="flex items-center gap-3">
+                <Palette className="w-4 h-4 text-yellow-400" />
+                <span className="text-sm text-gray-300">¿Cuántos colores?</span>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setGradientColorCount(2)}
+                    className={`px-3 py-1 rounded-md text-sm transition-colors ${gradientColorCount === 2 ? "bg-yellow-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+                  >
+                    2
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGradientColorCount(3)}
+                    className={`px-3 py-1 rounded-md text-sm transition-colors ${gradientColorCount === 3 ? "bg-yellow-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+                  >
+                    3
+                  </button>
+                </div>
+              </div>
+
+              {/* Selectores de colores individuales */}
+              <div className="flex flex-col gap-2 ml-7">
+                {Array.from({ length: gradientColorCount }, (_, index) => {
+                  const colorValue = gradientColorsLocal[index] || "#5A37A6";
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400 w-16">Color {index + 1}:</span>
+                      <input
+                        type="color"
+                        value={colorValue}
+                        onChange={(e) => handleGradientColorChange(index, e.target.value)}
+                        className="w-10 h-8 rounded border border-gray-600 cursor-pointer"
+                        title={`Seleccionar color ${index + 1}`}
+                      />
+                      <input
+                        type="text"
+                        value={colorValue}
+                        onChange={(e) => handleGradientColorChange(index, e.target.value)}
+                        className="flex-1 bg-gray-800 text-white border border-gray-600 rounded p-1 px-2 text-sm"
+                        placeholder={`#color${index + 1}`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 
-
-          {/* Toggles en fila horizontal en desktop */}
-          <div className="flex flex-col sm:flex-row gap-3 lg:gap-6">
+          {/* Toggles en columna */}
+          <div className="flex flex-col gap-3">
             {/* Toggle Consejos */}
             {mergedSectionsConfig.consejos.enabled && (
-              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                 <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
                   <Quote className="w-4 h-4 mr-2 text-purple-400" />
                   Consejos
@@ -868,7 +966,7 @@ export default function FormBody({
 
             {/* Toggle Galería */}
             {mergedSectionsConfig.galeria.enabled && (
-              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                 <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
                   <IconImage className="w-4 h-4 mr-2 text-blue-400" />
                   Galería
@@ -901,7 +999,7 @@ export default function FormBody({
 
             {/* Toggle Información */}
             {mergedSectionsConfig.informacion.enabled && (
-              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                 <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
                   <FileText className="w-4 h-4 mr-2 text-teal-400" />
                   Información
@@ -1032,7 +1130,7 @@ export default function FormBody({
                 <input
                   type="file"
                   name="public_image1"
-                  accept="image/*"
+                  accept="image/webp"
                   className="hidden"
                   onChange={handleImageHeader}
                   disabled={uploading}
@@ -1243,7 +1341,7 @@ export default function FormBody({
                             <input
                               type="file"
                               name={campo}
-                              accept="image/*"
+                              accept="image/webp"
                               className="hidden"
                               onChange={handleImageBody}
                               disabled={uploading}

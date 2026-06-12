@@ -32,6 +32,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
         setError(null);
         const response = await Fetch.fetchBlogHead(id_blog_head);
         setDataResponse(response);
+        console.log("🔍 ¿Qué viene de Laravel en el Editor?:", response?.imagen);
       } catch (error) {
         console.error("Error fetching blog header:", error);
         setError("Ocurrió un error al cargar el encabezado");
@@ -126,12 +127,17 @@ return (
 
       {/* Imagen de fondo visible */}
       <Image
-        src={`${data.imagen.path}?v=${Date.now()}`}
+        src={
+    data.imagen.path.startsWith('http') 
+      ? data.imagen.path 
+      : `${process.env.NEXT_PUBLIC_API_URL_DEV}/storage/${data.imagen.path}`
+  }
         alt={data.alt || "Imagen de encabezado"}
         title={data.title || ""}
         fill
         className="object-cover"
         priority
+        unoptimized={true}
       />
 
       {/* Capa de oscurecimiento según tipo */}

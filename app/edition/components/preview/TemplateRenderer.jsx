@@ -366,13 +366,13 @@ export default function TemplateRenderer({
           // Plantilla 1 y 3: Cards alternadas
           <div className="grid grid-cols-1 gap-28 pt-8 max-w-5xl mx-auto">
             {displayData.map((item, index) => (
-              <div key={index} className="group">
+              <div key={index} className="group bg-white/90 dark:bg-white/10 rounded-xl p-6 backdrop-blur-sm">
                 <div className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} gap-12`}>
                   <div className="flex-1">
-                    <h4 className="text-2xl font-bold text-gray-900 mb-4">
+                    <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                       {item.titulo || `Información ${index + 1}`}
                     </h4>
-                    <p className="text-gray-700 text-lg leading-relaxed mb-6">
+                    <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed mb-6">
                       {item.descripcion || "Descripción detallada del contenido importante"}
                     </p>
                     {item.enlace && item.palabra && (
