@@ -80,6 +80,10 @@ export default function Header2() {
     setOpenSubmenu((prev) => (prev === name ? null : name));
   };
 
+  const handleMouseEnter = (name) => {
+    if (!isMobile) setOpenSubmenu(name);
+  };
+
   const handleMouseLeave = () => {
     if (!isMobile) setOpenSubmenu(null);
   };
@@ -190,6 +194,7 @@ export default function Header2() {
               onTouchStart={() => setTouchedItem("services")}
               onTouchEnd={() => setTouchedItem(null)}
               onClick={() => handleSubmenuClick("services")}
+              onMouseEnter={() => handleMouseEnter("services")}
               onMouseLeave={handleMouseLeave}
             >
               <p className="flex justify-center items-center gap-1">
@@ -318,6 +323,7 @@ export default function Header2() {
               onTouchStart={() => setTouchedItem("more")}
               onTouchEnd={() => setTouchedItem(null)}
               onClick={() => handleSubmenuClick("more")}
+              onMouseEnter={() => handleMouseEnter("more")}
               onMouseLeave={handleMouseLeave}
             >
               <p className="flex justify-center items-center gap-1">
@@ -381,6 +387,7 @@ export default function Header2() {
                 onTouchStart={() => setTouchedItem("panel")}
                 onTouchEnd={() => setTouchedItem(null)}
                 onClick={() => handleSubmenuClick("panel")}
+                onMouseEnter={() => handleMouseEnter("panel")}
                 onMouseLeave={handleMouseLeave}
               >
                 <p className="flex items-center gap-1">

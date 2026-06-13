@@ -26,7 +26,8 @@ export default function Footer() {
         { name: "Experiencia de Usuario y Diseño", route: "/servicios/experiencia-usuario/" },
         { name: "Dominio y Hosting", route: "/servicios/dominio_hosting/" },
         { name: "Optimización SEO", route: "/servicios/seo/" },
-        { name: "Desarrollo Responsive", route: "/servicios/seo/" }, // Cambia esta ruta si es diferente
+        { name: "Desarrollo Responsive", route: "/servicios/seo/" },
+        { name: "Landing Page", route: "/servicios/landing-page/" },
       ]
     },
     {
