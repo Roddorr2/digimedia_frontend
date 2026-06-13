@@ -21,13 +21,13 @@ export default function Clientes() {
     {
       src: "/image-home/image-A1.webp",
       alt: "NHL logo",
-      width: 150,
+      width: 125,
       height: 75,
     },
     {
-      src: "/image-home/tami color.webp",
+      src: "/image-home/Tami-color.png",
       alt: "Tami logo",
-      width: 200,
+      width: 125,
       height: 95,
     },
     {
