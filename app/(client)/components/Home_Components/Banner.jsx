@@ -1,34 +1,58 @@
+'use client';
 import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
+
+const slides = [
+  '/optimized_images/image-home/pc-1.png',
+  '/optimized_images/image-home/pc-2.png',
+  '/optimized_images/image-home/pc-3.png',
+  '/optimized_images/image-home/pc-4.png',
+];
 
 export default function Banner() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentIndexRef = useRef(0);
+
+  useEffect(() => {
+    slides.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex = (currentIndexRef.current + 1) % slides.length;
+      currentIndexRef.current = nextIndex;
+      setCurrentIndex(nextIndex);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
-      <main className="relative h-[calc(100dvh-67px)] w-full overflow-hidden">
-        {/* Imagen optimizada con picture para evitar doble carga */}
-        <picture className="absolute inset-0 w-full h-full">
-          <source
-            type="image/avif"
-            media="(max-width: 767px)"
-            srcSet="/optimized_images/image-home/reunion-de-marketing_movil.avif"
-          />
-          <source
-            media="(max-width: 767px)"
-            srcSet="/optimized_images/image-home/reunion-de-marketing_movil.webp"
-          />
-          <source
-            type="image/avif"
-            srcSet="/optimized_images/image-home/web_nuevo.avif"
-          />
-          <img
-            src="/optimized_images/image-home/web_nuevo.webp"
-            alt="Inicio"
-            className="w-full h-full object-cover object-[70%] md:object-[30%]"
-            fetchPriority="high"
-
-            loading="eager"
-            decoding="async"
-          />
-        </picture>
+      <main className="relative h-[calc(100dvh-67px)] w-full overflow-hidden bg-black">
+        <div className="absolute inset-0 w-full h-full">
+          {slides.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt={`Banner ${index + 1}`}
+              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 transition-opacity duration-1000 ${
+                index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+              loading="eager"
+              decoding="async"
+              style={{
+                transform: index === currentIndex ? 'scale(1)' : 'scale(1.1)',
+                transition: index === currentIndex 
+                  ? 'transform 5000ms ease-out, opacity 1000ms ease-in-out' 
+                  : 'none'
+              }}
+            />
+          ))}
+        </div>
 
         <div className="absolute inset-0 z-10 flex flex-col items-end justify-end pb-20 md:justify-end md:items-start md:mx-0 md:pb-0">
           <div className="bg-[#B326FF] text-white py-6 px-8 rounded-[30px] rounded-tr-[80px] md:rounded-t-none md:rounded-tr-[50px] md:px-24 w-[65%] mr-4 md:w-auto md:mr-0 md:max-w-none text-center md:text-left">
