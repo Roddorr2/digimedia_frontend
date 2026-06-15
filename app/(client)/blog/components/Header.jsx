@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import Fetch from "../services/fetch";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+//agregar importacion para imagen por defecto que no se mostraba tras el nuevo arreglo 
+import { DEFAULT_IMAGES } from "@/app/edition/constants/defaults";
 
 const getBackgroundStyle = (bgColor = "#1E40AF", bgType = "solid", bgColors = "") => {
   if (bgType === "gradient" && bgColors) {
@@ -126,9 +128,11 @@ return (
     >
 
       {/* Imagen de fondo visible */}
+      {/* se agrego una correccion en base a un error en no mostrar la img por defecto */}
       <Image
-        src={
-    data.imagen.path.startsWith('http') 
+        src={!data.imagen?.path || data.imagen.path.includes("fondo_blog_extend")
+      ? DEFAULT_IMAGES.header.image1
+      : data.imagen.path.startsWith('http')
       ? data.imagen.path 
       : `${process.env.NEXT_PUBLIC_API_URL_DEV}/storage/${data.imagen.path}`
   }

@@ -23,7 +23,7 @@ import {
   getPlantillaConfig,
   DEFAULT_HEADER_VALIDATION_CONFIG,
 } from "../../config/index";
-
+import { DEFAULT_IMAGES } from "../../constants/defaults";
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
   container:
@@ -63,7 +63,7 @@ const DEFAULT_PLACEHOLDERS = {
 export default function FormHeader({
   // Props de datos
   data = {},
-  defaultImage = "/blog/fondo_blog_extend.png",
+  defaultImage = DEFAULT_IMAGES.header.image1,
 
   // Props de configuración
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,
