@@ -20,6 +20,7 @@ export default function DisenoDesarrolloWeb() {
       imageAlt:
         "ícono del sub servicio de creación y desarrollo web ofrecido por Digimedia",
     },
+    
     {
       title: (
         <>
@@ -62,6 +63,19 @@ export default function DisenoDesarrolloWeb() {
       imageAlt:
         "Ícono del subservicio de Desarrollo responsive e integraciones digitales",
     },
+    {
+      title: (
+        <>
+          LANDING <br /> PAGE
+        </>
+      ),
+      text: "Diseñamos landing pages de alta conversión que transforman visitantes en clientes, con mensajes persuasivos y llamadas a la acción efectivas.",
+      icon: "/servicios/desarrollo/landing-page-sub-servicio.webp",
+      ruta: "/servicios/landing-page/",
+      imageTitle: "Subservicio de Landing Page",
+      imageAlt:
+        "Ícono del subservicio de Landing Page ofrecido por Digimedia",
+    },
   ];
 
   return (
@@ -84,7 +98,7 @@ export default function DisenoDesarrolloWeb() {
         title="¿CÓMO FUNCIONA?"
         text="Creamos experiencias digitales que cautivan y funcionan sin interrupciones. Desde el diseño visual hasta la implementación técnica, convertimos su sitio web en una herramienta poderosa que posiciona su marca, comunica su valor y genera resultados tangibles."
       />
-      <Servicios servicios={servicios} />
+      <Servicios servicios={servicios} perRow={5} />
       <Contactanos
         text="Consolida tu presencia web, diseña con nosotros tu página web"
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
