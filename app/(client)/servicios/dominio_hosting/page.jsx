@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 
 export default function OptimizacionSEO() {
   const featuresuxui = [
@@ -9,7 +8,7 @@ export default function OptimizacionSEO() {
       icon: (
         <Image
           src="/servicios/diseno_desarrollo_web/dominio_hosting/seo-on-page-digimedia-icono.webp"
-          alt="Ícono que contiene las siglas SEO dentro de una lupa y representa la técnica que se usa para optimizar y mejorar la visibilidad de una página web"
+          alt="Ícono que contiene las siglas SEO dentro de una lupa"
           title="Sub-subservicio de SEO ON-PAGE"
           className="w-full h-full stroke-1"
           width={100}
@@ -24,7 +23,7 @@ export default function OptimizacionSEO() {
       icon: (
         <Image
           src="/servicios/diseno_desarrollo_web/dominio_hosting/seo-off-page-digimedia-icono.webp"
-          alt="Ícono que contiene las siglas SEO dentro de una lupa por delante de una pantalla y representa los resultados de una búsqueda web"
+          alt="Ícono que contiene las siglas SEO dentro de una lupa por delante de una pantalla"
           title="Sub-subservicio de SEO OFF-PAGE"
           className="w-full h-full stroke-1"
           width={100}
@@ -39,7 +38,6 @@ export default function OptimizacionSEO() {
 
   return (
     <div>
-      {/*Servicio: Diseño Web y Desarrollo Web, Subservicio: Optimización SEO*/}
       <UxUiSection
         features={featuresuxui}
         mainDescription="Mejoramos la visibilidad de tu sitio web en los motores de búsqueda mediante una optimización técnica y estratégica. Trabajamos palabras clave, estructura, velocidad y contenido para atraer tráfico cualificado y aumentar tus conversiones de forma orgánica."
@@ -50,7 +48,7 @@ export default function OptimizacionSEO() {
             <br /> PARA BUSCADORES
           </>
         }
-        alt="Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de optimización seo para buscadores con el objetivo de optimizar el posicionamiento de una página web"
+        alt="Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de optimización seo para buscadores"
         title="Subservicio de Optimización SEO para buscadores"
       />
 

@@ -16,7 +16,7 @@ const nextConfig = {
   trailingSlash: true,
   // Optimización de compilación
   experimental: {
-    optimizePackageImports: ['@radix-ui/react-*', 'lucide-react'],
+    optimizePackageImports: ['@radix-ui/react-*', 'lucide-react','@marsidev/react-turnstile'],
   },
   // Compresión automática de assets
   compress: true,
