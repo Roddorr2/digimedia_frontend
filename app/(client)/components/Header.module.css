@@ -151,13 +151,6 @@
     height: 40px;
   }
 
-  .menuHorizontal li:hover > .menuVertical {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
   .menuHorizontal li.active > a,
   .menuHorizontal li.active > p {
     border-bottom: 4px solid white;
