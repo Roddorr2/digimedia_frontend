@@ -2,11 +2,18 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 
-const slides = [
+const desktopSlides = [
   '/optimized_images/image-home/pc-1.png',
   '/optimized_images/image-home/pc-2.png',
   '/optimized_images/image-home/pc-3.png',
   '/optimized_images/image-home/pc-4.png',
+];
+
+const mobileSlides = [
+  '/optimized_images/image-home/celular-1.png',
+  '/optimized_images/image-home/celular-2.png',
+  '/optimized_images/image-home/celular-3.png',
+  '/optimized_images/image-home/celular-4.png',
 ];
 
 export default function Banner() {
@@ -14,7 +21,7 @@ export default function Banner() {
   const currentIndexRef = useRef(0);
 
   useEffect(() => {
-    slides.forEach((src) => {
+    [...desktopSlides, ...mobileSlides].forEach((src) => {
       const img = new Image();
       img.src = src;
     });
@@ -22,7 +29,7 @@ export default function Banner() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = (currentIndexRef.current + 1) % slides.length;
+      const nextIndex = (currentIndexRef.current + 1) % desktopSlides.length;
       currentIndexRef.current = nextIndex;
       setCurrentIndex(nextIndex);
     }, 5000);
@@ -34,12 +41,30 @@ export default function Banner() {
     <>
       <main className="relative h-[calc(100dvh-67px)] w-full overflow-hidden bg-black">
         <div className="absolute inset-0 w-full h-full">
-          {slides.map((src, index) => (
+          {desktopSlides.map((src, index) => (
             <img
-              key={index}
+              key={`desktop-${index}`}
               src={src}
-              alt={`Banner ${index + 1}`}
-              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 transition-opacity duration-1000 ${
+              alt={`Banner desktop ${index + 1}`}
+              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 transition-opacity duration-1000 hidden md:block ${
+                index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+              loading="eager"
+              decoding="async"
+              style={{
+                transform: index === currentIndex ? 'scale(1)' : 'scale(1.1)',
+                transition: index === currentIndex 
+                  ? 'transform 5000ms ease-out, opacity 1000ms ease-in-out' 
+                  : 'none'
+              }}
+            />
+          ))}
+          {mobileSlides.map((src, index) => (
+            <img
+              key={`mobile-${index}`}
+              src={src}
+              alt={`Banner mobile ${index + 1}`}
+              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 transition-opacity duration-1000 md:hidden ${
                 index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
               loading="eager"
