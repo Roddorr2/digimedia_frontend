@@ -142,7 +142,8 @@ const empleado_service = {
             const requestBody = { ...form };
             if (!requestBody.id) {
                 requestBody.id = id;
-            }            
+            }
+            
             const response = await fetch(`${api_url}/pass/${id}`, {
                 method: "PUT",
                 headers: {
@@ -150,7 +151,8 @@ const empleado_service = {
                     "Authorization": `Bearer ${getCookie('token')}`
                 },
                 body: JSON.stringify(requestBody)
-            });            
+            });
+            
             return response;
         } catch (error) {
             return new Response(JSON.stringify({

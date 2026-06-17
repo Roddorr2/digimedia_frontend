@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   // Verifica token al montar el provider
   useEffect(() => {
     const verifyToken = async () => {
+      setIsLoading(true);
       const token = getCookie("token");
 
       if (!token) {
