@@ -77,9 +77,21 @@ function FloatingButtonFace() {
     return (
       <span
         className="flex items-center justify-center w-full h-full rounded-full overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)", boxShadow: "0 4px 18px rgba(0,0,0,0.22)" }}
+        style={{
+          background: "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)",
+          boxShadow: "0 4px 18px rgba(0,0,0,0.22)",
+        }}
       >
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
       </span>
@@ -110,6 +122,20 @@ export default function MayaChatbot() {
   const hasWelcomed = useRef(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
+  const showHoverTooltip = btnHovered && !open;
+  const showAutoBubble = showBubble && !btnHovered && !open;
+  const hoverTimer = useRef(null);
+
+  const handleMouseEnter = () => {
+    hoverTimer.current = setTimeout(() => {
+      setBtnHovered(true);
+    }, 180);
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(hoverTimer.current);
+    setBtnHovered(false);
+  };
 
   // Animación de bienvenida la primera vez que se abre
   useEffect(() => {
@@ -130,7 +156,10 @@ export default function MayaChatbot() {
   }, [messages, loading]);
 
   useEffect(() => {
-    if (open) { setShowBubble(false); return; }
+    if (open) {
+      setShowBubble(false);
+      return;
+    }
     let idx = 0;
     const timers = [];
     const cycle = (delay) => {
@@ -371,22 +400,41 @@ export default function MayaChatbot() {
         style={{ bottom: "7rem" }}
       >
         {/* Burbuja de mensaje o tooltip hover */}
-        {!open && (showBubble || btnHovered) && (
-          <div className="relative mb-3 bg-white rounded-2xl shadow-md px-4 py-2 text-sm text-gray-700 font-medium whitespace-nowrap pointer-events-none">
-            {btnHovered ? "¿Necesitas ayuda?" : BUBBLE_MSGS[bubbleIdx]}
+        <div
+          className={`
+      relative mb-3 pointer-events-none
+      transform-gpu
+      transition-all duration-700
+      ease-[cubic-bezier(.16,1,.3,1)]
+      ${
+        !open && (showHoverTooltip || showAutoBubble)
+          ? "opacity-100 translate-y-0 scale-100"
+          : "opacity-0 translate-y-4 scale-95"
+      }
+    `}
+        >
+          <div className="bg-white rounded-2xl shadow-md px-4 py-2 text-sm text-gray-700 font-medium whitespace-nowrap">
+            {showHoverTooltip
+              ? "¿Necesitas ayuda?"
+              : showAutoBubble
+                ? BUBBLE_MSGS[bubbleIdx]
+                : ""}
+
             <span
               className="absolute bottom-[-5px] right-4 w-2.5 h-2.5 bg-white rotate-45"
               style={{ boxShadow: "2px 2px 3px rgba(0,0,0,0.06)" }}
             />
           </div>
-        )}
+        </div>
 
         {/* Botón */}
         <button
           onClick={() => setOpen((v) => !v)}
-          onMouseEnter={() => setBtnHovered(true)}
-          onMouseLeave={() => setBtnHovered(false)}
-          className={`w-[70px] h-[70px] flex-shrink-0 transition-all duration-300 animate-heartbeat${open ? " rounded-full overflow-hidden" : ""}`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={`w-[70px] h-[70px] flex-shrink-0 transition-all duration-300 animate-heartbeat ${
+            open ? "rounded-full overflow-hidden" : ""
+          }`}
           style={{
             background: open
               ? "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)"

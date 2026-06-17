@@ -73,7 +73,7 @@ export default function Clientes() {
 
         <div className="absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-white to-transparent" />
 
-        <div className="marquee flex gap-[35px] w-max">
+        <div className="marquee flex gap-[20px] w-max">
           {[...clientes, ...clientes].map((cliente, index) => (
             <div
               key={index}
@@ -113,7 +113,7 @@ export default function Clientes() {
 
       <style>{`
         .marquee {
-          animation: scroll 30s linear infinite;
+          animation: scroll 20s linear infinite;
           will-change: transform;
         }
 
