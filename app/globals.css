@@ -44,3 +44,14 @@ body {
 .animate-slide-in-right {
   animation: slide-in-right 0.3s ease-out;
 }
+
+/* Animación latido para botones flotantes */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(0.88); }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 3s ease-in-out infinite;
+}
+

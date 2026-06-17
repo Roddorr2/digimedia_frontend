@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Principal from './components/Principal';
 import Pregunta from './components/Pregunta';
 import WhatsAppButton from '../components/WhatsAppButton';
+import MayaChatbot from '../components/MayaChatbot';
 import { Hero } from '../components/page_components/Hero';
 import { Information } from '../components/page_components/Information';
 
@@ -204,6 +205,7 @@ export default function Page() {
         </div>
       </div>
       <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

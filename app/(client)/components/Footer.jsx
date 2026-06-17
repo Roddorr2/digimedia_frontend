@@ -198,7 +198,7 @@ export default function Footer() {
                   </li>
                   <li>
                     <Link
-                      href="https://www.instagram.com/digimediamkt/"
+                      href="https://www.instagram.com/digimediamarketing/"
                       target="_blank"
                     >
                       <Image
