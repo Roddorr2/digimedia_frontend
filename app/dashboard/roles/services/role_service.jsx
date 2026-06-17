@@ -118,7 +118,7 @@ const role_service = {
             
         }catch(error){
              
-               return {sucess:false,message:error.message}
+               return {success:false,message:error.message}
         }
   },
 //POST

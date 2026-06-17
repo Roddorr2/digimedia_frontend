@@ -1,4 +1,4 @@
-"use cliente";
+"use client";
 
 import auth_service from "../../users/services/auth.service";
 import url from "@/api/url";

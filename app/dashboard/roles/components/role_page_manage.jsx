@@ -44,7 +44,6 @@ const totalItems = filteredRoles.length;
     setIsLoading(true);
     try {
       const response = await role_service.getRoles(); 
-      console.log(response)
       if (response && response.status === 200) {
         setAllRoles(response.data);
       } else if (response && response.roles) {
@@ -60,7 +59,6 @@ const totalItems = filteredRoles.length;
   }
 
   useEffect(() => {
-    console.log(auth_service.hasPermission("ver-roles"));
     if(!authLoading && user && !auth_service.hasPermission("ver-roles")){
         router.push("/dashboard/main");
     }
@@ -71,7 +69,17 @@ const totalItems = filteredRoles.length;
       if(!authLoading && auth_service.hasPermission("ver-roles")){
          fetchRol();
       }
-  },[authLoading,currentPage])
+  },[authLoading]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (currentPage !== 1) {
+        router.push(`?page=1`);
+      }
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm, router, currentPage]);
 
   if(authLoading){
      return <div className="w-full h-screen flex items-center justify-center">Cargando...</div>;
@@ -85,7 +93,6 @@ const totalItems = filteredRoles.length;
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    router.push(`?page=1`);
   };
 
   function onDelete(id) {

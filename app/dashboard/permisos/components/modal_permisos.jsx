@@ -1,18 +1,17 @@
 "use client"
 
 import { useToast } from "@/hooks/use-toast"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { XMarkIcon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid"
 import { cn } from "@/lib/utils"
 
 
 import permiso_service from "../services/permiso_service" 
 
-export default function ModalPermisos({ isVisible, onClose, onRefresh }) {
+export default function ModalPermisos({ isVisible, onClose, onRefresh, data }) {
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false)
 
-    
     const [formData, setFormData] = useState({
         nombre: "",
         descripcion: ""
@@ -22,6 +21,20 @@ export default function ModalPermisos({ isVisible, onClose, onRefresh }) {
         status: undefined,
         message: "",
     })
+
+    useEffect(() => {
+        if (data) {
+            setFormData({
+                nombre: data.nombre || "",
+                descripcion: data.descripcion || ""
+            })
+        } else {
+            setFormData({
+                nombre: "",
+                descripcion: ""
+            })
+        }
+    }, [data, isVisible])
 
     if (!isVisible) return null
 
@@ -50,13 +63,17 @@ export default function ModalPermisos({ isVisible, onClose, onRefresh }) {
 
         try {
             setIsLoading(true)
-            setError({ status: undefined, message: "" })
-            const res = await permiso_service.postPermisos(formData)
+            let res;
+            if (data && data.id_permiso) {
+                res = await permiso_service.updatePermisos(formData, data.id_permiso)
+            } else {
+                res = await permiso_service.postPermisos(formData)
+            }
 
             if (res && res.success !== false) {
                 toast({
                     title: "¡Éxito!",
-                    description: "Permiso creado correctamente.",
+                    description: data && data.id_permiso ? "Permiso actualizado correctamente." : "Permiso creado correctamente.",
                     variant: "default"
                 })
                 if (typeof onRefresh === "function") onRefresh()
@@ -89,9 +106,9 @@ export default function ModalPermisos({ isVisible, onClose, onRefresh }) {
                
                 <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 px-6 py-4">
                     <div>
-                        <h2 className="text-2xl font-bold">Crear Permiso</h2>
+                        <h2 className="text-2xl font-bold">{data && data.id_permiso ? "Editar Permiso" : "Crear Permiso"}</h2>
                         <p className="text-sm text-gray-500 mt-1">
-                            Completa la información necesaria para registrar un nuevo permiso en el sistema.
+                            {data && data.id_permiso ? "Modifica los campos del permiso seleccionado." : "Completa la información necesaria para registrar un nuevo permiso en el sistema."}
                         </p>
                     </div>
                     <button
@@ -166,7 +183,7 @@ export default function ModalPermisos({ isVisible, onClose, onRefresh }) {
                             disabled={isLoading}
                             className="px-6 py-3 rounded-xl bg-[#8c52ff] hover:bg-[#7a45eb] text-white font-semibold transition disabled:opacity-50"
                         >
-                            {isLoading ? "Guardando..." : "Guardar permiso"}
+                            {isLoading ? "Guardando..." : data && data.id_permiso ? "Actualizar permiso" : "Guardar permiso"}
                         </button>
                     </div>
                 </form>

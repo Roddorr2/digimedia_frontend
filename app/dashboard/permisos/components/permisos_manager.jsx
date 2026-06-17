@@ -74,7 +74,17 @@ export default function Page() {
       if (!authLoading && auth_service.hasPermission("ver-permisos")) {
          fetchPermisos();
       }
-  }, [authLoading, currentPage]);
+  }, [authLoading]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (currentPage !== 1) {
+        router.push(`?page=1`);
+      }
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm, router, currentPage]);
 
   
   if (authLoading) {
@@ -87,7 +97,6 @@ export default function Page() {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    router.push(`?page=1`);
   };
 
  
@@ -221,7 +230,7 @@ export default function Page() {
       <ModalPermisos
         isVisible={modal}
         data={selectedPermissionData || null} 
-        Close={() => {
+        onClose={() => {
           setModal(false);
           setSelectedPermissionData(null);
         }}
