@@ -18,7 +18,7 @@ const socialPlatforms = [
   {
     name: 'Instagram',
     image: '/contactanos/instagram-icon.png',
-    url: 'https://www.instagram.com/digimediamkt/',
+    url: 'https://www.instagram.com/digimediamarketing/',
   },
   {
     name: 'LinkedIn',
