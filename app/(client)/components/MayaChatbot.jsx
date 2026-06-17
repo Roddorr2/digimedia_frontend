@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 const MAYA_API = "/api/maya";
-const MAYA_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_algo.webp";
+const MAYA_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_1.webp";
 
 function getSessionId() {
   try {
@@ -208,7 +208,7 @@ export default function MayaChatbot() {
               background: "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)",
             }}
           >
-            <div className="ring-2 ring-white/30 rounded-full flex-shrink-0">
+            <div className="">
               <BotAvatar size={40} />
             </div>
             <div className="flex-1 min-w-0">
