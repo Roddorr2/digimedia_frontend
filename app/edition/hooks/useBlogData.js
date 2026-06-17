@@ -223,11 +223,14 @@ export default function useBlogData(
             bg_type: mappedHeader.bg_type,
             bg_colors: mappedHeader.bg_colors,
           }));
+          //priorizar siemopre el valor raw por la ruta real del servidor 
+          const rawImage = headerResponse?.imagen?.path || "";
+          
           setFormImagenHeader({
-            public_image: mappedHeader.public_image,
-            url_image: mappedHeader.url_image,
-            alt: mappedHeader.alt,
-            title: mappedHeader.title,
+            public_image: rawImage ||mappedHeader.public_image,
+            url_image: rawImage ||mappedHeader.url_image,
+            alt: headerResponse?.imagen?.alt || mappedHeader.alt,
+            title: headerResponse?.imagen?.title || mappedHeader.title,
           });
         }
       }
