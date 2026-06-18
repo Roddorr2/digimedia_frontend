@@ -1,8 +1,8 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { sendToMaya } from "@/api/mayaWebhook"; // o donde lo guardes
 
-const MAYA_API = "/api/maya";
 const MAYA_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_1.webp";
 
 function getSessionId() {
@@ -188,21 +188,20 @@ export default function MayaChatbot() {
     setLoading(true);
 
     try {
-      const res = await fetch(MAYA_API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, sessionId }),
+      const data = await sendToMaya({
+        message: text,
+        sessionId,
       });
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { role: "bot", ...data }]);
-    } catch {
+      setMessages((prev) => [...prev, data]);
+    } catch (err) {
+      console.error(err);
+
       setMessages((prev) => [
         ...prev,
         {
           role: "bot",
-          mensaje:
-            "Ocurrió un error al conectarme. Por favor escríbenos directamente.",
+          mensaje: "Ocurrió un error al conectarme. Escríbenos directamente",
           contacto: "https://wa.me/51983027828",
         },
       ]);
