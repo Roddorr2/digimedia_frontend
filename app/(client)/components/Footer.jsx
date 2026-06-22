@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import styles from './Footer.module.css';
 import Image from 'next/image';
 
 export default function Footer() {
@@ -17,7 +16,6 @@ export default function Footer() {
     });
   };
 
-  // Datos estructurados con los hipervínculos basados en tu Excel
   const serviciosData = [
     {
       title: "DISEÑO Y DESARROLLO WEB",
@@ -62,220 +60,108 @@ export default function Footer() {
   ];
 
   return (
-    <>
-      <footer>
-        <div className={styles.mainFooter}>
-          <div className={styles.footerInner}>
-            
-            {/* --- MEGA FOOTER: SERVICIOS Y SUBSERVICIOS --- */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full border-b border-white/20 pb-10 mb-10 pt-4">
-              {serviciosData.map((servicio, index) => (
-                <div key={index} className={styles.listaFooter}>
-                  <h2>
-                    <Link href={servicio.route} className="hover:text-white/80 transition-colors">
-                      {servicio.title}
+    <footer 
+      // LA CORRECCIÓN: -mt-12 y relative z-10 para superponerse encima de los clientes
+      className="w-full text-white pt-16 pb-8 px-6 md:px-8 rounded-t-[2rem] md:rounded-t-[3rem] relative z-10 -mt-12 shadow-[0_-15px_30px_rgba(0,0,0,0.3)]"
+      style={{
+        background: "linear-gradient(135deg, #000118 0%, #100043 50%, #130049 100%)"
+      }}
+    >
+      <div className="max-w-[1200px] mx-auto">
+        
+        {/* PARTE SUPERIOR */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6 w-full pb-10">
+          {serviciosData.map((servicio, index) => (
+            <div key={index} className="flex flex-col">
+              <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">
+                <Link href={servicio.route} className="hover:text-[#ffb800] transition-colors">
+                  {servicio.title}
+                </Link>
+              </h2>
+              <ul className="flex flex-col gap-3">
+                {servicio.items.map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-2 text-[14px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
+                    <Link href={item.route} className="text-gray-300 hover:text-[#ffb800] transition-colors leading-snug">
+                      {item.name}
                     </Link>
-                  </h2>
-                  <ul>
-                    {servicio.items.map((item, idx) => (
-                      <li key={idx} className="flex items-start">
-                        <span className="text-white/70 mr-2 font-bold">›</span>
-                        {/* Ahora usa la ruta directa independiente */}
-                        <Link 
-                          href={item.route}
-                          className="hover:text-white/80 transition-colors"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <hr className="border-[#410c89]/50 w-full mb-10" />
+
+        {/* PARTE CENTRAL */}
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 pb-10">
+          <div className="flex flex-col gap-6 w-full lg:w-1/2">
+            <div className="w-[200px] md:w-[260px]">
+              <Image
+                src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado(1).svg"
+                alt="Logo Digimedia"
+                width={260}
+                height={80}
+                className="object-contain"
+                sizes="(max-width: 768px) 200px, 260px"
+              />
+            </div>
+            <ul className="flex flex-col gap-4 text-sm text-gray-300">
+              <li>
+                <Link href="https://wa.me/983027828?text=Hola" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors">
+                  <Image src="/headerFooter/icono-telefono-digimedia.webp" alt="Teléfono" width={18} height={18} />
+                  983 027 828
+                </Link>
+              </li>
+              <li className="relative">
+                <div onClick={handleCopyEmail} className="flex items-center gap-3 cursor-pointer hover:text-white transition-colors">
+                  <Image src="/headerFooter/icono-correo-digimedia.webp" alt="Correo" width={18} height={18} />
+                  digi.mediamkt@gmail.com
+                  {copied && <span className="absolute left-[200px] bg-[#ffb800] text-black text-xs font-bold px-2 py-1 rounded-md">¡Copiado!</span>}
                 </div>
-              ))}
-            </div>
-            {/* ------------------------------------------------------- */}
-
-            <div className={styles.footerContenido}>
-              <div className={`${styles.imgFooter}`}>
-                <Image
-                  src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado(1).svg"
-                  alt="Logo Digimedia Marketing Digital Perú"
-                  width={320}
-                  height={160}
-                  className="my-auto"
-                  sizes="320px"
-                />
-              </div>
-              <div className={`${styles.contactoFooter} ${styles.listaFooter}`}>
-                <h2>CONTACTO</h2>
-                <ul>
-                  <li>
-                    <Link
-                      href="https://wa.me/983027828?text=Hola, me gustaría obtener más información sobre sus servicios."
-                      target="_blank"
-                    >
-                      <Image
-                        src="/headerFooter/icono-telefono-digimedia.webp"
-                        alt="Ícono de teléfono para contactar a Digimedia"
-                        title="Teléfono de contacto Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                      983 027 828
-                    </Link>
-                  </li>
-                  <li className={styles.emailContainer}>
-                    <div 
-                      onClick={handleCopyEmail} 
-                      className={`${styles.emailLink} cursor-pointer`}
-                      title="Haz clic para copiar el correo"
-                    >
-                      <Image
-                        src="/headerFooter/icono-correo-digimedia.webp"
-                        alt="Ícono de correo electrónico para contactar a Digimedia"
-                        title="Correo electrónico Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                      digi.mediamkt@gmail.com
-                      {copied && (
-                        <span className={styles.copiedTooltip}>¡Copiado!</span>
-                      )}
-                    </div>
-                  </li>
-                  <li>
-                    <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7">
-                      <Image
-                        src="/headerFooter/icono-ubicacion-digimedia.webp"
-                        alt="Ícono de ubicación de la oficina de Digimedia en Perú"
-                        title="Ubicación Digimedia Perú"
-                        width={24}
-                        height={24}
-                      />
-                      Jr. Paruro 1401, Cercado de Lima - Lima
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className={`${styles.legalesFooter} ${styles.listaFooter}`}>
-                <h2>LEGALES</h2>
-                <ul>
-                  <li>
-                    <Link href="/politica-privacidad">
-                      Política de privacidad
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/terminos-condiciones">
-                      Términos y Condiciones
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/reclamaciones">Libro de reclamaciones</Link>
-                  </li>
-
-                  <li>
-                    <Link href="/nosotros">Trabaja con nosotros</Link>
-                  </li>
-                </ul>
-              </div>
-              <div className={`${styles.redesFooter} ${styles.listaFooter}`}>
-                <h2>REDES SOCIALES</h2>
-                <ul>
-                  <li>
-                    <Link
-                      href="https://www.tiktok.com/@digimedia_marketing"
-                      target="_blank"
-                    >
-                      <Image
-                        src="/headerFooter/icono-tiktok-digimedia.webp"
-                        alt="Ícono de TikTok con enlace al perfil oficial de Digimedia"
-                        title="TikTok Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="https://www.instagram.com/digimediamarketing/"
-                      target="_blank"
-                    >
-                      <Image
-                        src="/headerFooter/icono-instagram-digimedia.webp"
-                        alt="Ícono de Instagram con enlace al perfil oficial de Digimedia"
-                        title="Instagram Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="https://www.youtube.com/@digimediamarketing"
-                      target="_blank"
-                    >
-                      <Image
-                        src="/headerFooter/icono-youtube-digimedia.webp"
-                        alt="Ícono de YouTube con enlace al canal oficial de Digimedia"
-                        title="YouTube Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="https://www.linkedin.com/company/digimedia-mkt/"
-                      target="_blank"
-                    >
-                      <Image
-                        src="/headerFooter/linkedln-digimedia-icono-redes-sociales.webp"
-                        alt="Ícono del logo de la cuenta de LinkedIn de Digimedia que aparece al final de la página web"
-                        title="LinkedIn de Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="https://www.facebook.com/DigiMedia.Marketing1"
-                      target="_blank"
-                    >
-                      <Image
-                        src="/headerFooter/icono-facebook-digimedia.webp"
-                        alt="Ícono de Facebook con enlace al perfil oficial de Digimedia"
-                        title="Facebook Digimedia"
-                        width={24}
-                        height={24}
-                      />
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
+              </li>
+              <li>
+                <Link href="https://maps.app.goo.gl/T8D8KJT3mWworgCo7" className="flex items-start gap-3 hover:text-white transition-colors">
+                  <Image src="/headerFooter/icono-ubicacion-digimedia.webp" alt="Ubicación" width={18} height={18} className="mt-0.5" />
+                  Jr. Paruro 1401, Cercado de Lima - Lima
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          <div className={styles.barraFooter}>
-            <hr />
-          </div>
+          <div className="flex flex-col sm:flex-row gap-12 lg:gap-24 w-full lg:w-auto">
+            <div className="flex flex-col">
+              <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">LEGALES</h2>
+              <ul className="flex flex-col gap-3 text-sm text-gray-300">
+                <li><Link href="/politica-privacidad" className="hover:text-[#ffb800] transition-colors">Política de privacidad</Link></li>
+                <li><Link href="/terminos-condiciones" className="hover:text-[#ffb800] transition-colors">Términos y Condiciones</Link></li>
+                <li><Link href="/reclamaciones" className="hover:text-[#ffb800] transition-colors">Libro de reclamaciones</Link></li>
+                <li><Link href="/nosotros" className="hover:text-[#ffb800] transition-colors">Trabaja con nosotros</Link></li>
+              </ul>
+            </div>
 
-          <div className={styles.footerInner}>
-            <div className={`${styles.rucFooter} text-white`}>
-              <div className={`${styles.ruc}`}>
-                <p>RUC: 20605116559</p>
-              </div>
-              <div className={styles.derechosFooter}>
-                <p>
-                  © {new Date().getFullYear()} Digimedia. Todos los derechos
-                  reservados.
-                </p>
-              </div>
+            <div className="flex flex-col">
+              <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">REDES SOCIALES</h2>
+              <ul className="flex flex-row gap-4">
+                <li><Link href="https://www.tiktok.com/@digimedia_marketing" target="_blank" className="hover:scale-110 transition-transform"><Image src="/headerFooter/icono-tiktok-digimedia.webp" alt="TikTok" width={24} height={24} /></Link></li>
+                <li><Link href="https://www.instagram.com/digimediamarketing/" target="_blank" className="hover:scale-110 transition-transform"><Image src="/headerFooter/icono-instagram-digimedia.webp" alt="Instagram" width={24} height={24} /></Link></li>
+                <li><Link href="https://www.youtube.com/@digimediamarketing" target="_blank" className="hover:scale-110 transition-transform"><Image src="/headerFooter/icono-youtube-digimedia.webp" alt="YouTube" width={24} height={24} /></Link></li>
+                <li><Link href="https://www.linkedin.com/company/digimedia-mkt/" target="_blank" className="hover:scale-110 transition-transform"><Image src="/headerFooter/linkedln-digimedia-icono-redes-sociales.webp" alt="LinkedIn" width={24} height={24} /></Link></li>
+                <li><Link href="https://www.facebook.com/DigiMedia.Marketing1" target="_blank" className="hover:scale-110 transition-transform"><Image src="/headerFooter/icono-facebook-digimedia.webp" alt="Facebook" width={24} height={24} /></Link></li>
+              </ul>
             </div>
           </div>
         </div>
-      </footer>
-    </>
+
+        <hr className="border-[#410c89]/50 w-full mb-6" />
+
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs md:text-sm text-gray-400">
+          <p>RUC: 20605116559</p>
+          <p>© {new Date().getFullYear()} DigiMedia Agency. All rights reserved.</p>
+        </div>
+
+      </div>
+    </footer>
   );
 }
