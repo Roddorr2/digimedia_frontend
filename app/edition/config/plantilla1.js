@@ -4,7 +4,7 @@
 export const PLANTILLA1_STYLES = {
   // Layout general
   container:
-    "relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
+    "relative text-white rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
 
   // Layouts específicos - Plantilla 1 usa layout lineal
   linearLayout: "flex flex-row justify-center",
@@ -12,7 +12,7 @@ export const PLANTILLA1_STYLES = {
   // Preview area
   previewArea: "w-[600px]",
   previewHeader: "relative h-[400px] overflow-hidden",
-  previewContent: "bg-black/5 p-8",
+  previewContent: "p-8 bg-gradient-to-b from-[#000118] via-[#410C89] to-[#000118]",
 
   // Form panel - Diseño clásico con gradientes oscuros
   formPanel: "w-[420px] flex flex-col justify-center gap-5 p-5",

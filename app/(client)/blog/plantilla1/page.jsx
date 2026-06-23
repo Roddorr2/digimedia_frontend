@@ -170,20 +170,26 @@ const PageContent = () => {
 <Header id_blog_head={data?.id_blog_head} bg_color={data?.head?.bg_color} bg_type={data?.head?.bg_type} bg_colors={data?.head?.bg_colors} />
 
           <div
-            className="mx-auto px-4 py-12 relative text-black min-h-screen w-full"
+            className="mx-auto px-4 py-12 relative text-white min-h-screen w-full"
             style={
               data?.body?.bg_type === "gradient" && data?.body?.bg_colors
                 ? (() => {
-                    const colors = data.body.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
-                    if (colors.length >= 3) {
-                      return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
+                    const parts = data.body.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
+                    let direction = "";
+                    let colorParts = parts;
+                    if (parts[0]?.startsWith("to ")) {
+                      direction = parts[0];
+                      colorParts = parts.slice(1);
                     }
-                    if (colors.length >= 2) {
-                      return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+                    if (colorParts.length >= 3) {
+                      return { backgroundImage: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
                     }
-                    return { backgroundColor: data.body.bg_colors };
+                    if (colorParts.length >= 2) {
+                      return { backgroundImage: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
+                    }
+                    return { backgroundColor: data?.body?.bg_color || "#000118" };
                   })()
-                : { backgroundColor: data?.body?.bg_color || "#FFFFFF" }
+                : { backgroundColor: data?.body?.bg_color || "#000118" }
             }
           >
 
