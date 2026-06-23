@@ -478,24 +478,23 @@ export default function FormBody({
   );
 
   // Limpiar blob URLs al desmontar el componente
-  useEffect(() => {
-    return () => {
-      // Limpiar todas las URLs blob para evitar memory leaks
-      if (formEncabezadoBody?.public_image1?.startsWith("blob:")) {
-        URL.revokeObjectURL(formEncabezadoBody.public_image1);
-      }
-      if (formGaleryBody?.public_image2?.startsWith("blob:")) {
-        URL.revokeObjectURL(formGaleryBody.public_image2);
-      }
-      if (formGaleryBody?.public_image3?.startsWith("blob:")) {
-        URL.revokeObjectURL(formGaleryBody.public_image3);
-      }
-    };
-  }, [
-    formEncabezadoBody?.public_image1,
-    formGaleryBody?.public_image2,
-    formGaleryBody?.public_image3,
-  ]);
+  // useEffect(() => {
+//   return () => {
+//     if (formEncabezadoBody?.public_image1?.startsWith("blob:")) {
+//       URL.revokeObjectURL(formEncabezadoBody.public_image1);
+//     }
+//     if (formGaleryBody?.public_image2?.startsWith("blob:")) {
+//       URL.revokeObjectURL(formGaleryBody.public_image2);
+//     }
+//     if (formGaleryBody?.public_image3?.startsWith("blob:")) {
+//       URL.revokeObjectURL(formGaleryBody.public_image3);
+//     }
+//   };
+// }, [
+//   formEncabezadoBody?.public_image1,
+//   formGaleryBody?.public_image2,
+//   formGaleryBody?.public_image3,
+// ]);
 
   // Componente de mensaje de validación - compatible con estructura original
   const ValidationMessage = ({ fieldName, index = null, context = null }) => {

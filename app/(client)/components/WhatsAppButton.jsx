@@ -10,15 +10,15 @@ const WhatsAppButton = () => {
       href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 md:bottom-10 md:right-10 rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 z-50"
+      className="fixed bottom-8 right-8 md:bottom-10 md:right-10 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 animate-heartbeat"
       aria-label="Chat on WhatsApp"
     >
       <Image
         src="/image-home/WhatsAppIcon.webp"
         title="Botón de WhatsApp"
         alt="Icono de WhatsApp color blanco con fondo oscuro"
-        width={60}
-        height={60}
+        width={70}
+        height={75}
         priority={false}
         sizes="(max-width: 768px) 50px, 60px"
       />

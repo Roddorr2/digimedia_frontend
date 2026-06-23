@@ -23,7 +23,7 @@ import {
   getPlantillaConfig,
   DEFAULT_HEADER_VALIDATION_CONFIG,
 } from "../../config/index";
-
+import { DEFAULT_IMAGES } from "../../constants/defaults";
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
   container:
@@ -63,7 +63,7 @@ const DEFAULT_PLACEHOLDERS = {
 export default function FormHeader({
   // Props de datos
   data = {},
-  defaultImage = "/blog/fondo_blog_extend.png",
+  defaultImage = DEFAULT_IMAGES.header.image1,
 
   // Props de configuración
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,
@@ -88,9 +88,8 @@ export default function FormHeader({
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
-  const [previewImageUrl, setPreviewImageUrl] = useState(
-    data.public_image || defaultImage
-  );
+  //modificacion para imagen preview 
+  const [previewImageUrl, setPreviewImageUrl] = useState(defaultImage);
 
   // Combinar estilos
   const mergedStyles = { ...DEFAULT_STYLES, ...styles };
@@ -194,39 +193,56 @@ export default function FormHeader({
     onImageDelete?.();
   }, [defaultImage, onImageDelete, previewImageUrl]);
 
-  // Sincronizar imagen cuando cambie data.public_image (útil para modo edición)
+  // Sincronizar imagen cuando cambie data.public_image 
+  const currentImagePath = data?.url_image ||                 
+    data?.imagen?.path ||              
+    data?.blog_head?.url_image ||      
+    data?.blogHead?.url_image ||       
+    data?.public_image;
+ // Sincronizar imagen cuando cambie la data desde Laravel (Modo Edición)
   useEffect(() => {
-    if (data.public_image && data.public_image !== defaultImage) {
-      // Verificar si es un blob URL temporal, una URL de Cloudinary, o una URL normal
-      if (data.public_image.startsWith("blob:")) {
-        // Es un blob URL temporal, usarlo directamente para preview
-        setPreviewImageUrl(data.public_image);
-      } else if (
-        data.public_image.startsWith("http") ||
-        data.public_image.startsWith("/") ||
-        data.public_image.includes("cloudinary.com") ||
-        data.public_image.includes("res.cloudinary.com")
-      ) {
-        // Es una URL normal o de Cloudinary, usarla directamente
-        setPreviewImageUrl(data.public_image);
-      } else {
-        // Fallback a imagen por defecto
-        setPreviewImageUrl(defaultImage);
-      }
-    } else {
-      // Si no hay imagen o es la por defecto, mostrar la por defecto
-      setPreviewImageUrl(defaultImage);
-    }
-  }, [data.public_image, defaultImage]);
+  // Detectar si viene vacío o es explícitamente la imagen por defecto del sistema
+  const esImagenPorDefecto = 
+    !currentImagePath || 
+    currentImagePath.includes("fondo_blog_extend");
+
+  if (esImagenPorDefecto) {
+    
+    setPreviewImageUrl(defaultImage);
+    return;
+  }
+
+  // Si es un Blob temporal de una imagen recién subida por el usuario
+  if (currentImagePath.startsWith("blob:") || currentImagePath.startsWith("http")) {
+    
+    setPreviewImageUrl(currentImagePath);
+    return;
+  }
+
+  //Si la ruta de la BD ya incluye "/storage/" al inicio, solo le pegamos el dominio del backend
+  if (currentImagePath.startsWith("/storage/") || currentImagePath.includes("storage/")) {
+    // Limpiamos barras duplicadas por si acaso (ej: de //storage a /storage)
+    const rutaLimpia = currentImagePath.startsWith("/") ? currentImagePath : `/${currentImagePath}`;
+    const completa = `${process.env.NEXT_PUBLIC_API_URL_DEV}${rutaLimpia}`;
+    
+    setPreviewImageUrl(completa);
+  } else {
+    //Si la BD guardara solo "images/templates...", aquí sí le metemos el /storage/ de fallback
+    const completa = `${process.env.NEXT_PUBLIC_API_URL_DEV}/storage/${currentImagePath}`;
+    
+    setPreviewImageUrl(completa);
+  }
+}, [currentImagePath, defaultImage]);
 
   // Limpiar blob URLs al desmontar el componente para evitar memory leaks
-  useEffect(() => {
-    return () => {
-      if (previewImageUrl && previewImageUrl.startsWith("blob:")) {
-        URL.revokeObjectURL(previewImageUrl);
-      }
-    };
-  }, [previewImageUrl]);
+  //comentado porque generaba la eliminacion de la img guardada para preview
+  //useEffect(() => {
+    //return () => {
+      //if (previewImageUrl && previewImageUrl.startsWith("blob:")) {
+        //URL.revokeObjectURL(previewImageUrl);
+     // }
+    //};
+  //}, [previewImageUrl]);
 
   // Validar datos iniciales (especialmente importante en modo edición)
   useEffect(() => {

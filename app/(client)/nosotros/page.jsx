@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { MisionVision } from './components/MisionVision';
 import WhatsAppButton from '../components/WhatsAppButton';
+import MayaChatbot from '../components/MayaChatbot';
 import { Hero } from '../components/page_components/Hero';
 import { Information } from '../components/page_components/Information';
 import Link from 'next/link';
@@ -86,6 +87,7 @@ const Nosotros = () => {
       {/* -------------------------------------- */}
 
       <WhatsAppButton />
+      <MayaChatbot />
 
     </div>
   );
