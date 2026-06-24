@@ -1,6 +1,7 @@
 import Script from 'next/script';
 import './globals.css';
 import localFont from 'next/font/local';
+import { Doppio_One } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
 import PerformanceOptimizations from './components/PerformanceOptimizations';
 
@@ -35,6 +36,13 @@ const telegraf = localFont({
     },
   ],
   variable: '--font-telegraf',
+  display: 'swap',
+});
+
+const doppioOne = Doppio_One({
+  weight: '400',
+  variable: '--font-doppio-one',
+  subsets: ['latin'],
   display: 'swap',
 });
 
@@ -78,7 +86,7 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body
-        className={`${montserrat.variable} ${telegraf.variable} antialiased`}
+        className={`${montserrat.variable} ${telegraf.variable} ${doppioOne.variable} antialiased`}
       >
         {/* Optimizaciones de rendimiento */}
         <PerformanceOptimizations />

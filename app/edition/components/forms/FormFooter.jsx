@@ -32,19 +32,18 @@ import {
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
   container:
-    "relative mt-12 flex flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg shadow-lg overflow-hidden p-6 gap-6",
+    "relative mt-12 flex flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-b from-[#000118] via-[#410C89] to-[#000118] rounded-[25px] shadow-lg overflow-hidden p-6 gap-6 border border-[#410C89]/40",
   preview: "relative flex-1 p-6 md:p-8 min-w-0",
   title:
     "text-3xl text-center font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500",
   description:
     "text-gray-100 text-base leading-relaxed max-w-full md:max-w-md mx-auto mb-6 text-center break-words overflow-hidden whitespace-normal",
-gallery: "flex flex-col w-full items-center gap-24 mt-6",
-image: "w-full h-56 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md",
-
+  gallery: "flex flex-col w-full items-center gap-6 mt-6",
+  imageItem: "relative group cursor-pointer w-full",
   image:
-    "w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10",
+    "w-full h-56 object-cover rounded-2xl border border-[#410C89]/40 group-hover:border-[#F4D534]/60 transition-all duration-300 shadow-md",
   panel: "relative w-full md:w-[450px] h-auto p-6",
-  form: "bg-black/75 backdrop-blur-md rounded-lg p-5 border border-white/10 shadow-lg",
+  form: "bg-black/75 backdrop-blur-md rounded-2xl p-5 border border-[#410C89]/50 shadow-lg",
   input:
     "w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent",
   textarea:
@@ -223,6 +222,17 @@ export default function FormFooter({
     },
     [validateField, onChange]
   );
+
+  // Normalizar bg_type "gradient-tb" heredado de versiones anteriores
+  useEffect(() => {
+    if (data.bg_type === "gradient-tb") {
+      handleFieldChange({ target: { name: "bg_type", value: "gradient" } });
+      const newColors = data.bg_colors?.startsWith("to bottom,")
+        ? data.bg_colors
+        : `to bottom,${data.bg_colors || ""}`;
+      handleFieldChange({ target: { name: "bg_colors", value: newColors } });
+    }
+  }, [data.bg_type]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Manejar carga de imagen
   const handleImageUpload = useCallback(
@@ -554,13 +564,14 @@ export default function FormFooter({
       {/* Panel de edición */}
       <div className={mergedStyles.panel}>
         <div className={mergedStyles.form}>
-          <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-4">
+          <h1 className="text-lg font-bold text-[#F4D534] mb-1">
             Editar Pie de Página
           </h1>
+          <div className="w-full h-[3px] bg-[#F4D534] mb-4 rounded-full"></div>
 
           <form>
             {/* Control de Visibilidad del Footer */}
-            <div className="mb-4 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+            <div className="mb-4 p-3 bg-black/40 rounded-2xl border border-[#410C89]/50">
               <label className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -594,8 +605,8 @@ export default function FormFooter({
               {footerEnabled && (
                 <>
                   {/* Selector de tipo y color de fondo - Footer */}
-                  <div className="mb-4 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
-                    <h4 className="text-sm font-semibold text-yellow-300 mb-3 flex items-center">
+                  <div className="mb-4 p-3 bg-black/40 rounded-2xl border border-[#410C89]/50">
+                    <h4 className="text-sm font-semibold text-[#F4D534] mb-3 flex items-center">
                       <Palette className="w-4 h-4 mr-2" />
                       Fondo del Footer
                     </h4>
@@ -635,12 +646,35 @@ export default function FormFooter({
                       <input
                         type="text"
                         placeholder="#color1,#color2,#color3"
-                        value={data.bg_colors || ""}
-                        onChange={(e) => handleFieldChange({ target: { name: "bg_colors", value: e.target.value } })}
+                        value={data.bg_colors?.startsWith("to bottom,") ? data.bg_colors.slice("to bottom,".length) : (data.bg_colors || "")}
+                        onChange={(e) => {
+                          const prefix = data.bg_colors?.startsWith("to bottom,") ? "to bottom," : "";
+                          handleFieldChange({ target: { name: "bg_colors", value: `${prefix}${e.target.value}` } });
+                        }}
                         className="flex-1 min-w-[200px] bg-gray-900 text-white border border-gray-700 rounded-lg p-1 px-2 text-sm"
                         title="Gradiente: #color1,#color2,#color3"
                       />
                     </div>
+
+                    {/* Selector de dirección del gradiente */}
+                    {data.bg_type === "gradient" && (
+                      <div className="mt-2">
+                        <select
+                          value={data.bg_colors?.startsWith("to bottom,") ? "tb" : "lr"}
+                          onChange={(e) => {
+                            const base = data.bg_colors?.startsWith("to bottom,")
+                              ? data.bg_colors.slice("to bottom,".length)
+                              : (data.bg_colors || "");
+                            const newVal = e.target.value === "tb" ? `to bottom,${base}` : base;
+                            handleFieldChange({ target: { name: "bg_colors", value: newVal } });
+                          }}
+                          className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-1 text-sm"
+                        >
+                          <option value="lr">Izquierda → Derecha</option>
+                          <option value="tb">Arriba → Abajo</option>
+                        </select>
+                      </div>
+                    )}
                   </div>
 
                  {/* Título */}

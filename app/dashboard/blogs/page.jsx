@@ -402,7 +402,7 @@ export default function Page() {
                 <PlusCircleIcon className="w-4 h-4" />
                 <span className="hidden sm:inline">Crear Nuevo</span>
               </Link>
-              {auth_service.hasRole("administrador") && (
+              {auth_service.hasRole("administrador, marketing") && (
                 <>
                   {/* Botón pequeño solo icono - Historial */}
                   <Link

@@ -9,6 +9,9 @@ import url from "../../../../api/url";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { defaultCountries, parseCountry } from "react-international-phone";
+import { getExampleNumber, isValidPhoneNumber } from "libphonenumber-js";
+import phoneExamples from "libphonenumber-js/mobile/examples";
 
 // Importar dinámicamente el PhoneInput para evitar problemas de SSR
 const PhoneInput = dynamic(
@@ -19,6 +22,21 @@ const PhoneInput = dynamic(
 import "react-international-phone/style.css";
 const URL_API = `${url}/api/contactanos`;
 
+// Genera la máscara (longitud máxima de dígitos) de cada país automáticamente a partir
+// de libphonenumber-js, así react-international-phone limita la cantidad de dígitos por
+// país sin necesidad de mantener una lista manual.
+const countriesWithMask = defaultCountries.map((data) => {
+  const country = parseCountry(data);
+  const example = getExampleNumber(country.iso2.toUpperCase(), phoneExamples);
+  const format = example
+    ? ".".repeat(example.nationalNumber.length)
+    : country.format;
+  const result = [country.name, country.iso2, country.dialCode, format];
+  if (country.priority !== undefined) result[4] = country.priority;
+  if (country.areaCodes) result[5] = country.areaCodes;
+  return result;
+});
+
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     nombre: "",
@@ -27,6 +45,7 @@ const ContactForm = () => {
   });
   const [phone, setPhone] = useState("");
   const [dialCode, setDialCode] = useState("51");
+  const [countryIso2, setCountryIso2] = useState("pe");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -38,21 +57,11 @@ const ContactForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    const cleanPhone = phone.replace(/\D/g, "");
-    if (cleanPhone.length < 9) {
+    // Valida que sea un número real y con la longitud correcta para el país seleccionado
+    if (!isValidPhoneNumber(phone, countryIso2.toUpperCase())) {
       Swal.fire({
         title: "Número inválido",
-        text: "El número de teléfono debe tener al menos 9 dígitos.",
-        icon: "warning",
-        confirmButtonText: "OK",
-      });
-      setLoading(false);
-      return;
-    }
-    if (cleanPhone.length > 15) {
-      Swal.fire({
-        title: "Número inválido",
-        text: "El número ingresado es demasiado largo. Verifica que sea un número real.",
+        text: "El número ingresado no es válido para el país seleccionado. Verifica la cantidad de dígitos.",
         icon: "warning",
         confirmButtonText: "OK",
       });
@@ -97,6 +106,7 @@ const ContactForm = () => {
         });
         setPhone("");
         setDialCode("51");
+        setCountryIso2("pe");
       }
     } catch (error) {
       console.error("Error detallado:", error.response);
@@ -166,9 +176,12 @@ const ContactForm = () => {
                 >
                   <PhoneInput
                     defaultCountry="pe"
+                    countries={countriesWithMask}
                     value={phone}
                     onChange={(phoneVal, meta) => {
                       setPhone(phoneVal);
+                      if (meta?.country?.iso2)
+                        setCountryIso2(meta.country.iso2);
                       if (meta?.country?.dialCode)
                         setDialCode(meta.country.dialCode);
                     }}
