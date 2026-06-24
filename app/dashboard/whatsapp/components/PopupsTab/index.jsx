@@ -273,7 +273,7 @@ export function PopupsTab() {
       if (pctEl)  pctEl.textContent = `${Math.round(pct)}%`;
       if (status) {
         if (pct < 65)       status.textContent = "Subiendo imagen...";
-        else if (pct < 100) status.textContent = "Procesando en Cloudinary...";
+        else if (pct < 100) status.textContent = "Procesando la Imágen...";
         else                status.textContent = "¡Listo!";
       }
     };
