@@ -467,13 +467,38 @@ export default function FormHeader({
                       <input
                         type="text"
                         placeholder="#color1,#color2,#color3"
-                        value={data.bg_colors || ""}
-                        onChange={(e) => handleFieldChange({ target: { name: "bg_colors", value: e.target.value } })}
+                        value={data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(data.bg_colors.indexOf(",") + 1) : (data.bg_colors || "")}
+                        onChange={(e) => {
+                          const prefix = data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(0, data.bg_colors.indexOf(",") + 1) : "";
+                          handleFieldChange({ target: { name: "bg_colors", value: `${prefix}${e.target.value}` } });
+                        }}
                         className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
                         title="Gradiente: #color1,#color2,#color3"
                       />
                     )}
                   </div>
+
+                  {/* Selector de dirección del gradiente */}
+                  {data.bg_type === "gradient" && (
+                    <div className="mt-2">
+                      <select
+                        value={data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(0, data.bg_colors.indexOf(",")) : ""}
+                        onChange={(e) => {
+                          const base = data.bg_colors?.startsWith("to ")
+                            ? data.bg_colors.slice(data.bg_colors.indexOf(",") + 1)
+                            : (data.bg_colors || "");
+                          const newVal = e.target.value ? `${e.target.value},${base}` : base;
+                          handleFieldChange({ target: { name: "bg_colors", value: newVal } });
+                        }}
+                        className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-1 text-sm"
+                      >
+                        <option value="">Izquierda → Derecha</option>
+                        <option value="to bottom">Arriba → Abajo</option>
+                        <option value="to bottom right">Diagonal ↘</option>
+                        <option value="to top">Abajo → Arriba</option>
+                      </select>
+                    </div>
+                  )}
 
                   {(data.bg_type === "gradient" && data.bg_colors) && (
                     <div className="mt-2 text-xs text-gray-400">

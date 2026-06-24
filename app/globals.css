@@ -45,13 +45,41 @@ body {
   animation: slide-in-right 0.3s ease-out;
 }
 
-/* Animación latido para botones flotantes */
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(0.88); }
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
-.animate-heartbeat {
-  animation: heartbeat 3s ease-in-out infinite;
+.animate-blink {
+  animation: blink 1s infinite;
 }
 
+.dropping-texts {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.dropping-word {
+  display: inline-block;
+  font-weight: 300;
+  color: #ffb800;
+  font-size: 1em;
+  vertical-align: -2px;
+  animation: fadeInScale 0.5s forwards;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

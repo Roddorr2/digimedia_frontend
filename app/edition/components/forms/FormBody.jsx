@@ -87,11 +87,19 @@ export default function FormBody({
 
   // Estado local para los colores del gradiente
   const [gradientColorsLocal, setGradientColorsLocal] = useState([]);
+  const [gradientDirection, setGradientDirection] = useState("");
 
   // Sincronizar gradientColorsLocal con formEncabezadoBody.bg_colors
   useEffect(() => {
     if (formEncabezadoBody?.bg_colors) {
-      setGradientColorsLocal(formEncabezadoBody.bg_colors.split(",").map(c => c.trim()).filter(Boolean));
+      const parts = formEncabezadoBody.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
+      if (parts[0]?.startsWith("to ")) {
+        setGradientDirection(parts[0]);
+        setGradientColorsLocal(parts.slice(1));
+      } else {
+        setGradientDirection("");
+        setGradientColorsLocal(parts);
+      }
     }
   }, [formEncabezadoBody?.bg_colors]);
 
@@ -111,14 +119,17 @@ export default function FormBody({
   useEffect(() => {
     if (gradientColorsLocal.length > 0) {
       const timeout = setTimeout(() => {
+        const parts = gradientDirection
+          ? [gradientDirection, ...gradientColorsLocal]
+          : gradientColorsLocal;
         setFormEncabezadoBody((prev) => ({
           ...prev,
-          bg_colors: gradientColorsLocal.join(","),
+          bg_colors: parts.join(","),
         }));
       }, 300);
       return () => clearTimeout(timeout);
     }
-  }, [gradientColorsLocal, setFormEncabezadoBody]);
+  }, [gradientColorsLocal, gradientDirection, setFormEncabezadoBody]);
   const plantillaConfig = getPlantillaConfig(plantillaId);
   const finalValidationConfig = DEFAULT_BODY_VALIDATION_CONFIG;
   const mergedStyles = { ...plantillaConfig.styles };
@@ -878,6 +889,21 @@ export default function FormBody({
           {/* Configuración de gradiente - selector de cantidad de colores */}
           {currentBgType === "gradient" && (
             <div className="flex flex-col gap-3 w-full">
+              {/* Selector de dirección del gradiente */}
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-300">Dirección:</span>
+                <select
+                  value={gradientDirection || ""}
+                  onChange={(e) => setGradientDirection(e.target.value)}
+                  className="bg-gray-800 text-white border border-gray-600 rounded-lg p-1 text-sm"
+                >
+                  <option value="">Izquierda → Derecha</option>
+                  <option value="to bottom">Arriba → Abajo</option>
+                  <option value="to bottom right">Diagonal ↘</option>
+                  <option value="to top">Abajo → Arriba</option>
+                </select>
+              </div>
+
               {/* Selector de cantidad de colores */}
               <div className="flex items-center gap-3">
                 <Palette className="w-4 h-4 text-yellow-400" />
