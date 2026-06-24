@@ -4,22 +4,70 @@ import Image from "next/image";
 
 export default function Clientes() {
   const clientes = [
-    { src: "/image-home/CONTIGO.webp", alt: "Contigo Voy logo", width: 200, height: 100, displayHeight: 120 },
-    { src: "/image-home/DM 1.webp", alt: "Digimedia logo", width: 250, height: 95, displayHeight: 115 },
-    { src: "/image-home/image-A1.webp", alt: "NHL logo", width: 125, height: 75, displayHeight: 100 },
-    { src: "/image-home/img-MJ-1.webp", alt: "MJ eventos logo", width: 180, height: 95, displayHeight: 93 },
-    { src: "/image-home/Tami-color-1.webp", alt: "Tami logo", width: 125, height: 95, displayHeight: 100 },
-    { src: "/image-home/YUNTAS 1.webp", alt: "Yuntas logo", width: 150, height: 75, displayHeight: 115 },
-    { src: "/image-home/PREVEMEDIC-1.webp", alt: "Prevemedic logo", width: 300, height: 100, displayHeight: 130 },
-    { src: "/image-home/ASDEN-1.webp", alt: "Asden logo", width: 180, height: 65, displayHeight: 125 },
+    {
+      src: "/image-home/CONTIGO.webp",
+      alt: "Contigo Voy logo",
+      width: 200,
+      height: 100,
+      displayHeight: 120,
+    },
+    {
+      src: "/image-home/DM 1.webp",
+      alt: "Digimedia logo",
+      width: 250,
+      height: 95,
+      displayHeight: 115,
+    },
+    {
+      src: "/image-home/image-A1.webp",
+      alt: "NHL logo",
+      width: 125,
+      height: 75,
+      displayHeight: 100,
+    },
+    {
+      src: "/image-home/img-MJ-1.webp",
+      alt: "MJ eventos logo",
+      width: 180,
+      height: 95,
+      displayHeight: 93,
+    },
+    {
+      src: "/image-home/Tami-color-1.webp",
+      alt: "Tami logo",
+      width: 125,
+      height: 95,
+      displayHeight: 100,
+    },
+    {
+      src: "/image-home/YUNTAS 1.webp",
+      alt: "Yuntas logo",
+      width: 150,
+      height: 75,
+      displayHeight: 115,
+    },
+    {
+      src: "/image-home/PREVEMEDIC-1.webp",
+      alt: "Prevemedic logo",
+      width: 300,
+      height: 100,
+      displayHeight: 130,
+    },
+    {
+      src: "/image-home/ASDEN-1.webp",
+      alt: "Asden logo",
+      width: 180,
+      height: 65,
+      displayHeight: 125,
+    },
   ];
 
   return (
-    <section 
-      // Agregamos pb-32 para que el footer pueda subir y montarse aquí
+    <section
       className="w-full pt-20 pb-32"
       style={{
-        background: "linear-gradient(135deg, #100043 0%, #130049 40%, #410c89 100%)"
+        background:
+          "linear-gradient(135deg, #100043 0%, #130049 40%, #410c89 100%)",
       }}
     >
       <div className="max-w-[1200px] mx-auto px-6">
@@ -27,11 +75,13 @@ export default function Clientes() {
           NUESTROS CLIENTES
         </h2>
 
-        <div 
+        <div
           className="relative overflow-hidden py-10"
           style={{
-            WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-            maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            maskImage:
+              "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
           }}
         >
           <div className="marquee flex gap-[20px] w-max">
@@ -51,7 +101,6 @@ export default function Clientes() {
                   }}
                   className="
                     object-contain
-                    /* TRUCO CSS: invert vuelve lo blanco negro y el logo blanco. mix-blend-screen hace el fondo transparente. */
                     invert mix-blend-screen grayscale contrast-200 opacity-60
                     transition-all duration-500
                     hover:opacity-100 hover:scale-105

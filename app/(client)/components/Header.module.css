@@ -2,11 +2,12 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  background-color: #b326ff;
+  background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
   box-shadow: 0px 2px 20px #333333;
   position: sticky;
   top: 0;
   z-index: 100;
+  height: 125px;
   transition:
     box-shadow 0.4s ease,
     backdrop-filter 0.4s ease;
@@ -19,14 +20,14 @@
 }
 
 .logoHeader img {
-  padding: 20px 0;
+  padding: 24px 0;
   filter: brightness(0) invert(1);
 }
 
 .contenidoHeader {
   display: flex;
   width: 100%;
-  height: 67px;
+  height: 125px;
   justify-content: space-between;
   align-items: center;
   max-width: 1280px;
@@ -60,8 +61,9 @@
   text-decoration: none;
   display: block;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: normal;
+  font-family: 'Doppio One', Arial, Helvetica, sans-serif;
   padding: 15px;
   height: 100%;
   width: 100%;
@@ -94,10 +96,10 @@
   position: absolute;
   width: 200px;
   z-index: 1000;
-  background-color: rgba(181, 37, 254, 0.92);
+background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  top: 50px;
+  top: 100%;
   left: 0;
   list-style: none;
   padding: 0;
@@ -205,6 +207,7 @@
     text-decoration: none;
     color: white;
     font-weight: bold;
+    font-family: 'Doppio One', Arial, Helvetica, sans-serif;
     font-size: 11px;
     padding: 6px 14px;
     border-radius: 16px;
@@ -221,27 +224,27 @@
     display: none;
   }
 
-  .menuHorizontal {
-    position: fixed;
-    background-color: rgba(181, 37, 254, 0.97);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    top: 67px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: auto;
-    flex-direction: column;
-    align-items: stretch;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateX(100%);
-    transition:
-      opacity 0.3s ease,
-      transform 0.3s ease,
-      visibility 0.3s ease;
-    z-index: 9;
-  }
+.menuHorizontal {
+  position: fixed;
+  background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
+  backdrop-filter: blur(16px);
+  -webkit-back-filter: blur(16px);
+  top: 125px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  flex-direction: column;
+  align-items: stretch;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(100%);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0.3s ease;
+  z-index: 9;
+}
 
   .menuOpen {
     visibility: visible;
@@ -257,9 +260,11 @@
     padding: 0;
   }
 
-  .menuHorizontal a,
+.menuHorizontal a,
   .menuHorizontal p {
     height: auto;
+    font-size: 22px;
+    font-family: 'Doppio One', Arial, Helvetica, sans-serif;
   }
 
   .menuHorizontal li.active > a,
