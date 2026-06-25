@@ -194,78 +194,130 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
           </div>
         )}
 
-        {/* Consejos */}
-        {activeTab === "tips" && data.flag_consejos !== 0 && (
-          <div
-            className="rounded-[30px] overflow-hidden"
-            style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}
-          >
-            {/* Línea degradada superior */}
-            <div
-              className="w-full h-[8px]"
-              style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }}
-            />
+      {/* Consejos */}
+{activeTab === "tips" && data.flag_consejos !== 0 && (
+  <div
+    className="rounded-[30px] overflow-hidden"
+    style={{
+      background:
+        "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)",
+    }}
+  >
+    {/* Línea degradada superior */}
+    <div
+      className="w-full h-[8px]"
+      style={{
+        background:
+          "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)",
+      }}
+    />
 
+    <div
+      className="mx-3 lg:mx-8 my-6 rounded-[22px] px-4 lg:px-10 py-8"
+      style={{
+        background:
+          "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)",
+      }}
+    >
+      <h3
+        className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
+        style={{
+          fontFamily: "'Hanken Grotesk', sans-serif",
+          color: "#FFB800",
+        }}
+      >
+        {data.commend_tarjeta?.titulo || "Consejos Importantes"}
+      </h3>
+
+      <div className="flex flex-col gap-4">
+        {[
+          data.commend_tarjeta?.texto1,
+          data.commend_tarjeta?.texto2,
+          data.commend_tarjeta?.texto3,
+          data.commend_tarjeta?.texto4,
+          data.commend_tarjeta?.texto5,
+        ]
+          .filter(Boolean)
+          .map((text, i) => (
             <div
-              className="mx-4 lg:mx-8 my-6 rounded-[22px] px-6 lg:px-10 py-8"
-              style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}
+              key={i}
+              className="flex items-center gap-3 lg:gap-4"
             >
-              <h3
-                className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
-                style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
-              >
-                {data.commend_tarjeta?.titulo || "Consejos Importantes"}
-              </h3>
-
-              <div className="flex flex-col gap-4">
-                {[
-                  data.commend_tarjeta?.texto1,
-                  data.commend_tarjeta?.texto2,
-                  data.commend_tarjeta?.texto3,
-                  data.commend_tarjeta?.texto4,
-                  data.commend_tarjeta?.texto5,
-                ].filter(Boolean).map((text, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    {/* Círculo amarillo con ícono */}
-                    <div
-                      className="flex-shrink-0 w-[47px] h-[47px] rounded-full flex items-center justify-center"
-                      style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
-                    >
-                      <CheckCircle className="w-[28px] h-[28px] text-[#100043]" strokeWidth={2.5} />
-                    </div>
-                    {/* Fila de texto */}
-                    <div
-                      className="flex-1 flex items-center px-6 min-h-[69px] rounded-[22px]"
-                      style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
-                    >
-                      <p className="text-sm lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
-                        {text}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Barra amarilla inferior */}
-            <div
-              className="h-[44px] flex items-center justify-center rounded-b-[30px]"
-              style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
-            >
-              <span
-                className="font-bold text-base lg:text-[20px] text-center"
+              {/* Círculo amarillo con ícono */}
+              <div
+                className="
+                  flex-shrink-0
+                  w-[40px] h-[40px]
+                  lg:w-[47px] lg:h-[47px]
+                  rounded-full
+                  flex items-center justify-center
+                "
                 style={{
-                  background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
+                  background:
+                    "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
                 }}
               >
-                {new Date().getFullYear()} - Todos los derechos reservados
-              </span>
+                <CheckCircle
+                  className="w-[22px] h-[22px] lg:w-[28px] lg:h-[28px] text-[#100043]"
+                  strokeWidth={2.5}
+                />
+              </div>
+
+              {/* Tarjeta de texto */}
+              <div
+                className="
+                  flex-1
+                  flex items-center
+                  px-4 lg:px-6
+                  py-3 lg:py-0
+                  rounded-[22px]
+                  min-h-auto lg:min-h-[69px]
+                "
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
+                }}
+              >
+                <p
+                  className="
+                    text-sm
+                    lg:text-[24px]
+                    leading-6
+                    lg:leading-[30px]
+                  "
+                  style={{ color: "#CCC3D4" }}
+                >
+                  {text}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
+      </div>
+    </div>
+
+    {/* Barra amarilla inferior */}
+    <div
+      className="h-[44px] flex items-center justify-center rounded-b-[30px]"
+      style={{
+        background:
+          "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+      }}
+    >
+      <span
+        className="font-bold text-base lg:text-[20px] text-center"
+        style={{
+          background:
+            "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}
+      >
+        {new Date().getFullYear()} - Todos los derechos reservados
+      </span>
+    </div>
+  </div>
+)}
 
         {/* Galería */}
         {activeTab === "gallery" && data.flag_galeria !== 0 && (

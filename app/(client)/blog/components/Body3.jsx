@@ -110,35 +110,88 @@ export default function Body3({ id_blog_body, fecha }) {
   );
 
 const renderGaleria = () => {
-    if (data.flag_galeria === 0) return null;
-    return (
-      <div
-        className="rounded-[40px] px-10 py-12 mt-12 mb-16 max-w-7xl mx-auto"
-        style={{
-          background: "conic-gradient(from 180deg at 50% 50%, #100043 -0.38deg, #2F086A 173.33deg, #100043 359.62deg, #2F086A 533.33deg)",
-        }}
+  if (data.flag_galeria === 0) return null;
+
+  return (
+    <div
+      className="
+        rounded-[30px] lg:rounded-[40px]
+        px-4 sm:px-6 lg:px-10
+        py-8 lg:py-12
+        mt-8 lg:mt-12
+        mb-12 lg:mb-16
+        max-w-7xl mx-auto
+      "
+      style={{
+        background:
+          "conic-gradient(from 180deg at 50% 50%, #100043 -0.38deg, #2F086A 173.33deg, #100043 359.62deg, #2F086A 533.33deg)",
+      }}
+    >
+      <h3
+        className="
+          text-center
+          font-extrabold
+          text-4xl lg:text-5xl
+          mb-6 lg:mb-4
+          tracking-tight
+        "
+        style={titleStyle}
       >
-        <h3 className="text-center font-extrabold text-5xl mb-2 tracking-tight" style={titleStyle}>Galería</h3>
-        <div className="flex gap-16 max-w-5xl mx-auto">
-          {[
-            { src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), alt: data.alt_image2 || data.titulo, title: data.title_image2 || "" },
-            { src: getImageUrl(data.public_image3, "/blog/blog-1.webp"), alt: data.alt_image3 || data.titulo, title: data.title_image3 || "" },
-          ].map((image, index) => (
-            <div key={index} className="flex-1 overflow-hidden rounded-[30px] shadow-lg space mt-2 mb-4">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                title={image.title}
-                className="w-full h-[320px] object-cover transition-transform duration-700 hover:scale-105 "
-                width={400}
-                height={320}
-              />
-            </div>
-          ))}
-        </div>
+        Galería
+      </h3>
+
+      <div
+        className="
+          flex
+          flex-col sm:flex-row
+          gap-6 lg:gap-16
+          max-w-5xl
+          mx-auto
+        "
+      >
+        {[
+          {
+            src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
+            alt: data.alt_image2 || data.titulo,
+            title: data.title_image2 || "",
+          },
+          {
+            src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
+            alt: data.alt_image3 || data.titulo,
+            title: data.title_image3 || "",
+          },
+        ].map((image, index) => (
+          <div
+            key={index}
+            className="
+              flex-1
+              overflow-hidden
+              rounded-[30px]
+              shadow-lg
+            "
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              title={image.title}
+              width={400}
+              height={320}
+              className="
+                w-full
+                h-[250px]
+                sm:h-[320px]
+                object-cover
+                transition-transform
+                duration-700
+                hover:scale-105
+              "
+            />
+          </div>
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
   const renderConsejos = () => {
     if (data.flag_consejos === 0 || !data.commend_tarjeta) return null;
@@ -178,54 +231,98 @@ const renderGaleria = () => {
   };
 
 const renderInformacion = () => {
-    if (data.flag_informacion === 0 || !data.tarjetas?.length) return null;
+  if (data.flag_informacion === 0 || !data.tarjetas?.length) return null;
 
-    const tarjetas = data.tarjetas;
+  const tarjetas = data.tarjetas;
 
-    const WideCard = ({ section }) => (
-      <div className="w-full p-8 shadow-lg" style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)", borderRadius: 30 }}>
-        <h3 className="font-bold text-2xl mb-3" style={titleStyle}>{section.titulo}</h3>
-        <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
-          {renderDescripcion(section.descripcion || "", section.palabra, section.enlace)}
-        </p>
-      </div>
-    );
+  const WideCard = ({ section }) => (
+    <div
+      className="w-full p-5 sm:p-8 shadow-lg"
+      style={{
+        background: cardBg,
+        border: "1px solid rgba(95,0,223,0.2)",
+        borderRadius: 24,
+      }}
+    >
+      <h3
+        className="font-bold text-lg sm:text-2xl mb-2 sm:mb-3"
+        style={titleStyle}
+      >
+        {section.titulo}
+      </h3>
 
-    const NarrowCard = ({ section }) => (
-      <div className="w-full p-8 flex flex-col items-center text-center shadow-lg" style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)", borderRadius: 30 }}>
-        <h3 className="font-bold text-xl mb-3" style={titleStyle}>{section.titulo}</h3>
-        <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
-          {renderDescripcion(section.descripcion || "", section.palabra, section.enlace)}
-        </p>
-      </div>
-    );
+      <p
+        className="text-sm sm:text-lg leading-relaxed"
+        style={{ color: "#CCC3D4" }}
+      >
+        {renderDescripcion(section.descripcion || "", section.palabra, section.enlace)}
+      </p>
+    </div>
+  );
 
-    const cards = [];
-    let i = 0;
-    while (i < tarjetas.length) {
-      if (i === 1 && tarjetas.length > 2) {
-        cards.push(
-          <div key={`pair-${i}`} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <NarrowCard section={tarjetas[i]} />
+  const NarrowCard = ({ section }) => (
+    <div
+      className="w-full p-5 sm:p-8 flex flex-col items-center text-center shadow-lg"
+      style={{
+        background: cardBg,
+        border: "1px solid rgba(95,0,223,0.2)",
+        borderRadius: 24,
+      }}
+    >
+      <h3
+        className="font-bold text-base sm:text-xl mb-2 sm:mb-3"
+        style={titleStyle}
+      >
+        {section.titulo}
+      </h3>
+
+      <p
+        className="text-sm sm:text-base leading-relaxed"
+        style={{ color: "#CCC3D4" }}
+      >
+        {renderDescripcion(section.descripcion || "", section.palabra, section.enlace)}
+      </p>
+    </div>
+  );
+
+  const cards = [];
+  let i = 0;
+
+  while (i < tarjetas.length) {
+    if (i === 1 && tarjetas.length > 2) {
+      cards.push(
+        <div
+          key={`pair-${i}`}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
+        >
+          <NarrowCard section={tarjetas[i]} />
+          {tarjetas[i + 1] && (
             <NarrowCard section={tarjetas[i + 1]} />
-          </div>
-        );
-        i += 2;
-      } else {
-        cards.push(<WideCard key={i} section={tarjetas[i]} />);
-        i++;
-      }
-    }
-
-    return (
-      <div className="mb-16 w-[75%] mx-auto">
-        <h3 className="text-center font-extrabold text-5xl mb-12 tracking-tight" style={titleStyle}>{data.titulo_tarjeta || "Información Detallada"}</h3>
-        <div className="flex flex-col gap-6">
-          {cards}
+          )}
         </div>
+      );
+      i += 2;
+    } else {
+      cards.push(<WideCard key={i} section={tarjetas[i]} />);
+      i++;
+    }
+  }
+
+  return (
+    <div className="mb-12 sm:mb-16 w-full sm:w-[90%] lg:w-[75%] mx-auto px-4 sm:px-0">
+      <h3
+        className="text-center font-extrabold text-2xl sm:text-4xl lg:text-5xl mb-8 sm:mb-12 tracking-tight"
+        style={titleStyle}
+      >
+        {data.titulo_tarjeta || "Información Detallada"}
+      </h3>
+
+      <div className="flex flex-col gap-4 sm:gap-6">
+        {cards}
       </div>
-    );
-  };
+    </div>
+  );
+};
 
   return (
     <div className="text-white">

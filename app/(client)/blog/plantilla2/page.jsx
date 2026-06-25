@@ -205,7 +205,9 @@ const PageContent = () => {
               </a>
             </div>
           )}
-          <Footer id_blog_footer={data?.id_blog_footer} bg_color={data?.footer?.bg_color} bg_type={data?.footer?.bg_type} bg_colors={data?.footer?.bg_colors} />
+
+          <div className="mb-20"> <Footer id_blog_footer={data?.id_blog_footer} bg_color={data?.footer?.bg_color} bg_type={data?.footer?.bg_type} bg_colors={data?.footer?.bg_colors} /></div>
+          
 
         </div>
       </div>

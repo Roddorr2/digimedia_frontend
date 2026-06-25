@@ -196,29 +196,43 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
         </div>
       )}
    {/* ── SECCIÓN 4: Banner amarillo de información ── */}
-      {data.flag_informacion !== 0 && (
-        <div className="flex justify-center px-6 lg:px-[100px] py-6 lg:py-8">
-          <div
-            className="flex items-center justify-center rounded-[38px] px-8 lg:px-12 h-[60px] lg:h-[76px] w-full max-w-[705px]"
-            style={{
-              background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
-              boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
-            }}
-          >
-            <span
-              className="font-bold text-base lg:text-[24px] text-center leading-[40px]"
-              style={{
-                background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              {data.titulo_tarjeta || "Información detallada de nuestros servicios"}
-            </span>
-          </div>
-        </div>
-      )}
+{data.flag_informacion !== 0 && (
+  <div className="flex justify-center lg:px-[100px] py-6 lg:py-8">
+    <div
+      className="
+        flex items-center justify-center
+        rounded-[38px]
+        px-8 lg:px-12
+        py-4
+        w-full max-w-[705px]
+      "
+      style={{
+        background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+        boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
+      }}
+    >
+      <span
+        className="
+          font-bold
+          text-base lg:text-[24px]
+          text-center
+          leading-tight
+          max-w-[90%
+        ]"
+        style={{
+          background:
+            "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}
+      >
+        {data.titulo_tarjeta ||
+          "Información Detallada Sobre Nuestros Servicios"}
+      </span>
+    </div>
+  </div>
+)}
 
       {/* ── SECCIÓN 5: Tarjetas de información (2x2) ── */}
       {data.flag_informacion !== 0 && data.tarjetas && (
