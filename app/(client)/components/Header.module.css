@@ -166,9 +166,9 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
 }
 
 .seccionesHeader label {
-  display: none;
-  cursor: pointer;
-}
+   display: none;
+   cursor: pointer;
+  }
 
 .loginButton {
   transform: translateX(14px);
@@ -191,10 +191,14 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
     gap: 12px;
   }
 
-  .seccionesHeader label {
-    display: flex;
-    align-items: center;
-  }
+.seccionesHeader label {
+     display: flex;
+     align-items: center;
+   }
+
+   .seccionesHeader label img {
+     filter: brightness(0) saturate(100%) invert(1);
+   }
 
   .loginButton {
     display: none !important;
