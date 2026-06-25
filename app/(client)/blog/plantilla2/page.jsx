@@ -168,20 +168,27 @@ const PageContent = () => {
       <div>
 <Header id_blog_head={data.id_blog_head} bg_color={data?.head?.bg_color} bg_type={data?.head?.bg_type} bg_colors={data?.head?.bg_colors} />
 
-<div className="mx-auto px-4 py-12 relative text-black min-h-screen w-full" style={
-          data?.body?.bg_type === "gradient" && data?.body?.bg_colors
-            ? (() => {
-                const colors = data.body.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
-                if (colors.length >= 3) {
-                  return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
-                }
-                if (colors.length >= 2) {
-                  return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
-                }
-                return { backgroundColor: data.body.bg_color };
-              })()
-            : { backgroundColor: data?.body?.bg_color || "#5A37A6" }
-        }>
+<div className="mx-auto px-4 py-12 relative text-white min-h-screen w-full" style={(() => {
+          const bgType = data?.body?.bg_type || "solid";
+          const bgColor = data?.body?.bg_color || "#5A37A6";
+          const bgColors = data?.body?.bg_colors || "";
+          if (bgType === "gradient" && bgColors) {
+            const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+            let direction = "";
+            let colorParts = parts;
+            if (parts[0]?.startsWith("to ")) {
+              direction = parts[0];
+              colorParts = parts.slice(1);
+            }
+            if (colorParts.length >= 3) {
+              return { backgroundImage: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
+            }
+            if (colorParts.length >= 2) {
+              return { backgroundImage: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
+            }
+          }
+          return { backgroundColor: bgColor };
+        })()}>
 
           <Body2 id_blog_body={data.id_blog_body} fecha={data.fecha} bg_color={data?.body?.bg_color} bg_type={data?.body?.bg_type} bg_colors={data?.body?.bg_colors} />
 

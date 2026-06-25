@@ -320,6 +320,7 @@ class BlogOrchestrator {
           bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
           bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
           bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
+          plantilla_id: plantillaId,
           ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
         };
         await API.default.updateBody(bodyId, bodyUpdatePayload);

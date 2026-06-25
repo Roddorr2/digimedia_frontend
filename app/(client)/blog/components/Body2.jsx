@@ -2,57 +2,24 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import {
-  Loader2,
-  CheckCircle,
-  Clock,
-  Bookmark,
-  Share2,
-  Eye,
-} from "lucide-react";
+import { Loader2, CheckCircle } from "lucide-react";
 import Fetch from "../services/fetch";
 import Image from "next/image";
 
 export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_colors }) {
-
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("info");
 
-  const getBackgroundStyle = (bgColor = "#5A37A6", bgType = "solid", bgColors = "") => {
-    if (bgType === "gradient" && bgColors) {
-      const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
-      if (colors.length >= 2) {
-        if (colors.length >= 3) {
-          return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
-        }
-        return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
-      }
-    }
-    return { backgroundColor: bgColor };
-  };
-
   function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) {
-      return texto;
-    }
-
-    // Buscar la frase completa (case insensitive)
+    if (!palabraClave || !enlace) return texto;
     const regex = new RegExp(`(${palabraClave})`, "gi");
     const partes = texto.split(regex);
-
     return partes.map((parte, i) => {
-      // Si coincide con la palabra clave (incluso con mayúsculas/minúsculas diferentes)
       if (parte.toLowerCase() === palabraClave.toLowerCase()) {
         return (
-          <a
-            key={i}
-            href={enlace}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 font-bold underline hover:text-blue-200"
-          >
+          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-[#FFB800] font-bold underline hover:opacity-80">
             {parte}
           </a>
         );
@@ -68,313 +35,294 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
         setError(null);
         const response = await Fetch.fetchBlogBodyById(id_blog_body);
         setDataResponse(response);
-      } catch (error) {
-        console.error("Error fetching blog data:", error);
+      } catch (err) {
+        console.error("Error fetching blog data:", err);
         setError("Ocurrió un error al cargar el contenido");
-        Swal.fire({
-          title: "Error",
-          text: "Ocurrió un error inesperado.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        Swal.fire({ title: "Error", text: "Ocurrió un error inesperado.", icon: "error", confirmButtonText: "OK" });
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchBlogData();
   }, [id_blog_body]);
 
-  const getImageUrl = (previewImageUrl, fallback) => {
-    if (!previewImageUrl) return fallback;
-
-    if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl;
-    }
-
-    return `${previewImageUrl}?v=${Date.now()}`;
-  };
   useEffect(() => {
     if (data) {
-      if (data.flag_informacion !== 0) {
-        setActiveTab("info");
-      } else if (data.flag_consejos !== 0) {
-        setActiveTab("tips");
-      } else if (data.flag_galeria !== 0) {
-        setActiveTab("gallery");
-      } else {
-        setActiveTab(null);
-      }
+      if (data.flag_informacion !== 0) setActiveTab("info");
+      else if (data.flag_consejos !== 0) setActiveTab("tips");
+      else if (data.flag_galeria !== 0) setActiveTab("gallery");
+      else setActiveTab(null);
     }
   }, [data]);
 
+  const getImageUrl = (previewImageUrl, fallback) => {
+    if (!previewImageUrl) return fallback;
+    if (previewImageUrl.startsWith("blob:")) return previewImageUrl;
+    return `${previewImageUrl}?v=${Date.now()}`;
+  };
+
   if (isLoading) {
     return (
-      <div className="relative lg:mx-48 p-6 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.15)] animate-pulse">
-        <div className="flex flex-col xl:flex-col lg:gap-6">
-          <div className="w-full">
-            <div className="mb-6 mt-5 flex flex-col items-center">
-              <div className="h-12 bg-red-200 rounded-lg w-3/4 mb-3"></div>
-              <div className="h-5 bg-gray-200 rounded w-1/3"></div>
-            </div>
-            <div className="h-24 bg-gray-200 rounded-lg mx-auto md:w-3/4"></div>
+      <div className="w-full rounded-[30px] overflow-hidden animate-pulse" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
+        <div className="flex flex-col lg:flex-row gap-8 px-6 lg:px-[60px] pt-12 pb-8">
+          <div className="flex-1 flex flex-col gap-4 justify-center">
+            <div className="h-4 w-24 rounded bg-[#FFB800]/30" />
+            <div className="h-12 w-3/4 rounded-lg bg-[#FFB800]/20" />
+            <div className="h-24 w-full rounded-lg bg-white/10" />
           </div>
-          <div className="flex justify-center w-full mt-8">
-            <div className="w-80 xl:w-96 h-64 bg-red-100 rounded-3xl"></div>
-          </div>
+          <div className="w-full lg:w-[549px] h-[220px] lg:h-[299px] rounded-[31px] bg-white/10 flex-shrink-0" />
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full mx-auto mt-16">
-          <div className="grid grid-cols-1 gap-8">
-            {[1, 2, 3, 4].map((_, index) => (
-              <div
-                key={index}
-                className="p-4 bg-gray-800 rounded-lg h-32"
-              ></div>
-            ))}
-          </div>
-          <div className="flex flex-col justify-center p-6 bg-gray-800 rounded-lg h-80"></div>
-        </div>
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/10 backdrop-blur-sm rounded-lg">
-          <div className="bg-white p-6 rounded-xl shadow-xl flex flex-col items-center">
-            <Loader2 className="h-12 w-12 text-red-500 animate-spin mb-4" />
-            <p className="text-gray-700 font-medium">Cargando contenido...</p>
-            <p className="text-gray-500 text-sm mt-1">
-              Esto puede tomar unos segundos
-            </p>
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-10 w-10 text-[#FFB800] animate-spin" />
+            <p className="text-[#CCC3D4] text-sm">Cargando contenido...</p>
           </div>
         </div>
       </div>
     );
   }
 
-  if (error) {
+  if (error || !data) {
     return (
-      <div className="relative lg:mx-48 p-12 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center">
-        <div className="text-red-500 text-6xl mb-4">⚠️</div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          No se pudo cargar el contenido
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Por favor, intenta recargar la página
-        </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-        >
-          Reintentar
-        </button>
+      <div className="w-full rounded-[30px] overflow-hidden flex flex-col items-center justify-center py-20 gap-4" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
+        <div className="text-4xl">⚠️</div>
+        <h2 className="text-2xl font-bold text-[#FFB800]">{error ? "No se pudo cargar el contenido" : "No hay contenido disponible"}</h2>
+        {error && (
+          <button onClick={() => window.location.reload()} className="px-6 py-2 rounded-full font-semibold text-[#100043]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}>
+            Reintentar
+          </button>
+        )}
       </div>
     );
   }
 
-  if (!data) {
-    return (
-      <div className="relative lg:mx-48 p-12 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center">
-        <div className="text-gray-400 text-6xl mb-4">📄</div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          No hay contenido disponible
-        </h2>
-        <p className="text-gray-600">
-          El artículo que buscas no está disponible en este momento
-        </p>
-      </div>
-    );
-  }
-
-  const bgStyle = bg_type === "gradient" && bg_colors
-    ? getBackgroundStyle(bg_color, bg_type, bg_colors)
-    : getBackgroundStyle(data?.bg_color || bg_color, "solid", "");
+  const tabs = [
+    { key: "info",    label: "Información", show: data.flag_informacion !== 0 },
+    { key: "tips",    label: "Consejos",    show: data.flag_consejos !== 0 },
+    { key: "gallery", label: "Galería",     show: data.flag_galeria !== 0 },
+  ].filter(t => t.show);
 
   return (
-    <div className="relative lg:mx-48 bg-white text-black rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden" style={bgStyle}>
+    <div className="w-full overflow-hidden">
 
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-2 text-gray-500 text-sm">
-          <Clock className="w-4 h-4" />
-          <span>{fecha}</span>
-        </div>
-        <div className="flex space-x-3">
-          <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <Bookmark className="w-5 h-5 text-teal-600" />
-          </button>
-          <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <Share2 className="w-5 h-5 text-teal-600" />
-          </button>
-        </div>
-      </div>
-
-      <div className="relative h-[300px] md:h-[400px] overflow-hidden">
-        <Image
-          // src={data.public_image1}
-          src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
-          // alt={data.titulo || "Imagen principal"}
-          alt={data.alt_image1 || data.titulo}
-          title={data.title_image1}
-          className="w-full h-full object-cover"
-          width={800}
-          height={400}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-          <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
+      {/* ── Hero: texto izquierda + imagen derecha ── */}
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 px-6 lg:px-[60px] pt-10 pb-8 items-center">
+        <div className="flex-1 min-w-0 flex flex-col justify-center">
+          {fecha && (
+            <p className="text-[#FFB800] font-semibold text-sm lg:text-base mb-3">{fecha}</p>
+          )}
+          <h2
+            className="font-extrabold text-[#FFB800] text-3xl lg:text-[48px] leading-tight lg:leading-[56px] tracking-[-0.48px] mb-4 uppercase"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+          >
             {data.titulo}
-          </h1>
-          <div className="w-16 h-1 bg-teal-500 mb-4"></div>
+          </h2>
+          <p className="text-[#CCC3D4] text-base lg:text-[24px] leading-[30px]">
+            {data.descripcion}
+          </p>
+        </div>
+        <div className="w-full lg:w-[549px] flex-shrink-0">
+          <Image
+            src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
+            alt={data.alt_image1 || data.titulo}
+            title={data.title_image1 || ""}
+            width={549}
+            height={299}
+            className="w-full h-[220px] lg:h-[299px] object-cover rounded-[20px] lg:rounded-[31px]"
+          />
         </div>
       </div>
 
-      <div className="px-6 md:px-10 py-8">
-        <div className="mb-10 text-lg text-gray-700 leading-relaxed">
-          {data.descripcion}
-        </div>
+      {/* ── Separador degradado ── */}
+      <div
+        className="mx-6 lg:mx-[60px] h-[5px]"
+        style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }}
+      />
 
-        <div className="flex border-b border-gray-200 mb-8">
-          {data.flag_informacion !== 0 && (
+      {/* ── Tabs de navegación ── */}
+      {tabs.length > 0 && (
+        <div className="flex gap-8 lg:gap-16 px-6 lg:px-[60px] pt-6 pb-3">
+          {tabs.map(tab => (
             <button
-              className={`px-4 py-2 font-medium text-sm ${
-                activeTab === "info"
-                  ? "text-teal-600 border-b-2 border-teal-600"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-              onClick={() => setActiveTab("info")}
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className="text-lg lg:text-[20px] leading-[30px] font-normal transition-colors"
+              style={{ color: activeTab === tab.key ? "#FFB800" : "#FFFFFF" }}
             >
-              Información
+              {tab.label}
             </button>
-          )}
-          {data.flag_consejos !== 0 && (
-            <button
-              className={`px-4 py-2 font-medium text-sm ${
-                activeTab === "tips"
-                  ? "text-teal-600 border-b-2 border-teal-600"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-              onClick={() => setActiveTab("tips")}
-            >
-              Consejos
-            </button>
-          )}
-          {data.flag_galeria !== 0 && (
-            <button
-              className={`px-4 py-2 font-medium text-sm ${
-                activeTab === "gallery"
-                  ? "text-teal-600 border-b-2 border-teal-600"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-              onClick={() => setActiveTab("gallery")}
-            >
-              Galería
-            </button>
-          )}
+          ))}
         </div>
+      )}
 
-        <div className="mb-10">
-          {activeTab === "info" && data.flag_informacion !== 0 && (
-            <div className="space-y-6">
-              {data.tarjetas &&
-                data.tarjetas.map((section, index) => (
-                  <div
-                    key={`tarjeta-${index}`}
-                    className="bg-gradient-to-r from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+      {/* ── Separador debajo de tabs ── */}
+      <div
+        className="mx-6 lg:mx-[60px] h-[8px] mb-6"
+        style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }}
+      />
+
+      {/* ── Contenido del tab activo ── */}
+      <div className="px-6 lg:px-[60px] pb-10">
+
+        {/* Información */}
+        {activeTab === "info" && data.flag_informacion !== 0 && (
+          <div className="flex flex-col gap-5">
+            {data.tarjetas?.map((card, index) => (
+              <div key={`card-${index}`} className="overflow-hidden">
+                {/* Barra amarilla superior */}
+                <div
+                  className="w-full h-[15px] rounded-t-[20px]"
+                  style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                />
+                {/* Cuerpo de la tarjeta */}
+                <div
+                  className="px-8 lg:px-[60px] py-8 border border-white/5 rounded-b-[20px]"
+                  style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}
+                >
+                  <h3
+                    className="font-extrabold text-xl lg:text-[30px] leading-[1.4] tracking-[-0.48px] mb-3"
+                    style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
                   >
-                    <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-3 text-teal-700">
-                        {section.titulo}
-                      </h3>
-                      <p className="text-gray-700">
-                        {" "}
-                        {renderDescripcion(
-                          section.descripcion,
-                          section.palabra,
-                          section.enlace
-                        )}
+                    {card.titulo}
+                  </h3>
+                  <p className="text-base lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
+                    {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Consejos */}
+        {activeTab === "tips" && data.flag_consejos !== 0 && (
+          <div
+            className="rounded-[30px] overflow-hidden"
+            style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}
+          >
+            {/* Línea degradada superior */}
+            <div
+              className="w-full h-[8px]"
+              style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }}
+            />
+
+            <div
+              className="mx-4 lg:mx-8 my-6 rounded-[22px] px-6 lg:px-10 py-8"
+              style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}
+            >
+              <h3
+                className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
+                style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+              >
+                {data.commend_tarjeta?.titulo || "Consejos Importantes"}
+              </h3>
+
+              <div className="flex flex-col gap-4">
+                {[
+                  data.commend_tarjeta?.texto1,
+                  data.commend_tarjeta?.texto2,
+                  data.commend_tarjeta?.texto3,
+                  data.commend_tarjeta?.texto4,
+                  data.commend_tarjeta?.texto5,
+                ].filter(Boolean).map((text, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    {/* Círculo amarillo con ícono */}
+                    <div
+                      className="flex-shrink-0 w-[47px] h-[47px] rounded-full flex items-center justify-center"
+                      style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                    >
+                      <CheckCircle className="w-[28px] h-[28px] text-[#100043]" strokeWidth={2.5} />
+                    </div>
+                    {/* Fila de texto */}
+                    <div
+                      className="flex-1 flex items-center px-6 min-h-[69px] rounded-[22px]"
+                      style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
+                    >
+                      <p className="text-sm lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
+                        {text}
                       </p>
                     </div>
                   </div>
                 ))}
+              </div>
             </div>
-          )}
 
-          {activeTab === "tips" && data.flag_consejos !== 0 && (
-            <div className="bg-gradient-to-br from-teal-50 to-gray-50 rounded-xl p-6">
-              <h3 className="text-2xl font-bold mb-6 text-teal-700 text-center">
-                {data.commend_tarjeta?.titulo || "Consejos"}
-              </h3>
-              <ul className="space-y-4">
-                {data.commend_tarjeta &&
-                  [
-                    data.commend_tarjeta.texto1,
-                    data.commend_tarjeta.texto2,
-                    data.commend_tarjeta.texto3,
-                    data.commend_tarjeta.texto4,
-                    data.commend_tarjeta.texto5,
-                  ]
-                    .filter((text) => text)
-                    .map((text, index) => (
-                      <li
-                        key={`commend-${index}`}
-                        className="flex items-start bg-white p-4 rounded-lg shadow-sm"
-                      >
-                        <div className="bg-teal-100 p-2 rounded-full mr-4">
-                          <CheckCircle className="w-5 h-5 text-teal-600" />
-                        </div>
-                        <div>
-                          <p className="text-gray-700">{text}</p>
-                        </div>
-                      </li>
-                    ))}
-              </ul>
+            {/* Barra amarilla inferior */}
+            <div
+              className="h-[44px] flex items-center justify-center rounded-b-[30px]"
+              style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+            >
+              <span
+                className="font-bold text-base lg:text-[20px] text-center"
+                style={{
+                  background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {new Date().getFullYear()} - Todos los derechos reservados
+              </span>
             </div>
-          )}
+          </div>
+        )}
 
-          {activeTab === "gallery" && data.flag_galeria !== 0 && (
+        {/* Galería */}
+        {activeTab === "gallery" && data.flag_galeria !== 0 && (
+          <div
+            className="rounded-[30px] overflow-hidden p-6 lg:p-10 w-[85%] mx-auto"
+            style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                // data.public_image2 || "/blog/blog-10.webp",
-                // data.public_image3 || "/blog/blog-1.webp",
-                {
-                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
-                  alt: data.alt_image2 || data.titulo,
-                  title: data.title_image2 || "",
-                },
-                {
-                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
-                  alt: data.alt_image3 || data.titulo,
-                  title: data.title_image3 || "",
-                },
+                { src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), alt: data.alt_image2 || data.titulo, title: data.title_image2 || "" },
+                { src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),  alt: data.alt_image3 || data.titulo, title: data.title_image3 || "" },
               ].map((image, index) => (
-                <div
-                  key={index}
-                  className="group relative rounded-xl overflow-hidden shadow-md"
-                >
+                <div key={index} className="overflow-hidden rounded-[15px] max-w-[580px] mx-auto w-full">
                   <Image
                     src={image.src}
-                    // alt={`Imagen ${index + 1} del artículo`}
                     alt={image.alt}
                     title={image.title}
-                    className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                    width={400}
-                    height={300}
+                    width={600}
+                    height={400}
+                    className="w-full h-[240px] lg:h-[360px] object-cover transition-transform duration-700 hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <button className="bg-white/90 p-3 rounded-full">
-                      <Eye className="w-6 h-6 text-teal-600" />
-                    </button>
-                  </div>
                 </div>
               ))}
             </div>
-          )}
+          </div>
+        )}
+      </div>
+
+      {/* ── CTA: Contáctanos ── */}
+      <div className="px-6 lg:px-[60px] pb-10">
+        <div
+          className="relative rounded-[17px] overflow-hidden"
+          style={{
+            background: "linear-gradient(180deg, rgba(16,0,67,0.54) 0%, rgba(8,1,46,0.54) 50%, rgba(19,0,73,0.54) 100%)",
+            boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
+            border: "1px solid #000000",
+          }}
+        >
+          {/* Borde amarillo superior */}
+          <div
+            className="h-[8px] w-full"
+            style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+          />
+          <div className="px-6 lg:px-14 py-8 text-center">
+            <h3
+              className="font-bold text-xl lg:text-[30px] leading-[40px] mb-4"
+              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+            >
+              Contáctanos Para Más Información
+            </h3>
+            <p className="text-base lg:text-[20px] leading-[24px] max-w-[736px] mx-auto" style={{ color: "#CCC3D4" }}>
+              {data.descripcion_cta || "Estamos comprometidos con la excelencia en cada proyecto. Nuestro equipo de expertos está listo para ayudarte a crear la solución perfecta que destaque tu negocio."}
+            </p>
+          </div>
         </div>
       </div>
-      <div className="bg-gradient-to-r from-teal-600 to-teal-800 text-white p-6 text-center">
-        <p className="text-sm">
-          © {new Date().getFullYear()} - Todos los derechos reservados
-        </p>
-      </div>
+
     </div>
   );
 }
-

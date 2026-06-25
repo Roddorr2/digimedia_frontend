@@ -59,6 +59,7 @@ export default function FormMain({
   const {
     // Configuración
     plantillaConfig,
+    resolvedPlantillaId,
     isCreateMode,
     isEditMode,
 
@@ -138,6 +139,10 @@ useEffect(() => {
   const [viewMode, setViewMode] = useState("edit"); // 'edit' | 'preview' | 'template-select'
   const [selectedPlantilla, setSelectedPlantilla] = useState(plantillaId);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+
+  useEffect(() => {
+    setSelectedPlantilla(resolvedPlantillaId);
+  }, [resolvedPlantillaId]);
 
   //Referencias para scroll a secciones
   const headerRef = useRef(null);
@@ -603,7 +608,7 @@ useEffect(() => {
               setFileBodyFile1={setFileBodyFile1}
               setFileBodyFile2={setFileBodyFile2}
               servicios={servicios}
-              plantillaId={plantillaId}
+              plantillaId={selectedPlantilla}
               mode={mode}
               isUploading={loading}
               showValidationMessages={true}

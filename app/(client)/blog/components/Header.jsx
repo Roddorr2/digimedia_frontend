@@ -162,7 +162,7 @@ return (
 
 
       {/* Contenido sobre la imagen */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.7)" }}>
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">
           {data.titulo}
         </h1>

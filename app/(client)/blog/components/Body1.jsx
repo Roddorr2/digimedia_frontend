@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Loader2, CheckCircle, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle } from "lucide-react";
 import Fetch from "../services/fetch";
 import Image from "next/image";
 
-const getBackgroundStyle = (bgColor = "#5A37A6", bgType = "solid", bgColors = "") => {
+const getBackgroundStyle = (bgColor = "#000118", bgType = "solid", bgColors = "") => {
   if (bgType === "gradient" && bgColors) {
     const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
     let direction = "";
@@ -31,23 +31,13 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
   const [error, setError] = useState(null);
 
   function renderDescripcion(texto, palabraClave, enlace) {
-    if (!palabraClave || !enlace) {
-      return texto;
-    }
-
+    if (!palabraClave || !enlace) return texto;
     const regex = new RegExp(`(${palabraClave})`, "gi");
     const partes = texto.split(regex);
-
     return partes.map((parte, i) => {
       if (parte.toLowerCase() === palabraClave.toLowerCase()) {
         return (
-          <a
-            key={i}
-            href={enlace}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-400 font-bold underline hover:text-blue-200"
-          >
+          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-[#FFB800] font-bold underline hover:opacity-80">
             {parte}
           </a>
         );
@@ -66,255 +56,199 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
       } catch (error) {
         console.error("Error fetching blog data:", error);
         setError("Ocurrió un error al cargar el contenido");
-        Swal.fire({
-          title: "Error",
-          text: "Ocurrió un error inesperado.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        Swal.fire({ title: "Error", text: "Ocurrió un error inesperado.", icon: "error", confirmButtonText: "OK" });
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchBlogData();
   }, [id_blog_body]);
 
-  const getImageUrl = (previewImageUrl, fallback) => {
-    if (!previewImageUrl) return fallback;
-
-    if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl;
-    }
-
+  const getImageUrl = (previewImageUrl) => {
+    if (!previewImageUrl) return null;
+    if (previewImageUrl.startsWith("blob:")) return previewImageUrl;
     return `${previewImageUrl}?v=${Date.now()}`;
   };
 
   if (isLoading) {
     return (
-      <div className="relative lg:mx-48 p-6 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.15)] animate-pulse">
-        <div className="flex flex-col xl:flex-col lg:gap-6">
-          <div className="w-full">
-            <div className="mb-6 mt-5 flex flex-col items-center">
-              <div className="h-12 bg-red-200 rounded-lg w-3/4 mb-3"></div>
-              <div className="h-5 bg-gray-200 rounded w-1/3"></div>
-            </div>
-            <div className="h-24 bg-gray-200 rounded-lg mx-auto md:w-3/4"></div>
-          </div>
-          <div className="flex justify-center w-full mt-8">
-            <div className="w-80 xl:w-96 h-64 bg-red-100 rounded-3xl"></div>
+      <div className="w-full rounded-[20px] overflow-hidden animate-pulse" style={{ background: "linear-gradient(143.3deg, #000118 0%, #410C89 50%, #000118 100%)" }}>
+        <div className="flex flex-col lg:flex-row gap-8 px-6 lg:px-[100px] pt-12 pb-8">
+          <div className="w-full lg:w-[564px] h-[280px] lg:h-[383px] rounded-[32px] bg-white/10" />
+          <div className="flex-1 flex flex-col gap-4 justify-center">
+            <div className="h-4 w-24 rounded bg-[#FFB800]/30" />
+            <div className="h-12 w-3/4 rounded-lg bg-[#FFB800]/20" />
+            <div className="h-24 w-full rounded-lg bg-white/10" />
           </div>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full mx-auto mt-16">
-          <div className="grid grid-cols-1 gap-8">
-            {[1, 2, 3, 4].map((_, index) => (
-              <div
-                key={index}
-                className="p-4 bg-gray-800 rounded-lg h-32"
-              ></div>
-            ))}
-          </div>
-          <div className="flex flex-col justify-center p-6 bg-gray-800 rounded-lg h-80"></div>
-        </div>
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/10 backdrop-blur-sm rounded-lg">
-          <div className="bg-white p-6 rounded-xl shadow-xl flex flex-col items-center">
-            <Loader2 className="h-12 w-12 text-red-500 animate-spin mb-4" />
-            <p className="text-gray-700 font-medium">Cargando contenido...</p>
-            <p className="text-gray-500 text-sm mt-1">
-              Esto puede tomar unos segundos
-            </p>
+        <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-10 w-10 text-[#FFB800] animate-spin" />
+            <p className="text-[#CCC3D4] text-sm">Cargando contenido...</p>
           </div>
         </div>
       </div>
     );
   }
 
-  if (error) {
+  if (error || !data) {
     return (
-      <div className="relative lg:mx-48 p-12 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center">
-        <div className="text-red-500 text-6xl mb-4">⚠️</div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          No se pudo cargar el contenido
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Por favor, intenta recargar la página
-        </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-        >
-          Reintentar
-        </button>
+      <div className="w-full rounded-[20px] overflow-hidden flex flex-col items-center justify-center py-20 gap-4" style={{ background: "linear-gradient(143.3deg, #000118 0%, #410C89 50%, #000118 100%)" }}>
+        <div className="text-4xl">⚠️</div>
+        <h2 className="text-2xl font-bold text-[#FFB800]">{error ? "No se pudo cargar el contenido" : "No hay contenido disponible"}</h2>
+        {error && (
+          <button onClick={() => window.location.reload()} className="px-6 py-2 rounded-full font-semibold text-[#100043]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}>
+            Reintentar
+          </button>
+        )}
       </div>
     );
   }
 
-  if (!data) {
-    return (
-      <div className="relative lg:mx-48 p-12 bg-black/5 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] flex flex-col items-center justify-center">
-        <div className="text-gray-400 text-6xl mb-4">📄</div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          No hay contenido disponible
-        </h2>
-        <p className="text-gray-600">
-          El artículo que buscas no está disponible en este momento
-        </p>
-      </div>
-    );
-  }
 
   return (
-    <div className="relative lg:mx-48 p-0 text-white rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.45)]">
-      <div className="relative lg:mx-48 p-0 text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden" style={{
-        ...getBackgroundStyle(
-          data?.bg_color || bg_color,
-          data?.bg_type || bg_type || "solid",
-          data?.bg_colors || bg_colors
-        )
-      }}>
-        <div className="relative h-[400px] overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
+    <div className="w-full overflow-hidden rounded-[20px]">
+      {/* ── SECCIÓN 1: Imagen izquierda + texto derecha ── */}
+      <div className="flex flex-col lg:flex-row gap-8 px-6 lg:px-[100px] pt-12 pb-8 items-start">
+        <div className="w-full lg:w-[564px] flex-shrink-0">
           <Image
-            src={getImageUrl(data.public_image1, "/blog/blog-4.webp")}
+            src={getImageUrl(data.public_image1) || "/blog/blog-4.webp"}
             alt={data.alt_image1 || data.titulo}
-            title={data.title_image1}
-            className="absolute inset-0 w-full h-full object-cover"
-            width={800}
-            height={400}
+            title={data.title_image1 || ""}
+            width={564}
+            height={383}
+            className="w-full h-[260px] lg:h-[383px] rounded-[20px] lg:rounded-[32px] object-cover"
           />
-          <div className="relative z-20 h-full flex flex-col justify-end p-8">
-            <p className="text-[#F2C230] mb-2 font-medium">{fecha}</p>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
-              {data.titulo}
-            </h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-[#F2A30F] to-[#F2C230] rounded-full"></div>
-          </div>
         </div>
+        <div className="flex-1 min-w-0 flex flex-col justify-center">
+          <p className="text-[#FFB800] font-semibold text-sm lg:text-base mb-3">{fecha}</p>
+          <h2 className="font-extrabold text-[#FFB800] text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px] mb-4 lg:mb-6">
+            {data.titulo}
+          </h2>
+          <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
+            {data.descripcion}
+          </p>
+        </div>
+      </div>
 
-        <div className="p-8">
-          <div className="relative mb-16 bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-xl -mt-12">
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#F2A30F] to-[#F2C230]"></div>
-            <p className="text-lg leading-relaxed text-gray-200">
-              {data.descripcion}
-            </p>
-          </div>
-          {data.flag_consejos !== 0 && (
-            <div className="mb-16 p-6 bg-gradient-to-br from-[#060126] to-[#0A0140] rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-white">
-              <div className="flex items-center justify-center mb-4">
-                <div className="h-0.5 w-12 bg-[#F2A30F] mr-4"></div>
-                <h3 className="text-2xl font-bold text-[#F2C230]">
-                  {data.commend_tarjeta?.titulo || "Consejos"}
-                </h3>
-                <div className="h-0.5 w-12 bg-[#F2A30F] ml-4"></div>
-              </div>
-
-              <ul className="list-none text-black-600 space-y-3 max-w-2xl mx-auto">
-                {data.commend_tarjeta &&
-                  [
-                    data.commend_tarjeta.texto1,
-                    data.commend_tarjeta.texto2,
-                    data.commend_tarjeta.texto3,
-                    data.commend_tarjeta.texto4,
-                    data.commend_tarjeta.texto5,
-                  ]
-                    .filter((text) => text)
-                    .map((text, index) => (
-                      <li
-                        key={`commend-${index}`}
-                        className="flex items-center gap-3 bg-white/10 p-3 rounded-lg"
-                      >
-                        <CheckCircle className="w-6 h-6 text-[#F2C230] flex-shrink-0" />
-                        <span className="text-left">{text}</span>
-                      </li>
-                    ))}
-              </ul>
+      {/* ── SECCIÓN 2: Consejos ── */}
+      {data.flag_consejos !== 0 && (
+        <div className="px-6 lg:px-[100px] py-10">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
+            <div className="w-full lg:w-[388px] flex-shrink-0">
+              <p className="text-[#FFB800] font-semibold text-lg lg:text-[24px] leading-[40px] mb-2">
+                Consejos importantes
+              </p>
+              <h3 className="text-[#FFB800] font-extrabold text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]">
+                {data.commend_tarjeta?.titulo || "Consejos"}
+              </h3>
             </div>
-          )}
 
-          {data.flag_galeria !== 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+            <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 flex-1 w-full">
               {[
-                {
-                  src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
-                  alt: data.alt_image2 || data.titulo,
-                  title: data.title_image2 || "",
-                },
-                {
-                  src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
-                  alt: data.alt_image3 || data.titulo,
-                  title: data.title_image3 || "",
-                },
-              ].map((image, index) => (
+                data.commend_tarjeta?.texto1,
+                data.commend_tarjeta?.texto2,
+                data.commend_tarjeta?.texto3,
+              ].filter(Boolean).map((text, i) => (
                 <div
-                  key={index}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 shadow-xl"
+                  key={i}
+                  className="relative flex flex-col items-center rounded-[12px] overflow-hidden flex-1 min-h-[260px] lg:min-h-[329px] p-6"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(16,0,67,0.8) 0%, rgba(8,1,46,0.8) 50%, rgba(19,0,73,0.8) 100%)",
+                    boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
+                  }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#060126]/95 via-[#0A0140]/70 to-transparent z-10"></div>
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    title={image.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                    width={400}
-                    height={256}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[5px]"
+                    style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }}
                   />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
-                    <div className="flex items-center justify-center">
-                      <span className="text-sm font-medium">Ver detalle</span>
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </div>
-                  </div>
+                  <p className="text-white font-extrabold text-[60px] lg:text-[80px] leading-none mt-8 text-center tracking-[-0.48px]">
+                    {i + 1}
+                  </p>
+                  <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px] text-center mt-6">
+                    {text}
+                  </p>
                 </div>
               ))}
             </div>
-          )}
-
-          {data.flag_informacion !== 0 && (
-            <div className="relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-                <div className="inline-block px-4 py-1 bg-[#F2A30F] text-[#060126] text-sm font-medium rounded-full">
-                  {data.titulo_tarjeta || "Información Importante"}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
-                {data.tarjetas &&
-                  data.tarjetas.map((section, index) => {
-                    const styles = [
-                      "bg-white/10 backdrop-blur-md border-l-4 border-[#F2A30F]",
-                      "bg-white/10 backdrop-blur-md border-r-4 border-[#F2C230]",
-                      "bg-white/10 backdrop-blur-md border-l-4 border-[#F2A30F]",
-                      "bg-white/10 backdrop-blur-md border-r-4 border-[#F2C230]",
-                    ];
-
-                    return (
-                      <div
-                        key={`tarjeta-${index}`}
-                        className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
-                          styles[index % styles.length]
-                        }`}
-                      >
-                        <h3 className="text-xl font-bold mb-3 text-[#F2C230]">
-                          {section.titulo}
-                        </h3>
-                        <p className="text-gray-100">
-                          {" "}
-                          {renderDescripcion(
-                            section.descripcion,
-                            section.palabra,
-                            section.enlace,
-                          )}
-                        </p>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* ── SECCIÓN 3: Galería (2 imágenes) ── */}
+      {data.flag_galeria !== 0 && (
+        <div className="flex flex-col sm:flex-row gap-4 lg:gap-[31px] px-6 lg:px-[200px] py-10">
+          {[
+            { src: getImageUrl(data.public_image2) || "/blog/blog-10.webp", alt: data.alt_image2 || data.titulo, title: data.title_image2 || "" },
+            { src: getImageUrl(data.public_image3) || "/blog/blog-1.webp",  alt: data.alt_image3 || data.titulo, title: data.title_image3 || "" },
+          ].map((image, index) => (
+            <div key={index} className="flex-1">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                title={image.title}
+                width={604}
+                height={383}
+                className="w-full h-[240px] lg:h-[383px] rounded-[20px] lg:rounded-[32px] object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+   {/* ── SECCIÓN 4: Banner amarillo de información ── */}
+      {data.flag_informacion !== 0 && (
+        <div className="flex justify-center px-6 lg:px-[100px] py-6 lg:py-8">
+          <div
+            className="flex items-center justify-center rounded-[38px] px-8 lg:px-12 h-[60px] lg:h-[76px] w-full max-w-[705px]"
+            style={{
+              background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+              boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
+            }}
+          >
+            <span
+              className="font-bold text-base lg:text-[24px] text-center leading-[40px]"
+              style={{
+                background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              {data.titulo_tarjeta || "Información detallada de nuestros servicios"}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ── SECCIÓN 5: Tarjetas de información (2x2) ── */}
+      {data.flag_informacion !== 0 && data.tarjetas && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12 px-6 lg:px-[100px] pb-14 pt-8">
+          {data.tarjetas.map((card, index) => (
+            <div
+              key={`tarjeta-${index}`}
+              className="relative rounded-[27px] pt-14 pb-8 px-8 lg:px-14"
+              style={{
+                background: "linear-gradient(180deg, rgba(16,0,67,0.54) 0%, rgba(8,1,46,0.54) 50%, rgba(19,0,73,0.54) 100%)",
+                boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
+              }}
+            >
+              {/* Círculo amarillo con ícono */}
+              <div
+                className="absolute -top-8 left-1/2 -translate-x-1/2 w-[64px] h-[64px] lg:w-[78px] lg:h-[78px] rounded-full flex items-center justify-center"
+                style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+              >
+                <CheckCircle className="w-7 h-7 lg:w-9 lg:h-9 text-[#100043]" />
+              </div>
+              <h3 className="text-[#FFB800] font-bold text-xl lg:text-[30px] leading-[40px] mb-3">
+                {card.titulo}
+              </h3>
+              <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
+                {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
