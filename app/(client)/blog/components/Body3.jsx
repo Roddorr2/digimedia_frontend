@@ -195,10 +195,13 @@ const renderGaleria = () => {
 
   const renderConsejos = () => {
     if (data.flag_consejos === 0 || !data.commend_tarjeta) return null;
+    {/* se agrego texto 4 y 5  */}
     const textos = [
       data.commend_tarjeta.texto1,
       data.commend_tarjeta.texto2,
       data.commend_tarjeta.texto3,
+      data.commend_tarjeta?.texto4,
+      data.commend_tarjeta?.texto5,
     ].filter(Boolean);
 
     if (!textos.length) return null;

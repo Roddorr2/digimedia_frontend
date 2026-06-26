@@ -160,12 +160,7 @@ export const MAX_INFO_TARJETAS = 4;
  * @returns {number} Número máximo de consejos
  */
 export function getMaxConsejosByPlantilla(plantillaId) {
-  const maxConsejos = {
-    1: 3, // Plantilla 1: 3 consejos
-    2: 5, // Plantilla 2: 5 consejos
-    3: 3, // Plantilla 3: 3 consejos
-  };
-  return maxConsejos[plantillaId] || 3;
+  return 5; //ahora todo permiten 5
 }
 
 /**
@@ -173,14 +168,9 @@ export function getMaxConsejosByPlantilla(plantillaId) {
  * @param {number} plantillaId - ID de la plantilla
  * @returns {string[]} Array con los nombres de los campos activos
  */
+//CAMBIO PARA CONSIDERAR 5 TEXTOS
 export function getConsejosFieldsByPlantilla(plantillaId) {
-  const baseFields = ["titulo", "texto1", "texto2", "texto3"];
-
-  if (plantillaId === 2) {
-    return [...baseFields, "texto4", "texto5"];
-  }
-
-  return baseFields;
+  return ["titulo", "texto1", "texto2", "texto3", "texto4", "texto5"];
 }
 
 export default {
