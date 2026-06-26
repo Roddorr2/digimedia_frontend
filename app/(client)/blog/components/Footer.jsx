@@ -6,30 +6,37 @@ import Swal from "sweetalert2";
 import { Loader2, AlertTriangle, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
-export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors }) {
+// ✅ FUNCIÓN EXTERNA (FUERA DEL COMPONENTE) - CON VALORES POR DEFECTO
+const getBackgroundStyle = (bgColor = "#000118", bgType = "solid", bgColors = "") => {
+  if (bgType === "gradient" && bgColors) {
+    const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+    let direction = "";
+    let colorParts = parts;
+    if (parts[0]?.startsWith("to ")) {
+      direction = parts[0];
+      colorParts = parts.slice(1);
+    }
+    if (colorParts.length >= 3) {
+      return { backgroundImage: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
+    }
+    if (colorParts.length >= 2) {
+      return { backgroundImage: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
+    }
+  }
+  return { backgroundColor: bgColor };
+};
+
+export default function Footer({ id_blog_footer, bg_color: propBgColor, bg_type: propBgType, bg_colors: propBgColors }) {
 
   const [data, setDataResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const getBackgroundStyle = (bgColor = "#374151", bgType = "solid", bgColors = "") => {
-    if (bgType === "gradient" && bgColors) {
-      const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
-      let direction = "";
-      let colorParts = parts;
-      if (parts[0]?.startsWith("to ")) {
-        direction = parts[0];
-        colorParts = parts.slice(1);
-      }
-      if (colorParts.length >= 3) {
-        return { backgroundImage: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
-      }
-      if (colorParts.length >= 2) {
-        return { backgroundImage: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
-      }
-    }
-    return { backgroundColor: bgColor };
-  };
+  // ✅ USA LA FUNCIÓN EXTERNA CON VALORES POR DEFECTO
+  const bgColor = data?.bg_color || propBgColor || "";
+  const bgType = data?.bg_type || propBgType || "solid";
+  const bgColors = data?.bg_colors || propBgColors || "";
+  const footerBgStyle = getBackgroundStyle(bgColor, bgType, bgColors);
 
   useEffect(() => {
     const fetchFooterData = async () => {
@@ -57,11 +64,7 @@ export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors })
 
   const getImageUrl = (previewImageUrl, fallback) => {
     if (!previewImageUrl) return fallback;
-
-    if (previewImageUrl.startsWith("blob:")) {
-      return previewImageUrl;
-    }
-
+    if (previewImageUrl.startsWith("blob:")) return previewImageUrl;
     return `${previewImageUrl}?v=${Date.now()}`;
   };
 
@@ -175,83 +178,50 @@ export default function Footer({ id_blog_footer, bg_color, bg_type, bg_colors })
   return (
     <>
       {data.estado !== 0 && (
-        <div className="mt-12 max-w-[1000px] mx-auto rounded-lg shadow-[0px_8px_20px_rgba(0,0,0,0.3)] overflow-hidden" style={{
-            ...getBackgroundStyle(
-              bg_color || data?.bg_color,
-              bg_type || data?.bg_type || "solid",
-              bg_colors || data?.bg_colors
-            )
-          }}>
-
-          <div className="relative">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500"></div>
-
-            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-yellow-400/20 rounded-tl-lg"></div>
-            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-blue-500/20 rounded-tr-lg"></div>
-
-            <div className="p-6 md:p-8">
-              <h3 className="text-2xl md:text-3xl text-center font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 relative">
+        <div
+          className="mt-12 mx-6 lg:mx-[100px] rounded-[27px] overflow-hidden shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+          style={footerBgStyle}
+        >
+          {/* Fila superior: título izquierda + descripción derecha */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 p-8 lg:p-12 items-start">
+            <div className="w-full lg:w-[45%] flex-shrink-0">
+              <h3 className="font-extrabold text-[#FFB800] text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]">
                 {data.titulo}
-                <span className="block h-0.5 w-16 bg-gradient-to-r from-yellow-400/30 via-yellow-400 to-yellow-400/30 mx-auto mt-2"></span>
               </h3>
-
-              <p className="text-gray-100 text-base leading-relaxed max-w-3xl mx-auto mb-6 text-center">
+            </div>
+            <div className="flex-1">
+              <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
                 {data.descripcion}
               </p>
-
-              {(data.public_image1 ||
-                data.public_image2 ||
-                data.public_image3) && (
-                <div className="flex flex-wrap justify-center gap-3 mt-6">
-                  {[
-                    {
-                      src: data.public_image1,
-                      alt: data.alt_image1,
-                      title: data.title_image1,
-                    },
-                    {
-                      src: data.public_image2,
-                      alt: data.alt_image2,
-                      title: data.title_image2,
-                    },
-                    {
-                      src: data.public_image3,
-                      alt: data.alt_image3,
-                      title: data.title_image3,
-                    },
-                  ].map((image, index) => {
-                    // const imageUrl = image
-                    const imageUrl = getImageUrl(image.src);
-                    return (
-                      <div key={index} className="relative group">
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-blue-500/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-blue-500 rounded-lg opacity-0 group-hover:opacity-30 blur-sm transition-opacity duration-300"></div>
-
-                        <Image
-                          src={imageUrl || "/placeholder.svg"}
-                          // alt={`Imagen ${index + 1}`}
-                          alt={image.alt || `Imagen ${index + 1}`}
-                          title={image.title || ""}
-                          className="w-48 h-36 object-cover rounded-lg border border-white/10 group-hover:border-sky-400/50 transition-all duration-300 shadow-md relative z-10"
-                          width={192}
-                          height={144}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-lg z-20 pointer-events-none"></div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              <div className="flex justify-center mt-6">
-                <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-sky-400 to-transparent rounded-full"></div>
-              </div>
             </div>
           </div>
+
+          {/* Fila inferior: 3 imágenes */}
+          {(data.public_image1 || data.public_image2 || data.public_image3) && (
+            <div className="flex flex-col sm:flex-row gap-4 px-8 lg:px-12 pb-10">
+              {[
+                { src: data.public_image1, alt: data.alt_image1, title: data.title_image1 },
+                { src: data.public_image2, alt: data.alt_image2, title: data.title_image2 },
+                { src: data.public_image3, alt: data.alt_image3, title: data.title_image3 },
+              ].map((image, index) => {
+                const imageUrl = getImageUrl(image.src);
+                return (
+                  <div key={index} className="flex-1">
+                    <Image
+                      src={imageUrl || "/placeholder.svg"}
+                      alt={image.alt || `Imagen ${index + 1}`}
+                      title={image.title || ""}
+                      className="w-full h-[160px] lg:h-[208px] object-cover rounded-[17px]"
+                      width={368}
+                      height={208}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </>
   );
 }
-

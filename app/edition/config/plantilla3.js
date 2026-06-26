@@ -48,7 +48,7 @@ export const PLANTILLA3_CONFIG = {
   name: "Plantilla 3 - Lineal Extendida",
   description:
     "Layout lineal con validación extendida para alt/title de imágenes",
-  layoutType: "linear",
+  layoutType: "plantilla3",
   styles: PLANTILLA3_STYLES,
   sectionsConfig: PLANTILLA3_SECTIONS_CONFIG,
   features: {
