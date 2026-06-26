@@ -4,6 +4,8 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function DisenoDesarrolloWeb() {
   const servicios = [
@@ -20,7 +22,7 @@ export default function DisenoDesarrolloWeb() {
       imageAlt:
         "ícono del sub servicio de creación y desarrollo web ofrecido por Digimedia",
     },
-    
+
     {
       title: (
         <>
@@ -73,8 +75,7 @@ export default function DisenoDesarrolloWeb() {
       icon: "/servicios/desarrollo/landing-page-sub-servicio.webp",
       ruta: "/servicios/landing-page/",
       imageTitle: "Subservicio de Landing Page",
-      imageAlt:
-        "Ícono del subservicio de Landing Page ofrecido por Digimedia",
+      imageAlt: "Ícono del subservicio de Landing Page ofrecido por Digimedia",
     },
   ];
 
@@ -104,6 +105,8 @@ export default function DisenoDesarrolloWeb() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

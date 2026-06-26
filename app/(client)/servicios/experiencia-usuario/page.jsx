@@ -2,6 +2,8 @@
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
 import Image from "next/image";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function ExperienciaUsuario() {
   const featuresuxui = [
@@ -62,6 +64,8 @@ export default function ExperienciaUsuario() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }

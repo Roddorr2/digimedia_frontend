@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
-import { PencilRuler, Palette, SpellCheck, Layers } from "lucide-react";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function AnalisisMetricas() {
   const featuresuxui = [
@@ -77,6 +78,8 @@ export default function AnalisisMetricas() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }
