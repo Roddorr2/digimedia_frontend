@@ -670,7 +670,7 @@ export default function FormBody({
             {data.consejos.titulo || "Consejos Importantes"}
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {consejos.slice(0, 3).map((text, index) => (
+            {consejos.map((text, index) => (
               <div
                 key={index}
                 className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
@@ -706,7 +706,7 @@ export default function FormBody({
             </h3>
           </div>
           <div className="flex gap-4">
-            {consejos.slice(0, 3).map((text, index) => (
+            {consejos.map((text, index) => (
               <div
                 key={index}
                 className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-5"
