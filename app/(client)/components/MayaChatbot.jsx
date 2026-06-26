@@ -445,13 +445,13 @@ focus:ring-[#ffb800b8]
 
       {/* ── Botón flotante Maya + burbuja ── */}
       <div
-        className="fixed z-50 right-4 md:right-8 flex flex-col items-end"
-        style={{ bottom: "7rem" }}
+        className="fixed z-50 right-3 flex flex-col items-end"
+        style={{ bottom: "5.5rem" }}
       >
         {/* Burbuja de mensaje o tooltip hover */}
         <div
           className={`
-      relative mb-3 pointer-events-none
+      relative mb-3 right-[30px] bottom-[-14px] pointer-events-none
       transform-gpu
       transition-all duration-700
       ease-[cubic-bezier(.16,1,.3,1)]
@@ -470,7 +470,7 @@ focus:ring-[#ffb800b8]
                 : ""}
 
             <span
-              className="absolute bottom-[-5px] right-4 w-2.5 h-2.5 bg-[#ffb800] rotate-45"
+              className="absolute bottom-[-3px] right-2 w-2.5 h-2.5 bg-[#ffb800] rotate-[33deg]"
               style={{ boxShadow: "2px 2px 3px rgba(0,0,0,0.06)" }}
             />
           </div>
