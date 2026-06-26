@@ -1,6 +1,6 @@
 const MAYA_WEBHOOK = process.env.NEXT_PUBLIC_MAYA_WEBHOOK_URL ?? "";
 
-export async function sendToMaya({ message, sessionId }) {
+export async function sendToMaya({ message, sessionId, interactionNumber }) {
   console.log("[Maya frontend] enviando a n8n:", message?.slice(0, 50));
 
   if (!MAYA_WEBHOOK) {
@@ -20,6 +20,7 @@ export async function sendToMaya({ message, sessionId }) {
       body: JSON.stringify({
         message,
         sessionId,
+        interactionNumber,
       }),
     });
 
@@ -59,7 +60,7 @@ export async function sendToMaya({ message, sessionId }) {
         "No recibí una respuesta válida.",
 
       servicios: data?.servicios || [],
-      contacto: data?.contacto || "https://wa.me/51983027828",
+      contacto: data?.contacto || null,
     };
   } catch (err) {
     console.error("[Maya frontend] error de conexión:", err);

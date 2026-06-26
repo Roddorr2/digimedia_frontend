@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { sendToMaya } from "@/api/mayaWebhook"; // o donde lo guardes
+import { MessageCircle } from "lucide-react";
 
 const MAYA_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_1.webp";
 
@@ -21,11 +22,11 @@ function getSessionId() {
 const WELCOME = {
   role: "bot",
   mensaje:
-    "¡Hola! Soy Maya, asistente de DigiMedia 👋 Estoy aquí para ayudarte a impulsar tu negocio. ¿En qué puedo ayudarte hoy?",
+    "¡Hola! 😊 Soy Maya. Qué gusto tenerte por aquí, estaré encantada de ayudarte.",
 };
 
 const BUBBLE_MSGS = [
-  "¿Necesitas ayuda? 👋",
+  "¿Necesitas ayuda?",
   "¿Tienes alguna duda?",
   "¡Estoy aquí para ayudarte!",
   "Conoce nuestros servicios",
@@ -113,6 +114,7 @@ function FloatingButtonFace() {
 export default function MayaChatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [interactionNumber, setInteractionNumber] = useState(0);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId] = useState(getSessionId);
@@ -188,11 +190,15 @@ export default function MayaChatbot() {
     setLoading(true);
 
     try {
+      const currentInteraction = interactionNumber + 1;
+
+      setInteractionNumber(currentInteraction);
+
       const data = await sendToMaya({
         message: text,
         sessionId,
+        interactionNumber: currentInteraction,
       });
-
       setMessages((prev) => [...prev, data]);
     } catch (err) {
       console.error(err);
@@ -222,18 +228,31 @@ export default function MayaChatbot() {
       {/* ── Ventana de chat ── */}
       {open && (
         <div
-          className="fixed z-50 right-8 md:right-10 flex flex-col rounded-2xl shadow-2xl overflow-hidden"
+          className="fixed
+right-4
+md:right-8
+left-4
+md:left-auto
+flex flex-col
+rounded-2xl
+shadow-2xl
+overflow-hidden"
           style={{
-            bottom: "calc(7rem + 3.5rem + 0.75rem)",
-            width: "min(360px, calc(100vw - 2rem))",
+            bottom: "calc(7rem + 3.5rem + .75rem)",
+            maxWidth: "360px",
+            width: "100%",
             maxHeight: "520px",
+            background: "#000118",
+            border: "1px solid rgba(255,184,0,.12)",
+            zIndex: 100,
           }}
         >
           {/* Header */}
           <div
             className="flex items-center gap-3 px-4 py-3 flex-shrink-0"
             style={{
-              background: "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)",
+              background: "linear-gradient(135deg, #100043 0%, #130049 100%)",
+              borderBottom: "1px solid rgba(255, 184, 0, 0.12)",
             }}
           >
             <div className="">
@@ -241,9 +260,8 @@ export default function MayaChatbot() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white font-semibold text-sm leading-tight">
-                Maya
+                Asistente Maya
               </p>
-              <p className="text-white/70 text-xs">Asistente de DigiMedia</p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <span
@@ -273,8 +291,12 @@ export default function MayaChatbot() {
 
           {/* Mensajes */}
           <div
-            className="overflow-y-auto px-3 py-4 space-y-3 bg-gray-50"
-            style={{ minHeight: "200px", maxHeight: "360px" }}
+            className="chat-scroll overflow-y-auto px-3 py-4 space-y-3 bg-gray-50"
+            style={{
+              minHeight: "200px",
+              maxHeight: "360px",
+              background: "#000118",
+            }}
           >
             {messages.map((msg, i) => (
               <div
@@ -287,14 +309,15 @@ export default function MayaChatbot() {
                 <div
                   className={`max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
                     msg.role === "user"
-                      ? "rounded-br-sm text-white"
-                      : "bg-white text-gray-800 rounded-bl-sm border border-gray-100"
+                      ? "rounded-br-sm text-[#000118]"
+                      : "bg-[#100043] text-white rounded-bl-sm border border-[rgba(255,184,0,0.08)]"
                   }`}
                   style={
                     msg.role === "user"
                       ? {
                           background:
-                            "linear-gradient(135deg, #7B2FBE, #4A00E0)",
+                            "linear-gradient(135deg, #ffb800, #f4d534)",
+                          color: "#000118",
                         }
                       : {}
                   }
@@ -304,13 +327,13 @@ export default function MayaChatbot() {
                   </p>
 
                   {msg.servicios?.length > 0 && (
-                    <ul className="mt-2 space-y-1 border-t border-purple-100 pt-2">
+                    <ul className="mt-2 space-y-1 border-t border-[rgba(255,184,0,0.1)] pt-2">
                       {msg.servicios.map((s, si) => (
                         <li key={si} className="text-xs">
-                          <span className="font-semibold text-purple-700">
+                          <span className="font-semibold text-[#f4d534]">
                             • {s.nombre}:
                           </span>{" "}
-                          <span className="text-gray-600">{s.descripcion}</span>
+                          <span className="text-white/70">{s.descripcion}</span>
                         </li>
                       ))}
                     </ul>
@@ -324,15 +347,16 @@ export default function MayaChatbot() {
                       }
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2 inline-flex items-center gap-1 text-xs font-medium underline"
+                      className="mt-3 w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 hover:shadow-lg hover:brightness-110 active:scale-95"
                       style={{
-                        color:
-                          msg.role === "bot"
-                            ? "#7B2FBE"
-                            : "rgba(255,255,255,0.9)",
+                        background:
+                          "linear-gradient(135deg, #ffb800 0%, #f4d534 100%)",
+                        color: "#000118",
+                        boxShadow: "0 8px 20px rgba(255, 184, 0, 0.25)",
                       }}
                     >
-                      💬 Hablar con un asesor
+                      <MessageCircle size={16} />
+                      Hablar con un asesor
                     </a>
                   )}
                 </div>
@@ -365,7 +389,13 @@ export default function MayaChatbot() {
           </div>
 
           {/* Input */}
-          <div className="flex items-center gap-2 px-3 py-3 bg-white border-t border-gray-100 flex-shrink-0">
+          <div
+            className="flex items-center gap-2 px-3 py-3 bg-white border-t border-gray-100 flex-shrink-0"
+            style={{
+              background: "#100043",
+              borderTop: "1px solid rgba(255,184,0,.12)",
+            }}
+          >
             <input
               ref={inputRef}
               type="text"
@@ -374,14 +404,34 @@ export default function MayaChatbot() {
               onKeyDown={handleKey}
               placeholder="Escribe tu mensaje..."
               disabled={loading}
-              className="flex-1 text-sm bg-gray-50 rounded-xl px-3 py-2 outline-none text-gray-800 placeholder-gray-400 border border-gray-200 focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors"
+              className="
+    flex-1
+    h-11
+    rounded-xl
+    px-4
+    text-sm
+    text-white
+    placeholder:text-white/35
+    border
+    transition-all
+    duration-200
+    outline-none
+    focus:border-[#ffb800]
+focus:ring-2
+focus:ring-[#ffb800b8]
+  "
+              style={{
+                background: "#130049",
+                borderColor: "#ffb8005e",
+              }}
             />
             <button
               onClick={sendMessage}
               disabled={loading || !input.trim()}
-              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all hover:opacity-90 disabled:opacity-40"
+              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all hover:opacity-80 disabled:opacity-40"
               style={{
-                background: "linear-gradient(135deg, #7B2FBE, #4A00E0)",
+                background: "linear-gradient(135deg, #ffb800 0%, #f4d534 100%)",
+                color: "#000118",
               }}
               aria-label="Enviar mensaje"
             >
@@ -395,7 +445,7 @@ export default function MayaChatbot() {
 
       {/* ── Botón flotante Maya + burbuja ── */}
       <div
-        className="fixed z-50 right-8 md:right-10 flex flex-col items-end"
+        className="fixed z-50 right-4 md:right-8 flex flex-col items-end"
         style={{ bottom: "7rem" }}
       >
         {/* Burbuja de mensaje o tooltip hover */}
@@ -412,7 +462,7 @@ export default function MayaChatbot() {
       }
     `}
         >
-          <div className="bg-white rounded-2xl shadow-md px-4 py-2 text-sm text-gray-700 font-medium whitespace-nowrap">
+          <div className="bg-[#ffb800] border border-[rgba(255,184,0,0.12)] rounded-2xl shadow-md px-4 py-2 text-sm text-[#100043] font-semibold whitespace-nowrap">
             {showHoverTooltip
               ? "¿Necesitas ayuda?"
               : showAutoBubble
@@ -420,7 +470,7 @@ export default function MayaChatbot() {
                 : ""}
 
             <span
-              className="absolute bottom-[-5px] right-4 w-2.5 h-2.5 bg-white rotate-45"
+              className="absolute bottom-[-5px] right-4 w-2.5 h-2.5 bg-[#ffb800] rotate-45"
               style={{ boxShadow: "2px 2px 3px rgba(0,0,0,0.06)" }}
             />
           </div>
@@ -431,19 +481,21 @@ export default function MayaChatbot() {
           onClick={() => setOpen((v) => !v)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className={`w-[70px] h-[70px] flex-shrink-0 transition-all duration-300 animate-heartbeat ${
+          className={`flex-shrink-0 transition-all duration-300 animate-heartbeat ${
             open ? "rounded-full overflow-hidden" : ""
           }`}
           style={{
-            background: open
-              ? "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)"
-              : "transparent",
-            boxShadow: open ? "0 4px 18px rgba(0, 0, 0, 0.22)" : "none",
+            background: open ? "#c88f00" : "transparent",
+            boxShadow: open ? "0 8px 25px rgba(255,184,0,0.25)" : "none",
+            color: open ? "#000118" : "inherit",
+            width: open ? "60px" : "70px",
+            height: open ? "60px" : "70px",
+            margin: open ? "2.5px" : "0",
           }}
           aria-label={open ? "Cerrar chat Maya" : "Abrir chat con Maya"}
         >
           {open ? (
-            <span className="flex items-center justify-center w-full h-full">
+            <span className="flex items-center justify-center hover:bg-[#ffb800] transition-colors duration-300 w-full h-full">
               <svg
                 width="20"
                 height="20"
