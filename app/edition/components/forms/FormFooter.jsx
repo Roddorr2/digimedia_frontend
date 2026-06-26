@@ -824,6 +824,14 @@ export default function FormFooter({
                                       disabled={uploading}
                                     />
                                   </label>
+                                  <div className="mt-2 p-2.5 bg-yellow-950/40 rounded-lg border border-yellow-500/30 text-xs text-gray-300 space-y-1">
+                                    <div className="font-semibold text-yellow-300">Recomendaciones de imagen (Footer):</div>
+                                    <div className="flex flex-col gap-0.5 text-gray-400">
+                                      <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
+                                      <span>• Dimensiones permitidas: <strong className="text-gray-300">150x100 a 600x500 px</strong></span>
+                                      <span>• Peso máximo: <strong className="text-gray-300">300 KB</strong></span>
+                                    </div>
+                                  </div>
                                 </div>
 
                                 {/* Botón de eliminar */}

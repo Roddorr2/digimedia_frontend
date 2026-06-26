@@ -302,9 +302,10 @@ const auth_service = {
 
   hasPermission: (permission) => {
     const permisos = auth_service.getCurrentPermissions();
+    console.log(permisos);
     return permisos.includes(permission);
   },
-
+  
   hasAnyPermission: (permissions) => {
     const userPermisos = auth_service.getCurrentPermissions();
     return permissions.some((p) => userPermisos.includes(p));
