@@ -72,8 +72,6 @@ export default function Header2() {
   const closeMenu = () => {
     setMenuOpen(false);
     setOpenSubmenu(null);
-    const cb = document.getElementById("menucheckbox");
-    if (cb) cb.checked = false;
   };
 
   const handleSubmenuClick = (name) => {
@@ -178,7 +176,6 @@ export default function Header2() {
               width={25}
               height={25}
               priority
-              className="invert"
             />
           </label>
 
