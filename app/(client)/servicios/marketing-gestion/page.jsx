@@ -3,6 +3,8 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function Page() {
   const servicios = [
@@ -63,7 +65,6 @@ export default function Page() {
 
   return (
     <>
-
       <Main
         title="MARKETING Y GESTIÓN DIGITAL"
         subtitle="Conecta, impacta y haz crecer tu marca en el entorno digital"
@@ -89,6 +90,8 @@ export default function Page() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

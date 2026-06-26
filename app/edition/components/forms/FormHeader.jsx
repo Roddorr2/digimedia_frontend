@@ -667,6 +667,14 @@ export default function FormHeader({
                     </button>
                   </div>
                 </div>
+                <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
+                  <div className="font-semibold text-purple-300">Recomendaciones de imagen (Header):</div>
+                  <div className="flex flex-col gap-0.5 text-gray-400">
+                    <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
+                    <span>• Dimensiones permitidas: <strong className="text-gray-300">800x400 a 1920x800 px</strong></span>
+                    <span>• Peso máximo: <strong className="text-gray-300">500 KB</strong></span>
+                  </div>
+                </div>
               </div>
 
               {/* 5. SEO DE IMAGEN */}

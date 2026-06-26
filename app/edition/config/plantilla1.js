@@ -52,8 +52,9 @@ export const PLANTILLA1_CONFIG = {
   styles: PLANTILLA1_STYLES,
   sectionsConfig: PLANTILLA1_SECTIONS_CONFIG,
   features: {
+    //cambio de maxitems de 3 a 5 
     consejos: {
-      maxItems: 3,
+      maxItems: 5,
       showTitle: true,
       style: "linear-dark",
     },

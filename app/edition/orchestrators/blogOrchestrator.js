@@ -76,9 +76,12 @@ class BlogOrchestrator {
       // 2a. Crear CommendTarjeta (consejos) si hay datos
       let commendTarjetaId = null;
       const hasConsejos =
+      //CAMBIOS REALIZADOS PARA 5 CONSEJOS
         bodyData.formCommendBody?.texto1 ||
         bodyData.formCommendBody?.texto2 ||
-        bodyData.formCommendBody?.texto3;
+        bodyData.formCommendBody?.texto3 ||
+        bodyData.formCommendBody?.texto4 ||
+        bodyData.formCommendBody?.texto5;;
 
       if (hasConsejos) {
         const consejosPayload = mapConsejos(
@@ -285,9 +288,12 @@ class BlogOrchestrator {
         // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
         let commendTarjetaId = null;
         const hasConsejos =
+        //actualizar bodyData para consejos 4 y 5
           bodyData.formCommendBody?.texto1 ||
           bodyData.formCommendBody?.texto2 ||
-          bodyData.formCommendBody?.texto3;
+          bodyData.formCommendBody?.texto3 ||
+          bodyData.formCommendBody?.texto4 ||
+          bodyData.formCommendBody?.texto5;;
 
         if (hasConsejos) {
           const consejosPayload = mapConsejos(bodyData.formCommendBody, plantillaId);

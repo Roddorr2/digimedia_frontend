@@ -670,7 +670,7 @@ export default function FormBody({
             {data.consejos.titulo || "Consejos Importantes"}
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {consejos.slice(0, 3).map((text, index) => (
+            {consejos.map((text, index) => (
               <div
                 key={index}
                 className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
@@ -706,7 +706,7 @@ export default function FormBody({
             </h3>
           </div>
           <div className="flex gap-4">
-            {consejos.slice(0, 3).map((text, index) => (
+            {consejos.map((text, index) => (
               <div
                 key={index}
                 className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-5"
@@ -1319,6 +1319,14 @@ export default function FormBody({
                   disabled={uploading}
                 />
               </label>
+              <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
+                <div className="font-semibold text-purple-300">Recomendaciones de imagen (Cuerpo):</div>
+                <div className="flex flex-col gap-0.5 text-gray-400">
+                  <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
+                  <span>• Dimensiones permitidas: <strong className="text-gray-300">400x300 a 1200x900 px</strong></span>
+                  <span>• Peso máximo: <strong className="text-gray-300">400 KB</strong></span>
+                </div>
+              </div>
             </div>
 
             {/* Alt text for main image */}
@@ -1530,6 +1538,14 @@ export default function FormBody({
                               disabled={uploading}
                             />
                           </label>
+                          <div className="mt-2 p-2.5 bg-blue-950/40 rounded-lg border border-blue-500/30 text-xs text-gray-300 space-y-1">
+                            <div className="font-semibold text-blue-300">Recomendaciones de imagen (Galería):</div>
+                            <div className="flex flex-col gap-0.5 text-gray-400">
+                              <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
+                              <span>• Dimensiones permitidas: <strong className="text-gray-300">400x300 a 1200x900 px</strong></span>
+                              <span>• Peso máximo: <strong className="text-gray-300">400 KB</strong></span>
+                            </div>
+                          </div>
                         </div>
 
                         {/* Alt text */}

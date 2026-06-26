@@ -462,9 +462,12 @@ const headerPayload = {
         // MODO CREACIÓN: Mantener lógica existente
         let commendTarjetaId = null;
         const hasConsejos =
+        //cambios necesarios para texto 4 y 5
           formCommendBody?.texto1 ||
           formCommendBody?.texto2 ||
-          formCommendBody?.texto3;
+          formCommendBody?.texto3 ||
+          formCommendBody?.texto4 ||
+          formCommendBody?.texto5;;
 
         if (hasConsejos) {
           const consejosPayload = mapConsejos(formCommendBody, plantillaId);
@@ -538,9 +541,12 @@ const headerPayload = {
         // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
         let commendTarjetaId = null;
         const hasConsejos =
+        //cambios necesarios para texto 4 y 5
           formCommendBody?.texto1 ||
           formCommendBody?.texto2 ||
-          formCommendBody?.texto3;
+          formCommendBody?.texto3 ||
+          formCommendBody?.texto4 ||
+          formCommendBody?.texto5;;
 
 if (hasConsejos) {
            const consejosPayload = mapConsejos(formCommendBody, plantillaId);

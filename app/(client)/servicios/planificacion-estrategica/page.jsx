@@ -3,7 +3,8 @@ import React from "react";
 
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function PlanificacionEstrategica() {
   const features = [
@@ -45,6 +46,8 @@ export default function PlanificacionEstrategica() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }

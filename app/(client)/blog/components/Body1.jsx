@@ -145,10 +145,13 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 flex-1 w-full">
+               {/* se agrego texto 4 y 5  */}
               {[
                 data.commend_tarjeta?.texto1,
                 data.commend_tarjeta?.texto2,
                 data.commend_tarjeta?.texto3,
+                data.commend_tarjeta?.texto4,
+                data.commend_tarjeta?.texto5,
               ].filter(Boolean).map((text, i) => (
                 <div
                   key={i}

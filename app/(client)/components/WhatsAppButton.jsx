@@ -10,7 +10,7 @@ const WhatsAppButton = () => {
       href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 md:bottom-10 md:right-10 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 animate-heartbeat"
+      className="fixed bottom-4 right-3 w-[62px] m-[4px] rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 animate-heartbeat"
       aria-label="Chat on WhatsApp"
     >
       <Image

@@ -3,7 +3,8 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function Page() {
   const servicios = [
@@ -16,8 +17,10 @@ export default function Page() {
       ),
       text: "Definimos la narrativa, los pilares de contenido y el tono de tu marca para comunicar con coherencia y propósito en redes sociales.",
       icon: "/servicios/gestion/icono-lista-tareas-temporizador.webp",
-      iconTitle: "Ícono de lista de tareas con temporizador para productividad | DigiMedia Marketing",
-      iconAlt: "Lista de tareas con temporizador - gestión de tiempo y productividad",
+      iconTitle:
+        "Ícono de lista de tareas con temporizador para productividad | DigiMedia Marketing",
+      iconAlt:
+        "Lista de tareas con temporizador - gestión de tiempo y productividad",
       ruta: "/servicios/planificacion-cronograma/",
     },
     {
@@ -44,7 +47,8 @@ export default function Page() {
       text: "Creamos contenido audiovisual pensado para redes sociales, optimizado para captar atención y generar engagement.",
       icon: "/servicios/gestion/icono-gestion-procesos-marketing.webp",
       iconTitle: "Ícono de gestión de procesos en marketing digital",
-      iconAlt: "Lista de tareas y gestión de procesos para campañas de marketing",
+      iconAlt:
+        "Lista de tareas y gestión de procesos para campañas de marketing",
 
       ruta: "/servicios/produccion-pautas/",
     },
@@ -58,14 +62,14 @@ export default function Page() {
       text: "Diseñamos experiencias digitales funcionales y atractivas que acompañan la estrategia de redes y mejoran la conversión.",
       icon: "/servicios/gestion/icono-diseno-ux-ui.webp",
       iconTitle: "Ícono de diseño UX UI para experiencia de usuario",
-      iconAlt: "Pantalla con interfaz UX UI que representa experiencia de usuario en web",
+      iconAlt:
+        "Pantalla con interfaz UX UI que representa experiencia de usuario en web",
       ruta: "/servicios/ui/?from=gestionRedes",
     },
   ];
 
   return (
     <>
-
       <Main
         title=<>
           GESTIÓN DE <br /> REDES SOCIALES
@@ -93,6 +97,8 @@ export default function Page() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

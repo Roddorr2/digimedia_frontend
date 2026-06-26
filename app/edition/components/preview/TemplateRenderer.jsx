@@ -277,7 +277,7 @@ export default function TemplateRenderer({
                 </h3>
               </div>
               <div className="flex gap-3 flex-1 min-w-0">
-                {consejosData.slice(0, 3).map((consejo) => (
+                {consejosData.map((consejo) => (
                   <div
                     key={consejo.id}
                     className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-4"
@@ -877,7 +877,7 @@ export default function TemplateRenderer({
           {consejos.titulo || (showPlaceholders ? "Consejos Importantes" : "")}
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {consejosData.slice(0, 3).map((consejo) => (
+          {consejosData.map((consejo) => (
             <div
               key={consejo.id}
               className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"

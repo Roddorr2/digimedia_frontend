@@ -1,11 +1,9 @@
-import { Hero } from '../../components/page_components/Hero';
-import { Information } from '../../components/page_components/Information';
-import WhatsAppButton from '../../components/WhatsAppButton';
-import MayaChatbot from '../../components/MayaChatbot';
-import Banner from './banner';
-import ContactForm from './contactForm';
-import MainSection from './mainSection';
-import SocialMediaLinks from './socialMediaLinks';
+import { Hero } from "../../components/page_components/Hero";
+import { Information } from "../../components/page_components/Information";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
+import ContactForm from "./contactForm";
+import SocialMediaLinks from "./socialMediaLinks";
 
 const ContactPage = () => (
   <main>

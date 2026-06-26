@@ -1,31 +1,32 @@
-'use client';
-import Contactanos from '../components/Contactanos';
-import { UxUiSection } from '../components/uxui-section';
-import { MonitorIcon, Smartphone, PenTool, Layers } from 'lucide-react';
-import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+"use client";
+import Contactanos from "../components/Contactanos";
+import { UxUiSection } from "../components/uxui-section";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 function UXUIComponent() {
   const searchParams = useSearchParams();
-  const from = searchParams.get('from') || 'disenoDesarrollo';
+  const from = searchParams.get("from") || "disenoDesarrollo";
 
   const backgroundImages = {
     disenoDesarrollo:
-      '/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp',
-    gradient: '/servicios/DisenoUI/disenio-ux-y-ui.webp',
+      "/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp",
+    gradient: "/servicios/DisenoUI/disenio-ux-y-ui.webp",
   };
 
   const dynamicTexts = {
     disenoDesarrollo: {
-      modalAText: 'DISEÑO Y DESARROLLO WEB',
+      modalAText: "DISEÑO Y DESARROLLO WEB",
       heroTitle: <>EXPERIENCIA DE USUARIO Y DISEÑO</>,
       mainDescription:
-        'Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes.',
-      modalButtonText: 'DISEÑO Y DESARROLLO WEB',
+        "Diseñamos experiencias digitales estratégicas que conectan, comunican y convierten. Integramos arquitectura de información, usabilidad y diseño visual para crear entornos intuitivos, funcionales y alineados a tus objetivos de negocio. No se trata solo de estética, sino de generar recorridos digitales que transforman visitantes en clientes.",
+      modalButtonText: "DISEÑO Y DESARROLLO WEB",
       contactanosText:
-        'Consolida tu presencia web, diseña con nosotros tu página web',
-      serviceName: '1',
+        "Consolida tu presencia web, diseña con nosotros tu página web",
+      serviceName: "1",
       features: [
         {
           title: (
@@ -35,7 +36,7 @@ function UXUIComponent() {
             </>
           ),
           description:
-            'Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.',
+            "Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.",
         },
         {
           title: (
@@ -45,22 +46,22 @@ function UXUIComponent() {
             </>
           ),
           description:
-            'Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.',
+            "Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.",
         },
       ],
       imageAlt:
-        'Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de experiencia de usuario y diseño que ayuda a facilitar la navegación y conversión web',
-      imageTitle: 'Subservicio de Experiencia de Usuario y Diseño',
+        "Imagen que muestra a una persona frente a una pantalla realizando el sub servicio de experiencia de usuario y diseño que ayuda a facilitar la navegación y conversión web",
+      imageTitle: "Subservicio de Experiencia de Usuario y Diseño",
     },
     gestionRedes: {
-      modalAText: 'GESTIÓN DE REDES SOCIALES',
+      modalAText: "GESTIÓN DE REDES SOCIALES",
       heroTitle: <>DISEÑO UX Y UI</>,
       mainDescription:
-        'Diseñamos experiencias digitales que combinan funcionalidad y estética. Creamos interfaces intuitivas, alineadas con la identidad de marca y orientadas a facilitar la navegación y la conversión.',
-      modalButtonText: 'GESTIÓN DE REDES SOCIALES',
+        "Diseñamos experiencias digitales que combinan funcionalidad y estética. Creamos interfaces intuitivas, alineadas con la identidad de marca y orientadas a facilitar la navegación y la conversión.",
+      modalButtonText: "GESTIÓN DE REDES SOCIALES",
       contactanosText:
-        'Impulsa tus redes sociales con diseño gráfico de calidad',
-      serviceName: '2',
+        "Impulsa tus redes sociales con diseño gráfico de calidad",
+      serviceName: "2",
       features: [
         {
           title: (
@@ -70,7 +71,7 @@ function UXUIComponent() {
             </>
           ),
           description:
-            'Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.',
+            "Analizamos el comportamiento del usuario y estructuramos recorridos claros y funcionales, reduciendo fricción y optimizando cada punto de interacción.",
         },
         {
           title: (
@@ -80,13 +81,13 @@ function UXUIComponent() {
             </>
           ),
           description:
-            'Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.',
+            "Desarrollamos propuestas visuales coherentes con la marca, priorizando claridad, usabilidad y una experiencia atractiva en cada dispositivo.",
         },
       ],
       imageAlt:
-        'Diseño de piezas gráficas y contenido visual enfocado en redes sociales y engagement digital.',
+        "Diseño de piezas gráficas y contenido visual enfocado en redes sociales y engagement digital.",
       imageTitle:
-        'Diseño gráfico, piezas visuales, redes sociales, contenido digital, engagement, branding visual',
+        "Diseño gráfico, piezas visuales, redes sociales, contenido digital, engagement, branding visual",
     },
   };
 
@@ -142,6 +143,8 @@ function UXUIComponent() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }
