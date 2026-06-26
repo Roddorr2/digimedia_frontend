@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function LandingPage() {
   const featuresuxui = [
@@ -17,8 +19,8 @@ export default function LandingPage() {
       ),
       title: (
         <>
-           DISEÑO ORIENTADO A LA  <br />
-           CONVERSIÓN
+          DISEÑO ORIENTADO A LA <br />
+          CONVERSIÓN
         </>
       ),
       description:
@@ -63,6 +65,8 @@ export default function LandingPage() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }

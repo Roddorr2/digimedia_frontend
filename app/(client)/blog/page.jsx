@@ -1,6 +1,7 @@
-import { Hero } from '../components/page_components/Hero';
-import Enlaces from './components/Enlaces';
-import Principal from './components/Principal';
+import { Hero } from "../components/page_components/Hero";
+import Enlaces from "./components/Enlaces";
+import WhatsAppButton from "../components/WhatsAppButton";
+import MayaChatbot from "../components/MayaChatbot";
 
 export default function Page() {
   return (
@@ -13,6 +14,8 @@ export default function Page() {
 
       {/* <Principal></Principal> */}
       <Enlaces></Enlaces>
+      <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

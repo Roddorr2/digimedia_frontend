@@ -1,7 +1,8 @@
 "use client";
 import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
-
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function AnalisisBenchmarking() {
   const features = [
@@ -57,6 +58,8 @@ export default function AnalisisBenchmarking() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }

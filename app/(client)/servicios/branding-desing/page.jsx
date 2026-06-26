@@ -3,7 +3,8 @@ import Servicios from "../components/Servicios";
 import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
-
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/MayaChatbot";
 
 export default function BrandingDesing() {
   const servicios = [
@@ -61,7 +62,6 @@ export default function BrandingDesing() {
 
   return (
     <>
-
       <Main
         title="BRANDING Y DISEÑO"
         subtitle="Diseñamos marcas con próposito y personalidad"
@@ -87,6 +87,8 @@ export default function BrandingDesing() {
         iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
         iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
       />
+      <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }
