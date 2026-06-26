@@ -8,7 +8,7 @@ export default function Page() {
       <Hero
         backgroundImage="/blog/fondo.webp"
         title="BLOG"
-        position="center 30%"
+        position="center 40%"
       />
 
       {/* <Principal></Principal> */}
