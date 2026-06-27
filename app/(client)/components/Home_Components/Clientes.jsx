@@ -101,9 +101,9 @@ export default function Clientes() {
                   }}
                   className="
                     object-contain
-                    invert mix-blend-screen grayscale contrast-200 opacity-60
-                    transition-all duration-500
-                    hover:opacity-100 hover:scale-105
+                    grayscale brightness-0 invert opacity-60  /* Gris (dim-white monochrome) por defecto */
+                    transition-all duration-500 ease-in-out
+                    hover:grayscale hover:brightness-0 hover:invert hover:opacity-100 hover:scale-110 /* Blanco monocromo al pasar */
                   "
                 />
               </div>
