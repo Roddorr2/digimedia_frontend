@@ -32,7 +32,7 @@ import {
 } from "../../config/index.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
 import Swal from "sweetalert2";
-import { validateImageFile } from "../../utils/imageValidation";
+import { validateImageFile, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageValidation";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -386,7 +386,7 @@ export default function FormBody({
       try {
         setUploading(true);
         
-        // Validar imagen
+        // Validar y convertir a WebP automáticamente si es necesario
         const validation = await validateImageFile(file, "body");
         if (!validation.valid) {
           Swal.fire({
@@ -399,7 +399,9 @@ export default function FormBody({
           return;
         }
 
-        const tempUrl = URL.createObjectURL(file);
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
 
         // Actualizar el estado del header
         setFormEncabezadoBody?.((prev) => ({
@@ -408,13 +410,13 @@ export default function FormBody({
         }));
 
         // Establecer archivo para upload
-        setFileBodyHeader?.(file);
+        setFileBodyHeader?.(processedFile);
 
         // Notificar al componente padre
         onImageChange?.({
           section: "header",
           field: "public_image1",
-          file,
+          file: processedFile,
           tempUrl,
           action: "upload",
         });
@@ -440,7 +442,7 @@ export default function FormBody({
       try {
         setUploading(true);
         
-        // Validar imagen
+        // Validar y convertir a WebP automáticamente si es necesario
         const validation = await validateImageFile(file, "body");
         if (!validation.valid) {
           Swal.fire({
@@ -453,7 +455,9 @@ export default function FormBody({
           return;
         }
 
-        const tempUrl = URL.createObjectURL(file);
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
 
         // Actualizar el estado de la galería
         setFormGaleryBody?.((prev) => ({
@@ -463,16 +467,16 @@ export default function FormBody({
 
         // Establecer archivo según la imagen
         if (name === "public_image2") {
-          setFileBodyFile1?.(file);
+          setFileBodyFile1?.(processedFile);
         } else if (name === "public_image3") {
-          setFileBodyFile2?.(file);
+          setFileBodyFile2?.(processedFile);
         }
 
         // Notificar al componente padre
         onImageChange?.({
           section: "galeria",
           field: name,
-          file,
+          file: processedFile,
           tempUrl,
           action: "upload",
         });
@@ -1313,7 +1317,7 @@ export default function FormBody({
                 <input
                   type="file"
                   name="public_image1"
-                  accept="image/webp"
+                  accept={ACCEPTED_IMAGE_FORMATS}
                   className="hidden"
                   onChange={handleImageHeader}
                   disabled={uploading}
@@ -1322,8 +1326,9 @@ export default function FormBody({
               <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
                 <div className="font-semibold text-purple-300">Recomendaciones de imagen (Cuerpo):</div>
                 <div className="flex flex-col gap-0.5 text-gray-400">
-                  <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
-                  <span>• Dimensiones permitidas: <strong className="text-gray-300">400x300 a 1200x900 px</strong></span>
+                  <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte automáticamente)</span>
+                  <span>• <strong className="text-yellow-400">Recomendado: 800×600 px</strong></span>
+                  <span>• Rango permitido: <strong className="text-gray-300">400×300 a 1200×900 px</strong></span>
                   <span>• Peso máximo: <strong className="text-gray-300">400 KB</strong></span>
                 </div>
               </div>
@@ -1532,7 +1537,7 @@ export default function FormBody({
                             <input
                               type="file"
                               name={campo}
-                              accept="image/webp"
+                              accept={ACCEPTED_IMAGE_FORMATS}
                               className="hidden"
                               onChange={handleImageBody}
                               disabled={uploading}
@@ -1541,8 +1546,9 @@ export default function FormBody({
                           <div className="mt-2 p-2.5 bg-blue-950/40 rounded-lg border border-blue-500/30 text-xs text-gray-300 space-y-1">
                             <div className="font-semibold text-blue-300">Recomendaciones de imagen (Galería):</div>
                             <div className="flex flex-col gap-0.5 text-gray-400">
-                              <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
-                              <span>• Dimensiones permitidas: <strong className="text-gray-300">400x300 a 1200x900 px</strong></span>
+                              <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte automáticamente)</span>
+                              <span>• <strong className="text-yellow-400">Recomendado: 800×600 px</strong></span>
+                              <span>• Rango permitido: <strong className="text-gray-300">400×300 a 1200×900 px</strong></span>
                               <span>• Peso máximo: <strong className="text-gray-300">400 KB</strong></span>
                             </div>
                           </div>

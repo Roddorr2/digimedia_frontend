@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import Swal from "sweetalert2";
-import { validateImageFile } from "../../utils/imageValidation";
+import { validateImageFile, getImageRecommendationText, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageValidation";
 
 // Configuración centralizada
 import {
@@ -83,7 +83,7 @@ export default function FormHeader({
 
   // Props adicionales
   className = "",
-  imageRecommendedSize = "1080x520 píxeles",
+  imageRecommendedSize = getImageRecommendationText("header"),
 }) {
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
@@ -156,6 +156,7 @@ export default function FormHeader({
       try {
         setUploading(true);
         
+        // Validar y convertir a WebP automáticamente si es necesario
         const validation = await validateImageFile(file, "header");
         if (!validation.valid) {
           Swal.fire({
@@ -168,11 +169,13 @@ export default function FormHeader({
           return;
         }
 
-        const tempUrl = URL.createObjectURL(file);
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
         setPreviewImageUrl(tempUrl);
 
-        // Notificar al componente padre
-        onImageChange?.({ file, tempUrl });
+        // Notificar al componente padre con el archivo convertido
+        onImageChange?.({ file: processedFile, tempUrl });
       } catch (error) {
         // El manejo de errores lo deja al componente padre
         onImageChange?.({ error });
@@ -650,7 +653,7 @@ export default function FormHeader({
                     )}
                     <input
                       type="file"
-                      accept="image/webp"
+                      accept={ACCEPTED_IMAGE_FORMATS}
                       className="hidden"
                       onChange={handleImageUpload}
                       disabled={uploading}
@@ -670,8 +673,9 @@ export default function FormHeader({
                 <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
                   <div className="font-semibold text-purple-300">Recomendaciones de imagen (Header):</div>
                   <div className="flex flex-col gap-0.5 text-gray-400">
-                    <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
-                    <span>• Dimensiones permitidas: <strong className="text-gray-300">800x400 a 1920x800 px</strong></span>
+                    <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte a WebP automáticamente)</span>
+                    <span>• <strong className="text-yellow-400">Recomendado: 1280×600 px</strong></span>
+                    <span>• Rango permitido: <strong className="text-gray-300">800×400 a 1920×800 px</strong></span>
                     <span>• Peso máximo: <strong className="text-gray-300">500 KB</strong></span>
                   </div>
                 </div>
