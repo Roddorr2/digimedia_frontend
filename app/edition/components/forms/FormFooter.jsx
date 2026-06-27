@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Swal from "sweetalert2";
-import { validateImageFile } from "../../utils/imageValidation";
+import { validateImageFile, getImageRecommendationText, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageValidation";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -94,7 +94,7 @@ export default function FormFooter({
 
   // Props adicionales
   className = "",
-  imageRecommendedSize = "200x170 píxeles",
+  imageRecommendedSize = getImageRecommendationText("footer"),
 }) {
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
@@ -246,7 +246,7 @@ export default function FormFooter({
       try {
         setUploading(true);
 
-        // Validar imagen
+        // Validar y convertir a WebP automáticamente si es necesario
         const validation = await validateImageFile(file, "footer");
         if (!validation.valid) {
           Swal.fire({
@@ -259,6 +259,9 @@ export default function FormFooter({
           return;
         }
 
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+
         // Limpiar blob URL anterior si existe
         const existingImage = imagesPreviews.find(
           (img) => img.id === imageIndex
@@ -267,19 +270,18 @@ export default function FormFooter({
           URL.revokeObjectURL(existingImage.url);
         }
 
-        const tempUrl = URL.createObjectURL(file);
+        const tempUrl = URL.createObjectURL(processedFile);
 
-        // Guardar archivo en el estado del hook (crítico para upload)
+        // Guardar archivo procesado en el estado del hook (crítico para upload)
         if (imageIndex === 1) {
-          setFileFooterFile1?.(file);
+          setFileFooterFile1?.(processedFile);
         } else if (imageIndex === 2) {
-          setFileFooterFile2?.(file);
+          setFileFooterFile2?.(processedFile);
         } else if (imageIndex === 3) {
-          setFileFooterFile3?.(file);
+          setFileFooterFile3?.(processedFile);
         }
 
         // ✅ CRÍTICO: Notificar al componente padre para actualizar el estado data
-        // Esto actualizará formImagenFooter con la blob URL
         onChange?.({
           name: `public_image${imageIndex}`,
           value: tempUrl,
@@ -288,7 +290,7 @@ export default function FormFooter({
         // Notificar evento de imagen
         onImagesChange?.({
           index: imageIndex,
-          file,
+          file: processedFile,
           tempUrl,
           action: "upload",
         });
@@ -817,7 +819,7 @@ export default function FormFooter({
                                     )}
                                     <input
                                       type="file"
-                                      accept="image/webp"
+                                      accept={ACCEPTED_IMAGE_FORMATS}
                                       name={fieldBaseName}
                                       className="hidden"
                                       onChange={handleImageUpload}
@@ -827,8 +829,9 @@ export default function FormFooter({
                                   <div className="mt-2 p-2.5 bg-yellow-950/40 rounded-lg border border-yellow-500/30 text-xs text-gray-300 space-y-1">
                                     <div className="font-semibold text-yellow-300">Recomendaciones de imagen (Footer):</div>
                                     <div className="flex flex-col gap-0.5 text-gray-400">
-                                      <span>• Formato requerido: <strong className="text-gray-300">.webp</strong></span>
-                                      <span>• Dimensiones permitidas: <strong className="text-gray-300">150x100 a 600x500 px</strong></span>
+                                      <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte automáticamente)</span>
+                                      <span>• <strong className="text-yellow-400">Recomendado: 400×300 px</strong></span>
+                                      <span>• Rango permitido: <strong className="text-gray-300">150×100 a 600×500 px</strong></span>
                                       <span>• Peso máximo: <strong className="text-gray-300">300 KB</strong></span>
                                     </div>
                                   </div>
