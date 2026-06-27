@@ -17,48 +17,52 @@ export const Hero = ({ backgroundImage, title, position = "center" }) => {
       >
         <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none" />
         {/* Contenedor morado */}
-        <div
-          className="
-            bg-[#B326FF] 
-            rounded-t-[2rem]
-            md:rounded-t-[4rem]
+       {/* Contenedor con degradado */}
+<div
+  className="
+    bg-gradient-to-b
+    from-[#100043]
+    to-[#410C89]
 
-            px-6
-            md:px-16
-            lg:px-32
+    rounded-t-[2rem]
+    md:rounded-t-[4rem]
 
-            min-h-[120px]       
-            md:min-h-[150px]    
-            lg:min-h-[180px]    
+    px-6
+    md:px-16
+    lg:px-32
 
-            w-full
-            max-w-[80%]
-            md:max-w-[80%]
-            lg:max-w-[40%]
+    min-h-[120px]       
+    md:min-h-[150px]    
+    lg:min-h-[180px]    
 
-            flex items-center justify-center
-          "
-        >
-          <h1
-            className="
-              text-white 
-              text-3xl          
-              md:text-5xl       
-              lg:text-7xl       
-              font-black 
-              m-0 
-              text-center
-            "
-          >
-            {title}
-          </h1>
-        </div>
+    w-full
+    max-w-[80%]
+    md:max-w-[80%]
+    lg:max-w-[40%]
+
+    flex items-center justify-center
+  "
+>
+  <h1
+    className="
+      text-[#FFB800] 
+      text-3xl          
+      md:text-5xl       
+      lg:text-7xl       
+      font-black 
+      m-0 
+      text-center
+    "
+  >
+    {title}
+  </h1>
+</div>
 
         {/* decorativo */}
         <div
           className="
             absolute 
-            bottom-4 right-4    
+            bottom-4 right-4 mb-   
             md:bottom-5 md:right-10
             lg:right-20
             w-12 h-12           
@@ -68,7 +72,6 @@ export const Hero = ({ backgroundImage, title, position = "center" }) => {
         />
       </section>
 
-      <div className="h-1" />
     </>
   );
 };
