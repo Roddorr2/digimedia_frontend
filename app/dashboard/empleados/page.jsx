@@ -100,7 +100,7 @@ export default function Page() {
     try {
       const response = await empleado_service.empleadosByPage(
         page,
-        5,
+        10,
         searchTerm,
         selectedRole,
       );
@@ -476,7 +476,7 @@ export default function Page() {
 
               {filteredData.length > 0 && (
                 <div className="mt-4">
-                  <Pagination count={count} />
+                  <Pagination count={count} itemsPerPage={10} />
                 </div>
               )}
             </>

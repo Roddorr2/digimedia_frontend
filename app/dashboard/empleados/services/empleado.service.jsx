@@ -20,7 +20,7 @@ const handlePermissionError = (response) => {
 };
 
 const empleado_service = {
-    empleadosByPage: async (page, limit = 5, search = '', role = 'all') => {
+    empleadosByPage: async (page, limit = 10, search = '', role = 'all') => {
         try {
             /**
              * Parámetros requeridos para hacer la petición
