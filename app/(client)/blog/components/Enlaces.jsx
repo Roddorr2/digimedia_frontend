@@ -103,16 +103,19 @@ function EnlacesForm() {
   ];
 
   return (
-    <section className="bg-[#efefef] px-4 md:px-6 pb-10 pt-14">
+    <section className="bg-gradient-to-br
+  from-[#000118]
+  via-[#410C89]
+  to-[#000118] px-4 md:px-6 pb-10 pt-14">
       <div className="max-w-[1200px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 lg:gap-10">
           <div className="order-2 lg:order-1">
             <div className="flex justify-between items-center mb-8 gap-3">
-              <h2 className="text-[30px] md:text-[32px] leading-none uppercase text-[#b525fe] tracking-wide">
+              <h2 className="text-[30px] md:text-[32px] leading-none uppercase text-[#FFB800] tracking-wide">
                 Artículos Destacados
               </h2>
               {!isLoading && filteredData.length > 0 && (
-                <p className="text-[12px] text-[#8f8f8f]">
+                <p className="text-[12px] text-[#FFB800]">
                   Mostrando {getCurrentPageItems().length} de{" "}
                   {filteredData.length} elementos
                 </p>
@@ -120,9 +123,9 @@ function EnlacesForm() {
             </div>
 
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-16 bg-white rounded-[16px] border border-[#dedede]">
-                <Loader2 className="h-10 w-10 text-[#b525fe] animate-spin mb-4" />
-                <p className="text-gray-500 font-medium">
+              <div className="flex flex-col items-center justify-center py-16  rounded-[16px]  ">
+                <Loader2 className="h-10 w-10 text-white animate-spin mb-4" />
+                <p className="text-white font-medium">
                   Cargando artículos...
                 </p>
               </div>
@@ -132,33 +135,42 @@ function EnlacesForm() {
                   {getCurrentPageItems().map((card) => (
                     <article
                       key={`${card.id_card}-Card`}
-                      className="rounded-[18px] bg-white overflow-hidden flex flex-col border border-[#d9d9d9]"
+                      className="rounded-[18px] bg-[#410C89] overflow-hidden flex flex-col "
                     >
                       <div className="relative overflow-hidden">
                         <Image
                           src={`${card.public_image}?v=${Date.now()}`}
                           alt={card.blog?.head?.alt || card.titulo} // Le aumento la condicional "?" ya que me tiraba error al entrar a los blog
                           title={card.blog?.head?.title || card.titulo} // Le aumento la condicional "?" ya que me tiraba error al entrar a los blog
-                          className="w-full h-52 object-cover"
+                          className="w-full h-52 object-cover block"
                           width={400}
                           height={250}
                         />
                       </div>
 
-                      <div className="p-5 flex flex-col flex-grow">
+                      <div className="p-5 flex flex-col flex-grow bg-gradient-to-b
+                          from-[#100043]
+                          via-[#08012E]
+                          to-[#410C89]
+                          "
+                          >
                         <h3
-                          className={`text-[21px] md:text-[22px] leading-tight text-[#1f1f1f] mb-3 ${styles["line-clamp-2"]}`}
+                          className={`text-[21px] md:text-[22px] leading-tight text-[#FFB800] mb-3 ${styles["line-clamp-2"]}`}
                         >
                           {card.titulo}
                         </h3>
-                        <p className="text-[#5b5b5b] text-[14px] mb-4 line-clamp-3 flex-grow">
+                        <p className="text-white text-[14px] mb-4 line-clamp-3 flex-grow">
                           {card.descripcion}
                         </p>
 
                         <a
                           href={`/blog/plantilla${card.id_plantilla}?blog=${card.blog?.link}`}
                           target="_blank"
-                          className="group flex items-center justify-center gap-2 bg-[#b525fe] hover:bg-[#8e1fd1] text-white text-[14px] font-semibold py-2.5 px-4 rounded-[8px] transition-colors duration-300 mt-auto"
+                          className="group inline-flex w-fit mx-auto items-center justify-center gap-2    bg-gradient-to-b
+                          from-[#100043]
+                          via-[#08012E]
+                          to-[#130049]
+                          hover:bg-[#130049] text-[#FFB800] text-[14px] font-bold py-2.5 px-16 rounded-[8px] transition-colors duration-300 mt-auto"
                           rel="noreferrer"
                         >
                           Leer más
@@ -170,7 +182,7 @@ function EnlacesForm() {
                 </div>
 
                 {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-1 mt-8">
+                  <div className="flex justify-center items-center gap-1 mt-8 mb-12">
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage <= 1}
@@ -191,7 +203,7 @@ function EnlacesForm() {
                           onClick={() => handlePageChange(page)}
                           className={`w-7 h-7 text-[12px] rounded-[6px] border ${
                             currentPage === page
-                              ? "bg-[#b525fe] border-[#b525fe] text-white"
+                              ? "bg-[#100043] border-[#100043] text-white"
                               : "bg-white border-[#d7d7d7] text-[#4d4d4d]"
                           }`}
                           aria-label={`Página ${page}`}
@@ -220,21 +232,21 @@ function EnlacesForm() {
                 )}
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16 bg-white rounded-[16px] border border-[#dedede]">
-                <p className="text-gray-500 font-medium mb-2">
-                  No se encontraron artículos
+              <div className="flex flex-col items-center justify-center py-16  rounded-[16px] ">
+                <p className="text-white font-medium mb-2">
+                  Oops! No se encontraron artículos
                 </p>
-                <p className="text-gray-400 text-sm">
+                <p className="text-white text-sm">
                   Intenta con otra búsqueda
                 </p>
               </div>
             )}
           </div>
 
-          <aside className="order-1 lg:order-2">
-            <div className="bg-white rounded-[14px] border border-[#cfcfcf] overflow-hidden">
-              <div className="bg-[#f59f00] p-4 md:p-5">
-                <h3 className="text-[24px] md:text-[26px] uppercase text-white mb-3 leading-tight">
+          <aside className="order-1 lg:order-2 mb-6 lg:mb-12">
+            <div className="bg-[#410C89] rounded-[14px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.35)]">
+              <div className="bg-[#100043] p-4 md:p-5">
+                <h3 className="text-[24px] md:text-[26px] uppercase text-[#FFB800] mb-3 leading-tight">
                   Explora Nuestro Blog
                 </h3>
                 <div className="relative">
@@ -251,17 +263,19 @@ function EnlacesForm() {
                 </div>
               </div>
 
-              <div className="p-4 md:p-5">
-                <h4 className="text-[16px] font-semibold text-[#6f6f6f] uppercase tracking-wide mb-4">
-                  Categorías
-                </h4>
-                <div className="space-y-3">
+              <div className="p-4 md:p-5 bg-[#410C89]">
+                <div>
+                  <h4 className="text-[16px] font-semibold text-[#FFB800] uppercase tracking-wide mb-4">
+                    Categorías
+                  </h4>
+                </div>
+                <div className="space-y-3   ">
                   {categories.map((category, index) => (
                     <a
                       key={index}
                       href={category.url}
                       target="_blank"
-                      className="block text-[#7a7a7a] hover:text-[#b525fe] text-[16px] leading-snug"
+                      className="block text-white hover:text-[#FFB800] text-[16px] leading-snug"
                       rel="noreferrer"
                     >
                       {category.name}
