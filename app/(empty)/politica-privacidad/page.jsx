@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <div>
       {/* Section with logo */}
-      <div className='bg-[#6f4be8] flex justify-center items-center'>
+      <div className='bg-gradient-to-r from-[#1e033f] from-80%  to-[#410C89] flex justify-center items-center'>
         <Image src={logoLegales} className='my-10' alt="Digimedia" width={160} height={120} />
       </div>
       {/* Section text */}
