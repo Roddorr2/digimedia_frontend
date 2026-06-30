@@ -3,8 +3,7 @@ import ReactPaginate from "react-paginate"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-export default function Pagination({ count }) {
-  const itemsPerPage = 5 // Cambiado de 20 a 5
+export default function Pagination({ count, itemsPerPage = 5 }) {
   const pageCount = Math.max(1, Math.ceil(count / itemsPerPage))
   const router = useRouter()
   const searchParams = useSearchParams()
