@@ -115,7 +115,7 @@ const ComplaintForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-[#6f4be8] relative p-4">
+      <div className="bg-gradient-to-r from-[#1e033f] from-80%  to-[#410C89] relative p-4">
         <button
           onClick={() => window.location.href = '/'}
           className="lg:flex bg-pink-500 hover:bg-pink-400 text-white py-2 px-4 rounded-lg transition-all duration-300 absolute left-10 top-1/2 transform -translate-y-1/2 hidden items-center"
@@ -322,7 +322,7 @@ const ComplaintForm = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#6f4be8] hover:bg-[#5c40d1]  p-2 rounded text-white transition-all duration-300"
+              className="w-full bg-[#3a0a7a] hover:bg-[#5c40d1]  p-2 rounded text-white transition-all duration-300"
               disabled={isSubmitting}
               title={isSubmitting ? 'Guardando...' : 'Enviar Reclamación'}
             >

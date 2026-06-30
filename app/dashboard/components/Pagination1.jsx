@@ -3,9 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
-export default function Pagination1({ filteredData, currentPage, totalPages }) {
+export default function Pagination1({ filteredData, currentPage, totalPages,perPage = 10, totalItems  }) {
   const router = useRouter();
   const current = Number(currentPage);
+  const total = totalItems ?? filteredData.length; //fallback por si  no se pasa
 
   // Función para generar los números de página visibles
   const getPageNumbers = () => {
@@ -73,15 +74,16 @@ export default function Pagination1({ filteredData, currentPage, totalPages }) {
         </button>
       </div>
 
+       {/*se corrigio y quito el filterdataleng porque no contaba los valores reales de la tabla , solo los q se mostraba  */}
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700 dark:text-gray-300">
             Mostrando{' '}
-            <span className="font-medium">{Math.min((current - 1) * 4 + 1, filteredData.length)}</span>
+            <span className="font-medium">{Math.min((current - 1) * perPage + 1,total)}</span>
             {' '}-{' '}
-            <span className="font-medium">{Math.min(current * 4, filteredData.length)}</span>
+            <span className="font-medium">{Math.min(current * perPage, total)}</span>
             {' '}de{' '}
-            <span className="font-medium">{filteredData.length}</span> resultados
+            <span className="font-medium">{total}</span> resultados
           </p>
         </div>
 
