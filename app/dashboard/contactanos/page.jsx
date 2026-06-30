@@ -33,6 +33,7 @@ export default function Page() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
   const router = useRouter();
+  const [totalItems, setTotalItems] = useState(0);//nuevo estado
 
   async function fetchContacts(pageToFetch = currentPage) {
     setIsRefreshing(true);
@@ -57,10 +58,14 @@ export default function Page() {
       } else if (response.data.meta && response.data.meta.last_page) {
         totalPaginas = response.data.meta.last_page;
       } else if (response.data.total) {
-        totalPaginas = Math.ceil(response.data.total / 15);
+        totalPaginas = Math.ceil(response.data.total / 10);
       } else if (response.data.meta && response.data.meta.total) {
-        totalPaginas = Math.ceil(response.data.meta.total / 15);
+        totalPaginas = Math.ceil(response.data.meta.total / 10);
       }
+
+    
+      let totalReal = response.data.total ?? (response.data.meta?.total) ?? pageData.length;
+      setTotalItems(totalReal);
 
       setTotalPages(totalPaginas);
     } catch (error) {
@@ -417,11 +422,9 @@ export default function Page() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
+                    //quitar el slice y deja map
                     filteredData
-                      .slice(
-                        (Number(currentPage) - 1) * 4,
-                        Number(currentPage) * 4,
-                      )
+                      
                       .map((contacto) => (
                         <tr
                           key={`${contacto.id_contactanos}-Row`}
@@ -498,7 +501,7 @@ export default function Page() {
                       ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="px-6 py-16 text-center">
+                      <td colSpan="6" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">
@@ -528,7 +531,6 @@ export default function Page() {
             <div className="grid grid-cols-1 gap-4 lg:hidden mt-4">
               {filteredData.length > 0 ? (
                 filteredData
-                  .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
                   .map((contacto) => (
                     <div
                       key={`${contacto.id_contactanos}-card`}
@@ -625,6 +627,8 @@ export default function Page() {
               filteredData={filteredData}
               currentPage={currentPage}
               totalPages={totalPages}
+              perPage={10}
+              totalItems={totalItems}
             />
           </>
         )}
