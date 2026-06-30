@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import logoLegales from "@/public/headerFooter/logoFooter.webp";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -120,7 +121,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6 w-full lg:w-1/2">
             <div className="w-[200px] md:w-[260px]">
               <Image
-                src="/headerFooter/digimedia-agencia-marketing-digital-peru-logo-morado(1).svg"
+                src={logoLegales}
                 alt="Logo Digimedia"
                 width={260}
                 height={80}
