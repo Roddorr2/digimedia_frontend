@@ -22,6 +22,14 @@ const PhoneInput = dynamic(
 import "react-international-phone/style.css";
 const URL_API = `${url}/api/contactanos`;
 
+// Lista de servicios disponibles (sincronizada con la tabla `servicios` de la BD)
+const SERVICIOS = [
+  "Diseño Web y Desarrollo Web",
+  "Gestión de Redes Sociales",
+  "Marketing y Gestión Digital",
+  "Branding y Diseño",
+];
+
 // Genera la máscara (longitud máxima de dígitos) de cada país automáticamente a partir
 // de libphonenumber-js, así react-international-phone limita la cantidad de dígitos por
 // país sin necesidad de mantener una lista manual.
@@ -42,6 +50,7 @@ const ContactForm = () => {
     nombre: "",
     email: "",
     mensaje: "",
+    servicio: "",
   });
   const [phone, setPhone] = useState("");
   const [dialCode, setDialCode] = useState("51");
@@ -96,13 +105,11 @@ const ContactForm = () => {
           confirmButtonText: "OK",
         });
 
-        //console.log('Respuesta del servidor:', response.data);
-        //console.log('Datos enviados:',formData, 'Número de teléfono:', phone);
-
         setFormData({
           nombre: "",
           email: "",
           mensaje: "",
+          servicio: "",
         });
         setPhone("");
         setDialCode("51");
@@ -196,6 +203,47 @@ const ContactForm = () => {
                     }}
                     containerClassName="!gap-2"
                   />
+                </motion.div>
+
+                {/* ── SELECTOR DE SERVICIO ── */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="relative">
+                    <select
+                      name="servicio"
+                      value={formData.servicio}
+                      onChange={handleChange}
+                      className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 pr-12 text-lg text-text-gray bg-white focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>
+                        Selecciona un servicio
+                      </option>
+                      {SERVICIOS.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                    {/* Flecha custom */}
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+                      <svg
+                        className="w-5 h-5 text-[#b326ff]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 </motion.div>
 
                 <motion.textarea

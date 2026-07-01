@@ -36,8 +36,6 @@ export default function Page() {
 
   async function fetchContacts(pageToFetch = currentPage) {
     setIsRefreshing(true);
-    // Es buena práctica agregar setIsLoading(true) aquí también si tienes el estado
-    // setIsLoading(true)
 
     try {
       const response = await axios.get(`${URL_API}?page=${pageToFetch}`, {
@@ -82,6 +80,7 @@ export default function Page() {
       setIsRefreshing(false);
     }
   }
+
   async function deleteContact(id) {
     try {
       const response = await axios.delete(`${URL_API}/${id}`, {
@@ -292,18 +291,20 @@ export default function Page() {
       });
       return;
     }
-    const headers = ["ID", "Nombre", "Correo", "Estado"];
+    const headers = ["ID", "Nombre", "Correo", "Teléfono", "Servicio", "Estado"];
 
     const csvData = filteredData.map((contacto) => [
       contacto.id_contactanos,
       contacto.nombre,
       contacto.email,
+      contacto.numero,
+      contacto.servicio || "—",
       contacto.estado ? "Activo" : "Inactivo",
     ]);
 
     const csvContent = [
       headers.join(","),
-      ...csvData.map((row) => row.join(",")),
+      ...csvData.map((row) => row.map((v) => `"${v}"`).join(",")),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -394,12 +395,18 @@ export default function Page() {
                     >
                       Correo
                     </th>
-
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Telefono
+                    </th>
+                    {/* ── COLUMNA SERVICIO ── */}
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Servicio
                     </th>
                     <th
                       scope="col"
@@ -418,10 +425,6 @@ export default function Page() {
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
                     filteredData
-                      .slice(
-                        (Number(currentPage) - 1) * 4,
-                        Number(currentPage) * 4,
-                      )
                       .map((contacto) => (
                         <tr
                           key={`${contacto.id_contactanos}-Row`}
@@ -438,6 +441,16 @@ export default function Page() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
                             {contacto.numero}
+                          </td>
+                          {/* ── CELDA SERVICIO ── */}
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                            {contacto.servicio ? (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                {contacto.servicio}
+                              </span>
+                            ) : (
+                              <span className="text-gray-400 text-xs">—</span>
+                            )}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span
@@ -498,7 +511,7 @@ export default function Page() {
                       ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="px-6 py-16 text-center">
+                      <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">
@@ -524,11 +537,11 @@ export default function Page() {
                 </tbody>
               </table>
             </div>
+
             {/* CARDS MOBILE */}
             <div className="grid grid-cols-1 gap-4 lg:hidden mt-4">
               {filteredData.length > 0 ? (
                 filteredData
-                  .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
                   .map((contacto) => (
                     <div
                       key={`${contacto.id_contactanos}-card`}
@@ -573,6 +586,18 @@ export default function Page() {
                         <div>
                           <p className="text-xs text-gray-400">Teléfono</p>
                           <p className="dark:text-white">{contacto.numero}</p>
+                        </div>
+
+                        {/* ── SERVICIO EN CARD MOBILE ── */}
+                        <div>
+                          <p className="text-xs text-gray-400">Servicio</p>
+                          {contacto.servicio ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                              {contacto.servicio}
+                            </span>
+                          ) : (
+                            <p className="text-gray-400 text-sm">—</p>
+                          )}
                         </div>
                       </div>
 
