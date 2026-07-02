@@ -144,7 +144,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
               </h3>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 flex-1 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 flex-1 w-full">
                {/* se agrego texto 4 y 5  */}
               {[
                 data.commend_tarjeta?.texto1,
@@ -155,7 +155,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
               ].filter(Boolean).map((text, i) => (
                 <div
                   key={i}
-                  className="relative flex flex-col items-center rounded-[12px] overflow-hidden flex-1 min-h-[260px] lg:min-h-[329px] p-6"
+                  className="relative flex flex-col items-center rounded-[12px] overflow-hidden min-h-[260px] lg:min-h-[329px] p-6y"
                   style={{
                     background: "linear-gradient(180deg, rgba(16,0,67,0.8) 0%, rgba(8,1,46,0.8) 50%, rgba(19,0,73,0.8) 100%)",
                     boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
