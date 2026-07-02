@@ -673,7 +673,7 @@ export default function FormBody({
           >
             {data.consejos.titulo || "Consejos Importantes"}
           </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {consejos.map((text, index) => (
               <div
                 key={index}
@@ -709,7 +709,7 @@ export default function FormBody({
               {data.consejos.titulo || "Consejos"}
             </h3>
           </div>
-          <div className="flex gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {consejos.map((text, index) => (
               <div
                 key={index}
@@ -1428,7 +1428,7 @@ export default function FormBody({
                             <input
                               type="text"
                               name={campo}
-                              maxLength={150}
+                              maxLength={255}
                               value={data.consejos[campo] || ""}
                               onChange={handleChange(
                                 setFormCommendBody,
