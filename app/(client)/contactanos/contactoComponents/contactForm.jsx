@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -13,7 +13,6 @@ import { defaultCountries, parseCountry } from "react-international-phone";
 import { getExampleNumber, isValidPhoneNumber } from "libphonenumber-js";
 import phoneExamples from "libphonenumber-js/mobile/examples";
 
-// Importar dinámicamente el PhoneInput para evitar problemas de SSR
 const PhoneInput = dynamic(
   () => import("react-international-phone").then((mod) => mod.PhoneInput),
   { ssr: false },
@@ -57,6 +56,66 @@ const ContactForm = () => {
   const [countryIso2, setCountryIso2] = useState("pe");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.navigator?.modelContext)
+      return;
+
+    const unregister = window.navigator.modelContext.registerTool({
+      name: "submit_contact_form",
+      description:
+        "Envía un mensaje de contacto con nombre, email, teléfono y contenido",
+      inputSchema: {
+        type: "object",
+        properties: {
+          nombre: {
+            type: "string",
+            description: "Nombre completo del usuario",
+          },
+          email: {
+            type: "string",
+            format: "email",
+            description: "Dirección de email válida",
+          },
+          telefono: {
+            type: "string",
+            description: "Número de teléfono internacional",
+          },
+          mensaje: { type: "string", description: "Mensaje que desea enviar" },
+        },
+        required: ["nombre", "email", "telefono", "mensaje"],
+      },
+      execute: async ({ nombre, email, telefono, mensaje }) => {
+        try {
+          const response = await axios.post(
+            URL_API,
+            { nombre, email, numero: telefono, mensaje },
+            {
+              headers: {
+                Authorization: `Bearer ${getCookie("token")}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            },
+          );
+          return response.status === 201
+            ? { success: true, message: "Mensaje enviado correctamente" }
+            : { success: false, message: "No se pudo enviar" };
+        } catch (error) {
+          return { success: false, message: error.message };
+        }
+      },
+      annotations: { readOnlyHint: false, untrustedContentHint: true },
+    });
+
+    if (window.navigator.modelContextTesting?.listTools) {
+      window.navigator.modelContextTesting.listTools().then((tools) => {
+        console.log("WebMCP tools registered:", tools);
+      });
+    }
+
+    return () => unregister && unregister();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -66,11 +125,10 @@ const ContactForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Valida que sea un número real y con la longitud correcta para el país seleccionado
     if (!isValidPhoneNumber(phone, countryIso2.toUpperCase())) {
       Swal.fire({
         title: "Número inválido",
-        text: "El número ingresado no es válido para el país seleccionado. Verifica la cantidad de dígitos.",
+        text: "El número ingresado no es válido. Verifica la cantidad de dígitos.",
         icon: "warning",
         confirmButtonText: "OK",
       });
@@ -84,10 +142,7 @@ const ContactForm = () => {
 
       const response = await axios.post(
         URL_API,
-        {
-          ...formData,
-          numero: formattedPhone,
-        },
+        { ...formData, numero: formattedPhone },
         {
           headers: {
             Authorization: `Bearer ${getCookie("token")}`,
@@ -116,30 +171,13 @@ const ContactForm = () => {
         setCountryIso2("pe");
       }
     } catch (error) {
-      console.error("Error detallado:", error.response);
-
-      if (error.response?.status === 400 || error.response?.status === 422) {
-        Swal.fire({
-          title: "Número inválido",
-          text: "El número ingresado no existe o no es válido. Verifica que sea un número real.",
-          icon: "warning",
-          confirmButtonText: "OK",
-        });
-      } else if (error.response?.status === 500) {
-        Swal.fire({
-          title: "Error del servidor",
-          text: "Hubo un problema interno. Por favor, intenta más tarde.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: "No se pudo enviar el mensaje. Por favor, intenta nuevamente.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      }
+      console.error("Error:", error.response);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo enviar el mensaje",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     } finally {
       setLoading(false);
     }
@@ -167,14 +205,13 @@ const ContactForm = () => {
                     value={formData[field]}
                     onChange={handleChange}
                     required
-                    className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg text-text-gray placeholder-text-gray focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
+                    className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.15 }}
                     viewport={{ once: true }}
                   />
                 ))}
-
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -196,10 +233,8 @@ const ContactForm = () => {
                     inputClassName="!w-full !h-[54px] !border-[3px] !border-[#b326ff] !rounded-[18px] !px-6 !text-lg !ml-2"
                     countrySelectorStyleProps={{
                       buttonClassName:
-                        "!border-[3px] !border-transparent !rounded-[18px] !h-[54px] !mr-2 focus:!outline-none focus:!ring-0 focus:!border-transparent",
-                      dropdownStyleProps: {
-                        className: "!rounded-lg",
-                      },
+                        "!border-[3px] !border-transparent !rounded-[18px] !h-[54px]",
+                      dropdownStyleProps: { className: "!rounded-lg" },
                     }}
                     containerClassName="!gap-2"
                   />
@@ -281,19 +316,17 @@ const ContactForm = () => {
               </form>
             </div>
           </motion.div>
-
           <motion.div
-            className="w-full md:absolute md:left-[620px] md:top-[140px] flex justify-center md:block z-30 pointer-events-none"
+            className="w-full md:absolute md:left-[620px] md:top-[140px] flex justify-center"
             initial={{ opacity: 0, x: 80 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            {/* cambios realizados para el tamaño de imagen */}
             <div className="relative w-[300px] h-[400px] md:w-[820px] md:h-[1020px]">
               <Image
                 src="/contactanos/man.png"
-                alt="Persona de contacto"
+                alt="Persona"
                 fill
                 className="object-contain scale-x-[-1]"
               />

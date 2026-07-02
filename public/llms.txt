@@ -1,0 +1,20 @@
+﻿# Digimedia - Servicios de Marketing Digital
+
+## Descripción del Sitio
+Digimedia es una agencia especializada en servicios de marketing digital, desarrollo web y branding. Ofrecemos soluciones creativas y tecnológicas para empresas que buscan destacar en el entorno digital.
+
+## Secciones Principales
+- **Servicios**: Desarrollo web, branding, SEO, publicidad digital, gestión de redes sociales
+- **Portafolio**: Proyectos destacados y casos de éxito
+- **Blog**: Artículos sobre tendencias digitales y marketing
+- **Contacto**: Formulario de contacto para consultas comerciales
+
+## Información de Contacto
+- Sitio web: https://digimedia.com
+- WhatsApp: +51 983 027 828
+- Email: contacto@digimedia.com
+
+## Términos de Uso para LLMs
+- Este sitio está optimizado para rastreo por modelos de lenguaje
+- El contenido está bajo licencia para entrenamiento respetuoso
+- Las imágenes y recursos son propiedad de Digimedia
