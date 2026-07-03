@@ -6,7 +6,7 @@ import { UxUiSection } from "../components/uxui-section";
 import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
 import Image from "next/image";
 import WhatsAppButton from "../../components/WhatsAppButton";
-import MayaChatbot from "../../components/MayaChatbot";
+import MayaChatbot from "../../components/Chatbot";
 
 export default function DisenoPauta() {
   const features = [
