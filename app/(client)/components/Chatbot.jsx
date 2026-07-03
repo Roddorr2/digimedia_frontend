@@ -4,7 +4,7 @@ import Image from "next/image";
 import { sendToMaya } from "@/api/mayaWebhook"; // o donde lo guardes
 import { MessageCircle } from "lucide-react";
 
-const CHATBOT_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_1.webp";
+const CHATBOT_IMG = "/img_chatbot/xiomara_chatbot.webp";
 
 function getSessionId() {
   try {
