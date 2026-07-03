@@ -2,17 +2,17 @@
 import { useState, useEffect, useRef } from "react";
 
 const desktopSlides = [
-  "/optimized_images/image-home/pc-1.png",
+  "/optimized_images/image-home/pc-1.webp",
   "/optimized_images/image-home/pc-2.png",
   "/optimized_images/image-home/pc-3.png",
   "/optimized_images/image-home/pc-4.png",
 ];
 
 const mobileSlides = [
-  "/optimized_images/image-home/celular-1.png",
-  "/optimized_images/image-home/celular-2.png",
-  "/optimized_images/image-home/celular-3.png",
-  "/optimized_images/image-home/celular-4.png",
+  "/optimized_images/image-home/celular-1.webp",
+  "/optimized_images/image-home/celular-2.webp",
+  "/optimized_images/image-home/celular-3.webp",
+  "/optimized_images/image-home/celular-4.webp",
 ];
 
 export default function Banner() {
