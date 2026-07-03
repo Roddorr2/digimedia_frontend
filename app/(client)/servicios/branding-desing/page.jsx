@@ -4,7 +4,7 @@ import Contactanos from "../components/Contactanos";
 import Description from "../components/Description";
 import Main from "../components/Main";
 import WhatsAppButton from "../../components/WhatsAppButton";
-import MayaChatbot from "../../components/MayaChatbot";
+import MayaChatbot from "../../components/Chatbot";
 
 export default function BrandingDesing() {
   const servicios = [

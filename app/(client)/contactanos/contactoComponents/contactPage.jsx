@@ -1,7 +1,7 @@
 import { Hero } from "../../components/page_components/Hero";
 import { Information } from "../../components/page_components/Information";
 import WhatsAppButton from "../../components/WhatsAppButton";
-import MayaChatbot from "../../components/MayaChatbot";
+import MayaChatbot from "../../components/Chatbot";
 import ContactForm from "./contactForm";
 import SocialMediaLinks from "./socialMediaLinks";
 

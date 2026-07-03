@@ -4,7 +4,7 @@ import Image from "next/image";
 import { sendToMaya } from "@/api/mayaWebhook"; // o donde lo guardes
 import { MessageCircle } from "lucide-react";
 
-const MAYA_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_1.webp";
+const CHATBOT_IMG = "/img_chatbot/chatbot_Mesa_de_trabajo_1.webp";
 
 function getSessionId() {
   try {
@@ -22,7 +22,7 @@ function getSessionId() {
 const WELCOME = {
   role: "bot",
   mensaje:
-    "¡Hola! 😊 Soy Maya. Qué gusto tenerte por aquí, estaré encantada de ayudarte.",
+    "¡Hola! 😊 Soy Xiomara, estaré encantada de ayudarte.",
 };
 
 const BUBBLE_MSGS = [
@@ -46,7 +46,7 @@ function MayaFallback({ size }) {
         className="text-white font-bold select-none"
         style={{ fontSize: size * 0.45, lineHeight: 1 }}
       >
-        M
+        X
       </span>
     </div>
   );
@@ -58,14 +58,23 @@ function BotAvatar({ size = 28 }) {
   return (
     <div
       className="rounded-full overflow-hidden flex-shrink-0"
-      style={{ width: size, height: size }}
+      style={{
+        width: size,
+        height: size,
+        background: "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)",
+      }}
     >
       <Image
-        src={MAYA_IMG}
+        src={CHATBOT_IMG}
         alt="Maya"
         width={size}
         height={size}
         className="object-cover w-full h-full"
+        style={{
+          maskImage: "linear-gradient(to bottom, black 78%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 78%, transparent 100%)",
+        }}
         onError={() => setErr(true)}
       />
     </div>
@@ -99,15 +108,27 @@ function FloatingButtonFace() {
     );
   }
   return (
-    <Image
-      src={MAYA_IMG}
-      alt="Abrir chat con Maya"
-      width={70}
-      height={70}
-      className="object-contain w-full h-full"
-      style={{ filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.28))" }}
-      onError={() => setErr(true)}
-    />
+    <span
+      className="flex items-center justify-center w-full h-full rounded-full overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #7B2FBE 0%, #4A00E0 100%)",
+        boxShadow: "0 4px 18px rgba(0,0,0,0.22)",
+      }}
+    >
+      <Image
+        src={CHATBOT_IMG}
+        alt="Abrir chat con Maya"
+        width={70}
+        height={70}
+        className="object-cover w-full h-full"
+        style={{
+          maskImage: "linear-gradient(to bottom, black 75%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 75%, transparent 100%)",
+        }}
+        onError={() => setErr(true)}
+      />
+    </span>
   );
 }
 
@@ -124,9 +145,59 @@ export default function MayaChatbot() {
   const hasWelcomed = useRef(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
+  const panelRef = useRef(null);
   const showHoverTooltip = btnHovered && !open;
   const showAutoBubble = showBubble && !btnHovered && !open;
   const hoverTimer = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [kbOffset, setKbOffset] = useState(0);
+
+  // Detecta viewport mobile
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // Ajusta el panel cuando aparece el teclado en mobile (visualViewport)
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.visualViewport) return;
+    const vv = window.visualViewport;
+    const handleResize = () => {
+      const offset = window.innerHeight - vv.height - vv.offsetTop;
+      setKbOffset(Math.max(0, Math.round(offset)));
+    };
+    vv.addEventListener("resize", handleResize);
+    vv.addEventListener("scroll", handleResize);
+    handleResize();
+    return () => {
+      vv.removeEventListener("resize", handleResize);
+      vv.removeEventListener("scroll", handleResize);
+    };
+  }, []);
+
+  // Cierra el chat al hacer click/tap afuera o con Escape
+  useEffect(() => {
+    if (!open) return;
+    const handleOutside = (e) => {
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutside);
+    document.addEventListener("touchstart", handleOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleOutside);
+      document.removeEventListener("touchstart", handleOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
   const handleMouseEnter = () => {
     hoverTimer.current = setTimeout(() => {
@@ -228,6 +299,7 @@ export default function MayaChatbot() {
       {/* ── Ventana de chat ── */}
       {open && (
         <div
+          ref={panelRef}
           className="fixed
 right-4
 md:right-8
@@ -238,10 +310,12 @@ rounded-2xl
 shadow-2xl
 overflow-hidden"
           style={{
-            bottom: "calc(7rem + 3.5rem + .75rem)",
+            bottom: isMobile ? `calc(5.5rem + ${kbOffset}px)` : "5.5rem",
             maxWidth: "360px",
             width: "100%",
-            maxHeight: "520px",
+            maxHeight: isMobile
+              ? `min(520px, calc(100dvh - 5.5rem - ${kbOffset}px - 1rem))`
+              : "520px",
             background: "#000118",
             border: "1px solid rgba(255,184,0,.12)",
             zIndex: 100,
@@ -260,7 +334,7 @@ overflow-hidden"
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white font-semibold text-sm leading-tight">
-                Asistente Maya
+                Xiomara
               </p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -291,10 +365,9 @@ overflow-hidden"
 
           {/* Mensajes */}
           <div
-            className="chat-scroll overflow-y-auto px-3 py-4 space-y-3 bg-gray-50"
+            className="chat-scroll overflow-y-auto px-3 py-4 space-y-3 bg-gray-50 flex-1"
             style={{
-              minHeight: "200px",
-              maxHeight: "360px",
+              minHeight: isMobile ? "250px" : "300px",
               background: "#000118",
             }}
           >
@@ -310,7 +383,7 @@ overflow-hidden"
                   className={`max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm ${
                     msg.role === "user"
                       ? "rounded-br-sm text-[#000118]"
-                      : "bg-[#100043] text-white rounded-bl-sm border border-[rgba(255,184,0,0.08)]"
+                      : "bg-[#100043] text-white rounded-bl-sm "
                   }`}
                   style={
                     msg.role === "user"
@@ -455,6 +528,7 @@ focus:ring-[#ffb800b8]
       transform-gpu
       transition-all duration-700
       ease-[cubic-bezier(.16,1,.3,1)]
+      
       ${
         !open && (showHoverTooltip || showAutoBubble)
           ? "opacity-100 translate-y-0 scale-100"
@@ -462,7 +536,7 @@ focus:ring-[#ffb800b8]
       }
     `}
         >
-          <div className="bg-[#ffb800] border border-[rgba(255,184,0,0.12)] rounded-2xl shadow-md px-4 py-2 text-sm text-[#100043] font-semibold whitespace-nowrap">
+          <div className="bg-[#ffb800] border border-[rgba(255,184,0,0.12)] rounded-2xl shadow-md px-4 py-2 text-sm text-[#100043] font-semibold whitespace-nowrap mb-2">
             {showHoverTooltip
               ? "¿Necesitas ayuda?"
               : showAutoBubble
@@ -470,49 +544,25 @@ focus:ring-[#ffb800b8]
                 : ""}
 
             <span
-              className="absolute bottom-[-3px] right-2 w-2.5 h-2.5 bg-[#ffb800] rotate-[33deg]"
+              className="absolute bottom-[-3px] right-2 w-2.5 h-2.5 bg-[#ffb800] rotate-[33deg] mb-2"
               style={{ boxShadow: "2px 2px 3px rgba(0,0,0,0.06)" }}
             />
           </div>
         </div>
 
-        {/* Botón */}
-        <button
-          onClick={() => setOpen((v) => !v)}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={`flex-shrink-0 transition-all duration-300 animate-heartbeat ${
-            open ? "rounded-full overflow-hidden" : ""
-          }`}
-          style={{
-            background: open ? "#c88f00" : "transparent",
-            boxShadow: open ? "0 8px 25px rgba(255,184,0,0.25)" : "none",
-            color: open ? "#000118" : "inherit",
-            width: open ? "60px" : "70px",
-            height: open ? "60px" : "70px",
-            margin: open ? "2.5px" : "0",
-          }}
-          aria-label={open ? "Cerrar chat Maya" : "Abrir chat con Maya"}
-        >
-          {open ? (
-            <span className="flex items-center justify-center hover:bg-[#ffb800] transition-colors duration-300 w-full h-full">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </span>
-          ) : (
+        {/* Botón (oculto cuando el chat está abierto, el panel cubre este espacio) */}
+        {!open && (
+          <button
+            onClick={() => setOpen(true)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="flex-shrink-0 transition-all duration-300 animate-heartbeat"
+            style={{ width: "70px", height: "70px" }}
+            aria-label="Abrir chat con Maya"
+          >
             <FloatingButtonFace />
-          )}
-        </button>
+          </button>
+        )}
       </div>
     </>
   );
