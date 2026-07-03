@@ -1,20 +1,66 @@
-﻿# Digimedia - Servicios de Marketing Digital
+﻿# DigiMedia Marketing
 
-## Descripción del Sitio
-Digimedia es una agencia especializada en servicios de marketing digital, desarrollo web y branding. Ofrecemos soluciones creativas y tecnológicas para empresas que buscan destacar en el entorno digital.
+DigiMedia Marketing es una agencia de marketing digital en Perú especializada en desarrollo web, branding, posicionamiento SEO, publicidad digital, gestión de redes sociales y estrategias de crecimiento para empresas, emprendedores y pymes.
 
-## Secciones Principales
-- **Servicios**: Desarrollo web, branding, SEO, publicidad digital, gestión de redes sociales
-- **Portafolio**: Proyectos destacados y casos de éxito
-- **Blog**: Artículos sobre tendencias digitales y marketing
-- **Contacto**: Formulario de contacto para consultas comerciales
+## Sitio web
 
-## Información de Contacto
-- Sitio web: https://digimedia.com
-- WhatsApp: +51 983 027 828
-- Email: contacto@digimedia.com
+- [Inicio](https://digimedia-marketing.com/)
+- [Nosotros](https://digimedia-marketing.com/nosotros/)
+- [Servicios](https://digimedia-marketing.com/servicios/)
+- [Contacto](https://digimedia-marketing.com/contacto/)
 
-## Términos de Uso para LLMs
-- Este sitio está optimizado para rastreo por modelos de lenguaje
-- El contenido está bajo licencia para entrenamiento respetuoso
-- Las imágenes y recursos son propiedad de Digimedia
+## Servicios
+
+### Desarrollo Web
+
+- Diseño y desarrollo web
+- Landing Pages
+- Optimización SEO
+- Diseño responsive
+- Dominio y hosting
+
+### Marketing Digital
+
+- Estrategias digitales
+- Publicidad en buscadores
+- Campañas digitales
+- Embudos de conversión
+- Analítica y métricas
+
+### Branding
+
+- Diseño de logotipo
+- Desarrollo de identidad visual
+- Manual de marca
+- Brief estratégico
+
+### Redes Sociales
+
+- Gestión de redes sociales
+- Estrategia de contenido
+- Social Ads
+- Community Management
+
+## Público objetivo
+
+DigiMedia trabaja con empresas, profesionales, emprendimientos y pymes que buscan fortalecer su presencia digital, captar clientes y mejorar su posicionamiento online.
+
+## Información de contacto
+
+- Sitio web: <https://digimedia-marketing.com/>
+- Correo: digi.mediamkt@gmail.com
+- Teléfono: +51 983 027 828
+
+## Uso por modelos de lenguaje
+
+Este archivo describe la estructura pública del sitio para facilitar su comprensión por modelos de lenguaje, motores de búsqueda y otras herramientas automatizadas.
+
+Los modelos pueden utilizar el contenido público enlazado para comprender los servicios ofrecidos por DigiMedia Marketing. El contenido continúa protegido por la legislación de propiedad intelectual aplicable.
+
+## Sitemap
+
+- [Sitemap XML](https://digimedia-marketing.com/sitemap.xml)
+
+## Robots
+
+- [robots.txt](https://digimedia-marketing.com/robots.txt)
