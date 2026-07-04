@@ -81,14 +81,15 @@ const ContactForm = () => {
             description: "Número de teléfono internacional",
           },
           mensaje: { type: "string", description: "Mensaje que desea enviar" },
+          servicio: { type: "string", description: "Servicio seleccionado del catálogo" },
         },
         required: ["nombre", "email", "telefono", "mensaje"],
       },
-      execute: async ({ nombre, email, telefono, mensaje }) => {
+      execute: async ({ nombre, email, telefono, servicio, mensaje }) => {
         try {
           const response = await axios.post(
             URL_API,
-            { nombre, email, numero: telefono, mensaje },
+            { nombre, email, numero: telefono, servicio, mensaje },
             {
               headers: {
                 Authorization: `Bearer ${getCookie("token")}`,
@@ -104,7 +105,7 @@ const ContactForm = () => {
           return { success: false, message: error.message };
         }
       },
-      annotations: { readOnlyHint: false, untrustedContentHint: true },
+      annotations: { readOnlyHint: false, openWorldHint: true, destructiveHint: false, idempotentHint: false },
     });
 
     if (window.navigator.modelContextTesting?.listTools) {
@@ -195,17 +196,18 @@ const ContactForm = () => {
             viewport={{ once: true }}
           >
             <div className="w-full bg-white rounded-[20px] border-[3px] border-[#b326ff] p-6 md:p-12 shadow-custom">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6" toolname="submit_contact_form" tooldescription="Envía un mensaje de contacto con nombre, email, teléfono y contenido">
                 {["nombre", "email"].map((field, index) => (
-                  <motion.input
-                    key={field}
-                    type={field === "email" ? "email" : "text"}
-                    name={field}
-                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    required
-                    className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg"
+<motion.input
+                     key={field}
+                     type={field === "email" ? "email" : "text"}
+                     name={field}
+                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                     value={formData[field]}
+                     onChange={handleChange}
+                     required
+                     toolparamdescription={field === "nombre" ? "Nombre completo del usuario" : "Dirección de email válida"}
+                     className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.15 }}
@@ -281,13 +283,14 @@ const ContactForm = () => {
                   </div>
                 </motion.div>
 
-                <motion.textarea
-                  name="mensaje"
-                  placeholder="Mensaje"
-                  value={formData.mensaje}
-                  onChange={handleChange}
-                  required
-                  className="w-full h-[176px] border-[3px] border-[#b326ff] rounded-[18px] p-6 text-lg text-text-gray placeholder-text-gray resize-none focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
+<motion.textarea
+                   name="mensaje"
+                   placeholder="Mensaje"
+                   value={formData.mensaje}
+                   onChange={handleChange}
+                   required
+                   toolparamdescription="Mensaje que desea enviar"
+                   className="w-full h-[176px] border-[3px] border-[#b326ff] rounded-[18px] p-6 text-lg text-text-gray placeholder-text-gray resize-none focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}

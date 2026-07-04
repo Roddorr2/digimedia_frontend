@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import WhatsAppButton from "../../components/WhatsAppButton";
-import MayaChatbot from "../../components/MayaChatbot";
+import MayaChatbot from "../../components/Chatbot";
 
 function UXUIComponent() {
   const searchParams = useSearchParams();

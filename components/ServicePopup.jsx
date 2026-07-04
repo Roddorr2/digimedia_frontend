@@ -46,6 +46,7 @@ const InputField = ({
       onChange={onChange}
       required={required}
       maxLength={maxLength}
+      toolparamdescription={name === "nombre" ? "Nombre del usuario" : name === "telefono" ? "Número de teléfono (9 dígitos)" : "Correo electrónico"}
       className="w-full rounded-full pl-9 pr-3 py-1.5 text-xs text-black border border-gray-400 bg-white/90 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent placeholder-gray-600 shadow-sm"
     />
   </div>
@@ -74,7 +75,7 @@ function FormContent({
   sending,
 }) {
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2.5">
+    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2.5" toolname="submit_service_popup" tooldescription="Envía información de contacto a través del popup de servicio">
       <InputField
         icon={User}
         type="text"
@@ -380,7 +381,7 @@ export default function ServicePopup({
         )}
 
         <div className="px-5 pt-8 pb-5 mt-auto relative z-10">
-          <form onSubmit={handleSubmit} className="space-y-2.5">
+          <form onSubmit={handleSubmit} className="space-y-2.5" toolname="submit_service_popup" tooldescription="Envía información de contacto a través del popup de servicio">
             <InputField
               icon={User}
               type="text"

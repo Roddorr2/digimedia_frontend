@@ -3,7 +3,7 @@ import Contactanos from "../components/Contactanos";
 import { UxUiSection } from "../components/uxui-section";
 import Image from "next/image";
 import WhatsAppButton from "../../components/WhatsAppButton";
-import MayaChatbot from "../../components/MayaChatbot";
+import MayaChatbot from "../../components/Chatbot";
 
 export default function ExperienciaUsuario() {
   const featuresuxui = [

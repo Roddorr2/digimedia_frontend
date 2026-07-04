@@ -12,7 +12,7 @@ const WhatsAppButton = dynamic(
 );
 
 const MayaChatbot = dynamic(
-  () => import("./MayaChatbot"),
+  () => import("./Chatbot"),
   { ssr: false }
 );
 
