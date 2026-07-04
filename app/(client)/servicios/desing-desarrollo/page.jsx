@@ -11,7 +11,7 @@ export default function DisenoDesarrolloWeb() {
     {
       title: "DESARROLLO RESPONSIVE",
       text: "Creamos experiencias modernas que atrapan, cautivan y convierten visitantes en clientes fieles.",
-      image: "/servicios/diseno_desarrollo_web/desarrollo_web/creacion-desarrollo-web-digimedial.webp",
+      image: "/servicios/diseno_desarrollo_web/desarrollo_web/desarrollo-web-responsive-digimedia.webp",
       ruta: "/servicios/desarrollo-webs/",
       imageTitle: "Sub servicio de creación y desarrollo web",
       imageAlt: "Imagen de desarrollo web responsive ofrecido por Digimedia",
@@ -19,7 +19,7 @@ export default function DisenoDesarrolloWeb() {
     {
       title: "EXPERIENCIA DE USUARIO Y DISEÑO",
       text: "Mas modernos, funcionales y personalizados que impulsen tu negocio y destaque frente a la competencia.",
-      image: "/servicios/DisenoUI/experiencia-de-usuario-y-diseno-digimedia.webp",
+      image: "/servicios/diseno_desarrollo_web/diseno_ux_ui/experiencia-usuario-diseno-ux-ui-digimedia.webp",
       ruta: "/servicios/experiencia-usuario/",
       imageTitle: "Sub servicio de experiencia de usuario y diseño",
       imageAlt: "Imagen de experiencia de usuario y diseño de interfaces por Digimedia",
@@ -27,7 +27,7 @@ export default function DisenoDesarrolloWeb() {
     {
       title: "OPTIMIZACIÓN SEO PARA BUSCADORES",
       text: "Mayor visibilidad, mejor posicionamiento y más clientes potenciales. Llevamos tu sitio web a los primeros resultados de búsqueda.",
-      image: "/servicios/diseno_desarrollo_web/dominio_hosting/estrategia-seo-para-buscadores-digimedia.webp",
+      image: "/servicios/diseno_desarrollo_web/dominio_hosting/optimizacion-seo-buscadores-digimedia.webp",
       ruta: "/servicios/dominio_hosting/",
       imageTitle: "Sub servicio de optimización SEO para buscadores",
       imageAlt: "Imagen de optimización SEO en buscadores y posicionamiento orgánico",
@@ -35,7 +35,7 @@ export default function DisenoDesarrolloWeb() {
     {
       title: "DESARROLLO RESPONSIVE E INTEGRACIONES DIGITALES",
       text: "Desarrollamos sitios web adaptables y conectados con herramientas digitales que potencian la conversión y optimizan tu gestión.",
-      image: "/servicios/diseno_desarrollo_web/seo/desarrollo-responsive-e-integraciones-digitales-digimedia.webp",
+      image: "/servicios/diseno_desarrollo_web/seo/desarrollo-responsive-integraciones-digitales-digimedia.webp",
       ruta: "/servicios/seo/",
       imageTitle: "Subservicio de Desarrollo responsive e integraciones digitales",
       imageAlt: "Imagen de desarrollo responsive e integraciones de sistemas digitales",
@@ -43,7 +43,7 @@ export default function DisenoDesarrolloWeb() {
     {
       title: "LANDING PAGE",
       text: "Diseñamos landing pages de alta conversión que transforman visitantes en clientes, con mensajes persuasivos y llamadas a la acción efectivas.",
-      image: "/servicios/diseno_desarrollo_web/landing_page/landing-page-digimedia.webp",
+      image: "/servicios/diseno_desarrollo_web/landing_page/landing-page-conversion-digimedia.webp",
       ruta: "/servicios/landing-page/",
       imageTitle: "Subservicio de Landing Page",
       imageAlt: "Imagen de diseño de landing pages para campañas de conversión",
@@ -121,7 +121,10 @@ export default function DisenoDesarrolloWeb() {
         </section>
 
         {/* ¿CÓMO FUNCIONA? SECTION */}
-        <section className="py-16 border-t border-white/5">
+      </div>
+
+      <section className="w-full py-16 bg-gradient-to-r from-[#120048] via-[#000000] to-[#120048] border-t border-b border-white/5 relative z-10">
+        <div className="w-full max-w-[1280px] mx-auto px-6">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -136,7 +139,10 @@ export default function DisenoDesarrolloWeb() {
               Creamos experiencias digitales que cautivan y funcionan sin interrupciones. Desde el diseño visual hasta la implementación técnica, convertimos su sitio web en una herramienta poderosa que posiciona su marca, comunica su valor y genera resultados tangibles.
             </p>
           </motion.div>
-        </section>
+        </div>
+      </section>
+
+      <div className="w-full max-w-[1280px] mx-auto px-6 relative z-10">
 
         {/* NUESTROS SUBSERVICIOS SECTION */}
         <section className="py-16 md:py-24 border-t border-white/5">
@@ -158,7 +164,7 @@ export default function DisenoDesarrolloWeb() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.7rem)] max-w-md h-[420px] relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,209,0,0.15)]"
+                className="w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.7rem)] max-w-md h-[520px] relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,209,0,0.15)]"
               >
                 <Link href={servicio.ruta} className="block w-full h-full relative">
                   {/* Background Photo */}
