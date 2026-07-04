@@ -79,14 +79,14 @@ export default function DisenoDesarrolloWeb() {
       <div className="w-full max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* HERO SECTION */}
-        <section className="pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section className="pb-12 md:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center lg:text-left flex flex-col justify-center h-full pt-8"
+            className="text-center lg:text-left flex flex-col justify-center h-full pt-6 md:pt-8"
           >
-            <h1 className="text-white font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 font-display tracking-tight">
+            <h1 className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-4 md:mb-6 font-display tracking-tight">
               DISEÑO Y <br className="hidden sm:inline" /> DESARROLLO WEB
             </h1>
             <h2 className="text-[#FFD100] font-black text-lg sm:text-xl md:text-2xl uppercase tracking-wider mb-6">
@@ -104,7 +104,7 @@ export default function DisenoDesarrolloWeb() {
             className="flex justify-center"
           >
             {/* <div className="relative w-full max-w-[980px] aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(181,37,254,0.25)] border-2 border-white/10 hover:border-white/20 transition-colors duration-300"> */}
-            <div className="relative w-full max-w-[980px] h-[550px] aspect-[4/3] overflow-hidden  transition-colors duration-300">
+            <div className="relative w-full max-w-[980px] h-[280px] sm:h-[380px] md:h-[460px] lg:h-[520px] overflow-hidden transition-colors duration-300">
               <Image
                 src="/servicios/desarrollo/diseno-desarrollo-web-digimedia-oficial.webp"
                 alt="Personal de Digimedia colaborando en diseño y desarrollo web"
@@ -112,7 +112,7 @@ export default function DisenoDesarrolloWeb() {
                 fill
                 priority
                 className="object-cover"
-                sizes="(max-w-768px) 100vw, 980px"
+                sizes="(max-width: 768px) 100vw, 980px"
               />
               {/* Efecto desvanecido hacia el lado izquierdo */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#10003b] via-[#10003b]/40 to-transparent z-10 pointer-events-none" />
@@ -164,7 +164,7 @@ export default function DisenoDesarrolloWeb() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.7rem)] max-w-md h-[520px] relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,209,0,0.15)]"
+                className="w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.7rem)] max-w-md h-[400px] sm:h-[460px] lg:h-[520px] relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,209,0,0.15)]"
               >
                 <Link href={servicio.ruta} className="block w-full h-full relative">
                   {/* Background Photo */}
@@ -174,7 +174,7 @@ export default function DisenoDesarrolloWeb() {
                     title={servicio.imageTitle}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="(max-w-768px) 100vw, (max-w-1024px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   {/* Translucent overlays */}
                   <div className="absolute inset-0 bg-[#0d0124]/60 mix-blend-multiply transition-colors duration-500 group-hover:bg-[#0d0124]/50" />
@@ -207,7 +207,7 @@ export default function DisenoDesarrolloWeb() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative bg-gradient-to-r from-[#18033E]/90 to-[#0A0019]/90 backdrop-blur-lg border border-white/10 p-10 md:p-16 rounded-3xl text-center max-w-4xl mx-auto shadow-2xl overflow-hidden"
+            className="relative bg-gradient-to-r from-[#18033E]/90 to-[#0A0019]/90 backdrop-blur-lg border border-white/10 p-8 sm:p-10 md:p-14 lg:p-16 rounded-3xl text-center max-w-4xl mx-auto shadow-2xl overflow-hidden"
           >
             {/* CTA Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-600/15 rounded-full blur-[80px] pointer-events-none" />
