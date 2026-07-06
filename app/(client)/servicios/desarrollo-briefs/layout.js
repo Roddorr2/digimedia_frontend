@@ -23,7 +23,7 @@ export default function DesarrBriefsLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={4} idSubservicio={13} />
+      <ServicePopup subservicioSlug="desarrollo-briefs" />
     </>
   );
 }

@@ -23,7 +23,7 @@ export default function LandingPageLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={1} idSubservicio={17} />
+      <ServicePopup subservicioSlug="landing-page" />
     </>
   );
 }

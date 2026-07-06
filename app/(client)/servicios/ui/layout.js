@@ -23,7 +23,7 @@ export default function DisenoUxUiLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={2} idSubservicio={8} />
+      <ServicePopup subservicioSlug="ui" />
     </>
   );
 }

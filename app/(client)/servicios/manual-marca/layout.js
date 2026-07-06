@@ -23,7 +23,7 @@ export default function ManualMarcaLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={3} idSubservicio={12} />
+      <ServicePopup subservicioSlug="manual-marca" />
     </>
   );
 }

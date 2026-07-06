@@ -24,7 +24,7 @@ export default function PlanEstrategicaLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={4} idSubservicio={14} />
+      <ServicePopup subservicioSlug="planificacion-estrategica" />
     </>
   );
 }
