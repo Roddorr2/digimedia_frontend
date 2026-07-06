@@ -2,6 +2,8 @@ import Script from 'next/script';
 import './globals.css';
 import localFont from 'next/font/local';
 import { Doppio_One } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Hanken_Grotesk } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
 import PerformanceOptimizations from './components/PerformanceOptimizations';
 
@@ -46,6 +48,20 @@ const doppioOne = Doppio_One({
   display: 'swap',
 });
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+  weight: '800',
+  variable: '--font-plus-jakarta',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const hankenGrotesk = Hanken_Grotesk({
+  weight: '600',
+  variable: '--font-hanken-grotesk',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 export const metadata = {
   verification: {
     google: 'xhfnSm5zX45Ov_N5NO-py7sXFqI6VC5EDAb4FhYafNQ',
@@ -86,7 +102,7 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body
-        className={`${montserrat.variable} ${telegraf.variable} ${doppioOne.variable} antialiased`}
+        className={`${montserrat.variable} ${telegraf.variable} ${doppioOne.variable} ${plusJakartaSans.variable} ${hankenGrotesk.variable} antialiased`}
       >
         {/* Optimizaciones de rendimiento */}
         <PerformanceOptimizations />
