@@ -11,7 +11,7 @@ export default function GestionRedesSociales() {
     {
       title: "ESTRATEGIA DE CONTENIDO",
       text: "Definimos la narrativa, los pilares de contenido y el tono de tu marca para comunicar con coherencia y propósito en redes sociales.",
-      image: "/servicios/gestion/icono-lista-tareas-temporizador.webp",
+      image: "/servicios/gestion/estrategia-de-contenido.webp",
       ruta: "/servicios/planificacion-cronograma/",
       imageTitle: "Ícono de lista de tareas con temporizador para productividad | DigiMedia Marketing",
       imageAlt: "Lista de tareas con temporizador - gestión de tiempo y productividad",
@@ -19,7 +19,7 @@ export default function GestionRedesSociales() {
     {
       title: "SOCIAL ADS & PERFORMANCE",
       text: "Diseñamos y optimizamos campañas de pauta en redes sociales enfocadas en alcance, tráfico, leads y conversiones.",
-      image: "/servicios/gestion/icono-de-planificacion-y-creatividad.webp",
+      image: "/servicios/gestion/social-ads-performance.webp",
       ruta: "/servicios/diseno-pautas/",
       imageTitle: "Icono de planificación y creatividad",
       imageAlt: "Lista de planificación y creatividad - mayor organización",
@@ -27,7 +27,7 @@ export default function GestionRedesSociales() {
     {
       title: "PRODUCCIÓN AUDIOVISUAL",
       text: "Creamos contenido audiovisual pensado para redes sociales, optimizado para captar atención y generar engagement.",
-      image: "/servicios/gestion/icono-gestion-procesos-marketing.webp",
+      image: "/servicios/gestion/produccion-audiovisual.webp",
       ruta: "/servicios/produccion-pautas/",
       imageTitle: "Ícono de gestión de procesos en marketing digital",
       imageAlt: "Lista de tareas y gestión de procesos para campañas de marketing",
@@ -35,7 +35,7 @@ export default function GestionRedesSociales() {
     {
       title: "DISEÑO UX Y UI",
       text: "Diseñamos experiencias digitales funcionales y atractivas que acompañan la estrategia de redes y mejoran la conversión.",
-      image: "/servicios/gestion/icono-diseno-ux-ui.webp",
+      image: "/servicios/gestion/diseno-ux-ui.webp",
       ruta: "/servicios/ui/?from=gestionRedes",
       imageTitle: "Ícono de diseño UX UI para experiencia de usuario",
       imageAlt: "Pantalla con interfaz UX UI que representa experiencia de usuario en web",
@@ -97,7 +97,7 @@ export default function GestionRedesSociales() {
           >
             <div className="relative w-full max-w-[980px] h-[280px] sm:h-[380px] md:h-[460px] lg:h-[520px] overflow-hidden transition-colors duration-300">
               <Image
-                src="/servicios/gestion/gestion-redes-sociales-peru-digimedia.webp"
+                src="/servicios/gestion/gestion-redes-sociales-peru-digimedia-hero.webp"
                 alt="Ilustración de gestión profesional de redes sociales desde una computadora"
                 title="Gestión estratégica de redes sociales en Perú | Digimedia"
                 fill

@@ -11,7 +11,7 @@ export default function BrandingDesing() {
     {
       title: "DESARROLLO DE BRIEF",
       text: "Estudiamos tu empresa y competencia para definir una marca clara, estratégica y sólida.",
-      image: "/servicios/branding/desarrollo-de-brief-marketing.webp",
+      image: "/servicios/branding/desarrollo-brief.webp",
       ruta: "/servicios/desarrollo-briefs/",
       imageTitle: "Icono de desarrollo de brief estratégico | Digimedia Marketing",
       imageAlt: "Icono de desarrollo de brief",
@@ -19,7 +19,7 @@ export default function BrandingDesing() {
     {
       title: "PLANIFICACIÓN ESTRATÉGICA",
       text: "Creamos identidades visuales únicas que reflejan tu esencia y que destacan en el mercado.",
-      image: "/servicios/branding/planificacion-estrategica-marketing.webp",
+      image: "/servicios/branding/planificacion-estrategia.webp",
       ruta: "/servicios/planificacion-estrategica/",
       imageTitle: "Icono de planificación estratégica | Digimedia Marketing",
       imageAlt: "Icono en planificación estratégica",
@@ -27,7 +27,7 @@ export default function BrandingDesing() {
     {
       title: "DISEÑO DE LOGO",
       text: "Diseñamos logotipos memorables y profesionales que representan lo que tu marca es y lo que aspira a ser.",
-      image: "/servicios/branding/diseno-grafico-identidad-visual.webp",
+      image: "/servicios/branding/diseno-logo.webp",
       ruta: "/servicios/publicidad-digital/",
       imageTitle: "Icono de diseño gráfico e identidad visual | Digimedia Marketing",
       imageAlt: "Icono de diseño gráfico para identidad visual de marca",
@@ -35,7 +35,7 @@ export default function BrandingDesing() {
     {
       title: "MANUAL DE MARCA",
       text: "Desarrollamos manuales de marca que establecen lineamientos visuales claros para asegurar coherencia en toda la comunicación de tu empresa.",
-      image: "/servicios/branding/manual-de-marca.webp",
+      image: "/servicios/branding/manual-marca.webp",
       ruta: "/servicios/monitoreo-y-reporting/",
       imageTitle: "Icono de manual de marca | Digimedia Marketing",
       imageAlt: "Icono de manual de marca oficial",
@@ -97,7 +97,7 @@ export default function BrandingDesing() {
           >
             <div className="relative w-full max-w-[980px] h-[280px] sm:h-[380px] md:h-[460px] lg:h-[520px] overflow-hidden transition-colors duration-300">
               <Image
-                src="/servicios/branding/branding-y-diseno-digimedia-oficial.webp"
+                src="/servicios/branding/branding-diseno-hero.webp"
                 alt="Imagen oficial del servicio de branding y diseño de una marca"
                 title="Branding y Diseño | Digimedia"
                 fill
