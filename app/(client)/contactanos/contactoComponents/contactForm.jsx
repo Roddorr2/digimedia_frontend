@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -20,6 +20,10 @@ const PhoneInput = dynamic(
 
 import "react-international-phone/style.css";
 const URL_API = `${url}/api/contactanos`;
+
+// Imagen provisional de la persona — Marketing entregará la imagen definitiva
+// más adelante. Reemplazar solo esta constante (mantiene proporción 1420:1872).
+const CONTACT_PERSON_IMAGE = "/contactanos/man.png";
 
 // Lista de servicios disponibles (sincronizada con la tabla `servicios` de la BD)
 const SERVICIOS = [
@@ -43,6 +47,9 @@ const countriesWithMask = defaultCountries.map((data) => {
   if (country.areaCodes) result[5] = country.areaCodes;
   return result;
 });
+
+const inputBaseClass =
+  "w-full h-[54px] sm:h-[58px] md:h-[62px] bg-white/[0.86] rounded-[31.5px] px-6 text-base sm:text-lg text-[#100043] placeholder:text-[#5B5470] shadow-[0_4px_4px_rgba(0,0,0,0.25)] outline-none focus:ring-2 focus:ring-[#FFB800] focus:ring-offset-0 transition-shadow";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -185,159 +192,198 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="w-full flex justify-center py-12 md:py-24">
-      <div className="w-full max-w-[1280px] px-6 relative">
-        <div className="flex flex-col md:flex-row gap-12 items-start relative">
-          <motion.div
-            className="w-full md:w-[620px] z-20 relative"
-            initial={{ opacity: 0, x: -80 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+    <section className="relative w-full px-4 sm:px-6 md:px-10 lg:px-12 pt-8 sm:pt-10 md:pt-12 lg:pt-12 pb-16 md:pb-20 lg:pb-20 overflow-hidden">
+      {/* Brillos decorativos (se ocultan en móvil por claridad/rendimiento) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-8 left-[8%] w-56 h-56 md:w-72 md:h-72 rounded-full bg-[#FFB800]/10 blur-[60px] hidden sm:block"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-[6%] w-56 h-56 md:w-72 md:h-72 rounded-full bg-[#FFB800]/10 blur-[60px] hidden sm:block"
+      />
+
+      <div className="relative max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,709px)_minmax(0,1fr)] gap-10 lg:gap-8 lg:items-end">
+        <motion.div
+          className="relative z-20 w-full max-w-[709px] mx-auto lg:mx-0"
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div
+            className="relative overflow-hidden rounded-[22px] px-6 py-8 sm:px-10 sm:py-10 md:px-12 md:py-10 lg:py-10"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)",
+            }}
           >
-            <div className="w-full bg-white rounded-[20px] border-[3px] border-[#b326ff] p-6 md:p-12 shadow-custom">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6" toolname="submit_contact_form" tooldescription="Envía un mensaje de contacto con nombre, email, teléfono y contenido">
-                {["nombre", "email"].map((field, index) => (
-<motion.input
-                     key={field}
-                     type={field === "email" ? "email" : "text"}
-                     name={field}
-                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                     value={formData[field]}
-                     onChange={handleChange}
-                     required
-                     toolparamdescription={field === "nombre" ? "Nombre completo del usuario" : "Dirección de email válida"}
-                     className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.15 }}
-                    viewport={{ once: true }}
-                  />
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  viewport={{ once: true }}
-                >
-                  <PhoneInput
-                    defaultCountry="pe"
-                    countries={countriesWithMask}
-                    value={phone}
-                    onChange={(phoneVal, meta) => {
-                      setPhone(phoneVal);
-                      if (meta?.country?.iso2)
-                        setCountryIso2(meta.country.iso2);
-                      if (meta?.country?.dialCode)
-                        setDialCode(meta.country.dialCode);
-                    }}
-                    forceDialCode={true}
-                    inputClassName="!w-full !h-[54px] !border-[3px] !border-[#b326ff] !rounded-[18px] !px-6 !text-lg !ml-2"
-                    countrySelectorStyleProps={{
-                      buttonClassName:
-                        "!border-[3px] !border-transparent !rounded-[18px] !h-[54px]",
-                      dropdownStyleProps: { className: "!rounded-lg" },
-                    }}
-                    containerClassName="!gap-2"
-                  />
-                </motion.div>
+            <span
+              aria-hidden
+              className="absolute inset-x-0 top-0 h-[2px]"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)",
+              }}
+            />
 
-                {/* ── SELECTOR DE SERVICIO ── */}
-                <motion.div
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4 sm:gap-5"
+              toolname="submit_contact_form"
+              tooldescription="Envía un mensaje de contacto con nombre, email, teléfono y contenido"
+            >
+              {["nombre", "email"].map((field, index) => (
+                <motion.input
+                  key={field}
+                  type={field === "email" ? "email" : "text"}
+                  name={field}
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  required
+                  toolparamdescription={
+                    field === "nombre"
+                      ? "Nombre completo del usuario"
+                      : "Dirección de email válida"
+                  }
+                  className={inputBaseClass}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="relative">
-                    <select
-                      name="servicio"
-                      value={formData.servicio}
-                      onChange={handleChange}
-                      className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 pr-12 text-lg text-text-gray bg-white focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom appearance-none cursor-pointer"
-                    >
-                      <option value="" disabled>
-                        Selecciona un servicio
-                      </option>
-                      {SERVICIOS.map((s) => (
-                        <option key={s} value={s}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
-                    {/* Flecha custom */}
-                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                      <svg
-                        className="w-5 h-5 text-[#b326ff]"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </motion.div>
-
-<motion.textarea
-                   name="mensaje"
-                   placeholder="Mensaje"
-                   value={formData.mensaje}
-                   onChange={handleChange}
-                   required
-                   toolparamdescription="Mensaje que desea enviar"
-                   className="w-full h-[176px] border-[3px] border-[#b326ff] rounded-[18px] p-6 text-lg text-text-gray placeholder-text-gray resize-none focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
+                  transition={{ delay: index * 0.15 }}
                   viewport={{ once: true }}
                 />
+              ))}
 
-                <motion.div
-                  className="flex justify-center md:justify-start"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                  viewport={{ once: true }}
-                >
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-[240px] h-[60px] bg-[#ffa000] text-white font-black text-xl rounded-[30px] shadow-lg hover:scale-105 transition-all mt-4 flex items-center justify-center"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                <PhoneInput
+                  defaultCountry="pe"
+                  countries={countriesWithMask}
+                  value={phone}
+                  onChange={(phoneVal, meta) => {
+                    setPhone(phoneVal);
+                    if (meta?.country?.iso2)
+                      setCountryIso2(meta.country.iso2);
+                    if (meta?.country?.dialCode)
+                      setDialCode(meta.country.dialCode);
+                  }}
+                  forceDialCode={true}
+                  inputClassName="!w-full !h-[54px] sm:!h-[58px] md:!h-[62px] !bg-white/[0.86] !border-none !rounded-[31.5px] !px-6 !text-base sm:!text-lg !text-[#100043] !shadow-[0_4px_4px_rgba(0,0,0,0.25)] !ml-2"
+                  countrySelectorStyleProps={{
+                    buttonClassName:
+                      "!bg-white/[0.86] !border-none !rounded-[31.5px] !h-[54px] sm:!h-[58px] md:!h-[62px]",
+                    dropdownStyleProps: { className: "!rounded-lg" },
+                  }}
+                  containerClassName="!gap-2"
+                />
+              </motion.div>
+
+              {/* ── SELECTOR DE SERVICIO ── */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative">
+                  <select
+                    name="servicio"
+                    value={formData.servicio}
+                    onChange={handleChange}
+                    className={`${inputBaseClass} pr-12 appearance-none cursor-pointer`}
                   >
-                    {loading ? (
-                      <Loader2 className="animate-spin h-5 w-5" />
-                    ) : (
-                      "Enviar mensaje"
-                    )}
-                  </button>
-                </motion.div>
-              </form>
-            </div>
-          </motion.div>
-          <motion.div
-            className="w-full md:absolute md:left-[620px] md:top-[140px] flex justify-center"
-            initial={{ opacity: 0, x: 80 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative w-[300px] h-[400px] md:w-[820px] md:h-[1020px]">
-              <Image
-                src="/contactanos/man.png"
-                alt="Persona"
-                fill
-                className="object-contain scale-x-[-1]"
+                    <option value="" disabled>
+                      Selecciona un servicio
+                    </option>
+                    {SERVICIOS.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  {/* Flecha custom */}
+                  <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center">
+                    <svg
+                      className="w-5 h-5 text-[#100043]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.textarea
+                name="mensaje"
+                placeholder="Mensaje"
+                value={formData.mensaje}
+                onChange={handleChange}
+                required
+                toolparamdescription="Mensaje que desea enviar"
+                className="w-full h-[140px] sm:h-[160px] md:h-[175px] bg-white/[0.86] rounded-[24px] md:rounded-[31.5px] p-6 text-base sm:text-lg text-[#100043] placeholder:text-[#5B5470] resize-none shadow-[0_4px_4px_rgba(0,0,0,0.25)] outline-none focus:ring-2 focus:ring-[#FFB800] transition-shadow"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                viewport={{ once: true }}
               />
-            </div>
-          </motion.div>
-        </div>
+
+              <motion.div
+                className="flex justify-center sm:justify-start pt-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                viewport={{ once: true }}
+              >
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full sm:w-[260px] md:w-[322px] h-[54px] sm:h-[58px] md:h-[62px] bg-[#FFB800] text-[#100043] font-extrabold text-lg sm:text-xl rounded-full shadow-lg hover:scale-105 hover:bg-[#ffc233] transition-all flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {loading ? (
+                    <Loader2 className="animate-spin h-5 w-5" />
+                  ) : (
+                    "Enviar mensaje"
+                  )}
+                </button>
+              </motion.div>
+            </form>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="relative z-10 flex justify-center lg:justify-end"
+          initial={{ opacity: 0, x: 80 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          {/* Contenedor fluido: el ancho nunca excede la columna disponible
+              (evita overflow horizontal entre 1024 y 1440px); el alto se
+              deriva de la proporción real de la imagen (1420:1872), por lo
+              que no queda espacio vacío dentro de su propio recuadro. */}
+          <div className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[320px] lg:max-w-[420px] xl:max-w-[540px] aspect-[1420/1872] mx-auto lg:mx-0">
+            <Image
+              src={CONTACT_PERSON_IMAGE}
+              alt="Persona atendiendo una consulta de contacto"
+              fill
+              className="object-contain object-bottom scale-x-[-1]"
+              sizes="(max-width: 1024px) 320px, 540px"
+            />
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
