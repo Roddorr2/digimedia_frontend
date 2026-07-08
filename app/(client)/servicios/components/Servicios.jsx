@@ -42,7 +42,7 @@ export default function Servicios({ servicios, perRow }) {
   );
 
   return (
-    <section className={`p-4 m-auto md:py-16 my-16 ${isMultiRow ? "max-w-screen-2xl" : "max-w-6xl"}`}>
+    <section className="p-4 m-auto md:py-16 my-16 w-full min-h-screen" style={{ background: "linear-gradient(0deg, #200E59 0%, #170C40 50%, #200769 100%)", backgroundSize: "cover", backgroundPosition: "center" }}>
       {/* Título principal */}
       <h2 className="font-bold text-3xl md:text-4xl text-center mb-12 mt-10 md:mt-2 text-[#B326FF] font-title relative uppercase">
         Nuestros Subservicios
