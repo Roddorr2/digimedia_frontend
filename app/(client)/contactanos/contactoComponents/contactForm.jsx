@@ -23,7 +23,7 @@ const URL_API = `${url}/api/contactanos`;
 
 // Imagen provisional de la persona — Marketing entregará la imagen definitiva
 // más adelante. Reemplazar solo esta constante (mantiene proporción 1420:1872).
-const CONTACT_PERSON_IMAGE = "/contactanos/man.png";
+const CONTACT_PERSON_IMAGE = "/contactanos/contact-person.png";
 
 // Lista de servicios disponibles (sincronizada con la tabla `servicios` de la BD)
 const SERVICIOS = [
