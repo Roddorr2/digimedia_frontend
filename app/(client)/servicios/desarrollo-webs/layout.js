@@ -23,7 +23,7 @@ export default function DesarrWebsLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={1} idSubservicio={3} />
+      <ServicePopup subservicioSlug="desarrollo-responsive" />
     </>
   );
 }

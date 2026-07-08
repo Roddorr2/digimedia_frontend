@@ -115,6 +115,7 @@ function FormContent({
 export default function ServicePopup({
   idServicio,
   idSubservicio = null,
+  subservicioSlug = null,
   tiempoGlobal = null,
   buttonId = null,
 }) {
@@ -140,7 +141,11 @@ export default function ServicePopup({
     const fetchConfig = async () => {
       try {
         let response;
-        if (idSubservicio) {
+        if (subservicioSlug) {
+          response = await axios.get(
+            `${API_URL}/api/public/popup-configs/subservicio/slug/${subservicioSlug}`,
+          );
+        } else if (idSubservicio) {
           response = await axios.get(
             `${API_URL}/api/public/popup-configs/subservicio/${idSubservicio}`,
           );
@@ -149,7 +154,7 @@ export default function ServicePopup({
             `${API_URL}/api/public/popup-configs/servicio/${idServicio}`,
           );
         } else {
-          console.error("Debe proporcionar idServicio o idSubservicio");
+          console.error("Debe proporcionar idServicio, idSubservicio o subservicioSlug");
           setLoading(false);
           return;
         }
@@ -165,7 +170,7 @@ export default function ServicePopup({
       }
     };
     fetchConfig();
-  }, [idServicio, idSubservicio]);
+  }, [idServicio, idSubservicio, subservicioSlug]);
 
   useEffect(() => {
     if (!config) return;
@@ -178,7 +183,7 @@ export default function ServicePopup({
       return () => clearTimeout(timer);
     }
     if (config.trigger_type === "click") {
-      const triggerId = idSubservicio || idServicio;
+      const triggerId = subservicioSlug || idSubservicio || idServicio;
       const triggerElementId = buttonId || `popup-trigger-${triggerId}`;
       const handleClick = () => setOpen(true);
       const element = document.getElementById(triggerElementId);
@@ -189,7 +194,7 @@ export default function ServicePopup({
         console.warn(`Elemento con ID "${triggerElementId}" no encontrado`);
       }
     }
-  }, [config, tiempoGlobal, buttonId, idServicio, idSubservicio]);
+  }, [config, tiempoGlobal, buttonId, idServicio, idSubservicio, subservicioSlug]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

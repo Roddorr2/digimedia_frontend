@@ -23,7 +23,7 @@ export default function PubliDigitalLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={4} idSubservicio={15} />
+      <ServicePopup subservicioSlug="publicidad-digital" />
     </>
   );
 }

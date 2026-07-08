@@ -25,7 +25,7 @@ export default function DominioHostingLayout({ children }) {
     <>
       {children}
       {/* Se utiliza el puente global optimizado para evitar el error de ssr en Server Components */}
-      <DynamicServicePopup idServicio={1} idSubservicio={2} />
+      <DynamicServicePopup subservicioSlug="integraciones-digitales" />
     </>
   );
 }
