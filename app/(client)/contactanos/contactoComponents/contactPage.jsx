@@ -1,7 +1,6 @@
 import ContactHero from "./ContactHero";
 import InfoCard from "./InfoCard";
 import ContactForm from "./contactForm";
-import SocialMediaLinks from "./socialMediaLinks";
 import WhatsAppButton from "../../components/WhatsAppButton";
 import MayaChatbot from "../../components/Chatbot";
 
@@ -14,8 +13,10 @@ const ContactPage = () => (
   >
     <ContactHero />
     <InfoCard />
+    {/* SocialMediaLinks ahora se renderiza embebido dentro de ContactForm
+        (columna izquierda, debajo del formulario) para que la imagen de la
+        columna derecha pueda alinearse contra la altura de form+redes juntos. */}
     <ContactForm />
-    <SocialMediaLinks />
     <WhatsAppButton />
     <MayaChatbot />
   </main>
