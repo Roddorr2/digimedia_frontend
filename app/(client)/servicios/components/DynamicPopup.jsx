@@ -8,6 +8,12 @@ const ServicePopup = dynamic(() => import("@/components/ServicePopup"), {
 });
 
 // Ahora el componente acepta propiedades dinámicas
-export default function DynamicServicePopup({ idServicio, idSubservicio }) {
-  return <ServicePopup idServicio={idServicio} idSubservicio={idSubservicio} />;
+export default function DynamicServicePopup({ idServicio, idSubservicio, subservicioSlug }) {
+  return (
+    <ServicePopup
+      idServicio={idServicio}
+      idSubservicio={idSubservicio}
+      subservicioSlug={subservicioSlug}
+    />
+  );
 }

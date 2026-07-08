@@ -24,7 +24,7 @@ export default function AnalisisBenchLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={3} idSubservicio={9} />
+      <ServicePopup subservicioSlug="analisis-y-benchmarking" />
     </>
   );
 }

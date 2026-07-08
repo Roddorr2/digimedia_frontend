@@ -23,7 +23,7 @@ export default function SEOLayout({ children }) {
     <>
       {children}
       {/* Reutilización del puente global con los IDs correspondientes a la ruta SEO */}
-      <DynamicServicePopup idServicio={1} idSubservicio={4} />
+      <DynamicServicePopup subservicioSlug="seo" />
     </>
   );
 }

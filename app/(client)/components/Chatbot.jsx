@@ -66,7 +66,7 @@ function BotAvatar({ size = 28 }) {
     >
       <Image
         src={CHATBOT_IMG}
-        alt="Maya"
+        alt="Xiomara"
         width={size}
         height={size}
         className="object-cover w-full h-full"
@@ -117,7 +117,7 @@ function FloatingButtonFace() {
     >
       <Image
         src={CHATBOT_IMG}
-        alt="Abrir chat con Maya"
+        alt="Abrir chat con Xiomara"
         width={70}
         height={70}
         className="object-cover w-full h-full"
@@ -558,7 +558,7 @@ focus:ring-[#ffb800b8]
             onMouseLeave={handleMouseLeave}
             className="flex-shrink-0 transition-all duration-300 animate-heartbeat"
             style={{ width: "70px", height: "70px" }}
-            aria-label="Abrir chat con Maya"
+            aria-label="Abrir chat con Xiomara"
           >
             <FloatingButtonFace />
           </button>

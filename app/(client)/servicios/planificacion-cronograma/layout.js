@@ -23,7 +23,7 @@ export default function PlanCronogramaLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={2} idSubservicio={5} />
+      <ServicePopup subservicioSlug="estrategia-de-contenido" />
     </>
   );
 }
