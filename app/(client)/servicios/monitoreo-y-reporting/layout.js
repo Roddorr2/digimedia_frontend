@@ -24,7 +24,7 @@ export default function MonitoreoReportingLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={4} idSubservicio={16} />
+      <ServicePopup subservicioSlug="monitoreo-y-reporting" />
     </>
   );
 }

@@ -23,7 +23,7 @@ export default function DiseñoPautasLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={2} idSubservicio={6} />
+      <ServicePopup subservicioSlug="diseno-pautas" />
     </>
   );
 }

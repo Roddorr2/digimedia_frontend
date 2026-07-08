@@ -72,19 +72,20 @@ export default function Header2() {
   const closeMenu = () => {
     setMenuOpen(false);
     setOpenSubmenu(null);
-    const cb = document.getElementById("menucheckbox");
-    if (cb) cb.checked = false;
   };
 
   const handleSubmenuClick = (name) => {
     setOpenSubmenu((prev) => (prev === name ? null : name));
   };
 
+  const handleMouseEnter = (name) => {
+    if (!isMobile) setOpenSubmenu(name);
+  };
+
   const handleMouseLeave = () => {
     if (!isMobile) setOpenSubmenu(null);
   };
 
-  // Inline style — maneja desktop Y mobile sin depender de clase CSS
   const submenuStyle = (name) => {
     if (isMobile) {
       return openSubmenu === name
@@ -92,8 +93,9 @@ export default function Header2() {
             position: "static",
             maxHeight: "400px",
             pointerEvents: "auto",
-            padding: "4px 0",
+            padding: "8px 0",
             overflow: "visible",
+            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
           }
         : {
             position: "static",
@@ -101,6 +103,7 @@ export default function Header2() {
             pointerEvents: "none",
             padding: "0",
             overflow: "hidden",
+            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
           };
     } else {
       return openSubmenu === name
@@ -109,23 +112,33 @@ export default function Header2() {
             visibility: "visible",
             transform: "translateY(0)",
             pointerEvents: "auto",
+            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
           }
-        : {};
+        : {
+            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
+          };
     }
   };
 
-  // Feedback táctil en mobile
   const touchStyle = (id) => ({
-    backgroundColor: touchedItem === id ? "rgba(255,255,255,0.18)" : "",
+    backgroundColor: touchedItem === id ? "rgba(255,255,255,0.1)" : "",
     transition: "background-color 0.15s ease",
   });
+
+  const getNavColor = (isActiveCheck) => 
+    isActiveCheck ? "!text-[#ffb800] !font-bold" : "!text-white hover:!text-[#f4d534] transition-colors";
 
   return (
     <header
       ref={menuRef}
       className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
+      style={{
+        background: "linear-gradient(90deg, #000118 0%, #100043 40%, #130049 75%, #410c89 100%)",
+        color: "white",
+        borderBottom: scrolled ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
+      }}
     >
-      <div className={styles.contenidoHeader}>
+      <div className={`${styles.contenidoHeader} flex justify-between items-center w-full px-4 md:px-8`}>
         <div className={`${styles.logoHeader} flex items-center`}>
           <Link href="/" onClick={closeMenu}>
             <Image
@@ -133,15 +146,15 @@ export default function Header2() {
               alt="Logo Digimedia Marketing"
               width={200}
               height={85}
-              className="my-auto"
+              className="my-auto object-contain"
               sizes="200px"
             />
           </Link>
         </div>
 
-        <div className={styles.seccionesHeader}>
+        <div className={`${styles.seccionesHeader} flex items-center`}>
           {isAuthenticated && (
-            <Link href="/dashboard/main" className={styles.userButton}>
+            <Link href="/dashboard/main" className={`${styles.userButton} text-white hover:text-[#ffb800] mr-4`}>
               <UserRound size={20} strokeWidth={2.5} />
             </Link>
           )}
@@ -156,7 +169,7 @@ export default function Header2() {
               if (menuOpen) setOpenSubmenu(null);
             }}
           />
-          <label htmlFor="menucheckbox">
+          <label htmlFor="menucheckbox" className="md:hidden">
             <Image
               src="/headerFooter/menu-principal.webp"
               alt="icono de menú principal"
@@ -167,11 +180,11 @@ export default function Header2() {
           </label>
 
           <ul
-            className={`${styles.menuHorizontal} ${menuOpen ? styles.menuOpen : ""}`}
+            className={`${styles.menuHorizontal} ${menuOpen ? styles.menuOpen : ""} flex items-center md:gap-8`}
           >
             {/* Inicio */}
             <li
-              className={isActive("/") ? styles.active : ""}
+              className={styles.menuItem}
               style={touchStyle("inicio")}
               onTouchStart={() => setTouchedItem("inicio")}
               onTouchEnd={() => {
@@ -180,106 +193,14 @@ export default function Header2() {
               }}
               onClick={closeMenu}
             >
-              <Link href="/">Inicio</Link>
-            </li>
-
-            {/* Servicios */}
-            <li
-              className={`cursor-pointer ${isActive("/servicios") ? styles.active : ""}`}
-              style={touchStyle("services")}
-              onTouchStart={() => setTouchedItem("services")}
-              onTouchEnd={() => setTouchedItem(null)}
-              onClick={() => handleSubmenuClick("services")}
-              onMouseLeave={handleMouseLeave}
-            >
-              <p className="flex justify-center items-center gap-1">
-                Servicios{" "}
-                <ChevronDown
-                  className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "services" ? styles.chevronOpen : ""}`}
-                />
-              </p>
-              <ul
-                className={`${styles.menuVertical} ${styles.menuVerticalDark}`}
-                style={submenuStyle("services")}
-              >
-                <li
-                  className={
-                    isActive("/servicios/desing-desarrollo")
-                      ? styles["active-sub"]
-                      : ""
-                  }
-                  style={touchStyle("s1")}
-                  onTouchStart={() => setTouchedItem("s1")}
-                  onTouchEnd={() => setTouchedItem(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeMenu();
-                  }}
-                >
-                  <Link href="/servicios/desing-desarrollo">
-                    Diseño y Desarrollo Web
-                  </Link>
-                </li>
-                <li
-                  className={
-                    isActive("/servicios/gestion-redes")
-                      ? styles["active-sub"]
-                      : ""
-                  }
-                  style={touchStyle("s2")}
-                  onTouchStart={() => setTouchedItem("s2")}
-                  onTouchEnd={() => setTouchedItem(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeMenu();
-                  }}
-                >
-                  <Link href="/servicios/gestion-redes">
-                    Gestión de Redes Sociales
-                  </Link>
-                </li>
-                <li
-                  className={
-                    isActive("/servicios/marketing-gestion")
-                      ? styles["active-sub"]
-                      : ""
-                  }
-                  style={touchStyle("s3")}
-                  onTouchStart={() => setTouchedItem("s3")}
-                  onTouchEnd={() => setTouchedItem(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeMenu();
-                  }}
-                >
-                  <Link href="/servicios/marketing-gestion">
-                    Marketing y Gestión Digital
-                  </Link>
-                </li>
-                <li
-                  className={
-                    isActive("/servicios/branding-desing")
-                      ? styles["active-sub"]
-                      : ""
-                  }
-                  style={touchStyle("s4")}
-                  onTouchStart={() => setTouchedItem("s4")}
-                  onTouchEnd={() => setTouchedItem(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeMenu();
-                  }}
-                >
-                  <Link href="/servicios/branding-desing">
-                    Branding y Diseño
-                  </Link>
-                </li>
-              </ul>
+              <Link href="/" className={getNavColor(isActive("/"))}>
+                Inicio
+              </Link>
             </li>
 
             {/* Nosotros */}
             <li
-              className={isActive("/nosotros") ? styles.active : ""}
+              className={styles.menuItem}
               style={touchStyle("nosotros")}
               onTouchStart={() => setTouchedItem("nosotros")}
               onTouchEnd={() => {
@@ -288,12 +209,57 @@ export default function Header2() {
               }}
               onClick={closeMenu}
             >
-              <Link href="/nosotros">Nosotros</Link>
+              <Link href="/nosotros" className={getNavColor(isActive("/nosotros"))}>
+                Nosotros
+              </Link>
             </li>
 
-            {/* Blog */}
+            {/* Servicios */}
             <li
-              className={isActive("/blog") ? styles.active : ""}
+              className={`cursor-pointer relative ${styles.menuItem} ${openSubmenu === "services" ? "!bg-[#130049]" : ""}`}
+              style={touchStyle("services")}
+              onTouchStart={() => setTouchedItem("services")}
+              onTouchEnd={() => setTouchedItem(null)}
+              onClick={() => handleSubmenuClick("services")}
+              onMouseEnter={() => handleMouseEnter("services")}
+              onMouseLeave={handleMouseLeave}
+            >
+              <p className={`flex justify-center items-center gap-2 px-4 py-3 h-full ${getNavColor(isActive("/servicios") || openSubmenu === "services")}`}>
+                Servicios
+                <ChevronDown
+                  className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "services" ? styles.chevronOpen : ""}`}
+                />
+              </p>
+              <ul
+                className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full left-0 mt-0 min-w-[280px] py-4 flex flex-col gap-4 z-50`}
+                style={submenuStyle("services")}
+              >
+                <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                  <Link href="/servicios/desing-desarrollo" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                    Diseño y Desarrollo Web
+                  </Link>
+                </li>
+                <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                  <Link href="/servicios/gestion-redes" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                    Gestión de Redes Sociales
+                  </Link>
+                </li>
+                <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                  <Link href="/servicios/marketing-gestion" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                    Marketing y Gestión Digital
+                  </Link>
+                </li>
+                <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                  <Link href="/servicios/branding-desing" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                    Branding y Diseño
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            {/* Blogs */}
+            <li
+              className={styles.menuItem}
               style={touchStyle("blog")}
               onTouchStart={() => setTouchedItem("blog")}
               onTouchEnd={() => {
@@ -302,72 +268,48 @@ export default function Header2() {
               }}
               onClick={closeMenu}
             >
-              <Link href="/blog">Blog</Link>
+              <Link href="/blog" className={getNavColor(isActive("/blog"))}>
+                Blogs
+              </Link>
             </li>
 
-            {/* Más */}
+            {/* Mas */}
             <li
-              className={`cursor-pointer ${
-                isActive("/preguntas") ||
-                isActive("/contactanos") ||
-                (!isAuthenticated && isActive("/login"))
-                  ? styles.active
-                  : ""
-              }`}
+              className={`cursor-pointer relative ${styles.menuItem} ${openSubmenu === "more" ? "!bg-[#130049]" : ""}`}
               style={touchStyle("more")}
               onTouchStart={() => setTouchedItem("more")}
               onTouchEnd={() => setTouchedItem(null)}
               onClick={() => handleSubmenuClick("more")}
+              onMouseEnter={() => handleMouseEnter("more")}
               onMouseLeave={handleMouseLeave}
             >
-              <p className="flex justify-center items-center gap-1">
-                Más{" "}
+              <p className={`flex justify-center items-center gap-2 px-4 py-3 h-full ${getNavColor(
+                isActive("/preguntas") || isActive("/contactanos") || (!isAuthenticated && isActive("/login")) || openSubmenu === "more"
+              )}`}>
+                Mas
                 <ChevronDown
                   className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "more" ? styles.chevronOpen : ""}`}
                 />
               </p>
               <ul
-                className={`${styles.menuVertical} ${styles.menuVerticalDark} ${styles.menuVerticalRight}`}
+                className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
                 style={submenuStyle("more")}
               >
-                <li
-                  className={isActive("/preguntas") ? styles["active-sub"] : ""}
-                  style={touchStyle("m1")}
-                  onTouchStart={() => setTouchedItem("m1")}
-                  onTouchEnd={() => setTouchedItem(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeMenu();
-                  }}
-                >
-                  <Link href="/preguntas">Preguntas Frecuentes</Link>
+                <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                  <Link href="/preguntas" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                    Preguntas Frecuentes
+                  </Link>
                 </li>
-                <li
-                  className={
-                    isActive("/contactanos") ? styles["active-sub"] : ""
-                  }
-                  style={touchStyle("m2")}
-                  onTouchStart={() => setTouchedItem("m2")}
-                  onTouchEnd={() => setTouchedItem(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    closeMenu();
-                  }}
-                >
-                  <Link href="/contactanos">Contacto</Link>
+                <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                  <Link href="/contactanos" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                    Contacto
+                  </Link>
                 </li>
                 {!isAuthenticated && (
-                  <li
-                    className={isActive("/login") ? styles["active-sub"] : ""}
-                    style={touchStyle("m3")}
-                    onTouchStart={() => setTouchedItem("m3")}
-                    onTouchEnd={() => setTouchedItem(null)}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      closeMenu();
-                    }}
-                  >
-                    <Link href="/login">Ingresar</Link>
+                  <li onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                    <Link href="/login" className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
+                      Ingresar
+                    </Link>
                   </li>
                 )}
               </ul>
@@ -376,51 +318,35 @@ export default function Header2() {
             {/* Panel (solo autenticado) */}
             {isAuthenticated && (
               <li
-                className={`cursor-pointer ${styles.panelItem} ${isActive("/login") || isActive("/dashboard/main") ? styles.active : ""}`}
+                className={`cursor-pointer relative ${styles.panelItem} ${openSubmenu === "panel" ? "!bg-[#130049]" : ""}`}
                 style={touchStyle("panel")}
                 onTouchStart={() => setTouchedItem("panel")}
                 onTouchEnd={() => setTouchedItem(null)}
                 onClick={() => handleSubmenuClick("panel")}
+                onMouseEnter={() => handleMouseEnter("panel")}
                 onMouseLeave={handleMouseLeave}
               >
-                <p className="flex items-center gap-1">
-                  Panel{" "}
+                <p className={`flex items-center gap-2 px-4 py-3 h-full ${getNavColor(isActive("/dashboard/main") || openSubmenu === "panel")}`}>
+                  Panel
                   <ChevronDown
                     className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "panel" ? styles.chevronOpen : ""}`}
                   />
                 </p>
                 <ul
-                  className={`${styles.menuVertical} ${styles.menuVerticalRight}`}
+                  className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
                   style={submenuStyle("panel")}
                 >
                   {filterLinks.map((link) => (
-                    <li
-                      key={link.href}
-                      className={
-                        isActive(link.href) ? styles["active-sub"] : ""
-                      }
-                      style={touchStyle(link.href)}
-                      onTouchStart={() => setTouchedItem(link.href)}
-                      onTouchEnd={() => setTouchedItem(null)}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          closeMenu();
-                        }}
-                      >
+                    <li key={link.href} onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
+                      <Link href={link.href} className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
                         {link.title}
                       </Link>
                     </li>
                   ))}
-                  <li
-                    style={touchStyle("logout")}
-                    onTouchStart={() => setTouchedItem("logout")}
-                    onTouchEnd={() => setTouchedItem(null)}
-                  >
+                  <li className="w-full">
                     <Link
                       href="#"
+                      className="!block !w-full !px-4 !py-2 !text-center !font-extrabold !text-[#f4d534] hover:!text-white transition-colors text-[15px]"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();

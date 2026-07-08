@@ -11,11 +11,17 @@ const WhatsAppButton = dynamic(
   { ssr: false }
 );
 
+const MayaChatbot = dynamic(
+  () => import("./Chatbot"),
+  { ssr: false }
+);
+
 export default function ClientSideComponents() {
   return (
     <>
       <Clientes />
       <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

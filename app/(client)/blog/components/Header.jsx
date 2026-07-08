@@ -5,15 +5,23 @@ import Swal from "sweetalert2";
 import Fetch from "../services/fetch";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+//agregar importacion para imagen por defecto que no se mostraba tras el nuevo arreglo 
+import { DEFAULT_IMAGES } from "@/app/edition/constants/defaults";
 
 const getBackgroundStyle = (bgColor = "#1E40AF", bgType = "solid", bgColors = "") => {
   if (bgType === "gradient" && bgColors) {
-    const colors = bgColors.split(",").map(c => c.trim()).filter(Boolean);
-    if (colors.length >= 2) {
-      if (colors.length >= 3) {
-        return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
-      }
-      return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
+    const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+    let direction = "";
+    let colorParts = parts;
+    if (parts[0]?.startsWith("to ")) {
+      direction = parts[0];
+      colorParts = parts.slice(1);
+    }
+    if (colorParts.length >= 3) {
+      return { backgroundImage: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
+    }
+    if (colorParts.length >= 2) {
+      return { backgroundImage: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
     }
   }
   return { backgroundColor: bgColor };
@@ -32,6 +40,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
         setError(null);
         const response = await Fetch.fetchBlogHead(id_blog_head);
         setDataResponse(response);
+        console.log("🔍 ¿Qué viene de Laravel en el Editor?:", response?.imagen);
       } catch (error) {
         console.error("Error fetching blog header:", error);
         setError("Ocurrió un error al cargar el encabezado");
@@ -125,13 +134,20 @@ return (
     >
 
       {/* Imagen de fondo visible */}
+      {/* se agrego una correccion en base a un error en no mostrar la img por defecto */}
       <Image
-        src={`${data.imagen.path}?v=${Date.now()}`}
+        src={!data.imagen?.path || data.imagen.path.includes("fondo_blog_extend")
+      ? DEFAULT_IMAGES.header.image1
+      : data.imagen.path.startsWith('http')
+      ? data.imagen.path 
+      : `${process.env.NEXT_PUBLIC_API_URL_DEV}/storage/${data.imagen.path}`
+  }
         alt={data.alt || "Imagen de encabezado"}
         title={data.title || ""}
         fill
         className="object-cover"
         priority
+        unoptimized={true}
       />
 
       {/* Capa de oscurecimiento según tipo */}
@@ -146,7 +162,7 @@ return (
 
 
       {/* Contenido sobre la imagen */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12">
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.7)" }}>
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">
           {data.titulo}
         </h1>

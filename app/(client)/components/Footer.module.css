@@ -1,6 +1,6 @@
 /* Footer principal */
 .mainFooter {
-  background-color: #b525fe;
+ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
   color: white;
   padding: 20px 40px 20px;
 }

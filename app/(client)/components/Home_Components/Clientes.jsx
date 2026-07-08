@@ -1,157 +1,127 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+
 import Image from "next/image";
 
-import "swiper/css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css/navigation";
-
 export default function Clientes() {
-  // Aquí se verificarán las rutas de imágenes del home
   const clientes = [
     {
-      src: "/image-home/contigo_voy color.webp",
+      src: "/image-home/CONTIGO.webp",
       alt: "Contigo Voy logo",
       width: 200,
       height: 100,
+      displayHeight: 120,
     },
-
     {
-      src: "/image-home/digimedia color.webp",
+      src: "/image-home/DM 1.webp",
       alt: "Digimedia logo",
-      width: 180,
+      width: 250,
       height: 95,
+      displayHeight: 115,
     },
-
     {
-      src: "/image-home/nhl color.webp",
+      src: "/image-home/image-A1.webp",
       alt: "NHL logo",
-      width: 130,
+      width: 125,
       height: 75,
+      displayHeight: 100,
     },
     {
-      src: "/image-home/tami color.webp",
-      alt: "Tami logo",
-      width: 190,
-      height: 95,
-    },
-    {
-      src: "/image-home/yuntas color.webp",
-      alt: "Yuntas logo",
-      width: 150,
-      height: 75,
-    },
-    {
-      src: "/image-home/prevemedic color.webp",
-      alt: "prevemedic logo",
-      width: 300,
-      height: 100,
-    },
-    {
-      src: "/image-home/mj-eventos color.png",
+      src: "/image-home/img-MJ-1.webp",
       alt: "MJ eventos logo",
       width: 180,
       height: 95,
+      displayHeight: 93,
     },
     {
-      src: "/image-home/asden color.png",
+      src: "/image-home/Tami-color-1.webp",
+      alt: "Tami logo",
+      width: 125,
+      height: 95,
+      displayHeight: 100,
+    },
+    {
+      src: "/image-home/YUNTAS 1.webp",
+      alt: "Yuntas logo",
+      width: 150,
+      height: 75,
+      displayHeight: 115,
+    },
+    {
+      src: "/image-home/PREVEMEDIC-1.webp",
+      alt: "Prevemedic logo",
+      width: 300,
+      height: 100,
+      displayHeight: 130,
+    },
+    {
+      src: "/image-home/ASDEN-1.webp",
       alt: "Asden logo",
-      width: 100,
+      width: 180,
       height: 65,
+      displayHeight: 125,
     },
   ];
 
   return (
-    <section className="my-6 mx-auto max-w-[1200px] px-6">
-      <style>{`
-        .clients-bullet {
-          width: 12px;
-          height: 12px;
-          border-radius: 9999px;
-          background-color: #d1d5db;
-          transition: all 0.3s ease;
-          cursor: pointer;
-        }
+    <section
+      className="w-full pt-20 pb-32"
+      style={{
+        background:
+          "linear-gradient(135deg, #100043 0%, #130049 40%, #410c89 100%)",
+      }}
+    >
+      <div className="max-w-[1200px] mx-auto px-6">
+        <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-12">
+          NUESTROS CLIENTES
+        </h2>
 
-        .clients-bullet-active {
-          width: 20px;
-          background-color: #b525fe;
+        <div
+          className="relative overflow-hidden py-10"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            maskImage:
+              "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          }}
+        >
+          <div className="marquee flex gap-[20px] w-max">
+            {[...clientes, ...clientes].map((cliente, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-[220px] h-[150px] flex items-center justify-center"
+              >
+                <Image
+                  src={cliente.src}
+                  alt={cliente.alt}
+                  width={cliente.width}
+                  height={cliente.height}
+                  style={{
+                    height: `${cliente.displayHeight}px`,
+                    width: "auto",
+                  }}
+                  className="
+                    object-contain
+                    grayscale brightness-0 invert opacity-60  /* Gris (dim-white monochrome) por defecto */
+                    transition-all duration-500 ease-in-out
+                    hover:grayscale hover:brightness-0 hover:invert hover:opacity-100 hover:scale-110 /* Blanco monocromo al pasar */
+                  "
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        .marquee {
+          animation: scroll 20s linear infinite;
+          will-change: transform;
+        }
+        @keyframes scroll {
+          from { transform: translate3d(0,0,0); }
+          to { transform: translate3d(-50%,0,0); }
         }
       `}</style>
-
-      <h2 className="text-4xl md:text-5xl text-[#b525fe] text-center md:text-left mb-0 mt-20">
-        NUESTROS CLIENTES
-      </h2>
-
-      <div className="relative w-full overflow-hidden">
-        {/* Flecha izquierda */}
-        <button
-          className="clients-prev absolute top-1/2 left-0 -translate-y-1/2 z-10 px-0
-             transition-transform duration-200 ease-out hover:scale-110"
-          aria-label="Anterior"
-        >
-          <span className="text-[#b525fe] text-3xl">&#10094;</span>
-        </button>
-
-        {/* Flecha derecha */}
-        <button
-          className="clients-next absolute top-1/2 right-0 -translate-y-1/2 z-10 px-0
-             transition-transform duration-200 ease-out hover:scale-110"
-          aria-label="Siguiente"
-        >
-          <span className="text-[#b525fe] text-3xl">&#10095;</span>
-        </button>
-
-        {/* Carrusel */}
-        <Swiper
-          modules={[Navigation, Pagination]}
-          loop
-          speed={700}
-          spaceBetween={0}
-          navigation={{
-            prevEl: ".clients-prev",
-            nextEl: ".clients-next",
-          }}
-          pagination={{
-            clickable: true,
-            el: ".clients-pagination",
-            bulletClass: "clients-bullet",
-            bulletActiveClass: "clients-bullet-active",
-          }}
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            640: { slidesPerView: 2 },
-            768: { slidesPerView: 3 },
-            1024: { slidesPerView: 4 },
-          }}
-        >
-          {clientes.map((cliente, index) => (
-            <SwiperSlide key={index}>
-              {/* Item (idéntico a tu diseño) */}
-              <div className="flex-shrink-0 w-full h-56 px-2">
-                <div className="w-full h-full flex items-center justify-center">
-                  {/* <a href={cliente.link} target="_blank" rel="noopener noreferrer"> */}
-                  <Image
-                    src={cliente.src}
-                    alt={cliente.alt}
-                    width={cliente.width}
-                    height={cliente.height}
-                    className="object-contain"
-                    loading="lazy"
-                    decoding="async"
-                    priority={false}
-                  />
-                  {/* </a> */}
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        {/* Indicadores dinamicos */}
-        <div className="clients-pagination absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20" />
-      </div>
     </section>
   );
 }

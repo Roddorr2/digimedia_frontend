@@ -15,13 +15,15 @@ import {
 
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+import Swal from "sweetalert2";
+import { validateImageFile, getImageRecommendationText, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageValidation";
 
 // Configuración centralizada
 import {
   getPlantillaConfig,
   DEFAULT_HEADER_VALIDATION_CONFIG,
 } from "../../config/index";
-
+import { DEFAULT_IMAGES } from "../../constants/defaults";
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
   container:
@@ -61,7 +63,7 @@ const DEFAULT_PLACEHOLDERS = {
 export default function FormHeader({
   // Props de datos
   data = {},
-  defaultImage = "/blog/fondo_blog_extend.png",
+  defaultImage = DEFAULT_IMAGES.header.image1,
 
   // Props de configuración
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,
@@ -81,14 +83,13 @@ export default function FormHeader({
 
   // Props adicionales
   className = "",
-  imageRecommendedSize = "1080x520 píxeles",
+  imageRecommendedSize = getImageRecommendationText("header"),
 }) {
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
-  const [previewImageUrl, setPreviewImageUrl] = useState(
-    data.public_image || defaultImage
-  );
+  //modificacion para imagen preview 
+  const [previewImageUrl, setPreviewImageUrl] = useState(defaultImage);
 
   // Combinar estilos
   const mergedStyles = { ...DEFAULT_STYLES, ...styles };
@@ -154,11 +155,27 @@ export default function FormHeader({
 
       try {
         setUploading(true);
-        const tempUrl = URL.createObjectURL(file);
+        
+        // Validar y convertir a WebP automáticamente si es necesario
+        const validation = await validateImageFile(file, "header");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
         setPreviewImageUrl(tempUrl);
 
-        // Notificar al componente padre
-        onImageChange?.({ file, tempUrl });
+        // Notificar al componente padre con el archivo convertido
+        onImageChange?.({ file: processedFile, tempUrl });
       } catch (error) {
         // El manejo de errores lo deja al componente padre
         onImageChange?.({ error });
@@ -179,39 +196,56 @@ export default function FormHeader({
     onImageDelete?.();
   }, [defaultImage, onImageDelete, previewImageUrl]);
 
-  // Sincronizar imagen cuando cambie data.public_image (útil para modo edición)
+  // Sincronizar imagen cuando cambie data.public_image 
+  const currentImagePath = data?.url_image ||                 
+    data?.imagen?.path ||              
+    data?.blog_head?.url_image ||      
+    data?.blogHead?.url_image ||       
+    data?.public_image;
+ // Sincronizar imagen cuando cambie la data desde Laravel (Modo Edición)
   useEffect(() => {
-    if (data.public_image && data.public_image !== defaultImage) {
-      // Verificar si es un blob URL temporal, una URL de Cloudinary, o una URL normal
-      if (data.public_image.startsWith("blob:")) {
-        // Es un blob URL temporal, usarlo directamente para preview
-        setPreviewImageUrl(data.public_image);
-      } else if (
-        data.public_image.startsWith("http") ||
-        data.public_image.startsWith("/") ||
-        data.public_image.includes("cloudinary.com") ||
-        data.public_image.includes("res.cloudinary.com")
-      ) {
-        // Es una URL normal o de Cloudinary, usarla directamente
-        setPreviewImageUrl(data.public_image);
-      } else {
-        // Fallback a imagen por defecto
-        setPreviewImageUrl(defaultImage);
-      }
-    } else {
-      // Si no hay imagen o es la por defecto, mostrar la por defecto
-      setPreviewImageUrl(defaultImage);
-    }
-  }, [data.public_image, defaultImage]);
+  // Detectar si viene vacío o es explícitamente la imagen por defecto del sistema
+  const esImagenPorDefecto = 
+    !currentImagePath || 
+    currentImagePath.includes("fondo_blog_extend");
+
+  if (esImagenPorDefecto) {
+    
+    setPreviewImageUrl(defaultImage);
+    return;
+  }
+
+  // Si es un Blob temporal de una imagen recién subida por el usuario
+  if (currentImagePath.startsWith("blob:") || currentImagePath.startsWith("http")) {
+    
+    setPreviewImageUrl(currentImagePath);
+    return;
+  }
+
+  //Si la ruta de la BD ya incluye "/storage/" al inicio, solo le pegamos el dominio del backend
+  if (currentImagePath.startsWith("/storage/") || currentImagePath.includes("storage/")) {
+    // Limpiamos barras duplicadas por si acaso (ej: de //storage a /storage)
+    const rutaLimpia = currentImagePath.startsWith("/") ? currentImagePath : `/${currentImagePath}`;
+    const completa = `${process.env.NEXT_PUBLIC_API_URL_DEV}${rutaLimpia}`;
+    
+    setPreviewImageUrl(completa);
+  } else {
+    //Si la BD guardara solo "images/templates...", aquí sí le metemos el /storage/ de fallback
+    const completa = `${process.env.NEXT_PUBLIC_API_URL_DEV}/storage/${currentImagePath}`;
+    
+    setPreviewImageUrl(completa);
+  }
+}, [currentImagePath, defaultImage]);
 
   // Limpiar blob URLs al desmontar el componente para evitar memory leaks
-  useEffect(() => {
-    return () => {
-      if (previewImageUrl && previewImageUrl.startsWith("blob:")) {
-        URL.revokeObjectURL(previewImageUrl);
-      }
-    };
-  }, [previewImageUrl]);
+  //comentado porque generaba la eliminacion de la img guardada para preview
+  //useEffect(() => {
+    //return () => {
+      //if (previewImageUrl && previewImageUrl.startsWith("blob:")) {
+        //URL.revokeObjectURL(previewImageUrl);
+     // }
+    //};
+  //}, [previewImageUrl]);
 
   // Validar datos iniciales (especialmente importante en modo edición)
   useEffect(() => {
@@ -436,13 +470,38 @@ export default function FormHeader({
                       <input
                         type="text"
                         placeholder="#color1,#color2,#color3"
-                        value={data.bg_colors || ""}
-                        onChange={(e) => handleFieldChange({ target: { name: "bg_colors", value: e.target.value } })}
+                        value={data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(data.bg_colors.indexOf(",") + 1) : (data.bg_colors || "")}
+                        onChange={(e) => {
+                          const prefix = data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(0, data.bg_colors.indexOf(",") + 1) : "";
+                          handleFieldChange({ target: { name: "bg_colors", value: `${prefix}${e.target.value}` } });
+                        }}
                         className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
                         title="Gradiente: #color1,#color2,#color3"
                       />
                     )}
                   </div>
+
+                  {/* Selector de dirección del gradiente */}
+                  {data.bg_type === "gradient" && (
+                    <div className="mt-2">
+                      <select
+                        value={data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(0, data.bg_colors.indexOf(",")) : ""}
+                        onChange={(e) => {
+                          const base = data.bg_colors?.startsWith("to ")
+                            ? data.bg_colors.slice(data.bg_colors.indexOf(",") + 1)
+                            : (data.bg_colors || "");
+                          const newVal = e.target.value ? `${e.target.value},${base}` : base;
+                          handleFieldChange({ target: { name: "bg_colors", value: newVal } });
+                        }}
+                        className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-1 text-sm"
+                      >
+                        <option value="">Izquierda → Derecha</option>
+                        <option value="to bottom">Arriba → Abajo</option>
+                        <option value="to bottom right">Diagonal ↘</option>
+                        <option value="to top">Abajo → Arriba</option>
+                      </select>
+                    </div>
+                  )}
 
                   {(data.bg_type === "gradient" && data.bg_colors) && (
                     <div className="mt-2 text-xs text-gray-400">
@@ -594,7 +653,7 @@ export default function FormHeader({
                     )}
                     <input
                       type="file"
-                      accept="image/*"
+                      accept={ACCEPTED_IMAGE_FORMATS}
                       className="hidden"
                       onChange={handleImageUpload}
                       disabled={uploading}
@@ -609,6 +668,15 @@ export default function FormHeader({
                     >
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
+                  </div>
+                </div>
+                <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
+                  <div className="font-semibold text-purple-300">Recomendaciones de imagen (Header):</div>
+                  <div className="flex flex-col gap-0.5 text-gray-400">
+                    <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte a WebP automáticamente)</span>
+                    <span>• <strong className="text-yellow-400">Recomendado: 1280×600 px</strong></span>
+                    <span>• Rango permitido: <strong className="text-gray-300">800×400 a 1920×800 px</strong></span>
+                    <span>• Peso máximo: <strong className="text-gray-300">500 KB</strong></span>
                   </div>
                 </div>
               </div>

@@ -21,7 +21,7 @@ export const getPlantillaConfig = (plantillaId) => {
   const config = PLANTILLAS[plantillaId];
   if (!config) {
     console.warn(
-      `Plantilla ${plantillaId} no encontrada, usando Plantilla 1 por defecto`
+      `Plantilla ${plantillaId} no encontrada, usando Plantilla 1 por defecto`,
     );
     return PLANTILLA1_CONFIG;
   }
@@ -85,7 +85,7 @@ export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 50, required: true },
   texto_frase: { min: 10, max: 140, required: true },
   texto_descripcion: { min: 10, max: 240, required: true },
-  titulo_enlace: { min: 5, max: 30, required: false },
+  titulo_enlace: { min: 5, max: 50, required: false },
   alt: { min: 60, max: 240, required: false },
   title: { min: 50, max: 140, required: false },
   meta_title: { min: 50, max: 120, required: false },

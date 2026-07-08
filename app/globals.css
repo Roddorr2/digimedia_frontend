@@ -44,3 +44,81 @@ body {
 .animate-slide-in-right {
   animation: slide-in-right 0.3s ease-out;
 }
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+.dropping-texts {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.dropping-word {
+  display: inline-block;
+  font-weight: 600;
+  color: #ffb800;
+  font-size: 1em;
+  vertical-align: -2px;
+  animation: fadeInScale 0.5s forwards;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animación latido para botones flotantes */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 3s ease-in-out infinite;
+}
+
+/* Chrome, Edge y Safari */
+
+.chat-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-scroll::-webkit-scrollbar-track {
+  background: #000118;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: #100043;
+  border-radius: 999px;
+  border: 2px solid #000118;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: #ffb800;
+}
+.chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #100043 #000118;
+}

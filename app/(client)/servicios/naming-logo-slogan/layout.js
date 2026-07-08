@@ -23,7 +23,7 @@ export default function NamingLogoSloganLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={3} idSubservicio={10} />
+      <ServicePopup subservicioSlug="naming-logo-slogan" />
     </>
   );
 }

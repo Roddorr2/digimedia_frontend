@@ -23,7 +23,7 @@ export default function ExperienciaUsuarioLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={1} idSubservicio={1} />
+      <ServicePopup subservicioSlug="experiencia-usuario" />
     </>
   );
 }

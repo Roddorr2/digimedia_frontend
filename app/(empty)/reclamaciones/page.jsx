@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import Swal from 'sweetalert2';
@@ -9,6 +9,15 @@ import url from '../../../api/url';
 import { Loader2 } from 'lucide-react';
 
 const URL_API = `${url}/api/reclamaciones`;
+
+const SERVICIOS = [
+  { id: 1, nombre: "Diseño y Desarrollo Web" },
+  { id: 2, nombre: "Gestión de Redes Sociales" },
+  { id: 3, nombre: "Marketing y Gestión Digital" },
+  { id: 4, nombre: "Branding y Diseño" },
+];
+
+const TIPOS_DOCUMENTO = ["DNI", "RUC", "CE", "PTP", "OTROS"];
 
 const ComplaintForm = () => {
 
@@ -48,6 +57,60 @@ const ComplaintForm = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.navigator?.modelContext)
+      return;
+
+    const unregister = window.navigator.modelContext.registerTool({
+      name: "submit_complaint_form",
+      description: "Envía una reclamación o queja con datos personales e información del incidente",
+      inputSchema: {
+        type: "object",
+        properties: {
+          nombre: { type: "string", description: "Nombre del usuario" },
+          apellido: { type: "string", description: "Apellido del usuario" },
+          documento: { type: "string", enum: TIPOS_DOCUMENTO, description: "Tipo de documento de identidad" },
+          numeroDocumento: { type: "string", description: "Número del documento" },
+          email: { type: "string", format: "email", description: "Correo electrónico" },
+          celular: { type: "string", description: "Número de teléfono" },
+          direccion: { type: "string", description: "Dirección del usuario" },
+          distrito: { type: "string", description: "Distrito" },
+          ciudad: { type: "string", description: "Ciudad" },
+          tipoReclamo: { type: "string", enum: ["QUEJA", "RECLAMO"], description: "Tipo de reclamo" },
+          id_servicio: { type: "integer", enum: [1, 2, 3, 4], description: "Servicio contratado" },
+          reclamoPerson: { type: "string", description: "Descripción del incidente" },
+          fechaIncidente: { type: "string", format: "date", description: "Fecha del incidente" },
+          aceptaPoliticaPrivacidad: { type: "boolean", description: "Acepta políticas de privacidad" },
+          checkReclamoForm: { type: "boolean", description: "Confirmación de envío" },
+        },
+        required: ["nombre", "apellido", "email", "celular", "reclamoPerson"],
+      },
+      execute: async ({ nombre, apellido, documento, numeroDocumento, email, celular, direccion, distrito, ciudad, tipoReclamo, id_servicio, reclamoPerson, fechaIncidente }) => {
+        try {
+          const response = await axios.post(
+            URL_API,
+            { nombre, apellido, documento, numeroDocumento, email, celular, direccion, distrito, ciudad, tipoReclamo, id_servicio, reclamoPerson, fechaIncidente },
+            {
+              headers: {
+                Authorization: `Bearer ${getCookie("token")}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            },
+          );
+          return response.status === 201
+            ? { success: true, message: "Reclamación enviada correctamente" }
+            : { success: false, message: "No se pudo enviar" };
+        } catch (error) {
+          return { success: false, message: error.message };
+        }
+      },
+      annotations: { readOnlyHint: false, openWorldHint: true, destructiveHint: false, idempotentHint: false },
+    });
+
+    return () => unregister && unregister();
+  }, []);
 
   const handleSubmit = async (e) => {
     formData.aceptaPoliticaPrivacidad = aceptaPolitica;
@@ -115,7 +178,7 @@ const ComplaintForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-[#6f4be8] relative p-4">
+      <div className="bg-gradient-to-r from-[#1e033f] from-80%  to-[#410C89] relative p-4">
         <button
           onClick={() => window.location.href = '/'}
           className="lg:flex bg-pink-500 hover:bg-pink-400 text-white py-2 px-4 rounded-lg transition-all duration-300 absolute left-10 top-1/2 transform -translate-y-1/2 hidden items-center"
@@ -150,28 +213,30 @@ const ComplaintForm = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-2xl font-bold text-center mb-6">Cuestionario de quejas</h2>
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit} toolname="submit_complaint_form" tooldescription="Envía una reclamación o queja con datos personales e información del incidente">
             <div className="space-y-4">
               <h3 className="font-semibold">Datos Personales:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  placeholder="Nombre"
-                  className="w-full p-2 border rounded"
-                  required
-                />
-                <input
-                  type="text"
-                  name="apellido"
-                  value={formData.apellido}
-                  onChange={handleChange}
-                  placeholder="Apellido"
-                  className="w-full p-2 border rounded"
-                  required
-                />
+<input
+                   type="text"
+                   name="nombre"
+                   value={formData.nombre}
+                   onChange={handleChange}
+                   placeholder="Nombre"
+                   toolparamdescription="Nombre del usuario"
+                   className="w-full p-2 border rounded"
+                   required
+                 />
+                 <input
+                   type="text"
+                   name="apellido"
+                   value={formData.apellido}
+                   onChange={handleChange}
+                   placeholder="Apellido"
+                   toolparamdescription="Apellido del usuario"
+                   className="w-full p-2 border rounded"
+                   required
+                 />
                 <select
                   name="documento"
                   value={formData.documento}
@@ -204,45 +269,49 @@ const ComplaintForm = () => {
                   className="w-full p-2 border rounded"
                   required
                 />
-                <input
-                  type="tel"
-                  name="celular"
-                  value={formData.celular}
-                  onChange={handleChange}
-                  placeholder="Celular"
-                  className="w-full p-2 border rounded"
-                  required
-                />
+<input
+                   type="tel"
+                   name="celular"
+                   value={formData.celular}
+                   onChange={handleChange}
+                   placeholder="Celular"
+                   toolparamdescription="Número de teléfono"
+                   className="w-full p-2 border rounded"
+                   required
+                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <input
-                  type="text"
-                  name="direccion"
-                  value={formData.direccion}
-                  onChange={handleChange}
-                  placeholder="Dirección"
-                  className="w-full p-2 border rounded"
-                  required
-                />
-                <input
-                  type="text"
-                  name="distrito"
-                  value={formData.distrito}
-                  onChange={handleChange}
-                  placeholder="Distrito"
-                  className="w-full p-2 border rounded"
-                  required
-                />
-                <input
-                  type="text"
-                  name="ciudad"
-                  value={formData.ciudad}
-                  onChange={handleChange}
-                  placeholder="Ciudad"
-                  className="w-full p-2 border rounded"
-                  required
-                />
+<input
+                   type="text"
+                   name="direccion"
+                   value={formData.direccion}
+                   onChange={handleChange}
+                   placeholder="Dirección"
+                   toolparamdescription="Dirección del usuario"
+                   className="w-full p-2 border rounded"
+                   required
+                 />
+                 <input
+                   type="text"
+                   name="distrito"
+                   value={formData.distrito}
+                   onChange={handleChange}
+                   placeholder="Distrito"
+                   toolparamdescription="Distrito"
+                   className="w-full p-2 border rounded"
+                   required
+                 />
+                 <input
+                   type="text"
+                   name="ciudad"
+                   value={formData.ciudad}
+                   onChange={handleChange}
+                   placeholder="Ciudad"
+                   toolparamdescription="Ciudad"
+                   className="w-full p-2 border rounded"
+                   required
+                 />
               </div>
             </div>
 
@@ -276,18 +345,19 @@ const ComplaintForm = () => {
 
                 <div className="ml-1">
                   <label htmlFor="fechaIncidente" className="text-gray-500">Fecha Incidente</label>
-                  <input value={formData.fechaIncidente}
-                  onChange={handleChange} id="fechaIncidente" name="fechaIncidente" type="date" className="w-full p-2 border rounded"required/> 
+<input value={formData.fechaIncidente}
+                   onChange={handleChange} id="fechaIncidente" name="fechaIncidente" type="date" toolparamdescription="Fecha del incidente" className="w-full p-2 border rounded"required/>
                 </div>
               </div>
-              <textarea
-                name="reclamoPerson"
-                value={formData.reclamoPerson}
-                onChange={handleChange}
-                placeholder="Indicar incidente"
-                className="w-full p-2 border rounded h-32 ml-1"
-                required
-              />
+<textarea
+                 name="reclamoPerson"
+                 value={formData.reclamoPerson}
+                 onChange={handleChange}
+                 placeholder="Indicar incidente"
+                 toolparamdescription="Descripción del incidente"
+                 className="w-full p-2 border rounded h-32 ml-1"
+                 required
+               />
             </div>
 
             <div className="space-y-4 ">
@@ -322,7 +392,7 @@ const ComplaintForm = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#6f4be8] hover:bg-[#5c40d1]  p-2 rounded text-white transition-all duration-300"
+              className="w-full bg-[#3a0a7a] hover:bg-[#5c40d1]  p-2 rounded text-white transition-all duration-300"
               disabled={isSubmitting}
               title={isSubmitting ? 'Guardando...' : 'Enviar Reclamación'}
             >

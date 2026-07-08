@@ -1,71 +1,169 @@
 "use client";
-import React from "react";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/Chatbot";
 
-import Contactanos from "../components/Contactanos";
-import { UxUiSection } from "../components/uxui-section";
-import { MonitorIcon, Smartphone, PenTool, Layers } from "lucide-react";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function DisenoPauta() {
-  const features = [
+  const servicios = [
     {
-      icon: (
-        <Image
-          src="/servicios/gestion/diseno-pautas/icons/creacion-contenido-planificacion-digital-digimedia.png"
-          title="Creación y planificación de contenido digital | Digimedia Marketing"
-          alt="Ícono de documento con lápiz representando creación y planificación de contenido para marketing digital en Digimedia"
-          className="w-full h-full object-contain"
-          width={48}
-          height={48}
-        />
-      ),
       title: "PLANIFICACIÓN DE CAMPAÑAS",
-      description:
-        "Definimos objetivos, audiencias, presupuesto y estructura de anuncios. Creamos estrategias de segmentación precisas alineadas a los objetivos del negocio.",
+      text: "Definimos objetivos, audiencias, presupuesto y estructura de anuncios. Creamos estrategias de segmentación precisas alineadas a los objetivos del negocio.",
+      image: "/servicios/gestion/diseno-pautas/icons/creacion-contenido-planificacion-digital-digimedia.png",
+      imageTitle: "Creación y planificación de contenido digital | Digimedia Marketing",
+      imageAlt: "Ícono de documento con lápiz representando creación y planificación de contenido para marketing digital en Digimedia",
     },
     {
-      icon: (
-        <Image
-          src="/servicios/gestion/diseno-pautas/icons/social-ads_card2-optimizacion-y-analisis.webp"
-          title="Social Ads Optimización y Análisis Web"
-          alt="Icono de una hoja con un lápiz"
-          className="w-full h-full object-contain"
-          width={48}
-          height={48}
-        />
-      ),
       title: "OPTIMIZACIÓN Y ANÁLISIS",
-      description:
-        "Monitoreamos métricas clave, realizamos pruebas A/B y optimizamos campañas en tiempo real para mejorar el rendimiento y maximizar el retorno de inversión.",
+      text: "Monitoreamos métricas clave, realizamos pruebas A/B y optimizamos campañas en tiempo real para mejorar el rendimiento y maximizar el retorno de inversión.",
+      image: "/servicios/gestion/diseno-pautas/icons/social-ads_card2-optimizacion-y-analisis.webp",
+      imageTitle: "Social Ads Optimización y Análisis Web",
+      imageAlt: "Icono de una hoja con un lápiz representando la optimización y el análisis de campañas de redes sociales",
     },
   ];
 
+  // Motion animation variants for entry effects
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 100, damping: 15 },
+    },
+  };
+
   return (
-    <div>
-      {/*Servicio: Gestión de Redes Sociales, Subservicio: Social Ads & Performance*/}
-      <UxUiSection
-        features={features}
-        mainDescription="Convertimos inversión en resultados medibles. Diseñamos y gestionamos campañas publicitarias en redes sociales enfocadas en performance, optimizando cada etapa del embudo para maximizar alcance, tráfico, leads y conversiones."
-        backgroundImage="/servicios/gestion/diseno-pautas/social-ads-&-performance.webp"
-        heroTitle=<>
-          SOCIAL ADS &<br />
-          PERFORMANCE
-        </>
-        // heroBulletPoints={[
-        //   "Las pautas bien diseñadas incrementan el rendimiento de la inversión publicitaria.",
-        //   "Son clave para posicionar productos, servicios o marcas en mercados competitivos.",
-        //   "Permiten medir resultados y ajustar campañas en tiempo real.",
-        //   "Atraer la atención del público objetivo rápidamente.",
-        // ]}
-        alt="Gestión de redes sociales, Diseño de pautas, Publicidad digital, Estrategia en redes, Social media marketing, Meta Ads, Facebook Ads, Anuncios para Instagram, Marketing digital, Community manager"
-        title="Gestión de redes sociales, diseño de pautas, Digimedia.webp"
-        category="Gestión de redes sociales"
-      />
-      <Contactanos
-        text="Consolida tu presencia web, diseña con nosotros tu página web"
-        iconLeft="/servicios/desarrollo/lineas-conexion-izquierda.webp"
-        iconRight="/servicios/desarrollo/lineas-conexion-derecha.webp"
-      />
+    <div className="bg-[#0a001a] bg-gradient-to-b from-[#10003b] via-[#090022] to-[#050014] text-white min-h-screen relative overflow-hidden font-sans pt-8 md:pt-16">
+      {/* Background Glow Orbs */}
+      <div className="absolute top-[5%] left-[-15%] w-[40vw] h-[40vw] max-w-[600px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[35%] right-[-15%] w-[45vw] h-[45vw] max-w-[700px] bg-[#FF037F]/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[15%] left-[10%] w-[35vw] h-[35vw] max-w-[500px] bg-[#b525fe]/8 rounded-full blur-[100px] pointer-events-none" />
+
+      {/* Main Container */}
+      <div className="w-full max-w-[1280px] mx-auto px-6 relative z-10">
+
+        {/* HERO CONTAINER CARD */}
+        <section className="mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="bg-[linear-gradient(180deg,#000000_3%,#120048_100%)] border border-white/10 rounded-[32px] md:rounded-[40px] p-8 sm:p-10 md:p-12 lg:p-14 shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+          >
+            {/* Left Side: Image */}
+            <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-lg border border-white/5">
+              <Image
+                src="/servicios/gestion/diseno-pautas/social-ads-&-performance.webp"
+                alt="Gestión de redes sociales, diseño de pautas, publicidad digital, estrategia en redes, social media marketing, Meta Ads, anuncios para Instagram"
+                title="Gestión de redes sociales, diseño de pautas – Digimedia"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 550px"
+              />
+            </div>
+
+            {/* Right Side: Text & Actions */}
+            <div className="flex flex-col justify-center h-full text-left">
+              {/* Back breadcrumb link */}
+              <Link href="/servicios/gestion-redes/" className="text-[#FFD100] font-black text-xs sm:text-sm uppercase tracking-wider mb-4 hover:underline inline-flex items-center gap-2 cursor-pointer transition-all duration-300">
+                <span>&lt; GESTIÓN DE REDES SOCIALES</span>
+              </Link>
+
+              {/* Title */}
+              <h1 className="text-white font-extrabold text-3xl sm:text-4xl md:text-5xl leading-tight mb-6 font-display tracking-tight uppercase">
+                SOCIAL ADS & <br className="hidden sm:inline" /> PERFORMANCE
+              </h1>
+
+              {/* Description */}
+              <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
+                Convertimos inversión en resultados medibles. Diseñamos y gestionamos campañas publicitarias en redes sociales enfocadas en performance, optimizando cada etapa del embudo para maximizar alcance, tráfico, leads y conversiones.
+              </p>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* TWO CARDS SECTION */}
+        <section className="mb-20">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+          >
+            {servicios.map((servicio, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="flex flex-col items-center text-center p-8 sm:p-10 bg-[#0d0124]/50 backdrop-blur-md border border-white/10 rounded-[32px] shadow-xl hover:border-[#FFD100]/30 transition-all duration-300 hover:scale-[1.02] group"
+              >
+                {/* Icon Wrapper */}
+                <div className="w-20 h-20 sm:w-24 sm:h-24 relative mb-6">
+                  <Image
+                    src={servicio.image}
+                    alt={servicio.imageAlt}
+                    title={servicio.imageTitle}
+                    fill
+                    className="object-contain transition-transform duration-500 group-hover:scale-110"
+                    sizes="96px"
+                  />
+                </div>
+                {/* Card Title */}
+                <h3 className="text-[#FFD100] font-black tracking-wider text-base sm:text-lg uppercase font-display mb-4">
+                  {servicio.title}
+                </h3>
+                {/* Card Description */}
+                <p className="text-gray-300 text-sm sm:text-base leading-relaxed font-sans">
+                  {servicio.text}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* CTA SECTION */}
+        <section className="pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative bg-gradient-to-r from-[#18033E]/90 to-[#0A0019]/90 backdrop-blur-lg border border-white/10 p-8 sm:p-10 md:p-14 lg:p-16 rounded-3xl text-center max-w-4xl mx-auto shadow-2xl overflow-hidden"
+          >
+            {/* CTA Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-600/15 rounded-full blur-[80px] pointer-events-none" />
+
+            <div className="relative z-10">
+              <h2 className="text-white font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider mb-8 leading-tight font-display">
+                DEJA QUE TUS REDES ESTÉN <br className="hidden sm:inline" /> EN OTRO NIVEL
+              </h2>
+              <Link href="/contactanos">
+                <button
+                  id="modal-button"
+                  className="bg-[#FFD100] hover:bg-[#FFE054] text-[#0A0019] px-10 py-4 rounded-full font-bold uppercase tracking-wider text-base sm:text-lg transition-all duration-300 shadow-[0_0_25px_rgba(255,209,0,0.35)] hover:shadow-[0_0_40px_rgba(255,209,0,0.55)] transform hover:scale-105"
+                >
+                  CONTÁCTANOS AHORA
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+        </section>
+
+      </div>
+
+      <WhatsAppButton />
+      <MayaChatbot />
     </div>
   );
 }

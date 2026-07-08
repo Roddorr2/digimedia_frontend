@@ -1,25 +1,129 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import { getCookie } from 'cookies-next';
-import url from '../../../../api/url';
-import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { getCookie } from "cookies-next";
+import url from "../../../../api/url";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+import { defaultCountries, parseCountry } from "react-international-phone";
+import { getExampleNumber, isValidPhoneNumber } from "libphonenumber-js";
+import phoneExamples from "libphonenumber-js/mobile/examples";
+import SocialMediaLinks from "./socialMediaLinks";
 
+const PhoneInput = dynamic(
+  () => import("react-international-phone").then((mod) => mod.PhoneInput),
+  { ssr: false },
+);
+
+import "react-international-phone/style.css";
 const URL_API = `${url}/api/contactanos`;
+
+// Imagen provisional de la persona — Marketing entregará la imagen definitiva
+// más adelante. Reemplazar solo esta constante (mantiene proporción 1420:1872).
+const CONTACT_PERSON_IMAGE = "/contactanos/contact-person.png";
+
+// Lista de servicios disponibles (sincronizada con la tabla `servicios` de la BD)
+const SERVICIOS = [
+  "Diseño Web y Desarrollo Web",
+  "Gestión de Redes Sociales",
+  "Marketing y Gestión Digital",
+  "Branding y Diseño",
+];
+
+// Genera la máscara (longitud máxima de dígitos) de cada país automáticamente a partir
+// de libphonenumber-js, así react-international-phone limita la cantidad de dígitos por
+// país sin necesidad de mantener una lista manual.
+const countriesWithMask = defaultCountries.map((data) => {
+  const country = parseCountry(data);
+  const example = getExampleNumber(country.iso2.toUpperCase(), phoneExamples);
+  const format = example
+    ? ".".repeat(example.nationalNumber.length)
+    : country.format;
+  const result = [country.name, country.iso2, country.dialCode, format];
+  if (country.priority !== undefined) result[4] = country.priority;
+  if (country.areaCodes) result[5] = country.areaCodes;
+  return result;
+});
+
+const inputBaseClass =
+  "w-full h-[54px] sm:h-[58px] md:h-[62px] bg-white/[0.86] rounded-[31.5px] px-6 text-base sm:text-lg text-[#100043] placeholder:text-[#5B5470] shadow-[0_4px_4px_rgba(0,0,0,0.25)] outline-none focus:ring-2 focus:ring-[#FFB800] focus:ring-offset-0 transition-shadow";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    numero: '',
-    mensaje: '',
+    nombre: "",
+    email: "",
+    mensaje: "",
+    servicio: "",
   });
-
+  const [phone, setPhone] = useState("");
+  const [dialCode, setDialCode] = useState("51");
+  const [countryIso2, setCountryIso2] = useState("pe");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.navigator?.modelContext)
+      return;
+
+    const unregister = window.navigator.modelContext.registerTool({
+      name: "submit_contact_form",
+      description:
+        "Envía un mensaje de contacto con nombre, email, teléfono y contenido",
+      inputSchema: {
+        type: "object",
+        properties: {
+          nombre: {
+            type: "string",
+            description: "Nombre completo del usuario",
+          },
+          email: {
+            type: "string",
+            format: "email",
+            description: "Dirección de email válida",
+          },
+          telefono: {
+            type: "string",
+            description: "Número de teléfono internacional",
+          },
+          mensaje: { type: "string", description: "Mensaje que desea enviar" },
+          servicio: { type: "string", description: "Servicio seleccionado del catálogo" },
+        },
+        required: ["nombre", "email", "telefono", "mensaje"],
+      },
+      execute: async ({ nombre, email, telefono, servicio, mensaje }) => {
+        try {
+          const response = await axios.post(
+            URL_API,
+            { nombre, email, numero: telefono, servicio, mensaje },
+            {
+              headers: {
+                Authorization: `Bearer ${getCookie("token")}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            },
+          );
+          return response.status === 201
+            ? { success: true, message: "Mensaje enviado correctamente" }
+            : { success: false, message: "No se pudo enviar" };
+        } catch (error) {
+          return { success: false, message: error.message };
+        }
+      },
+      annotations: { readOnlyHint: false, openWorldHint: true, destructiveHint: false, idempotentHint: false },
+    });
+
+    if (window.navigator.modelContextTesting?.listTools) {
+      window.navigator.modelContextTesting.listTools().then((tools) => {
+        console.log("WebMCP tools registered:", tools);
+      });
+    }
+
+    return () => unregister && unregister();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,38 +134,58 @@ const ContactForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const response = await axios.post(URL_API, formData, {
-        headers: {
-          Authorization: `Bearer ${getCookie('token')}`,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+    if (!isValidPhoneNumber(phone, countryIso2.toUpperCase())) {
+      Swal.fire({
+        title: "Número inválido",
+        text: "El número ingresado no es válido. Verifica la cantidad de dígitos.",
+        icon: "warning",
+        confirmButtonText: "OK",
       });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const nationalNumber = phone.slice(dialCode.length + 1);
+      const formattedPhone = `+${dialCode} ${nationalNumber}`;
+
+      const response = await axios.post(
+        URL_API,
+        { ...formData, numero: formattedPhone },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("token")}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
       if (response.status === 201) {
         Swal.fire({
-          title: 'Mensaje Enviado Correctamente',
-          text: 'Nos pondremos en contacto contigo lo antes posible.',
-          icon: 'success',
-          confirmButtonText: 'OK',
+          title: "Mensaje Enviado Correctamente",
+          text: "Nos pondremos en contacto contigo lo antes posible.",
+          icon: "success",
+          confirmButtonText: "OK",
         });
 
         setFormData({
-          nombre: '',
-          email: '',
-          numero: '',
-          mensaje: '',
+          nombre: "",
+          email: "",
+          mensaje: "",
+          servicio: "",
         });
-      } else {
-        throw new Error();
+        setPhone("");
+        setDialCode("51");
+        setCountryIso2("pe");
       }
     } catch (error) {
+      console.error("Error:", error.response);
       Swal.fire({
-        title: 'Error',
-        text: 'Ocurrió un error inesperado.',
-        icon: 'error',
-        confirmButtonText: 'OK',
+        title: "Error",
+        text: "No se pudo enviar el mensaje",
+        icon: "error",
+        confirmButtonText: "OK",
       });
     } finally {
       setLoading(false);
@@ -69,33 +193,68 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="w-full flex justify-center py-12 md:py-24">
-      <div className="w-full max-w-[1280px] px-6 relative">
-        <div className="flex flex-col md:flex-row gap-12 items-start relative">
-          {/* LEFT COLUMN - FORM */}
+    <section className="relative w-full px-4 sm:px-6 md:px-10 lg:px-12 pt-8 sm:pt-10 md:pt-12 lg:pt-12 pb-20 md:pb-24 lg:pb-28 overflow-hidden">
+      {/* Brillos decorativos (se ocultan en móvil por claridad/rendimiento) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-8 left-[8%] w-56 h-56 md:w-72 md:h-72 rounded-full bg-[#FFB800]/10 blur-[60px] hidden sm:block"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-[6%] w-56 h-56 md:w-72 md:h-72 rounded-full bg-[#FFB800]/10 blur-[60px] hidden sm:block"
+      />
+
+      <div className="relative max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,709px)_minmax(0,1fr)] gap-10 lg:gap-8 lg:items-end">
+        {/* Columna izquierda: formulario + redes sociales apiladas, mismo
+            ancho/borde izquierdo para ambos. Al agruparlas en una sola celda
+            del grid, la fila (y por lo tanto la columna de la imagen, que se
+            estira contra ella con lg:self-stretch) mide form+redes juntos,
+            no solo el formulario. */}
+        <div className="flex flex-col gap-10 md:gap-12 lg:gap-14 w-full max-w-[709px] mx-auto lg:mx-0">
           <motion.div
-            className="w-full md:w-[739px] z-20 relative"
-            initial={{ opacity: 0, x: -80 }}
+            className="relative z-20 w-full"
+            initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="w-full bg-white rounded-[20px] border-[3px] border-[#b326ff] p-6 md:p-12 shadow-custom">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                {['nombre', 'email', 'numero'].map((field, index) => (
+            <div
+              className="relative overflow-hidden rounded-[22px] px-6 py-8 sm:px-10 sm:py-10 md:px-12 md:py-10 lg:py-10"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)",
+              }}
+            >
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-[2px]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)",
+                }}
+              />
+
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-4 sm:gap-5"
+                toolname="submit_contact_form"
+                tooldescription="Envía un mensaje de contacto con nombre, email, teléfono y contenido"
+              >
+                {["nombre", "email"].map((field, index) => (
                   <motion.input
                     key={field}
-                    type={field === 'email' ? 'email' : 'text'}
+                    type={field === "email" ? "email" : "text"}
                     name={field}
-                    placeholder={
-                      field === 'numero'
-                        ? 'Teléfono'
-                        : field.charAt(0).toUpperCase() + field.slice(1)
-                    }
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                     value={formData[field]}
                     onChange={handleChange}
                     required
-                    className="w-full h-[54px] border-[3px] border-[#b326ff] rounded-[18px] px-6 text-lg text-text-gray placeholder-text-gray focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
+                    toolparamdescription={
+                      field === "nombre"
+                        ? "Nombre completo del usuario"
+                        : "Dirección de email válida"
+                    }
+                    className={inputBaseClass}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.15 }}
@@ -103,13 +262,83 @@ const ContactForm = () => {
                   />
                 ))}
 
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  <PhoneInput
+                    defaultCountry="pe"
+                    countries={countriesWithMask}
+                    value={phone}
+                    onChange={(phoneVal, meta) => {
+                      setPhone(phoneVal);
+                      if (meta?.country?.iso2)
+                        setCountryIso2(meta.country.iso2);
+                      if (meta?.country?.dialCode)
+                        setDialCode(meta.country.dialCode);
+                    }}
+                    forceDialCode={true}
+                    inputClassName="!w-full !h-[54px] sm:!h-[58px] md:!h-[62px] !bg-white/[0.86] !border-none !rounded-[31.5px] !px-6 !text-base sm:!text-lg !text-[#100043] !shadow-[0_4px_4px_rgba(0,0,0,0.25)] !ml-2"
+                    countrySelectorStyleProps={{
+                      buttonClassName:
+                        "!bg-white/[0.86] !border-none !rounded-[31.5px] !h-[54px] sm:!h-[58px] md:!h-[62px] !px-3 sm:!px-4 !gap-1.5",
+                      dropdownStyleProps: { className: "!rounded-lg" },
+                    }}
+                    containerClassName="!gap-3"
+                  />
+                </motion.div>
+
+                {/* ── SELECTOR DE SERVICIO ── */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="relative">
+                    <select
+                      name="servicio"
+                      value={formData.servicio}
+                      onChange={handleChange}
+                      className={`${inputBaseClass} pr-12 appearance-none cursor-pointer`}
+                    >
+                      <option value="" disabled>
+                        Selecciona un servicio
+                      </option>
+                      {SERVICIOS.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                    {/* Flecha custom */}
+                    <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center">
+                      <svg
+                        className="w-5 h-5 text-[#100043]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </motion.div>
+
                 <motion.textarea
                   name="mensaje"
                   placeholder="Mensaje"
                   value={formData.mensaje}
                   onChange={handleChange}
                   required
-                  className="w-full h-[176px] border-[3px] border-[#b326ff] rounded-[18px] p-6 text-lg text-text-gray placeholder-text-gray resize-none focus:outline-none focus:ring-2 focus:ring-[#b326ff] shadow-custom"
+                  toolparamdescription="Mensaje que desea enviar"
+                  className="w-full h-[140px] sm:h-[160px] md:h-[175px] bg-white/[0.86] rounded-[24px] md:rounded-[31.5px] p-6 text-base sm:text-lg text-[#100043] placeholder:text-[#5B5470] resize-none shadow-[0_4px_4px_rgba(0,0,0,0.25)] outline-none focus:ring-2 focus:ring-[#FFB800] transition-shadow"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
@@ -117,7 +346,7 @@ const ContactForm = () => {
                 />
 
                 <motion.div
-                  className="flex justify-center md:justify-start"
+                  className="flex justify-center sm:justify-start pt-2"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 }}
@@ -126,12 +355,12 @@ const ContactForm = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-[215px] h-[54px] bg-[#ffa000] text-white font-black text-xl rounded-[20px] shadow-custom hover:brightness-95 transition-all mt-4 flex items-center justify-center"
+                    className="w-full sm:w-[260px] md:w-[322px] h-[54px] sm:h-[58px] md:h-[62px] bg-[#FFB800] text-[#100043] font-extrabold text-lg sm:text-xl rounded-full shadow-lg hover:scale-105 hover:bg-[#ffc233] transition-all flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {loading ? (
                       <Loader2 className="animate-spin h-5 w-5" />
                     ) : (
-                      'Enviar mensaje'
+                      "Enviar mensaje"
                     )}
                   </button>
                 </motion.div>
@@ -139,26 +368,50 @@ const ContactForm = () => {
             </div>
           </motion.div>
 
-          {/* RIGHT COLUMN IMAGE */}
-          <motion.div
-            className="w-full md:absolute md:left-[500px] md:top-[30px] flex justify-center md:block z-0 pointer-events-none"
-            initial={{ opacity: 0, x: 80 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative w-[300px] h-[400px] md:w-[950px] md:h-[1181px]">
-              <Image
-                src="/contactanos/man.png"
-                alt="Persona de contacto"
-                fill
-                className="object-contain scale-x-[-1]"
-              />
-            </div>
-          </motion.div>
+          <SocialMediaLinks bare />
         </div>
+
+        <motion.div
+          className="relative z-10 flex items-end justify-center lg:justify-end lg:h-0"
+          initial={{ opacity: 0, x: 80 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          {/* Mobile/tablet: en flujo normal, tamaño gobernado por ancho.
+              Desktop (lg+): el padre de arriba colapsa a lg:h-0 (no infla la
+              fila del grid ni mueve el formulario/redes) y sirve solo como
+              punto de anclaje: gracias a lg:items-end del grid, ese punto
+              cae exactamente en el borde inferior de la columna
+              formulario+redes. Este div pasa a lg:absolute + bottom-0/right-0
+              para poder crecer en alto MÁS ALLÁ de esa columna (ya no lo
+              limita la altura real del formulario+redes, que era el techo
+              real del enfoque anterior con h-full/max-h). El ancho sigue
+              derivándose de la proporción real del PNG (549x1105, confirmada
+              con sharp) vía aspect-ratio + w-auto, así no se deforma. */}
+          <div className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[320px] aspect-[549/1105] mx-auto lg:mx-0 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:max-w-none lg:h-[720px] xl:h-[1120px] 2xl:h-[1140px]">
+            {/* El PNG casi no tiene margen transparente abajo (~4px de 1105,
+                confirmado con sharp trim): el hueco morado que quedaba debajo
+                de la base no venía del archivo sino del pb-20/24/28 del
+                <section>. Se empuja la imagen hacia ese padding con
+                translate-y para que la base llegue justo al borde inferior
+                real del bloque; el overflow-hidden del section recorta
+                cualquier exceso sin generar scroll horizontal. Los altos por
+                breakpoint (720/1120/1140) están calibrados para que el ancho
+                resultante (proporción 549:1105) no rebase el ancho real de
+                la columna derecha + el gap hacia el formulario en 1024,
+                1366 y 1440px — así crece bastante más sin tapar el form. */}
+            <Image
+              src={CONTACT_PERSON_IMAGE}
+              alt="Persona atendiendo una consulta de contacto"
+              fill
+              className="object-contain object-bottom lg:translate-y-[100px] lg:translate-x-[64px]"
+              sizes="(max-width: 1024px) 320px, 540px"
+            />
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

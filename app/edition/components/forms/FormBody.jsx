@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Type,
   AlignLeft,
@@ -31,6 +31,8 @@ import {
   DEFAULT_SERVICIOS,
 } from "../../config/index.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
+import Swal from "sweetalert2";
+import { validateImageFile, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageValidation";
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
@@ -74,6 +76,7 @@ export default function FormBody({
   const [activeTab, setActiveTab] = useState("info");
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
+  const [gradientColorCount, setGradientColorCount] = useState(2);
 
   // Estados para controlar visibilidad dinámica de secciones
   const [sectionsVisibility, setSectionsVisibility] = useState({
@@ -82,7 +85,51 @@ export default function FormBody({
     informacion: formEncabezadoBody?.flag_informacion ?? true,
   });
 
-  // Obtener configuración de la plantilla especificada
+  // Estado local para los colores del gradiente
+  const [gradientColorsLocal, setGradientColorsLocal] = useState([]);
+  const [gradientDirection, setGradientDirection] = useState("");
+
+  // Sincronizar gradientColorsLocal con formEncabezadoBody.bg_colors
+  useEffect(() => {
+    if (formEncabezadoBody?.bg_colors) {
+      const parts = formEncabezadoBody.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
+      if (parts[0]?.startsWith("to ")) {
+        setGradientDirection(parts[0]);
+        setGradientColorsLocal(parts.slice(1));
+      } else {
+        setGradientDirection("");
+        setGradientColorsLocal(parts);
+      }
+    }
+  }, [formEncabezadoBody?.bg_colors]);
+
+  // Handler para actualizar color del gradiente
+  const handleGradientColorChange = useCallback((index, value) => {
+    setGradientColorsLocal(prev => {
+      const newColors = [...prev];
+      while (newColors.length < gradientColorCount) {
+        newColors.push("#5A37A6");
+      }
+      newColors[index] = value;
+      return newColors.slice(0, gradientColorCount);
+    });
+  }, [gradientColorCount]);
+
+  // Sincronizar gradientColorsLocal con formEncabezadoBody.bg_colors (debounce)
+  useEffect(() => {
+    if (gradientColorsLocal.length > 0) {
+      const timeout = setTimeout(() => {
+        const parts = gradientDirection
+          ? [gradientDirection, ...gradientColorsLocal]
+          : gradientColorsLocal;
+        setFormEncabezadoBody((prev) => ({
+          ...prev,
+          bg_colors: parts.join(","),
+        }));
+      }, 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [gradientColorsLocal, gradientDirection, setFormEncabezadoBody]);
   const plantillaConfig = getPlantillaConfig(plantillaId);
   const finalValidationConfig = DEFAULT_BODY_VALIDATION_CONFIG;
   const mergedStyles = { ...plantillaConfig.styles };
@@ -338,7 +385,23 @@ export default function FormBody({
 
       try {
         setUploading(true);
-        const tempUrl = URL.createObjectURL(file);
+        
+        // Validar y convertir a WebP automáticamente si es necesario
+        const validation = await validateImageFile(file, "body");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
 
         // Actualizar el estado del header
         setFormEncabezadoBody?.((prev) => ({
@@ -347,13 +410,13 @@ export default function FormBody({
         }));
 
         // Establecer archivo para upload
-        setFileBodyHeader?.(file);
+        setFileBodyHeader?.(processedFile);
 
         // Notificar al componente padre
         onImageChange?.({
           section: "header",
           field: "public_image1",
-          file,
+          file: processedFile,
           tempUrl,
           action: "upload",
         });
@@ -378,7 +441,23 @@ export default function FormBody({
 
       try {
         setUploading(true);
-        const tempUrl = URL.createObjectURL(file);
+        
+        // Validar y convertir a WebP automáticamente si es necesario
+        const validation = await validateImageFile(file, "body");
+        if (!validation.valid) {
+          Swal.fire({
+            icon: "error",
+            title: "Imagen inválida",
+            html: validation.errors.map(err => `<p style="margin-bottom: 5px;">• ${err}</p>`).join(""),
+            confirmButtonColor: "#8c52ff",
+          });
+          e.target.value = ""; // Reset file input
+          return;
+        }
+
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
 
         // Actualizar el estado de la galería
         setFormGaleryBody?.((prev) => ({
@@ -388,16 +467,16 @@ export default function FormBody({
 
         // Establecer archivo según la imagen
         if (name === "public_image2") {
-          setFileBodyFile1?.(file);
+          setFileBodyFile1?.(processedFile);
         } else if (name === "public_image3") {
-          setFileBodyFile2?.(file);
+          setFileBodyFile2?.(processedFile);
         }
 
         // Notificar al componente padre
         onImageChange?.({
           section: "galeria",
           field: name,
-          file,
+          file: processedFile,
           tempUrl,
           action: "upload",
         });
@@ -414,24 +493,23 @@ export default function FormBody({
   );
 
   // Limpiar blob URLs al desmontar el componente
-  useEffect(() => {
-    return () => {
-      // Limpiar todas las URLs blob para evitar memory leaks
-      if (formEncabezadoBody?.public_image1?.startsWith("blob:")) {
-        URL.revokeObjectURL(formEncabezadoBody.public_image1);
-      }
-      if (formGaleryBody?.public_image2?.startsWith("blob:")) {
-        URL.revokeObjectURL(formGaleryBody.public_image2);
-      }
-      if (formGaleryBody?.public_image3?.startsWith("blob:")) {
-        URL.revokeObjectURL(formGaleryBody.public_image3);
-      }
-    };
-  }, [
-    formEncabezadoBody?.public_image1,
-    formGaleryBody?.public_image2,
-    formGaleryBody?.public_image3,
-  ]);
+  // useEffect(() => {
+//   return () => {
+//     if (formEncabezadoBody?.public_image1?.startsWith("blob:")) {
+//       URL.revokeObjectURL(formEncabezadoBody.public_image1);
+//     }
+//     if (formGaleryBody?.public_image2?.startsWith("blob:")) {
+//       URL.revokeObjectURL(formGaleryBody.public_image2);
+//     }
+//     if (formGaleryBody?.public_image3?.startsWith("blob:")) {
+//       URL.revokeObjectURL(formGaleryBody.public_image3);
+//     }
+//   };
+// }, [
+//   formEncabezadoBody?.public_image1,
+//   formGaleryBody?.public_image2,
+//   formGaleryBody?.public_image3,
+// ]);
 
   // Componente de mensaje de validación - compatible con estructura original
   const ValidationMessage = ({ fieldName, index = null, context = null }) => {
@@ -501,29 +579,80 @@ export default function FormBody({
   }
 
   // Renderizar sección de encabezado
-  const renderHeaderSection = () => (
-    <div className="relative h-[400px] overflow-hidden">
-      <img
-        src={data.header.public_image1 || "/blog/blog-4.webp"}
-        alt={data.header.alt_image1 || data.header.titulo || "Imagen principal"}
-        title={data.header.title_image1}
-        className="w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
-          {data.header.titulo || "Título del Blog"}
-        </h1>
-        <div className="w-16 h-1 bg-teal-500 mb-4"></div>
-        {layoutType === "tabs" && (
+  const renderHeaderSection = () => {
+    if (layoutType === "plantilla3") {
+      return (
+        <div className="flex flex-col lg:flex-row gap-6 mb-6 items-center">
+          <div className="flex-1 flex flex-col justify-center">
+            <p className="text-sm font-semibold mb-2" style={{ color: "#FFB800" }}>
+              {data.header.fecha || "Fecha de publicación"}
+            </p>
+            <h2
+              className="font-extrabold text-2xl lg:text-3xl leading-tight tracking-tight mb-4"
+              style={{ color: "#FFB800", letterSpacing: "-0.48px" }}
+            >
+              {data.header.titulo || "Título del Blog"}
+            </h2>
+            <p className="text-sm leading-relaxed" style={{ color: "#CCC3D4" }}>
+              {data.header.descripcion || "Descripción del contenido"}
+            </p>
+          </div>
+          <div className="w-full lg:w-[45%] flex-shrink-0">
+            <img
+              src={data.header.public_image1 || "/blog/blog-4.webp"}
+              alt={data.header.alt_image1 || data.header.titulo || "Imagen principal"}
+              title={data.header.title_image1}
+              className="w-full h-[200px] object-cover rounded-[20px]"
+            />
+          </div>
+        </div>
+      );
+    }
+    if (layoutType !== "tabs") {
+      return (
+        <div className="flex flex-col lg:flex-row gap-6 mb-4 items-start">
+          <div className="w-full lg:w-[45%] flex-shrink-0">
+            <img
+              src={data.header.public_image1 || "/blog/blog-4.webp"}
+              alt={data.header.alt_image1 || data.header.titulo || "Imagen principal"}
+              title={data.header.title_image1}
+              className="w-full h-[260px] rounded-[20px] object-cover"
+            />
+          </div>
+          <div className="flex-1 flex flex-col justify-center">
+            <p className="text-[#FFB800] font-semibold text-sm mb-2">{data.header.fecha}</p>
+            <h1 className="font-extrabold text-[#FFB800] text-2xl leading-tight tracking-tight mb-3">
+              {data.header.titulo || "Título del Blog"}
+            </h1>
+            <p className="text-[#CCC3D4] text-sm leading-relaxed">
+              {data.header.descripcion || "Descripción del contenido"}
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className="relative h-[400px] overflow-hidden">
+        <img
+          src={data.header.public_image1 || "/blog/blog-4.webp"}
+          alt={data.header.alt_image1 || data.header.titulo || "Imagen principal"}
+          title={data.header.title_image1}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
+            {data.header.titulo || "Título del Blog"}
+          </h1>
+          <div className="w-16 h-1 bg-teal-500 mb-4"></div>
           <div className="flex items-center space-x-2 text-gray-300 text-sm">
             <Clock className="w-4 h-4" />
             <span>{data.header.fecha}</span>
           </div>
-        )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // Renderizar sección de consejos
   const renderConsejosSection = () => {
@@ -535,53 +664,82 @@ export default function FormBody({
       data.consejos.texto5,
     ].filter(Boolean);
 
+    if (layoutType === "plantilla3") {
+      return (
+        <div className="mb-16">
+          <h3
+            className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
+            style={{ color: "#FFB800" }}
+          >
+            {data.consejos.titulo || "Consejos Importantes"}
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {consejos.map((text, index) => (
+              <div
+                key={index}
+                className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
+                style={{
+                  background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)",
+                }}
+              >
+                <div
+                  className="absolute top-0 left-0 right-0 h-[5px]"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)",
+                  }}
+                />
+                <div className="flex justify-center mb-6">
+                  <CheckCircle className="w-14 h-14 text-white" />
+                </div>
+                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     if (layoutType === "linear") {
       return (
-        <div className="mb-[100px] p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-0.5 w-12 bg-green-400 mr-4"></div>
-            <h3 className="text-2xl font-bold text-green-400">
+        <div className="mb-8">
+          <div className="mb-4">
+            <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
+            <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
               {data.consejos.titulo || "Consejos"}
             </h3>
-            <div className="h-0.5 w-12 bg-green-400 ml-4"></div>
           </div>
-          <ul className="list-none text-black-600 space-y-3 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {consejos.map((text, index) => (
-              <li
+              <div
                 key={index}
-                className="flex items-center gap-3 bg-gray-800/50 p-3 rounded-lg"
+                className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-5"
+                style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)" }}
               >
-                <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0" />
-                <span className="text-left">{text}</span>
-              </li>
+                <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
+                <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
+                <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{text}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       );
     }
 
     return (
-      <div className="w-full">
-        <div className="bg-green-400/60 rounded-xl shadow-sm p-8 border border-slate-100">
-          <h3 className="text-2xl font-semibold mb-8 text-slate-800 text-center">
-            {data.consejos.titulo || "Consejos"}
-          </h3>
-          <ul className="space-y-5">
-            {consejos.map((text, index) => (
-              <li
-                key={index}
-                className="flex items-start group transition-all duration-300 hover:translate-x-1 bg-white rounded-xl p-2"
-              >
-                <div className="bg-emerald-50 p-2 rounded-full mr-4 group-hover:bg-emerald-100 transition-colors duration-300">
-                  <CheckCircle className="w-5 h-5 text-emerald-600" />
-                </div>
-                <div className="pt-1.5">
-                  <p className="text-slate-700 leading-relaxed">{text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {consejos.map((text, index) => (
+          <div
+            key={index}
+            className="relative p-6 pl-20 rounded-2xl bg-white shadow-md border border-gray-200"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-t-2xl" />
+            <div className="absolute top-1/2 left-5 -translate-y-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-green-700 text-white font-extrabold text-lg shadow-md">
+              {String(index + 1).padStart(2, "0")}
+            </div>
+            <p className="text-gray-700 leading-relaxed text-base font-medium">{text}</p>
+          </div>
+        ))}
       </div>
     );
   };
@@ -603,27 +761,48 @@ export default function FormBody({
       },
     ];
 
+    if (layoutType === "plantilla3") {
+      return (
+        <div
+          className="rounded-[40px] px-10 py-12 mb-16"
+          style={{
+            background:
+              "conic-gradient(from 180deg at 50% 50%, #100043 -0.38deg, #2F086A 173.33deg, #100043 359.62deg, #2F086A 533.33deg)",
+          }}
+        >
+          <h3
+            className="text-center font-extrabold text-5xl mb-10 tracking-tight"
+            style={{ color: "#FFB800" }}
+          >
+            Galería
+          </h3>
+          <div className="flex gap-6">
+            {images.map((image, index) => (
+              <div key={index} className="flex-1 overflow-hidden rounded-[30px]">
+                <img
+                  src={image.url}
+                  alt={image.alt || `Imagen ${index + 1} del artículo`}
+                  title={image.title}
+                  className="w-full h-[320px] object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     if (layoutType === "linear") {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+        <div className="flex gap-4 mb-8">
           {images.map((image, index) => (
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-xl shadow-xl"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+            <div key={index} className="flex-1 overflow-hidden rounded-[20px]">
               <img
                 src={image.url}
                 alt={image.alt || `Imagen ${index + 1} del artículo`}
                 title={image.title}
-                className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-[240px] object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
-                <div className="flex items-center justify-center">
-                  <span className="text-sm font-medium">Ver detalle</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -631,32 +810,23 @@ export default function FormBody({
     }
 
     return (
-      <div className="w-full">
-        <h3 className="text-lg font-medium text-slate-700 mb-6 pb-2 border-b border-slate-200">
-          Galería de imágenes
-        </h3>
-        <div className="grid grid-cols-1 gap-6">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-sm overflow-hidden"
-            >
-              <div className="relative h-64 bg-slate-100">
-                <img
-                  src={image.url}
-                  alt={image.alt || `Imagen galería ${index + 1}`}
-                  title={image.title}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">
-                  <button className="bg-white/90 p-2 rounded-full shadow-lg">
-                    <Eye className="w-4 h-4 text-slate-700" />
-                  </button>
-                </div>
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow-sm overflow-hidden group"
+          >
+            <div className="relative h-56 overflow-hidden">
+              <img
+                src={image.url}
+                alt={image.alt || `Imagen galería ${index + 1}`}
+                title={image.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     );
   };
@@ -665,37 +835,96 @@ export default function FormBody({
   const renderInformacionSection = () => {
     if (!data.informacion || data.informacion.length === 0) return null;
 
-    if (layoutType === "linear") {
-      const styles = [
-        "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-blue-400",
-        "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-red-400",
-        "bg-gradient-to-br from-gray-900 to-gray-800 border-l-4 border-green-400",
-        "bg-gradient-to-br from-gray-800 to-gray-900 border-r-4 border-purple-400",
-      ];
-
+    if (layoutType === "plantilla3") {
+      const cardBg =
+        "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)";
+      const CardWide = ({ item, index }) => (
+        <div
+          className="rounded-[30px] p-8 mb-6"
+          style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)" }}
+        >
+          <h4 className="font-bold text-2xl mb-3" style={{ color: "#FFB800" }}>
+            {item.titulo || `Información ${index + 1}`}
+          </h4>
+          <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
+            {item.descripcion || "Descripción del contenido"}
+          </p>
+        </div>
+      );
+      const CardNarrow = ({ item, index }) => (
+        <div
+          className="rounded-[30px] p-8 flex flex-col items-center text-center"
+          style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)" }}
+        >
+          <h4 className="font-bold text-xl mb-3" style={{ color: "#FFB800" }}>
+            {item.titulo || `Información ${index + 1}`}
+          </h4>
+          <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
+            {item.descripcion || "Descripción del contenido"}
+          </p>
+        </div>
+      );
       return (
-        <div className="relative">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-            <div className="inline-block px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
-              {data.header.titulo_tarjeta || "Información Importante"}
+        <div className="mb-16">
+          <h3
+            className="text-center font-extrabold text-5xl mb-12 tracking-tight"
+            style={{ color: "#FFB800" }}
+          >
+            {data.header.titulo_tarjeta || "Información Detallada"}
+          </h3>
+          {data.informacion[0] && <CardWide item={data.informacion[0]} index={0} />}
+          {(data.informacion[1] || data.informacion[2]) && (
+            <div className="grid grid-cols-2 gap-6 mb-6">
+              {data.informacion[1] && <CardNarrow item={data.informacion[1]} index={1} />}
+              {data.informacion[2] && <CardNarrow item={data.informacion[2]} index={2} />}
+            </div>
+          )}
+          {data.informacion[3] && <CardWide item={data.informacion[3]} index={3} />}
+        </div>
+      );
+    }
+
+    if (layoutType === "linear") {
+      return (
+        <div>
+          {/* Banner amarillo */}
+          <div className="flex justify-center mb-6">
+            <div
+              className="flex items-center justify-center rounded-[38px] px-8 h-[52px] w-full max-w-[600px]"
+              style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+            >
+              <span
+                className="font-bold text-sm text-center"
+                style={{
+                  background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {data.header.titulo_tarjeta || "Información Importante"}
+              </span>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-28 pt-8">
+          {/* Grid tarjetas */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
             {data.informacion.map((section, index) => (
               <div
                 key={index}
-                className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${styles[index % styles.length]
-                  }`}
+                className="relative rounded-[20px] pt-12 pb-6 px-8"
+                style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.54) 0%, rgba(8,1,46,0.54) 50%, rgba(19,0,73,0.54) 100%)" }}
               >
-                <h3 className="text-xl font-bold mb-3 text-blue-400">
+                <div
+                  className="absolute -top-6 left-1/2 -translate-x-1/2 w-[52px] h-[52px] rounded-full flex items-center justify-center"
+                  style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                >
+                  <CheckCircle className="w-5 h-5 text-[#100043]" />
+                </div>
+                <h3 className="text-[#FFB800] font-bold text-base mb-2">
                   {section.titulo}
                 </h3>
-                <p className="text-gray-100">
-                  {renderDescripcion(
-                    section.descripcion,
-                    section.palabra,
-                    section.enlace
-                  )}
+                <p className="text-[#CCC3D4] text-xs leading-relaxed">
+                  {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
                 </p>
               </div>
             ))}
@@ -705,27 +934,34 @@ export default function FormBody({
     }
 
     return (
-      <div className="space-y-6">
-        <h3 className="text-lg font-medium text-slate-700 mb-6 pb-2 border-b border-slate-200">
-          {data.header.titulo_tarjeta || "Información Detallada"}
-        </h3>
+      <div className="space-y-4">
         {data.informacion.map((section, index) => (
           <div
             key={index}
             className="bg-gradient-to-r from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="p-1 bg-gradient-to-r from-teal-400 to-teal-600"></div>
             <div className="p-6">
-              <h3 className="text-xl font-bold mb-3 text-teal-700">
+              <h4 className="text-lg font-bold text-gray-900 mb-2">
                 {section.titulo}
-              </h3>
-              <p className="text-gray-700 leading-relaxed">
+              </h4>
+              <p className="text-gray-700 leading-relaxed mb-3">
                 {renderDescripcion(
                   section.descripcion,
                   section.palabra,
                   section.enlace
                 )}
               </p>
+              {section.enlace && section.palabra && (
+                <div className="flex justify-end">
+                  <a
+                    href={section.enlace}
+                    className="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold transition-colors text-sm"
+                  >
+                    {section.palabra}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -812,30 +1048,79 @@ export default function FormBody({
             </div>
           </div>
 
-          {/* Campo para gradiente */}
+          {/* Configuración de gradiente - selector de cantidad de colores */}
           {currentBgType === "gradient" && (
-            <div className="flex items-center gap-2">
-              <Palette className="w-4 h-4 text-yellow-400" />
-              <input
-                type="text"
-                placeholder="#color1,#color2,#color3"
-                value={currentBgColors}
-                onChange={(e) => setFormEncabezadoBody((prev) => ({
-                  ...prev,
-                  bg_colors: e.target.value,
-                }))}
-                className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
-                title="Gradiente: #color1,#color2,#color3"
-              />
+            <div className="flex flex-col gap-3 w-full">
+              {/* Selector de dirección del gradiente */}
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-300">Dirección:</span>
+                <select
+                  value={gradientDirection || ""}
+                  onChange={(e) => setGradientDirection(e.target.value)}
+                  className="bg-gray-800 text-white border border-gray-600 rounded-lg p-1 text-sm"
+                >
+                  <option value="">Izquierda → Derecha</option>
+                  <option value="to bottom">Arriba → Abajo</option>
+                  <option value="to bottom right">Diagonal ↘</option>
+                  <option value="to top">Abajo → Arriba</option>
+                </select>
+              </div>
+
+              {/* Selector de cantidad de colores */}
+              <div className="flex items-center gap-3">
+                <Palette className="w-4 h-4 text-yellow-400" />
+                <span className="text-sm text-gray-300">¿Cuántos colores?</span>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setGradientColorCount(2)}
+                    className={`px-3 py-1 rounded-md text-sm transition-colors ${gradientColorCount === 2 ? "bg-yellow-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+                  >
+                    2
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGradientColorCount(3)}
+                    className={`px-3 py-1 rounded-md text-sm transition-colors ${gradientColorCount === 3 ? "bg-yellow-500 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"}`}
+                  >
+                    3
+                  </button>
+                </div>
+              </div>
+
+              {/* Selectores de colores individuales */}
+              <div className="flex flex-col gap-2 ml-7">
+                {Array.from({ length: gradientColorCount }, (_, index) => {
+                  const colorValue = gradientColorsLocal[index] || "#5A37A6";
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400 w-16">Color {index + 1}:</span>
+                      <input
+                        type="color"
+                        value={colorValue}
+                        onChange={(e) => handleGradientColorChange(index, e.target.value)}
+                        className="w-10 h-8 rounded border border-gray-600 cursor-pointer"
+                        title={`Seleccionar color ${index + 1}`}
+                      />
+                      <input
+                        type="text"
+                        value={colorValue}
+                        onChange={(e) => handleGradientColorChange(index, e.target.value)}
+                        className="flex-1 bg-gray-800 text-white border border-gray-600 rounded p-1 px-2 text-sm"
+                        placeholder={`#color${index + 1}`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 
-
-          {/* Toggles en fila horizontal en desktop */}
-          <div className="flex flex-col sm:flex-row gap-3 lg:gap-6">
+          {/* Toggles en columna */}
+          <div className="flex flex-col gap-3">
             {/* Toggle Consejos */}
             {mergedSectionsConfig.consejos.enabled && (
-              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                 <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
                   <Quote className="w-4 h-4 mr-2 text-purple-400" />
                   Consejos
@@ -868,7 +1153,7 @@ export default function FormBody({
 
             {/* Toggle Galería */}
             {mergedSectionsConfig.galeria.enabled && (
-              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                 <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
                   <IconImage className="w-4 h-4 mr-2 text-blue-400" />
                   Galería
@@ -901,7 +1186,7 @@ export default function FormBody({
 
             {/* Toggle Información */}
             {mergedSectionsConfig.informacion.enabled && (
-              <div className="flex items-center justify-between sm:justify-start gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                 <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
                   <FileText className="w-4 h-4 mr-2 text-teal-400" />
                   Información
@@ -1032,12 +1317,21 @@ export default function FormBody({
                 <input
                   type="file"
                   name="public_image1"
-                  accept="image/*"
+                  accept={ACCEPTED_IMAGE_FORMATS}
                   className="hidden"
                   onChange={handleImageHeader}
                   disabled={uploading}
                 />
               </label>
+              <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
+                <div className="font-semibold text-purple-300">Recomendaciones de imagen (Cuerpo):</div>
+                <div className="flex flex-col gap-0.5 text-gray-400">
+                  <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte automáticamente)</span>
+                  <span>• <strong className="text-yellow-400">Recomendado: 800×600 px</strong></span>
+                  <span>• Rango permitido: <strong className="text-gray-300">400×300 a 1200×900 px</strong></span>
+                  <span>• Peso máximo: <strong className="text-gray-300">400 KB</strong></span>
+                </div>
+              </div>
             </div>
 
             {/* Alt text for main image */}
@@ -1134,7 +1428,7 @@ export default function FormBody({
                             <input
                               type="text"
                               name={campo}
-                              maxLength={150}
+                              maxLength={255}
                               value={data.consejos[campo] || ""}
                               onChange={handleChange(
                                 setFormCommendBody,
@@ -1243,12 +1537,21 @@ export default function FormBody({
                             <input
                               type="file"
                               name={campo}
-                              accept="image/*"
+                              accept={ACCEPTED_IMAGE_FORMATS}
                               className="hidden"
                               onChange={handleImageBody}
                               disabled={uploading}
                             />
                           </label>
+                          <div className="mt-2 p-2.5 bg-blue-950/40 rounded-lg border border-blue-500/30 text-xs text-gray-300 space-y-1">
+                            <div className="font-semibold text-blue-300">Recomendaciones de imagen (Galería):</div>
+                            <div className="flex flex-col gap-0.5 text-gray-400">
+                              <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte automáticamente)</span>
+                              <span>• <strong className="text-yellow-400">Recomendado: 800×600 px</strong></span>
+                              <span>• Rango permitido: <strong className="text-gray-300">400×300 a 1200×900 px</strong></span>
+                              <span>• Peso máximo: <strong className="text-gray-300">400 KB</strong></span>
+                            </div>
+                          </div>
                         </div>
 
                         {/* Alt text */}
@@ -1529,27 +1832,48 @@ export default function FormBody({
   // Renderizar contenido principal
   const renderMainContent = () => {
     const containerClass =
-      layoutType === "linear"
+      layoutType === "linear" || layoutType === "plantilla3"
         ? `${mergedStyles.container} ${mergedStyles.linearLayout}`
         : `${mergedStyles.container} ${mergedStyles.tabsLayout}`;
 
-    if (layoutType === "linear") {
+    const previewBgStyle = (() => {
+      const bgType = formEncabezadoBody?.bg_type;
+      const bgColor = formEncabezadoBody?.bg_color;
+      const bgColors = formEncabezadoBody?.bg_colors || "";
+      if (bgType === "gradient" && bgColors) {
+        const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+        let direction = "";
+        let colorParts = parts;
+        if (parts[0]?.startsWith("to ")) {
+          direction = parts[0];
+          colorParts = parts.slice(1);
+        }
+        if (colorParts.length >= 3) {
+          return { background: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
+        }
+        if (colorParts.length >= 2) {
+          return { background: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
+        }
+      }
+      if (bgColor) {
+        return { background: bgColor };
+      }
+      return { background: "linear-gradient(143.3deg, #000118 0%, #410C89 50%, #000118 100%)" };
+    })();
+
+    if (layoutType === "plantilla3") {
       return (
         <div className={`${className}`}>
-          {/* Controles de secciones - por encima de todo */}
           <div className="w-full mb-6">{renderSectionControls()}</div>
-
-          {/* Contenido en dos columnas: preview + forms */}
           <div className={containerClass}>
-            <div className={mergedStyles.previewArea}>
-              {renderHeaderSection()}
-
-              {/* Descripción del header */}
-              <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed border-b border-gray-200">
-                {data.header.descripcion}
+            <div
+              className={mergedStyles.previewArea + " rounded-[20px] overflow-hidden"}
+              style={previewBgStyle}
+            >
+              <div className="p-5 pb-0">
+                {renderHeaderSection()}
               </div>
-
-              <div className={mergedStyles.previewContent}>
+              <div className="p-5">
                 {mergedSectionsConfig.consejos.enabled &&
                   sectionsVisibility.consejos &&
                   renderConsejosSection()}
@@ -1562,6 +1886,246 @@ export default function FormBody({
               </div>
             </div>
             {renderEditForms()}
+          </div>
+        </div>
+      );
+    }
+
+    if (layoutType === "linear") {
+      return (
+        <div className={`${className}`}>
+          {/* Controles de secciones - por encima de todo */}
+          <div className="w-full mb-6">{renderSectionControls()}</div>
+
+          {/* Contenido en dos columnas: preview + forms */}
+          <div className={containerClass}>
+            <div
+              className={mergedStyles.previewArea}
+              style={previewBgStyle}
+            >
+              <div className="p-8">
+                {renderHeaderSection()}
+              </div>
+
+              <div className={mergedStyles.previewContent} style={{ background: "transparent" }}>
+                {mergedSectionsConfig.consejos.enabled &&
+                  sectionsVisibility.consejos &&
+                  renderConsejosSection()}
+                {mergedSectionsConfig.galeria.enabled &&
+                  sectionsVisibility.galeria &&
+                  renderGaleriaSection()}
+                {mergedSectionsConfig.informacion.enabled &&
+                  sectionsVisibility.informacion &&
+                  renderInformacionSection()}
+              </div>
+            </div>
+            {renderEditForms()}
+          </div>
+        </div>
+      );
+    }
+
+    // ── Plantilla 2: diseño oscuro con tabs ──
+    if (plantillaId === 2) {
+      return (
+        <div className={`${className}`}>
+          <div className="w-full mb-6">{renderSectionControls()}</div>
+          <div className={containerClass}>
+            <div className="flex gap-6 justify-center">
+              {/* Preview izquierda con el diseño Figma de Plantilla 2 */}
+              <div className={mergedStyles.previewArea}>
+                <div className="sticky top-4">
+                  <div
+                    className="rounded-[20px] overflow-hidden"
+                    style={previewBgStyle}
+                  >
+                    <div className="px-5 py-6">
+
+                      {/* Hero: título izquierda + imagen derecha */}
+                      <div className="flex flex-col lg:flex-row gap-4 pb-5 items-center">
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          {data.header.fecha && (
+                            <p className="text-[#FFB800] font-semibold text-xs mb-2">{data.header.fecha}</p>
+                          )}
+                          <h2
+                            className="font-extrabold text-[#FFB800] text-base lg:text-xl leading-tight tracking-[-0.48px] mb-2 uppercase"
+                            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+                          >
+                            {data.header.titulo || "Título del Blog"}
+                          </h2>
+                          <p className="text-[#CCC3D4] text-xs leading-relaxed">
+                            {data.header.descripcion || "Descripción del contenido del blog"}
+                          </p>
+                        </div>
+                        <div className="w-full lg:w-[45%] flex-shrink-0">
+                          <img
+                            src={data.header.public_image1 || "/blog/blog-4.webp"}
+                            alt={data.header.alt_image1 || data.header.titulo || "Imagen principal"}
+                            className="w-full h-[130px] object-cover rounded-[14px]"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Separador superior */}
+                      <div className="h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+
+                      {/* Tabs */}
+                      <div className="flex gap-5 pt-4 pb-2">
+                        {["info", "tips", "gallery"].filter(tab => {
+                          if (tab === "info") return sectionsVisibility.informacion;
+                          if (tab === "tips") return sectionsVisibility.consejos;
+                          if (tab === "gallery") return sectionsVisibility.galeria;
+                          return true;
+                        }).map(tab => (
+                          <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className="text-xs font-normal transition-colors"
+                            style={{ color: activeTab === tab ? "#FFB800" : "#FFFFFF" }}
+                          >
+                            {tab === "info" && "Información"}
+                            {tab === "tips" && "Consejos"}
+                            {tab === "gallery" && "Galería"}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Separador bajo tabs */}
+                      <div className="h-[6px] mb-4" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+
+                      {/* Tab: Información */}
+                      {activeTab === "info" && sectionsVisibility.informacion && (
+                        <div className="flex flex-col gap-3">
+                          {(data.informacion.length > 0 ? data.informacion : [
+                            { titulo: "Información 1", descripcion: "Descripción detallada del primer punto." },
+                            { titulo: "Información 2", descripcion: "Descripción detallada del segundo punto." },
+                          ]).map((card, index) => (
+                            <div key={index} className="overflow-hidden">
+                              <div className="w-full h-[10px] rounded-t-[14px]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }} />
+                              <div className="px-4 py-3 border border-white/5 rounded-b-[14px]" style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}>
+                                <h3
+                                  className="font-extrabold text-xs leading-tight tracking-[-0.48px] mb-1"
+                                  style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                                >
+                                  {card.titulo || `Información ${index + 1}`}
+                                </h3>
+                                <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>
+                                  {card.descripcion || "Descripción del contenido de este punto informativo."}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Tab: Consejos */}
+                      {activeTab === "tips" && sectionsVisibility.consejos && (
+                        <div className="rounded-[20px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
+                          <div className="h-[6px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+                          <div className="mx-3 my-3 rounded-[16px] px-4 py-4" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
+                            <h3
+                              className="text-center font-bold text-xs leading-tight mb-3"
+                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                            >
+                              {data.consejos.titulo || "Consejos Importantes"}
+                            </h3>
+                            <div className="flex flex-col gap-2">
+                              {[1, 2, 3, 4, 5].map(i => {
+                                const text = data.consejos[`texto${i}`];
+                                if (!text) return null;
+                                return (
+                                  <div key={i} className="flex items-center gap-2">
+                                    <div
+                                      className="flex-shrink-0 w-[32px] h-[32px] rounded-full flex items-center justify-center"
+                                      style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                                    >
+                                      <CheckCircle className="w-[18px] h-[18px] text-[#100043]" strokeWidth={2.5} />
+                                    </div>
+                                    <div
+                                      className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
+                                      style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
+                                    >
+                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{text}</p>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                          <div
+                            className="h-[32px] flex items-center justify-center rounded-b-[20px]"
+                            style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                          >
+                            <span
+                              className="font-bold text-xs"
+                              style={{
+                                background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                              }}
+                            >
+                              {new Date().getFullYear()} - Todos los derechos reservados
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Tab: Galería */}
+                      {activeTab === "gallery" && sectionsVisibility.galeria && (
+                        <div
+                          className="rounded-[20px] overflow-hidden p-4"
+                          style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}
+                        >
+                          <div className="grid grid-cols-2 gap-3">
+                            {[
+                              { url: data.galeria.public_image2 || "/blog/blog-10.webp", alt: data.galeria.alt_image2 || "Imagen 1" },
+                              { url: data.galeria.public_image3 || "/blog/blog-1.webp",  alt: data.galeria.alt_image3 || "Imagen 2" },
+                            ].map((image, index) => (
+                              <div key={index} className="overflow-hidden rounded-[14px]">
+                                <img
+                                  src={image.url}
+                                  alt={image.alt}
+                                  className="w-full h-[110px] object-cover"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* CTA */}
+                      <div className="mt-4">
+                        <div
+                          className="relative rounded-[14px] overflow-hidden"
+                          style={{
+                            background: "linear-gradient(180deg, rgba(16,0,67,0.54) 0%, rgba(8,1,46,0.54) 50%, rgba(19,0,73,0.54) 100%)",
+                            border: "1px solid #000000",
+                          }}
+                        >
+                          <div className="h-[6px] w-full" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }} />
+                          <div className="px-4 py-4 text-center">
+                            <h3
+                              className="font-bold text-xs leading-tight mb-1"
+                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                            >
+                              Contáctanos Para Más Información
+                            </h3>
+                            <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>
+                              Nuestro equipo está listo para ayudarte.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Formularios de edición */}
+              {renderEditForms()}
+            </div>
           </div>
         </div>
       );

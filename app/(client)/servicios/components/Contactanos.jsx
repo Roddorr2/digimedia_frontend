@@ -36,7 +36,7 @@ export default function Contactanos({ text }) {
           <Link href="/contactanos" >
             <button  
               id="modal-button"
-              className="bg-[#FF9F00] text-white px-10 py-4 rounded-2xl font-bold text-lg uppercase hover:opacity-90 transition-opacity shadow-2xl transform hover:scale-105 transition-transform"
+              className="bg-[#FF9F00] text-white px-10 py-4 rounded-2xl font-bold text-lg uppercase hover:opacity-90 transition-opacity shadow-2xl transform hover:scale-105 transition-transform mb-12"
             >
               Contáctanos Ahora
             </button>

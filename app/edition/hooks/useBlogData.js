@@ -56,6 +56,7 @@ export default function useBlogData(
   const [error, setError] = useState(null);
   const [isDirty, setIsDirty] = useState(false); // Indica si hay cambios sin guardar
   const [hydrating, setHydrating] = useState(false); // Flag para evitar marcar isDirty durante carga inicial
+  const [resolvedPlantillaId, setResolvedPlantillaId] = useState(plantillaId);
 
   const [blogRelations, setBlogRelations] = useState({
     id_blog_head: null,
@@ -205,6 +206,9 @@ export default function useBlogData(
         );
         if (associatedCard) {
           setCardId(associatedCard.id_card);
+          if (associatedCard.id_plantilla) {
+            setResolvedPlantillaId(Number(associatedCard.id_plantilla));
+          }
         }
       }
 
@@ -223,18 +227,25 @@ export default function useBlogData(
             bg_type: mappedHeader.bg_type,
             bg_colors: mappedHeader.bg_colors,
           }));
+          //priorizar siemopre el valor raw por la ruta real del servidor 
+          const rawImage = headerResponse?.imagen?.path || "";
+          
           setFormImagenHeader({
-            public_image: mappedHeader.public_image,
-            url_image: mappedHeader.url_image,
-            alt: mappedHeader.alt,
-            title: mappedHeader.title,
+            public_image: rawImage ||mappedHeader.public_image,
+            url_image: rawImage ||mappedHeader.url_image,
+            alt: headerResponse?.imagen?.alt || mappedHeader.alt,
+            title: headerResponse?.imagen?.title || mappedHeader.title,
           });
         }
       }
 
       // Mapear body usando mapper centralizado
       if (bodyResponse) {
-        const mappedBody = mapServerToForm("body", bodyResponse, plantillaId);
+        const serverPlantillaId = bodyResponse.plantilla_id;
+        if (serverPlantillaId) {
+          setResolvedPlantillaId(serverPlantillaId);
+        }
+        const mappedBody = mapServerToForm("body", bodyResponse, serverPlantillaId || plantillaId);
         if (mappedBody) {
           setFormEncabezadoBody((prev) => ({
             ...prev,
@@ -451,9 +462,12 @@ const headerPayload = {
         // MODO CREACIÓN: Mantener lógica existente
         let commendTarjetaId = null;
         const hasConsejos =
+        //cambios necesarios para texto 4 y 5
           formCommendBody?.texto1 ||
           formCommendBody?.texto2 ||
-          formCommendBody?.texto3;
+          formCommendBody?.texto3 ||
+          formCommendBody?.texto4 ||
+          formCommendBody?.texto5;;
 
         if (hasConsejos) {
           const consejosPayload = mapConsejos(formCommendBody, plantillaId);
@@ -527,9 +541,12 @@ const headerPayload = {
         // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
         let commendTarjetaId = null;
         const hasConsejos =
+        //cambios necesarios para texto 4 y 5
           formCommendBody?.texto1 ||
           formCommendBody?.texto2 ||
-          formCommendBody?.texto3;
+          formCommendBody?.texto3 ||
+          formCommendBody?.texto4 ||
+          formCommendBody?.texto5;;
 
 if (hasConsejos) {
            const consejosPayload = mapConsejos(formCommendBody, plantillaId);
@@ -572,7 +589,7 @@ if (hasConsejos) {
            public_image3: formGaleryBody.public_image3?.startsWith("blob:")
              ? DEFAULT_IMAGES.body.image3
              : formGaleryBody.public_image3,
-           plantilla_id: plantillaId,
+           plantilla_id: resolvedPlantillaId,
            bg_color: formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
            bg_type: formEncabezadoBody.bg_type || "solid",
            bg_colors: formEncabezadoBody.bg_colors || "",
@@ -657,6 +674,7 @@ const result = await Api.updateBody(bodyId, bodyData);
     fileBodyFile1,
     fileBodyFile2,
     plantillaId,
+    resolvedPlantillaId,
     isCreateMode,
     blogRelations.id_blog_body,
   ]);
@@ -818,7 +836,7 @@ descripcion: footerEnabled
             fileFooterFile2,
             fileFooterFile3,
           },
-          plantillaId,
+          plantillaId: resolvedPlantillaId,
           empleadoId: getEmpleadoId(),
           cardId,
           blogRelations,
@@ -860,6 +878,7 @@ descripcion: footerEnabled
     fileFooterFile2,
     fileFooterFile3,
     plantillaId,
+    resolvedPlantillaId,
     isCreateMode,
     blogId,
     saveHeader,
@@ -930,6 +949,7 @@ descripcion: footerEnabled
     // ===== CONFIGURACIÓN =====
     plantillaConfig,
     plantillaId,
+    resolvedPlantillaId,
     mode,
     isCreateMode,
     isEditMode,

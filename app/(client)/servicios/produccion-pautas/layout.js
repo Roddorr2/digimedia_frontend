@@ -23,7 +23,7 @@ export default function ProducPautasLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={2} idSubservicio={7} />
+      <ServicePopup subservicioSlug="produccion-pautas" />
     </>
   );
 }

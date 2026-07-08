@@ -43,8 +43,6 @@ const PageContent = () => {
         const response = await Fetch.fetchBlogByLink(blog);
 
         if (response) {
-          //setData(response);
-          //Se quito el [0] para que reciba correctamente los datos del backend
           setData(response);
         } else {
           setError("Blog no encontrado");
@@ -67,48 +65,70 @@ const PageContent = () => {
   }, [blog]);
   
   useEffect(() => {
-        if (data) {
-          const title = data?.head?.meta_title || data?.titulo || "Mi Blog";
-          const description =
-            data?.head?.meta_descripcion || data?.descripcion || "Blog de DigiMedia";
-    
-          document.title = title;
-    
-          // Actualiza <meta name="description">
-          let metaDescription = document.querySelector("meta[name='description']");
-          if (!metaDescription) {
-            metaDescription = document.createElement("meta");
-            metaDescription.name = "description";
-            document.head.appendChild(metaDescription);
-          }
-          metaDescription.setAttribute("content", description);
-    
-          // Actualiza etiquetas OG
-          const ogTags = [
-            { property: "og:title", content: title },
-            { property: "og:description", content: description },
-            { property: "og:url", content: `https://digimedia-marketing.com/blog/${blog}` },
-          ];
-          ogTags.forEach(({ property, content }) => {
-            let tag = document.querySelector(`meta[property='${property}']`);
-            if (!tag) {
-              tag = document.createElement("meta");
-              tag.setAttribute("property", property);
-              document.head.appendChild(tag);
-            }
-            tag.setAttribute("content", content);
-          });
-    
-          // ✅ Actualiza o crea <link rel="canonical">
-          let canonicalLink = document.querySelector("link[rel='canonical']");
-          if (!canonicalLink) {
-            canonicalLink = document.createElement("link");
-            canonicalLink.rel = "canonical";
-            document.head.appendChild(canonicalLink);
-          }
-          canonicalLink.href = `https://digimedia-marketing.com/blog/${blog}`;
+    if (data) {
+      const title = data?.head?.meta_title || data?.titulo || "Mi Blog";
+      const description =
+        data?.head?.meta_descripcion || data?.descripcion || "Blog de DigiMedia";
+
+      document.title = title;
+
+      let metaDescription = document.querySelector("meta[name='description']");
+      if (!metaDescription) {
+        metaDescription = document.createElement("meta");
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+      }
+      metaDescription.setAttribute("content", description);
+
+      const ogTags = [
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: `https://digimedia-marketing.com/blog/${blog}` },
+      ];
+      ogTags.forEach(({ property, content }) => {
+        let tag = document.querySelector(`meta[property='${property}']`);
+        if (!tag) {
+          tag = document.createElement("meta");
+          tag.setAttribute("property", property);
+          document.head.appendChild(tag);
         }
+        tag.setAttribute("content", content);
+      });
+
+      let canonicalLink = document.querySelector("link[rel='canonical']");
+      if (!canonicalLink) {
+        canonicalLink = document.createElement("link");
+        canonicalLink.rel = "canonical";
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.href = `https://digimedia-marketing.com/blog/${blog}`;
+    }
   }, [data, blog]);
+
+  // ✅ Función para obtener el fondo dinámico (igual que en Plantilla 1)
+  const getBackgroundStyle = () => {
+    const bgColor = data?.body?.bg_color || "";
+    const bgType = data?.body?.bg_type || "solid";
+    const bgColors = data?.body?.bg_colors || "";
+
+    if (bgType === "gradient" && bgColors) {
+      const parts = bgColors.split(",").map(c => c.trim()).filter(Boolean);
+      let direction = "";
+      let colorParts = parts;
+      if (parts[0]?.startsWith("to ")) {
+        direction = parts[0];
+        colorParts = parts.slice(1);
+      }
+      if (colorParts.length >= 3) {
+        return { backgroundImage: `linear-gradient(${direction || "135deg"}, ${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]})` };
+      }
+      if (colorParts.length >= 2) {
+        return { backgroundImage: `linear-gradient(${direction || "to right"}, ${colorParts[0]}, ${colorParts[1]})` };
+      }
+      return { backgroundColor: bgColor || "#000118" };
+    }
+    return { backgroundColor: bgColor || "#000118" };
+  };
 
   if (error) {
     return (
@@ -164,26 +184,23 @@ const PageContent = () => {
 
   return (
     <>
-      <div>
-<Header id_blog_head={data.id_blog_head} bg_color={data?.head?.bg_color} bg_type={data?.head?.bg_type} bg_colors={data?.head?.bg_colors} />
+      <div>  
+        <Header 
+          id_blog_head={data.id_blog_head} 
+          bg_color={data?.head?.bg_color} 
+          bg_type={data?.head?.bg_type} 
+          bg_colors={data?.head?.bg_colors} 
+        />
 
-<div className="container mx-auto px-4 py-12 relative text-black min-h-screen w-full" style={
-          data?.body?.bg_type === "gradient" && data?.body?.bg_colors
-            ? (() => {
-                const colors = data.body.bg_colors.split(",").map(c => c.trim()).filter(Boolean);
-                if (colors.length >= 3) {
-                  return { backgroundImage: `linear-gradient(135deg, ${colors[0]}, ${colors[1]}, ${colors[2]})` };
-                }
-                if (colors.length >= 2) {
-                  return { backgroundImage: `linear-gradient(to right, ${colors[0]}, ${colors[1]})` };
-                }
-                return { backgroundColor: data.body.bg_color };
-              })()
-            : { backgroundColor: data?.body?.bg_color || "#5A37A6" }
-        }>
-
-          <Body3 id_blog_body={data.id_blog_body} fecha={data.fecha} bg_color={data?.body?.bg_color} bg_type={data?.body?.bg_type} bg_colors={data?.body?.bg_colors} />
-
+       
+        <div 
+          className="mx-auto px-4 py-12 relative text-white min-h-screen w-full"
+          style={getBackgroundStyle()}
+        >
+          <Body3
+            id_blog_body={data.id_blog_body}
+            fecha={data.fecha}
+          />
 
           {data.body?.service_url && (
             <div className="flex justify-center my-8">
@@ -191,15 +208,21 @@ const PageContent = () => {
                 href={data.body.service_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg"
+                className="inline-block px-6 py-3 bg-[#F2A30F] text-[#060126] text-lg font-bold rounded-lg hover:bg-[#F2C230] transition-all shadow-lg"
               >
                 Conoce nuestro servicio
               </a>
             </div>
           )}
 
-          <Footer id_blog_footer={data?.id_blog_footer} bg_color={data?.footer?.bg_color} bg_type={data?.footer?.bg_type} bg_colors={data?.footer?.bg_colors} />
-
+          <div className="mb-20">
+            <Footer 
+            id_blog_footer={data?.id_blog_footer} 
+            bg_color={data?.footer?.bg_color} 
+            bg_type={data?.footer?.bg_type} 
+            bg_colors={data?.footer?.bg_colors} 
+          />
+          </div>
         </div>
       </div>
     </>
@@ -207,4 +230,3 @@ const PageContent = () => {
 };
 
 export default Page;
-
