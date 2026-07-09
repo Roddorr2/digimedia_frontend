@@ -60,6 +60,7 @@ export default function FormBody({
   plantillaId = 1, // Por defecto usa Plantilla 1
   mode = "create",
 
+
   // Props de callbacks opcionales
   onChange,
   onImageChange,
@@ -1242,6 +1243,7 @@ export default function FormBody({
             </h3>
 
             {/* Header form fields - usa formEncabezadoBody */}
+            {/* cambios realizados para el limite de caracteres */}
             <div>
               <label className={mergedStyles.label}>
                 <Type className={mergedStyles.icon} />
@@ -1251,7 +1253,7 @@ export default function FormBody({
               <input
                 type="text"
                 name="titulo"
-                maxLength={50}
+                maxLength={finalValidationConfig["titulo"]?.max}
                 value={data.header.titulo || ""}
                 onChange={handleChange(setFormEncabezadoBody)}
                 className={mergedStyles.input}
@@ -1267,7 +1269,7 @@ export default function FormBody({
               </label>
               <textarea
                 name="descripcion"
-                maxLength={400}
+                maxLength={finalValidationConfig["descripcion"]?.max}
                 value={data.header.descripcion || ""}
                 onChange={handleChange(setFormEncabezadoBody)}
                 className={mergedStyles.textarea}
@@ -1343,7 +1345,7 @@ export default function FormBody({
               <input
                 type="text"
                 name="alt_image1"
-                maxLength={125}
+                maxLength={finalValidationConfig["alt_image1"]?.max}
                 value={data.header.alt_image1 || ""}
                 onChange={handleChange(setFormEncabezadoBody)}
                 className={mergedStyles.input}
@@ -1360,7 +1362,7 @@ export default function FormBody({
               <input
                 type="text"
                 name="title_image1"
-                maxLength={100}
+                maxLength={finalValidationConfig["title_image1"]?.max}
                 value={data.header.title_image1 || ""}
                 onChange={handleChange(setFormEncabezadoBody)}
                 className={mergedStyles.input}
@@ -1391,7 +1393,7 @@ export default function FormBody({
                   <input
                     type="text"
                     name="titulo"
-                    maxLength={100}
+                    maxLength={finalValidationConfig["consejos.titulo"]?.max}
                     value={data.consejos.titulo || ""}
                     onChange={handleChange(setFormCommendBody, "consejos")}
                     className={mergedStyles.input}
@@ -1428,7 +1430,7 @@ export default function FormBody({
                             <input
                               type="text"
                               name={campo}
-                              maxLength={255}
+                              maxLength={finalValidationConfig[campo]?.max}
                               value={data.consejos[campo] || ""}
                               onChange={handleChange(
                                 setFormCommendBody,
@@ -1563,7 +1565,7 @@ export default function FormBody({
                           <input
                             type="text"
                             name={`alt_image${index + 2}`}
-                            maxLength={125}
+                            maxLength={finalValidationConfig[`alt_image${index + 2}`]?.max}
                             value={data.galeria[`alt_image${index + 2}`] || ""}
                             onChange={handleChange(
                               setFormGaleryBody,
@@ -1588,7 +1590,7 @@ export default function FormBody({
                           <input
                             type="text"
                             name={`title_image${index + 2}`}
-                            maxLength={100}
+                            maxLength={finalValidationConfig[`title_image${index + 2}`]?.max}
                             value={
                               data.galeria[`title_image${index + 2}`] || ""
                             }
@@ -1675,7 +1677,7 @@ export default function FormBody({
                 <input
                   type="text"
                   name="titulo_tarjeta"
-                  maxLength={100}
+                  maxLength={finalValidationConfig["titulo_tarjeta"]?.max}
                   value={data.header.titulo_tarjeta || ""}
                   onChange={handleChange(setFormEncabezadoBody)}
                   className={mergedStyles.input}
@@ -1720,7 +1722,7 @@ export default function FormBody({
                               <input
                                 type="text"
                                 name="titulo"
-                                maxLength={100}
+                                maxLength={finalValidationConfig["titulo"]?.max}
                                 value={infoItem.titulo || ""}
                                 onChange={(e) =>
                                   handleChangeMap(e, index, "titulo")
@@ -1743,7 +1745,7 @@ export default function FormBody({
                               </label>
                               <textarea
                                 name="descripcion"
-                                maxLength={300}
+                                maxLength={finalValidationConfig["descripcion"]?.max}
                                 value={infoItem.descripcion || ""}
                                 onChange={(e) =>
                                   handleChangeMap(e, index, "descripcion")
