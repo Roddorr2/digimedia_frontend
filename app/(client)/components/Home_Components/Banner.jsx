@@ -45,13 +45,25 @@ export default function Banner() {
     return () => mq.removeEventListener("change", handleChange);
   }, []);
 
-  // Precarga solo el resto del set activo (el slide 0 ya se resuelve vía <picture>)
+  // Precarga solo el resto del set activo (el slide 0 ya se resuelve vía <picture>),
+  // diferida a tiempo idle para no competir con la carga inicial del Home.
   useEffect(() => {
     if (!viewportReady) return;
-    slides.slice(1).forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+
+    const preloadSecondarySlides = () => {
+      slides.slice(1).forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(preloadSecondarySlides);
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = setTimeout(preloadSecondarySlides, 2000);
+    return () => clearTimeout(timeoutId);
   }, [viewportReady, isMobile]);
 
   useEffect(() => {
