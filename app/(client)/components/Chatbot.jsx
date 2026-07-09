@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { sendToMaya } from "@/api/mayaWebhook"; // o donde lo guardes
 import { MessageCircle } from "lucide-react";
-
+import welcomeMessagesChatBot from "@/data/welcomeMessagesChatBot.json";
 const CHATBOT_IMG = "/img_chatbot/xiomara_chatbot.webp";
 
 function getSessionId() {
@@ -22,7 +22,7 @@ function getSessionId() {
 const WELCOME = {
   role: "bot",
   mensaje:
-    "¡Hola! 😊 Soy Xiomara, estaré encantada de ayudarte.",
+    welcomeMessagesChatBot[Math.floor(Math.random() * welcomeMessagesChatBot.length)],
 };
 
 const BUBBLE_MSGS = [
