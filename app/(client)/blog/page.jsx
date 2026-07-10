@@ -1,6 +1,7 @@
-import { Hero } from '../components/page_components/Hero';
-import Enlaces from './components/Enlaces';
-import Principal from './components/Principal';
+import { Hero } from "../components/page_components/Hero";
+import Enlaces from "./components/Enlaces";
+import WhatsAppButton from "../components/WhatsAppButton";
+import MayaChatbot from "../components/Chatbot";
 
 export default function Page() {
   return (
@@ -8,11 +9,13 @@ export default function Page() {
       <Hero
         backgroundImage="/blog/fondo.webp"
         title="BLOG"
-        position="center 30%"
+        position="center 40%"
       />
 
       {/* <Principal></Principal> */}
       <Enlaces></Enlaces>
+      <WhatsAppButton />
+      <MayaChatbot />
     </>
   );
 }

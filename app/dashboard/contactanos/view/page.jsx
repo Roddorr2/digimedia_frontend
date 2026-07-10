@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Mail, User, Phone, Calendar, MessageSquare, CheckCircle, XCircle } from "lucide-react"
+import { ArrowLeft, Mail, User, Phone, Calendar, MessageSquare, CheckCircle, XCircle, Briefcase } from "lucide-react"
 
 export default function Page() {
   const router = useRouter()
@@ -72,7 +72,8 @@ export default function Page() {
           </div>
 
           <div className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
+            {/* Cards: Nombre, Email, Teléfono, Servicio */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
                   <User className="w-6 h-6 text-[#8c52ff]" />
@@ -83,10 +84,10 @@ export default function Page() {
 
               <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
-                    <Mail className="w-6 h-6 text-[#8c52ff]" />
+                  <Mail className="w-6 h-6 text-[#8c52ff]" />
                 </div>
                 <h3 className="text-sm font-semibold text-gray-500 mb-1">Email</h3>
-                <a 
+                <a
                   href={`mailto:${contacto.email}?subject=Respuesta%20a%20su%20contacto&body=Hola%20${contacto.nombre},%0A%0A`}
                   className="text-lg font-medium text-[#8c52ff] hover:underline break-all flex items-center group"
                   target="_blank"
@@ -102,7 +103,7 @@ export default function Page() {
                 </div>
                 <h3 className="text-sm font-semibold text-gray-500 mb-1">Teléfono</h3>
                 {contacto.numero ? (
-                  <a 
+                  <a
                     href={`https://wa.me/+51${contacto.numero.replace(/\D/g, '')}`}
                     className="text-lg font-medium text-[#8c52ff] hover:underline flex items-center group"
                     target="_blank"
@@ -112,6 +113,21 @@ export default function Page() {
                   </a>
                 ) : (
                   <p className="text-lg font-medium text-gray-800">No proporcionado</p>
+                )}
+              </div>
+
+              {/* ── CARD SERVICIO ── */}
+              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
+                  <Briefcase className="w-6 h-6 text-[#8c52ff]" />
+                </div>
+                <h3 className="text-sm font-semibold text-gray-500 mb-1">Servicio</h3>
+                {contacto.servicio ? (
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                    {contacto.servicio}
+                  </span>
+                ) : (
+                  <p className="text-lg font-medium text-gray-400">—</p>
                 )}
               </div>
             </div>
@@ -134,4 +150,3 @@ export default function Page() {
     </div>
   )
 }
-

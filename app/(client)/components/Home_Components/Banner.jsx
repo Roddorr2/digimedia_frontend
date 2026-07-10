@@ -1,102 +1,170 @@
-'use client';
-import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+"use client";
+import { useState, useEffect, useRef } from "react";
 
 const desktopSlides = [
-  '/optimized_images/image-home/pc-1.png',
-  '/optimized_images/image-home/pc-2.png',
-  '/optimized_images/image-home/pc-3.png',
-  '/optimized_images/image-home/pc-4.png',
+  "/optimized_images/image-home/pc-1.webp",
+  "/optimized_images/image-home/pc-2.webp",
+  "/optimized_images/image-home/pc-3.webp",
+  "/optimized_images/image-home/pc-4.webp",
 ];
 
 const mobileSlides = [
-  '/optimized_images/image-home/celular-1.png',
-  '/optimized_images/image-home/celular-2.png',
-  '/optimized_images/image-home/celular-3.png',
-  '/optimized_images/image-home/celular-4.png',
+  "/optimized_images/image-home/celular-1.webp",
+  "/optimized_images/image-home/celular-2.webp",
+  "/optimized_images/image-home/celular-3.webp",
+  "/optimized_images/image-home/celular-4.webp",
 ];
 
 export default function Banner() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentIndexRef = useRef(0);
+  const [typedText, setTypedText] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+  const [viewportReady, setViewportReady] = useState(false);
 
+  const staticText = "MARKETING DIGITAL QUE MUEVE MARCAS ";
+  const droppingWords = [
+    "REALES",
+    "INNOVADORAS",
+    "AUTÉNTICAS",
+    "IMPARABLES",
+    "GANADORAS !",
+  ];
+  const subtitle =
+    "Estrategia, contenido y gestión para negocios que quieren crecer en el mundo digital.";
+
+  const slides = isMobile ? mobileSlides : desktopSlides;
+
+  // Detecta el viewport una sola vez al montar y se suscribe a cambios de breakpoint
   useEffect(() => {
-    [...desktopSlides, ...mobileSlides].forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    setViewportReady(true);
+    const handleChange = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
   }, []);
+
+  // Precarga solo el resto del set activo (el slide 0 ya se resuelve vía <picture>),
+  // diferida a tiempo idle para no competir con la carga inicial del Home.
+  useEffect(() => {
+    if (!viewportReady) return;
+
+    const preloadSecondarySlides = () => {
+      slides.slice(1).forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(preloadSecondarySlides);
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = setTimeout(preloadSecondarySlides, 2000);
+    return () => clearTimeout(timeoutId);
+  }, [viewportReady, isMobile]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = (currentIndexRef.current + 1) % desktopSlides.length;
+      const nextIndex = (currentIndexRef.current + 1) % slides.length;
       currentIndexRef.current = nextIndex;
       setCurrentIndex(nextIndex);
     }, 5000);
 
     return () => clearInterval(interval);
+  }, [slides.length]);
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index <= staticText.length) {
+        setTypedText(staticText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
   }, []);
+
+  const activeWord = droppingWords[currentIndex % droppingWords.length];
 
   return (
     <>
-      <main className="relative h-[calc(100dvh-67px)] w-full overflow-hidden bg-black">
+      <style>{`
+        @keyframes slowZoomOut {
+          0% { transform: scale(1.1); }
+          100% { transform: scale(1); }
+        }
+      `}</style>
+      <main className="relative h-[calc(100dvh-125px)] w-full overflow-hidden bg-black">
         <div className="absolute inset-0 w-full h-full">
-          {desktopSlides.map((src, index) => (
+          {/* Slide 0: presente desde el HTML inicial (sin esperar viewportReady).
+              El navegador elige mobile/desktop vía <source media>, sin JS. */}
+          <picture>
+            <source media="(max-width: 767px)" srcSet={mobileSlides[0]} />
             <img
-              key={`desktop-${index}`}
-              src={src}
-              alt={`Banner desktop ${index + 1}`}
-              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 transition-opacity duration-1000 hidden md:block ${
-                index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-              }`}
+              key={`slide-0-${currentIndex}`}
+              src={desktopSlides[0]}
+              alt="Banner principal Digimedia"
               loading="eager"
+              fetchPriority="high"
               decoding="async"
+              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 ${
+                currentIndex === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
               style={{
-                transform: index === currentIndex ? 'scale(1)' : 'scale(1.1)',
-                transition: index === currentIndex 
-                  ? 'transform 5000ms ease-out, opacity 1000ms ease-in-out' 
-                  : 'none'
+                transform: currentIndex === 0 ? "scale(1)" : "scale(1.1)",
+                animation:
+                  currentIndex === 0
+                    ? "slowZoomOut 5s ease-out forwards"
+                    : "none",
               }}
             />
-          ))}
-          {mobileSlides.map((src, index) => (
-            <img
-              key={`mobile-${index}`}
-              src={src}
-              alt={`Banner mobile ${index + 1}`}
-              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 transition-opacity duration-1000 md:hidden ${
-                index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-              }`}
-              loading="eager"
-              decoding="async"
-              style={{
-                transform: index === currentIndex ? 'scale(1)' : 'scale(1.1)',
-                transition: index === currentIndex 
-                  ? 'transform 5000ms ease-out, opacity 1000ms ease-in-out' 
-                  : 'none'
-              }}
-            />
-          ))}
+          </picture>
+
+          {viewportReady &&
+            slides.slice(1).map((src, i) => {
+              const index = i + 1;
+              return (
+                <img
+                  key={`${isMobile ? "mobile" : "desktop"}-${index}-${currentIndex}`}
+                  src={src}
+                  alt={`Banner ${isMobile ? "mobile" : "desktop"} ${index + 1}`}
+                  className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 ${
+                    index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    transform: index === currentIndex ? "scale(1)" : "scale(1.1)",
+                    animation:
+                      index === currentIndex
+                        ? "slowZoomOut 5s ease-out forwards"
+                        : "none",
+                  }}
+                />
+              );
+            })}
         </div>
 
-        <div className="absolute inset-0 z-10 flex flex-col items-end justify-end pb-20 md:justify-end md:items-start md:mx-0 md:pb-0">
-          <div className="bg-[#B326FF] text-white py-6 px-8 rounded-[30px] rounded-tr-[80px] md:rounded-t-none md:rounded-tr-[50px] md:px-24 w-[65%] mr-4 md:w-auto md:mr-0 md:max-w-none text-center md:text-left">
-            <h1 className="text-white font-bold text-2xl md:text-4xl font-sans leading-tight">
-              Creemos en las buenas ideas...
-            </h1>
-            <p className="text-white text-lg md:text-2xl mt-2">
-              y sobre todo en sacar adelante tu negocio
-            </p>
-          </div>
-          <Link
-            href="/contactanos"
-            className="relative inline-flex items-center justify-center text-white 
-            font-bold px-12 py-3 rounded-2xl shadow-md bg-[#FFA000] hover:bg-[#FB8C00] 
-            transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none
-            mt-5 mb-8 md:translate-x-[5rem] md:mx-0"
-          >
-            <span className="relative z-10">¡Contáctanos!</span>
-          </Link>
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-4">
+          <h1 className="text-white font-bold text-2xl md:text-4xl font-sans leading-tight text-center px-4">
+            <span className="inline-block">{typedText}</span>
+            <span className="dropping-texts inline-block ml-4">
+              <div className="dropping-word" key={currentIndex}>
+                {activeWord}
+              </div>
+            </span>
+            {typedText.length < staticText.length && (
+              <span className="animate-blink">|</span>
+            )}
+          </h1>
+          <p className="text-white text-lg md:text-2xl text-center max-w-2xl px-4">
+            {subtitle}
+          </p>
         </div>
       </main>
     </>

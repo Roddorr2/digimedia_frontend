@@ -1,94 +1,158 @@
 'use client';
 
-import React, { useState } from 'react';
-import { MisionVision } from './components/MisionVision';
-import WhatsAppButton from '../components/WhatsAppButton';
-import MayaChatbot from '../components/MayaChatbot';
-import { Hero } from '../components/page_components/Hero';
-import { Information } from '../components/page_components/Information';
+import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import WhatsAppButton from '../components/WhatsAppButton';
+import MayaChatbot from '../components/Chatbot';
 
 const Nosotros = () => {
   return (
-    <div className="min-h-screen bg-white">
-      <Hero
-        backgroundImage="/Img-nosotros/NOSOTROS_1680_1050.avif"
-        title="NOSOTROS"
-        position="center"
-      />
+    <div className="min-h-screen bg-gradient-to-b from-[#1D006F] to-[#0E0630] text-white relative overflow-hidden">
+      
+      {/* Círculo de luz decorativo amarillo a la derecha obtenido del SVG */}
+      <div className="absolute top-[888px] -right-[100px] w-[462px] h-[324px] rounded-full bg-[#FFB800]/10 blur-[120px] pointer-events-none z-0" />
 
-      <Information
-        subtitle="¿QUIÉNES SOMOS?"
-        description="En Digimedia impulsamos marcas mediante estrategias digitales creativas, innovación y contenido enfocado en generar crecimiento y conexión con las audiencias. Combinamos creatividad, análisis y tecnología para desarrollar experiencias digitales modernas, auténticas y orientadas a resultados."
-      />
+      {/* 1. HERO SECTION */}
+      <section className="relative h-[250px] sm:h-[350px] md:h-[450px] lg:h-[650px] w-full flex items-center justify-center overflow-hidden z-10">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/Img-nosotros/nosotros-hero.webp"
+            alt="Nosotros - DigiMedia"
+            title="Nosotros | DigiMedia"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          {/* Degradado superpuesto para lograr el tono morado oscuro */}
+          {/* <div className="absolute inset-0 bg-gradient-to-b from-[#14083c]/50 via-[#14083c]/70 to-[#14083c]" /> */}
+        </div>
 
-      {/* --- NUEVA SECCIÓN: NUESTRA ESENCIA --- */}
-      <section className="py-16 px-4 max-w-6xl mx-auto">
-        <h3 className="text-3xl md:text-4xl font-extrabold text-center text-purple-600 mb-12 uppercase">
-          Nuestra Esencia
-        </h3>
-        
+        {/* Título centrado */}
+        <div className="relative z-10 text-center px-4">
+          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-widest uppercase drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]">
+            NOSOTROS
+          </h1>
+        </div>
+      </section>
+
+      {/* 2. SECCIÓN ¿CÓMO FUNCIONA? */}
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10">
+        <div className="bg-[#0e0735]/85 border border-[#7D29E8]/30 rounded-3xl p-8 md:p-12 text-center shadow-[0_0_40px_rgba(125,41,232,0.25)]">
+          <h2 className="text-[#FFC500] text-2xl md:text-3xl font-black mb-4 tracking-wider uppercase">
+            ¿CÓMO FUNCIONA?
+          </h2>
+          <p className="text-gray-200 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium">
+            En Digimedia impulsamos marcas mediante estrategias digitales creativas, innovación y contenido enfocado en generar crecimiento y conexión con las audiencias. Combinamos creatividad, análisis y tecnología para desarrollar experiencias digitales modernas, auténticas y orientadas a resultados.
+          </p>
+        </div>
+      </section>
+
+      {/* 3. NUESTRA ESENCIA SECTION */}
+      <section className="relative z-10 max-w-7xl mx-auto px-4 py-16 text-center">
+        {/* Título con línea inferior amarilla */}
+        <div className="inline-block mb-16">
+          <h2 className="text-[#FFC500] text-3xl md:text-4xl font-extrabold uppercase tracking-widest">
+            NUESTRA ESENCIA
+          </h2>
+          <div className="h-[4px] bg-[#FFC500] w-full mt-2 rounded-full" />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Innovación - Morado */}
-          <div className="bg-white p-8 rounded-2xl border border-purple-100 shadow-[0_4px_20px_-4px_rgba(147,51,234,0.1)] hover:shadow-[0_8px_30px_-4px_rgba(147,51,234,0.2)] transition-shadow text-center flex flex-col items-center">
-            <div className="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-6">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.82 1.508-2.316a7.5 7.5 0 10-7.516 0c.85.496 1.508 1.333 1.508 2.316V18" />
-              </svg>
+          {/* Card 1: Innovación */}
+          <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
+            <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
+              <Image src="/Img-nosotros/inovacion.png" alt="Innovation Icon" width={60} height={60} />
             </div>
-            <h4 className="text-xl font-bold text-slate-800 mb-3 uppercase">Innovación</h4>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
+              INOVACIÓN
+            </h3>
+            <p className="text-gray-300 text-base leading-relaxed px-2">
               Aplicamos tendencias y herramientas digitales para mantener marcas en constante evolución.
             </p>
           </div>
 
-          {/* Creatividad - Naranja (Para contrastar, igual que su bloque de Misión) */}
-          <div className="bg-white p-8 rounded-2xl border border-orange-100 shadow-[0_4px_20px_-4px_rgba(249,115,22,0.1)] hover:shadow-[0_8px_30px_-4px_rgba(249,115,22,0.2)] transition-shadow text-center flex flex-col items-center">
-            <div className="w-16 h-16 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mb-6">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.81.5.5 0 00.146-.334V5.25a.5.5 0 00-.5-.5h-2.25a.5.5 0 00-.5.5v8.728a.5.5 0 00.146.334l.035.024A16.03 16.03 0 009.53 16.12z" />
-              </svg>
+          {/* Card 2: Creatividad */}
+          <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
+            <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
+              <Image src="/Img-nosotros/creatividad.png" alt="Creativity Icon" width={60} height={60} />
             </div>
-            <h4 className="text-xl font-bold text-slate-800 mb-3 uppercase">Creatividad</h4>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
+              CREATIVIDAD
+            </h3>
+            <p className="text-gray-300 text-base leading-relaxed px-2">
               Desarrollamos contenido visual y estrategias que fortalecen la identidad de cada marca.
             </p>
           </div>
 
-          {/* Estrategia - Morado */}
-          <div className="bg-white p-8 rounded-2xl border border-purple-100 shadow-[0_4px_20px_-4px_rgba(147,51,234,0.1)] hover:shadow-[0_8px_30px_-4px_rgba(147,51,234,0.2)] transition-shadow text-center flex flex-col items-center">
-            <div className="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-6">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
-              </svg>
+          {/* Card 3: Estrategia */}
+          <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
+            <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
+              <Image src="/Img-nosotros/estrategia.png" alt="Strategy Icon" width={60} height={60} />
             </div>
-            <h4 className="text-xl font-bold text-slate-800 mb-3 uppercase">Estrategia</h4>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
+              ESTRATEGIA
+            </h3>
+            <p className="text-gray-300 text-base leading-relaxed px-2">
               Creamos soluciones digitales enfocadas en posicionamiento, presencia y crecimiento sostenible.
             </p>
           </div>
         </div>
       </section>
-      {/* -------------------------------------- */}
 
-      <MisionVision />
+      {/* 4. MISIÓN Y VISIÓN SECTION */}
+      <section className="relative z-10 max-w-[1224px] mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[474fr_723fr] gap-[27px] items-stretch">
+          {/* Imagen a la Izquierda (Esquinas izquierdas redondeadas en desktop de 37px, superiores en mobile) */}
+          <div className="relative min-h-[350px] lg:min-h-[485px] rounded-t-[37px] lg:rounded-l-[37px] lg:rounded-tr-none lg:rounded-br-none overflow-hidden shadow-2xl">
+            <Image
+              src="/Img-nosotros/vision-mision-image-section.webp"
+              alt="Misión y Visión - DigiMedia"
+              title="Misión y Visión de Digimedia"
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
 
-      {/* --- BOTÓN CTA PEQUEÑO --- */}
-      <div className="flex flex-col items-center justify-center py-10 pb-16">
-       {/* se modifico la ruta correctamente ya que generaba error 404 con la ruta que tenia (/contacto) y la etiqueta <a> por link <Link> */ }
-        <Link 
-          href="/contactanos" 
-          className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-transform hover:-translate-y-1 shadow-lg shadow-orange-500/30 uppercase text-sm"
+          {/* Tarjeta de Contenido a la Derecha (Esquinas derechas redondeadas en desktop de 37px, inferiores en mobile, fondo con degradado del SVG) */}
+          <div className="bg-gradient-to-r from-[#01011A] to-[#120048] rounded-b-[37px] lg:rounded-r-[37px] lg:rounded-tl-none lg:rounded-bl-none p-8 md:p-12 lg:p-16 flex flex-col justify-center gap-8 shadow-2xl">
+            <div>
+              <h3 className="text-[#FFC500] text-3xl md:text-4xl font-extrabold mb-3 tracking-wider uppercase">
+                MISIÓN
+              </h3>
+              <p className="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed font-normal">
+                "Impulsar el crecimiento digital de marcas y emprendimientos mediante estrategias creativas, innovación y soluciones digitales enfocadas en generar posicionamiento, conexión y resultados sostenibles."
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-[#FFC500] text-3xl md:text-4xl font-extrabold mb-3 tracking-wider uppercase">
+                VISIÓN
+              </h3>
+              <p className="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed font-normal">
+                "Buscamos impulsar la transformación digital de empresas y emprendimientos mediante estrategias innovadoras que conecten marcas con personas."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CTA BUTTON */}
+      <div className="relative z-10 flex justify-center pb-24 pt-8">
+        <Link
+          href="/contactanos"
+          className="bg-[#FFC500] hover:bg-[#FFB800] text-black font-extrabold py-4 px-16 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(255,197,0,0.35)] uppercase text-sm sm:text-base tracking-widest"
         >
           Trabajemos juntos
         </Link>
       </div>
-      {/* -------------------------------------- */}
 
       <WhatsAppButton />
       <MayaChatbot />
 
+      {/* Transición oscura al final de la página (cercano al footer) obtenida del SVG */}
+      <div className="absolute bottom-0 left-0 right-0 h-[648px] bg-gradient-to-b from-transparent to-[#05011A] pointer-events-none z-0" />
     </div>
   );
 };

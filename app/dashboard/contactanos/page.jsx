@@ -33,11 +33,10 @@ export default function Page() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
   const router = useRouter();
+  const [totalItems, setTotalItems] = useState(0); //nuevo estado
 
   async function fetchContacts(pageToFetch = currentPage) {
     setIsRefreshing(true);
-    // Es buena práctica agregar setIsLoading(true) aquí también si tienes el estado
-    // setIsLoading(true)
 
     try {
       const response = await axios.get(`${URL_API}?page=${pageToFetch}`, {
@@ -57,10 +56,14 @@ export default function Page() {
       } else if (response.data.meta && response.data.meta.last_page) {
         totalPaginas = response.data.meta.last_page;
       } else if (response.data.total) {
-        totalPaginas = Math.ceil(response.data.total / 15);
+        totalPaginas = Math.ceil(response.data.total / 10);
       } else if (response.data.meta && response.data.meta.total) {
-        totalPaginas = Math.ceil(response.data.meta.total / 15);
+        totalPaginas = Math.ceil(response.data.meta.total / 10);
       }
+
+      let totalReal =
+        response.data.total ?? response.data.meta?.total ?? pageData.length;
+      setTotalItems(totalReal);
 
       setTotalPages(totalPaginas);
     } catch (error) {
@@ -82,6 +85,7 @@ export default function Page() {
       setIsRefreshing(false);
     }
   }
+
   async function deleteContact(id) {
     try {
       const response = await axios.delete(`${URL_API}/${id}`, {
@@ -292,18 +296,27 @@ export default function Page() {
       });
       return;
     }
-    const headers = ["ID", "Nombre", "Correo", "Estado"];
+    const headers = [
+      "ID",
+      "Nombre",
+      "Correo",
+      "Teléfono",
+      "Servicio",
+      "Estado",
+    ];
 
     const csvData = filteredData.map((contacto) => [
       contacto.id_contactanos,
       contacto.nombre,
       contacto.email,
+      contacto.numero,
+      contacto.servicio || "—",
       contacto.estado ? "Activo" : "Inactivo",
     ]);
 
     const csvContent = [
       headers.join(","),
-      ...csvData.map((row) => row.join(",")),
+      ...csvData.map((row) => row.map((v) => `"${v}"`).join(",")),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -394,12 +407,18 @@ export default function Page() {
                     >
                       Correo
                     </th>
-
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Telefono
+                    </th>
+                    {/* ── COLUMNA SERVICIO ── */}
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Servicio
                     </th>
                     <th
                       scope="col"
@@ -417,88 +436,92 @@ export default function Page() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
                   {filteredData.length > 0 ? (
-                    filteredData
-                      .slice(
-                        (Number(currentPage) - 1) * 4,
-                        Number(currentPage) * 4,
-                      )
-                      .map((contacto) => (
-                        <tr
-                          key={`${contacto.id_contactanos}-Row`}
-                          className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"
-                        >
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                            {contacto.id_contactanos}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                            {contacto.nombre}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                            {contacto.email}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                            {contacto.numero}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span
-                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    //quitar el slice y deja map
+                    filteredData.map((contacto) => (
+                      <tr
+                        key={`${contacto.id_contactanos}-Row`}
+                        className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                          {contacto.id_contactanos}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                          {contacto.nombre}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                          {contacto.email}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                          {contacto.numero}
+                        </td>
+                        {/* ── CELDA SERVICIO ── */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                          {contacto.servicio ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                              {contacto.servicio}
+                            </span>
+                          ) : (
+                            <span className="text-gray-400 text-xs">—</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              contacto.estado
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {contacto.estado ? "Activo" : "Inactivo"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={() =>
+                                visualizar(contacto.id_contactanos)
+                              }
+                              title="Visualizar"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                            >
+                              <Eye size={18} />
+                            </button>
+
+                            <button
+                              onClick={() =>
+                                confirmarCambiarEstado(
+                                  contacto.id_contactanos,
+                                  `${contacto.estado ? 0 : 1}`,
+                                )
+                              }
+                              title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
+                              className={`p-1.5 rounded-lg transition-colors ${
                                 contacto.estado
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-red-100 text-red-800"
+                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                                  : "bg-green-50 text-green-600 hover:bg-green-100"
                               }`}
                             >
-                              {contacto.estado ? "Activo" : "Inactivo"}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div className="flex justify-end gap-2">
+                              <ToggleLeft size={18} />
+                            </button>
+
+                            {auth_service.hasRole("administrador") && (
                               <button
                                 onClick={() =>
-                                  visualizar(contacto.id_contactanos)
+                                  confirmarEliminacion(contacto.id_contactanos)
                                 }
-                                title="Visualizar"
-                                className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                                title="Eliminar"
+                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
                               >
-                                <Eye size={18} />
+                                <Trash2 size={18} />
                               </button>
-
-                              <button
-                                onClick={() =>
-                                  confirmarCambiarEstado(
-                                    contacto.id_contactanos,
-                                    `${contacto.estado ? 0 : 1}`,
-                                  )
-                                }
-                                title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
-                                className={`p-1.5 rounded-lg transition-colors ${
-                                  contacto.estado
-                                    ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                                    : "bg-green-50 text-green-600 hover:bg-green-100"
-                                }`}
-                              >
-                                <ToggleLeft size={18} />
-                              </button>
-
-                              {auth_service.hasRole("administrador") && (
-                                <button
-                                  onClick={() =>
-                                    confirmarEliminacion(
-                                      contacto.id_contactanos,
-                                    )
-                                  }
-                                  title="Eliminar"
-                                  className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
-                                >
-                                  <Trash2 size={18} />
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="px-6 py-16 text-center">
+                      <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
                           <Filter className="h-12 w-12 text-gray-300 mb-3" />
                           <p className="text-gray-500 font-medium mb-1">
@@ -524,96 +547,107 @@ export default function Page() {
                 </tbody>
               </table>
             </div>
+
             {/* CARDS MOBILE */}
             <div className="grid grid-cols-1 gap-4 lg:hidden mt-4">
               {filteredData.length > 0 ? (
-                filteredData
-                  .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
-                  .map((contacto) => (
-                    <div
-                      key={`${contacto.id_contactanos}-card`}
-                      className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 p-4"
-                    >
-                      {/* Header */}
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <p className="text-xs text-gray-400">ID</p>
-                          <h2 className="font-bold text-lg dark:text-white">
-                            #{contacto.id_contactanos}
-                          </h2>
-                        </div>
-
-                        <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                            contacto.estado
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {contacto.estado ? "Activo" : "Inactivo"}
-                        </span>
+                filteredData.map((contacto) => (
+                  <div
+                    key={`${contacto.id_contactanos}-card`}
+                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 p-4"
+                  >
+                    {/* Header */}
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <p className="text-xs text-gray-400">ID</p>
+                        <h2 className="font-bold text-lg dark:text-white">
+                          #{contacto.id_contactanos}
+                        </h2>
                       </div>
 
-                      {/* Datos */}
-                      <div className="space-y-3">
-                        <div>
-                          <p className="text-xs text-gray-400">Nombre</p>
-                          <p className="font-medium dark:text-white">
-                            {contacto.nombre}
-                          </p>
-                        </div>
+                      <span
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                          contacto.estado
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {contacto.estado ? "Activo" : "Inactivo"}
+                      </span>
+                    </div>
 
-                        <div>
-                          <p className="text-xs text-gray-400">Correo</p>
-                          <p className="text-sm break-all dark:text-white">
-                            {contacto.email}
-                          </p>
-                        </div>
-
-                        <div>
-                          <p className="text-xs text-gray-400">Teléfono</p>
-                          <p className="dark:text-white">{contacto.numero}</p>
-                        </div>
+                    {/* Datos */}
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-xs text-gray-400">Nombre</p>
+                        <p className="font-medium dark:text-white">
+                          {contacto.nombre}
+                        </p>
                       </div>
 
-                      {/* Acciones */}
-                      <div className="flex justify-end gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
-                        <button
-                          onClick={() => visualizar(contacto.id_contactanos)}
-                          className="p-2 bg-amber-50 text-amber-600 rounded-xl hover:bg-amber-100 transition-colors"
-                        >
-                          <Eye size={18} />
-                        </button>
+                      <div>
+                        <p className="text-xs text-gray-400">Correo</p>
+                        <p className="text-sm break-all dark:text-white">
+                          {contacto.email}
+                        </p>
+                      </div>
 
-                        <button
-                          onClick={() =>
-                            confirmarCambiarEstado(
-                              contacto.id_contactanos,
-                              `${contacto.estado ? 0 : 1}`,
-                            )
-                          }
-                          className={`p-2 rounded-xl transition-colors ${
-                            contacto.estado
-                              ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                              : "bg-green-50 text-green-600 hover:bg-green-100"
-                          }`}
-                        >
-                          <ToggleLeft size={18} />
-                        </button>
+                      <div>
+                        <p className="text-xs text-gray-400">Teléfono</p>
+                        <p className="dark:text-white">{contacto.numero}</p>
+                      </div>
 
-                        {auth_service.hasRole("administrador") && (
-                          <button
-                            onClick={() =>
-                              confirmarEliminacion(contacto.id_contactanos)
-                            }
-                            className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors"
-                          >
-                            <Trash2 size={18} />
-                          </button>
+                      {/* ── SERVICIO EN CARD MOBILE ── */}
+                      <div>
+                        <p className="text-xs text-gray-400">Servicio</p>
+                        {contacto.servicio ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            {contacto.servicio}
+                          </span>
+                        ) : (
+                          <p className="text-gray-400 text-sm">—</p>
                         )}
                       </div>
                     </div>
-                  ))
+
+                    {/* Acciones */}
+                    <div className="flex justify-end gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
+                      <button
+                        onClick={() => visualizar(contacto.id_contactanos)}
+                        className="p-2 bg-amber-50 text-amber-600 rounded-xl hover:bg-amber-100 transition-colors"
+                      >
+                        <Eye size={18} />
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          confirmarCambiarEstado(
+                            contacto.id_contactanos,
+                            `${contacto.estado ? 0 : 1}`,
+                          )
+                        }
+                        className={`p-2 rounded-xl transition-colors ${
+                          contacto.estado
+                            ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                            : "bg-green-50 text-green-600 hover:bg-green-100"
+                        }`}
+                      >
+                        <ToggleLeft size={18} />
+                      </button>
+
+                      {auth_service.hasRole("administrador") && (
+                        <button
+                          onClick={() =>
+                            confirmarEliminacion(contacto.id_contactanos)
+                          }
+                          className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
               ) : (
                 <div className="text-center py-10">
                   <p className="text-gray-500">No hay datos disponibles</p>
@@ -625,6 +659,8 @@ export default function Page() {
               filteredData={filteredData}
               currentPage={currentPage}
               totalPages={totalPages}
+              perPage={10}
+              totalItems={totalItems}
             />
           </>
         )}

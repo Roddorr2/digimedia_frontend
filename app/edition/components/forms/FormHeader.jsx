@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import Swal from "sweetalert2";
-import { validateImageFile } from "../../utils/imageValidation";
+import { validateImageFile, getImageRecommendationText, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageValidation";
 
 // Configuración centralizada
 import {
@@ -83,7 +83,7 @@ export default function FormHeader({
 
   // Props adicionales
   className = "",
-  imageRecommendedSize = "1080x520 píxeles",
+  imageRecommendedSize = getImageRecommendationText("header"),
 }) {
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
@@ -156,6 +156,7 @@ export default function FormHeader({
       try {
         setUploading(true);
         
+        // Validar y convertir a WebP automáticamente si es necesario
         const validation = await validateImageFile(file, "header");
         if (!validation.valid) {
           Swal.fire({
@@ -168,11 +169,13 @@ export default function FormHeader({
           return;
         }
 
-        const tempUrl = URL.createObjectURL(file);
+        // Usar el archivo procesado (ya convertido a WebP si era PNG/JPG)
+        const processedFile = validation.file;
+        const tempUrl = URL.createObjectURL(processedFile);
         setPreviewImageUrl(tempUrl);
 
-        // Notificar al componente padre
-        onImageChange?.({ file, tempUrl });
+        // Notificar al componente padre con el archivo convertido
+        onImageChange?.({ file: processedFile, tempUrl });
       } catch (error) {
         // El manejo de errores lo deja al componente padre
         onImageChange?.({ error });
@@ -467,13 +470,38 @@ export default function FormHeader({
                       <input
                         type="text"
                         placeholder="#color1,#color2,#color3"
-                        value={data.bg_colors || ""}
-                        onChange={(e) => handleFieldChange({ target: { name: "bg_colors", value: e.target.value } })}
+                        value={data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(data.bg_colors.indexOf(",") + 1) : (data.bg_colors || "")}
+                        onChange={(e) => {
+                          const prefix = data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(0, data.bg_colors.indexOf(",") + 1) : "";
+                          handleFieldChange({ target: { name: "bg_colors", value: `${prefix}${e.target.value}` } });
+                        }}
                         className="flex-1 min-w-[200px] bg-gray-800 text-white border border-gray-600 rounded-lg p-1 px-2 text-sm"
                         title="Gradiente: #color1,#color2,#color3"
                       />
                     )}
                   </div>
+
+                  {/* Selector de dirección del gradiente */}
+                  {data.bg_type === "gradient" && (
+                    <div className="mt-2">
+                      <select
+                        value={data.bg_colors?.startsWith("to ") ? data.bg_colors.slice(0, data.bg_colors.indexOf(",")) : ""}
+                        onChange={(e) => {
+                          const base = data.bg_colors?.startsWith("to ")
+                            ? data.bg_colors.slice(data.bg_colors.indexOf(",") + 1)
+                            : (data.bg_colors || "");
+                          const newVal = e.target.value ? `${e.target.value},${base}` : base;
+                          handleFieldChange({ target: { name: "bg_colors", value: newVal } });
+                        }}
+                        className="w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-1 text-sm"
+                      >
+                        <option value="">Izquierda → Derecha</option>
+                        <option value="to bottom">Arriba → Abajo</option>
+                        <option value="to bottom right">Diagonal ↘</option>
+                        <option value="to top">Abajo → Arriba</option>
+                      </select>
+                    </div>
+                  )}
 
                   {(data.bg_type === "gradient" && data.bg_colors) && (
                     <div className="mt-2 text-xs text-gray-400">
@@ -625,7 +653,7 @@ export default function FormHeader({
                     )}
                     <input
                       type="file"
-                      accept="image/webp"
+                      accept={ACCEPTED_IMAGE_FORMATS}
                       className="hidden"
                       onChange={handleImageUpload}
                       disabled={uploading}
@@ -640,6 +668,15 @@ export default function FormHeader({
                     >
                       <Trash2 className="w-5 h-5 text-red-500" />
                     </button>
+                  </div>
+                </div>
+                <div className="mt-2 p-2.5 bg-purple-950/40 rounded-lg border border-purple-500/30 text-xs text-gray-300 space-y-1">
+                  <div className="font-semibold text-purple-300">Recomendaciones de imagen (Header):</div>
+                  <div className="flex flex-col gap-0.5 text-gray-400">
+                    <span>• Formatos aceptados: <strong className="text-gray-300">WebP, PNG, JPG, AVIF</strong> (se convierte a WebP automáticamente)</span>
+                    <span>• <strong className="text-yellow-400">Recomendado: 1280×600 px</strong></span>
+                    <span>• Rango permitido: <strong className="text-gray-300">800×400 a 1920×800 px</strong></span>
+                    <span>• Peso máximo: <strong className="text-gray-300">500 KB</strong></span>
                   </div>
                 </div>
               </div>

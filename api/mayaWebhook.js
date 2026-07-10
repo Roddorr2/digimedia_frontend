@@ -1,6 +1,6 @@
 const MAYA_WEBHOOK = process.env.NEXT_PUBLIC_MAYA_WEBHOOK_URL ?? "";
 
-export async function sendToMaya({ message, sessionId }) {
+export async function sendToMaya({ message, sessionId, interactionNumber }) {
   console.log("[Maya frontend] enviando a n8n:", message?.slice(0, 50));
 
   if (!MAYA_WEBHOOK) {
@@ -20,15 +20,16 @@ export async function sendToMaya({ message, sessionId }) {
       body: JSON.stringify({
         message,
         sessionId,
+        interactionNumber,
       }),
     });
 
-    console.log("[Maya frontend] status:", res.status);
+    console.log("[Xiomara frontend] status:", res.status);
 
     if (!res.ok) {
       return {
         role: "bot",
-        mensaje: "Maya no está disponible ahora. Escríbenos directamente.",
+        mensaje: "Xiomara no está disponible ahora. Escríbenos directamente.",
         contacto: "https://wa.me/51983027828",
       };
     }
@@ -59,14 +60,14 @@ export async function sendToMaya({ message, sessionId }) {
         "No recibí una respuesta válida.",
 
       servicios: data?.servicios || [],
-      contacto: data?.contacto || "https://wa.me/51983027828",
+      contacto: data?.contacto || null,
     };
   } catch (err) {
     console.error("[Maya frontend] error de conexión:", err);
 
     return {
       role: "bot",
-      mensaje: "No pude conectarme con Maya ahora. Escríbenos directamente.",
+      mensaje: "No pude conectarme con Xiomara ahora. Escríbenos directamente.",
       contacto: "https://wa.me/51983027828",
     };
   }

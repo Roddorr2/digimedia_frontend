@@ -46,6 +46,7 @@ const InputField = ({
       onChange={onChange}
       required={required}
       maxLength={maxLength}
+      toolparamdescription={name === "nombre" ? "Nombre del usuario" : name === "telefono" ? "Número de teléfono (9 dígitos)" : "Correo electrónico"}
       className="w-full rounded-full pl-9 pr-3 py-1.5 text-xs text-black border border-gray-400 bg-white/90 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent placeholder-gray-600 shadow-sm"
     />
   </div>
@@ -74,7 +75,7 @@ function FormContent({
   sending,
 }) {
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2.5">
+    <form onSubmit={handleSubmit} className="w-full max-w-[270px] space-y-2.5" toolname="submit_service_popup" tooldescription="Envía información de contacto a través del popup de servicio">
       <InputField
         icon={User}
         type="text"
@@ -114,6 +115,7 @@ function FormContent({
 export default function ServicePopup({
   idServicio,
   idSubservicio = null,
+  subservicioSlug = null,
   tiempoGlobal = null,
   buttonId = null,
 }) {
@@ -139,7 +141,11 @@ export default function ServicePopup({
     const fetchConfig = async () => {
       try {
         let response;
-        if (idSubservicio) {
+        if (subservicioSlug) {
+          response = await axios.get(
+            `${API_URL}/api/public/popup-configs/subservicio/slug/${subservicioSlug}`,
+          );
+        } else if (idSubservicio) {
           response = await axios.get(
             `${API_URL}/api/public/popup-configs/subservicio/${idSubservicio}`,
           );
@@ -148,7 +154,7 @@ export default function ServicePopup({
             `${API_URL}/api/public/popup-configs/servicio/${idServicio}`,
           );
         } else {
-          console.error("Debe proporcionar idServicio o idSubservicio");
+          console.error("Debe proporcionar idServicio, idSubservicio o subservicioSlug");
           setLoading(false);
           return;
         }
@@ -164,7 +170,7 @@ export default function ServicePopup({
       }
     };
     fetchConfig();
-  }, [idServicio, idSubservicio]);
+  }, [idServicio, idSubservicio, subservicioSlug]);
 
   useEffect(() => {
     if (!config) return;
@@ -177,7 +183,7 @@ export default function ServicePopup({
       return () => clearTimeout(timer);
     }
     if (config.trigger_type === "click") {
-      const triggerId = idSubservicio || idServicio;
+      const triggerId = subservicioSlug || idSubservicio || idServicio;
       const triggerElementId = buttonId || `popup-trigger-${triggerId}`;
       const handleClick = () => setOpen(true);
       const element = document.getElementById(triggerElementId);
@@ -188,7 +194,7 @@ export default function ServicePopup({
         console.warn(`Elemento con ID "${triggerElementId}" no encontrado`);
       }
     }
-  }, [config, tiempoGlobal, buttonId, idServicio, idSubservicio]);
+  }, [config, tiempoGlobal, buttonId, idServicio, idSubservicio, subservicioSlug]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -380,7 +386,7 @@ export default function ServicePopup({
         )}
 
         <div className="px-5 pt-8 pb-5 mt-auto relative z-10">
-          <form onSubmit={handleSubmit} className="space-y-2.5">
+          <form onSubmit={handleSubmit} className="space-y-2.5" toolname="submit_service_popup" tooldescription="Envía información de contacto a través del popup de servicio">
             <InputField
               icon={User}
               type="text"

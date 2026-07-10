@@ -11,6 +11,8 @@ import {
   User,
   PhoneCall,
   Megaphone,
+  Shield,
+  KeyIcon,
 } from "lucide-react";
 
 export const dashboardLinks = [
@@ -35,6 +37,18 @@ export const dashboardLinks = [
     icon: Component,
   },
   {
+    title: "Roles",
+    href: "/dashboard/roles",
+    role: "administrador",
+    icon: Shield,
+  },
+  {
+    title: "Permisos",
+    href: "/dashboard/permisos",
+    role: "administrador",
+    icon: KeyIcon,
+  },
+  {
     title: "Reclamaciones",
     href: "/dashboard/reclamaciones",
     permission: "ver-reclamaciones",
@@ -45,12 +59,6 @@ export const dashboardLinks = [
     href: "/dashboard/blogs",
     permission: "crear-blogs",
     icon: Logs,
-  },
-  {
-    title: "Roles y Permisos",
-    href: "/dashboard/role-permission",
-    role: "administrador",
-    icon: HandCoins,
   },
   {
     title: "Métricas",

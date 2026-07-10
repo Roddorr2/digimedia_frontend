@@ -50,7 +50,7 @@ import { useAuth } from "@/app/context/AuthContext";
 
 export default function Page() {
   const searchParams = useSearchParams();
-  const { user, hasRole, isLoading: authLoading } = useAuth();
+  const { user, hasPermission, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const currentPage = searchParams.get("page") || 1;
   const [data, setData] = useState([]);
@@ -90,17 +90,17 @@ export default function Page() {
   };
 
   useEffect(() => {
-    if (!authLoading && user && !hasRole("administrador")) {
+    if (!authLoading && user && !hasPermission("ver-empleados")) {
       router.push("/dashboard/main");
     }
-  }, [user, authLoading, hasRole, router]);
+  }, [user, authLoading, hasPermission, router]);
 
   async function setEmpleados(page) {
     setIsLoading(true);
     try {
       const response = await empleado_service.empleadosByPage(
         page,
-        5,
+        10,
         searchTerm,
         selectedRole,
       );
@@ -314,7 +314,7 @@ export default function Page() {
     );
   }
 
-  if (!user || !hasRole("administrador")) {
+  if (!user) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         Redirigiendo...
@@ -355,19 +355,18 @@ export default function Page() {
                 Administra la información de los empleados de la empresa
               </CardDescription>
             </div>
-            {hasRole("administrador") &&
-              auth_service.hasPermission("crear-empleados") && (
-                <Button
-                  className="bg-white text-[#8c52ff] hover:bg-gray-100 transition-colors shadow-sm w-full md:w-auto"
-                  onClick={() => {
-                    setDataUpdate(null);
-                    setModal(true);
-                  }}
-                >
-                  <PlusCircle className="h-4 w-4 mr-2" />
-                  Añadir empleado
-                </Button>
-              )}
+            {auth_service.hasPermission("crear-empleados") && (
+              <Button
+                className="bg-white text-[#8c52ff] hover:bg-gray-100 transition-colors shadow-sm w-full md:w-auto"
+                onClick={() => {
+                  setDataUpdate(null);
+                  setModal(true);
+                }}
+              >
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Añadir empleado
+              </Button>
+            )}
           </div>
         </CardHeader>
 
@@ -477,7 +476,7 @@ export default function Page() {
 
               {filteredData.length > 0 && (
                 <div className="mt-4">
-                  <Pagination count={count} />
+                  <Pagination count={count} itemsPerPage={10} />
                 </div>
               )}
             </>

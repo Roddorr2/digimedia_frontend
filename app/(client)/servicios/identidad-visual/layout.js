@@ -23,7 +23,7 @@ export default function IdentVisualLayout({ children }) {
   return (
     <>
       {children}
-      <ServicePopup idServicio={3} idSubservicio={11} />
+      <ServicePopup subservicioSlug="identidad-visual" />
     </>
   );
 }

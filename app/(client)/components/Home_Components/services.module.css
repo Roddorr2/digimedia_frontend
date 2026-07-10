@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
+  background-color: transparent;
 }
 
 /* Encabezado */
@@ -78,7 +78,7 @@
 
 /* Tarjetas Moradas */
 .purple {
-  background-color: #b525fe;
+  background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
   flex: 1;
   display: flex;
   flex-direction: column;
