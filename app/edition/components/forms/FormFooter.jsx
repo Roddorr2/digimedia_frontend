@@ -689,7 +689,7 @@ export default function FormFooter({
                    <input
                      type="text"
                      name="titulo"
-                     maxLength={validationConfig.titulo?.max || 30}
+                     maxLength={validationConfig.titulo?.max}
                      autoComplete="off"
                      value={data.titulo || ""}
                      onChange={handleFieldChange}
@@ -867,7 +867,7 @@ export default function FormFooter({
                                     value={data[altFieldName] || ""}
                                     onChange={handleFieldChange}
                                     maxLength={
-                                      validationConfig.alt_image?.max || 100
+                                      validationConfig[altFieldName]?.max
                                     }
                                     autoComplete="off"
                                     className={mergedStyles.input}
@@ -893,7 +893,7 @@ export default function FormFooter({
                                     value={data[titleFieldName] || ""}
                                     onChange={handleFieldChange}
                                     maxLength={
-                                      validationConfig.title_image?.max || 100
+                                      validationConfig[titleFieldName]?.max
                                     }
                                     autoComplete="off"
                                     className={mergedStyles.input}

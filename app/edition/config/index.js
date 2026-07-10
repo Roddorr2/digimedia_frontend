@@ -88,8 +88,8 @@ export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   titulo_enlace: { min: 5, max: 50, required: false },
   alt: { min: 60, max: 240, required: false },
   title: { min: 50, max: 140, required: false },
-  meta_title: { min: 50, max: 120, required: false },
-  meta_descripcion: { min: 150, max: 255, required: false },
+  meta_title: { min: 50, max: 120, required: false }, //bien
+  meta_descripcion: { min: 150, max: 255, required: false },//bien
 };
 
 // Configuración de validación por defecto para Footer (común a todas las plantillas)
