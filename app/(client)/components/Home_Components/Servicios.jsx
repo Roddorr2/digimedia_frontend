@@ -125,7 +125,6 @@ export default function Servicios() {
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-                    priority={index === 0}
                   />
 
                   {/* Gradient Overlays */}

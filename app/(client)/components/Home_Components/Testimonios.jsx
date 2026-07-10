@@ -47,7 +47,6 @@ export default function Testimonios() {
               alt="Personas conversando"
               fill
               className="object-cover object-center -scale-x-100"
-              priority
               quality={80}
               sizes="(max-width: 768px) 100vw, 600px"
             />

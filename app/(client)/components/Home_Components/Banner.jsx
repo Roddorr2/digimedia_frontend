@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from "react";
 
 const desktopSlides = [
   "/optimized_images/image-home/pc-1.webp",
-  "/optimized_images/image-home/pc-2.png",
-  "/optimized_images/image-home/pc-3.png",
-  "/optimized_images/image-home/pc-4.png",
+  "/optimized_images/image-home/pc-2.webp",
+  "/optimized_images/image-home/pc-3.webp",
+  "/optimized_images/image-home/pc-4.webp",
 ];
 
 const mobileSlides = [
@@ -19,6 +19,8 @@ export default function Banner() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentIndexRef = useRef(0);
   const [typedText, setTypedText] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+  const [viewportReady, setViewportReady] = useState(false);
 
   const staticText = "MARKETING DIGITAL QUE MUEVE MARCAS ";
   const droppingWords = [
@@ -31,22 +33,48 @@ export default function Banner() {
   const subtitle =
     "Estrategia, contenido y gestión para negocios que quieren crecer en el mundo digital.";
 
+  const slides = isMobile ? mobileSlides : desktopSlides;
+
+  // Detecta el viewport una sola vez al montar y se suscribe a cambios de breakpoint
   useEffect(() => {
-    [...desktopSlides, ...mobileSlides].forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    setViewportReady(true);
+    const handleChange = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
   }, []);
+
+  // Precarga solo el resto del set activo (el slide 0 ya se resuelve vía <picture>),
+  // diferida a tiempo idle para no competir con la carga inicial del Home.
+  useEffect(() => {
+    if (!viewportReady) return;
+
+    const preloadSecondarySlides = () => {
+      slides.slice(1).forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(preloadSecondarySlides);
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = setTimeout(preloadSecondarySlides, 2000);
+    return () => clearTimeout(timeoutId);
+  }, [viewportReady, isMobile]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = (currentIndexRef.current + 1) % desktopSlides.length;
+      const nextIndex = (currentIndexRef.current + 1) % slides.length;
       currentIndexRef.current = nextIndex;
       setCurrentIndex(nextIndex);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     let index = 0;
@@ -73,44 +101,53 @@ export default function Banner() {
       `}</style>
       <main className="relative h-[calc(100dvh-125px)] w-full overflow-hidden bg-black">
         <div className="absolute inset-0 w-full h-full">
-          {desktopSlides.map((src, index) => (
+          {/* Slide 0: presente desde el HTML inicial (sin esperar viewportReady).
+              El navegador elige mobile/desktop vía <source media>, sin JS. */}
+          <picture>
+            <source media="(max-width: 767px)" srcSet={mobileSlides[0]} />
             <img
-              key={`desktop-${index}-${currentIndex}`}
-              src={src}
-              alt={`Banner desktop ${index + 1}`}
-              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 hidden md:block ${
-                index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-              }`}
+              key={`slide-0-${currentIndex}`}
+              src={desktopSlides[0]}
+              alt="Banner principal Digimedia"
               loading="eager"
+              fetchPriority="high"
               decoding="async"
+              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 ${
+                currentIndex === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
               style={{
-                transform: index === currentIndex ? "scale(1)" : "scale(1.1)",
+                transform: currentIndex === 0 ? "scale(1)" : "scale(1.1)",
                 animation:
-                  index === currentIndex
+                  currentIndex === 0
                     ? "slowZoomOut 5s ease-out forwards"
                     : "none",
               }}
             />
-          ))}
-          {mobileSlides.map((src, index) => (
-            <img
-              key={`mobile-${index}-${currentIndex}`}
-              src={src}
-              alt={`Banner mobile ${index + 1}`}
-              className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 md:hidden ${
-                index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-              }`}
-              loading="eager"
-              decoding="async"
-              style={{
-                transform: index === currentIndex ? "scale(1)" : "scale(1.1)",
-                animation:
-                  index === currentIndex
-                    ? "slowZoomOut 5s ease-out forwards"
-                    : "none",
-              }}
-            />
-          ))}
+          </picture>
+
+          {viewportReady &&
+            slides.slice(1).map((src, i) => {
+              const index = i + 1;
+              return (
+                <img
+                  key={`${isMobile ? "mobile" : "desktop"}-${index}-${currentIndex}`}
+                  src={src}
+                  alt={`Banner ${isMobile ? "mobile" : "desktop"} ${index + 1}`}
+                  className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 ${
+                    index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    transform: index === currentIndex ? "scale(1)" : "scale(1.1)",
+                    animation:
+                      index === currentIndex
+                        ? "slowZoomOut 5s ease-out forwards"
+                        : "none",
+                  }}
+                />
+              );
+            })}
         </div>
 
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none gap-4">
