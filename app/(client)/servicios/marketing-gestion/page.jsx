@@ -11,7 +11,7 @@ export default function MarketingGestionDigital() {
     {
       title: "ANÁLISIS Y BENCHMARKING",
       text: "Evaluamos y mejoramos el rendimiento de tu marca frente a la competencia con las mejores estrategias.",
-      image: "/servicios/marketing/marketing-y-gestion_sub1-ANALISIS-Y-BENCHMARKING.webp",
+      image: "/servicios/marketing/marketing-y-gestion_sub1-ANALISIS-Y-BENCHMARKING-1.webp",
       ruta: "/servicios/analisis-y-benchmarking/",
       imageTitle: "Análisis y Benchmarking | Digimedia",
       imageAlt: "ANÁLISIS Y BENCHMARKING",
