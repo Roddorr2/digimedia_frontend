@@ -8,66 +8,6 @@ import { X } from "lucide-react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const testimonialsData = [
-  {
-    id: 1,
-    name: "Geraldine",
-    date: "Hace 3 meses",
-    rating: 5,
-    text: "Desde mi experiencia, DigiMedia Marketing es una agencia que realmente aporta valor, destacando por su enfoque estratégico y su capacidad para proponer soluciones creativas y adaptadas a cada necesidad. Se nota un equipo con conocimiento del entorno digital, orientado a resultados y con una ejecución eficiente en cada acción. Además, mantienen una comunicación clara y constante, lo que facilita el trabajo y genera confianza. Gracias a su gestión, se logra fortalecer la presencia online y la conexión con la audiencia, convirtiéndose en una excelente opción para quienes buscan crecer en el mundo digital.",
-    avatar: "/testimonials/usuario-1.webp",
-  },
-  {
-    id: 2,
-    name: "Paola Jibaja",
-    date: "Hace 2 meses",
-    rating: 4,
-    text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
-    avatar: "/testimonials/usuario-2.webp",
-  },
-  {
-    id: 3,
-    name: "Fiorella",
-    date: "Hace 2 meses",
-    rating: 5,
-    text: "Trabajar con DigiMedia fue una experiencia bastante fluida y enriquecedora. Algo que realmente destaca es su capacidad para adaptarse a lo que necesita cada proyecto, aportando ideas prácticas y bien pensadas. Se nota que hay un buen manejo del entorno digital y una intención clara de generar resultados, no solo propuestas bonitas. Además, el trato es cercano y la comunicación se mantiene constante, lo que hace que todo el proceso sea más sencillo y ordenado. Es una agencia que combina bien lo creativo con lo estratégico.",
-    avatar: "/testimonials/usuario-3.webp",
-  },
-  {
-    id: 4,
-    name: "Cristian Moreno Sotelo",
-    date: "Hace 3 mes",
-    rating: 5,
-    text: `Mi experiencia en Digimedia Marketing ha sido totalmente positiva. Desde que ingrese, he fortalecido constantemente mis habilidades profesionales, especialmente en la planificación y organización, el cumplimientos de metas, la responsabilidad y el compromiso de cada proyecto.
-Asimismo, he desarrollado una mejor capacidad para el trabajo en equipo, el liderazgo y la adaptación a los cambios, lo que me ha permitido responder soluciones inmediatas ante distintos retos. También he aprendido a comunicarme de manera más efectiva con otras áreas, identificando oportunidades de mejora para lograr resultados sólidos, no solo en la gestión de redes sociales, sino a nivel integral como agencia.
-Agradezco profundamente la oportunidad brindada y la línea de carrera que ofrece Digimedia Marketing.`,
-    avatar: "/testimonials/usuario-4.webp",
-  },
-  {
-    id: 5,
-    name: "Valeria Paz",
-    date: "Hace 3 meses",
-    rating: 5,
-    text: "La última publicación de Digimedia muestra un mensaje claro y muy alineado con la realidad digital actual: hoy la experiencia móvil define si un usuario se queda o se va. Destaca bien la importancia de la adaptabilidad como factor clave para no perder oportunidades de negocio, aunque podría ganar aún más fuerza si incluyera un dato o ejemplo concreto que refuerce el impacto. Me ha agradado bastante trabajar con ellos ya que son muy profesionales, dedicads y puntuales. Recomiendo Digimedia!.",
-    avatar: "/testimonials/usuario-5.webp",
-  },
-  {
-    id: 6,
-    name: "Inacio Torres",
-    date: "Hace 2 meses",
-    rating: 5,
-    text: "Lo mejor de Digimedia es la calidad humana de su equipo. Ofrecen una experiencia profesional, transparente y llena de energía positiva. Da mucha confianza trabajar con personas que hacen que cada etapa del proceso sea tan ligera y agradable.",
-    avatar: "/testimonials/usuario-6.webp",
-  },
-  {
-    id: 7,
-    name: "Marley",
-    date: "Hace 5 meses",
-    rating: 5,
-    text: "Digimedia fue una experiencia bastante sólida. El equipo entiende bien el marketing digital y se nota que no improvisan: todo tiene un porqué. La comunicación fue clara, el proceso ordenado y las soluciones prácticas 👍…",
-    avatar: "/testimonials/usuario-7.webp",
-  },
-];
 
 // Avatar con fallback: si la imagen no carga, muestra las iniciales
 // en vez de dejar el ícono de imagen rota (que descoloca el layout).
@@ -109,18 +49,69 @@ function Avatar({ src, name, size = 14 }) {
 // Aproximadamente lo que entra en 5 líneas dentro de la card.
 const TRUNCATE_LIMIT = 220;
 
-export default function Testimonials() {
+
+const fallbackTestimonials  = [
+  {
+    id: 1,
+    name: "Geraldine",
+    date: "Hace 3 meses",
+    rating: 5,
+    text: "Desde mi experiencia, DigiMedia Marketing es una agencia que realmente aporta valor, destacando por su enfoque estratégico y su capacidad para proponer soluciones creativas y adaptadas a cada necesidad. Se nota un equipo con conocimiento del entorno digital, orientado a resultados y con una ejecución eficiente en cada acción. Además, mantienen una comunicación clara y constante, lo que facilita el trabajo y genera confianza. Gracias a su gestión, se logra fortalecer la presencia online y la conexión con la audiencia, convirtiéndose en una excelente opción para quienes buscan crecer en el mundo digital.",
+    avatar: "/testimonials/usuario-1.webp",
+  },
+  {
+    id: 2,
+    name: "Paola Jibaja",
+    date: "Hace 2 meses",
+    rating: 4,
+    text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
+    avatar: "/testimonials/usuario-2.webp",
+  },
+{
+    id: 3,
+    name: "Paola Jibaja",
+    date: "Hace 2 meses",
+    rating: 4,
+    text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
+    avatar: "/testimonials/usuario-2.webp",
+  },
+{
+    id: 4,
+    name: "Paola Jibaja",
+    date: "Hace 2 meses",
+    rating: 4,
+    text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
+    avatar: "/testimonials/usuario-2.webp",
+  },
+{
+    id: 5,
+    name: "Paola Jibaja",
+    date: "Hace 2 meses",
+    rating: 4,
+    text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
+    avatar: "/testimonials/usuario-2.webp",
+  },
+{
+    id: 6,
+    name: "Paola Jibaja",
+    date: "Hace 2 meses",
+    rating: 4,
+    text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
+    avatar: "/testimonials/usuario-2.webp",
+  }];
+
+export default function Testimonials({ reviews = [] }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [activeReview, setActiveReview] = useState(null);
 
+  const testimonialsData = reviews.length > 0 ? reviews : fallbackTestimonials;
+
+  if (testimonialsData.length === 0) return null; // o un mensaje discreto
+
   return (
     <section
-      className="w-full relative py-20 px-4 md:px-12 overflow-hidden bg-black"
-      style={{
-        background:
-          "linear-gradient(135deg, #100043 0%, #130049 40%, #410c89 100%)",
-      }}
+      className="w-full relative py-20 px-4 md:px-12 overflow-hidden" 
     >
       {/* Background decorations para mantener consistencia con Servicios */}
       <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#ffb800]/10 blur-[120px] pointer-events-none" />
@@ -240,7 +231,7 @@ export default function Testimonials() {
                       </div>
 
                       <img
-                        src="/google-logo.webp"
+                        src="/img-nosotros/logo_google.webp"
                         alt="Google"
                         width={28}
                         height={28}

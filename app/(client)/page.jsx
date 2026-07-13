@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Banner from "./components/Home_Components/Banner";
 import Testimonios from "./components/Home_Components/Testimonios";
+import { getTestimonials } from "@/lib/testimonials"; // 
 const Servicios = dynamic(
   () => import("./components/Home_Components/Servicios") 
 );
