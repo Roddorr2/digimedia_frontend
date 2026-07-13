@@ -5,7 +5,6 @@ import { Doppio_One } from 'next/font/google';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { Hanken_Grotesk } from 'next/font/google';
 import { AuthProvider } from './context/AuthContext';
-import PerformanceOptimizations from './components/PerformanceOptimizations';
 
 const montserrat = localFont({
   src: [
@@ -74,6 +73,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        {/* Preconnect/dns-prefetch estáticos: antes se inyectaban vía useEffect
+            (PerformanceOptimizations.jsx) y llegaban después de la hidratación */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
         <Script id="theme-init" strategy="beforeInteractive">
           {`
             try {
@@ -104,8 +109,6 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.variable} ${telegraf.variable} ${doppioOne.variable} ${plusJakartaSans.variable} ${hankenGrotesk.variable} antialiased`}
       >
-        {/* Optimizaciones de rendimiento */}
-        <PerformanceOptimizations />
         {/* El AuthProvider debe envolver todo el contenido */}
         <AuthProvider>{children}</AuthProvider>
 
