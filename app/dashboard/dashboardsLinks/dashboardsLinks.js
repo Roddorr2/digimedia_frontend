@@ -64,7 +64,7 @@ export const dashboardLinks = [
   {
     title: "Testimonios",
     href: "/dashboard/testimonios",
-    role: "administrador, marketing",
+    permission: "ver-testimonios",
     icon: MessageSquareQuote,
   },
   {

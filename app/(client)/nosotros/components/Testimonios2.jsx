@@ -11,8 +11,10 @@ import "swiper/css/pagination";
 
 // Avatar con fallback: si la imagen no carga, muestra las iniciales
 // en vez de dejar el ícono de imagen rota (que descoloca el layout).
+
 function Avatar({ src, name, size = 14 }) {
   const [failed, setFailed] = useState(false);
+  // extrae las dos primeras iniciales del nombre
   const initials = name
     .split(" ")
     .filter(Boolean)
@@ -22,7 +24,7 @@ function Avatar({ src, name, size = 14 }) {
     .toUpperCase();
 
   const sizeClass = size === 14 ? "h-14 w-14" : "h-16 w-16";
-
+  // si la img se rompe se muestra circulo con iniciales
   if (failed || !src) {
     return (
       <div
@@ -48,8 +50,9 @@ function Avatar({ src, name, size = 14 }) {
 // Umbral de caracteres a partir del cual mostramos "Leer más".
 // Aproximadamente lo que entra en 5 líneas dentro de la card.
 const TRUNCATE_LIMIT = 220;
+const GOOGLE_MAPS_REVIEWS_URL = "https://www.google.com/maps/place/Agencia+de+Marketing+Digital+en+Lima+Per%C3%BA+-+DigiMedia/@-12.057454,-77.0277795,1103m/data=!3m1!1e3!4m8!3m7!1s0x9105c981108188a1:0x2bce3907b5bcb3ec!8m2!3d-12.0574593!4d-77.0252046!9m1!1b1!16s%2Fg%2F11fml3rlc6?entry=ttu&g_ep=EgoyMDI2MDcxMi4wIKXMDSoASAFQAw%3D%3D";
 
-
+// testimonios de respaldo
 const fallbackTestimonials  = [
   {
     id: 1,
@@ -107,7 +110,7 @@ export default function Testimonials({ reviews = [] }) {
 
   const testimonialsData = reviews.length > 0 ? reviews : fallbackTestimonials;
 
-  if (testimonialsData.length === 0) return null; // o un mensaje discreto
+  if (testimonialsData.length === 0) return null; // no renderiza nada si no hay testimonios de bd ni del fallbackk
 
   return (
     <section
@@ -172,7 +175,7 @@ export default function Testimonials({ reviews = [] }) {
               />
             </svg>
           </button>
-
+          {/* Carrusel principal de Swiper */}
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             onBeforeInit={(swiper) => {
@@ -208,6 +211,7 @@ export default function Testimonials({ reviews = [] }) {
             }}
             className="!pb-14"
           >
+            {/* Renderiza una card por cada testimonio */}
             {testimonialsData.map((review) => {
               const isLong = review.text.length > TRUNCATE_LIMIT;
 
@@ -230,15 +234,22 @@ export default function Testimonials({ reviews = [] }) {
                         </div>
                       </div>
 
-                      <img
-                        src="/img-nosotros/logo_google.webp"
-                        alt="Google"
-                        width={28}
-                        height={28}
-                        className="h-7 w-auto flex-shrink-0 opacity-90"
-                      />
+                      <a
+                        href={GOOGLE_MAPS_REVIEWS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Ver reseñas en Google Maps"
+                        className="flex-shrink-0"
+                      >
+                        <img
+                          src="/img-nosotros/logo_google.webp"
+                          alt="Google"
+                          width={28}
+                          height={28}
+                          className="h-7 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                        />
+                      </a>
                     </div>
-
                     {/* Estrellas */}
                     <div className="mb-5 flex flex-shrink-0">
                       {[...Array(5)].map((_, index) => (
@@ -275,8 +286,11 @@ export default function Testimonials({ reviews = [] }) {
                     )}
                   </div>
                 </SwiperSlide>
+              
               );
+              
             })}
+            
           </Swiper>
 
           {/* Paginación custom */}

@@ -50,6 +50,8 @@ export default function Page() {
   }, [user, authLoading,hasPermission, router]);
 
   async function setTestimonios(page) {
+    //guarda para no mandar multiples mensajes de bloqueo
+    if (!hasPermission("ver-testimonios")) return; 
     setIsLoading(true);
     try {
       const response = await testimonio_service.testimoniosByPage(
@@ -66,16 +68,6 @@ export default function Page() {
           confirmButtonColor: "#6f4be8",
         }).then(() => {
           user_service.logoutClient(router);
-        });
-        return;
-      } else if (response.status === 403) {
-        Swal.fire({
-          icon: "error",
-          title: "Acceso denegado",
-          text: "No tienes permisos para acceder a este módulo.",
-          confirmButtonColor: "#6f4be8",
-        }).then(() => {
-          router.push("/dashboard/main");
         });
         return;
       } else if (response.status === 500) {
@@ -182,17 +174,18 @@ export default function Page() {
     fetchTestimonios(1);
   };
   //para manejar los multiples fetch
-  useEffect(() => {
+useEffect(() => {
   if (isFirstRender.current) {
     isFirstRender.current = false;
-    return; 
+    return;
   }
-  const handler = setTimeout(() => {
-    handleFilterChange();
-  }, 500);
-
-  return () => clearTimeout(handler);
-}, [searchTerm]);
+  if (!authLoading && hasPermission("ver-testimonios")) {
+    const handler = setTimeout(() => {
+      handleFilterChange();
+    }, 500);
+    return () => clearTimeout(handler);
+  }
+}, [searchTerm, authLoading]);
 
 
   const fetchTestimonios = async () => {
@@ -227,7 +220,9 @@ export default function Page() {
 }
 
   useEffect(() => {
+    if (!authLoading && hasPermission("ver-testimonios")) {
     fetchTestimonios();
+    }
   }, [currentPage]);
 
   if (authLoading) {
