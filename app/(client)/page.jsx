@@ -1,11 +1,19 @@
 import dynamic from "next/dynamic";
 import Banner from "./components/Home_Components/Banner";
-import Testimonios from "./components/Home_Components/Testimonios";
+
 const Servicios = dynamic(
-  () => import("./components/Home_Components/Servicios") 
+  () => import("./components/Home_Components/Servicios"), 
+  { loading: () => <div className="h-[600px] bg-black" /> }
 );
 
-import ClientSideComponents from "./components/ClientSideComponents";
+const Testimonios = dynamic(
+  () => import("./components/Home_Components/Testimonios"),
+  { loading: () => <div className="h-[400px] bg-gradient-to-br from-[#100043] to-[#410c89]" /> }
+);
+
+const ClientSideComponents = dynamic(
+  () => import("./components/ClientSideComponents")
+);
 
 export default function Home() {
   return (
@@ -17,4 +25,3 @@ export default function Home() {
     </>
   );
 }
-
