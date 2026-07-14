@@ -88,8 +88,14 @@ console.log("Cloud name que se está usando:", CLOUDINARY_CLOUD_NAME);
   // Sube la imagen a Cloudinary siguiendo el flujo de firma + subida directa
   async function subirImagen(id) {
     const timestamp = Math.floor(Date.now() / 1000);
+    const paramsToSign = {
+      timestamp,
+      folder: `testimonios/${id}`,
+      public_id: "foto",
+      overwrite: "true",
+    };
 
-    const signatureResponse = await testimonio_service.generateUploadSignature(id, { timestamp });
+    const signatureResponse = await testimonio_service.generateUploadSignature(id, paramsToSign);
     if (signatureResponse.error) {
       throw new Error("No se pudo generar la firma de subida");
     }
@@ -97,11 +103,11 @@ console.log("Cloud name que se está usando:", CLOUDINARY_CLOUD_NAME);
     const form = new FormData();
     form.append("file", imagenFile);
     form.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
-    form.append("timestamp", timestamp);
+    form.append("timestamp", paramsToSign.timestamp);
     form.append("signature", signatureResponse.signature);
-    form.append("folder", `testimonios/${id}`);
-    form.append("public_id", "foto");
-    form.append("overwrite", "true");
+    form.append("folder", paramsToSign.folder);
+    form.append("public_id", paramsToSign.public_id);
+    form.append("overwrite", paramsToSign.overwrite);
 
     const cloudinaryResponse = await fetch(
       `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -111,7 +117,8 @@ console.log("Cloud name que se está usando:", CLOUDINARY_CLOUD_NAME);
     const cloudinaryData = await cloudinaryResponse.json();
 
     if (!cloudinaryResponse.ok) {
-      throw new Error("Error al subir la imagen a Cloudinary");
+      console.error("Respuesta de Cloudinary:", cloudinaryData);
+      throw new Error(cloudinaryData?.error?.message || "Error al subir la imagen a Cloudinary");
     }
 
     const updateResponse = await testimonio_service.updateImage(
