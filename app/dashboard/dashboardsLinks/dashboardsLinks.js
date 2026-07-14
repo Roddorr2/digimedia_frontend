@@ -13,6 +13,7 @@ import {
   Megaphone,
   Shield,
   KeyIcon,
+  MessageSquareQuote,
 } from "lucide-react";
 
 export const dashboardLinks = [
@@ -59,6 +60,12 @@ export const dashboardLinks = [
     href: "/dashboard/blogs",
     permission: "crear-blogs",
     icon: Logs,
+  },
+  {
+    title: "Testimonios",
+    href: "/dashboard/testimonios",
+    permission: "ver-testimonios",
+    icon: MessageSquareQuote,
   },
   {
     title: "Métricas",
