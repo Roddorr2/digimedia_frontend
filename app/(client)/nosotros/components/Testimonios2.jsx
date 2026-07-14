@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { X } from "lucide-react";
+import { getTestimonials } from "@/lib/testimonials";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -97,10 +98,25 @@ const fallbackTestimonials  = [
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
   }];
 
-export default function Testimonials({ reviews = [] }) {
+export default function Testimonials() {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [activeReview, setActiveReview] = useState(null);
+  const [reviews, setReviews] = useState(null); // null = aún cargando
+
+  useEffect(() => {
+    let cancelled = false;
+
+    getTestimonials().then((data) => {
+      if (!cancelled) setReviews(data);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (reviews === null) return null; // esperando la respuesta de la API
 
   const testimonialsData = reviews.length > 0 ? reviews : fallbackTestimonials;
 

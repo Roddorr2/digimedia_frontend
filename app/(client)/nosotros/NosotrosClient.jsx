@@ -7,7 +7,7 @@ import WhatsAppButton from '../components/WhatsAppButton';
 import MayaChatbot from '../components/Chatbot';
 import Testimonios2 from './components/Testimonios2';
 
-const Nosotros = ({ reviews = [] }) => { 
+const Nosotros = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1D006F] to-[#0E0630] text-white relative overflow-hidden">
       
@@ -139,7 +139,7 @@ const Nosotros = ({ reviews = [] }) => {
         </div>
       </section>
 
-      <Testimonios2 reviews={reviews} />    
+      <Testimonios2 />
 
       {/* 5. CTA BUTTON */}
       <div className="relative z-10 flex justify-center pb-24 pt-8">
