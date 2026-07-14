@@ -60,7 +60,6 @@ const fallbackTestimonials  = [
     date: "Hace 3 meses",
     rating: 5,
     text: "Desde mi experiencia, DigiMedia Marketing es una agencia que realmente aporta valor, destacando por su enfoque estratégico y su capacidad para proponer soluciones creativas y adaptadas a cada necesidad. Se nota un equipo con conocimiento del entorno digital, orientado a resultados y con una ejecución eficiente en cada acción. Además, mantienen una comunicación clara y constante, lo que facilita el trabajo y genera confianza. Gracias a su gestión, se logra fortalecer la presencia online y la conexión con la audiencia, convirtiéndose en una excelente opción para quienes buscan crecer en el mundo digital.",
-    avatar: "/testimonials/usuario-1.webp",
   },
   {
     id: 2,
@@ -68,7 +67,6 @@ const fallbackTestimonials  = [
     date: "Hace 2 meses",
     rating: 4,
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
-    avatar: "/testimonials/usuario-2.webp",
   },
 {
     id: 3,
@@ -76,7 +74,6 @@ const fallbackTestimonials  = [
     date: "Hace 2 meses",
     rating: 4,
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
-    avatar: "/testimonials/usuario-2.webp",
   },
 {
     id: 4,
@@ -84,7 +81,6 @@ const fallbackTestimonials  = [
     date: "Hace 2 meses",
     rating: 4,
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
-    avatar: "/testimonials/usuario-2.webp",
   },
 {
     id: 5,
@@ -92,7 +88,6 @@ const fallbackTestimonials  = [
     date: "Hace 2 meses",
     rating: 4,
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
-    avatar: "/testimonials/usuario-2.webp",
   },
 {
     id: 6,
@@ -100,7 +95,6 @@ const fallbackTestimonials  = [
     date: "Hace 2 meses",
     rating: 4,
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
-    avatar: "/testimonials/usuario-2.webp",
   }];
 
 export default function Testimonials({ reviews = [] }) {
@@ -242,7 +236,7 @@ export default function Testimonials({ reviews = [] }) {
                         className="flex-shrink-0"
                       >
                         <img
-                          src="/img-nosotros/logo_google.webp"
+                          src="/Img-nosotros/logo_google1.webp"
                           alt="Google"
                           width={28}
                           height={28}
