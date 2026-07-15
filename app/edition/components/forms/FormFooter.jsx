@@ -57,12 +57,12 @@ const DEFAULT_PLACEHOLDERS = {
   titulo: "Título del pie de página",
   descripcion: "Descripción corta",
   estado: "Mostrar footer",
-  alt_image1: "Descripción imagen 1 para accesibilidad",
-  alt_image2: "Descripción imagen 2 para accesibilidad",
-  alt_image3: "Descripción imagen 3 para accesibilidad",
-  title_image1: "Título imagen 1 al pasar el mouse",
-  title_image2: "Título imagen 2 al pasar el mouse",
-  title_image3: "Título imagen 3 al pasar el mouse",
+alt_image1: "Texto alternativo imagen 1 (mín 10 caracteres)",
+   alt_image2: "Texto alternativo imagen 2 (mín 10 caracteres)",
+   alt_image3: "Texto alternativo imagen 3 (mín 10 caracteres)",
+   title_image1: "Título imagen 1 (mín 10 caracteres)",
+   title_image2: "Título imagen 2 (mín 10 caracteres)",
+   title_image3: "Título imagen 3 (mín 10 caracteres)",
 };
 
 export default function FormFooter({
