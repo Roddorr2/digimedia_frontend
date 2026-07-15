@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { PlusCircle, Key, Search, RefreshCw } from "lucide-react"; // Cambiado Shield por Key (más intuitivo para permisos)
 import Pagination from "../../components/Pagination";
@@ -76,15 +76,26 @@ export default function Page() {
       }
   }, [authLoading]);
 
+  // currentPage ya se deriva de la URL en cada render; lo guardamos en un ref
+  // para poder leer su valor más reciente dentro del efecto de abajo sin
+  // que los cambios de página (navegación) disparen ese efecto.
+  const currentPageRef = useRef(currentPage);
+  useEffect(() => {
+    currentPageRef.current = currentPage;
+  }, [currentPage]);
+
+  // Este efecto solo debe reaccionar a cambios en la búsqueda: resetea a la
+  // página 1 cuando el usuario busca algo, sin interferir con la navegación
+  // manual entre páginas.
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (currentPage !== 1) {
+      if (currentPageRef.current !== 1) {
         router.push(`?page=1`);
       }
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [searchTerm, router, currentPage]);
+  }, [searchTerm, router]);
 
   
   if (authLoading) {
