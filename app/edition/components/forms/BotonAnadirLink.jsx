@@ -4,7 +4,13 @@ import { Link, Trash2, XIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
-const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
+const BotonAnadirLink = ({
+  servicios,
+  item,
+  index,
+  handleChange,
+  selectedText = "",
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [texto, setTexto] = useState(item.palabra || "");
   const [url, setUrl] = useState(item.enlace || "");
@@ -16,9 +22,24 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
     setUrl(item.enlace || "");
   }, [item.palabra, item.enlace]);
 
+  const handleAbrir = () => {
+    setTexto(selectedText.trim() || item.palabra || "");
+    setShowModal(true);
+  };
+
   const handleGuardar = () => {
-    handleChange({ target: { value: texto.trim() } }, index, "palabra");
-    handleChange({ target: { value: url } }, index, "enlace");
+    handleChange(
+      {
+        target: {
+          value: {
+            palabra: texto.trim(),
+            enlace: url,
+          },
+        },
+      },
+      index,
+      "link"
+    );
     setShowModal(false);
   };
 
@@ -150,7 +171,8 @@ const BotonAnadirLink = ({ servicios, item, index, handleChange }) => {
       {/* Boton Añadir Link - DISEÑO MEJORADO */}
       <button
         type="button"
-        onClick={() => setShowModal(true)}
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={handleAbrir}
         className="mt-3 inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-sm font-semibold rounded-full shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95 border border-purple-400/30"
       >
         <Link className="w-4 h-4" />

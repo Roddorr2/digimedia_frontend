@@ -60,12 +60,36 @@ const DEFAULT_PLACEHOLDERS = {
   meta_descripcion: "Descripción SEO (máx 160 caracteres)",
 };
 
+function renderDescripcion(texto, palabra, enlace) {
+  if (!texto || !palabra || !enlace) return texto;
+
+  const palabraEscapada = palabra.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${palabraEscapada})`, "gi");
+
+  return texto.split(regex).map((parte, index) =>
+    parte.toLowerCase() === palabra.toLowerCase() ? (
+      <a
+        key={index}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-bold underline"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={index}>{parte}</span>
+    )
+  );
+}
+
 export default function FormHeader({
   // Props de datos
   data = {},
   defaultImage = DEFAULT_IMAGES.header.image1,
 
   // Props de configuración
+  plantillaId,
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,
   styles = DEFAULT_STYLES,
   placeholders = DEFAULT_PLACEHOLDERS,
@@ -73,6 +97,7 @@ export default function FormHeader({
 
   // Props de callbacks
   onChange,
+  onLinkChange,
   onImageChange,
   onImageDelete,
   onValidationChange,
@@ -88,7 +113,7 @@ export default function FormHeader({
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
-  //modificacion para imagen preview 
+  //modificacion para imagen preview
   const [previewImageUrl, setPreviewImageUrl] = useState(defaultImage);
 
   // Combinar estilos
@@ -355,7 +380,7 @@ export default function FormHeader({
       name: "texto_descripcion",
       icon: AlignLeft,
       label: "Frase Secundaria",
-      type: "input",
+      type: "textarea",
       placeholder: mergedPlaceholders.texto_descripcion,
     },
   ];
@@ -412,7 +437,11 @@ export default function FormHeader({
             {data.texto_frase || mergedPlaceholders.texto_frase}
           </h2>
           <p className={mergedStyles.description}>
-            {data.texto_descripcion || mergedPlaceholders.texto_descripcion}
+            {renderDescripcion(
+              data.texto_descripcion || mergedPlaceholders.texto_descripcion,
+              data.palabra,
+              data.enlace
+            )}
           </p>
         </div>
 
@@ -606,18 +635,33 @@ export default function FormHeader({
                       {label}
                       <ValidationMessage fieldName={name} />
                     </label>
-                    <input
-                      type="text"
-                      name={name}
-                      value={data[name] || ""}
-                      onChange={handleFieldChange}
-                      maxLength={validationConfig[name]?.max}
-                      minLength={validationConfig[name]?.min}
-                      autoComplete="off"
-                      className={mergedStyles.input}
-                      placeholder={placeholder}
-                      required={validationConfig[name]?.required}
-                    />
+                    {type === "textarea" ? (
+                      <textarea
+                        name={name}
+                        value={data[name] || ""}
+                        onChange={handleFieldChange}
+                        maxLength={validationConfig[name]?.max}
+                        minLength={validationConfig[name]?.min}
+                        autoComplete="off"
+                        rows={3}
+                        className={`${mergedStyles.input} resize-none`}
+                        placeholder={placeholder}
+                        required={validationConfig[name]?.required}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        name={name}
+                        value={data[name] || ""}
+                        onChange={handleFieldChange}
+                        maxLength={validationConfig[name]?.max}
+                        minLength={validationConfig[name]?.min}
+                        autoComplete="off"
+                        className={mergedStyles.input}
+                        placeholder={placeholder}
+                        required={validationConfig[name]?.required}
+                      />
+                    )}
                   </div>
                 )
               )}

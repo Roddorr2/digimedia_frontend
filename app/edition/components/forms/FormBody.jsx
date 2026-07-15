@@ -29,6 +29,7 @@ import {
   getPlantillaConfig,
   DEFAULT_BODY_VALIDATION_CONFIG,
   DEFAULT_SERVICIOS,
+  PLANTILLA_IDS,
 } from "../../config/index.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
 import Swal from "sweetalert2";
@@ -78,6 +79,8 @@ export default function FormBody({
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
   const [gradientColorCount, setGradientColorCount] = useState(2);
+  const [selectedDescriptionTexts, setSelectedDescriptionTexts] = useState({});
+  const [selectedDescriptionText, setSelectedDescriptionText] = useState("");
 
   // Estados para controlar visibilidad dinámica de secciones
   const [sectionsVisibility, setSectionsVisibility] = useState({
@@ -344,6 +347,23 @@ export default function FormBody({
   const handleChangeMap = useCallback(
     (e, index, field) => {
       const { value } = e.target;
+
+      if (field === "link") {
+        const { palabra = "", enlace = "" } = value || {};
+
+        setFormInfoBody?.((prev) => {
+          const updated = [...prev];
+          updated[index] = {
+            ...updated[index],
+            palabra,
+            enlace,
+          };
+          return updated;
+        });
+
+        return;
+      }
+
       const validation = validateField(field, value, "informacion");
       const fullFieldName = `informacion.${index}.${field}`;
 
@@ -376,6 +396,29 @@ export default function FormBody({
       });
     },
     [validateField, setFormInfoBody, onChange]
+  );
+
+  // Manejar cambios de enlace en la descripción del header (formEncabezadoBody)
+  const handleDescriptionLinkChange = useCallback(
+    (e, _index, field) => {
+      const { value } = e.target;
+
+      if (field === "link") {
+        const { palabra = "", enlace = "" } = value || {};
+        setFormEncabezadoBody?.((prev) => ({
+          ...prev,
+          palabra,
+          enlace,
+        }));
+        return;
+      }
+
+      setFormEncabezadoBody?.((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    },
+    [setFormEncabezadoBody]
   );
 
   // Manejar carga de imagen - compatible con sistema original
@@ -1271,12 +1314,50 @@ export default function FormBody({
                 name="descripcion"
                 maxLength={finalValidationConfig["descripcion"]?.max}
                 value={data.header.descripcion || ""}
-                onChange={handleChange(setFormEncabezadoBody)}
+                onChange={(e) => {
+                  setSelectedDescriptionText("");
+                  handleChange(setFormEncabezadoBody)(e);
+                }}
+                onSelect={(e) => {
+                  const { selectionStart, selectionEnd, value } =
+                    e.currentTarget;
+                  const selectedText = value.slice(
+                    selectionStart,
+                    selectionEnd
+                  );
+
+                  if (!selectedText) {
+                    setSelectedDescriptionText("");
+                    return;
+                  }
+
+                  setSelectedDescriptionText(selectedText);
+                }}
                 className={mergedStyles.textarea}
                 rows={3}
                 placeholder="Descripción del contenido"
               />
             </div>
+
+            {plantillaId === PLANTILLA_IDS.CLASICA && (
+              <div>
+                <label className={mergedStyles.label}>
+                  <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                  Enlace en descripción (opcional)
+                </label>
+                <div className="flex justify-center">
+                  <BotonAnadirLink
+                    servicios={servicios}
+                    item={data.header}
+                    index={0}
+                    handleChange={handleDescriptionLinkChange}
+                    selectedText={selectedDescriptionText}
+                  />
+                </div>
+                <ValidationMessage fieldName="palabra" />
+                <ValidationMessage fieldName="enlace" />
+              </div>
+            )}
 
             <div>
               <label className={mergedStyles.label}>
@@ -1747,9 +1828,28 @@ export default function FormBody({
                                 name="descripcion"
                                 maxLength={finalValidationConfig["descripcion"]?.max}
                                 value={infoItem.descripcion || ""}
-                                onChange={(e) =>
-                                  handleChangeMap(e, index, "descripcion")
-                                }
+                                onChange={(e) => {
+                                  setSelectedDescriptionTexts((prev) => ({
+                                    ...prev,
+                                    [index]: "",
+                                  }));
+                                  handleChangeMap(e, index, "descripcion");
+                                }}
+                                onSelect={(e) => {
+                                  const { selectionStart, selectionEnd, value } =
+                                    e.currentTarget;
+                                  const selectedText = value.slice(
+                                    selectionStart,
+                                    selectionEnd
+                                  );
+
+                                  if (!selectedText) return;
+
+                                  setSelectedDescriptionTexts((prev) => ({
+                                    ...prev,
+                                    [index]: selectedText,
+                                  }));
+                                }}
                                 className={mergedStyles.textarea}
                                 rows={3}
                                 placeholder={`Descripción detallada de la tarjeta ${index + 1
@@ -1767,12 +1867,17 @@ export default function FormBody({
                                 <Link2 className="w-4 h-4 mr-2 text-purple-400" />
                                 Enlace asociado (opcional)
                               </label>
-                              <BotonAnadirLink
-                                servicios={servicios}
-                                item={infoItem}
-                                index={index}
-                                handleChange={handleChangeMap}
-                              />
+                              <div className="flex justify-center">
+                                <BotonAnadirLink
+                                  servicios={servicios}
+                                  item={infoItem}
+                                  index={index}
+                                  handleChange={handleChangeMap}
+                                  selectedText={
+                                    selectedDescriptionTexts[index] || ""
+                                  }
+                                />
+                              </div>
                               <ValidationMessage
                                 fieldName="palabra"
                                 index={index}

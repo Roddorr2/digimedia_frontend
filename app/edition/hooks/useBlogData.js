@@ -221,6 +221,8 @@ export default function useBlogData(
             titulo: mappedHeader.titulo,
             texto_frase: mappedHeader.texto_frase,
             texto_descripcion: mappedHeader.texto_descripcion,
+            palabra: headerResponse.palabra || "",
+            enlace: headerResponse.enlace || "",
             meta_title: mappedHeader.meta_title,
             meta_descripcion: mappedHeader.meta_descripcion,
             bg_color: mappedHeader.bg_color,
