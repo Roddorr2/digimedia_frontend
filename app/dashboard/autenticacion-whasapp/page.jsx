@@ -65,16 +65,15 @@ const Dashboard = ({ user, onLogout }) => {
     );
   };
 
-  const handleResetAuth = async (e) => {
+const handleResetAuth = async (e) => {
     try {
       setLoading(true);
 
-      // Llamada directa al backend
       const response = await fetch(`${apiBaseUrl}/api/auth/reset`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "dev_local_2026_digimedia",
         },
       });
 
@@ -82,14 +81,14 @@ const Dashboard = ({ user, onLogout }) => {
 
       if (data.success) {
         addNotification("Carpeta Auth eliminada correctamente", "success");
-        // Actualizar el estado después de eliminar auth
         setTimeout(() => {
           getStatus();
         }, 1000);
       } else {
         setError(data.message || "Error al eliminar la carpeta auth");
       }
-    } catch (err) {      setError(
+    } catch (err) {
+      setError(
         "Error de conexión. Verifica que el backend esté funcionando en el puerto 5111."
       );
     } finally {
@@ -98,13 +97,13 @@ const Dashboard = ({ user, onLogout }) => {
   };
 
   // Verificar estado de auth
-  const checkAuthStatus = async () => {
+const checkAuthStatus = async () => {
     try {
       const response = await fetch(`${apiBaseUrl}/api/auth-status`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "dev_local_2026_digimedia",
         },
       });
 
@@ -122,7 +121,8 @@ const Dashboard = ({ user, onLogout }) => {
       } else {
         setError(data.message || "Error al verificar estado de auth");
       }
-    } catch (err) {      setError("Error de conexión al verificar estado de auth");
+    } catch (err) {
+      setError("Error de conexión al verificar estado de auth");
     }
   };
 
@@ -231,14 +231,8 @@ const Dashboard = ({ user, onLogout }) => {
   }, []);
 
   // Llamadas API reales
-  const apiCall = useCallback(
+const apiCall = useCallback(
     async (endpoint, options = {}) => {
-      // if (!token) {
-      //   setTokenExpired(true);
-      //   setError("No hay token de autenticación");
-      //   throw new Error("No token available");
-      // }
-
       try {
         setLoading(true);
         setError("");
@@ -247,10 +241,11 @@ const Dashboard = ({ user, onLogout }) => {
           method: options.method || "GET",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${token}`,
+            "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "dev_local_2026_digimedia",
           },
           body: options.body ? JSON.stringify(options.body) : undefined,
-        });
+        });
+
         if (response.status === 401) {
           setTokenExpired(true);
           throw new Error("Token expirado");
@@ -274,16 +269,11 @@ const Dashboard = ({ user, onLogout }) => {
     [token, apiBaseUrl]
   );
 
-  // Solicitar nuevo QR
+// Solicitar nuevo QR
   const requestNewQR = useCallback(async () => {
     try {
-      //   const result = await apiCall("/api/qr-request", { method: "POST" });
-      const user = getCookie("user");
-      const username = getCookie("user")
-        ? JSON.parse(getCookie("user")).email
-        : null;      const result = await apiCall("/api/qr-request-admin", {
+      const result = await apiCall("/api/whatsapp/qr-request", {
         method: "POST",
-        body: { username }, // 👈 se envía aquí
       });
 
       if (result.success && result.currentStatus) {
