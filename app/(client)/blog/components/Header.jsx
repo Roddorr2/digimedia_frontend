@@ -60,7 +60,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
 
   if (isLoading) {
     return (
-      <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900 animate-pulse">
+      <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900 animate-pulse">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80"></div>
 
         <div className="relative z-10 max-w-2xl">
@@ -82,7 +82,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
 
   if (error) {
     return (
-      <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
+      <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 max-w-2xl text-white">
           <div className="text-red-400 text-6xl mb-4">⚠️</div>
@@ -106,7 +106,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
 
   if (!data) {
     return (
-      <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
+      <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 max-w-2xl text-white">
           <h1 className="text-3xl md:text-4xl font-bold mb-4">
@@ -123,7 +123,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
 
 return (
     <section 
-      className="relative w-screen h-screen md:h-[80vh] overflow-hidden"
+      className="relative w-screen h-[60vh] md:h-[80vh] overflow-hidden"
       style={{
         ...getBackgroundStyle(
           data?.bg_color || bg_color,
@@ -163,15 +163,15 @@ return (
 
       {/* Contenido sobre la imagen */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.7)" }}>
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">
+        <h1 className="text-3xl md:text-6xl font-extrabold mb-4 neon-textov4">
           {data.titulo}
         </h1>
 
-        <h2 className="text-2xl md:text-xl font-bold mb-4">
+        <h2 className="text-xl md:text-xl font-bold mb-4">
           {data.texto_frase}
         </h2>
 
-        <p className="text-lg text-gray-300 font-light">
+        <p className="text-base md:text-lg text-gray-300 font-light">
           {data.texto_descripcion}
         </p>
 
