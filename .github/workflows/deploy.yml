@@ -2,8 +2,14 @@ name: Deploy to Git Branch
 
 on:
   push:
-    branches: 
+    branches:
       - rama_produccion
+  workflow_dispatch: {}
+  schedule:
+    # Reconstruye el sitio todas las noches para que los blogs publicados
+    # en el dashboard (que no generan un push a este repo) terminen saliendo
+    # como páginas estáticas y entrando al sitemap sin intervención manual.
+    - cron: "0 7 * * *"
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

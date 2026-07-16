@@ -7,9 +7,20 @@ SecFilterScanPOST Off
 RewriteEngine On
 RewriteBase /
 
+# 0. Forzar dominio sin www (evita contenido duplicado en Google Search Console)
+RewriteCond %{HTTP_HOST} ^www\.digimedia-marketing\.com$ [NC]
+RewriteRule ^(.*)$ https://digimedia-marketing.com/$1 [R=301,L]
+
 # 1. Ignorar solicitudes RSC/Next.js prefetch que fallen en export estático
 RewriteCond %{QUERY_STRING} _rsc= [NC]
 RewriteRule ^ - [L]
+
+# 1b. Redirigir URLs viejas del blog (?blog=slug) a las nuevas rutas limpias,
+# pero solo si esa página estática ya fue generada (evita 301 hacia un 404
+# en posts recién publicados que aún no pasaron por un nuevo build)
+RewriteCond %{QUERY_STRING} ^blog=([a-zA-Z0-9-]+)$
+RewriteCond %{DOCUMENT_ROOT}/blog/plantilla$1/%1/index.html -f
+RewriteRule ^blog/plantilla([1-3])/?$ /blog/plantilla$1/%1/? [R=301,L]
 
 # 2. Archivos y directorios existentes — no tocar
 RewriteCond %{REQUEST_FILENAME} -f [OR]

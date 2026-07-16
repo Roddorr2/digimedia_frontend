@@ -65,10 +65,10 @@ const PageContent = () => {
 
   useEffect(() => {
     if (data) {
-      const title = data?.head?.meta_title || data?.titulo || "Mi Blog";
+      const title = data?.head?.seo?.meta_title || data?.head?.titulo || "Mi Blog";
       const description =
-        data?.head?.meta_descripcion ||
-        data?.descripcion ||
+        data?.head?.seo?.meta_descripcion ||
+        data?.head?.texto_descripcion ||
         "Blog de DigiMedia";
 
       document.title = title;
@@ -88,7 +88,7 @@ const PageContent = () => {
         { property: "og:description", content: description },
         {
           property: "og:url",
-          content: `https://digimedia-marketing.com/blog/${blog}`,
+          content: `https://digimedia-marketing.com/blog/plantilla1/${blog}/`,
         },
       ];
       ogTags.forEach(({ property, content }) => {
@@ -108,7 +108,7 @@ const PageContent = () => {
         canonicalLink.rel = "canonical";
         document.head.appendChild(canonicalLink);
       }
-      canonicalLink.href = `https://digimedia-marketing.com/blog/${blog}`;
+      canonicalLink.href = `https://digimedia-marketing.com/blog/plantilla1/${blog}/`;
     }
   }, [data, blog]);
 
