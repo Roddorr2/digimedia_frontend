@@ -5,16 +5,18 @@ import Link from "next/link"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import { Button } from "@/components/ui/button"
-import { Save, Layout, Type, FootprintsIcon as FooterIcon, House, BookTemplate, Pencil } from "lucide-react"
+import { Save, Layout, Type, FootprintsIcon as FooterIcon, House, BookTemplate, Pencil, Menu, X } from "lucide-react"
 
 export default function EditionLayout({ children }) {
   const [selectedSection, setSelectedSection] = useState("header")
+  const [sidebarOpen, setSidebarOpen] = useState(false) // NUEVO: control del sidebar en mobile
   const observerRef = useRef(null)
   const isNavigatingRef = useRef(false)
   const sectionsRef = useRef(null)
 
   const handleSectionClick = (id) => {
     setSelectedSection(id);
+    setSidebarOpen(false); //  cerrar sidebar al navegar en mobile
 
     if (observerRef.current) {
       observerRef.current.disconnect();
@@ -102,21 +104,68 @@ export default function EditionLayout({ children }) {
     }
   }, [])
 
+  // bloquear el scroll del body cuando el sidebar está abierto en mobile
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [sidebarOpen])
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      <div className="flex flex-1">
-        <div className="w-64 bg-gradient-to-b from-slate-800 to-slate-900 text-white fixed top-0 left-0 h-full pt-20 shadow-xl">
-          <div className="px-6 py-4 border-b border-slate-700/50">
-            <div className="flex items-center justify-center space-x-2">
-              <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-              <h1 className="text-lg tracking-wide font-extrabold">MODO EDICIÓN</h1>
-              <Pencil className="mb-1 h-4 w-4" />
-            </div>
-          </div>
+      {/* botón hamburguesa flotante, solo visible en mobile/tablet */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="lg:hidden fixed top-20 left-4 z-40 flex items-center justify-center h-10 w-10 rounded-lg bg-slate-800 text-white shadow-lg"
+        aria-label="Abrir menú de edición"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
 
-          <div className="p-6">
+      {/*overlay oscuro detrás del sidebar cuando está abierto en mobile */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/60 z-40"
+        />
+      )}
+
+      <div className="flex flex-1">
+        <div
+          className={`w-64 bg-gradient-to-b from-slate-800 to-slate-900 text-white fixed top-0 left-0 h-full pt-20 shadow-xl z-50
+            transition-transform duration-300 ease-in-out
+            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
+        >
+            <div className="px-6 py-4 border-b border-slate-700/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+
+                  <h1 className="text-lg tracking-wide font-extrabold">
+                    MODO EDICIÓN
+                  </h1>
+
+                  <Pencil className="h-4 w-4" />
+                </div>
+
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg hover:bg-slate-700/50 transition-colors"
+                  aria-label="Cerrar menú"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+          <div className="p-6 overflow-y-auto h-[calc(100%-80px)]">
             <h2 className="text-xs font-medium uppercase tracking-wider text-slate-400 mb-4 flex items-center">
               <span className="h-px flex-grow bg-slate-700 mr-2"></span>
               Estructura
@@ -205,7 +254,11 @@ export default function EditionLayout({ children }) {
             </div>
           </div>
         </div>
-        <div className="flex-1 p-6 ml-64 bg-slate-50 overflow-auto">{children}</div>
+
+        {/*  sin margen en mobile, margen fijo solo desde lg */}
+        <div className="flex-1 p-4 pt-20 lg:p-6 lg:pt-24 ml-0 lg:ml-64 bg-slate-50 overflow-auto w-full">
+          {children}
+        </div>
       </div>
       <div>
         <Footer />

@@ -1933,7 +1933,8 @@ export default function FormBody({
         <div className={`${className}`}>
           <div className="w-full mb-6">{renderSectionControls()}</div>
           <div className={containerClass}>
-            <div className="flex gap-6 justify-center">
+             {/* cambio para que no se aplasten las columnas una al lado de otra */}
+            <div className="flex flex-col lg:flex-row gap-6 justify-center">
               {/* Preview izquierda con el diseño Figma de Plantilla 2 */}
               <div className={mergedStyles.previewArea}>
                 <div className="sticky top-4">
