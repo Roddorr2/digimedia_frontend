@@ -253,6 +253,17 @@ useEffect(() => {
     [setFormEncabezadoHeader, setFormImagenHeader]
   );
 
+  const handleHeaderLinkChange = useCallback(
+    ({ palabra, enlace }) => {
+      setFormEncabezadoHeader((prev) => ({
+        ...prev,
+        palabra,
+        enlace,
+      }));
+    },
+    [setFormEncabezadoHeader]
+  );
+
   const handleHeaderImageChange = useCallback(
     async (imageData) => {
       try {
@@ -581,8 +592,10 @@ useEffect(() => {
           <div id="header" ref={headerRef}>
             <FormHeader
               data={{ ...formEncabezadoHeader, ...formImagenHeader }}
+              plantillaId={selectedPlantilla}
               mode={mode}
               onChange={handleHeaderChange}
+              onLinkChange={handleHeaderLinkChange}
               onImageChange={handleHeaderImageChange}
               onImageDelete={handleHeaderImageDelete}
               onValidationChange={setValidacionHeader}

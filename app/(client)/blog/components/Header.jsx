@@ -27,6 +27,29 @@ const getBackgroundStyle = (bgColor = "#1E40AF", bgType = "solid", bgColors = ""
   return { backgroundColor: bgColor };
 };
 
+const renderDescripcion = (texto, palabra, enlace) => {
+  if (!texto || !palabra || !enlace) return texto;
+
+  const palabraEscapada = palabra.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${palabraEscapada})`, "gi");
+
+  return texto.split(regex).map((parte, index) =>
+    parte.toLowerCase() === palabra.toLowerCase() ? (
+      <a
+        key={index}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-bold underline hover:text-white"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={index}>{parte}</span>
+    )
+  );
+};
+
 export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
    const [data, setDataResponse] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
@@ -172,7 +195,11 @@ return (
         </h2>
 
         <p className="text-lg text-gray-300 font-light">
-          {data.texto_descripcion}
+          {renderDescripcion(
+            data.texto_descripcion,
+            data.palabra,
+            data.enlace
+          )}
         </p>
 
         <div className="w-20 h-1 bg-white mt-6 mx-auto"></div>
