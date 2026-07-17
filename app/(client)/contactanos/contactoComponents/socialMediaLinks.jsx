@@ -68,6 +68,18 @@ const socialPlatforms = [
     url: "https://www.linkedin.com/company/digimedia-mkt/",
     fillScale: 1.75,
   },
+  {
+  name: "X",
+  image: "/contactanos/twiter-icon.webp", 
+  url: "https://x.com/DigimediaMkt",
+  cover: true,
+  },
+  {
+    name: "Threads",
+    image: "/contactanos/threads-icon.png",
+    url: "https://www.threads.net/@TU_USUARIO",
+    cover: true,
+  },
 ];
 
 // Área clicable (un poco mayor que el círculo visible, por accesibilidad).
