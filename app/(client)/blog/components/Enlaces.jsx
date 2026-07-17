@@ -164,19 +164,17 @@ function EnlacesForm() {
                           {card.descripcion}
                         </p>
 
-                        <a
-                          href={`/blog/plantilla${card.id_plantilla}?blog=${card.blog?.link}`}
-                          target="_blank"
+                        <Link
+                          href={`/blog/plantilla${card.id_plantilla}/${card.blog?.link}/`}
                           className="group inline-flex w-fit mx-auto items-center justify-center gap-2    bg-gradient-to-b
                           from-[#100043]
                           via-[#08012E]
                           to-[#130049]
                           hover:bg-[#130049] text-[#FFB800] text-[14px] font-bold py-2.5 px-16 rounded-[8px] transition-colors duration-300 mt-auto"
-                          rel="noreferrer"
                         >
                           Leer más
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </a>
+                        </Link>
                       </div>
                     </article>
                   ))}

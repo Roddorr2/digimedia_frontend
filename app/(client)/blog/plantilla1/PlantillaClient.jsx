@@ -8,6 +8,8 @@ import Fetch from "../services/fetch";
 import Header from "../components/Header";
 import Body1 from "../components/Body1";
 import Footer from "../components/Footer";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/Chatbot";
 
 const TEMPLATE_ID = 1;
 
@@ -178,6 +180,11 @@ export default function PlantillaClient({ link }) {
             bg_colors={data?.footer?.bg_colors}
           />
         </div>
+      </div>
+
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <WhatsAppButton />
+        <MayaChatbot />
       </div>
     </div>
   );
