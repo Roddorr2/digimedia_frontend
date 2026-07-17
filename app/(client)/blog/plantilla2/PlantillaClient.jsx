@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { Loader2 } from "lucide-react";
 import Fetch from "../services/fetch";
@@ -8,40 +9,54 @@ import Header from "../components/Header";
 import Body2 from "../components/Body2";
 import Footer from "../components/Footer";
 
+const TEMPLATE_ID = 2;
+
 export default function PlantillaClient({ link }) {
+  const router = useRouter();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBlog = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
-        setIsLoading(true);
-        setError(null);
+        const [response, cards] = await Promise.all([
+          Fetch.fetchBlogByLink(link),
+          Fetch.fetchCards(),
+        ]);
 
-        const response = await Fetch.fetchBlogByLink(link);
+        const publishedCards = Array.isArray(cards) ? cards : cards?.data || [];
+        const isPublished = publishedCards.some(
+          (c) => c.blog?.link === link && c.id_plantilla === TEMPLATE_ID
+        );
 
-        if (response) {
-          setData(response);
-        } else {
-          setError("Blog no encontrado");
+        if (!response || !isPublished) {
+          // Post en borrador/inexistente: no lo mostramos aunque el HTML
+          // estático siga en el servidor de una publicación anterior.
+          router.replace("/blog");
+          return;
         }
+
+        setData(response);
+        setIsLoading(false);
       } catch (e) {
         console.error("Error al obtener blog:", e);
         setError("Error inesperado");
+        setIsLoading(false);
         Swal.fire({
           title: "Error",
           text: "No se pudo cargar el blog.",
           icon: "error",
           confirmButtonText: "OK",
         });
-      } finally {
-        setIsLoading(false);
       }
     };
 
     if (link) fetchBlog();
-  }, [link]);
+  }, [link, router]);
 
   if (error) {
     return (

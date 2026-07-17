@@ -11,6 +11,7 @@ import {
 import Fetch from "../services/fetch";
 import styles from "./enlaces.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 4;
 

@@ -13,6 +13,8 @@ const TEMPLATES = {
   plantilla3: { id: 3, Client: PlantillaClient3 },
 };
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const blogs = await getAllPublishedBlogs();
   return blogs
