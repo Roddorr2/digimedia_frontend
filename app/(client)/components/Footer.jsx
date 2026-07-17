@@ -308,7 +308,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="https://www.threads.net/@TU_USUARIO"
+                  href="https://www.threads.com/@digimediamarketing"
                   target="_blank"
                   className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
                 >
