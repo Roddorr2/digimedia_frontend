@@ -132,14 +132,7 @@ const renderGaleria = () => {
 
   return (
     <div
-      className="
-        rounded-[30px] lg:rounded-[40px]
-        px-4 sm:px-6 lg:px-10
-        py-8 lg:py-12
-        mt-8 lg:mt-12
-        mb-12 lg:mb-16
-        max-w-7xl mx-auto
-      "
+      className="rounded-[30px] lg:rounded-[40px] px-4 sm:px-6 lg:px-10 py-8 lg:py-12 mt-8 lg:mt-12 mb-12 lg:mb-16 max-w-7xl mx-auto"
       style={{
         background:
           "conic-gradient(from 180deg at 50% 50%, #100043 -0.38deg, #2F086A 173.33deg, #100043 359.62deg, #2F086A 533.33deg)",

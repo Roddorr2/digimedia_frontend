@@ -380,26 +380,14 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
 
               {/* Tarjeta de texto */}
               <div
-                className="
-                  flex-1
-                  flex items-center
-                  px-4 lg:px-6
-                  py-3 lg:py-0
-                  rounded-[22px]
-                  min-h-auto lg:min-h-[69px]
-                "
+                className="flex-1 flex items-center px-4 lg:px-6 py-3 lg:py-0 rounded-[22px] min-h-auto lg:min-h-[69px]"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
                 }}
               >
                 <p
-                  className="
-                    text-sm
-                    lg:text-[24px]
-                    leading-6
-                    lg:leading-[30px]
-                  "
+                  className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
                   style={{ color: "#CCC3D4" }}
                 >
                   {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
