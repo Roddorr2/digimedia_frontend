@@ -223,8 +223,14 @@ class BlogOrchestrator {
         throw new Error("No se pudo crear la card - ID no retornado");
       }
 
-      // ========== PASO 6: Subir imágenes via CardController ==========
-      await this._uploadAllImages(result.cardId, files, footerEnabled);
+// ========== PASO 6: Subir imágenes via CardController ==========
+       await this._uploadAllImages(
+         result.cardId,
+         files,
+         footerEnabled,
+         headerData.formImagenHeader?.alt,
+         headerData.formImagenHeader?.title
+       );
 
       // ========== ÉXITO ==========
       result.success = true;
@@ -434,7 +440,13 @@ class BlogOrchestrator {
 
         // Subir imágenes
         const footerEnabled = footerData.formEncabezadoFooter?.estado ?? false;
-        await this._uploadAllImages(cardId, files, footerEnabled);
+        await this._uploadAllImages(
+          cardId,
+          files,
+          footerEnabled,
+          headerData.formImagenHeader?.alt,
+          headerData.formImagenHeader?.title
+        );
       }
 
       result.success = true;
@@ -453,7 +465,7 @@ class BlogOrchestrator {
    * @param {boolean} footerEnabled - Si el footer está habilitado
    * @private
    */
-  async _uploadAllImages(cardId, files, footerEnabled) {
+  async _uploadAllImages(cardId, files, footerEnabled, headerAlt = null, headerTitle = null) {
     const uploadErrors = [];
 
     try {
@@ -462,6 +474,8 @@ class BlogOrchestrator {
         try {
           const headerFormData = new FormData();
           headerFormData.append("file", files.fileHeader);
+          if (headerAlt) headerFormData.append("alt", headerAlt);
+          if (headerTitle) headerFormData.append("title", headerTitle);
           await Cloud.uploadCardHeaderImage(cardId, headerFormData);
         } catch (err) {
           uploadErrors.push({ image: "header", error: err.message });

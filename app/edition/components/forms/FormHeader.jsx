@@ -57,10 +57,10 @@ const DEFAULT_PLACEHOLDERS = {
   texto_frase: "Frase destacada",
   texto_descripcion: "Descripción del blog",
   titulo_enlace: "Texto para generar el enlace del blog (opcional)",
-  alt: "Descripción de la imagen para accesibilidad",
-  title: "Título que aparece al pasar el mouse",
-  meta_title: "Título SEO (máx 60 caracteres)",
-  meta_descripcion: "Descripción SEO (máx 160 caracteres)",
+alt: "Texto alternativo (mín 10 caracteres)",
+   title: "Título de la imagen (mín 10 caracteres)",
+  meta_title: "Título SEO (mín 10 caracteres, máx 120)",
+  meta_descripcion: "Descripción SEO (mín 10 caracteres, máx 255)",
 };
 
 function renderDescripcion(texto, palabra, enlace) {
