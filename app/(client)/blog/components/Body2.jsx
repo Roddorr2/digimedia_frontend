@@ -378,20 +378,37 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                 </div>
               </div>
 
-              {/* Tarjeta de texto */}
-              <div
-                className="flex-1 flex items-center px-4 lg:px-6 py-3 lg:py-0 rounded-[22px] min-h-auto lg:min-h-[69px]"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
-                }}
-              >
-                <p
-                  className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
-                  style={{ color: "#CCC3D4" }}
-                >
-                  {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
-                </p>
+              {/* Grid solo en desktop */}
+              <div className="hidden lg:flex flex-col gap-4">
+                {tipsItems.map((text, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div
+                      className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center"
+                      style={{
+                        background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                      }}
+                    >
+                      <CheckCircle
+                        className="w-[22px] h-[22px] text-[#100043]"
+                        strokeWidth={2.5}
+                      />
+                    </div>
+                    <div
+                      className="flex-1 flex items-center px-4 lg:px-6 py-3 lg:py-0 rounded-[22px] min-h-auto lg:min-h-[69px]"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
+                      }}
+                    >
+                      <p
+                        className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
+                        style={{ color: "#CCC3D4" }}
+                      >
+                        {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
