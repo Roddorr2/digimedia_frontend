@@ -93,7 +93,7 @@ export default function Body3({ id_blog_body, fecha }) {
         <h2 className="font-extrabold text-3xl lg:text-4xl leading-tight tracking-tight mb-5" style={titleStyle}>
           {data.titulo}
         </h2>
-        <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>{data.descripcion}</p>
+        <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(data.descripcion, data.palabra, data.enlace)}</p>
       </div>
       <div className="w-full lg:w-[45%] flex-shrink-0">
         <Image
@@ -225,7 +225,7 @@ const renderGaleria = () => {
               <div className="flex justify-center mb-6">
                 <CheckCircle className="w-14 h-14 text-white" />
               </div>
-              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{texto}</p>
+              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(texto, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}</p>
             </div>
           ))}
         </div>

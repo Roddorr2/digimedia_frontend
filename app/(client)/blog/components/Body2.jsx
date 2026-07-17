@@ -118,7 +118,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {data.titulo}
           </h2>
           <p className="text-[#CCC3D4] text-base lg:text-[24px] leading-[30px]">
-            {data.descripcion}
+            {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
         <div className="w-full lg:w-[549px] flex-shrink-0">
@@ -287,7 +287,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   "
                   style={{ color: "#CCC3D4" }}
                 >
-                  {text}
+                  {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
                 </p>
               </div>
             </div>

@@ -29,7 +29,6 @@ import {
   getPlantillaConfig,
   DEFAULT_BODY_VALIDATION_CONFIG,
   DEFAULT_SERVICIOS,
-  PLANTILLA_IDS,
 } from "../../config/index.js";
 import BotonAnadirLink from "./BotonAnadirLink.jsx";
 import Swal from "sweetalert2";
@@ -81,6 +80,7 @@ export default function FormBody({
   const [gradientColorCount, setGradientColorCount] = useState(2);
   const [selectedDescriptionTexts, setSelectedDescriptionTexts] = useState({});
   const [selectedDescriptionText, setSelectedDescriptionText] = useState("");
+  const [selectedConsejoText, setSelectedConsejoText] = useState("");
 
   // Estados para controlar visibilidad dinámica de secciones
   const [sectionsVisibility, setSectionsVisibility] = useState({
@@ -421,6 +421,29 @@ export default function FormBody({
     [setFormEncabezadoBody]
   );
 
+  // Manejar cambios de enlace en los consejos (formCommendBody)
+  const handleConsejoLinkChange = useCallback(
+    (e, _index, field) => {
+      const { value } = e.target;
+
+      if (field === "link") {
+        const { palabra = "", enlace = "" } = value || {};
+        setFormCommendBody?.((prev) => ({
+          ...prev,
+          palabra,
+          enlace,
+        }));
+        return;
+      }
+
+      setFormCommendBody?.((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    },
+    [setFormCommendBody]
+  );
+
   // Manejar carga de imagen - compatible con sistema original
   const handleImageHeader = useCallback(
     async (e) => {
@@ -638,7 +661,11 @@ export default function FormBody({
               {data.header.titulo || "Título del Blog"}
             </h2>
             <p className="text-sm leading-relaxed" style={{ color: "#CCC3D4" }}>
-              {data.header.descripcion || "Descripción del contenido"}
+              {renderDescripcion(
+                data.header.descripcion || "Descripción del contenido",
+                data.header.palabra,
+                data.header.enlace
+              )}
             </p>
           </div>
           <div className="w-full lg:w-[45%] flex-shrink-0">
@@ -669,7 +696,11 @@ export default function FormBody({
               {data.header.titulo || "Título del Blog"}
             </h1>
             <p className="text-[#CCC3D4] text-sm leading-relaxed">
-              {data.header.descripcion || "Descripción del contenido"}
+              {renderDescripcion(
+                data.header.descripcion || "Descripción del contenido",
+                data.header.palabra,
+                data.header.enlace
+              )}
             </p>
           </div>
         </div>
@@ -736,7 +767,7 @@ export default function FormBody({
                 <div className="flex justify-center mb-6">
                   <CheckCircle className="w-14 h-14 text-white" />
                 </div>
-                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{text}</p>
+                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
               </div>
             ))}
           </div>
@@ -762,7 +793,7 @@ export default function FormBody({
               >
                 <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
                 <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
-                <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{text}</p>
+                <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
               </div>
             ))}
           </div>
@@ -781,7 +812,7 @@ export default function FormBody({
             <div className="absolute top-1/2 left-5 -translate-y-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-green-700 text-white font-extrabold text-lg shadow-md">
               {String(index + 1).padStart(2, "0")}
             </div>
-            <p className="text-gray-700 leading-relaxed text-base font-medium">{text}</p>
+            <p className="text-gray-700 leading-relaxed text-base font-medium">{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
           </div>
         ))}
       </div>
@@ -1339,25 +1370,23 @@ export default function FormBody({
               />
             </div>
 
-            {plantillaId === PLANTILLA_IDS.CLASICA && (
-              <div>
-                <label className={mergedStyles.label}>
-                  <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                  Enlace en descripción (opcional)
-                </label>
-                <div className="flex justify-center">
-                  <BotonAnadirLink
-                    servicios={servicios}
-                    item={data.header}
-                    index={0}
-                    handleChange={handleDescriptionLinkChange}
-                    selectedText={selectedDescriptionText}
-                  />
-                </div>
-                <ValidationMessage fieldName="palabra" />
-                <ValidationMessage fieldName="enlace" />
+            <div>
+              <label className={mergedStyles.label}>
+                <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                Enlace en descripción (opcional)
+              </label>
+              <div className="flex justify-center">
+                <BotonAnadirLink
+                  servicios={servicios}
+                  item={data.header}
+                  index={0}
+                  handleChange={handleDescriptionLinkChange}
+                  selectedText={selectedDescriptionText}
+                />
               </div>
-            )}
+              <ValidationMessage fieldName="palabra" />
+              <ValidationMessage fieldName="enlace" />
+            </div>
 
             <div>
               <label className={mergedStyles.label}>
@@ -1513,10 +1542,25 @@ export default function FormBody({
                               name={campo}
                               maxLength={finalValidationConfig[campo]?.max}
                               value={data.consejos[campo] || ""}
-                              onChange={handleChange(
-                                setFormCommendBody,
-                                "consejos"
-                              )}
+                              onChange={(e) => {
+                                setSelectedConsejoText("");
+                                handleChange(setFormCommendBody, "consejos")(e);
+                              }}
+                              onSelect={(e) => {
+                                const { selectionStart, selectionEnd, value } =
+                                  e.currentTarget;
+                                const selectedText = value.slice(
+                                  selectionStart,
+                                  selectionEnd
+                                );
+
+                                if (!selectedText) {
+                                  setSelectedConsejoText("");
+                                  return;
+                                }
+
+                                setSelectedConsejoText(selectedText);
+                              }}
                               className={mergedStyles.input}
                               placeholder={`Consejo ${index + 1}`}
                             />
@@ -1535,6 +1579,28 @@ export default function FormBody({
 
                   {/* Paginación personalizada */}
                   <div className="swiper-pagination-consejos flex justify-center gap-2 mt-4"></div>
+                </div>
+
+                {/* Enlace en consejos (opcional) */}
+                <div>
+                  <label className={mergedStyles.label}>
+                    <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                    Enlace en consejos (opcional)
+                  </label>
+                  <div className="flex justify-center">
+                    <BotonAnadirLink
+                      servicios={servicios}
+                      item={data.consejos}
+                      index={0}
+                      handleChange={handleConsejoLinkChange}
+                      selectedText={selectedConsejoText}
+                    />
+                  </div>
+                  <ValidationMessage fieldName="palabra" context="consejos" />
+                  <ValidationMessage fieldName="enlace" context="consejos" />
+                  <p className="text-xs text-gray-400 mt-2">
+                    Selecciona texto en cualquiera de los consejos y pulsa el botón para enlazarlo.
+                  </p>
                 </div>
 
                 {/* Indicador de ayuda */}
@@ -2061,7 +2127,11 @@ export default function FormBody({
                             {data.header.titulo || "Título del Blog"}
                           </h2>
                           <p className="text-[#CCC3D4] text-xs leading-relaxed">
-                            {data.header.descripcion || "Descripción del contenido del blog"}
+                            {renderDescripcion(
+                              data.header.descripcion || "Descripción del contenido del blog",
+                              data.header.palabra,
+                              data.header.enlace
+                            )}
                           </p>
                         </div>
                         <div className="w-full lg:w-[45%] flex-shrink-0">
@@ -2117,7 +2187,11 @@ export default function FormBody({
                                   {card.titulo || `Información ${index + 1}`}
                                 </h3>
                                 <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>
-                                  {card.descripcion || "Descripción del contenido de este punto informativo."}
+                                  {renderDescripcion(
+                                    card.descripcion || "Descripción del contenido de este punto informativo.",
+                                    card.palabra,
+                                    card.enlace
+                                  )}
                                 </p>
                               </div>
                             </div>
@@ -2152,7 +2226,7 @@ export default function FormBody({
                                       className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
                                       style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
                                     >
-                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{text}</p>
+                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
                                     </div>
                                   </div>
                                 );
@@ -2270,7 +2344,11 @@ export default function FormBody({
 
                 {/* Descripción */}
                 <div className="bg-white px-6 py-5 text-base text-gray-700 leading-relaxed">
-                  {data.header.descripcion}
+                  {renderDescripcion(
+                    data.header.descripcion,
+                    data.header.palabra,
+                    data.header.enlace
+                  )}
                 </div>
 
                 {/* Tabs navigation */}

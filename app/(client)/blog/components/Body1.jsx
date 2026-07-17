@@ -126,7 +126,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {data.titulo}
           </h2>
           <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
-            {data.descripcion}
+            {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                     {i + 1}
                   </p>
                   <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px] text-center mt-6">
-                    {text}
+                    {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
                   </p>
                 </div>
               ))}

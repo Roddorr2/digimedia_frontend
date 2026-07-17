@@ -277,6 +277,8 @@ export default function useBlogData(
               texto3: bodyResponse.commend_tarjeta.texto3 || "",
               texto4: bodyResponse.commend_tarjeta.texto4 || "",
               texto5: bodyResponse.commend_tarjeta.texto5 || "",
+              palabra: bodyResponse.commend_tarjeta.palabra || "",
+              enlace: bodyResponse.commend_tarjeta.enlace || "",
             });
           } else {
             // Si no hay commend_tarjeta, usar valores por defecto
