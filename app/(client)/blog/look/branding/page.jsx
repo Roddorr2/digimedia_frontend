@@ -2,8 +2,8 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Body4 from "../components/Body4";
-import WhatsAppButton from "../../components/WhatsAppButton";
-import MayaChatbot from "../../components/Chatbot";
+import WhatsAppButton from "../../../components/WhatsAppButton";
+import MayaChatbot from "../../../components/Chatbot";
 
 export default function Page() {
   return (
