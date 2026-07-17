@@ -60,6 +60,48 @@ export default function PlantillaClient({ link }) {
     if (link) fetchBlog();
   }, [link, router]);
 
+  useEffect(() => {
+    if (!data) return;
+
+    const title = data?.head?.seo?.meta_title || data?.head?.titulo || "Blog - DigiMedia";
+    const description =
+      data?.head?.seo?.meta_descripcion || data?.head?.texto_descripcion || "Blog de Digimedia Marketing.";
+    const canonicalUrl = `https://digimedia-marketing.com/blog/plantilla${TEMPLATE_ID}/${link}/`;
+
+    document.title = title;
+
+    let metaDescription = document.querySelector("meta[name='description']");
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.name = "description";
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute("content", description);
+
+    const ogTags = [
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:url", content: canonicalUrl },
+    ];
+    ogTags.forEach(({ property, content }) => {
+      let tag = document.querySelector(`meta[property='${property}']`);
+      if (!tag) {
+        tag = document.createElement("meta");
+        tag.setAttribute("property", property);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute("content", content);
+    });
+
+    let canonicalLink = document.querySelector("link[rel='canonical']");
+    if (!canonicalLink) {
+      canonicalLink = document.createElement("link");
+      canonicalLink.rel = "canonical";
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = canonicalUrl;
+  }, [data, link]);
+
   const getBackgroundStyle = () => {
     const bgColor = data?.body?.bg_color || "";
     const bgType = data?.body?.bg_type || "solid";

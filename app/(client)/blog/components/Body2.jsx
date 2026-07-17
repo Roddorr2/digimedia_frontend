@@ -438,7 +438,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             </div>
           </div>
         );
-      })}
+      })()}
 
         {/* Galería */}
         {activeTab === "gallery" && data.flag_galeria !== 0 && (() => {
@@ -517,7 +517,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
               </div>
             </div>
           );
-        })}
+        })()}
       </div>
 
       {/* ── CTA: Contáctanos ── */}
