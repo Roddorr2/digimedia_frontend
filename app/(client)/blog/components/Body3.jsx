@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import Fetch from "../services/fetch";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 
 export default function Body3({ id_blog_body, fecha }) {
@@ -112,6 +117,19 @@ export default function Body3({ id_blog_body, fecha }) {
 const renderGaleria = () => {
   if (data.flag_galeria === 0) return null;
 
+  const galeriaItems = [
+    {
+      src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
+      alt: data.alt_image2 || data.titulo,
+      title: data.title_image2 || "",
+    },
+    {
+      src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
+      alt: data.alt_image3 || data.titulo,
+      title: data.title_image3 || "",
+    },
+  ].filter(img => img.src);
+
   return (
     <div
       className="
@@ -128,47 +146,66 @@ const renderGaleria = () => {
       }}
     >
       <h3
-        className="
-          text-center
-          font-extrabold
-          text-4xl lg:text-5xl
-          mb-6 lg:mb-4
-          tracking-tight
-        "
+        className="text-center font-extrabold text-4xl lg:text-5xl mb-6 lg:mb-8 tracking-tight"
         style={titleStyle}
       >
         Galería
       </h3>
 
-      <div
-        className="
-          flex
-          flex-col sm:flex-row
-          gap-6 lg:gap-16
-          max-w-5xl
-          mx-auto
-        "
-      >
-        {[
-          {
-            src: getImageUrl(data.public_image2, "/blog/blog-10.webp"),
-            alt: data.alt_image2 || data.titulo,
-            title: data.title_image2 || "",
-          },
-          {
-            src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),
-            alt: data.alt_image3 || data.titulo,
-            title: data.title_image3 || "",
-          },
-        ].map((image, index) => (
+      {/* Carrusel solo en mobile (< sm) */}
+      <div className="block sm:hidden relative pb-10">
+        <Swiper
+          modules={[Pagination, Navigation]}
+          spaceBetween={16}
+          slidesPerView={1}
+          observer={true}
+          observeParents={true}
+          pagination={{
+            clickable: true,
+            el: ".b3-gallery-pagination",
+            bulletClass: "b3-gallery-bullet",
+            bulletActiveClass: "b3-gallery-bullet-active",
+          }}
+          navigation={{
+            nextEl: ".b3-gallery-next",
+            prevEl: ".b3-gallery-prev",
+          }}
+          className="w-full pb-10"
+        >
+          {galeriaItems.map((image, index) => (
+            <SwiperSlide key={index}>
+              <div className="overflow-hidden rounded-[30px] shadow-lg">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  title={image.title}
+                  width={400}
+                  height={320}
+                  className="w-full h-[250px] object-cover"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Navegación y paginación con estética premium */}
+        <div className="flex items-center justify-center gap-4 mt-4">
+          <button className="b3-gallery-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="b3-gallery-pagination flex items-center gap-2" />
+          <button className="b3-gallery-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Layout original solo en tablet/desktop (≥ sm) */}
+      <div className="hidden sm:flex flex-row gap-6 lg:gap-16 max-w-5xl mx-auto">
+        {galeriaItems.map((image, index) => (
           <div
             key={index}
-            className="
-              flex-1
-              overflow-hidden
-              rounded-[30px]
-              shadow-lg
-            "
+            className="flex-1 overflow-hidden rounded-[30px] shadow-lg"
           >
             <Image
               src={image.src}
@@ -176,15 +213,7 @@ const renderGaleria = () => {
               title={image.title}
               width={400}
               height={320}
-              className="
-                w-full
-                h-[250px]
-                sm:h-[320px]
-                object-cover
-                transition-transform
-                duration-700
-                hover:scale-105
-              "
+              className="w-full h-[250px] sm:h-[320px] object-cover transition-transform duration-700 hover:scale-105"
             />
           </div>
         ))}
@@ -206,27 +235,74 @@ const renderGaleria = () => {
 
     if (!textos.length) return null;
 
+    const ConsejoCard = ({ texto }) => (
+      <div
+        className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8 h-full"
+        style={{ background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)" }}
+      >
+        <div
+          className="absolute top-0 left-0 right-0 h-[5px]"
+          style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }}
+        />
+        <div className="flex justify-center mb-6">
+          <CheckCircle className="w-14 h-14 text-white" />
+        </div>
+        <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{texto}</p>
+      </div>
+    );
+
     return (
       <div className="mb-16">
         <h3 className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight" style={titleStyle}>
           {data.commend_tarjeta.titulo || "Consejos Importantes"}
         </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* Carrusel solo en mobile/tablet (< lg) */}
+        <div className="block lg:hidden relative pb-10">
+          <Swiper
+            modules={[Pagination, Navigation]}
+            spaceBetween={16}
+            slidesPerView={1}
+            observer={true}
+            observeParents={true}
+            pagination={{
+              clickable: true,
+              el: ".b3-tips-pagination",
+              bulletClass: "b3-tips-bullet",
+              bulletActiveClass: "b3-tips-bullet-active",
+            }}
+            navigation={{
+              nextEl: ".b3-tips-next",
+              prevEl: ".b3-tips-prev",
+            }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+            }}
+            className="w-full pb-10"
+          >
+            {textos.map((texto, i) => (
+              <SwiperSlide key={i} className="h-auto">
+                <ConsejoCard texto={texto} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Navegación y paginación con estética premium */}
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <button className="b3-tips-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div className="b3-tips-pagination flex items-center gap-2" />
+            <button className="b3-tips-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Grid original solo en desktop (≥ lg) */}
+        <div className="hidden lg:grid grid-cols-3 gap-6">
           {textos.map((texto, i) => (
-            <div
-              key={i}
-              className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
-              style={{ background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)" }}
-            >
-              <div
-                className="absolute top-0 left-0 right-0 h-[5px]"
-                style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }}
-              />
-              <div className="flex justify-center mb-6">
-                <CheckCircle className="w-14 h-14 text-white" />
-              </div>
-              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{texto}</p>
-            </div>
+            <ConsejoCard key={i} texto={texto} />
           ))}
         </div>
       </div>
@@ -240,7 +316,7 @@ const renderInformacion = () => {
 
   const WideCard = ({ section }) => (
     <div
-      className="w-full p-5 sm:p-8 shadow-lg"
+      className="w-full p-5 sm:p-8 shadow-lg h-full"
       style={{
         background: cardBg,
         border: "1px solid rgba(95,0,223,0.2)",
@@ -253,7 +329,6 @@ const renderInformacion = () => {
       >
         {section.titulo}
       </h3>
-
       <p
         className="text-sm sm:text-lg leading-relaxed"
         style={{ color: "#CCC3D4" }}
@@ -265,7 +340,7 @@ const renderInformacion = () => {
 
   const NarrowCard = ({ section }) => (
     <div
-      className="w-full p-5 sm:p-8 flex flex-col items-center text-center shadow-lg"
+      className="w-full p-5 sm:p-8 flex flex-col items-center text-center shadow-lg h-full"
       style={{
         background: cardBg,
         border: "1px solid rgba(95,0,223,0.2)",
@@ -278,7 +353,6 @@ const renderInformacion = () => {
       >
         {section.titulo}
       </h3>
-
       <p
         className="text-sm sm:text-base leading-relaxed"
         style={{ color: "#CCC3D4" }}
@@ -320,7 +394,47 @@ const renderInformacion = () => {
         {data.titulo_tarjeta || "Información Detallada"}
       </h3>
 
-      <div className="flex flex-col gap-4 sm:gap-6">
+      {/* Carrusel solo en mobile/tablet (< md) */}
+      <div className="block md:hidden relative pb-10">
+        <Swiper
+          modules={[Pagination, Navigation]}
+          spaceBetween={16}
+          slidesPerView={1}
+          observer={true}
+          observeParents={true}
+          pagination={{
+            clickable: true,
+            el: ".b3-info-pagination",
+            bulletClass: "b3-info-bullet",
+            bulletActiveClass: "b3-info-bullet-active",
+          }}
+          navigation={{
+            nextEl: ".b3-info-next",
+            prevEl: ".b3-info-prev",
+          }}
+          className="w-full pb-10"
+        >
+          {tarjetas.map((section, idx) => (
+            <SwiperSlide key={idx} className="h-auto">
+              <WideCard section={section} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Navegación y paginación con estética premium */}
+        <div className="flex items-center justify-center gap-4 mt-4">
+          <button className="b3-info-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="b3-info-pagination flex items-center gap-2" />
+          <button className="b3-info-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Layout original solo en desktop (≥ md) */}
+      <div className="hidden md:flex flex-col gap-4 sm:gap-6">
         {cards}
       </div>
     </div>
@@ -335,6 +449,62 @@ const renderInformacion = () => {
         {renderConsejos()}
         {renderInformacion()}
       </div>
+
+      <style jsx global>{`
+        /* Gallery Bullets */
+        .b3-gallery-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .b3-gallery-bullet-active {
+          width: 24px;
+          background-color: #ffb800 !important;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .b3-gallery-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+
+        /* Tips Bullets */
+        .b3-tips-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .b3-tips-bullet-active {
+          width: 24px;
+          background-color: #ffb800 !important;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .b3-tips-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+
+        /* Info Bullets */
+        .b3-info-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .b3-info-bullet-active {
+          width: 24px;
+          background-color: #ffb800 !important;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .b3-info-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+      `}</style>
     </div>
   );
 }

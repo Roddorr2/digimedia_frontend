@@ -4,6 +4,24 @@ import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 const api_url = `${url}/api`;
 
+/**
+ * Parsea la respuesta JSON de forma segura.
+ * Si el servidor devuelve HTML en vez de JSON (ej. página 404/500 de Apache/Nginx),
+ * evita el error: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+ */
+const safeJsonParse = async (response) => {
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    // La respuesta no es JSON — probablemente HTML del servidor web
+    const text = await response.text().catch(() => "");
+    console.error("[safeJsonParse] Respuesta no-JSON recibida:", text.slice(0, 200));
+    throw new Error(
+      "No se pudo conectar con el servidor. Verifica tu conexión e intenta nuevamente."
+    );
+  }
+  return response.json();
+};
+
 const setAuthCookie = (name, value, options = {}) => {
   const cookieOptions = {
     path: "/",
@@ -58,7 +76,7 @@ const auth_service = {
         body: JSON.stringify(form),
       });
 
-      const data = await response.json();
+      const data = await safeJsonParse(response);
 
       if (!response.ok) {
         throw new Error(data.message || "Error en el registro");
@@ -85,7 +103,7 @@ const auth_service = {
         body: JSON.stringify(form),
       });
 
-      const data = await response.json();
+      const data = await safeJsonParse(response);
       if (!response.ok) {
         return {
           success: false,
@@ -144,7 +162,7 @@ const auth_service = {
         },
       });
 
-      const data = await response.json();
+      const data = await safeJsonParse(response);
 
       if (!response.ok) {
         throw new Error(data.message || "Error al cerrar sesión");
@@ -172,7 +190,7 @@ const auth_service = {
         },
       });
 
-      const data = await response.json();
+      const data = await safeJsonParse(response);
 
       if (!response.ok) {
         if (response.status === 401) {

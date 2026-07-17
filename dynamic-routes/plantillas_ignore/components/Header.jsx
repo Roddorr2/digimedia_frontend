@@ -36,7 +36,7 @@ export default function Header({ id_blog_head }) {
 
     if (isLoading) {
         return (
-            <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900 animate-pulse">
+            <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900 animate-pulse">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/80"></div>
 
                 <div className="relative z-10 max-w-2xl">
@@ -58,7 +58,7 @@ export default function Header({ id_blog_head }) {
 
     if (error) {
         return (
-            <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
+            <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative z-10 max-w-2xl text-white">
                     <div className="text-red-400 text-6xl mb-4">⚠️</div>
@@ -79,7 +79,7 @@ export default function Header({ id_blog_head }) {
 
     if (!data) {
         return (
-            <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
+            <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-gray-900">
                 <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative z-10 max-w-2xl text-white">
                     <h1 className="text-3xl md:text-4xl font-bold mb-4">Contenido no disponible</h1>
@@ -94,17 +94,17 @@ export default function Header({ id_blog_head }) {
 
     return (
         <div
-            className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat"
+            className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${data.public_image})`}}
         >
             <div className="absolute inset-0 bg-black/60"></div>
 
             <div className="relative z-10 max-w-2xl text-white">
-                <h1 className="text-5xl md:text-6xl font-extrabold mb-4 neon-textov4">{data.titulo}</h1>
+                <h1 className="text-3xl md:text-6xl font-extrabold mb-4 neon-textov4">{data.titulo}</h1>
 
-                <h1 className="text-2xl md:text-xl font-bold mb-4">{data.texto_frase}</h1>
+                <h1 className="text-xl md:text-xl font-bold mb-4">{data.texto_frase}</h1>
 
-                <p className="text-lg text-gray-300 font-light">{data.texto_descripcion}</p>
+                <p className="text-base md:text-lg text-gray-300 font-light">{data.texto_descripcion}</p>
 
                 <div className="w-20 h-1 bg-white mt-6 mx-auto"></div>
             </div>

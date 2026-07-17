@@ -1,15 +1,183 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { User, Lock, ArrowLeft, Sun, Moon } from "lucide-react";
+import { User, Lock, ArrowLeft, Sun, Moon, ShieldAlert, Clock, AlertTriangle, X } from "lucide-react";
 import auth_service from "@/app/dashboard/users/services/auth.service";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
-import { Login } from "@mui/icons-material";
 import { Turnstile } from "@marsidev/react-turnstile";
 
+const MAX_ATTEMPTS = 5;
+const LOCK_DURATION_SECONDS = 300; // 5 minutos
+const STORAGE_KEY_ATTEMPTS = "login_failed_attempts";
+const STORAGE_KEY_LOCK = "login_lock_until";
+
+// ── Popup de intento fallido ─────────────────────────────────────────────────
+function FailedAttemptPopup({ attempts, isBlocked, remainingSeconds, onClose, formatRemaining }) {
+  const remaining = MAX_ATTEMPTS - attempts;
+  const pct = ((MAX_ATTEMPTS - remaining) / MAX_ATTEMPTS) * 100;
+
+  return (
+    // Backdrop
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)" }}
+      onClick={onClose}
+    >
+      {/* Modal */}
+      <div
+        className="relative w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-popup"
+        style={{
+          background: isBlocked
+            ? "linear-gradient(135deg, #1e1b4b 0%, #3b0764 100%)"
+            : "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+          border: isBlocked ? "1px solid rgba(239,68,68,0.4)" : "1px solid rgba(251,191,36,0.35)",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Glow superior */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+          style={{
+            background: isBlocked
+              ? "linear-gradient(90deg, #ef4444, #dc2626)"
+              : "linear-gradient(90deg, #f59e0b, #fbbf24)",
+          }}
+        />
+
+        <div className="p-6">
+          {/* Ícono */}
+          <div className="flex justify-center mb-4">
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center"
+              style={{
+                background: isBlocked
+                  ? "rgba(239,68,68,0.15)"
+                  : "rgba(251,191,36,0.15)",
+                border: isBlocked
+                  ? "2px solid rgba(239,68,68,0.5)"
+                  : "2px solid rgba(251,191,36,0.5)",
+              }}
+            >
+              {isBlocked ? (
+                <ShieldAlert className="w-8 h-8 text-red-400" />
+              ) : (
+                <AlertTriangle className="w-8 h-8 text-amber-400" />
+              )}
+            </div>
+          </div>
+
+          {/* Título */}
+          <h3 className="text-center text-xl font-bold text-white mb-1">
+            {isBlocked ? "Cuenta bloqueada" : "Intento fallido"}
+          </h3>
+
+          {/* Mensaje */}
+          {isBlocked ? (
+            <>
+              <p className="text-center text-red-300 text-sm mb-4">
+                Has superado el número máximo de intentos.
+                <br />
+                Intenta nuevamente en:
+              </p>
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Clock className="w-5 h-5 text-red-400" />
+                <span className="text-3xl font-mono font-bold text-red-300">
+                  {formatRemaining(remainingSeconds)}
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-center text-slate-300 text-sm mb-5">
+                Usuario o contraseña incorrectos.
+              </p>
+
+              {/* Intentos restantes */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs text-slate-400">Intentos restantes</span>
+                  <span
+                    className="text-sm font-bold"
+                    style={{ color: remaining <= 1 ? "#ef4444" : remaining <= 2 ? "#f59e0b" : "#a78bfa" }}
+                  >
+                    {remaining} de {MAX_ATTEMPTS}
+                  </span>
+                </div>
+
+                {/* Barra de progreso */}
+                <div className="w-full h-2 rounded-full bg-slate-700 overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${pct}%`,
+                      background:
+                        remaining <= 1
+                          ? "linear-gradient(90deg, #ef4444, #dc2626)"
+                          : remaining <= 2
+                          ? "linear-gradient(90deg, #f59e0b, #ef4444)"
+                          : "linear-gradient(90deg, #8b5cf6, #a78bfa)",
+                    }}
+                  />
+                </div>
+
+                {/* Puntitos de intento */}
+                <div className="flex justify-center gap-2 mt-3">
+                  {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                      style={{
+                        background: i < attempts ? "#ef4444" : "rgba(255,255,255,0.15)",
+                        boxShadow: i < attempts ? "0 0 6px rgba(239,68,68,0.6)" : "none",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {remaining <= 2 && remaining > 0 && (
+                <p className="text-center text-amber-400 text-xs font-medium">
+                  ⚠️ {remaining === 1 ? "Último intento" : "Cuidado"} — Al agotar los intentos serás bloqueado por{" "}
+                  {LOCK_DURATION_SECONDS / 60} minutos.
+                </p>
+              )}
+            </>
+          )}
+
+          {/* Botón cerrar */}
+          {!isBlocked && (
+            <button
+              onClick={onClose}
+              className="mt-4 w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:scale-[1.02]"
+              style={{
+                background: "linear-gradient(135deg, #7c3aed, #6d28d9)",
+                color: "white",
+              }}
+            >
+              Reintentar
+            </button>
+          )}
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes popup-in {
+          0%   { opacity: 0; transform: scale(0.85) translateY(20px); }
+          60%  { transform: scale(1.03) translateY(-4px); }
+          100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-popup {
+          animation: popup-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ── Página principal ─────────────────────────────────────────────────────────
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [captchaToken, setCaptchaToken] = useState(null);
@@ -24,14 +192,33 @@ export default function LoginPage() {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // Estado de intentos fallidos
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupBlocked, setPopupBlocked] = useState(false);
+
+  // ── Inicializar desde localStorage ──────────────────────────────────────
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isDark = document.documentElement.classList.contains("dark") || 
-                     window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setIsDarkMode(isDark);
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-      }
+    if (typeof window === "undefined") return;
+
+    // Modo oscuro
+    const isDark =
+      document.documentElement.classList.contains("dark") ||
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setIsDarkMode(isDark);
+    if (isDark) document.documentElement.classList.add("dark");
+
+    // Intentos guardados
+    const savedAttempts = parseInt(localStorage.getItem(STORAGE_KEY_ATTEMPTS) || "0", 10);
+    const savedLockUntil = parseInt(localStorage.getItem(STORAGE_KEY_LOCK) || "0", 10);
+
+    if (savedLockUntil > Date.now()) {
+      setLockUntil(savedLockUntil);
+      setFailedAttempts(savedAttempts);
+    } else {
+      // Bloqueo expirado → limpiar
+      localStorage.removeItem(STORAGE_KEY_ATTEMPTS);
+      localStorage.removeItem(STORAGE_KEY_LOCK);
     }
   }, []);
 
@@ -44,11 +231,7 @@ export default function LoginPage() {
     }
   };
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
+  // ── Temporizador de bloqueo ──────────────────────────────────────────────
   const remainingSeconds = lockUntil
     ? Math.max(0, Math.ceil((lockUntil - now) / 1000))
     : 0;
@@ -58,7 +241,6 @@ export default function LoginPage() {
     const safeSeconds = Math.max(0, Number(seconds) || 0);
     const minutes = Math.floor(safeSeconds / 60);
     const remaining = safeSeconds % 60;
-
     return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
   };
 
@@ -68,19 +250,53 @@ export default function LoginPage() {
     return () => clearInterval(interval);
   }, [isLocked]);
 
+  // Al desbloquear: resetear intentos
   useEffect(() => {
     if (lockUntil && !isLocked) {
       setError(false);
       setErrorMessage("");
       setLockUntil(null);
+      setFailedAttempts(0);
+      setShowPopup(false);
+      setPopupBlocked(false);
+      localStorage.removeItem(STORAGE_KEY_ATTEMPTS);
+      localStorage.removeItem(STORAGE_KEY_LOCK);
     }
   }, [isLocked, lockUntil]);
 
+  // Mantener popup de bloqueado actualizado con el timer
+  useEffect(() => {
+    if (isLocked && showPopup) {
+      setPopupBlocked(true);
+    }
+  }, [isLocked, showPopup]);
+
+  // ── Registro de intento fallido ──────────────────────────────────────────
+  const registerFailedAttempt = useCallback(() => {
+    setFailedAttempts((prev) => {
+      const next = prev + 1;
+      localStorage.setItem(STORAGE_KEY_ATTEMPTS, String(next));
+
+      if (next >= MAX_ATTEMPTS) {
+        // Bloquear por 5 minutos
+        const unlockAt = Date.now() + LOCK_DURATION_SECONDS * 1000;
+        setLockUntil(unlockAt);
+        setNow(Date.now());
+        localStorage.setItem(STORAGE_KEY_LOCK, String(unlockAt));
+        setPopupBlocked(true);
+      } else {
+        setPopupBlocked(false);
+      }
+
+      setShowPopup(true);
+      return next;
+    });
+  }, []);
+
+  // ── Submit ───────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLocked) {
-      return;
-    }
+    if (isLocked) return;
 
     setError(false);
     setErrorMessage("");
@@ -108,17 +324,26 @@ export default function LoginPage() {
         Number.isFinite(retryAfter) &&
         retryAfter > 0
       ) {
+        // Bloqueado por el servidor (rate limit)
         const unlockAt = Date.now() + retryAfter * 1000;
         setLockUntil(unlockAt);
         setNow(Date.now());
+        localStorage.setItem(STORAGE_KEY_LOCK, String(unlockAt));
+        localStorage.setItem(STORAGE_KEY_ATTEMPTS, String(MAX_ATTEMPTS));
+        setFailedAttempts(MAX_ATTEMPTS);
+        setPopupBlocked(true);
+        setShowPopup(true);
         setError(true);
         setErrorMessage(result.message || "Cuenta temporalmente bloqueada.");
       } else {
+        // Intento fallido normal → registrar
+        registerFailedAttempt();
         setError(true);
         setErrorMessage(
-          result.message || result.error || "Usuario o contraseña incorrectos.",
+          result.message || result.error || "Usuario o contraseña incorrectos."
         );
       }
+
       turnstileRef.current?.reset();
       setCaptchaToken(null);
     }
@@ -130,8 +355,24 @@ export default function LoginPage() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleClosePopup = () => {
+    if (!popupBlocked) setShowPopup(false);
+  };
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+      {/* Popup de intentos fallidos */}
+      {showPopup && (
+        <FailedAttemptPopup
+          attempts={failedAttempts}
+          isBlocked={popupBlocked || isLocked}
+          remainingSeconds={remainingSeconds}
+          onClose={handleClosePopup}
+          formatRemaining={formatRemaining}
+        />
+      )}
+
+      {/* Panel izquierdo decorativo */}
       <div className="lg:w-1/2 w-full bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 flex flex-col items-center justify-center p-8 relative overflow-hidden">
         <div className="relative z-10 text-center">
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -148,8 +389,9 @@ export default function LoginPage() {
         </div>
       </div>
 
+      {/* Panel derecho con formulario */}
       <div className="lg:w-1/2 w-full flex flex-col items-center justify-center p-6 relative">
-        
+
         <button
           type="button"
           onClick={toggleDarkMode}
@@ -176,12 +418,31 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {error && (
+          {/* Banner de error (sin bloqueo de servidor) */}
+          {error && !isLocked && (
             <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 mb-6 rounded-r">
               <p className="text-red-700 dark:text-red-400 text-sm">
                 {errorMessage ||
                   "Usuario o contraseña incorrectos. Por favor, intenta nuevamente."}
               </p>
+            </div>
+          )}
+
+          {/* Banner de bloqueo (frontend) */}
+          {isLocked && (
+            <div className="flex items-center gap-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 mb-6 rounded-xl">
+              <ShieldAlert className="w-5 h-5 text-red-500 shrink-0" />
+              <div>
+                <p className="text-red-700 dark:text-red-400 text-sm font-semibold">
+                  Demasiados intentos fallidos
+                </p>
+                <p className="text-red-600 dark:text-red-400 text-xs mt-0.5">
+                  Podrás intentar nuevamente en{" "}
+                  <span className="font-mono font-bold">
+                    {formatRemaining(remainingSeconds)}
+                  </span>
+                </p>
+              </div>
             </div>
           )}
 
@@ -205,6 +466,7 @@ export default function LoginPage() {
                   onChange={handleChange}
                   placeholder="Ingresa tu usuario"
                   required
+                  disabled={isLocked}
                 />
               </div>
             </div>
@@ -228,9 +490,11 @@ export default function LoginPage() {
                   onChange={handleChange}
                   placeholder="Ingresa tu contraseña"
                   required
+                  disabled={isLocked}
                 />
               </div>
             </div>
+
             <div className="mt-4">
               <Link
                 href="./email/"
@@ -247,7 +511,7 @@ export default function LoginPage() {
                 onSuccess={(token) => setCaptchaToken(token)}
                 onError={() => setCaptchaToken(null)}
                 onExpire={() => setCaptchaToken(null)}
-                options={{ theme: "auto" }} 
+                options={{ theme: "auto" }}
               />
             </div>
 
@@ -277,7 +541,10 @@ export default function LoginPage() {
                   Iniciando sesión...
                 </span>
               ) : isLocked ? (
-                `Reintentar en ${formatRemaining(remainingSeconds)}`
+                <span className="flex items-center justify-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  Reintentar en {formatRemaining(remainingSeconds)}
+                </span>
               ) : (
                 "Iniciar Sesión"
               )}
@@ -288,13 +555,8 @@ export default function LoginPage() {
 
       <style jsx>{`
         @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
         }
         .animate-float {
           animation: float 6s ease-in-out infinite;

@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import Fetch from "../services/fetch";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_colors }) {
   const [data, setDataResponse] = useState(null);
@@ -166,184 +171,353 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
 
         {/* Información */}
         {activeTab === "info" && data.flag_informacion !== 0 && (
-          <div className="flex flex-col gap-5">
-            {data.tarjetas?.map((card, index) => (
-              <div key={`card-${index}`} className="overflow-hidden">
-                {/* Barra amarilla superior */}
-                <div
-                  className="w-full h-[15px] rounded-t-[20px]"
-                  style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
-                />
-                {/* Cuerpo de la tarjeta */}
-                <div
-                  className="px-8 lg:px-[60px] py-8 border border-white/5 rounded-b-[20px]"
-                  style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}
-                >
-                  <h3
-                    className="font-extrabold text-xl lg:text-[30px] leading-[1.4] tracking-[-0.48px] mb-3"
-                    style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
-                  >
-                    {card.titulo}
-                  </h3>
-                  <p className="text-base lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
-                    {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
-                  </p>
-                </div>
+          <>
+            {/* Carrusel solo en mobile/tablet */}
+            <div className="block lg:hidden relative pb-12 pt-2">
+              <Swiper
+                modules={[Pagination, Navigation]}
+                spaceBetween={16}
+                slidesPerView={1}
+                observer={true}
+                observeParents={true}
+                pagination={{
+                  clickable: true,
+                  el: ".b2-info-pagination",
+                  bulletClass: "b2-info-bullet",
+                  bulletActiveClass: "b2-info-bullet-active",
+                }}
+                navigation={{
+                  nextEl: ".b2-info-next",
+                  prevEl: ".b2-info-prev",
+                }}
+                breakpoints={{
+                  640: { slidesPerView: 2 },
+                }}
+                className="w-full pb-10"
+              >
+                {data.tarjetas?.map((card, index) => (
+                  <SwiperSlide key={`card-slide-${index}`} className="h-auto">
+                    <div className="overflow-hidden h-full flex flex-col">
+                      {/* Barra amarilla superior */}
+                      <div
+                        className="w-full h-[12px] rounded-t-[20px] flex-shrink-0"
+                        style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                      />
+                      {/* Cuerpo de la tarjeta */}
+                      <div
+                        className="px-6 py-6 border border-white/5 rounded-b-[20px] flex-1"
+                        style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}
+                      >
+                        <h3
+                          className="font-extrabold text-lg leading-[1.4] tracking-[-0.48px] mb-3"
+                          style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                        >
+                          {card.titulo}
+                        </h3>
+                        <p className="text-sm leading-6" style={{ color: "#CCC3D4" }}>
+                          {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                        </p>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+
+              {/* Navegación y paginación con estética premium */}
+              <div className="flex items-center justify-center gap-4 mt-4">
+                <button className="b2-info-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <div className="b2-info-pagination flex items-center gap-2" />
+                <button className="b2-info-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                  <ChevronRight className="w-5 h-5" />
+                </button>
               </div>
-            ))}
-          </div>
+            </div>
+
+            {/* Grid original solo en desktop */}
+            <div className="hidden lg:flex flex-col gap-5">
+              {data.tarjetas?.map((card, index) => (
+                <div key={`card-${index}`} className="overflow-hidden">
+                  {/* Barra amarilla superior */}
+                  <div
+                    className="w-full h-[15px] rounded-t-[20px]"
+                    style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                  />
+                  {/* Cuerpo de la tarjeta */}
+                  <div
+                    className="px-8 lg:px-[60px] py-8 border border-white/5 rounded-b-[20px]"
+                    style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}
+                  >
+                    <h3
+                      className="font-extrabold text-xl lg:text-[30px] leading-[1.4] tracking-[-0.48px] mb-3"
+                      style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                    >
+                      {card.titulo}
+                    </h3>
+                    <p className="text-base lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
+                      {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
       {/* Consejos */}
-{activeTab === "tips" && data.flag_consejos !== 0 && (
-  <div
-    className="rounded-[30px] overflow-hidden"
-    style={{
-      background:
-        "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)",
-    }}
-  >
-    {/* Línea degradada superior */}
-    <div
-      className="w-full h-[8px]"
-      style={{
-        background:
-          "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)",
-      }}
-    />
-
-    <div
-      className="mx-3 lg:mx-8 my-6 rounded-[22px] px-4 lg:px-10 py-8"
-      style={{
-        background:
-          "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)",
-      }}
-    >
-      <h3
-        className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
-        style={{
-          fontFamily: "'Hanken Grotesk', sans-serif",
-          color: "#FFB800",
-        }}
-      >
-        {data.commend_tarjeta?.titulo || "Consejos Importantes"}
-      </h3>
-
-      <div className="flex flex-col gap-4">
-        {[
+      {/* Consejos */}
+      {activeTab === "tips" && data.flag_consejos !== 0 && (() => {
+        const tipsItems = [
           data.commend_tarjeta?.texto1,
           data.commend_tarjeta?.texto2,
           data.commend_tarjeta?.texto3,
           data.commend_tarjeta?.texto4,
           data.commend_tarjeta?.texto5,
-        ]
-          .filter(Boolean)
-          .map((text, i) => (
+        ].filter(Boolean);
+
+        return (
+          <div
+            className="rounded-[30px] overflow-hidden"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)",
+            }}
+          >
+            {/* Línea degradada superior */}
             <div
-              key={i}
-              className="flex items-center gap-3 lg:gap-4"
+              className="w-full h-[8px]"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)",
+              }}
+            />
+
+            <div
+              className="mx-3 lg:mx-8 my-6 rounded-[22px] px-4 lg:px-10 py-8"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)",
+              }}
             >
-              {/* Círculo amarillo con ícono */}
-              <div
-                className="
-                  flex-shrink-0
-                  w-[40px] h-[40px]
-                  lg:w-[47px] lg:h-[47px]
-                  rounded-full
-                  flex items-center justify-center
-                "
+              <h3
+                className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
                 style={{
-                  background:
-                    "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                  fontFamily: "'Hanken Grotesk', sans-serif",
+                  color: "#FFB800",
                 }}
               >
-                <CheckCircle
-                  className="w-[22px] h-[22px] lg:w-[28px] lg:h-[28px] text-[#100043]"
-                  strokeWidth={2.5}
-                />
+                {data.commend_tarjeta?.titulo || "Consejos Importantes"}
+              </h3>
+
+              {/* Carrusel solo en mobile/tablet */}
+              <div className="block lg:hidden w-full relative pb-10">
+                <Swiper
+                  modules={[Pagination, Navigation]}
+                  spaceBetween={16}
+                  slidesPerView={1}
+                  observer={true}
+                  observeParents={true}
+                  pagination={{
+                    clickable: true,
+                    el: ".b2-tips-pagination",
+                    bulletClass: "b2-tips-bullet",
+                    bulletActiveClass: "b2-tips-bullet-active",
+                  }}
+                  navigation={{
+                    nextEl: ".b2-tips-next",
+                    prevEl: ".b2-tips-prev",
+                  }}
+                  breakpoints={{
+                    640: { slidesPerView: 2 },
+                  }}
+                  className="w-full pb-10"
+                >
+                  {tipsItems.map((text, i) => (
+                    <SwiperSlide key={i} className="h-auto">
+                      <div className="flex items-center gap-3">
+                        {/* Círculo amarillo con ícono */}
+                        <div
+                          className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center"
+                          style={{
+                            background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                          }}
+                        >
+                          <CheckCircle
+                            className="w-[22px] h-[22px] text-[#100043]"
+                            strokeWidth={2.5}
+                          />
+                        </div>
+
+                        {/* Tarjeta de texto */}
+                        <div
+                          className="flex-1 flex items-center px-4 py-3 rounded-[22px] min-h-[69px]"
+                          style={{
+                            background:
+                              "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
+                          }}
+                        >
+                          <p className="text-sm leading-6" style={{ color: "#CCC3D4" }}>
+                            {text}
+                          </p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                {/* Flechas y paginación */}
+                <div className="flex items-center justify-center gap-4 mt-4">
+                  <button className="b2-tips-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <div className="b2-tips-pagination flex items-center gap-2" />
+                  <button className="b2-tips-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
-              {/* Tarjeta de texto */}
-              <div
-                className="
-                  flex-1
-                  flex items-center
-                  px-4 lg:px-6
-                  py-3 lg:py-0
-                  rounded-[22px]
-                  min-h-auto lg:min-h-[69px]
-                "
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
-                }}
-              >
-                <p
-                  className="
-                    text-sm
-                    lg:text-[24px]
-                    leading-6
-                    lg:leading-[30px]
-                  "
-                  style={{ color: "#CCC3D4" }}
-                >
-                  {text}
-                </p>
+              {/* Lista original en desktop */}
+              <div className="hidden lg:flex flex-col gap-4">
+                {tipsItems.map((text, i) => (
+                  <div key={i} className="flex items-center gap-3 lg:gap-4">
+                    {/* Círculo amarillo con ícono */}
+                    <div
+                      className="flex-shrink-0 w-[40px] h-[40px] lg:w-[47px] lg:h-[47px] rounded-full flex items-center justify-center"
+                      style={{
+                        background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                      }}
+                    >
+                      <CheckCircle
+                        className="w-[22px] h-[22px] lg:w-[28px] lg:h-[28px] text-[#100043]"
+                        strokeWidth={2.5}
+                      />
+                    </div>
+
+                    {/* Tarjeta de texto */}
+                    <div
+                      className="flex-1 flex items-center px-4 lg:px-6 py-3 lg:py-0 rounded-[22px] min-h-auto lg:min-h-[69px]"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
+                      }}
+                    >
+                      <p
+                        className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
+                        style={{ color: "#CCC3D4" }}
+                      >
+                        {text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-      </div>
-    </div>
 
-    {/* Barra amarilla inferior */}
-    <div
-      className="h-[44px] flex items-center justify-center rounded-b-[30px]"
-      style={{
-        background:
-          "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
-      }}
-    >
-      <span
-        className="font-bold text-base lg:text-[20px] text-center"
-        style={{
-          background:
-            "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}
-      >
-        {new Date().getFullYear()} - Todos los derechos reservados
-      </span>
-    </div>
-  </div>
-)}
-
-        {/* Galería */}
-        {activeTab === "gallery" && data.flag_galeria !== 0 && (
-          <div
-            className="rounded-[30px] overflow-hidden p-6 lg:p-10 w-[85%] mx-auto"
-            style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), alt: data.alt_image2 || data.titulo, title: data.title_image2 || "" },
-                { src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),  alt: data.alt_image3 || data.titulo, title: data.title_image3 || "" },
-              ].map((image, index) => (
-                <div key={index} className="overflow-hidden rounded-[15px] max-w-[580px] mx-auto w-full">
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    title={image.title}
-                    width={600}
-                    height={400}
-                    className="w-full h-[240px] lg:h-[360px] object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                </div>
-              ))}
+            {/* Barra amarilla inferior */}
+            <div
+              className="h-[44px] flex items-center justify-center rounded-b-[30px]"
+              style={{
+                background:
+                  "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+              }}
+            >
+              <span
+                className="font-bold text-base lg:text-[20px] text-center"
+                style={{
+                  background:
+                    "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {new Date().getFullYear()} - Todos los derechos reservados
+              </span>
             </div>
           </div>
-        )}
+        );
+      })}
+
+        {/* Galería */}
+        {activeTab === "gallery" && data.flag_galeria !== 0 && (() => {
+          const galleryItems = [
+            { src: getImageUrl(data.public_image2, "/blog/blog-10.webp"), alt: data.alt_image2 || data.titulo, title: data.title_image2 || "" },
+            { src: getImageUrl(data.public_image3, "/blog/blog-1.webp"),  alt: data.alt_image3 || data.titulo, title: data.title_image3 || "" },
+          ].filter(img => img.src);
+
+          return (
+            <div
+              className="rounded-[30px] overflow-hidden p-6 lg:p-10 w-[85%] mx-auto"
+              style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}
+            >
+              {/* Carrusel solo en mobile */}
+              <div className="block md:hidden relative pb-10">
+                <Swiper
+                  modules={[Pagination, Navigation]}
+                  spaceBetween={16}
+                  slidesPerView={1}
+                  observer={true}
+                  observeParents={true}
+                  pagination={{
+                    clickable: true,
+                    el: ".b2-gallery-pagination",
+                    bulletClass: "b2-gallery-bullet",
+                    bulletActiveClass: "b2-gallery-bullet-active",
+                  }}
+                  navigation={{
+                    nextEl: ".b2-gallery-next",
+                    prevEl: ".b2-gallery-prev",
+                  }}
+                  className="w-full pb-10"
+                >
+                  {galleryItems.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="overflow-hidden rounded-[15px] max-w-[580px] mx-auto w-full">
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          title={image.title}
+                          width={600}
+                          height={400}
+                          className="w-full h-[240px] object-cover"
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                {/* Navegación y paginación con estética premium */}
+                <div className="flex items-center justify-center gap-4 mt-4">
+                  <button className="b2-gallery-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <div className="b2-gallery-pagination flex items-center gap-2" />
+                  <button className="b2-gallery-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Grid original solo en tablet/desktop */}
+              <div className="hidden md:grid grid-cols-2 gap-6">
+                {galleryItems.map((image, index) => (
+                  <div key={index} className="overflow-hidden rounded-[15px] max-w-[580px] mx-auto w-full">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      title={image.title}
+                      width={600}
+                      height={400}
+                      className="w-full h-[240px] lg:h-[360px] object-cover transition-transform duration-700 hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* ── CTA: Contáctanos ── */}
@@ -374,6 +548,62 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        /* Info Tab Bullets */
+        .b2-info-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .b2-info-bullet-active {
+          width: 24px;
+          background-color: #ffb800 !important;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .b2-info-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+
+        /* Tips Tab Bullets */
+        .b2-tips-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .b2-tips-bullet-active {
+          width: 24px;
+          background-color: #ffb800 !important;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .b2-tips-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+
+        /* Gallery Tab Bullets */
+        .b2-gallery-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .b2-gallery-bullet-active {
+          width: 24px;
+          background-color: #ffb800 !important;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .b2-gallery-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+      `}</style>
 
     </div>
   );

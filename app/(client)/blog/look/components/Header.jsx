@@ -6,13 +6,13 @@ export default function Header({
   tituloSecundario = "El Letro Perfecto para Cautivar a los Clientes",
   descripcion = "Haz que tu bar sea tu mejor amigo en la mira de tus clientes",
   backgroundOverlay = "bg-black/50",
-  tituloClase = "text-5xl md:text-8xl font-extrabold mb-4 neon-textov4",
-  subtituloClase = "text-2xl md:text-4xl font-bold mb-4",
-  descripcionClase = "text-lg md:text-2xl text-gray-200 font-light",
+  tituloClase = "text-3xl md:text-8xl font-extrabold mb-4 neon-textov4",
+  subtituloClase = "text-xl md:text-4xl font-bold mb-4",
+  descripcionClase = "text-base md:text-2xl text-gray-200 font-light",
   decoracion = true,
 }) {
   return (
-    <div className="w-full h-screen md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 overflow-hidden">
+    <div className="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center text-center px-6 sm:px-12 overflow-hidden">
       
       {/* Imagen como background */}
       <Image

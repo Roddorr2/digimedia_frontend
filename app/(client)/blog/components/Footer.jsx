@@ -3,8 +3,14 @@
 import { useEffect, useState } from "react";
 import Fetch from "../services/fetch";
 import Swal from "sweetalert2";
-import { Loader2, AlertTriangle, ImageIcon } from "lucide-react";
+import { Loader2, AlertTriangle, ImageIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
 
 // ✅ FUNCIÓN EXTERNA (FUERA DEL COMPONENTE) - CON VALORES POR DEFECTO
 const getBackgroundStyle = (bgColor = "#000118", bgType = "solid", bgColors = "") => {
@@ -197,29 +203,105 @@ export default function Footer({ id_blog_footer, bg_color: propBgColor, bg_type:
           </div>
 
           {/* Fila inferior: 3 imágenes */}
-          {(data.public_image1 || data.public_image2 || data.public_image3) && (
-            <div className="flex flex-col sm:flex-row gap-4 px-8 lg:px-12 pb-10">
-              {[
-                { src: data.public_image1, alt: data.alt_image1, title: data.title_image1 },
-                { src: data.public_image2, alt: data.alt_image2, title: data.title_image2 },
-                { src: data.public_image3, alt: data.alt_image3, title: data.title_image3 },
-              ].map((image, index) => {
-                const imageUrl = getImageUrl(image.src);
-                return (
-                  <div key={index} className="flex-1">
-                    <Image
-                      src={imageUrl || "/placeholder.svg"}
-                      alt={image.alt || `Imagen ${index + 1}`}
-                      title={image.title || ""}
-                      className="w-full h-[160px] lg:h-[208px] object-cover rounded-[17px]"
-                      width={368}
-                      height={208}
-                    />
+          {(data.public_image1 || data.public_image2 || data.public_image3) && (() => {
+            const footerImages = [
+              { src: data.public_image1, alt: data.alt_image1, title: data.title_image1 },
+              { src: data.public_image2, alt: data.alt_image2, title: data.title_image2 },
+              { src: data.public_image3, alt: data.alt_image3, title: data.title_image3 },
+            ].filter(img => img.src);
+
+            return (
+              <>
+                {/* Carrusel solo en mobile/tablet */}
+                <div className="block lg:hidden px-8 pb-10 relative">
+                  <Swiper
+                    modules={[Pagination, Navigation]}
+                    spaceBetween={16}
+                    slidesPerView={1}
+                    pagination={{
+                      clickable: true,
+                      el: ".footer-imgs-pagination",
+                      bulletClass: "footer-imgs-bullet",
+                      bulletActiveClass: "footer-imgs-bullet-active",
+                    }}
+                    navigation={{
+                      nextEl: ".footer-imgs-next",
+                      prevEl: ".footer-imgs-prev",
+                    }}
+                    breakpoints={{
+                      640: { slidesPerView: 2 },
+                    }}
+                    className="w-full pb-10"
+                  >
+                    {footerImages.map((image, index) => {
+                      const imageUrl = getImageUrl(image.src);
+                      return (
+                        <SwiperSlide key={index}>
+                          <Image
+                            src={imageUrl || "/placeholder.svg"}
+                            alt={image.alt || `Imagen ${index + 1}`}
+                            title={image.title || ""}
+                            className="w-full h-[200px] object-cover rounded-[17px]"
+                            width={368}
+                            height={208}
+                          />
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+
+                  {/* Navegación y paginación con estética premium */}
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <button className="footer-imgs-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <div className="footer-imgs-pagination flex items-center gap-2" />
+                    <button className="footer-imgs-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
                   </div>
-                );
-              })}
-            </div>
-          )}
+
+                  <style jsx global>{`
+                    .footer-imgs-bullet {
+                      width: 8px;
+                      height: 8px;
+                      border-radius: 9999px;
+                      background-color: rgba(255, 255, 255, 0.35);
+                      cursor: pointer;
+                      transition: all 0.3s ease;
+                    }
+                    .footer-imgs-bullet-active {
+                      width: 24px;
+                      background-color: #ffb800 !important;
+                      box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+                    }
+                    .footer-imgs-bullet:hover {
+                      background-color: rgba(255, 184, 0, 0.8);
+                    }
+                  `}</style>
+                </div>
+
+                {/* Flex row solo en desktop */}
+                <div className="hidden lg:flex gap-4 px-12 pb-10">
+                  {footerImages.map((image, index) => {
+                    const imageUrl = getImageUrl(image.src);
+                    return (
+                      <div key={index} className="flex-1">
+                        <Image
+                          src={imageUrl || "/placeholder.svg"}
+                          alt={image.alt || `Imagen ${index + 1}`}
+                          title={image.title || ""}
+                          className="w-full h-[208px] object-cover rounded-[17px]"
+                          width={368}
+                          height={208}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            );
+          })()}
         </div>
       )}
     </>
