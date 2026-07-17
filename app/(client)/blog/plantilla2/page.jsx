@@ -9,6 +9,8 @@ import Fetch from "../services/fetch";
 import Header from "../components/Header";
 import Body2 from "../components/Body2";
 import Footer from "../components/Footer";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/Chatbot";
 
 const Page = () => {
   return (
@@ -208,12 +210,16 @@ const PageContent = () => {
 
           <div className="mb-20"> <Footer id_blog_footer={data?.id_blog_footer} bg_color={data?.footer?.bg_color} bg_type={data?.footer?.bg_type} bg_colors={data?.footer?.bg_colors} /></div>
           
-
         </div>
+      </div>
+      
+      {/* Botones flotantes WhatsApp y Chatbot */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <WhatsAppButton />
+        <MayaChatbot />
       </div>
     </>
   );
 };
 
 export default Page;
-

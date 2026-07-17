@@ -9,9 +9,11 @@ import Header from "../components/Header";
 import Body3 from "../components/Body3";
 import Footer from "../components/Footer";
 import Fetch from "../services/fetch";
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/Chatbot";
 
 const Page = () => {
-    
+     
   return (
     <Suspense
       fallback={
@@ -105,7 +107,6 @@ const PageContent = () => {
     }
   }, [data, blog]);
 
-  // ✅ Función para obtener el fondo dinámico (igual que en Plantilla 1)
   const getBackgroundStyle = () => {
     const bgColor = data?.body?.bg_color || "";
     const bgType = data?.body?.bg_type || "solid";
@@ -221,9 +222,15 @@ const PageContent = () => {
             bg_color={data?.footer?.bg_color} 
             bg_type={data?.footer?.bg_type} 
             bg_colors={data?.footer?.bg_colors} 
-          />
+            />
           </div>
         </div>
+      </div>
+      
+      {/* Botones flotantes WhatsApp y Chatbot */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <WhatsAppButton />
+        <MayaChatbot />
       </div>
     </>
   );

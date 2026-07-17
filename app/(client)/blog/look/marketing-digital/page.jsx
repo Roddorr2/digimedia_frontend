@@ -2,9 +2,10 @@ import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Body5 from '../components/Body5'
+import WhatsAppButton from "../../components/WhatsAppButton";
+import MayaChatbot from "../../components/Chatbot";
 
 export default function Page() {
-    
     return (
         <div>
             <Header url_image={"/blog/blog-3.webp"} tituloPrincipal = {"MARKETING Y GESTIÓN DIGITAL"}
@@ -23,6 +24,12 @@ export default function Page() {
               url_image3={"/blog/blog-7.webp"} 
               descripcion={"Una estrategia de marketing digital exitosa es aquella que integra múltiples canales de manera efectiva. Ya sea SEO, publicidad en redes sociales, email marketing o PPC, nuestro servicio de marketing y gestión digital garantiza que todos los esfuerzos estén alineados"}/>
             
+            </div>
+            
+            {/* Botones flotantes WhatsApp y Chatbot */}
+            <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+              <WhatsAppButton />
+              <MayaChatbot />
             </div>
           </div>
     )
