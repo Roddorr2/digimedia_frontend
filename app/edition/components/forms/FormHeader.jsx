@@ -26,13 +26,16 @@ import {
 import { DEFAULT_IMAGES } from "../../constants/defaults";
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
+  //se cambió de h-[120vh] a min-h-[120vh] para evitar que el título se desborde y se superponga
+  //con los tabs de navegacion
+  //se aggrego break-words para titulos extensos
   container:
-    "w-full h-[120vh] md:h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat",
+   "w-full min-h-[120vh] md:min-h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat py-12",
   overlay: "absolute inset-0 bg-black/60",
   content:
     "relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6",
   preview: "text-center max-w-xl",
-  title: "text-5xl md:text-6xl font-extrabold mb-4 neon-textov4",
+  title: "text-5xl md:text-6xl font-extrabold mb-4 neon-textov4 break-words",
   subtitle: "text-2xl md:text-xl font-bold mb-4",
   description: "text-lg text-gray-300 font-light",
   panel:
