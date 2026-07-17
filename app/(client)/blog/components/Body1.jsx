@@ -132,7 +132,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {data.titulo}
           </h2>
           <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
-            {data.descripcion}
+            {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
       </div>
@@ -337,6 +337,12 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                     height={383}
                     className="w-full h-[383px] rounded-[32px] object-cover"
                   />
+                  <p className="text-white font-extrabold text-[60px] lg:text-[80px] leading-none mt-8 text-center tracking-[-0.48px]">
+                    {i + 1}
+                  </p>
+                  <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px] text-center mt-6">
+                    {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
+                  </p>
                 </div>
               ))}
             </div>
