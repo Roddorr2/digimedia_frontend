@@ -215,7 +215,7 @@ export default function Footer({ id_blog_footer, bg_color: propBgColor, bg_type:
                 {/* Carrusel solo en mobile/tablet */}
                 <div className="block lg:hidden px-8 pb-10 relative">
                   <Swiper
-                    modules={[Pagination, Navigation]}
+                    modules={[Pagination]}
                     spaceBetween={16}
                     slidesPerView={1}
                     pagination={{
@@ -223,10 +223,6 @@ export default function Footer({ id_blog_footer, bg_color: propBgColor, bg_type:
                       el: ".footer-imgs-pagination",
                       bulletClass: "footer-imgs-bullet",
                       bulletActiveClass: "footer-imgs-bullet-active",
-                    }}
-                    navigation={{
-                      nextEl: ".footer-imgs-next",
-                      prevEl: ".footer-imgs-prev",
                     }}
                     breakpoints={{
                       640: { slidesPerView: 2 },
@@ -250,18 +246,18 @@ export default function Footer({ id_blog_footer, bg_color: propBgColor, bg_type:
                     })}
                   </Swiper>
 
-                  {/* Navegación y paginación con estética premium */}
-                  <div className="flex items-center justify-center gap-4 mt-4">
-                    <button className="footer-imgs-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
+                  {/* Paginación */}
+                  <div className="flex items-center justify-center mt-4">
                     <div className="footer-imgs-pagination flex items-center gap-2" />
-                    <button className="footer-imgs-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
                   </div>
 
                   <style jsx global>{`
+                    .footer-imgs-pagination {
+                      position: relative !important;
+                      width: auto !important;
+                      bottom: auto !important;
+                      left: auto !important;
+                    }
                     .footer-imgs-bullet {
                       width: 8px;
                       height: 8px;
