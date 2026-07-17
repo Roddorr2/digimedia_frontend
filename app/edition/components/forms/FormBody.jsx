@@ -922,7 +922,7 @@ export default function FormBody({
             {item.titulo || `Información ${index + 1}`}
           </h4>
           <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
-            {item.descripcion || "Descripción del contenido"}
+            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace)}
           </p>
         </div>
       );
@@ -935,7 +935,7 @@ export default function FormBody({
             {item.titulo || `Información ${index + 1}`}
           </h4>
           <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
-            {item.descripcion || "Descripción del contenido"}
+            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace)}
           </p>
         </div>
       );
