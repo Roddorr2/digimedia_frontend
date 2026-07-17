@@ -77,7 +77,7 @@ const socialPlatforms = [
   {
     name: "Threads",
     image: "/contactanos/threads-icon.png",
-    url: "https://www.threads.net/@TU_USUARIO",
+    url: "https://www.threads.com/@digimediamarketing",
     cover: true,
   },
 ];
