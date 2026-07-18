@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Loader2, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import Fetch from "../services/fetch";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -54,6 +54,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
   useEffect(() => {
     if (data) {
       if (data.flag_informacion !== 0) setActiveTab("info");
+      else if (data.flag_consejos !== 0) setActiveTab("tips");
       else if (data.flag_galeria !== 0) setActiveTab("gallery");
       else setActiveTab(null);
     }
@@ -102,6 +103,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
 
   const tabs = [
     { key: "info",    label: "Información", show: data.flag_informacion !== 0 },
+    { key: "tips",    label: "Consejos",    show: data.flag_consejos !== 0 },
     { key: "gallery", label: "Galería",     show: data.flag_galeria !== 0 },
   ].filter(t => t.show);
 
@@ -262,6 +264,175 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             </div>
           </>
         )}
+
+        {/* Consejos (Plantilla 2 no tiene funcionalidad de enlace) */}
+        {activeTab === "tips" && data.flag_consejos !== 0 && (() => {
+          const tipsItems = Array.isArray(data.consejos)
+            ? data.consejos.filter((c) => c.texto)
+            : [];
+
+          if (!tipsItems.length) return null;
+
+          return (
+            <div
+              className="rounded-[30px] overflow-hidden"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)",
+              }}
+            >
+              {/* Línea degradada superior */}
+              <div
+                className="w-full h-[8px]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)",
+                }}
+              />
+
+              <div
+                className="mx-3 lg:mx-8 my-6 rounded-[22px] px-4 lg:px-10 py-8"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)",
+                }}
+              >
+                <h3
+                  className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
+                  style={{
+                    fontFamily: "'Hanken Grotesk', sans-serif",
+                    color: "#FFB800",
+                  }}
+                >
+                  {data.titulo_consejos || "Consejos Importantes"}
+                </h3>
+
+                {/* Carrusel solo en mobile/tablet */}
+                <div className="block lg:hidden w-full relative pb-10">
+                  <Swiper
+                    modules={[Pagination, Navigation]}
+                    spaceBetween={16}
+                    slidesPerView={1}
+                    observer={true}
+                    observeParents={true}
+                    pagination={{
+                      clickable: true,
+                      el: ".b2-tips-pagination",
+                      bulletClass: "b2-tips-bullet",
+                      bulletActiveClass: "b2-tips-bullet-active",
+                    }}
+                    navigation={{
+                      nextEl: ".b2-tips-next",
+                      prevEl: ".b2-tips-prev",
+                    }}
+                    breakpoints={{
+                      640: { slidesPerView: 2 },
+                    }}
+                    className="w-full pb-10"
+                  >
+                    {tipsItems.map((consejo, i) => (
+                      <SwiperSlide key={consejo.id_consejo || i} className="h-auto">
+                        <div className="flex items-center gap-3">
+                          {/* Círculo amarillo con ícono */}
+                          <div
+                            className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center"
+                            style={{
+                              background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                            }}
+                          >
+                            <CheckCircle
+                              className="w-[22px] h-[22px] text-[#100043]"
+                              strokeWidth={2.5}
+                            />
+                          </div>
+
+                          {/* Tarjeta de texto */}
+                          <div
+                            className="flex-1 flex items-center px-4 py-3 rounded-[22px] min-h-[69px]"
+                            style={{
+                              background:
+                                "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
+                            }}
+                          >
+                            <p className="text-sm leading-6" style={{ color: "#CCC3D4" }}>
+                              {consejo.texto}
+                            </p>
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+
+                  {/* Flechas y paginación */}
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <button className="b2-tips-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <div className="b2-tips-pagination flex items-center gap-2" />
+                    <button className="b2-tips-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Grid solo en desktop */}
+                <div className="hidden lg:flex flex-col gap-4">
+                  {tipsItems.map((consejo, i) => (
+                    <div key={consejo.id_consejo || i} className="flex items-center gap-3">
+                      <div
+                        className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center"
+                        style={{
+                          background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                        }}
+                      >
+                        <CheckCircle
+                          className="w-[22px] h-[22px] text-[#100043]"
+                          strokeWidth={2.5}
+                        />
+                      </div>
+                      <div
+                        className="flex-1 flex items-center px-4 lg:px-6 py-3 lg:py-0 rounded-[22px] min-h-auto lg:min-h-[69px]"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
+                        }}
+                      >
+                        <p
+                          className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
+                          style={{ color: "#CCC3D4" }}
+                        >
+                          {consejo.texto}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Barra amarilla inferior */}
+              <div
+                className="h-[44px] flex items-center justify-center rounded-b-[30px]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
+                }}
+              >
+                <span
+                  className="font-bold text-base lg:text-[20px] text-center"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  {new Date().getFullYear()} - Todos los derechos reservados
+                </span>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Galería */}
         {activeTab === "gallery" && data.flag_galeria !== 0 && (() => {

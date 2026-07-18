@@ -83,6 +83,7 @@ export default function TemplateSelector({
             const isHovered = hoveredTemplate === config.id;
             const features = config.features || {};
             const hasConsejos = config.sectionsConfig?.consejos?.enabled ?? false;
+            const consejosAllowLink = config.sectionsConfig?.consejos?.allowLink ?? false;
 
             return (
               <div
@@ -117,6 +118,11 @@ export default function TemplateSelector({
                             <div className="h-4 w-12 bg-gray-400 rounded"></div>
                           </div>
                           {/* Content */}
+                          {hasConsejos && (
+                            <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
+                              <div className="text-white text-xs font-bold">Consejos</div>
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-2">
                             {Array.from({ length: features.informacion?.maxItems || 4 }, (_, i) => (
                               <div key={i} className="h-12 bg-green-200 rounded"></div>
@@ -125,7 +131,7 @@ export default function TemplateSelector({
                         </div>
                       ) : (
                         <div className="space-y-2">
-                          {/* Consejos Section (solo Plantilla 3) */}
+                          {/* Consejos Section */}
                           {hasConsejos && (
                             <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
                               <div className="text-white text-xs font-bold">
@@ -192,7 +198,7 @@ export default function TemplateSelector({
                       {hasConsejos && (
                         <div className="flex items-center text-sm text-gray-700">
                           <Quote className="w-4 h-4 mr-2 text-purple-500" />
-                          <span>Consejos con enlace propio</span>
+                          <span>{consejosAllowLink ? "Consejos con enlace propio" : "Consejos"}</span>
                         </div>
                       )}
                       <div className="flex items-center text-sm text-gray-700">
@@ -245,7 +251,11 @@ export default function TemplateSelector({
                 {(selectedConfig.sectionsConfig?.consejos?.enabled ?? false) && (
                   <div className="flex items-center">
                     <Quote className="w-4 h-4 mr-1 text-purple-500" />
-                    <span>Consejos con enlace propio</span>
+                    <span>
+                      {(selectedConfig.sectionsConfig?.consejos?.allowLink ?? false)
+                        ? "Consejos con enlace propio"
+                        : "Consejos"}
+                    </span>
                   </div>
                 )}
                 <div className="flex items-center">

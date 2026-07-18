@@ -129,8 +129,9 @@ export default function TemplateRenderer({
 
   useEffect(() => {
     if (sectionsVisibility.informacion !== 0) setActiveTab("info");
+    else if (sectionsVisibility.consejos !== 0) setActiveTab("tips");
     else if (sectionsVisibility.galeria !== 0) setActiveTab("gallery");
-  }, [sectionsVisibility.informacion, sectionsVisibility.galeria]);
+  }, [sectionsVisibility.informacion, sectionsVisibility.consejos, sectionsVisibility.galeria]);
 
 
  const renderHeaderSection = () => {
@@ -237,6 +238,50 @@ export default function TemplateRenderer({
           <div className="flex items-center mt-4 text-gray-300 text-sm">
             <Clock className="w-4 h-4 mr-2" />
             <span>{bodyHeader.fecha || "Fecha de publicación"}</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Renderizar sección de consejos (Plantilla 1, con enlace propio por consejo)
+  const renderConsejosSection = () => {
+    if (!sectionsVisibility.consejos) return null;
+
+    const consejosData = Array.isArray(consejos) ? consejos.filter((c) => c.texto) : [];
+    const displayData = consejosData.length > 0
+      ? consejosData
+      : showPlaceholders
+        ? [1, 2, 3].map((i) => ({
+            texto: `Consejo número ${i} - Contenido útil para el lector`,
+            palabra: "",
+            enlace: "",
+          }))
+        : [];
+
+    if (displayData.length === 0) return null;
+
+    return (
+      <div className="mb-8">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          <div className="w-full lg:w-[40%] flex-shrink-0">
+            <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
+            <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
+              {bodyHeader.titulo_consejos || (showPlaceholders ? "Título de la sección" : "")}
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 flex-1 min-w-0">
+            {displayData.map((consejo, index) => (
+              <div
+                key={consejo.id || index}
+                className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-4"
+                style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)" }}
+              >
+                <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
+                <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
+                <p className="text-[#CCC3D4] text-xs leading-[18px] text-center mt-3">{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -489,6 +534,7 @@ export default function TemplateRenderer({
   const renderPlantilla2Body = () => {
     const tabs2 = [
       { key: "info",    label: "Información", show: sectionsVisibility.informacion !== 0 },
+      { key: "tips",    label: "Consejos",    show: sectionsVisibility.consejos !== 0 },
       { key: "gallery", label: "Galería",     show: sectionsVisibility.galeria !== 0 },
     ].filter(t => t.show);
 
@@ -570,6 +616,48 @@ export default function TemplateRenderer({
             ))}
           </div>
         )}
+
+        {/* Tab: Consejos (Plantilla 2 no tiene enlace por consejo) */}
+        {activeTab === "tips" && sectionsVisibility.consejos !== 0 && (() => {
+          const consejosData = Array.isArray(consejos) ? consejos.filter((c) => c.texto) : [];
+          const displayData = consejosData.length > 0
+            ? consejosData
+            : showPlaceholders
+              ? [1, 2, 3, 4, 5].map((i) => ({ texto: `Consejo número ${i} — contenido útil e importante para el lector de este blog.` }))
+              : [];
+
+          if (displayData.length === 0) return null;
+
+          return (
+            <div className="rounded-[30px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
+              <div className="h-[8px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+              <div className="mx-4 my-5 rounded-[22px] px-6 py-7" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
+                <h3 className="text-center font-bold text-base lg:text-[22px] leading-[32px] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}>
+                  {bodyHeader.titulo_consejos || (showPlaceholders ? "Consejos Importantes Para Elegir Correctamente" : "")}
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {displayData.map((consejo, i) => (
+                    <div key={consejo.id || i} className="flex items-center gap-3">
+                      <div className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}>
+                        <CheckCircle className="w-[22px] h-[22px] text-[#100043]" strokeWidth={2.5} />
+                      </div>
+                      <div className="flex-1 flex items-center px-5 min-h-[52px] rounded-[18px]" style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}>
+                        <p className="text-sm lg:text-[15px] leading-[22px]" style={{ color: "#CCC3D4" }}>
+                          {consejo.texto}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="h-[40px] flex items-center justify-center rounded-b-[30px]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}>
+                <span className="font-bold text-sm" style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                  {new Date().getFullYear()} - Todos los derechos reservados
+                </span>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Tab: Galería */}
         {activeTab === "gallery" && sectionsVisibility.galeria !== 0 && (
@@ -952,10 +1040,11 @@ export default function TemplateRenderer({
         </div>
       );
     } else {
-      // Plantilla 1: Layout lineal (Consejos es exclusivo de Plantilla 3)
+      // Plantilla 1: Layout lineal
       return (
         <div className="space-y-16">
           {renderBodyHeaderSection()}
+          {renderConsejosSection()}
           {renderGaleriaSection()}
           {renderInformacionSection()}
         </div>

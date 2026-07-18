@@ -36,7 +36,7 @@ import { validateImageFile, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageVali
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
-  formCommendBody, // Array de consejos: [{ id, texto, palabra, enlace }] - exclusivo de Plantilla 3
+  formCommendBody, // Array de consejos: [{ id, texto, palabra, enlace }] - el enlace solo aplica si la plantilla lo permite (allowLink)
   formInfoBody, // Array [{ titulo, descripcion, palabra, enlace }]
   formEncabezadoBody, // { titulo, descripcion, fecha, alt_image1, title_image1, public_image1 }
   formGaleryBody, // { public_image2, public_image3, alt_image2, alt_image3, title_image2, title_image3 }
@@ -171,16 +171,18 @@ export default function FormBody({
   }, [formEncabezadoBody, setFormEncabezadoBody]);
 
   // Manejar cambio de tab activo cuando se deshabilitan secciones
-  // (Consejos es exclusivo de Plantilla 3, que no usa layoutType "tabs")
   useEffect(() => {
     if (layoutType === "tabs") {
       const currentTabVisible =
+        (activeTab === "tips" && sectionsVisibility.consejos) ||
         (activeTab === "info" && sectionsVisibility.informacion) ||
         (activeTab === "gallery" && sectionsVisibility.galeria);
 
       if (!currentTabVisible) {
         // Cambiar a la primera tab disponible
-        if (sectionsVisibility.informacion) {
+        if (sectionsVisibility.consejos) {
+          setActiveTab("tips");
+        } else if (sectionsVisibility.informacion) {
           setActiveTab("info");
         } else if (sectionsVisibility.galeria) {
           setActiveTab("gallery");
@@ -742,42 +744,69 @@ export default function FormBody({
     );
   };
 
-  // Renderizar sección de consejos (exclusivo de Plantilla 3)
+  // Renderizar sección de consejos (Plantilla 1 y 3; Plantilla 2 usa su propio bloque de tabs)
   const renderConsejosSection = () => {
-    if (layoutType !== "plantilla3") return null;
-
     const consejos = Array.isArray(data.consejos)
       ? data.consejos.filter((c) => c.texto)
       : [];
 
+    if (consejos.length === 0) return null;
+
+    if (layoutType === "plantilla3") {
+      return (
+        <div className="mb-16">
+          <h3
+            className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
+            style={{ color: "#FFB800" }}
+          >
+            {data.header.titulo_consejos || "Consejos Importantes"}
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {consejos.map((consejo, index) => (
+              <div
+                key={index}
+                className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
+                style={{
+                  background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)",
+                }}
+              >
+                <div
+                  className="absolute top-0 left-0 right-0 h-[5px]"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)",
+                  }}
+                />
+                <div className="flex justify-center mb-6">
+                  <CheckCircle className="w-14 h-14 text-white" />
+                </div>
+                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Plantilla 1 (layoutType === "linear")
     return (
-      <div className="mb-16">
-        <h3
-          className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
-          style={{ color: "#FFB800" }}
-        >
-          {data.header.titulo_consejos || "Consejos Importantes"}
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="mb-8">
+        <div className="mb-4">
+          <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
+          <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
+            {data.header.titulo_consejos || "Consejos"}
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {consejos.map((consejo, index) => (
             <div
               key={index}
-              className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
-              style={{
-                background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)",
-              }}
+              className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-5"
+              style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)" }}
             >
-              <div
-                className="absolute top-0 left-0 right-0 h-[5px]"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)",
-                }}
-              />
-              <div className="flex justify-center mb-6">
-                <CheckCircle className="w-14 h-14 text-white" />
-              </div>
-              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+              <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
+              <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
+              <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
             </div>
           ))}
         </div>
@@ -1448,7 +1477,7 @@ export default function FormBody({
           </form>
         </div>
 
-        {/* Consejos form (exclusivo de Plantilla 3) */}
+        {/* Consejos form */}
         {mergedSectionsConfig.consejos.enabled &&
           sectionsVisibility.consejos && (
             <div className={mergedStyles.formCard}>
@@ -1546,21 +1575,23 @@ export default function FormBody({
                             />
 
                             {/* Enlace propio de este consejo */}
-                            <div className="mt-3">
-                              <label className={mergedStyles.label}>
-                                <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                                Enlace de este consejo (opcional)
-                              </label>
-                              <div className="flex justify-center">
-                                <BotonAnadirLink
-                                  servicios={servicios}
-                                  item={consejoItem}
-                                  index={index}
-                                  handleChange={handleConsejoChange}
-                                  selectedText={selectedConsejoTexts[index] || ""}
-                                />
+                            {mergedSectionsConfig.consejos.allowLink && (
+                              <div className="mt-3">
+                                <label className={mergedStyles.label}>
+                                  <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                                  Enlace de este consejo (opcional)
+                                </label>
+                                <div className="flex justify-center">
+                                  <BotonAnadirLink
+                                    servicios={servicios}
+                                    item={consejoItem}
+                                    index={index}
+                                    handleChange={handleConsejoChange}
+                                    selectedText={selectedConsejoTexts[index] || ""}
+                                  />
+                                </div>
                               </div>
-                            </div>
+                            )}
 
                             <p className="text-xs text-gray-400 mt-3 text-center">
                               Consejo {index + 1} de {data.consejos.length}
@@ -1591,7 +1622,11 @@ export default function FormBody({
                 {/* Indicador de ayuda */}
                 <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
                   <Eye className="w-4 h-4 text-purple-400" />
-                  <span>Cada consejo tiene su propio enlace: selecciona texto dentro de él y pulsa "Añadir Enlace".</span>
+                  <span>
+                    {mergedSectionsConfig.consejos.allowLink
+                      ? 'Cada consejo tiene su propio enlace: selecciona texto dentro de él y pulsa "Añadir Enlace".'
+                      : "Usa los puntos o desliza para navegar"}
+                  </span>
                 </div>
               </div>
 
@@ -2134,8 +2169,9 @@ export default function FormBody({
 
                       {/* Tabs */}
                       <div className="flex gap-5 pt-4 pb-2">
-                        {["info", "gallery"].filter(tab => {
+                        {["info", "tips", "gallery"].filter(tab => {
                           if (tab === "info") return sectionsVisibility.informacion;
+                          if (tab === "tips") return sectionsVisibility.consejos;
                           if (tab === "gallery") return sectionsVisibility.galeria;
                           return true;
                         }).map(tab => (
@@ -2146,6 +2182,7 @@ export default function FormBody({
                             style={{ color: activeTab === tab ? "#FFB800" : "#FFFFFF" }}
                           >
                             {tab === "info" && "Información"}
+                            {tab === "tips" && "Consejos"}
                             {tab === "gallery" && "Galería"}
                           </button>
                         ))}
@@ -2153,6 +2190,57 @@ export default function FormBody({
 
                       {/* Separador bajo tabs */}
                       <div className="h-[6px] mb-4" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+
+                      {/* Tab: Consejos (Plantilla 2 no tiene funcionalidad de enlace) */}
+                      {activeTab === "tips" && sectionsVisibility.consejos && (
+                        <div className="rounded-[20px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
+                          <div className="h-[6px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+                          <div className="mx-3 my-3 rounded-[16px] px-4 py-4" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
+                            <h3
+                              className="text-center font-bold text-xs leading-tight mb-3"
+                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                            >
+                              {data.header.titulo_consejos || "Consejos Importantes"}
+                            </h3>
+                            <div className="flex flex-col gap-2">
+                              {(Array.isArray(data.consejos) ? data.consejos : [])
+                                .filter((c) => c.texto)
+                                .map((consejo, i) => (
+                                  <div key={i} className="flex items-center gap-2">
+                                    <div
+                                      className="flex-shrink-0 w-[32px] h-[32px] rounded-full flex items-center justify-center"
+                                      style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                                    >
+                                      <CheckCircle className="w-[18px] h-[18px] text-[#100043]" strokeWidth={2.5} />
+                                    </div>
+                                    <div
+                                      className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
+                                      style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
+                                    >
+                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{consejo.texto}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                          <div
+                            className="h-[32px] flex items-center justify-center rounded-b-[20px]"
+                            style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                          >
+                            <span
+                              className="font-bold text-xs"
+                              style={{
+                                background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                              }}
+                            >
+                              {new Date().getFullYear()} - Todos los derechos reservados
+                            </span>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Tab: Información */}
                       {activeTab === "info" && sectionsVisibility.informacion && (
@@ -2284,8 +2372,9 @@ export default function FormBody({
 
                 {/* Tabs navigation */}
                 <div className={`${mergedStyles.tabsContainer} bg-white px-6`}>
-                  {["info", "gallery"]
+                  {["info", "tips", "gallery"]
                     .filter((tab) => {
+                      if (tab === "tips") return sectionsVisibility.consejos;
                       if (tab === "info") return sectionsVisibility.informacion;
                       if (tab === "gallery") return sectionsVisibility.galeria;
                       return true;
@@ -2300,6 +2389,7 @@ export default function FormBody({
                         }
                         onClick={() => setActiveTab(tab)}
                       >
+                        {tab === "tips" && "Consejos"}
                         {tab === "info" && "Información"}
                         {tab === "gallery" && "Galería"}
                       </button>
@@ -2309,6 +2399,9 @@ export default function FormBody({
                 {/* Tabs content - sin límite de altura */}
                 <div className="bg-white rounded-b-lg shadow-sm">
                   <div className="p-6">
+                    {activeTab === "tips" && sectionsVisibility.consejos && (
+                      <div key="tips-content">{renderConsejosSection()}</div>
+                    )}
                     {activeTab === "info" && sectionsVisibility.informacion && (
                       <div key="info-content">{renderInformacionSection()}</div>
                     )}
