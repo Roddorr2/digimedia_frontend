@@ -111,6 +111,7 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 100, required: true },
   descripcion: { min: 10, max: 400, required: true },
   titulo_tarjeta: { min: 10, max: 100, required: true }, // Título de la sección de tarjetas de información
+  titulo_consejos: { min: 10, max: 100, required: true }, // Título de la sección de consejos
   fecha: { required: true },
 alt_image1: { min: 10, max: 240, required: false },
    title_image1: { min: 10, max: 140, required: false },
@@ -121,13 +122,8 @@ alt_image1: { min: 10, max: 240, required: false },
    flag_informacion: { required: true },
    service_url: { required: false },
 
-   // Consejos (formCommendBody) - Hasta 5 consejos
-   "consejos.titulo": { min: 10, max: 100, required: true }, // Título de la sección de consejos
-   texto1: { min: 10, max: 255, required: true },
-   texto2: { min: 10, max: 255, required: true },
-   texto3: { min: 10, max: 255, required: false },
-   texto4: { min: 10, max: 255, required: false },
-   texto5: { min: 10, max: 255, required: false },
+   // Consejos (formCommendBody) - array dinámico, uno por fila
+   "consejos.texto": { min: 10, max: 255, required: true },
 
    // Galería (formGaleryBody)
    alt_image2: { min: 10, max: 240, required: false },

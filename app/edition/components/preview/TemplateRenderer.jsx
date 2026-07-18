@@ -73,7 +73,7 @@ export default function TemplateRenderer({
   // Datos específicos del body
   const {
     header: bodyHeader = {},
-    consejos = {},
+    consejos = [],
     galeria = {},
     informacion = [],
   } = body;
@@ -129,9 +129,8 @@ export default function TemplateRenderer({
 
   useEffect(() => {
     if (sectionsVisibility.informacion !== 0) setActiveTab("info");
-    else if (sectionsVisibility.consejos !== 0) setActiveTab("tips");
     else if (sectionsVisibility.galeria !== 0) setActiveTab("gallery");
-  }, [sectionsVisibility.informacion, sectionsVisibility.consejos, sectionsVisibility.galeria]);
+  }, [sectionsVisibility.informacion, sectionsVisibility.galeria]);
 
 
  const renderHeaderSection = () => {
@@ -240,92 +239,6 @@ export default function TemplateRenderer({
             <span>{bodyHeader.fecha || "Fecha de publicación"}</span>
           </div>
         </div>
-      </div>
-    );
-  };
-
-  // Renderizar sección de consejos
-  const renderConsejosSection = () => {
-    if (!sectionsVisibility.consejos) return null;
-
-    const maxConsejos = plantillaConfig.features?.consejos?.maxItems || 3;
-    const consejosData = [];
-    
-    // Recopilar consejos disponibles
-    for (let i = 1; i <= maxConsejos; i++) {
-      const texto = consejos[`texto${i}`];
-      if (texto || showPlaceholders) {
-        consejosData.push({
-          id: i,
-          texto: texto || (showPlaceholders ? `Consejo número ${i} - Contenido útil para el lector` : "")
-        });
-      }
-    }
-
-    if (consejosData.length === 0) return null;
-
-    return (
-      <div className="mb-16">
-        {consejos.titulo && layoutType === "tabs" && (
-          <h3 className="text-2xl font-bold text-gray-800 text-center mb-8">
-            {consejos.titulo}
-          </h3>
-        )}
-
-        {layoutType === "tabs" ? (
-          // Plantilla 2: Grid moderno
-<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
-  {consejosData.map((consejo) => (
-    <div
-      key={consejo.id}
-      className="relative p-8 pl-28 rounded-3xl bg-white shadow-xl border border-gray-200 
-                 hover:shadow-2xl transition-all duration-500 group"
-    >
-      {/* Línea decorativa superior */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-t-3xl" />
-
-      {/* Número fijo a la izquierda */}
-      <div className="absolute top-1/2 left-6 -translate-y-1/2 flex items-center justify-center
-                      w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-700
-                      text-white font-extrabold text-2xl shadow-lg">
-        {String(consejo.id).padStart(2, "0")}
-      </div>
-
-      {/* Texto con margen suficiente para no tapar el número */}
-      <p className="text-gray-700 leading-relaxed text-lg font-medium">
-  {consejo.texto}
-</p>
-
-    </div>
-  ))}
-</div>
-
-        ) : (
-          // Plantilla 1 y 3: Layout lineal — diseño spec
-          <div className="mb-8">
-            <div className="flex flex-col lg:flex-row gap-6 items-start">
-              <div className="w-full lg:w-[40%] flex-shrink-0">
-                <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
-                <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
-                  {consejos.titulo || (showPlaceholders ? "Título de la sección" : "")}
-                </h3>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 flex-1 min-w-0">
-                {consejosData.map((consejo) => (
-                  <div
-                    key={consejo.id}
-                    className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-4"
-                    style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)" }}
-                  >
-                    <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
-                    <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{consejo.id}</p>
-                    <p className="text-[#CCC3D4] text-xs leading-[18px] text-center mt-3">{consejo.texto}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     );
   };
@@ -576,7 +489,6 @@ export default function TemplateRenderer({
   const renderPlantilla2Body = () => {
     const tabs2 = [
       { key: "info",    label: "Información", show: sectionsVisibility.informacion !== 0 },
-      { key: "tips",    label: "Consejos",    show: sectionsVisibility.consejos !== 0 },
       { key: "gallery", label: "Galería",     show: sectionsVisibility.galeria !== 0 },
     ].filter(t => t.show);
 
@@ -656,41 +568,6 @@ export default function TemplateRenderer({
                 </div>
               </div>
             ))}
-          </div>
-        )}
-
-        {/* Tab: Consejos */}
-        {activeTab === "tips" && sectionsVisibility.consejos !== 0 && (
-          <div className="rounded-[30px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
-            <div className="h-[8px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
-            <div className="mx-4 my-5 rounded-[22px] px-6 py-7" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
-              <h3 className="text-center font-bold text-base lg:text-[22px] leading-[32px] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}>
-                {consejos.titulo || (showPlaceholders ? "Consejos Importantes Para Elegir Correctamente" : "")}
-              </h3>
-              <div className="flex flex-col gap-3">
-                {[1, 2, 3, 4, 5].map(i => {
-                  const text = consejos[`texto${i}`];
-                  if (!text && !showPlaceholders) return null;
-                  return (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}>
-                        <CheckCircle className="w-[22px] h-[22px] text-[#100043]" strokeWidth={2.5} />
-                      </div>
-                      <div className="flex-1 flex items-center px-5 min-h-[52px] rounded-[18px]" style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}>
-                        <p className="text-sm lg:text-[15px] leading-[22px]" style={{ color: "#CCC3D4" }}>
-                          {text || `Consejo número ${i} — contenido útil e importante para el lector de este blog.`}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="h-[40px] flex items-center justify-center rounded-b-[30px]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}>
-              <span className="font-bold text-sm" style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                {new Date().getFullYear()} - Todos los derechos reservados
-              </span>
-            </div>
           </div>
         )}
 
@@ -902,30 +779,31 @@ export default function TemplateRenderer({
 
   const renderPlantilla3Consejos = () => {
     if (!sectionsVisibility.consejos) return null;
-    const maxConsejos = plantillaConfig.features?.consejos?.maxItems || 3;
-    const consejosData = [];
-    for (let i = 1; i <= maxConsejos; i++) {
-      const texto = consejos[`texto${i}`];
-      if (texto || showPlaceholders) {
-        consejosData.push({
-          id: i,
-          texto: texto || (showPlaceholders ? `Consejo número ${i} — contenido útil para el lector` : ""),
-        });
-      }
-    }
-    if (consejosData.length === 0) return null;
+
+    const consejosData = Array.isArray(consejos) ? consejos.filter((c) => c.texto) : [];
+    const displayData = consejosData.length > 0
+      ? consejosData
+      : showPlaceholders
+        ? [1, 2, 3].map((i) => ({
+            texto: `Consejo número ${i} — contenido útil para el lector`,
+            palabra: "",
+            enlace: "",
+          }))
+        : [];
+
+    if (displayData.length === 0) return null;
     return (
       <div className="mb-16">
         <h2
           className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
           style={{ color: "#FFB800", letterSpacing: "-0.48px" }}
         >
-          {consejos.titulo || (showPlaceholders ? "Consejos Importantes" : "")}
+          {bodyHeader.titulo_consejos || (showPlaceholders ? "Consejos Importantes" : "")}
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {consejosData.map((consejo) => (
+          {displayData.map((consejo, index) => (
             <div
-              key={consejo.id}
+              key={consejo.id || index}
               className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
               style={{
                 background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)",
@@ -945,7 +823,7 @@ export default function TemplateRenderer({
                 className="text-lg text-center leading-relaxed"
                 style={{ color: "#CCC3D4" }}
               >
-                {consejo.texto}
+                {renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}
               </p>
             </div>
           ))}
@@ -1065,9 +943,8 @@ export default function TemplateRenderer({
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="p-8 md:p-12">
             {renderBodyHeaderSection()}
-            
+
             <div className="space-y-16">
-              {renderConsejosSection()}
               {renderGaleriaSection()}
               {renderInformacionSection()}
             </div>
@@ -1075,11 +952,10 @@ export default function TemplateRenderer({
         </div>
       );
     } else {
-      // Plantilla 1 y 3: Layout lineal
+      // Plantilla 1: Layout lineal (Consejos es exclusivo de Plantilla 3)
       return (
         <div className="space-y-16">
           {renderBodyHeaderSection()}
-          {renderConsejosSection()}
           {renderGaleriaSection()}
           {renderInformacionSection()}
         </div>

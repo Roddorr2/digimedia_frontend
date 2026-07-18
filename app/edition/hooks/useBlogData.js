@@ -26,7 +26,6 @@ import {
   HEADER_DEFAULTS,
   BODY_DEFAULTS,
   FOOTER_DEFAULTS,
-  CONSEJOS_DEFAULTS,
   TARJETA_INFO_DEFAULT,
   TARJETAS_INFO_DEFAULTS,
   BODY_FLAGS_DEFAULTS,
@@ -264,25 +263,32 @@ export default function useBlogData(
             title_image3: mappedBody.main.title_image3,
           });
 
-          // ✅ CARGAR COMMEND_TARJETA DESDE LA RELACIÓN EN BODY
-          // El backend ya incluye commend_tarjeta en bodyResponse (usando ->with('commend_tarjeta'))
-          if (bodyResponse.commend_tarjeta) {
-            setFormCommendBody({
-              id:
-                bodyResponse.commend_tarjeta.id ||
-                bodyResponse.commend_tarjeta.id_commend_tarjeta, // ✅ GUARDAR ID
-              titulo: bodyResponse.commend_tarjeta.titulo || "",
-              texto1: bodyResponse.commend_tarjeta.texto1 || "",
-              texto2: bodyResponse.commend_tarjeta.texto2 || "",
-              texto3: bodyResponse.commend_tarjeta.texto3 || "",
-              texto4: bodyResponse.commend_tarjeta.texto4 || "",
-              texto5: bodyResponse.commend_tarjeta.texto5 || "",
-              palabra: bodyResponse.commend_tarjeta.palabra || "",
-              enlace: bodyResponse.commend_tarjeta.enlace || "",
-            });
+          // ✅ CARGAR CONSEJOS (uno por fila, cada uno con su propio enlace)
+          // Intentar cargar desde la relación primero, si no existe, cargar explícitamente
+          const mapConsejosResponse = (list) =>
+            [...list]
+              .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))
+              .map((consejo) => ({
+                id: consejo.id_consejo || consejo.id,
+                texto: consejo.texto || "",
+                palabra: consejo.palabra || "",
+                enlace: consejo.enlace || "",
+              }));
+
+          if (bodyResponse.consejos && Array.isArray(bodyResponse.consejos)) {
+            setFormCommendBody(mapConsejosResponse(bodyResponse.consejos));
           } else {
-            // Si no hay commend_tarjeta, usar valores por defecto
-            setFormCommendBody(mappedBody.consejos);
+            try {
+              const allConsejos = await Api.getConsejos(relations.id_blog_body);
+              setFormCommendBody(
+                allConsejos && allConsejos.length > 0
+                  ? mapConsejosResponse(allConsejos)
+                  : mappedBody.consejos
+              );
+            } catch (err) {
+              console.warn("⚠️ Error cargando consejos:", err);
+              setFormCommendBody(mappedBody.consejos);
+            }
           }
 
           // ✅ CARGAR TARJETAS DE INFORMACIÓN
@@ -464,21 +470,6 @@ const headerPayload = {
 
       if (isCreateMode) {
         // MODO CREACIÓN: Mantener lógica existente
-        let commendTarjetaId = null;
-        const hasConsejos =
-        //cambios necesarios para texto 4 y 5
-          formCommendBody?.texto1 ||
-          formCommendBody?.texto2 ||
-          formCommendBody?.texto3 ||
-          formCommendBody?.texto4 ||
-          formCommendBody?.texto5;;
-
-        if (hasConsejos) {
-          const consejosPayload = mapConsejos(formCommendBody, plantillaId);
-          const commendResult = await Api.createCommendTarjeta(consejosPayload);
-          commendTarjetaId = commendResult?.id || commendResult?.data?.id;
-        }
-
         const galleryFiles = [
           { file: fileBodyHeader, route: "upload_body", key: "public_image1" },
           {
@@ -512,11 +503,21 @@ const headerPayload = {
           ...formGaleryBody,
           ...uploadedGalleryImages,
           plantilla_id: plantillaId,
-          ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
         };
 
         const bodyResult = await Api.createBody(bodyData);
         const bodyId = bodyResult?.id || bodyResult?.data?.id;
+
+        if (bodyId) {
+          const consejosPayload = mapConsejos(formCommendBody);
+          for (const [index, consejo] of consejosPayload.entries()) {
+            try {
+              await Api.createConsejo({ ...consejo, id_blog_body: bodyId });
+            } catch (err) {
+              console.warn(`⚠️ Error creando consejo ${index + 1}:`, err);
+            }
+          }
+        }
 
         if (bodyId && formInfoBody && formInfoBody.length > 0) {
           const tarjetasPayload = mapTarjetas(formInfoBody);
@@ -542,46 +543,7 @@ const headerPayload = {
           throw new Error("No se encontró el ID del body");
         }
 
-        // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
-        let commendTarjetaId = null;
-        const hasConsejos =
-        //cambios necesarios para texto 4 y 5
-          formCommendBody?.texto1 ||
-          formCommendBody?.texto2 ||
-          formCommendBody?.texto3 ||
-          formCommendBody?.texto4 ||
-          formCommendBody?.texto5;;
-
-if (hasConsejos) {
-           const consejosPayload = mapConsejos(formCommendBody, plantillaId);
-
-           // Garantizar que tenga título
-           if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
-             consejosPayload.titulo = "Consejos Importantes";
-           }
-
-           try {
-             // ✅ Si formCommendBody tiene ID, actualizar; si no, crear nuevo
-             if (formCommendBody.id) {
-               // Actualizar commend_tarjeta existente usando el ID guardado
-               await Api.updateCommendTarjeta(
-                 formCommendBody.id,
-                 consejosPayload
-               );
-               commendTarjetaId = formCommendBody.id;
-             } else {
-               // Crear nuevo commend_tarjeta
-               const consejosResult = await Api.createCommendTarjeta(
-                 consejosPayload
-               );
-               commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
-             }
-           } catch (err) {
-             console.warn("⚠️ Error actualizando consejos:", err);
-           }
-         }
-
-         const bodyData = {
+        const bodyData = {
            ...formEncabezadoBody,
            ...formGaleryBody,
            public_image1: formEncabezadoBody.public_image1?.startsWith("blob:")
@@ -597,12 +559,58 @@ if (hasConsejos) {
            bg_color: formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
            bg_type: formEncabezadoBody.bg_type || "solid",
            bg_colors: formEncabezadoBody.bg_colors || "",
-           ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
          };
 
 const result = await Api.updateBody(bodyId, bodyData);
 
-          // ========== PASO 3: Actualizar Tarjetas de información ==========
+          // ========== Actualizar Consejos (uno por fila, cada uno con su propio enlace) ==========
+          if (formCommendBody && Array.isArray(formCommendBody)) {
+            try {
+              const validConsejos = mapConsejos(formCommendBody);
+              const currentConsejoIds = [];
+
+              for (const [index, consejo] of validConsejos.entries()) {
+                const consejoData = {
+                  texto: consejo.texto,
+                  palabra: consejo.palabra,
+                  enlace: consejo.enlace,
+                  orden: consejo.orden,
+                  id_blog_body: bodyId,
+                };
+
+                try {
+                  if (consejo.id) {
+                    await Api.updateConsejo(consejo.id, consejoData);
+                    currentConsejoIds.push(consejo.id);
+                  } else {
+                    const consejoResult = await Api.createConsejo(consejoData);
+                    if (consejoResult?.id) {
+                      currentConsejoIds.push(consejoResult.id);
+                    }
+                  }
+                } catch (err) {
+                  console.warn(`⚠️ Error procesando consejo ${index + 1}:`, err);
+                }
+              }
+
+              // Eliminar consejos que ya no están en el formulario
+              const existingConsejos = await Api.getConsejos(bodyId);
+              for (const dbConsejo of existingConsejos) {
+                const consejoId = dbConsejo.id_consejo || dbConsejo.id;
+                if (!currentConsejoIds.includes(consejoId)) {
+                  try {
+                    await Api.deleteConsejo(consejoId);
+                  } catch (err) {
+                    console.warn(`⚠️ Error eliminando consejo ${consejoId}:`, err);
+                  }
+                }
+              }
+            } catch (err) {
+              console.warn("⚠️ Error actualizando consejos:", err);
+            }
+          }
+
+          // ========== Actualizar Tarjetas de información ==========
           if (formInfoBody && Array.isArray(formInfoBody)) {
             try {
               // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)

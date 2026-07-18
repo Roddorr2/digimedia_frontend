@@ -36,7 +36,7 @@ export const PLANTILLA1_STYLES = {
 // Configuración de secciones
 export const PLANTILLA1_SECTIONS_CONFIG = {
   header: { enabled: true, order: 1 },
-  consejos: { enabled: true, order: 2, maxItems: 5 },
+  consejos: { enabled: false, order: 2, maxItems: 5 }, // Consejos es exclusivo de Plantilla 3
   galeria: { enabled: true, order: 3, maxImages: 2 },
   informacion: { enabled: true, order: 4, maxItems: 4 },
 };

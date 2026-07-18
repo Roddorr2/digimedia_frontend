@@ -8,11 +8,10 @@ import {
   HEADER_DEFAULTS,
   BODY_DEFAULTS,
   FOOTER_DEFAULTS,
-  CONSEJOS_DEFAULTS,
+  CONSEJO_DEFAULT,
   TARJETA_INFO_DEFAULT,
   BODY_FLAGS_DEFAULTS,
   MAX_INFO_TARJETAS,
-  getConsejosFieldsByPlantilla,
 } from "../constants/defaults";
 
 /**
@@ -134,6 +133,7 @@ function mapBodyFromServer(data, plantillaId = 1) {
     titulo: data.titulo || BODY_DEFAULTS.titulo,
     descripcion: data.descripcion || BODY_DEFAULTS.descripcion,
     titulo_tarjeta: data.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta, // Título de sección de tarjetas
+    titulo_consejos: data.titulo_consejos || BODY_DEFAULTS.titulo_consejos, // Título de sección de consejos
     fecha: data.fecha || getCurrentDate(),
 
     // Imagen principal (imagen 1)
@@ -179,27 +179,17 @@ function mapBodyFromServer(data, plantillaId = 1) {
      bg_colors: data.bg_colors || "",
    };
 
-  // Consejos (mapeo dinámico según plantilla)
-  // Si existe commend_tarjeta en data, usarla directamente
-  const consejosFields = getConsejosFieldsByPlantilla(plantillaId);
-  const consejos = {};
-
-  if (data.commend_tarjeta) {
-    // Cargar desde la relación commend_tarjeta
-    consejosFields.forEach((field) => {
-      consejos[field] = data.commend_tarjeta[field] || CONSEJOS_DEFAULTS[field];
-    });
-  } else {
-    // Cargar desde los campos directos (fallback)
-    // ⚠️ palabra/enlace NO se toman de `data` aquí: esos nombres también
-    // existen en el body (enlace del header) y colisionarían si se copiaran.
-    consejosFields.forEach((field) => {
-      consejos[field] =
-        field === "palabra" || field === "enlace"
-          ? CONSEJOS_DEFAULTS[field]
-          : data[field] || CONSEJOS_DEFAULTS[field];
-    });
-  }
+  // Consejos: un array con un enlace (palabra/enlace) independiente por cada uno
+  const consejos = Array.isArray(data.consejos)
+    ? [...data.consejos]
+        .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))
+        .map((consejo) => ({
+          id: consejo.id_consejo || consejo.id,
+          texto: consejo.texto || CONSEJO_DEFAULT.texto,
+          palabra: consejo.palabra || CONSEJO_DEFAULT.palabra,
+          enlace: consejo.enlace || CONSEJO_DEFAULT.enlace,
+        }))
+    : [];
 
   // Información (tarjetas) - usar constantes centralizadas
   const informacion = Array.isArray(data.informacion)
@@ -221,12 +211,13 @@ function mapBodyFromServer(data, plantillaId = 1) {
  */
 function mapBodyToServer(
   formData,
-  { plantillaId = 1, commendTarjetaId = null, hasFiles = {} } = {}
+  { plantillaId = 1, hasFiles = {} } = {}
 ) {
   const bodyData = {
     titulo: formData.titulo || BODY_DEFAULTS.titulo,
     descripcion: formData.descripcion || BODY_DEFAULTS.descripcion,
     titulo_tarjeta: formData.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta, // Título de sección de tarjetas
+    titulo_consejos: formData.titulo_consejos || BODY_DEFAULTS.titulo_consejos, // Título de sección de consejos
     fecha: formData.fecha || getCurrentDate(),
 
     // Imágenes normalizadas
@@ -284,11 +275,6 @@ function mapBodyToServer(
      bg_type: formData.bg_type || "solid",
      bg_colors: formData.bg_colors || "",
    };
-
-  // Solo incluir commend_tarjeta si existe
-  if (commendTarjetaId) {
-    bodyData.id_commend_tarjeta = commendTarjetaId;
-  }
 
   return bodyData;
 }
@@ -395,23 +381,21 @@ function mapFooterToServer(
 // ========== HELPERS ADICIONALES ==========
 
 /**
- * Mapea datos de consejos (CommendTarjeta) para crear/actualizar
- * Usa configuración dinámica según plantilla
+ * Mapea el array de consejos (uno por fila, cada uno con su propio enlace) para crear/actualizar.
+ * Descarta los consejos sin texto y asigna el orden según su posición en el array.
  */
-export function mapConsejos(formData, plantillaId = 1) {
-  const consejosFields = getConsejosFieldsByPlantilla(plantillaId);
-  const consejos = {};
+export function mapConsejos(formData) {
+  if (!Array.isArray(formData)) return [];
 
-  consejosFields.forEach((field) => {
-    consejos[field] = formData[field] || CONSEJOS_DEFAULTS[field];
-  });
-
-  // ✅ GARANTIZAR que titulo nunca esté vacío (requerido por backend)
-  if (!consejos.titulo || consejos.titulo.trim() === "") {
-    consejos.titulo = CONSEJOS_DEFAULTS.titulo || "Consejos Importantes";
-  }
-
-  return consejos;
+  return formData
+    .filter((consejo) => consejo.texto && consejo.texto.trim() !== "")
+    .map((consejo, index) => ({
+      id: consejo.id || null,
+      texto: consejo.texto,
+      palabra: consejo.palabra || CONSEJO_DEFAULT.palabra,
+      enlace: consejo.enlace || CONSEJO_DEFAULT.enlace,
+      orden: index,
+    }));
 }
 
 /**
