@@ -1,6 +1,15 @@
 import Image from "next/image";
 import logoLegales from "@/public/headerFooter/logoFooter.webp";
 
+export const metadata = {
+  title: "Términos y Condiciones - DigiMedia",
+  description:
+    "Consulta los términos y condiciones de uso de los servicios de marketing digital, diseño web y branding de Digimedia Marketing.",
+  alternates: {
+    canonical: "https://digimedia-marketing.com/terminos-condiciones/",
+  },
+};
+
 export default function Page() {
   return (
     <div className='h-screen'>

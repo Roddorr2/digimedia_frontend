@@ -123,7 +123,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {data.titulo}
           </h2>
           <p className="text-[#CCC3D4] text-base lg:text-[24px] leading-[30px]">
-            {data.descripcion}
+            {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
         <div className="w-full lg:w-[549px] flex-shrink-0">
@@ -358,24 +358,21 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                 </div>
               </div>
 
-              {/* Lista original en desktop */}
+              {/* Grid solo en desktop */}
               <div className="hidden lg:flex flex-col gap-4">
                 {tipsItems.map((text, i) => (
-                  <div key={i} className="flex items-center gap-3 lg:gap-4">
-                    {/* Círculo amarillo con ícono */}
+                  <div key={i} className="flex items-center gap-3">
                     <div
-                      className="flex-shrink-0 w-[40px] h-[40px] lg:w-[47px] lg:h-[47px] rounded-full flex items-center justify-center"
+                      className="flex-shrink-0 w-[40px] h-[40px] rounded-full flex items-center justify-center"
                       style={{
                         background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
                       }}
                     >
                       <CheckCircle
-                        className="w-[22px] h-[22px] lg:w-[28px] lg:h-[28px] text-[#100043]"
+                        className="w-[22px] h-[22px] text-[#100043]"
                         strokeWidth={2.5}
                       />
                     </div>
-
-                    {/* Tarjeta de texto */}
                     <div
                       className="flex-1 flex items-center px-4 lg:px-6 py-3 lg:py-0 rounded-[22px] min-h-auto lg:min-h-[69px]"
                       style={{
@@ -387,7 +384,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                         className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
                         style={{ color: "#CCC3D4" }}
                       >
-                        {text}
+                        {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
                       </p>
                     </div>
                   </div>
@@ -418,7 +415,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             </div>
           </div>
         );
-      })}
+      })()}
 
         {/* Galería */}
         {activeTab === "gallery" && data.flag_galeria !== 0 && (() => {
@@ -487,7 +484,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
               </div>
             </div>
           );
-        })}
+        })()}
       </div>
 
       {/* ── CTA: Contáctanos ── */}

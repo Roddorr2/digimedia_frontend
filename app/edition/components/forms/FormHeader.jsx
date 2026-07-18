@@ -26,13 +26,16 @@ import {
 import { DEFAULT_IMAGES } from "../../constants/defaults";
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
+  //se cambió de h-[120vh] a min-h-[120vh] para evitar que el título se desborde y se superponga
+  //con los tabs de navegacion
+  //se aggrego break-words para titulos extensos
   container:
-    "w-full h-[120vh] md:h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat",
+   "w-full min-h-[120vh] md:min-h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat py-12",
   overlay: "absolute inset-0 bg-black/60",
   content:
     "relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6",
   preview: "text-center max-w-xl",
-  title: "text-5xl md:text-6xl font-extrabold mb-4 neon-textov4",
+  title: "text-5xl md:text-6xl font-extrabold mb-4 neon-textov4 break-words",
   subtitle: "text-2xl md:text-xl font-bold mb-4",
   description: "text-lg text-gray-300 font-light",
   panel:
@@ -54,11 +57,34 @@ const DEFAULT_PLACEHOLDERS = {
   texto_frase: "Frase destacada",
   texto_descripcion: "Descripción del blog",
   titulo_enlace: "Texto para generar el enlace del blog (opcional)",
-  alt: "Descripción de la imagen para accesibilidad",
-  title: "Título que aparece al pasar el mouse",
-  meta_title: "Título SEO (máx 60 caracteres)",
-  meta_descripcion: "Descripción SEO (máx 160 caracteres)",
+alt: "Texto alternativo (mín 10 caracteres)",
+   title: "Título de la imagen (mín 10 caracteres)",
+  meta_title: "Título SEO (mín 10 caracteres, máx 120)",
+  meta_descripcion: "Descripción SEO (mín 10 caracteres, máx 255)",
 };
+
+function renderDescripcion(texto, palabra, enlace) {
+  if (!texto || !palabra || !enlace) return texto;
+
+  const palabraEscapada = palabra.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${palabraEscapada})`, "gi");
+
+  return texto.split(regex).map((parte, index) =>
+    parte.toLowerCase() === palabra.toLowerCase() ? (
+      <a
+        key={index}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-bold underline"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={index}>{parte}</span>
+    )
+  );
+}
 
 export default function FormHeader({
   // Props de datos
@@ -66,6 +92,7 @@ export default function FormHeader({
   defaultImage = DEFAULT_IMAGES.header.image1,
 
   // Props de configuración
+  plantillaId,
   validationConfig = DEFAULT_HEADER_VALIDATION_CONFIG,
   styles = DEFAULT_STYLES,
   placeholders = DEFAULT_PLACEHOLDERS,
@@ -73,6 +100,7 @@ export default function FormHeader({
 
   // Props de callbacks
   onChange,
+  onLinkChange,
   onImageChange,
   onImageDelete,
   onValidationChange,
@@ -88,7 +116,7 @@ export default function FormHeader({
   // Estados internos
   const [uploading, setUploading] = useState(isUploading);
   const [fieldValidations, setFieldValidations] = useState({});
-  //modificacion para imagen preview 
+  //modificacion para imagen preview
   const [previewImageUrl, setPreviewImageUrl] = useState(defaultImage);
 
   // Combinar estilos
@@ -355,7 +383,7 @@ export default function FormHeader({
       name: "texto_descripcion",
       icon: AlignLeft,
       label: "Frase Secundaria",
-      type: "input",
+      type: "textarea",
       placeholder: mergedPlaceholders.texto_descripcion,
     },
   ];
@@ -412,7 +440,11 @@ export default function FormHeader({
             {data.texto_frase || mergedPlaceholders.texto_frase}
           </h2>
           <p className={mergedStyles.description}>
-            {data.texto_descripcion || mergedPlaceholders.texto_descripcion}
+            {renderDescripcion(
+              data.texto_descripcion || mergedPlaceholders.texto_descripcion,
+              data.palabra,
+              data.enlace
+            )}
           </p>
         </div>
 
@@ -606,18 +638,33 @@ export default function FormHeader({
                       {label}
                       <ValidationMessage fieldName={name} />
                     </label>
-                    <input
-                      type="text"
-                      name={name}
-                      value={data[name] || ""}
-                      onChange={handleFieldChange}
-                      maxLength={validationConfig[name]?.max}
-                      minLength={validationConfig[name]?.min}
-                      autoComplete="off"
-                      className={mergedStyles.input}
-                      placeholder={placeholder}
-                      required={validationConfig[name]?.required}
-                    />
+                    {type === "textarea" ? (
+                      <textarea
+                        name={name}
+                        value={data[name] || ""}
+                        onChange={handleFieldChange}
+                        maxLength={validationConfig[name]?.max}
+                        minLength={validationConfig[name]?.min}
+                        autoComplete="off"
+                        rows={3}
+                        className={`${mergedStyles.input} resize-none`}
+                        placeholder={placeholder}
+                        required={validationConfig[name]?.required}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        name={name}
+                        value={data[name] || ""}
+                        onChange={handleFieldChange}
+                        maxLength={validationConfig[name]?.max}
+                        minLength={validationConfig[name]?.min}
+                        autoComplete="off"
+                        className={mergedStyles.input}
+                        placeholder={placeholder}
+                        required={validationConfig[name]?.required}
+                      />
+                    )}
                   </div>
                 )
               )}

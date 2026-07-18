@@ -132,7 +132,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {data.titulo}
           </h2>
           <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
-            {data.descripcion}
+            {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
               {index + 1}
             </p>
             <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px] text-center mt-6 px-4 pb-6">
-              {text}
+              {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
             </p>
           </div>
         );
@@ -340,26 +340,14 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
       {data.flag_informacion !== 0 && (
         <div className="flex justify-center lg:px-[100px] py-6 lg:py-8">
           <div
-            className="
-              flex items-center justify-center
-              rounded-[38px]
-              px-8 lg:px-12
-              py-4
-              w-full max-w-[705px]
-            "
+            className="flex items-center justify-center rounded-[38px] px-8 lg:px-12 py-4 w-full max-w-[705px]"
             style={{
               background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)",
               boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
             }}
           >
             <span
-              className="
-                font-bold
-                text-base lg:text-[24px]
-                text-center
-                leading-tight
-                max-w-[90%]
-              "
+              className="font-bold text-base lg:text-[24px] text-center leading-tight max-w-[90%]"
               style={{
                 background:
                   "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",

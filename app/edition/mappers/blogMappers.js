@@ -162,6 +162,10 @@ function mapBodyFromServer(data, plantillaId = 1) {
     alt_image3: data.alt_image3 || BODY_DEFAULTS.alt_image3,
     title_image3: data.title_image3 || BODY_DEFAULTS.title_image3,
 
+    // Enlace en la descripción del encabezado (palabra clave + URL)
+    palabra: data.palabra || BODY_DEFAULTS.palabra,
+    enlace: data.enlace || BODY_DEFAULTS.enlace,
+
 // Flags de control - usar constantes centralizadas
      flag_galeria: data.flag_galeria ?? BODY_FLAGS_DEFAULTS.flag_galeria,
      flag_consejos: data.flag_consejos ?? BODY_FLAGS_DEFAULTS.flag_consejos,
@@ -187,8 +191,13 @@ function mapBodyFromServer(data, plantillaId = 1) {
     });
   } else {
     // Cargar desde los campos directos (fallback)
+    // ⚠️ palabra/enlace NO se toman de `data` aquí: esos nombres también
+    // existen en el body (enlace del header) y colisionarían si se copiaran.
     consejosFields.forEach((field) => {
-      consejos[field] = data[field] || CONSEJOS_DEFAULTS[field];
+      consejos[field] =
+        field === "palabra" || field === "enlace"
+          ? CONSEJOS_DEFAULTS[field]
+          : data[field] || CONSEJOS_DEFAULTS[field];
     });
   }
 
@@ -256,6 +265,9 @@ function mapBodyToServer(
     title_image2: formData.title_image2 || BODY_DEFAULTS.title_image2,
     alt_image3: formData.alt_image3 || BODY_DEFAULTS.alt_image3,
     title_image3: formData.title_image3 || BODY_DEFAULTS.title_image3,
+
+    palabra: formData.palabra || BODY_DEFAULTS.palabra,
+    enlace: formData.enlace || BODY_DEFAULTS.enlace,
 
 // Flags - usar constantes centralizadas
      flag_galeria: formData.flag_galeria ?? BODY_FLAGS_DEFAULTS.flag_galeria,

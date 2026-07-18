@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button"
 export default function Header() {
   return (
     <header className="flex items-center justify-between bg-slate-800 text-white px-6 py-3 h-16 fixed w-full z-10">
-      <div className="flex items-center ml-56">
+      <div className="flex items-center pl-2 lg:ml-56">
         <Link href="/">
-          <img src="/headerFooter/logoblanco2.webp" alt="Digimedia" width="150" height="50" className="h-auto" />
+          <img src="/headerFooter/logoblanco2.webp" alt="Digimedia" width="150" height="50" className="h-12 w-auto object-contain" />
         </Link>
       </div>
 

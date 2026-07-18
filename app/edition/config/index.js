@@ -86,10 +86,10 @@ export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   texto_frase: { min: 10, max: 140, required: true },
   texto_descripcion: { min: 10, max: 240, required: true },
   titulo_enlace: { min: 5, max: 50, required: false },
-  alt: { min: 60, max: 240, required: false },
-  title: { min: 50, max: 140, required: false },
-  meta_title: { min: 50, max: 120, required: false }, //bien
-  meta_descripcion: { min: 150, max: 255, required: false },//bien
+alt: { min: 10, max: 240, required: false },
+   title: { min: 10, max: 140, required: false },
+   meta_title: { min: 10, max: 120, required: false },
+   meta_descripcion: { min: 10, max: 255, required: false },
 };
 
 // Configuración de validación por defecto para Footer (común a todas las plantillas)
@@ -97,12 +97,12 @@ export const DEFAULT_FOOTER_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 50, required: false },
   descripcion: { min: 10, max: 300, required: false },
   estado: { required: true },
-  alt_image1: { min: 60, max: 240, required: false },
-  alt_image2: { min: 60, max: 240, required: false },
-  alt_image3: { min: 60, max: 240, required: false },
-  title_image1: { min: 50, max: 140, required: false },
-  title_image2: { min: 50, max: 140, required: false },
-  title_image3: { min: 50, max: 140, required: false },
+alt_image1: { min: 10, max: 240, required: false },
+   alt_image2: { min: 10, max: 240, required: false },
+   alt_image3: { min: 10, max: 240, required: false },
+   title_image1: { min: 10, max: 140, required: false },
+   title_image2: { min: 10, max: 140, required: false },
+   title_image3: { min: 10, max: 140, required: false },
 };
 
 // Configuración de validación por defecto para Body (compatible con FormBody existente)
@@ -112,28 +112,28 @@ export const DEFAULT_BODY_VALIDATION_CONFIG = {
   descripcion: { min: 10, max: 400, required: true },
   titulo_tarjeta: { min: 10, max: 100, required: true }, // Título de la sección de tarjetas de información
   fecha: { required: true },
-  alt_image1: { min: 60, max: 240, required: false },
-  title_image1: { min: 50, max: 140, required: false },
+alt_image1: { min: 10, max: 240, required: false },
+   title_image1: { min: 10, max: 140, required: false },
 
-  // Campos de control dinámico
-  flag_galeria: { required: true },
-  flag_consejos: { required: true },
-  flag_informacion: { required: true },
-  service_url: { required: false },
+   // Campos de control dinámico
+   flag_galeria: { required: true },
+   flag_consejos: { required: true },
+   flag_informacion: { required: true },
+   service_url: { required: false },
 
-  // Consejos (formCommendBody) - Hasta 5 consejos
-  "consejos.titulo": { min: 10, max: 100, required: true }, // Título de la sección de consejos
-  texto1: { min: 10, max: 255, required: true },
-  texto2: { min: 10, max: 255, required: true },
-  texto3: { min: 10, max: 255, required: false },
-  texto4: { min: 10, max: 255, required: false },
-  texto5: { min: 10, max: 255, required: false },
+   // Consejos (formCommendBody) - Hasta 5 consejos
+   "consejos.titulo": { min: 10, max: 100, required: true }, // Título de la sección de consejos
+   texto1: { min: 10, max: 255, required: true },
+   texto2: { min: 10, max: 255, required: true },
+   texto3: { min: 10, max: 255, required: false },
+   texto4: { min: 10, max: 255, required: false },
+   texto5: { min: 10, max: 255, required: false },
 
-  // Galería (formGaleryBody)
-  alt_image2: { min: 60, max: 240, required: false },
-  title_image2: { min: 50, max: 140, required: false },
-  alt_image3: { min: 60, max: 240, required: false },
-  title_image3: { min: 50, max: 140, required: false },
+   // Galería (formGaleryBody)
+   alt_image2: { min: 10, max: 240, required: false },
+   title_image2: { min: 10, max: 140, required: false },
+   alt_image3: { min: 10, max: 240, required: false },
+   title_image3: { min: 10, max: 140, required: false },
 };
 
 // Export individual de configuraciones

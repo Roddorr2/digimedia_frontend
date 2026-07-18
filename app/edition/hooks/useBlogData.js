@@ -221,6 +221,8 @@ export default function useBlogData(
             titulo: mappedHeader.titulo,
             texto_frase: mappedHeader.texto_frase,
             texto_descripcion: mappedHeader.texto_descripcion,
+            palabra: headerResponse.palabra || "",
+            enlace: headerResponse.enlace || "",
             meta_title: mappedHeader.meta_title,
             meta_descripcion: mappedHeader.meta_descripcion,
             bg_color: mappedHeader.bg_color,
@@ -275,6 +277,8 @@ export default function useBlogData(
               texto3: bodyResponse.commend_tarjeta.texto3 || "",
               texto4: bodyResponse.commend_tarjeta.texto4 || "",
               texto5: bodyResponse.commend_tarjeta.texto5 || "",
+              palabra: bodyResponse.commend_tarjeta.palabra || "",
+              enlace: bodyResponse.commend_tarjeta.enlace || "",
             });
           } else {
             // Si no hay commend_tarjeta, usar valores por defecto

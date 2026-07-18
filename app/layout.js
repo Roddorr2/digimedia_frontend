@@ -65,19 +65,55 @@ export const metadata = {
   verification: {
     google: 'xhfnSm5zX45Ov_N5NO-py7sXFqI6VC5EDAb4FhYafNQ',
   },
-  // Preconnect a servicios externos para mejorar TTFB
   metadataBase: new URL('https://digimedia-marketing.com'),
 };
+
+const criticalCSS = `
+/* Critical CSS - Inline for faster rendering */
+html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}
+body{margin:0;line-height:inherit;font-family:var(--font-montserrat),Arial,Helvetica,sans-serif;background:#000;color:#fff}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-telegraf),sans-serif;font-weight:700}
+.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.header{display:flex;justify-content:center;box-shadow:0 2px 20px #333;position:sticky;top:0;z-index:100;height:125px;transition:box-shadow 0.4s ease,backdrop-filter 0.4s ease}
+.headerScrolled{box-shadow:0 4px 24px rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.contenidoHeader{display:flex;width:100%;height:125px;justify-content:space-between;align-items:center;max-width:1280px;margin:0 auto;padding:0 24px}
+.menuHorizontal{display:flex;list-style:none;margin:0;align-items:center;padding-left:0}
+.menuHorizontal li{display:flex;align-items:center;position:relative;box-sizing:border-box}
+.menuHorizontal a,.menuHorizontal p{text-decoration:none;display:block;color:#fff;font-family:'Doppio One',Arial,Helvetica,sans-serif;padding:15px;height:100%;transition:background-color 0.3s ease}
+.menuHorizontal a:hover,.menuHorizontal p:hover{background-color:rgba(51,51,51,0.4)}
+.dropping-word{font-weight:600;color:#ffb800;animation:fadeInScale 0.5s forwards}
+@keyframes fadeInScale{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
+.animate-blink{animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.whatsapp-float{position:fixed;bottom:24px;right:24px;z-index:1000;width:60px;height:60px;background:#25D366;border-radius:50%}
+`;
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        {/* Preconnect/dns-prefetch estáticos: antes se inyectaban vía useEffect
-            (PerformanceOptimizations.jsx) y llegaban después de la hidratación */}
+        <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
+        
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+        <Script
+          id="load-non-critical-css"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var links = document.querySelectorAll('link[data-next-css][data-precedence="next"]');
+                for (var i = 0; i < links.length; i++) {
+                  links[i].media = 'print';
+                  links[i].addEventListener('load', function() { this.media = 'all'; });
+                }
+              })();
+            `,
+          }}
+        />
 
         <Script id="theme-init" strategy="beforeInteractive">
           {`
@@ -93,7 +129,6 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
-        {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
@@ -109,10 +144,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.variable} ${telegraf.variable} ${doppioOne.variable} ${plusJakartaSans.variable} ${hankenGrotesk.variable} antialiased`}
       >
-        {/* El AuthProvider debe envolver todo el contenido */}
         <AuthProvider>{children}</AuthProvider>
 
-        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MR2MC9SB"

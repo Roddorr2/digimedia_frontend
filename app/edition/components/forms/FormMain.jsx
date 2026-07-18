@@ -253,6 +253,17 @@ useEffect(() => {
     [setFormEncabezadoHeader, setFormImagenHeader]
   );
 
+  const handleHeaderLinkChange = useCallback(
+    ({ palabra, enlace }) => {
+      setFormEncabezadoHeader((prev) => ({
+        ...prev,
+        palabra,
+        enlace,
+      }));
+    },
+    [setFormEncabezadoHeader]
+  );
+
   const handleHeaderImageChange = useCallback(
     async (imageData) => {
       try {
@@ -416,15 +427,17 @@ useEffect(() => {
   }
 
   return (
-    <div className={`max-w-7xl mx-auto mt-8 ${className}`}>
+    <div className={`max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8 ${className}`}>
       {/* Header de estado y acciones */}
       <div className="mb-8 bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-gray-900">
+        <div className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:items-start">
+          {/*para que no desborde el espacio entre titulo y plantilla */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
+             {/*para que no quede demasiado separado cuando se parta en varias lineas */}
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
               {isCreateMode ? "Crear Nuevo Blog" : "Editar Blog"}
             </h1>
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm text-gray-500">Plantilla:</span>
               <span className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium">
                 {plantillaConfig.name}
@@ -432,7 +445,7 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center gap-3 justify-start lg:justify-end">
             {/* Switch de Publicación */}
             <div className="flex items-center gap-3 px-4 py-2 bg-white border rounded-xl shadow-sm">
               <span
@@ -532,7 +545,7 @@ useEffect(() => {
         <div className="flex border-b border-gray-200">
           <button
             onClick={() => setViewMode("edit")}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "edit"
+            className={`w-full px-4 py-4 text-sm font-medium transition-colors ${viewMode === "edit"
               ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
               : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
               }`}
@@ -545,7 +558,7 @@ useEffect(() => {
           <button
             onClick={handlePreview}
             disabled={!isFormValid}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "preview"
+            className={`w-full px-4 py-4 text-sm font-medium transition-colors ${viewMode === "preview"
               ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
               : !isFormValid
                 ? "text-gray-400 cursor-not-allowed"
@@ -561,7 +574,7 @@ useEffect(() => {
           {isCreateMode && showTemplateSelectorProp && (
             <button
               onClick={handleShowTemplateSelector}
-              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${viewMode === "template-select"
+              className={`w-full px-4 py-4 text-sm font-medium transition-colors ${viewMode === "template-select"
                 ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                 }`}
@@ -578,11 +591,13 @@ useEffect(() => {
       {viewMode === "edit" && (
         <div className="space-y-8">
           {/* 🟦 HEADER */}
-          <div id="header" ref={headerRef}>
+          <div id="header" ref={headerRef} className="scroll-mt-24">
             <FormHeader
               data={{ ...formEncabezadoHeader, ...formImagenHeader }}
+              plantillaId={selectedPlantilla}
               mode={mode}
               onChange={handleHeaderChange}
+              onLinkChange={handleHeaderLinkChange}
               onImageChange={handleHeaderImageChange}
               onImageDelete={handleHeaderImageDelete}
               onValidationChange={setValidacionHeader}
@@ -593,7 +608,7 @@ useEffect(() => {
           </div>
 
           {/* 🟩 BODY */}
-          <div id="body" ref={bodyRef}>
+          <div id="body" ref={bodyRef} className="scroll-mt-24">
             <FormBody
               formCommendBody={formCommendBody}
               formInfoBody={formInfoBody}
@@ -616,7 +631,7 @@ useEffect(() => {
           </div>
 
           {/* 🟧 FOOTER */}
-          <div id="footer" ref={footerRef}>
+          <div id="footer" ref={footerRef} className="scroll-mt-24">
             <FormFooter
               data={{ ...formEncabezadoFooter, ...formImagenFooter }}
               mode={mode}
@@ -661,8 +676,9 @@ useEffect(() => {
 
       {/* Panel de acciones */}
       <div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+         {/* cambio para que no este tan comprimido */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap items-center gap-3">
             {showCancel && (
               <button
                 onClick={handleCancel}
@@ -674,7 +690,7 @@ useEffect(() => {
               </button>
             )}
 
-            {showPreview && (
+             {showPreview && (
               <button
                 onClick={handlePreview}
                 className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${viewMode === "preview"
@@ -684,13 +700,10 @@ useEffect(() => {
                 disabled={loading || isSaving || !isFormValid}
               >
                 <Eye className="w-4 h-4" />
-                <span>
-                  {viewMode === "preview" ? "Ocultar Preview" : "Vista Previa"}
-                </span>
+                <span>{viewMode === "preview" ? "Ocultar Preview" : "Vista Previa"}</span>
               </button>
             )}
 
-            {/* Botón para cambiar plantilla (solo en modo create) */}
             {isCreateMode && showTemplateSelectorProp && (
               <button
                 onClick={handleShowTemplateSelector}
@@ -703,7 +716,7 @@ useEffect(() => {
             )}
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center gap-3">
             {/* Información de auto-guardado */}
             {autoSave && isDirty && (
               <span className="text-sm text-gray-500">

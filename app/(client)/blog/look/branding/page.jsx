@@ -2,6 +2,8 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Body4 from "../components/Body4";
+import WhatsAppButton from "../../../components/WhatsAppButton";
+import MayaChatbot from "../../../components/Chatbot";
 
 export default function Page() {
   return (
@@ -23,6 +25,12 @@ export default function Page() {
           url_image3={"/blog/branding_2.webp"}
           descripcion={"Un buen branding y diseño no solo consiste en crear una imagen visual atractiva, sino en construir una identidad que hable por sí misma. Con un diseño coherente y bien pensado, tu marca puede conectar emocionalmente con tu público objetivo."}
         />
+      </div>
+      
+      {/* Botones flotantes WhatsApp y Chatbot */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <WhatsAppButton />
+        <MayaChatbot />
       </div>
     </div>
   );

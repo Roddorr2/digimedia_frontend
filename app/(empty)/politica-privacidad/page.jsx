@@ -1,6 +1,15 @@
 import Image from "next/image";
 import logoLegales from "@/public/headerFooter/logoFooter.webp";
 
+export const metadata = {
+  title: "Política de Privacidad - DigiMedia",
+  description:
+    "Conoce cómo Digimedia Marketing recopila, usa y protege la información personal de los usuarios de su sitio web.",
+  alternates: {
+    canonical: "https://digimedia-marketing.com/politica-privacidad/",
+  },
+};
+
 export default function Page() {
   return (
     <div>

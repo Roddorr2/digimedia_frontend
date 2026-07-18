@@ -11,6 +11,32 @@ import {
 // Configuración de plantillas
 import { getPlantillaConfig } from "../../config/index";
 
+function renderDescripcion(texto, palabraClave, enlace) {
+  if (!texto || !palabraClave || !enlace) return texto;
+
+  const palabraClaveEscapada = palabraClave.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+  );
+  const regex = new RegExp(`(${palabraClaveEscapada})`, "gi");
+
+  return texto.split(regex).map((parte, index) =>
+    parte.toLowerCase() === palabraClave.toLowerCase() ? (
+      <a
+        key={index}
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#FFB800] font-bold underline hover:opacity-80"
+      >
+        {parte}
+      </a>
+    ) : (
+      <span key={index}>{parte}</span>
+    )
+  );
+}
+
 /**
  * TemplateRenderer - Renderizador dinámico de blogs según plantilla y datos
  * 
@@ -135,8 +161,12 @@ export default function TemplateRenderer({
         </p>
 
         <p className="text-lg text-gray-200 max-w-4xl mt-4 leading-relaxed">
-          {headerData.texto_descripcion ||
-            "Descripción envolvente del contenido del blog con un tono profesional"}
+          {renderDescripcion(
+            headerData.texto_descripcion ||
+              "Descripción envolvente del contenido del blog con un tono profesional",
+            headerData.palabra,
+            headerData.enlace
+          )}
         </p>
 
         <div className="mt-6 w-24 h-1 bg-yellow-400 rounded-full"></div>
@@ -178,7 +208,11 @@ export default function TemplateRenderer({
               {bodyHeader.titulo || (showPlaceholders ? "Título del Artículo" : "")}
             </h2>
             <p className="text-[#CCC3D4] text-sm leading-relaxed">
-              {bodyHeader.descripcion || (showPlaceholders ? "Descripción del contenido principal del blog" : "")}
+              {renderDescripcion(
+                bodyHeader.descripcion || (showPlaceholders ? "Descripción del contenido principal del blog" : ""),
+                bodyHeader.palabra,
+                bodyHeader.enlace
+              )}
             </p>
           </div>
         </div>
@@ -451,7 +485,11 @@ export default function TemplateRenderer({
                     {item.titulo || `Información ${index + 1}`}
                   </h4>
                   <p className="text-[#CCC3D4] text-sm leading-relaxed">
-                    {item.descripcion || "Descripción detallada del contenido"}
+                    {renderDescripcion(
+                      item.descripcion || "Descripción detallada del contenido",
+                      item.palabra,
+                      item.enlace
+                    )}
                   </p>
                 </div>
               ))}
@@ -609,7 +647,11 @@ export default function TemplateRenderer({
                     {card.titulo || `Información ${index + 1}`}
                   </h3>
                   <p className="text-sm lg:text-[17px] leading-[26px]" style={{ color: "#CCC3D4" }}>
-                    {card.descripcion || "Descripción detallada del contenido de este punto informativo."}
+                    {renderDescripcion(
+                      card.descripcion || "Descripción detallada del contenido de este punto informativo.",
+                      card.palabra,
+                      card.enlace
+                    )}
                   </p>
                 </div>
               </div>
@@ -759,8 +801,12 @@ export default function TemplateRenderer({
               textShadow: "0 2px 10px rgba(0,0,0,0.9)",
             }}
           >
-            {headerData.texto_descripcion ||
-              "Descripción completa que presenta el tema del blog de manera clara y atractiva para los lectores interesados"}
+            {renderDescripcion(
+              headerData.texto_descripcion ||
+                "Descripción completa que presenta el tema del blog de manera clara y atractiva para los lectores interesados",
+              headerData.palabra,
+              headerData.enlace
+            )}
           </p>
           <div
             className="mt-5 w-24 h-1 rounded-full"
@@ -938,7 +984,11 @@ export default function TemplateRenderer({
           {item.titulo || `Información ${index + 1}`}
         </h4>
         <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
-          {item.descripcion || "Descripción del contenido"}
+          {renderDescripcion(
+            item.descripcion || "Descripción del contenido",
+            item.palabra,
+            item.enlace
+          )}
         </p>
       </div>
     );
@@ -955,7 +1005,11 @@ export default function TemplateRenderer({
           {item.titulo || `Información ${index + 1}`}
         </h4>
         <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
-          {item.descripcion || "Descripción del contenido"}
+          {renderDescripcion(
+            item.descripcion || "Descripción del contenido",
+            item.palabra,
+            item.enlace
+          )}
         </p>
       </div>
     );

@@ -183,122 +183,145 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-12 lg:gap-24 w-full lg:w-auto">
-            <div className="flex flex-col">
-              <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">
-                LEGALES
-              </h2>
-              <ul className="flex flex-col gap-3 text-sm text-gray-300">
-                <li>
-                  <Link
-                    href="/politica-privacidad"
-                    className="hover:text-[#ffb800] transition-colors"
-                  >
-                    Política de privacidad
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terminos-condiciones"
-                    className="hover:text-[#ffb800] transition-colors"
-                  >
-                    Términos y Condiciones
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/reclamaciones"
-                    className="hover:text-[#ffb800] transition-colors"
-                  >
-                    Libro de reclamaciones
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/nosotros"
-                    className="hover:text-[#ffb800] transition-colors"
-                  >
-                    Trabaja con nosotros
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          <div className="flex flex-col flex-shrink-0">
+            <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">
+              LEGALES
+            </h2>
+            <ul className="flex flex-col gap-3 text-sm text-gray-300">
+              <li>
+                <Link href="/politica-privacidad" className="whitespace-nowrap hover:text-[#ffb800] transition-colors">
+                  Política de privacidad
+                </Link>
+              </li>
+              <li>
+                <Link href="/terminos-condiciones" className="whitespace-nowrap hover:text-[#ffb800] transition-colors">
+                  Términos y Condiciones
+                </Link>
+              </li>
+              <li>
+                <Link href="/reclamaciones" className="whitespace-nowrap hover:text-[#ffb800] transition-colors">
+                  Libro de reclamaciones
+                </Link>
+              </li>
+              <li>
+                <Link href="/nosotros" className="whitespace-nowrap hover:text-[#ffb800] transition-colors">
+                  Trabaja con nosotros
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-            <div className="flex flex-col">
-              <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">
-                REDES SOCIALES
-              </h2>
-              <ul className="flex flex-row gap-4">
-                <li>
-                  <Link
-                    href="https://www.tiktok.com/@digimedia_marketing"
-                    target="_blank"
-                    className="hover:scale-110 transition-transform"
-                  >
-                    <Image
-                      src="/headerFooter/icono-tiktok-digimedia.webp"
-                      alt="TikTok"
-                      width={24}
-                      height={24}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://www.instagram.com/digimediamarketing/"
-                    target="_blank"
-                    className="hover:scale-110 transition-transform"
-                  >
-                    <Image
-                      src="/headerFooter/icono-instagram-digimedia.webp"
-                      alt="Instagram"
-                      width={24}
-                      height={24}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://www.youtube.com/@digimediamarketing"
-                    target="_blank"
-                    className="hover:scale-110 transition-transform"
-                  >
-                    <Image
-                      src="/headerFooter/icono-youtube-digimedia.webp"
-                      alt="YouTube"
-                      width={24}
-                      height={24}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://www.linkedin.com/company/digimedia-mkt/"
-                    target="_blank"
-                    className="hover:scale-110 transition-transform"
-                  >
-                    <Image
-                      src="/headerFooter/linkedln-digimedia-icono-redes-sociales.webp"
-                      alt="LinkedIn"
-                      width={24}
-                      height={24}
-                    />
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://www.facebook.com/DigiMedia.Marketing1"
-                    target="_blank"
-                    className="hover:scale-110 transition-transform"
-                  >
-                    <Image
-                      src="/headerFooter/icono-facebook-digimedia.webp"
-                      alt="Facebook"
-                      width={24}
-                      height={24}
-                    />
-                  </Link>
-                </li>
-              </ul>
+          <div className="flex flex-col flex-shrink-0">
+            <h2 className="text-sm font-bold tracking-wide mb-5 uppercase text-white">
+              REDES SOCIALES
+            </h2>
+            <ul className="flex flex-row flex-wrap gap-4 max-w-[220px]">
+              <li>
+                <Link
+                  href="https://www.tiktok.com/@digimedia_marketing"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/icono-tiktok-digimedia.webp"
+                    alt="TikTok"
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://www.instagram.com/digimediamarketing/"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/icono-instagram-digimedia.webp"
+                    alt="Instagram"
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://www.youtube.com/@digimediamarketing"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/icono-youtube-digimedia.webp"
+                    alt="YouTube"
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://www.linkedin.com/company/digimedia-mkt/"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/linkedln-digimedia-icono-redes-sociales.webp"
+                    alt="LinkedIn"
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://www.facebook.com/DigiMedia.Marketing1"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/icono-facebook-digimedia.webp"
+                    alt="Facebook"
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://x.com/DigimediaMkt"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/icono-x.webp"
+                    alt="X"
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://www.threads.com/@digimediamarketing"
+                  target="_blank"
+                  className="w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform"
+                >
+                  <Image
+                    src="/headerFooter/icono_threads.webp"
+                    alt="Threads"
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
+                </Link>
+              </li>
+            </ul>
             </div>
           </div>
         </div>

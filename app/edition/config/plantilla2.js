@@ -6,22 +6,22 @@ export const PLANTILLA2_STYLES = {
   container:
     "relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
 
-  // Layouts específicos - Plantilla 2 usa layout con tabs
   tabsLayout:
     "bg-white rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden",
 
   // Preview area
-  previewArea: "w-[600px]",
-  previewHeader: "relative h-[400px] overflow-hidden",
-  previewContent: "bg-black/5 p-8",
+  // de anchos fijos se paso a responsive porque se desbordaba
+  previewArea: "w-full lg:w-[600px]",
+  previewHeader: "relative h-[220px] sm:h-[300px] lg:h-[400px] overflow-hidden",
+  previewContent: "bg-black/5 p-4 sm:p-8",
 
   // Form panel
-  formPanel: "w-[420px] flex flex-col justify-center gap-5 p-5",
+  formPanel: "w-full lg:w-[420px] flex flex-col justify-center gap-5 p-4 sm:p-5",
   formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-4 sm:p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
 
   // Tabs específicos
-  tabsContainer: "flex border-b border-gray-200 mb-8",
+    tabsContainer: "flex flex-wrap border-b border-gray-200 mb-8",
   activeTab:
     "px-4 py-2 font-medium text-sm text-teal-600 border-b-2 border-teal-600",
   inactiveTab:
@@ -38,7 +38,7 @@ export const PLANTILLA2_STYLES = {
     "bg-gradient-to-r from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow",
 
   // Form elements
-  input:
+    input:
     "w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all",
   textarea:
     "w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none",

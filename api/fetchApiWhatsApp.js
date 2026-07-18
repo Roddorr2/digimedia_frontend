@@ -88,34 +88,42 @@ export const apiRequestWithProgress = (endpoint, options = {}, onProgress) => {
  * ✅ Helper interno para requests al WhatsApp-service
  */
 const wsRequest = async (endpoint, options = {}) => {
-  const token = getCookie("token") || localStorage.getItem("token");
-  const isFormData = options.body instanceof FormData;
+   const token = getCookie("token") || localStorage.getItem("token");
+   const isFormData = options.body instanceof FormData;
 
-  const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-  const url = `${url_whatsapp}${cleanEndpoint}`;
+   const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+   const url = `${url_whatsapp}${cleanEndpoint}`;
 
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      ...(isFormData ? {} : { "Content-Type": "application/json" }),
-      Accept: "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  });
+   // Eliminar header de autorización si no hay token para evitar conflictos
+   const cleanHeaders = { ...options.headers };
+   if (!token && cleanHeaders.authorization) {
+     delete cleanHeaders.authorization;
+   }
 
-  const contentType = res.headers.get("content-type") || "";
-  const raw = await res.text();
+   const res = await fetch(url, {
+     ...options,
+     headers: {
+       ...(isFormData ? {} : { "Content-Type": "application/json" }),
+       Accept: "application/json",
+       ...(token
+         ? { Authorization: `Bearer ${token}` }
+         : { "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "dev_local_2026_digimedia" }),
+       ...cleanHeaders,
+     },
+   });
 
-  if (!contentType.includes("application/json")) {
-    console.error(
-      `Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio: ${raw.substring(0, 120)}`,
-    );
-    return { success: res.ok, text: raw, status: res.status };
-  }
+   const contentType = res.headers.get("content-type") || "";
+   const raw = await res.text();
 
-  return JSON.parse(raw);
-};
+   if (!contentType.includes("application/json")) {
+     console.error(
+       `Respuesta no es JSON de ${url}. Tipo: ${contentType}. Inicio: ${raw.substring(0, 120)}`,
+     );
+     return { success: res.ok, text: raw, status: res.status };
+   }
+
+   return JSON.parse(raw);
+ };
 
 export const whatsappApi = {
   restart: async () => {

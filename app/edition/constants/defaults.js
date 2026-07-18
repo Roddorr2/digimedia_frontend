@@ -33,6 +33,8 @@ export const BODY_DEFAULTS = {
   title_image2: "",
   alt_image3: "",
   title_image3: "",
+  palabra: "",
+  enlace: "",
   bg_color: "#5A37A6",
   bg_type: "solid",
   bg_colors: "",
@@ -72,6 +74,8 @@ export const CONSEJOS_DEFAULTS = {
     "Consulta con expertos sobre el mantenimiento y la garantía para asegurar la durabilidad de tu inversión", // min: 10, max: 150 (optional pero incluido)
   texto4: "", // Solo para plantilla 2 (optional)
   texto5: "", // Solo para plantilla 2 (optional)
+  palabra: "",
+  enlace: "",
 };
 
 /**
@@ -170,7 +174,7 @@ export function getMaxConsejosByPlantilla(plantillaId) {
  */
 //CAMBIO PARA CONSIDERAR 5 TEXTOS
 export function getConsejosFieldsByPlantilla(plantillaId) {
-  return ["titulo", "texto1", "texto2", "texto3", "texto4", "texto5"];
+  return ["titulo", "texto1", "texto2", "texto3", "texto4", "texto5", "palabra", "enlace"];
 }
 
 export default {

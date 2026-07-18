@@ -16,9 +16,9 @@ export const useWhatsAppSocket = (token) => {
     }
 
     const socketUrl =
-      process.env.NEXT_PUBLIC_SOCKET_URL_PROD ||
-      process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD ||
-      "http://localhost:5111";
+      process.env.NODE_ENV === "production"
+        ? (process.env.NEXT_PUBLIC_SOCKET_URL_PROD || process.env.NEXT_PUBLIC_API_URL_WHATSAPP_PROD)
+        : (process.env.NEXT_PUBLIC_SOCKET_URL_DEV || process.env.NEXT_PUBLIC_API_URL_WHATSAPP_DEV || "http://localhost:5111");
 
     const socket = io(socketUrl, {
       auth: { token },

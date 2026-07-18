@@ -1,8 +1,9 @@
-
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Body1 from '../components/Body1'
+import WhatsAppButton from "../../../components/WhatsAppButton";
+import MayaChatbot from "../../../components/Chatbot";
 
 export default function Page() {
     return (
@@ -19,6 +20,12 @@ export default function Page() {
                 url_image2={"/blog/blog-8.webp"} 
                 url_image3={"/blog/blog-2.webp"}
                 descripcion={"El letrero de neón LED es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local. Un letrero de neón LED bien diseñado es una herramienta de marketing poderosa, capaz de captar la atención y aumentar la visibilidad de tu local."}/>
+            </div>
+            
+            {/* Botones flotantes WhatsApp y Chatbot */}
+            <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+              <WhatsAppButton />
+              <MayaChatbot />
             </div>
         </div>
     )
