@@ -14,11 +14,6 @@ export default (phase) => {
         },
       ],
     },
-    // "output: export" obliga a que TODO param dinámico exista en
-    // generateStaticParams(), y en `next dev` eso revienta con un
-    // Runtime Error al visitar un blog en borrador. Solo lo activamos
-    // para el build de producción; en dev, Next renderiza sobre la
-    // marcha y respeta dynamicParams = false con un 404 normal.
     ...(isDev ? {} : { output: 'export' }),
     trailingSlash: true,
     experimental: {
@@ -26,5 +21,21 @@ export default (phase) => {
     },
     compress: true,
     swcMinify: true,
+    webpack: (config, { dev }) => {
+      if (!dev) {
+        config.optimization.minimize = true;
+        config.optimization.splitChunks = {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+          },
+        };
+      }
+      return config;
+    },
   };
 };
