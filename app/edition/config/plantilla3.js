@@ -37,7 +37,7 @@ export const PLANTILLA3_STYLES = {
 // Configuración de secciones
 export const PLANTILLA3_SECTIONS_CONFIG = {
   header: { enabled: true, order: 1 },
-  consejos: { enabled: true, order: 2, maxItems: 5 },
+  consejos: { enabled: true, order: 2, maxItems: 5, allowLink: true },
   galeria: { enabled: true, order: 3, maxImages: 2 },
   informacion: { enabled: true, order: 4, maxItems: 4 },
 };

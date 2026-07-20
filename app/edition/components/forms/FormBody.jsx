@@ -36,7 +36,7 @@ import { validateImageFile, ACCEPTED_IMAGE_FORMATS } from "../../utils/imageVali
 
 export default function FormBody({
   // Props de datos (estructura original para compatibilidad)
-  formCommendBody, // { titulo, texto1, texto2, texto3, texto4, texto5 }
+  formCommendBody, // Array de consejos: [{ id, texto, palabra, enlace }] - el enlace solo aplica si la plantilla lo permite (allowLink)
   formInfoBody, // Array [{ titulo, descripcion, palabra, enlace }]
   formEncabezadoBody, // { titulo, descripcion, fecha, alt_image1, title_image1, public_image1 }
   formGaleryBody, // { public_image2, public_image3, alt_image2, alt_image3, title_image2, title_image3 }
@@ -80,7 +80,7 @@ export default function FormBody({
   const [gradientColorCount, setGradientColorCount] = useState(2);
   const [selectedDescriptionTexts, setSelectedDescriptionTexts] = useState({});
   const [selectedDescriptionText, setSelectedDescriptionText] = useState("");
-  const [selectedConsejoText, setSelectedConsejoText] = useState("");
+  const [selectedConsejoTexts, setSelectedConsejoTexts] = useState({});
 
   // Estados para controlar visibilidad dinámica de secciones
   const [sectionsVisibility, setSectionsVisibility] = useState({
@@ -155,20 +155,20 @@ export default function FormBody({
     formEncabezadoBody?.flag_informacion,
   ]);
 
-  // ✅ Garantizar que el título de consejos tenga valor por defecto
-  // El backend requiere el campo "titulo" en commend_tarjeta
+  // ✅ Garantizar que el título de la sección de consejos tenga valor por defecto
+  // El backend requiere el campo "titulo_consejos" en blog_bodies
   useEffect(() => {
     if (
-      plantillaId !== 2 &&
-      formCommendBody &&
-      (!formCommendBody.titulo || formCommendBody.titulo.trim() === "")
+      formEncabezadoBody &&
+      (!formEncabezadoBody.titulo_consejos ||
+        formEncabezadoBody.titulo_consejos.trim() === "")
     ) {
-      setFormCommendBody?.((prev) => ({
+      setFormEncabezadoBody?.((prev) => ({
         ...prev,
-        titulo: "Consejos Importantes",
+        titulo_consejos: "Consejos Importantes",
       }));
     }
-  }, [plantillaId, formCommendBody, setFormCommendBody]);
+  }, [formEncabezadoBody, setFormEncabezadoBody]);
 
   // Manejar cambio de tab activo cuando se deshabilitan secciones
   useEffect(() => {
@@ -194,7 +194,7 @@ export default function FormBody({
   // Adaptar datos originales a estructura unificada
   const data = {
     header: formEncabezadoBody || {},
-    consejos: formCommendBody || {},
+    consejos: formCommendBody || [],
     galeria: formGaleryBody || {},
     informacion: formInfoBody || [],
   };
@@ -292,15 +292,8 @@ export default function FormBody({
       if (!enabled) {
         switch (section) {
           case "consejos":
-            setFormCommendBody?.((prev) => ({
-              id: prev?.id, // ✅ PRESERVAR ID
-              titulo: "",
-              texto1: "",
-              texto2: "",
-              texto3: "",
-              texto4: "",
-              texto5: "",
-            }));
+            // Vaciar el array: al guardar, esto elimina los consejos existentes en el backend
+            setFormCommendBody?.(() => []);
             break;
           case "galeria":
             setFormGaleryBody?.({
@@ -421,25 +414,47 @@ export default function FormBody({
     [setFormEncabezadoBody]
   );
 
-  // Manejar cambios de enlace en los consejos (formCommendBody)
-  const handleConsejoLinkChange = useCallback(
-    (e, _index, field) => {
+  // Manejar cambios en el array de consejos (formCommendBody)
+  // Cada consejo tiene su propio texto y su propio enlace (palabra/enlace) independiente
+  const handleConsejoChange = useCallback(
+    (e, index, field) => {
       const { value } = e.target;
 
       if (field === "link") {
         const { palabra = "", enlace = "" } = value || {};
-        setFormCommendBody?.((prev) => ({
-          ...prev,
-          palabra,
-          enlace,
-        }));
+        setFormCommendBody?.((prev) => {
+          const updated = [...(prev || [])];
+          updated[index] = { ...updated[index], palabra, enlace };
+          return updated;
+        });
         return;
       }
 
-      setFormCommendBody?.((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
+      const validation = validateField(field, value, "consejos");
+      const fullFieldName = `consejos.${index}.${field}`;
+      setFieldValidations((prev) => ({ ...prev, [fullFieldName]: validation }));
+
+      setFormCommendBody?.((prev) => {
+        const updated = [...(prev || [])];
+        updated[index] = { ...updated[index], [field]: value };
+        return updated;
+      });
+
+      onChange?.({ fieldName: fullFieldName, value, validation });
+    },
+    [validateField, setFormCommendBody, onChange]
+  );
+
+  const handleAddConsejo = useCallback(() => {
+    setFormCommendBody?.((prev) => [
+      ...(prev || []),
+      { texto: "", palabra: "", enlace: "" },
+    ]);
+  }, [setFormCommendBody]);
+
+  const handleRemoveConsejo = useCallback(
+    (index) => {
+      setFormCommendBody?.((prev) => (prev || []).filter((_, i) => i !== index));
     },
     [setFormCommendBody]
   );
@@ -584,7 +599,7 @@ export default function FormBody({
 
     const fullFieldName =
       index !== null
-        ? `informacion.${index}.${fieldName}`
+        ? `${context || "informacion"}.${index}.${fieldName}`
         : context
           ? `${context}.${fieldName}`
           : fieldName;
@@ -729,15 +744,13 @@ export default function FormBody({
     );
   };
 
-  // Renderizar sección de consejos
+  // Renderizar sección de consejos (Plantilla 1 y 3; Plantilla 2 usa su propio bloque de tabs)
   const renderConsejosSection = () => {
-    const consejos = [
-      data.consejos.texto1,
-      data.consejos.texto2,
-      data.consejos.texto3,
-      data.consejos.texto4,
-      data.consejos.texto5,
-    ].filter(Boolean);
+    const consejos = Array.isArray(data.consejos)
+      ? data.consejos.filter((c) => c.texto)
+      : [];
+
+    if (consejos.length === 0) return null;
 
     if (layoutType === "plantilla3") {
       return (
@@ -746,10 +759,10 @@ export default function FormBody({
             className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
             style={{ color: "#FFB800" }}
           >
-            {data.consejos.titulo || "Consejos Importantes"}
+            {data.header.titulo_consejos || "Consejos Importantes"}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {consejos.map((text, index) => (
+            {consejos.map((consejo, index) => (
               <div
                 key={index}
                 className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
@@ -767,7 +780,7 @@ export default function FormBody({
                 <div className="flex justify-center mb-6">
                   <CheckCircle className="w-14 h-14 text-white" />
                 </div>
-                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
+                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
               </div>
             ))}
           </div>
@@ -775,46 +788,28 @@ export default function FormBody({
       );
     }
 
-    if (layoutType === "linear") {
-      return (
-        <div className="mb-8">
-          <div className="mb-4">
-            <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
-            <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
-              {data.consejos.titulo || "Consejos"}
-            </h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {consejos.map((text, index) => (
-              <div
-                key={index}
-                className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-5"
-                style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)" }}
-              >
-                <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
-                <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
-                <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
+    // Plantilla 1 (layoutType === "linear")
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {consejos.map((text, index) => (
-          <div
-            key={index}
-            className="relative p-6 pl-20 rounded-2xl bg-white shadow-md border border-gray-200"
-          >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-t-2xl" />
-            <div className="absolute top-1/2 left-5 -translate-y-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-green-700 text-white font-extrabold text-lg shadow-md">
-              {String(index + 1).padStart(2, "0")}
+      <div className="mb-8">
+        <div className="mb-4">
+          <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
+          <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
+            {data.header.titulo_consejos || "Consejos"}
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {consejos.map((consejo, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col items-center rounded-xl overflow-hidden flex-1 min-h-[200px] p-5"
+              style={{ background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)" }}
+            >
+              <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
+              <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
+              <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
             </div>
-            <p className="text-gray-700 leading-relaxed text-base font-medium">{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   };
@@ -1487,64 +1482,72 @@ export default function FormBody({
           sectionsVisibility.consejos && (
             <div className={mergedStyles.formCard}>
               <h4 className="text-md font-semibold text-white mb-4">
-                Consejos
+                Consejos ({data.consejos.length})
               </h4>
               <div className="space-y-4">
-                {/* Título de consejos (para TODAS las plantillas) */}
+                {/* Título de la sección */}
                 <div>
                   <label className={mergedStyles.label}>
                     <Type className="w-4 h-4 mr-2 text-purple-400" />
                     Título de la sección
-                    <ValidationMessage
-                      fieldName="titulo"
-                      context="consejos"
-                    />
+                    <ValidationMessage fieldName="titulo_consejos" />
                   </label>
                   <input
                     type="text"
-                    name="titulo"
-                    maxLength={finalValidationConfig["consejos.titulo"]?.max}
-                    value={data.consejos.titulo || ""}
-                    onChange={handleChange(setFormCommendBody, "consejos")}
+                    name="titulo_consejos"
+                    maxLength={finalValidationConfig["titulo_consejos"]?.max}
+                    value={data.header.titulo_consejos || ""}
+                    onChange={handleChange(setFormEncabezadoBody)}
                     className={mergedStyles.input}
                     placeholder="Ej: Consejos Útiles, Tips Importantes"
                   />
                 </div>
 
-                {/* Swiper para campos de consejos */}
-                <div className="relative">
-                  <Swiper
-                    modules={[Navigation, Pagination]}
-                    spaceBetween={20}
-                    slidesPerView={1}
-                    navigation={{
-                      nextEl: ".swiper-button-next-consejos",
-                      prevEl: ".swiper-button-prev-consejos",
-                    }}
-                    pagination={{
-                      clickable: true,
-                      el: ".swiper-pagination-consejos",
-                    }}
-                    className="consejos-swiper"
-                    style={{ paddingBottom: "40px" }}
-                  >
-                    {["texto1", "texto2", "texto3", "texto4", "texto5"]
-                      .slice(0, mergedSectionsConfig.consejos.maxItems)
-                      .map((campo, index) => (
-                        <SwiperSlide key={campo}>
+                {/* Swiper dinámico: un slide por consejo, cada uno con su propio enlace */}
+                {data.consejos.length > 0 ? (
+                  <div className="relative">
+                    <Swiper
+                      modules={[Navigation, Pagination]}
+                      spaceBetween={20}
+                      slidesPerView={1}
+                      navigation={{
+                        nextEl: ".swiper-button-next-consejos",
+                        prevEl: ".swiper-button-prev-consejos",
+                      }}
+                      pagination={{
+                        clickable: true,
+                        el: ".swiper-pagination-consejos",
+                      }}
+                      className="consejos-swiper"
+                      style={{ paddingBottom: "40px" }}
+                    >
+                      {data.consejos.map((consejoItem, index) => (
+                        <SwiperSlide key={index}>
                           <div className="p-4 bg-gray-800/30 rounded-lg border border-purple-500/30">
-                            <label className={mergedStyles.label}>
-                              <Quote className="w-4 h-4 mr-2 text-purple-400" />
-                              Consejo {index + 1}
-                            </label>
-                            <input
-                              type="text"
-                              name={campo}
-                              maxLength={finalValidationConfig[campo]?.max}
-                              value={data.consejos[campo] || ""}
+                            <div className="flex items-center justify-between mb-1">
+                              <label className={mergedStyles.label}>
+                                <Quote className="w-4 h-4 mr-2 text-purple-400" />
+                                Consejo {index + 1}
+                              </label>
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveConsejo(index)}
+                                className="text-red-400 hover:text-red-300 text-xs font-semibold px-2 py-1 rounded transition-colors"
+                                title="Eliminar este consejo"
+                              >
+                                Eliminar
+                              </button>
+                            </div>
+                            <textarea
+                              name="texto"
+                              maxLength={finalValidationConfig["consejos.texto"]?.max}
+                              value={consejoItem.texto || ""}
                               onChange={(e) => {
-                                setSelectedConsejoText("");
-                                handleChange(setFormCommendBody, "consejos")(e);
+                                setSelectedConsejoTexts((prev) => ({
+                                  ...prev,
+                                  [index]: "",
+                                }));
+                                handleConsejoChange(e, index, "texto");
                               }}
                               onSelect={(e) => {
                                 const { selectionStart, selectionEnd, value } =
@@ -1554,59 +1557,76 @@ export default function FormBody({
                                   selectionEnd
                                 );
 
-                                if (!selectedText) {
-                                  setSelectedConsejoText("");
-                                  return;
-                                }
+                                if (!selectedText) return;
 
-                                setSelectedConsejoText(selectedText);
+                                setSelectedConsejoTexts((prev) => ({
+                                  ...prev,
+                                  [index]: selectedText,
+                                }));
                               }}
-                              className={mergedStyles.input}
+                              className={mergedStyles.textarea}
+                              rows={3}
                               placeholder={`Consejo ${index + 1}`}
                             />
                             <ValidationMessage
-                              fieldName={campo}
+                              fieldName="texto"
+                              index={index}
                               context="consejos"
                             />
-                            <p className="text-xs text-gray-400 mt-2">
-                              Slide {index + 1} de{" "}
-                              {mergedSectionsConfig.consejos.maxItems}
+
+                            {/* Enlace propio de este consejo */}
+                            {mergedSectionsConfig.consejos.allowLink && (
+                              <div className="mt-3">
+                                <label className={mergedStyles.label}>
+                                  <Link2 className="w-4 h-4 mr-2 text-purple-400" />
+                                  Enlace de este consejo (opcional)
+                                </label>
+                                <div className="flex justify-center">
+                                  <BotonAnadirLink
+                                    servicios={servicios}
+                                    item={consejoItem}
+                                    index={index}
+                                    handleChange={handleConsejoChange}
+                                    selectedText={selectedConsejoTexts[index] || ""}
+                                  />
+                                </div>
+                              </div>
+                            )}
+
+                            <p className="text-xs text-gray-400 mt-3 text-center">
+                              Consejo {index + 1} de {data.consejos.length}
                             </p>
                           </div>
                         </SwiperSlide>
                       ))}
-                  </Swiper>
+                    </Swiper>
 
-                  {/* Paginación personalizada */}
-                  <div className="swiper-pagination-consejos flex justify-center gap-2 mt-4"></div>
-                </div>
-
-                {/* Enlace en consejos (opcional) */}
-                <div>
-                  <label className={mergedStyles.label}>
-                    <Link2 className="w-4 h-4 mr-2 text-purple-400" />
-                    Enlace en consejos (opcional)
-                  </label>
-                  <div className="flex justify-center">
-                    <BotonAnadirLink
-                      servicios={servicios}
-                      item={data.consejos}
-                      index={0}
-                      handleChange={handleConsejoLinkChange}
-                      selectedText={selectedConsejoText}
-                    />
+                    {/* Paginación personalizada */}
+                    <div className="swiper-pagination-consejos flex justify-center gap-2 mt-4"></div>
                   </div>
-                  <ValidationMessage fieldName="palabra" context="consejos" />
-                  <ValidationMessage fieldName="enlace" context="consejos" />
-                  <p className="text-xs text-gray-400 mt-2">
-                    Selecciona texto en cualquiera de los consejos y pulsa el botón para enlazarlo.
+                ) : (
+                  <p className="text-sm text-gray-400 italic">
+                    Todavía no hay consejos. Añade el primero con el botón de abajo.
                   </p>
-                </div>
+                )}
+
+                {/* Añadir nuevo consejo */}
+                <button
+                  type="button"
+                  onClick={handleAddConsejo}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 text-sm font-semibold rounded-lg transition-colors"
+                >
+                  + Añadir consejo
+                </button>
 
                 {/* Indicador de ayuda */}
                 <div className="flex items-center gap-2 text-xs text-gray-400 mt-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
                   <Eye className="w-4 h-4 text-purple-400" />
-                  <span>Usa los puntos o desliza para navegar</span>
+                  <span>
+                    {mergedSectionsConfig.consejos.allowLink
+                      ? 'Cada consejo tiene su propio enlace: selecciona texto dentro de él y pulsa "Añadir Enlace".'
+                      : "Usa los puntos o desliza para navegar"}
+                  </span>
                 </div>
               </div>
 
@@ -2171,6 +2191,57 @@ export default function FormBody({
                       {/* Separador bajo tabs */}
                       <div className="h-[6px] mb-4" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
 
+                      {/* Tab: Consejos (Plantilla 2 no tiene funcionalidad de enlace) */}
+                      {activeTab === "tips" && sectionsVisibility.consejos && (
+                        <div className="rounded-[20px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
+                          <div className="h-[6px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
+                          <div className="mx-3 my-3 rounded-[16px] px-4 py-4" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
+                            <h3
+                              className="text-center font-bold text-xs leading-tight mb-3"
+                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                            >
+                              {data.header.titulo_consejos || "Consejos Importantes"}
+                            </h3>
+                            <div className="flex flex-col gap-2">
+                              {(Array.isArray(data.consejos) ? data.consejos : [])
+                                .filter((c) => c.texto)
+                                .map((consejo, i) => (
+                                  <div key={i} className="flex items-center gap-2">
+                                    <div
+                                      className="flex-shrink-0 w-[32px] h-[32px] rounded-full flex items-center justify-center"
+                                      style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                                    >
+                                      <CheckCircle className="w-[18px] h-[18px] text-[#100043]" strokeWidth={2.5} />
+                                    </div>
+                                    <div
+                                      className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
+                                      style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
+                                    >
+                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{consejo.texto}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                          <div
+                            className="h-[32px] flex items-center justify-center rounded-b-[20px]"
+                            style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
+                          >
+                            <span
+                              className="font-bold text-xs"
+                              style={{
+                                background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                                WebkitBackgroundClip: "text",
+                                WebkitTextFillColor: "transparent",
+                                backgroundClip: "text",
+                              }}
+                            >
+                              {new Date().getFullYear()} - Todos los derechos reservados
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Tab: Información */}
                       {activeTab === "info" && sectionsVisibility.informacion && (
                         <div className="flex flex-col gap-3">
@@ -2197,59 +2268,6 @@ export default function FormBody({
                               </div>
                             </div>
                           ))}
-                        </div>
-                      )}
-
-                      {/* Tab: Consejos */}
-                      {activeTab === "tips" && sectionsVisibility.consejos && (
-                        <div className="rounded-[20px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
-                          <div className="h-[6px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
-                          <div className="mx-3 my-3 rounded-[16px] px-4 py-4" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
-                            <h3
-                              className="text-center font-bold text-xs leading-tight mb-3"
-                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
-                            >
-                              {data.consejos.titulo || "Consejos Importantes"}
-                            </h3>
-                            <div className="flex flex-col gap-2">
-                              {[1, 2, 3, 4, 5].map(i => {
-                                const text = data.consejos[`texto${i}`];
-                                if (!text) return null;
-                                return (
-                                  <div key={i} className="flex items-center gap-2">
-                                    <div
-                                      className="flex-shrink-0 w-[32px] h-[32px] rounded-full flex items-center justify-center"
-                                      style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
-                                    >
-                                      <CheckCircle className="w-[18px] h-[18px] text-[#100043]" strokeWidth={2.5} />
-                                    </div>
-                                    <div
-                                      className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
-                                      style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
-                                    >
-                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(text, data.consejos.palabra, data.consejos.enlace)}</p>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                          <div
-                            className="h-[32px] flex items-center justify-center rounded-b-[20px]"
-                            style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }}
-                          >
-                            <span
-                              className="font-bold text-xs"
-                              style={{
-                                background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
-                              }}
-                            >
-                              {new Date().getFullYear()} - Todos los derechos reservados
-                            </span>
-                          </div>
                         </div>
                       )}
 
@@ -2458,6 +2476,7 @@ export default function FormBody({
         "titulo",
         "descripcion",
         "titulo_tarjeta",
+        "titulo_consejos",
         "alt_image1",
         "title_image1",
       ];
@@ -2470,21 +2489,14 @@ export default function FormBody({
     }
 
     // ===== VALIDAR CAMPOS DE CONSEJOS =====
-    if (formCommendBody && sectionsVisibility.consejos) {
-      // Validar título de consejos (para TODAS las plantillas)
-      const tituloValidation = validateFieldInline(
-        "titulo",
-        formCommendBody.titulo || "",
-        "consejos"
-      );
-      initialValidations["consejos.titulo"] = tituloValidation;
-
-      // Validar textos de consejos
-      const consejosFields = ["texto1", "texto2", "texto3", "texto4", "texto5"];
-      consejosFields.forEach((fieldName) => {
-        const value = formCommendBody[fieldName] || "";
-        const validation = validateFieldInline(fieldName, value, "consejos");
-        initialValidations[`consejos.${fieldName}`] = validation;
+    if (Array.isArray(formCommendBody) && sectionsVisibility.consejos) {
+      formCommendBody.forEach((consejo, index) => {
+        const validation = validateFieldInline(
+          "texto",
+          consejo.texto || "",
+          "consejos"
+        );
+        initialValidations[`consejos.${index}.texto`] = validation;
       });
     }
 
@@ -2526,14 +2538,10 @@ export default function FormBody({
     formEncabezadoBody?.titulo,
     formEncabezadoBody?.descripcion,
     formEncabezadoBody?.titulo_tarjeta,
+    formEncabezadoBody?.titulo_consejos,
     formEncabezadoBody?.alt_image1,
     formEncabezadoBody?.title_image1,
-    formCommendBody?.titulo,
-    formCommendBody?.texto1,
-    formCommendBody?.texto2,
-    formCommendBody?.texto3,
-    formCommendBody?.texto4,
-    formCommendBody?.texto5,
+    formCommendBody,
     formGaleryBody?.alt_image2,
     formGaleryBody?.title_image2,
     formGaleryBody?.alt_image3,

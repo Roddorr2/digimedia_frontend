@@ -82,6 +82,8 @@ export default function TemplateSelector({
             const isSelected = selectedTemplate === config.id;
             const isHovered = hoveredTemplate === config.id;
             const features = config.features || {};
+            const hasConsejos = config.sectionsConfig?.consejos?.enabled ?? false;
+            const consejosAllowLink = config.sectionsConfig?.consejos?.allowLink ?? false;
 
             return (
               <div
@@ -116,8 +118,13 @@ export default function TemplateSelector({
                             <div className="h-4 w-12 bg-gray-400 rounded"></div>
                           </div>
                           {/* Content */}
+                          {hasConsejos && (
+                            <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
+                              <div className="text-white text-xs font-bold">Consejos</div>
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-2">
-                            {Array.from({ length: features.consejos?.maxItems || 4 }, (_, i) => (
+                            {Array.from({ length: features.informacion?.maxItems || 4 }, (_, i) => (
                               <div key={i} className="h-12 bg-green-200 rounded"></div>
                             ))}
                           </div>
@@ -125,11 +132,13 @@ export default function TemplateSelector({
                       ) : (
                         <div className="space-y-2">
                           {/* Consejos Section */}
-                          <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
-                            <div className="text-white text-xs font-bold">
-                              {features.consejos?.maxItems || 3} Consejos
+                          {hasConsejos && (
+                            <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
+                              <div className="text-white text-xs font-bold">
+                                Consejos
+                              </div>
                             </div>
-                          </div>
+                          )}
                           {/* Gallery */}
                           <div className="grid grid-cols-2 gap-1">
                             <div className="h-10 bg-blue-200 rounded"></div>
@@ -186,10 +195,12 @@ export default function TemplateSelector({
 
                     {/* Features */}
                     <div className="space-y-2 mb-4">
-                      <div className="flex items-center text-sm text-gray-700">
-                        <Quote className="w-4 h-4 mr-2 text-purple-500" />
-                        <span>{features.consejos?.maxItems || 3} consejos máximo</span>
-                      </div>
+                      {hasConsejos && (
+                        <div className="flex items-center text-sm text-gray-700">
+                          <Quote className="w-4 h-4 mr-2 text-purple-500" />
+                          <span>{consejosAllowLink ? "Consejos con enlace propio" : "Consejos"}</span>
+                        </div>
+                      )}
                       <div className="flex items-center text-sm text-gray-700">
                         <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
                         <span>{features.galeria?.maxImages || 2} imágenes en galería</span>
@@ -237,10 +248,16 @@ export default function TemplateSelector({
                   <Layout className="w-4 h-4 mr-1 text-purple-500" />
                   <span>Layout {selectedConfig.layoutType}</span>
                 </div>
-                <div className="flex items-center">
-                  <Quote className="w-4 h-4 mr-1 text-purple-500" />
-                  <span>{selectedConfig.features?.consejos?.maxItems || 3} consejos</span>
-                </div>
+                {(selectedConfig.sectionsConfig?.consejos?.enabled ?? false) && (
+                  <div className="flex items-center">
+                    <Quote className="w-4 h-4 mr-1 text-purple-500" />
+                    <span>
+                      {(selectedConfig.sectionsConfig?.consejos?.allowLink ?? false)
+                        ? "Consejos con enlace propio"
+                        : "Consejos"}
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-center">
                   <Grid3x3 className="w-4 h-4 mr-1 text-blue-500" />
                   <span>{selectedConfig.features?.galeria?.maxImages || 2} imágenes</span>

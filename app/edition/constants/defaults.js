@@ -27,6 +27,7 @@ export const BODY_DEFAULTS = {
   descripcion:
     "En este artículo exploraremos en detalle los diferentes aspectos de nuestros servicios de letreros de neón y cómo pueden transformar espacios comerciales y residenciales. Conoce las últimas tendencias, técnicas de instalación y consejos de mantenimiento para aprovechar al máximo tu inversión en iluminación LED y neón tradicional de alta calidad.", // min: 10, max: 400 (required)
   titulo_tarjeta: "Información Detallada Sobre Nuestros Servicios", // min: 10, max: 100 (required) - Título de la sección de tarjetas de información
+  titulo_consejos: "Consejos Importantes Para Elegir Tu Letrero de Neón Perfecto", // min: 10, max: 100 (required) - Título de la sección de consejos
   alt_image1: "",
   title_image1: "",
   alt_image2: "",
@@ -62,21 +63,35 @@ export const FOOTER_DEFAULTS = {
 };
 
 /**
- * Valores por defecto para Consejos (CommendTarjeta)
+ * Valor por defecto para un consejo individual (tabla `consejos`, uno por fila)
+ * Cada consejo tiene su propio enlace independiente (palabra + enlace)
  */
-export const CONSEJOS_DEFAULTS = {
-  titulo: "Consejos Importantes Para Elegir Tu Letrero de Neón Perfecto", // min: 10, max: 100 (requerido por backend)
-  texto1:
-    "Considera el espacio disponible y la visibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 150 (required)
-  texto2:
-    "Elige colores que representen tu marca y sean visibles tanto de día como de noche en tu ubicación específica", // min: 10, max: 150 (required)
-  texto3:
-    "Consulta con expertos sobre el mantenimiento y la garantía para asegurar la durabilidad de tu inversión", // min: 10, max: 150 (optional pero incluido)
-  texto4: "", // Solo para plantilla 2 (optional)
-  texto5: "", // Solo para plantilla 2 (optional)
+export const CONSEJO_DEFAULT = {
+  texto: "",
   palabra: "",
   enlace: "",
 };
+
+/**
+ * Consejos con contenido por defecto, usados al crear un blog nuevo
+ */
+export const CONSEJOS_INICIALES = [
+  {
+    texto: "Considera el espacio disponible y la visibilidad desde diferentes ángulos para maximizar el impacto visual", // min: 10, max: 255
+    palabra: "",
+    enlace: "",
+  },
+  {
+    texto: "Elige colores que representen tu marca y sean visibles tanto de día como de noche en tu ubicación específica",
+    palabra: "",
+    enlace: "",
+  },
+  {
+    texto: "Consulta con expertos sobre el mantenimiento y la garantía para asegurar la durabilidad de tu inversión",
+    palabra: "",
+    enlace: "",
+  },
+];
 
 /**
  * Valor por defecto para una tarjeta de información
@@ -158,34 +173,14 @@ export const DEFAULT_IMAGES = {
  */
 export const MAX_INFO_TARJETAS = 4;
 
-/**
- * Obtiene el número máximo de consejos según la plantilla
- * @param {number} plantillaId - ID de la plantilla
- * @returns {number} Número máximo de consejos
- */
-export function getMaxConsejosByPlantilla(plantillaId) {
-  return 5; //ahora todo permiten 5
-}
-
-/**
- * Obtiene los campos de consejos activos según la plantilla
- * @param {number} plantillaId - ID de la plantilla
- * @returns {string[]} Array con los nombres de los campos activos
- */
-//CAMBIO PARA CONSIDERAR 5 TEXTOS
-export function getConsejosFieldsByPlantilla(plantillaId) {
-  return ["titulo", "texto1", "texto2", "texto3", "texto4", "texto5", "palabra", "enlace"];
-}
-
 export default {
   HEADER_DEFAULTS,
   BODY_DEFAULTS,
   FOOTER_DEFAULTS,
-  CONSEJOS_DEFAULTS,
+  CONSEJO_DEFAULT,
+  CONSEJOS_INICIALES,
   TARJETA_INFO_DEFAULT,
   BODY_FLAGS_DEFAULTS,
   DEFAULT_IMAGES,
   MAX_INFO_TARJETAS,
-  getMaxConsejosByPlantilla,
-  getConsejosFieldsByPlantilla,
 };

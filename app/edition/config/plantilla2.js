@@ -49,7 +49,7 @@ export const PLANTILLA2_STYLES = {
 // Configuración de secciones
 export const PLANTILLA2_SECTIONS_CONFIG = {
   header: { enabled: true, order: 1 },
-  consejos: { enabled: true, order: 2, maxItems: 5 }, // 5 consejos
+  consejos: { enabled: true, order: 2, maxItems: 5, allowLink: false }, // Sin funcionalidad de enlace en Plantilla 2
   galeria: { enabled: true, order: 3, maxImages: 2 },
   informacion: { enabled: true, order: 4, maxItems: 4 },
 };
@@ -58,7 +58,7 @@ export const PLANTILLA2_SECTIONS_CONFIG = {
 export const PLANTILLA2_CONFIG = {
   id: 2,
   name: "Plantilla 2 - Moderna con Tabs",
-  description: "Layout con tabs, 5 consejos, diseño moderno y suave",
+  description: "Layout con tabs, consejos sin enlace, diseño moderno y suave",
   layoutType: "tabs",
   styles: PLANTILLA2_STYLES,
   sectionsConfig: PLANTILLA2_SECTIONS_CONFIG,

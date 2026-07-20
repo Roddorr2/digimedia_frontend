@@ -206,19 +206,13 @@ const renderGaleria = () => {
 };
 
   const renderConsejos = () => {
-    if (data.flag_consejos === 0 || !data.commend_tarjeta) return null;
-    {/* se agrego texto 4 y 5  */}
-    const textos = [
-      data.commend_tarjeta.texto1,
-      data.commend_tarjeta.texto2,
-      data.commend_tarjeta.texto3,
-      data.commend_tarjeta?.texto4,
-      data.commend_tarjeta?.texto5,
-    ].filter(Boolean);
+    if (data.flag_consejos === 0 || !Array.isArray(data.consejos)) return null;
 
-    if (!textos.length) return null;
+    const consejos = data.consejos.filter((c) => c.texto);
 
-    const ConsejoCard = ({ texto }) => (
+    if (!consejos.length) return null;
+
+    const ConsejoCard = ({ consejo }) => (
       <div
         className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8 h-full"
         style={{ background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)" }}
@@ -230,14 +224,14 @@ const renderGaleria = () => {
         <div className="flex justify-center mb-6">
           <CheckCircle className="w-14 h-14 text-white" />
         </div>
-        <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{texto}</p>
+        <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
       </div>
     );
 
     return (
       <div className="mb-16">
         <h3 className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight" style={titleStyle}>
-          {data.commend_tarjeta.titulo || "Consejos Importantes"}
+          {data.titulo_consejos || "Consejos Importantes"}
         </h3>
 
         {/* Carrusel solo en mobile/tablet (< lg) */}
@@ -259,9 +253,9 @@ const renderGaleria = () => {
             }}
             className="w-full pb-10"
           >
-            {textos.map((texto, i) => (
-              <SwiperSlide key={i} className="h-auto">
-                <ConsejoCard texto={texto} />
+            {consejos.map((consejo, i) => (
+              <SwiperSlide key={consejo.id_consejo || i} className="h-auto">
+                <ConsejoCard consejo={consejo} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -274,9 +268,9 @@ const renderGaleria = () => {
 
         {/* Grid original solo en desktop (≥ lg) */}
         <div className="hidden lg:grid grid-cols-3 gap-6">
-          {textos.map((texto, i) => (
+          {consejos.map((consejo, i) => (
             <div
-              key={i}
+              key={consejo.id_consejo || i}
               className="relative rounded-[30px] overflow-hidden pt-14 pb-10 px-8"
               style={{ background: "linear-gradient(180deg, #000000 0%, #100043 62.02%)" }}
             >
@@ -287,7 +281,7 @@ const renderGaleria = () => {
               <div className="flex justify-center mb-6">
                 <CheckCircle className="w-14 h-14 text-white" />
               </div>
-              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(texto, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}</p>
+              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
             </div>
           ))}
         </div>

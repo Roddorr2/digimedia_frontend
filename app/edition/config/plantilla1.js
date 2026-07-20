@@ -36,7 +36,7 @@ export const PLANTILLA1_STYLES = {
 // Configuración de secciones
 export const PLANTILLA1_SECTIONS_CONFIG = {
   header: { enabled: true, order: 1 },
-  consejos: { enabled: true, order: 2, maxItems: 5 },
+  consejos: { enabled: true, order: 2, maxItems: 5, allowLink: true },
   galeria: { enabled: true, order: 3, maxImages: 2 },
   informacion: { enabled: true, order: 4, maxItems: 4 },
 };
@@ -46,7 +46,7 @@ export const PLANTILLA1_CONFIG = {
   id: 1,
   name: "Plantilla 1 - Clásica Lineal",
   description:
-    "Layout lineal con diseño clásico, 3 consejos, gradientes oscuros",
+    "Layout lineal con diseño clásico, consejos con enlace propio, gradientes oscuros",
   layoutType: "linear",
   styles: PLANTILLA1_STYLES,
   sectionsConfig: PLANTILLA1_SECTIONS_CONFIG,
