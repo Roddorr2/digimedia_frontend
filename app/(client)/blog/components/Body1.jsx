@@ -183,7 +183,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
               {/* Carrusel solo en mobile/tablet */}
               <div className="block lg:hidden flex-1 w-full relative">
                 <Swiper
-                  modules={[Pagination, Navigation]}
+                  modules={[Pagination]}
                   spaceBetween={16}
                   slidesPerView={1}
                   pagination={{
@@ -191,10 +191,6 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                     el: ".consejos-pagination",
                     bulletClass: "consejos-bullet",
                     bulletActiveClass: "consejos-bullet-active",
-                  }}
-                  navigation={{
-                    nextEl: ".consejos-next",
-                    prevEl: ".consejos-prev",
                   }}
                   breakpoints={{
                     640: { slidesPerView: 2 },
@@ -208,18 +204,18 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   ))}
                 </Swiper>
 
-                {/* Navegación y paginación con estética premium */}
-                <div className="flex items-center justify-center gap-4 mt-4">
-                  <button className="consejos-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
+                {/* Paginación */}
+                <div className="flex items-center justify-center mt-4">
                   <div className="consejos-pagination flex items-center gap-2" />
-                  <button className="consejos-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
                 </div>
 
                 <style jsx global>{`
+                  .consejos-pagination {
+                    position: relative !important;
+                    width: auto !important;
+                    bottom: auto !important;
+                    left: auto !important;
+                  }
                   .consejos-bullet {
                     width: 8px;
                     height: 8px;
@@ -262,7 +258,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {/* Carrusel solo en mobile/tablet */}
             <div className="block lg:hidden px-6 py-10 relative">
               <Swiper
-                modules={[Pagination, Navigation]}
+                modules={[Pagination]}
                 spaceBetween={16}
                 slidesPerView={1}
                 pagination={{
@@ -270,10 +266,6 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   el: ".galeria-pagination",
                   bulletClass: "galeria-bullet",
                   bulletActiveClass: "galeria-bullet-active",
-                }}
-                navigation={{
-                  nextEl: ".galeria-next",
-                  prevEl: ".galeria-prev",
                 }}
                 breakpoints={{
                   640: { slidesPerView: 2 },
@@ -294,18 +286,18 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                 ))}
               </Swiper>
 
-              {/* Navegación y paginación con estética premium */}
-              <div className="flex items-center justify-center gap-4 mt-4">
-                <button className="galeria-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
+              {/* Paginación */}
+              <div className="flex items-center justify-center mt-4">
                 <div className="galeria-pagination flex items-center gap-2" />
-                <button className="galeria-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                  <ChevronRight className="w-5 h-5" />
-                </button>
               </div>
 
               <style jsx global>{`
+                .galeria-pagination {
+                  position: relative !important;
+                  width: auto !important;
+                  bottom: auto !important;
+                  left: auto !important;
+                }
                 .galeria-bullet {
                   width: 8px;
                   height: 8px;
@@ -379,7 +371,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {/* Carrusel solo en mobile/tablet */}
             <div className="block md:hidden px-6 pb-14 pt-8 relative">
               <Swiper
-                modules={[Pagination, Navigation]}
+                modules={[Pagination]}
                 spaceBetween={24}
                 slidesPerView={1}
                 pagination={{
@@ -387,10 +379,6 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   el: ".cards-pagination",
                   bulletClass: "cards-bullet",
                   bulletActiveClass: "cards-bullet-active",
-                }}
-                navigation={{
-                  nextEl: ".cards-next",
-                  prevEl: ".cards-prev",
                 }}
                 className="w-full pb-10"
               >
@@ -420,18 +408,18 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                 ))}
               </Swiper>
 
-              {/* Navegación y paginación con estética premium */}
-              <div className="flex items-center justify-center gap-4 mt-4">
-                <button className="cards-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
+              {/* Paginación */}
+              <div className="flex items-center justify-center mt-4">
                 <div className="cards-pagination flex items-center gap-2" />
-                <button className="cards-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                  <ChevronRight className="w-5 h-5" />
-                </button>
               </div>
 
               <style jsx global>{`
+                .cards-pagination {
+                  position: relative !important;
+                  width: auto !important;
+                  bottom: auto !important;
+                  left: auto !important;
+                }
                 .cards-bullet {
                   width: 8px;
                   height: 8px;

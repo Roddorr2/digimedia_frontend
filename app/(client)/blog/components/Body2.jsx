@@ -175,7 +175,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             {/* Carrusel solo en mobile/tablet */}
             <div className="block lg:hidden relative pb-12 pt-2">
               <Swiper
-                modules={[Pagination, Navigation]}
+                modules={[Pagination]}
                 spaceBetween={16}
                 slidesPerView={1}
                 observer={true}
@@ -185,10 +185,6 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   el: ".b2-info-pagination",
                   bulletClass: "b2-info-bullet",
                   bulletActiveClass: "b2-info-bullet-active",
-                }}
-                navigation={{
-                  nextEl: ".b2-info-next",
-                  prevEl: ".b2-info-prev",
                 }}
                 breakpoints={{
                   640: { slidesPerView: 2 },
@@ -223,15 +219,9 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                 ))}
               </Swiper>
 
-              {/* Navegación y paginación con estética premium */}
-              <div className="flex items-center justify-center gap-4 mt-4">
-                <button className="b2-info-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
+              {/* Paginación */}
+              <div className="flex items-center justify-center mt-4">
                 <div className="b2-info-pagination flex items-center gap-2" />
-                <button className="b2-info-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                  <ChevronRight className="w-5 h-5" />
-                </button>
               </div>
             </div>
 
@@ -313,7 +303,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
               {/* Carrusel solo en mobile/tablet */}
               <div className="block lg:hidden w-full relative pb-10">
                 <Swiper
-                  modules={[Pagination, Navigation]}
+                  modules={[Pagination]}
                   spaceBetween={16}
                   slidesPerView={1}
                   observer={true}
@@ -323,10 +313,6 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                     el: ".b2-tips-pagination",
                     bulletClass: "b2-tips-bullet",
                     bulletActiveClass: "b2-tips-bullet-active",
-                  }}
-                  navigation={{
-                    nextEl: ".b2-tips-next",
-                    prevEl: ".b2-tips-prev",
                   }}
                   breakpoints={{
                     640: { slidesPerView: 2 },
@@ -366,15 +352,9 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   ))}
                 </Swiper>
 
-                {/* Flechas y paginación */}
-                <div className="flex items-center justify-center gap-4 mt-4">
-                  <button className="b2-tips-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
+                {/* Paginación */}
+                <div className="flex items-center justify-center mt-4">
                   <div className="b2-tips-pagination flex items-center gap-2" />
-                  <button className="b2-tips-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
                 </div>
               </div>
 
@@ -452,7 +432,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
               {/* Carrusel solo en mobile */}
               <div className="block md:hidden relative pb-10">
                 <Swiper
-                  modules={[Pagination, Navigation]}
+                  modules={[Pagination]}
                   spaceBetween={16}
                   slidesPerView={1}
                   observer={true}
@@ -462,10 +442,6 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                     el: ".b2-gallery-pagination",
                     bulletClass: "b2-gallery-bullet",
                     bulletActiveClass: "b2-gallery-bullet-active",
-                  }}
-                  navigation={{
-                    nextEl: ".b2-gallery-next",
-                    prevEl: ".b2-gallery-prev",
                   }}
                   className="w-full pb-10"
                 >
@@ -485,15 +461,9 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   ))}
                 </Swiper>
 
-                {/* Navegación y paginación con estética premium */}
-                <div className="flex items-center justify-center gap-4 mt-4">
-                  <button className="b2-gallery-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
+                {/* Paginación */}
+                <div className="flex items-center justify-center mt-4">
                   <div className="b2-gallery-pagination flex items-center gap-2" />
-                  <button className="b2-gallery-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
                 </div>
               </div>
 
@@ -547,7 +517,13 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
       </div>
 
       <style jsx global>{`
-        /* Info Tab Bullets */
+        /* Info Tab Pagination */
+        .b2-info-pagination {
+          position: relative !important;
+          width: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+        }
         .b2-info-bullet {
           width: 8px;
           height: 8px;
@@ -565,7 +541,13 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
           background-color: rgba(255, 184, 0, 0.8);
         }
 
-        /* Tips Tab Bullets */
+        /* Tips Tab Pagination */
+        .b2-tips-pagination {
+          position: relative !important;
+          width: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+        }
         .b2-tips-bullet {
           width: 8px;
           height: 8px;
@@ -583,7 +565,13 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
           background-color: rgba(255, 184, 0, 0.8);
         }
 
-        /* Gallery Tab Bullets */
+        /* Gallery Tab Pagination */
+        .b2-gallery-pagination {
+          position: relative !important;
+          width: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+        }
         .b2-gallery-bullet {
           width: 8px;
           height: 8px;

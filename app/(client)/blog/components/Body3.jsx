@@ -148,7 +148,7 @@ const renderGaleria = () => {
       {/* Carrusel solo en mobile (< sm) */}
       <div className="block sm:hidden relative pb-10">
         <Swiper
-          modules={[Pagination, Navigation]}
+          modules={[Pagination]}
           spaceBetween={16}
           slidesPerView={1}
           observer={true}
@@ -158,10 +158,6 @@ const renderGaleria = () => {
             el: ".b3-gallery-pagination",
             bulletClass: "b3-gallery-bullet",
             bulletActiveClass: "b3-gallery-bullet-active",
-          }}
-          navigation={{
-            nextEl: ".b3-gallery-next",
-            prevEl: ".b3-gallery-prev",
           }}
           className="w-full pb-10"
         >
@@ -181,15 +177,9 @@ const renderGaleria = () => {
           ))}
         </Swiper>
 
-        {/* Navegación y paginación con estética premium */}
-        <div className="flex items-center justify-center gap-4 mt-4">
-          <button className="b3-gallery-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+        {/* Paginación */}
+        <div className="flex items-center justify-center mt-4">
           <div className="b3-gallery-pagination flex items-center gap-2" />
-          <button className="b3-gallery-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
       </div>
 
@@ -253,7 +243,7 @@ const renderGaleria = () => {
         {/* Carrusel solo en mobile/tablet (< lg) */}
         <div className="block lg:hidden relative pb-10">
           <Swiper
-            modules={[Pagination, Navigation]}
+            modules={[Pagination]}
             spaceBetween={16}
             slidesPerView={1}
             observer={true}
@@ -263,10 +253,6 @@ const renderGaleria = () => {
               el: ".b3-tips-pagination",
               bulletClass: "b3-tips-bullet",
               bulletActiveClass: "b3-tips-bullet-active",
-            }}
-            navigation={{
-              nextEl: ".b3-tips-next",
-              prevEl: ".b3-tips-prev",
             }}
             breakpoints={{
               640: { slidesPerView: 2 },
@@ -280,15 +266,9 @@ const renderGaleria = () => {
             ))}
           </Swiper>
 
-          {/* Navegación y paginación con estética premium */}
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <button className="b3-tips-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
+          {/* Paginación */}
+          <div className="flex items-center justify-center mt-4">
             <div className="b3-tips-pagination flex items-center gap-2" />
-            <button className="b3-tips-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-              <ChevronRight className="w-5 h-5" />
-            </button>
           </div>
         </div>
 
@@ -403,7 +383,7 @@ const renderInformacion = () => {
       {/* Carrusel solo en mobile/tablet (< md) */}
       <div className="block md:hidden relative pb-10">
         <Swiper
-          modules={[Pagination, Navigation]}
+          modules={[Pagination]}
           spaceBetween={16}
           slidesPerView={1}
           observer={true}
@@ -414,10 +394,6 @@ const renderInformacion = () => {
             bulletClass: "b3-info-bullet",
             bulletActiveClass: "b3-info-bullet-active",
           }}
-          navigation={{
-            nextEl: ".b3-info-next",
-            prevEl: ".b3-info-prev",
-          }}
           className="w-full pb-10"
         >
           {tarjetas.map((section, idx) => (
@@ -427,15 +403,9 @@ const renderInformacion = () => {
           ))}
         </Swiper>
 
-        {/* Navegación y paginación con estética premium */}
-        <div className="flex items-center justify-center gap-4 mt-4">
-          <button className="b3-info-prev w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+        {/* Paginación */}
+        <div className="flex items-center justify-center mt-4">
           <div className="b3-info-pagination flex items-center gap-2" />
-          <button className="b3-info-next w-10 h-10 rounded-full bg-[#100043]/85 hover:bg-[#FFB800] border border-[#FFB800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#FFB800]/20">
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
       </div>
 
@@ -457,7 +427,13 @@ const renderInformacion = () => {
       </div>
 
       <style jsx global>{`
-        /* Gallery Bullets */
+        /* Gallery Pagination */
+        .b3-gallery-pagination {
+          position: relative !important;
+          width: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+        }
         .b3-gallery-bullet {
           width: 8px;
           height: 8px;
@@ -475,7 +451,13 @@ const renderInformacion = () => {
           background-color: rgba(255, 184, 0, 0.8);
         }
 
-        /* Tips Bullets */
+        /* Tips Pagination */
+        .b3-tips-pagination {
+          position: relative !important;
+          width: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+        }
         .b3-tips-bullet {
           width: 8px;
           height: 8px;
@@ -493,7 +475,13 @@ const renderInformacion = () => {
           background-color: rgba(255, 184, 0, 0.8);
         }
 
-        /* Info Bullets */
+        /* Info Pagination */
+        .b3-info-pagination {
+          position: relative !important;
+          width: auto !important;
+          bottom: auto !important;
+          left: auto !important;
+        }
         .b3-info-bullet {
           width: 8px;
           height: 8px;
