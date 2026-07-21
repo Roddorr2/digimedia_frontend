@@ -16,7 +16,12 @@ export default function Header2() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth <= 700;
+    }
+    return false;
+  });
   const [touchedItem, setTouchedItem] = useState(null);
   const menuRef = useRef(null);
   const { isAuthenticated, logout } = useAuth();
@@ -129,10 +134,11 @@ export default function Header2() {
     isActiveCheck ? "!text-[#ffb800] !font-bold" : "!text-white hover:!text-[#f4d534] transition-colors";
 
   return (
-    <header
-      ref={menuRef}
-      className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
-      style={{
+<header
+       ref={menuRef}
+       suppressHydrationWarning
+       className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
+       style={{
         background: "linear-gradient(90deg, #000118 0%, #100043 40%, #130049 75%, #410c89 100%)",
         color: "white",
         borderBottom: scrolled ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
