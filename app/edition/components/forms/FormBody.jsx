@@ -627,7 +627,7 @@ export default function FormBody({
   };
 
   // Función para renderizar descripción con enlace en palabra clave (CORREGIDA)
-  function renderDescripcion(texto, palabraClave, link) {
+  function renderDescripcion(texto, palabraClave, link, isUnderlined = true) {
     if (!palabraClave || !link || !texto) {
       return texto;
     }
@@ -650,7 +650,7 @@ export default function FormBody({
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-400 font-bold underline hover:text-blue-200"
+            className={`font-bold ${isUnderlined ? "underline text-blue-400 hover:text-blue-200" : "no-underline text-[#FFB800] hover:opacity-80"}`}
           >
             {parte}
           </a>
@@ -917,7 +917,7 @@ export default function FormBody({
             {item.titulo || `Información ${index + 1}`}
           </h4>
           <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
-            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace)}
+            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace, false)}
           </p>
         </div>
       );
@@ -930,7 +930,7 @@ export default function FormBody({
             {item.titulo || `Información ${index + 1}`}
           </h4>
           <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
-            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace)}
+            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace, false)}
           </p>
         </div>
       );
@@ -994,7 +994,7 @@ export default function FormBody({
                   {section.titulo}
                 </h3>
                 <p className="text-[#CCC3D4] text-xs leading-relaxed">
-                  {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
+                  {renderDescripcion(section.descripcion, section.palabra, section.enlace, false)}
                 </p>
               </div>
             ))}
@@ -1018,7 +1018,8 @@ export default function FormBody({
                 {renderDescripcion(
                   section.descripcion,
                   section.palabra,
-                  section.enlace
+                  section.enlace,
+                  false
                 )}
               </p>
               {section.enlace && section.palabra && (
@@ -2262,7 +2263,8 @@ export default function FormBody({
                                   {renderDescripcion(
                                     card.descripcion || "Descripción del contenido de este punto informativo.",
                                     card.palabra,
-                                    card.enlace
+                                    card.enlace,
+                                    false
                                   )}
                                 </p>
                               </div>

@@ -17,14 +17,14 @@ export default function Body3({ id_blog_body, fecha }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  function renderDescripcion(texto, palabraClave, enlace) {
+  function renderDescripcion(texto, palabraClave, enlace, isUnderlined = true) {
     if (!palabraClave || !enlace) return texto;
     const regex = new RegExp(`(${palabraClave})`, "gi");
     const partes = texto.split(regex);
     return partes.map((parte, i) => {
       if (parte.toLowerCase() === palabraClave.toLowerCase()) {
         return (
-          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-yellow-400 font-bold underline hover:text-yellow-200">
+          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className={`text-yellow-400 font-bold ${isUnderlined ? "underline" : "no-underline"} hover:text-yellow-200`}>
             {parte}
           </a>
         );
@@ -313,7 +313,7 @@ const renderInformacion = () => {
         className="text-sm sm:text-lg leading-relaxed"
         style={{ color: "#CCC3D4" }}
       >
-        {renderDescripcion(section.descripcion || "", section.palabra, section.enlace)}
+        {renderDescripcion(section.descripcion || "", section.palabra, section.enlace, false)}
       </p>
     </div>
   );
@@ -337,7 +337,7 @@ const renderInformacion = () => {
         className="text-sm sm:text-base leading-relaxed"
         style={{ color: "#CCC3D4" }}
       >
-        {renderDescripcion(section.descripcion || "", section.palabra, section.enlace)}
+        {renderDescripcion(section.descripcion || "", section.palabra, section.enlace, false)}
       </p>
     </div>
   );
