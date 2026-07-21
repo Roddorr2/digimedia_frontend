@@ -164,7 +164,7 @@ useEffect(() => {
           flag_galeria: formEncabezadoBody?.flag_galeria ?? true,
           flag_informacion: formEncabezadoBody?.flag_informacion ?? true,
         },
-        consejos: formCommendBody || {},
+        consejos: formCommendBody || [],
         galeria: formGaleryBody || {},
         informacion: formInfoBody || [],
       },

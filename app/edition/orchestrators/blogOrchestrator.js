@@ -73,37 +73,7 @@ class BlogOrchestrator {
 
       // ========== PASO 2: Crear Body (con consejos y tarjetas) ==========
 
-      // 2a. Crear CommendTarjeta (consejos) si hay datos
-      let commendTarjetaId = null;
-      const hasConsejos =
-      //CAMBIOS REALIZADOS PARA 5 CONSEJOS
-        bodyData.formCommendBody?.texto1 ||
-        bodyData.formCommendBody?.texto2 ||
-        bodyData.formCommendBody?.texto3 ||
-        bodyData.formCommendBody?.texto4 ||
-        bodyData.formCommendBody?.texto5;;
-
-      if (hasConsejos) {
-        const consejosPayload = mapConsejos(
-          bodyData.formCommendBody,
-          plantillaId
-        );
-
-        if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
-          consejosPayload.titulo = "Consejos Importantes";
-        }
-
-        try {
-          const consejosResult = await API.default.createCommendTarjeta(
-            consejosPayload
-          );
-          commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
-        } catch (err) {
-          result.errors.push({ step: "consejos", error: err.message });
-        }
-      }
-
-      // 2b. Crear Body principal SIN imágenes
+      // 2a. Crear Body principal SIN imágenes
       const bodyPayload = {
         ...bodyData.formEncabezadoBody,
         ...bodyData.formGaleryBody,
@@ -117,8 +87,6 @@ class BlogOrchestrator {
         bg_color: bodyData.formEncabezadoBody.bg_color || BODY_DEFAULTS.bg_color,
         bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
         bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
-
-        ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
       };
 
       const bodyResult = await API.default.createBody(bodyPayload);
@@ -126,6 +94,19 @@ class BlogOrchestrator {
 
       if (!result.bodyId) {
         throw new Error("No se pudo crear el body - ID no retornado");
+      }
+
+      // 2b. Crear Consejos individuales (cada uno con su propio enlace)
+      const consejosPayload = mapConsejos(bodyData.formCommendBody);
+      for (const [index, consejo] of consejosPayload.entries()) {
+        try {
+          await API.default.createConsejo({
+            ...consejo,
+            id_blog_body: result.bodyId,
+          });
+        } catch (err) {
+          result.errors.push({ step: `consejo_${index}`, error: err.message });
+        }
       }
 
       // 2c. Crear Tarjetas individuales (información)
@@ -291,41 +272,7 @@ class BlogOrchestrator {
       if (blogRelations.id_blog_body) {
         const bodyId = blogRelations.id_blog_body;
 
-        // ========== PASO 1: Actualizar/crear CommendTarjeta (consejos) ==========
-        let commendTarjetaId = null;
-        const hasConsejos =
-        //actualizar bodyData para consejos 4 y 5
-          bodyData.formCommendBody?.texto1 ||
-          bodyData.formCommendBody?.texto2 ||
-          bodyData.formCommendBody?.texto3 ||
-          bodyData.formCommendBody?.texto4 ||
-          bodyData.formCommendBody?.texto5;;
-
-        if (hasConsejos) {
-          const consejosPayload = mapConsejos(bodyData.formCommendBody, plantillaId);
-
-          // Garantizar que tenga título
-          if (!consejosPayload.titulo || consejosPayload.titulo.trim() === "") {
-            consejosPayload.titulo = "Consejos Importantes";
-          }
-
-          try {
-            if (bodyData.formCommendBody.id) {
-              await API.default.updateCommendTarjeta(
-                bodyData.formCommendBody.id,
-                consejosPayload
-              );
-              commendTarjetaId = bodyData.formCommendBody.id;
-            } else {
-              const consejosResult = await API.default.createCommendTarjeta(consejosPayload);
-              commendTarjetaId = consejosResult?.id || consejosResult?.data?.id;
-            }
-          } catch (err) {
-            result.errors.push({ step: "consejos", error: err.message });
-          }
-        }
-
-        // ========== PASO 2: Actualizar Body principal ==========
+        // ========== PASO 1: Actualizar Body principal ==========
         const bodyUpdatePayload = {
           ...bodyData.formEncabezadoBody,
           ...bodyData.formGaleryBody,
@@ -333,9 +280,55 @@ class BlogOrchestrator {
           bg_type: bodyData.formEncabezadoBody.bg_type || "solid",
           bg_colors: bodyData.formEncabezadoBody.bg_colors || "",
           plantilla_id: plantillaId,
-          ...(commendTarjetaId && { id_commend_tarjeta: commendTarjetaId }),
         };
         await API.default.updateBody(bodyId, bodyUpdatePayload);
+
+        // ========== PASO 2: Actualizar Consejos (uno por fila, cada uno con su propio enlace) ==========
+        if (bodyData.formCommendBody && Array.isArray(bodyData.formCommendBody)) {
+          try {
+            const validConsejos = mapConsejos(bodyData.formCommendBody);
+            const currentConsejoIds = [];
+
+            for (const [index, consejo] of validConsejos.entries()) {
+              const consejoData = {
+                texto: consejo.texto,
+                palabra: consejo.palabra,
+                enlace: consejo.enlace,
+                orden: consejo.orden,
+                id_blog_body: bodyId,
+              };
+
+              try {
+                if (consejo.id) {
+                  await API.default.updateConsejo(consejo.id, consejoData);
+                  currentConsejoIds.push(consejo.id);
+                } else {
+                  const consejoResult = await API.default.createConsejo(consejoData);
+                  if (consejoResult?.id) {
+                    currentConsejoIds.push(consejoResult.id);
+                  }
+                }
+              } catch (err) {
+                result.errors.push({ step: `consejo_${index}`, error: err.message });
+              }
+            }
+
+            // Eliminar consejos que ya no están en el formulario
+            const existingConsejos = await API.default.getConsejos(bodyId);
+            for (const dbConsejo of existingConsejos) {
+              const consejoId = dbConsejo.id_consejo || dbConsejo.id;
+              if (!currentConsejoIds.includes(consejoId)) {
+                try {
+                  await API.default.deleteConsejo(consejoId);
+                } catch (err) {
+                  result.errors.push({ step: `delete_consejo_${consejoId}`, error: err.message });
+                }
+              }
+            }
+          } catch (err) {
+            result.errors.push({ step: "consejos", error: err.message });
+          }
+        }
 
         // ========== PASO 3: Actualizar Tarjetas de información ==========
         if (bodyData.formInfoBody && Array.isArray(bodyData.formInfoBody)) {

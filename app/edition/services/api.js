@@ -34,14 +34,23 @@ const Api = {
     apiClient.put(`/blog_body/${id}`, formData).then((r) => r.data),
   deleteBody: (id) => apiClient.delete(`/blog_body/${id}`).then((r) => r.data),
 
-  getCommendTarjeta: (id) =>
-    apiClient.get(`/commend_tarjeta/${id}`).then((r) => r.data?.data),
-  createCommendTarjeta: (formData) =>
-    apiClient.post("/commend_tarjeta", formData).then((r) => r.data),
-  updateCommendTarjeta: (id, formData) =>
-    apiClient.put(`/commend_tarjeta/${id}`, formData).then((r) => r.data),
-  deleteCommendTarjeta: (id) =>
-    apiClient.delete(`/commend_tarjeta/${id}`).then((r) => r.data),
+  // Consejos: uno por fila, cada uno con su propio enlace (palabra/enlace)
+  getConsejos: (idBlogBody) =>
+    apiClient
+      .get(`/consejos/${idBlogBody}`)
+      .then((r) => r.data)
+      .catch((err) => {
+        // El backend responde 404 cuando el body todavía no tiene consejos
+        if (err.response?.status === 404) return [];
+        throw err;
+      }),
+  createConsejo: (formData) =>
+    apiClient.post("/consejo", formData).then((r) => r.data),
+  updateConsejo: (id, formData) =>
+    apiClient.put(`/consejo/${id}`, formData).then((r) => r.data),
+  deleteConsejo: (id) => apiClient.delete(`/consejo/${id}`).then((r) => r.data),
+  deleteConsejosByBlogBody: (idBlogBody) =>
+    apiClient.delete(`/consejos_delete/${idBlogBody}`).then((r) => r.data),
 
   getTarjetas: () => apiClient.get("/cards").then((r) => r.data), // Original: /cards
   getTarjetaById: (id) =>

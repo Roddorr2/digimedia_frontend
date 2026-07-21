@@ -139,15 +139,13 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
 
       {/* ── SECCIÓN 2: Consejos ── */}
       {data.flag_consejos !== 0 && (() => {
-        const consejosItems = [
-          data.commend_tarjeta?.texto1,
-          data.commend_tarjeta?.texto2,
-          data.commend_tarjeta?.texto3,
-          data.commend_tarjeta?.texto4,
-          data.commend_tarjeta?.texto5,
-        ].filter(Boolean);
+        const consejosItems = Array.isArray(data.consejos)
+          ? data.consejos.filter((c) => c.texto)
+          : [];
 
-        const ConsejoCard = ({ text, index }) => (
+        if (consejosItems.length === 0) return null;
+
+        const ConsejoCard = ({ consejo, index }) => (
           <div
             className="relative flex flex-col items-center rounded-[12px] overflow-hidden min-h-[260px] lg:min-h-[329px]"
             style={{
@@ -163,7 +161,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
               {index + 1}
             </p>
             <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px] text-center mt-6 px-4 pb-6">
-              {renderDescripcion(text, data.commend_tarjeta?.palabra, data.commend_tarjeta?.enlace)}
+              {renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}
             </p>
           </div>
         );
@@ -176,7 +174,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   Consejos importantes
                 </p>
                 <h3 className="text-[#FFB800] font-extrabold text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]">
-                  {data.commend_tarjeta?.titulo || "Consejos"}
+                  {data.titulo_consejos || "Consejos"}
                 </h3>
               </div>
 
@@ -197,9 +195,9 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   }}
                   className="w-full pb-10"
                 >
-                  {consejosItems.map((text, i) => (
-                    <SwiperSlide key={i} className="h-auto">
-                      <ConsejoCard text={text} index={i} />
+                  {consejosItems.map((consejo, i) => (
+                    <SwiperSlide key={consejo.id_consejo || i} className="h-auto">
+                      <ConsejoCard consejo={consejo} index={i} />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -237,8 +235,8 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
 
               {/* Grid solo en desktop */}
               <div className="hidden lg:grid grid-cols-3 gap-6 flex-1 w-full">
-                {consejosItems.map((text, i) => (
-                  <ConsejoCard key={i} text={text} index={i} />
+                {consejosItems.map((consejo, i) => (
+                  <ConsejoCard key={consejo.id_consejo || i} consejo={consejo} index={i} />
                 ))}
               </div>
             </div>

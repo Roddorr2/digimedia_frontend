@@ -5,10 +5,10 @@ import {
   HEADER_DEFAULTS,
   BODY_DEFAULTS,
   FOOTER_DEFAULTS,
-  CONSEJOS_DEFAULTS,  
+  CONSEJOS_INICIALES,
   TARJETAS_INFO_DEFAULTS,
   BODY_FLAGS_DEFAULTS,
-  DEFAULT_IMAGES,  
+  DEFAULT_IMAGES,
 } from "../constants/defaults";
 
 /**
@@ -46,6 +46,7 @@ export default function useFormState() {
     titulo: BODY_DEFAULTS.titulo,
     descripcion: BODY_DEFAULTS.descripcion,
     titulo_tarjeta: BODY_DEFAULTS.titulo_tarjeta,
+    titulo_consejos: BODY_DEFAULTS.titulo_consejos,
     fecha: getCurrentDate(),
     alt_image1: BODY_DEFAULTS.alt_image1,
     title_image1: BODY_DEFAULTS.title_image1,
@@ -61,14 +62,9 @@ export default function useFormState() {
 
   });
 
-  const [formCommendBody, setFormCommendBody] = useState({
-    titulo: CONSEJOS_DEFAULTS.titulo,
-    texto1: CONSEJOS_DEFAULTS.texto1,
-    texto2: CONSEJOS_DEFAULTS.texto2,
-    texto3: CONSEJOS_DEFAULTS.texto3,
-    texto4: CONSEJOS_DEFAULTS.texto4,
-    texto5: CONSEJOS_DEFAULTS.texto5,
-  });
+  const [formCommendBody, setFormCommendBody] = useState(
+    CONSEJOS_INICIALES.map((consejo) => ({ ...consejo }))
+  );
 
   const [formGaleryBody, setFormGaleryBody] = useState({
     public_image2: DEFAULT_IMAGES.body.image2,
@@ -137,6 +133,7 @@ export default function useFormState() {
       titulo: BODY_DEFAULTS.titulo,
       descripcion: BODY_DEFAULTS.descripcion,
       titulo_tarjeta: BODY_DEFAULTS.titulo_tarjeta,
+      titulo_consejos: BODY_DEFAULTS.titulo_consejos,
       fecha: getCurrentDate(),
       alt_image1: BODY_DEFAULTS.alt_image1,
       title_image1: BODY_DEFAULTS.title_image1,
@@ -152,14 +149,9 @@ export default function useFormState() {
 
     });
 
-    setFormCommendBody({
-      titulo: CONSEJOS_DEFAULTS.titulo,
-      texto1: CONSEJOS_DEFAULTS.texto1,
-      texto2: CONSEJOS_DEFAULTS.texto2,
-      texto3: CONSEJOS_DEFAULTS.texto3,
-      texto4: CONSEJOS_DEFAULTS.texto4,
-      texto5: CONSEJOS_DEFAULTS.texto5,
-    });
+    setFormCommendBody(
+      CONSEJOS_INICIALES.map((consejo) => ({ ...consejo }))
+    );
 
     setFormGaleryBody({
       public_image2: DEFAULT_IMAGES.body.image2,
