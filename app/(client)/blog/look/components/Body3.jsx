@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle, Calendar, ArrowDownCircle } from "lucide-react";
+import { ArrowDownCircle, Calendar, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,7 +11,6 @@ export default function Body3() {
       descripcion:
         "Una gestión efectiva de redes sociales permite construir una imagen sólida y coherente de tu negocio. Tu marca se vuelve reconocible a través del contenido visual, el tono de comunicación y la interacción constante con la audiencia.",
     },
-
     {
       titulo: "Interacción y Fidelización de Clientes",
       descripcion:
@@ -29,189 +28,145 @@ export default function Body3() {
     },
   ];
 
-  return (
-    <div className="relative lg:mx-48 bg-white text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden">
-      <div className="bg-gradient-to-r from-indigo-900 to-purple-900 py-3 px-6 flex justify-between items-center">
-        <div className="flex items-center text-white">
-          <Calendar className="w-4 h-4 mr-2" />
-          <span className="text-sm font-medium">2025-03-31</span>
-        </div>
-        <div className="flex space-x-1">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="w-2 h-2 rounded-full bg-white/70"></div>
-          ))}
-        </div>
-      </div>
+  const consejos = [
+    "Define claramente los objetivos de tu presencia digital.",
+    "Planifica tu contenido con calendarios editoriales.",
+    "Utiliza herramientas como Hootsuite o Meta Business Suite para automatizar.",
+    "Analiza los resultados y ajusta tus estrategias regularmente.",
+    "Mantén una identidad visual coherente en todas las plataformas.",
+  ];
 
-      <div className="relative">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-100 to-transparent"></div>
-        <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-            <h1 className="text-4xl md:text-5xl font-black text-indigo-900 leading-tight mb-6">
-              GESTIÓN INTELIGENTE DE REDES
-            </h1>
-            <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mb-6"></div>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              Las redes sociales se han convertido en uno de los pilares de la
-              estrategia digital moderna. Una buena gestión no solo mejora la
-              presencia online, sino que potencia la conexión con los usuarios y
-              la visibilidad de tu negocio.
-            </p>
-            <button className="mt-6 inline-flex items-center text-indigo-600 font-medium hover:text-indigo-800 transition-colors">
-              <span>Continuar leyendo</span>
-              <ArrowDownCircle className="ml-2 w-5 h-5" />
-            </button>
+  return (
+    <article className="relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-[28px] border border-white/10 bg-[#0A0140]/75 text-white shadow-[0_24px_70px_rgba(0,0,0,0.42)] backdrop-blur-md">
+      <section className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-12 lg:p-12">
+        <div>
+          <div className="mb-4 flex items-center gap-2 text-sm text-gray-300">
+            <Calendar className="h-4 w-4 text-[#F2C230]" />
+            <span>2025-03-31</span>
           </div>
-          <div className="md:w-1/2 flex justify-center">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl blur"></div>
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <Image
-                  src="/blog/blog-11.webp"
-                  alt="Muchas interacciones en redes sociales"
-                  className="w-[22rem] h-[22rem] object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110 rounded-2xl shadow-lg relative z-10"
-                  width={400}
-                  height={400}
-                />
-              </div>
-              <div className="absolute -bottom-3 -right-3 w-24 h-24 bg-indigo-100 rounded-full z-0"></div>
-              <div className="absolute -top-3 -left-3 w-16 h-16 bg-purple-100 rounded-full z-0"></div>
-            </div>
-          </div>
+
+          <h1 className="text-3xl font-black leading-tight text-[#F2C230] sm:text-4xl lg:text-5xl">
+            GESTIÓN INTELIGENTE DE REDES
+          </h1>
+
+          <div className="my-6 h-1 w-24 rounded-full bg-gradient-to-r from-[#F2A30F] to-[#F2C230]" />
+
+          <p className="text-base leading-relaxed text-gray-200 sm:text-lg">
+            Las redes sociales se han convertido en uno de los pilares de la
+            estrategia digital moderna. Una buena gestión no solo mejora la
+            presencia online, sino que potencia la conexión con los usuarios y
+            la visibilidad de tu negocio.
+          </p>
+
+          <a
+            href="#content-details"
+            className="mt-6 inline-flex items-center font-semibold text-[#F2C230] transition-colors hover:text-white"
+          >
+            <span>Continuar leyendo</span>
+            <ArrowDownCircle className="ml-2 h-5 w-5" />
+          </a>
         </div>
-      </div>
+
+        <div className="relative min-h-[300px] overflow-hidden rounded-[24px] border border-white/10 shadow-2xl sm:min-h-[390px]">
+          <Image
+            src="/blog/blog-11.webp"
+            alt="Muchas interacciones en redes sociales"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#060126]/45 to-transparent" />
+        </div>
+      </section>
 
       <div
         id="content-details"
-        className="p-8 md:p-12 bg-gradient-to-b from-white to-indigo-50"
+        className="space-y-12 px-5 pb-8 sm:px-8 sm:pb-10 lg:px-12 lg:pb-12"
       >
-        <div className="mb-16">
-          <div className="flex items-center mb-8">
-            <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-white font-bold mr-3">
-              G
-            </div>
-            <h2 className="text-2xl font-bold text-indigo-900">Galería</h2>
-            <div className="h-px flex-grow bg-indigo-200 ml-4"></div>
-          </div>
+        <section className="rounded-[24px] border border-white/10 bg-[#060126]/55 p-5 sm:p-8">
+          <h2 className="mb-7 text-center text-2xl font-bold text-[#F2C230] sm:text-3xl">
+            Galería
+          </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid gap-6 md:grid-cols-2">
             {["/blog/blog-12.webp", "/blog/blog-1.webp"].map((src, index) => (
               <div
-                key={index}
-                className="group relative overflow-hidden rounded-xl shadow-lg"
+                key={src}
+                className="group relative min-h-[260px] overflow-hidden rounded-[22px] border border-white/10 shadow-xl sm:min-h-[330px]"
               >
-                {/* Overlay degradado */}
-                <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 via-indigo-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                {/* Imagen con efecto zoom */}
                 <Image
                   src={src}
                   alt={`Imagen ${index + 1} del artículo`}
-                  className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                  width={400}
-                  height={400}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div className="bg-white/90 px-4 py-2 rounded-lg shadow-lg"></div>
-                            </div> */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060126]/45 to-transparent" />
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="mb-16">
-          <div className="flex items-center mb-8">
-            <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold mr-3">
-              C
-            </div>
-            <h2 className="text-2xl font-bold text-green-600">
-              Consejos para una Gestión Efectiva
-            </h2>
-            <div className="h-px flex-grow bg-green-200 ml-4"></div>
+        <section>
+          <h2 className="mx-auto mb-8 max-w-3xl text-center text-2xl font-bold text-[#F2C230] sm:text-3xl">
+            Consejos para una Gestión Efectiva
+          </h2>
+
+          <div className="flex flex-wrap justify-center gap-5">
+            {consejos.map((text) => (
+              <article
+                key={text}
+                className="flex min-h-[215px] w-full flex-col items-center justify-center rounded-[22px] border border-white/10 bg-gradient-to-br from-[#060126] to-[#0A0140] p-6 text-center shadow-xl md:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.875rem)]"
+              >
+                <div className="mb-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#F2C230]/40 bg-[#F2C230]/10">
+                  <CheckCircle className="h-6 w-6 text-[#F2C230]" />
+                </div>
+
+                <p className="max-w-[285px] leading-relaxed text-gray-200">
+                  {text}
+                </p>
+              </article>
+            ))}
           </div>
+        </section>
 
-          <div className="bg-gradient-to-br from-green-50 to-indigo-50 rounded-xl p-6 shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "Define claramente los objetivos de tu presencia digital.",
-                "Planifica tu contenido con calendarios editoriales.",
-                "Utiliza herramientas como Hootsuite o Meta Business Suite para automatizar.",
-                "Analiza los resultados y ajusta tus estrategias regularmente.",
-                "Mantén una identidad visual coherente en todas las plataformas.",
-              ]
-                .filter((text) => text)
-                .map((text, index) => (
-                  <div
-                    key={`commend-${index}`}
-                    className="flex items-start p-4 bg-white rounded-lg shadow-sm border-l-4 border-green-500 hover:shadow-md transition-shadow"
-                  >
-                    <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5 mr-3" />
-                    <p className="text-gray-700">{text}</p>
-                  </div>
-                ))}
-            </div>
+        <section>
+          <h2 className="mb-8 text-center text-2xl font-bold text-[#F2C230] sm:text-3xl">
+            Información Detallada
+          </h2>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {tarjetas.map((section, index) => (
+              <article
+                key={section.titulo}
+                className={`rounded-[22px] border border-white/10 bg-[#060126]/65 p-6 shadow-xl sm:p-7 ${
+                  index === 0 || index === tarjetas.length - 1
+                    ? "md:col-span-2"
+                    : ""
+                }`}
+              >
+                <h3 className="mb-3 text-xl font-bold text-[#F2C230]">
+                  {section.titulo}
+                </h3>
+
+                <p className="leading-relaxed text-gray-200">
+                  {section.descripcion}
+                </p>
+              </article>
+            ))}
           </div>
-        </div>
+        </section>
 
-        <div>
-          <div className="flex items-center mb-8">
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3">
-              I
-            </div>
-            <h2 className="text-2xl font-bold text-blue-600">
-              Información Detallada
-            </h2>
-            <div className="h-px flex-grow bg-blue-200 ml-4"></div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute -top-4 -left-4 w-16 h-16 bg-blue-100 rounded-full opacity-70"></div>
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-indigo-100 rounded-full opacity-70"></div>
-
-            <div className="relative z-10">
-              {tarjetas.map((section, index) => {
-                const isEven = index % 2 === 0;
-
-                return (
-                  <div
-                    key={`tarjeta-${index}`}
-                    className={`mb-8 flex flex-col ${
-                      isEven ? "md:flex-row" : "md:flex-row-reverse"
-                    } bg-white rounded-xl overflow-hidden shadow-md`}
-                  >
-                    <div
-                      className={`md:w-1/3 bg-gradient-to-br ${
-                        isEven
-                          ? "from-blue-600 to-indigo-700"
-                          : "from-indigo-700 to-purple-800"
-                      } p-6 flex items-center justify-center`}
-                    >
-                      <h3 className="text-2xl font-bold text-white text-center">
-                        {section.titulo}
-                      </h3>
-                    </div>
-                    <div className="md:w-2/3 p-6">
-                      <p className="text-gray-700 leading-relaxed">
-                        {section.descripcion}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        <div className="flex justify-center border-t border-white/10 pt-2">
+          <Link
+            href="/servicios/gestion-redes"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F2A30F] to-[#F2C230] px-8 py-3 text-center font-bold text-[#060126] shadow-lg transition-transform hover:-translate-y-0.5 hover:brightness-110"
+          >
+            Ver más información
+          </Link>
         </div>
       </div>
-
-      <div className="h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
-
-      <div className="flex justify-center mt-6 mb-10">
-        <Link
-          href="/servicios/gestion-redes"
-          className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition-colors"
-        >
-          Ver más información
-        </Link>
-      </div>
-    </div>
+    </article>
   );
 }

@@ -1,7 +1,20 @@
-import { ArrowRight, CheckCircle } from "lucide-react";
+import {
+  ArrowDownCircle,
+  ArrowRight,
+  Calendar,
+  CheckCircle,
+} from "lucide-react";
 import Image from "next/image";
 
 export default function Body1() {
+  const consejos = [
+    "Opta por colores que reflejen la personalidad de tu bar.",
+    "Elige un diseño legible y atractivo.",
+    "Considera el lugar de instalación para maximizar su impacto.",
+    "Asegúrate de que la iluminación sea adecuada para resaltar el letrero.",
+    "Utiliza materiales de alta calidad para garantizar la durabilidad.",
+  ];
+
   const tarjetas = [
     {
       titulo: "El Factor Sorpresa y Distinción",
@@ -26,120 +39,136 @@ export default function Body1() {
   ];
 
   return (
-    <div className="relative lg:mx-48 p-0 text-white rounded-2xl overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.45)]">
-      <div className="relative h-[400px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40 z-10"></div>
-        <Image
-          src="/blog/blog-4.webp"
-          alt="Reunion de un equipo de trabajo"
-          className="absolute inset-0 w-full h-full object-cover"
-          width={800}
-          height={400}
-        />
-        <div className="relative z-20 h-full flex flex-col justify-end p-8">
-          <p className="text-[#F2C230] mb-2 font-medium">2025-03-31</p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">
-            TU BAR EN LA MIRA
-          </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-[#F2A30F] to-[#F2C230] rounded-full"></div>
-        </div>
-      </div>
+    <article className="relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-[28px] border border-white/10 bg-[#0A0140]/75 text-white shadow-[0_24px_70px_rgba(0,0,0,0.42)] backdrop-blur-md">
+      <section className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-12 lg:p-12">
+        <div>
+          <div className="mb-4 flex items-center gap-2 text-sm text-gray-300">
+            <Calendar className="h-4 w-4 text-[#F2C230]" />
+            <span>2025-03-31</span>
+          </div>
 
-      <div className="p-8">
-        <div className="relative mb-16 bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-xl -mt-12">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#F2A30F] to-[#F2C230]"></div>
-          <p className="text-lg leading-relaxed text-gray-200">
+          <h1 className="text-3xl font-black leading-tight text-[#F2C230] sm:text-4xl lg:text-5xl">
+            TU BAR EN LA MIRA
+          </h1>
+
+          <div className="my-6 h-1 w-24 rounded-full bg-gradient-to-r from-[#F2A30F] to-[#F2C230]" />
+
+          <p className="text-base leading-relaxed text-gray-200 sm:text-lg">
             Las luces neón LED se han convertido en un elemento diferenciador en
             el mundo de la hospitalidad. No solo son visualmente atractivos,
             sino que también refuerzan la identidad de tu negocio. En este
             artículo, exploraremos cómo las letras luminosas pueden marcar la
             diferencia en la experiencia de tus clientes.
           </p>
+
+          <a
+            href="#contenido-tu-bar"
+            className="mt-6 inline-flex items-center font-semibold text-[#F2C230] transition-colors hover:text-white"
+          >
+            <span>Continuar leyendo</span>
+            <ArrowDownCircle className="ml-2 h-5 w-5" />
+          </a>
         </div>
 
-        <div className="mb-16 p-6 bg-gradient-to-br from-[#060126] to-[#0A0140] rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-white">
-          <div className="flex items-center justify-center mb-4">
-            <div className="h-0.5 w-12 bg-[#F2A30F] mr-4"></div>
-            <h3 className="text-2xl font-bold text-[#F2C230]">
-              Consejos para Elegir el Letrero Perfecto
-            </h3>
-            <div className="h-0.5 w-12 bg-[#F2A30F] ml-4"></div>
-          </div>
-          <ul className="list-none space-y-3 max-w-2xl mx-auto">
+        <div className="relative min-h-[300px] overflow-hidden rounded-[24px] border border-white/10 shadow-2xl sm:min-h-[390px]">
+          <Image
+            src="/blog/blog-4.webp"
+            alt="Reunion de un equipo de trabajo"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#060126]/45 to-transparent" />
+        </div>
+      </section>
+
+      <div
+        id="contenido-tu-bar"
+        className="space-y-12 px-5 pb-8 sm:px-8 sm:pb-10 lg:px-12 lg:pb-12"
+      >
+        <section className="rounded-[24px] border border-white/10 bg-[#060126]/55 p-5 sm:p-8">
+          <h2 className="mb-7 text-center text-2xl font-bold text-[#F2C230] sm:text-3xl">
+            Galería
+          </h2>
+
+          <div className="grid gap-6 md:grid-cols-2">
             {[
-              "Opta por colores que reflejen la personalidad de tu bar.",
-              "Elige un diseño legible y atractivo.",
-              "Considera el lugar de instalación para maximizar su impacto.",
-              "Asegúrate de que la iluminación sea adecuada para resaltar el letrero.",
-              "Utiliza materiales de alta calidad para garantizar la durabilidad.",
-            ].map((text, index) => (
-              <li
-                key={`commend-${index}`}
-                className="flex items-center gap-3 bg-white/10 p-3 rounded-lg"
+              { src: "/blog/blog-10.webp", alt: "Imagen 1 del artículo" },
+              { src: "/blog/blog-1.webp", alt: "Imagen 2 del artículo" },
+            ].map((image) => (
+              <div
+                key={image.src}
+                className="group relative min-h-[260px] overflow-hidden rounded-[22px] border border-white/10 shadow-xl sm:min-h-[330px]"
               >
-                <CheckCircle className="w-6 h-6 text-[#F2C230] flex-shrink-0" />
-                <span className="text-left">{text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060126]/70 via-transparent to-transparent" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
-          {[
-            { src: "/blog/blog-10.webp", alt: "Imagen 1 del artículo" },
-            { src: "/blog/blog-1.webp", alt: "Imagen 2 del artículo" },
-          ].map((image, index) => (
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 shadow-xl"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#060126]/95 via-[#0A0140]/70 to-transparent z-10"></div>
-              <Image
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-                width={400}
-                height={256}
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
-                <div className="flex items-center justify-center">
+                <div className="absolute inset-x-0 bottom-0 z-10 flex translate-y-full items-center justify-center bg-[#060126]/75 p-4 text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-y-0">
                   <span className="text-sm font-medium">Ver detalle</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </section>
 
-        <div className="relative">
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-center">
-            <div className="inline-block px-4 py-1 bg-[#F2A30F] text-[#060126] text-sm font-medium rounded-full">
-              Información Importante
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
-            {tarjetas.map((section, index) => {
-              const styles = [
-                "bg-white/10 backdrop-blur-md border-l-4 border-[#F2A30F]",
-                "bg-white/10 backdrop-blur-md border-r-4 border-[#F2C230]",
-                "bg-white/10 backdrop-blur-md border-l-4 border-[#F2A30F]",
-                "bg-white/10 backdrop-blur-md border-r-4 border-[#F2C230]",
-              ];
-              return (
-                <div
-                  key={`tarjeta-${index}`}
-                  className={`p-5 rounded-lg shadow-lg transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${styles[index % styles.length]}`}
-                >
-                  <h3 className="text-xl font-bold mb-3 text-[#F2C230]">
-                    {section.titulo}
-                  </h3>
-                  <p className="text-gray-100">{section.descripcion}</p>
+        <section>
+          <h2 className="mx-auto mb-8 max-w-3xl text-center text-2xl font-bold text-[#F2C230] sm:text-3xl">
+            Consejos para Elegir el Letrero Perfecto
+          </h2>
+
+          <div className="flex flex-wrap justify-center gap-5">
+            {consejos.map((consejo) => (
+              <article
+                key={consejo}
+                className="flex min-h-[210px] w-full flex-col items-center justify-center rounded-[22px] border border-white/10 bg-gradient-to-br from-[#060126] to-[#0A0140] p-6 text-center shadow-xl md:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.875rem)]"
+              >
+                <div className="mb-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#F2C230]/40 bg-[#F2C230]/10">
+                  <CheckCircle className="h-6 w-6 text-[#F2C230]" />
                 </div>
-              );
-            })}
+
+                <p className="max-w-[280px] leading-relaxed text-gray-200">
+                  {consejo}
+                </p>
+              </article>
+            ))}
           </div>
-        </div>
+        </section>
+
+        <section>
+          <h2 className="mb-8 text-center text-2xl font-bold text-[#F2C230] sm:text-3xl">
+            Información Importante
+          </h2>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {tarjetas.map((tarjeta, index) => (
+              <article
+                key={tarjeta.titulo}
+                className={`rounded-[22px] border border-white/10 bg-[#060126]/65 p-6 shadow-xl sm:p-7 ${
+                  index === 0 || index === tarjetas.length - 1
+                    ? "md:col-span-2"
+                    : ""
+                }`}
+              >
+                <h3 className="mb-3 text-xl font-bold text-[#F2C230]">
+                  {tarjeta.titulo}
+                </h3>
+
+                <p className="leading-relaxed text-gray-200">
+                  {tarjeta.descripcion}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
-    </div>
+    </article>
   );
 }
