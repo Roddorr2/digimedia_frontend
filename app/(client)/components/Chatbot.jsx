@@ -32,6 +32,17 @@ const BUBBLE_MSGS = [
   "Conoce nuestros servicios",
 ];
 
+function getAdvisorLabel(userText) {
+  const t = (userText || "").toLowerCase();
+  if (/precio|costo|cuesta|cuanto|cuánto|tarifa/.test(t)) {
+    return "Mira nuestros precios";
+  }
+  if (/plan|planes/.test(t)) {
+    return "Mira nuestros planes";
+  }
+  return "Clic para una comunicación más personalizada";
+}
+
 function MayaFallback({ size }) {
   return (
     <div
@@ -429,7 +440,11 @@ overflow-hidden"
                       }}
                     >
                       <MessageCircle size={16} />
-                      Hablar con un asesor
+                      {getAdvisorLabel(
+                        messages[i - 1]?.role === "user"
+                          ? messages[i - 1].mensaje
+                          : ""
+                      )}
                     </a>
                   )}
                 </div>
