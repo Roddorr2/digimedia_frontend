@@ -8,7 +8,7 @@ export default function Page() {
     <div>
       <Header url_image="/blog/Blog4_header.webp" />
 
-      <div className="relative min-h-screen w-full overflow-hidden bg-[linear-gradient(135deg,_#060126_0%,_#0A0140_50%,_#5A37A6_100%)] text-white">
+      <div className="relative min-h-screen w-full overflow-hidden bg-[linear-gradient(135deg,_#000118_0%,_#410C89_50%,_#000118_100%)] text-white">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 md:py-14 lg:px-8">
           <Body1 />
 

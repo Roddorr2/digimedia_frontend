@@ -13,7 +13,7 @@ export default function Page() {
         descripcion="El servicio de branding y diseño se enfoca en crear identidades visuales que conecten profundamente con tu audiencia. Desde la creación de logotipos hasta la definición de una paleta de colores, cada detalle refleja los valores y la personalidad de tu marca."
       />
 
-      <div className="relative min-h-screen w-full overflow-hidden bg-[linear-gradient(135deg,_#060126_0%,_#0A0140_50%,_#5A37A6_100%)] text-white">
+      <div className="relative min-h-screen w-full overflow-hidden bg-[linear-gradient(135deg,_#000118_0%,_#410C89_50%,_#000118_100%)] text-white">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 md:py-14 lg:px-8">
           <Body4 />
 
