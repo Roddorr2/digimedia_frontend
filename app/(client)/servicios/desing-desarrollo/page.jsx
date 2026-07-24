@@ -117,7 +117,7 @@ export default function DisenoDesarrolloWeb() {
             {/* <div className="relative w-full max-w-[980px] aspect-[4/3] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(181,37,254,0.25)] border-2 border-white/10 hover:border-white/20 transition-colors duration-300"> */}
             <div className="relative w-full max-w-[980px] h-[280px] sm:h-[380px] md:h-[460px] lg:h-[520px] overflow-hidden transition-colors duration-300">
               <Image
-                src="/servicios/desarrollo/diseno-desarrollo-web.webp "
+                src="/servicios/desarrollo/diseno-desarrollo-web.webp"
                 alt="Personal de Digimedia colaborando en diseño y desarrollo web"
                 title="Obtén una asesoría ¡Gratis!"
                 fill

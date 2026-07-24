@@ -1,6 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
+const mobileSlides = [
+  "/optimized_images/image-home/celular-1.webp",
+  "/optimized_images/image-home/celular-2.webp",
+  "/optimized_images/image-home/celular-3.webp",
+  "/optimized_images/image-home/celular-4.webp",
+];
+
 const desktopSlides = [
   "/optimized_images/image-home/pc-1.webp",
   "/optimized_images/image-home/pc-2.webp",
@@ -8,12 +15,12 @@ const desktopSlides = [
   "/optimized_images/image-home/pc-4.webp",
 ];
 
-const mobileSlides = [
-  "/optimized_images/image-home/celular-1.webp",
-  "/optimized_images/image-home/celular-2.webp",
-  "/optimized_images/image-home/celular-3.webp",
-  "/optimized_images/image-home/celular-4.webp",
-];
+const mobileDimensions = { width: 721, height: 1507 };
+const desktopDimensions = { width: 1920, height: 1080 };
+
+function getSlides(isMobile) {
+  return isMobile ? mobileSlides : desktopSlides;
+}
 
 export default function Banner() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -101,8 +108,6 @@ export default function Banner() {
       `}</style>
       <main className="relative h-[calc(100dvh-125px)] w-full overflow-hidden bg-black">
         <div className="absolute inset-0 w-full h-full">
-          {/* Slide 0: presente desde el HTML inicial (sin esperar viewportReady).
-              El navegador elige mobile/desktop vía <source media>, sin JS. */}
           <picture>
             <source media="(max-width: 767px)" srcSet={mobileSlides[0]} />
             <img
@@ -112,6 +117,8 @@ export default function Banner() {
               loading="eager"
               fetchPriority="high"
               decoding="async"
+              width={desktopDimensions.width}
+              height={desktopDimensions.height}
               className={`w-full h-full object-cover object-[70%] md:object-[30%] absolute inset-0 ${
                 currentIndex === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
               }`}

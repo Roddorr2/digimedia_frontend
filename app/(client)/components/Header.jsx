@@ -16,7 +16,12 @@ export default function Header2() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth <= 700;
+    }
+    return false;
+  });
   const [touchedItem, setTouchedItem] = useState(null);
   const menuRef = useRef(null);
   const { isAuthenticated, logout } = useAuth();
@@ -53,9 +58,6 @@ export default function Header2() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [menuOpen]);
 
   useEffect(() => {
@@ -129,10 +131,11 @@ export default function Header2() {
     isActiveCheck ? "!text-[#ffb800] !font-bold" : "!text-white hover:!text-[#f4d534] transition-colors";
 
   return (
-    <header
-      ref={menuRef}
-      className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
-      style={{
+<header
+       ref={menuRef}
+       suppressHydrationWarning
+       className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
+       style={{
         background: "linear-gradient(90deg, #000118 0%, #100043 40%, #130049 75%, #410c89 100%)",
         color: "white",
         borderBottom: scrolled ? "1px solid rgba(255, 255, 255, 0.1)" : "none"
@@ -152,7 +155,7 @@ export default function Header2() {
           </Link>
         </div>
 
-        <div className={`${styles.seccionesHeader} flex items-center`}>
+        <div suppressHydrationWarning className={`${styles.seccionesHeader} flex items-center`}>
           {isAuthenticated && (
             <Link href="/dashboard/main" className={`${styles.userButton} text-white hover:text-[#ffb800] mr-4`}>
               <UserRound size={20} strokeWidth={2.5} />
@@ -179,9 +182,11 @@ export default function Header2() {
             />
           </label>
 
-          <ul
-            className={`${styles.menuHorizontal} ${menuOpen ? styles.menuOpen : ""} flex items-center md:gap-8`}
-          >
+<ul
+             suppressHydrationWarning
+             className={`${styles.menuHorizontal} ${menuOpen ? styles.menuOpen : ""} flex items-center md:gap-8`}
+             data-is-mobile={isMobile}
+           >
             {/* Inicio */}
             <li
               className={styles.menuItem}
@@ -230,7 +235,8 @@ export default function Header2() {
                   className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "services" ? styles.chevronOpen : ""}`}
                 />
               </p>
-              <ul
+<ul
+                suppressHydrationWarning
                 className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full left-0 mt-0 min-w-[280px] py-4 flex flex-col gap-4 z-50`}
                 style={submenuStyle("services")}
               >
@@ -291,7 +297,8 @@ export default function Header2() {
                   className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "more" ? styles.chevronOpen : ""}`}
                 />
               </p>
-              <ul
+<ul
+                suppressHydrationWarning
                 className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
                 style={submenuStyle("more")}
               >
@@ -332,10 +339,11 @@ export default function Header2() {
                     className={`w-4 h-4 ${styles.chevron} ${openSubmenu === "panel" ? styles.chevronOpen : ""}`}
                   />
                 </p>
-                <ul
-                  className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
-                  style={submenuStyle("panel")}
-                >
+<ul
+                   suppressHydrationWarning
+                   className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
+                   style={submenuStyle("panel")}
+                 >
                   {filterLinks.map((link) => (
                     <li key={link.href} onClick={(e) => { e.stopPropagation(); closeMenu(); }} className="w-full">
                       <Link href={link.href} className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]">
