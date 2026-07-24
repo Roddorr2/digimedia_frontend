@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { sendToMaya } from "@/api/mayaWebhook"; // o donde lo guardes
-import { MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import welcomeMessagesChatBot from "@/data/welcomeMessagesChatBot.json";
 const CHATBOT_IMG = "/img_chatbot/xiomara_chatbot.webp";
 
@@ -428,7 +428,7 @@ overflow-hidden"
                         boxShadow: "0 8px 20px rgba(255, 184, 0, 0.25)",
                       }}
                     >
-                      <MessageCircle size={16} />
+                      <ArrowRight size={16} />
                       Hablar con un asesor
                     </a>
                   )}
