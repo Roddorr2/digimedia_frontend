@@ -11,6 +11,11 @@ const Testimonios = dynamic(
   { loading: () => <div className="h-[400px] bg-gradient-to-br from-[#100043] to-[#410c89]" /> }
 );
 
+const TestimoniosClientes = dynamic(
+  () => import("./components/Home_Components/TestimoniosClientes"),
+  { loading: () => <div className="h-[600px] bg-[#000118]" /> }
+);
+
 const ClientSideComponents = dynamic(
   () => import("./components/ClientSideComponents")
 );
@@ -21,6 +26,7 @@ export default function Home() {
       <Banner />
       <Servicios />
       <Testimonios />
+      <TestimoniosClientes />
       <ClientSideComponents />
     </>
   );
