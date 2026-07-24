@@ -503,15 +503,22 @@ export default function FormFooter({
       <div className={mergedStyles.preview}>
         {footerEnabled ? (
           <>
-            <h3 className={mergedStyles.title}>
+            <h3
+              className={mergedStyles.title}
+              style={
+                data.titulo_color
+                  ? { color: data.titulo_color, WebkitTextFillColor: data.titulo_color }
+                  : undefined
+              }
+            >
               {data.titulo || "Título del Footer"}
             </h3>
-            <p className={mergedStyles.description}>
-              {
-                (data.descripcion || "Descripción del footer",
-                data.palabra || "",
-                data.enlace || "")
-              }
+            {/* se agrego el picker de colores y se arreglo el bug que no mostraba el texto en la preview */}
+            <p
+              className={mergedStyles.description}
+              style={{ color: data.descripcion_color || undefined }}
+            >
+              {data.descripcion || "Descripción del footer"}
             </p>
 
             {/* Galería de imágenes */}
@@ -681,23 +688,34 @@ export default function FormFooter({
 
                  {/* Título */}
                  <div className="mb-3">
-                   <label className={mergedStyles.label}>
-                     <Type className={mergedStyles.icon} />
-                     Título
-                     <ValidationMessage fieldName="titulo" />
-                   </label>
-                   <input
-                     type="text"
-                     name="titulo"
-                     maxLength={validationConfig.titulo?.max}
-                     autoComplete="off"
-                     value={data.titulo || ""}
-                     onChange={handleFieldChange}
-                     className={mergedStyles.input}
-                     placeholder={mergedPlaceholders.titulo}
-                     required={validationConfig.titulo?.required}
-                   />
-                 </div>
+                  <label className={mergedStyles.label}>
+                    <Type className={mergedStyles.icon} />
+                    Título
+                    <ValidationMessage fieldName="titulo" />
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      name="titulo"
+                      maxLength={validationConfig.titulo?.max}
+                      autoComplete="off"
+                      value={data.titulo || ""}
+                      onChange={handleFieldChange}
+                      className={`${mergedStyles.input} flex-1`}
+                      placeholder={mergedPlaceholders.titulo}
+                      required={validationConfig.titulo?.required}
+                    />
+                    <input
+                      type="color"
+                      value={data.titulo_color || "#F4D534"}
+                      onChange={(e) =>
+                        handleFieldChange({ target: { name: "titulo_color", value: e.target.value } })
+                      }
+                      title="Color del título"
+                      className="w-10 h-10 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                    />
+                  </div>
+                </div>
 
 
                 {/* Descripción */}
@@ -714,9 +732,18 @@ export default function FormFooter({
                     maxLength={validationConfig.descripcion?.max || 300}
                     autoComplete="off"
                     rows={3}
-                    className={mergedStyles.textarea}
+                    className={`${mergedStyles.textarea} flex-1`}
                     placeholder={mergedPlaceholders.descripcion}
                     required={validationConfig.descripcion?.required}
+                  />
+                  <input
+                    type="color"
+                    value={data.descripcion_color || "#F3F4F6"}
+                    onChange={(e) =>
+                      handleFieldChange({ target: { name: "descripcion_color", value: e.target.value } })
+                    }
+                    title="Color de la descripción"
+                    className="w-10 h-10 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
                   />
 
                   {/* Se habilitara cuando sea necesario */}

@@ -420,6 +420,13 @@ export default function FormHeader({
     texto_descripcion: "Descripción del blog",
   };
 
+  // mapeo de campos de color 
+  const colorFieldMap = {
+  titulo: { name: "titulo_color", defaultColor: "#ffffff" },
+  texto_frase: { name: "texto_frase_color", defaultColor: "#ffffff" },
+  texto_descripcion: { name: "texto_descripcion_color", defaultColor: "#d1d5db" },
+};
+
   return (
     <div
       className={`${mergedStyles.container} ${className}`}
@@ -432,14 +439,24 @@ export default function FormHeader({
 
       <div className={mergedStyles.content}>
         {/* Vista previa */}
+        {/* se agregaron los cambios de colores para vista previa */}
         <div className={mergedStyles.preview}>
-          <h1 className={mergedStyles.title}>
+          <h1
+            className={mergedStyles.title}
+            style={{ color: data.titulo_color || undefined }}
+          >
             {data.titulo || mergedPlaceholders.titulo}
           </h1>
-          <h2 className={mergedStyles.subtitle}>
+          <h2
+            className={mergedStyles.subtitle}
+            style={{ color: data.texto_frase_color || undefined }}
+          >
             {data.texto_frase || mergedPlaceholders.texto_frase}
           </h2>
-          <p className={mergedStyles.description}>
+          <p
+            className={mergedStyles.description}
+            style={{ color: data.texto_descripcion_color || undefined }}
+          >
             {renderDescripcion(
               data.texto_descripcion || mergedPlaceholders.texto_descripcion,
               data.palabra,
@@ -630,44 +647,67 @@ export default function FormHeader({
               </div>
 
               {/* 3. CAMPOS DE CONTENIDO */}
-              {formFields.map(
-                ({ name, icon: Icon, label, type, placeholder }) => (
+              {/* se agrego el picker de color junto a los inputs */}
+              {formFields.map(({ name, icon: Icon, label, type, placeholder }) => {
+                const colorField = colorFieldMap[name];
+                const colorValue = colorField
+                  ? data[colorField.name] || colorField.defaultColor
+                  : null;
+
+                return (
                   <div key={name}>
                     <label className={mergedStyles.label}>
                       <Icon className={mergedStyles.icon} />
                       {label}
                       <ValidationMessage fieldName={name} />
                     </label>
-                    {type === "textarea" ? (
-                      <textarea
-                        name={name}
-                        value={data[name] || ""}
-                        onChange={handleFieldChange}
-                        maxLength={validationConfig[name]?.max}
-                        minLength={validationConfig[name]?.min}
-                        autoComplete="off"
-                        rows={3}
-                        className={`${mergedStyles.input} resize-none`}
-                        placeholder={placeholder}
-                        required={validationConfig[name]?.required}
-                      />
-                    ) : (
-                      <input
-                        type="text"
-                        name={name}
-                        value={data[name] || ""}
-                        onChange={handleFieldChange}
-                        maxLength={validationConfig[name]?.max}
-                        minLength={validationConfig[name]?.min}
-                        autoComplete="off"
-                        className={mergedStyles.input}
-                        placeholder={placeholder}
-                        required={validationConfig[name]?.required}
-                      />
-                    )}
+
+                    <div className="flex items-start gap-2">
+                      {type === "textarea" ? (
+                        <textarea
+                          name={name}
+                          value={data[name] || ""}
+                          onChange={handleFieldChange}
+                          maxLength={validationConfig[name]?.max}
+                          minLength={validationConfig[name]?.min}
+                          autoComplete="off"
+                          rows={3}
+                          className={`${mergedStyles.input} resize-none flex-1`}
+                          placeholder={placeholder}
+                          required={validationConfig[name]?.required}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          name={name}
+                          value={data[name] || ""}
+                          onChange={handleFieldChange}
+                          maxLength={validationConfig[name]?.max}
+                          minLength={validationConfig[name]?.min}
+                          autoComplete="off"
+                          className={`${mergedStyles.input} flex-1`}
+                          placeholder={placeholder}
+                          required={validationConfig[name]?.required}
+                        />
+                      )}
+
+                      {colorField && (
+                        <input
+                          type="color"
+                          value={colorValue}
+                          onChange={(e) =>
+                            handleFieldChange({
+                              target: { name: colorField.name, value: e.target.value },
+                            })
+                          }
+                          title={`Color de ${label}`}
+                          className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                        />
+                      )}
+                    </div>
                   </div>
-                )
-              )}
+                );
+              })}
 
               {/* 4. IMAGEN PRINCIPAL */}
               <div>

@@ -227,6 +227,7 @@ export default function useBlogData(
             bg_color: mappedHeader.bg_color,
             bg_type: mappedHeader.bg_type,
             bg_colors: mappedHeader.bg_colors,
+            ...mappedHeader
           }));
           //priorizar siemopre el valor raw por la ruta real del servidor 
           const rawImage = headerResponse?.imagen?.path || "";
@@ -273,6 +274,7 @@ export default function useBlogData(
                 texto: consejo.texto || "",
                 palabra: consejo.palabra || "",
                 enlace: consejo.enlace || "",
+                texto_color: consejo.texto_color || ""
               }));
 
           if (bodyResponse.consejos && Array.isArray(bodyResponse.consejos)) {
@@ -300,6 +302,8 @@ export default function useBlogData(
               descripcion: tarjeta.descripcion || "",
               palabra: tarjeta.palabra || "",
               enlace: tarjeta.enlace || "",
+              titulo_color: tarjeta.titulo_color || "", 
+              descripcion_color: tarjeta.descripcion_color || "",
             }));
             setFormInfoBody(tarjetasMapped);
           } else {
@@ -317,6 +321,8 @@ export default function useBlogData(
                   descripcion: tarjeta.descripcion || "",
                   palabra: tarjeta.palabra || "",
                   enlace: tarjeta.enlace || "",
+                  titulo_color: tarjeta.titulo_color || "", 
+                  descripcion_color: tarjeta.descripcion_color || "",
                 }));
                 setFormInfoBody(tarjetasMapped);
               } else {
@@ -349,6 +355,8 @@ export default function useBlogData(
             bg_color: mappedFooter.bg_color,
             bg_type: mappedFooter.bg_type,
             bg_colors: mappedFooter.bg_colors,
+            titulo_color: mappedFooter.titulo_color, 
+            descripcion_color: mappedFooter.descripcion_color,
           });
           setFormImagenFooter({
             public_image1: mappedFooter.public_image1,
@@ -614,6 +622,7 @@ const result = await Api.updateBody(bodyId, bodyData);
           if (formInfoBody && Array.isArray(formInfoBody)) {
             try {
               // Filtrar tarjetas válidas (que tengan al menos un campo con contenido)
+              //pendiente de revision por futuro bug de colores
               const validTarjetas = formInfoBody.filter(
                 (t) => t.titulo || t.descripcion || t.palabra
               );

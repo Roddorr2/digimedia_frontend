@@ -671,11 +671,11 @@ export default function FormBody({
             </p>
             <h2
               className="font-extrabold text-2xl lg:text-3xl leading-tight tracking-tight mb-4"
-              style={{ color: "#FFB800", letterSpacing: "-0.48px" }}
+              style={{ color: data.header.titulo_color || "#FFB800", letterSpacing: "-0.48px" }}
             >
               {data.header.titulo || "Título del Blog"}
             </h2>
-            <p className="text-sm leading-relaxed" style={{ color: "#CCC3D4" }}>
+            <p className="text-sm leading-relaxed" style={{ color: data.header.descripcion_color || "#CCC3D4" }}>
               {renderDescripcion(
                 data.header.descripcion || "Descripción del contenido",
                 data.header.palabra,
@@ -707,10 +707,13 @@ export default function FormBody({
           </div>
           <div className="flex-1 flex flex-col justify-center">
             <p className="text-[#FFB800] font-semibold text-sm mb-2">{data.header.fecha}</p>
-            <h1 className="font-extrabold text-[#FFB800] text-2xl leading-tight tracking-tight mb-3">
+            <h1
+              className="font-extrabold text-2xl leading-tight tracking-tight mb-3"
+              style={{ color: data.header.titulo_color || "#FFB800" }}
+            >
               {data.header.titulo || "Título del Blog"}
             </h1>
-            <p className="text-[#CCC3D4] text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: data.header.descripcion_color || "#CCC3D4" }}>
               {renderDescripcion(
                 data.header.descripcion || "Descripción del contenido",
                 data.header.palabra,
@@ -731,8 +734,11 @@ export default function FormBody({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-          <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight">
-            {data.header.titulo || "Título del Blog"}
+          <h1
+              className="text-3xl md:text-5xl font-bold mb-2 leading-tight"
+              style={{ color: data.header.titulo_color || "#ffffff" }}
+            >
+              {data.header.titulo || "Título del Blog"}
           </h1>
           <div className="w-16 h-1 bg-teal-500 mb-4"></div>
           <div className="flex items-center space-x-2 text-gray-300 text-sm">
@@ -757,7 +763,7 @@ export default function FormBody({
         <div className="mb-16">
           <h3
             className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
-            style={{ color: "#FFB800" }}
+            style={{ color: data.header.titulo_consejos_color || "#FFB800" }}
           >
             {data.header.titulo_consejos || "Consejos Importantes"}
           </h3>
@@ -780,7 +786,7 @@ export default function FormBody({
                 <div className="flex justify-center mb-6">
                   <CheckCircle className="w-14 h-14 text-white" />
                 </div>
-                <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+                <p className="text-lg text-center leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
               </div>
             ))}
           </div>
@@ -793,7 +799,9 @@ export default function FormBody({
       <div className="mb-8">
         <div className="mb-4">
           <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
-          <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
+          <h3 style={{ color: data.header.titulo_consejos_color || "#FFB800" }}
+              className="font-extrabold text-2xl leading-tight tracking-tight"
+            >
             {data.header.titulo_consejos || "Consejos"}
           </h3>
         </div>
@@ -806,7 +814,7 @@ export default function FormBody({
             >
               <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
               <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
-              <p className="text-[#CCC3D4] text-sm leading-relaxed text-center mt-4">{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+              <p className="text-sm leading-relaxed text-center mt-4" style={{ color: consejo.texto_color || "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
             </div>
           ))}
         </div>
@@ -913,11 +921,11 @@ export default function FormBody({
           className="rounded-[30px] p-8 mb-6"
           style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)" }}
         >
-          <h4 className="font-bold text-2xl mb-3" style={{ color: "#FFB800" }}>
+          <h4 className="font-bold text-2xl mb-3" style={{ color: item.titulo_color || "#FFB800" }}>
             {item.titulo || `Información ${index + 1}`}
           </h4>
-          <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
-            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace, false)}
+          <p className="text-lg leading-relaxed" style={{ color: item.descripcion_color || "#CCC3D4" }}>
+            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace)}
           </p>
         </div>
       );
@@ -926,11 +934,11 @@ export default function FormBody({
           className="rounded-[30px] p-8 flex flex-col items-center text-center"
           style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)" }}
         >
-          <h4 className="font-bold text-xl mb-3" style={{ color: "#FFB800" }}>
+          <h4 className="font-bold text-xl mb-3" style={{ color: item.titulo_color || "#FFB800" }}>
             {item.titulo || `Información ${index + 1}`}
           </h4>
-          <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
-            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace, false)}
+          <p className="text-base leading-relaxed" style={{ color: item.descripcion_color || "#CCC3D4" }}>
+            {renderDescripcion(item.descripcion || "Descripción del contenido", item.palabra, item.enlace)}
           </p>
         </div>
       );
@@ -938,7 +946,7 @@ export default function FormBody({
         <div className="mb-16">
           <h3
             className="text-center font-extrabold text-5xl mb-12 tracking-tight"
-            style={{ color: "#FFB800" }}
+            style={{ color: data.header.titulo_tarjeta_color || "#FFB800" }}
           >
             {data.header.titulo_tarjeta || "Información Detallada"}
           </h3>
@@ -965,12 +973,16 @@ export default function FormBody({
             >
               <span
                 className="font-bold text-sm text-center"
-                style={{
-                  background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
+                style={
+                  data.header.titulo_tarjeta_color
+                    ? { color: data.header.titulo_tarjeta_color }
+                    : {
+                        background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }
+                }
               >
                 {data.header.titulo_tarjeta || "Información Importante"}
               </span>
@@ -990,11 +1002,11 @@ export default function FormBody({
                 >
                   <CheckCircle className="w-5 h-5 text-[#100043]" />
                 </div>
-                <h3 className="text-[#FFB800] font-bold text-base mb-2">
+                <h3 className="font-bold text-base mb-2" style={{ color: section.titulo_color || "#FFB800" }}>
                   {section.titulo}
                 </h3>
-                <p className="text-[#CCC3D4] text-xs leading-relaxed">
-                  {renderDescripcion(section.descripcion, section.palabra, section.enlace, false)}
+                <p className="text-xs leading-relaxed" style={{ color: section.descripcion_color || "#CCC3D4" }}>
+                  {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
                 </p>
               </div>
             ))}
@@ -1011,10 +1023,10 @@ export default function FormBody({
             className="bg-gradient-to-r from-teal-50 to-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="p-6">
-              <h4 className="text-lg font-bold text-gray-900 mb-2">
+              <h4 className="text-lg font-bold text-gray-900 mb-2" style={section.titulo_color ? { color: section.titulo_color } : undefined}>
                 {section.titulo}
               </h4>
-              <p className="text-gray-700 leading-relaxed mb-3">
+              <p className="text-gray-700 leading-relaxed mb-3" style={section.descripcion_color ? { color: section.descripcion_color } : undefined}>
                 {renderDescripcion(
                   section.descripcion,
                   section.palabra,
@@ -1314,56 +1326,83 @@ export default function FormBody({
 
             {/* Header form fields - usa formEncabezadoBody */}
             {/* cambios realizados para el limite de caracteres */}
+            {/* se agrego el tema de colores */}
             <div>
               <label className={mergedStyles.label}>
                 <Type className={mergedStyles.icon} />
                 Título
                 <ValidationMessage fieldName="titulo" />
               </label>
-              <input
-                type="text"
-                name="titulo"
-                maxLength={finalValidationConfig["titulo"]?.max}
-                value={data.header.titulo || ""}
-                onChange={handleChange(setFormEncabezadoBody)}
-                className={mergedStyles.input}
-                placeholder="Título principal"
-              />
+              <div className="flex items-start gap-2">
+                <input
+                  type="text"
+                  name="titulo"
+                  maxLength={finalValidationConfig["titulo"]?.max}
+                  value={data.header.titulo || ""}
+                  onChange={handleChange(setFormEncabezadoBody)}
+                  className={`${mergedStyles.input} flex-1`}
+                  placeholder="Título principal"
+                />
+                <input
+                  type="color"
+                  value={data.header.titulo_color || "#FFB800"}
+                  onChange={(e) =>
+                    handleChange(setFormEncabezadoBody)({
+                      target: { name: "titulo_color", value: e.target.value },
+                    })
+                  }
+                  title="Color del título"
+                  className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                />
+              </div>
             </div>
-
+            {/* se agrego el tema de colores */}
             <div>
               <label className={mergedStyles.label}>
                 <AlignLeft className={mergedStyles.icon} />
                 Descripción
                 <ValidationMessage fieldName="descripcion" />
               </label>
-              <textarea
-                name="descripcion"
-                maxLength={finalValidationConfig["descripcion"]?.max}
-                value={data.header.descripcion || ""}
-                onChange={(e) => {
-                  setSelectedDescriptionText("");
-                  handleChange(setFormEncabezadoBody)(e);
-                }}
-                onSelect={(e) => {
-                  const { selectionStart, selectionEnd, value } =
-                    e.currentTarget;
-                  const selectedText = value.slice(
-                    selectionStart,
-                    selectionEnd
-                  );
-
-                  if (!selectedText) {
+              <div className="flex items-start gap-2">
+                <textarea
+                  name="descripcion"
+                  maxLength={finalValidationConfig["descripcion"]?.max}
+                  value={data.header.descripcion || ""}
+                  onChange={(e) => {
                     setSelectedDescriptionText("");
-                    return;
-                  }
+                    handleChange(setFormEncabezadoBody)(e);
+                  }}
+                  onSelect={(e) => {
+                    const { selectionStart, selectionEnd, value } =
+                      e.currentTarget;
+                    const selectedText = value.slice(
+                      selectionStart,
+                      selectionEnd
+                    );
 
-                  setSelectedDescriptionText(selectedText);
-                }}
-                className={mergedStyles.textarea}
-                rows={3}
-                placeholder="Descripción del contenido"
-              />
+                    if (!selectedText) {
+                      setSelectedDescriptionText("");
+                      return;
+                    }
+
+                    setSelectedDescriptionText(selectedText);
+                  }}
+                  className={`${mergedStyles.textarea} flex-1`}
+                  rows={3}
+                  placeholder="Descripción del contenido"
+                />
+                <input
+                  type="color"
+                  value={data.header.descripcion_color || "#CCC3D4"}
+                  onChange={(e) =>
+                    handleChange(setFormEncabezadoBody)({
+                      target: { name: "descripcion_color", value: e.target.value },
+                    })
+                  }
+                  title="Color de la descripción"
+                  className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                />
+              </div>
             </div>
 
             <div>
@@ -1493,15 +1532,33 @@ export default function FormBody({
                     Título de la sección
                     <ValidationMessage fieldName="titulo_consejos" />
                   </label>
-                  <input
-                    type="text"
-                    name="titulo_consejos"
-                    maxLength={finalValidationConfig["titulo_consejos"]?.max}
-                    value={data.header.titulo_consejos || ""}
-                    onChange={handleChange(setFormEncabezadoBody)}
-                    className={mergedStyles.input}
-                    placeholder="Ej: Consejos Útiles, Tips Importantes"
-                  />
+
+                  <div className="flex items-start gap-2">
+                    <input
+                      type="text"
+                      name="titulo_consejos"
+                      maxLength={finalValidationConfig["titulo_consejos"]?.max}
+                      value={data.header.titulo_consejos || ""}
+                      onChange={handleChange(setFormEncabezadoBody)}
+                      className={`${mergedStyles.input} flex-1`}
+                      placeholder="Ej: Consejos Útiles, Tips Importantes"
+                    />
+
+                    <input
+                      type="color"
+                      value={data.header.titulo_consejos_color || "#FFB800"}
+                      onChange={(e) =>
+                        handleChange(setFormEncabezadoBody)({
+                          target: {
+                            name: "titulo_consejos_color",
+                            value: e.target.value,
+                          },
+                        })
+                      }
+                      title="Color del título de la sección"
+                      className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                    />
+                  </div>
                 </div>
 
                 {/* Swiper dinámico: un slide por consejo, cada uno con su propio enlace */}
@@ -1539,36 +1596,51 @@ export default function FormBody({
                                 Eliminar
                               </button>
                             </div>
-                            <textarea
-                              name="texto"
-                              maxLength={finalValidationConfig["consejos.texto"]?.max}
-                              value={consejoItem.texto || ""}
-                              onChange={(e) => {
-                                setSelectedConsejoTexts((prev) => ({
-                                  ...prev,
-                                  [index]: "",
-                                }));
-                                handleConsejoChange(e, index, "texto");
-                              }}
-                              onSelect={(e) => {
-                                const { selectionStart, selectionEnd, value } =
-                                  e.currentTarget;
-                                const selectedText = value.slice(
-                                  selectionStart,
-                                  selectionEnd
-                                );
+                            <div className="flex items-start gap-2">
+                              <textarea
+                                name="texto"
+                                maxLength={finalValidationConfig["consejos.texto"]?.max}
+                                value={consejoItem.texto || ""}
+                                onChange={(e) => {
+                                  setSelectedConsejoTexts((prev) => ({
+                                    ...prev,
+                                    [index]: "",
+                                  }));
+                                  handleConsejoChange(e, index, "texto");
+                                }}
+                                onSelect={(e) => {
+                                  const { selectionStart, selectionEnd, value } =
+                                    e.currentTarget;
+                                  const selectedText = value.slice(
+                                    selectionStart,
+                                    selectionEnd
+                                  );
 
-                                if (!selectedText) return;
+                                  if (!selectedText) return;
 
-                                setSelectedConsejoTexts((prev) => ({
-                                  ...prev,
-                                  [index]: selectedText,
-                                }));
-                              }}
-                              className={mergedStyles.textarea}
-                              rows={3}
-                              placeholder={`Consejo ${index + 1}`}
-                            />
+                                  setSelectedConsejoTexts((prev) => ({
+                                    ...prev,
+                                    [index]: selectedText,
+                                  }));
+                                }}
+                                className={`${mergedStyles.textarea} flex-1`}
+                                rows={3}
+                                placeholder={`Consejo ${index + 1}`}
+                              />
+                              <input
+                                type="color"
+                                value={consejoItem.texto_color || "#CCC3D4"}
+                                onChange={(e) =>
+                                  handleConsejoChange(
+                                    { target: { name: "texto_color", value: e.target.value } },
+                                    index,
+                                    "texto_color"
+                                  )
+                                }
+                                title="Color del texto del consejo"
+                                className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                              />
+                            </div>
                             <ValidationMessage
                               fieldName="texto"
                               index={index}
@@ -1837,21 +1909,34 @@ export default function FormBody({
 
               {/* Título de la sección de información */}
               <div className="mb-4">
-                <label className={mergedStyles.label}>
-                  <Type className="w-4 h-4 mr-2 text-purple-400" />
-                  Título de la sección
-                  <ValidationMessage fieldName="titulo_tarjeta" />
-                </label>
+              <label className={mergedStyles.label}>
+                <Type className="w-4 h-4 mr-2 text-purple-400" />
+                Título de la sección
+                <ValidationMessage fieldName="titulo_tarjeta" />
+              </label>
+              <div className="flex items-start gap-2">
                 <input
                   type="text"
                   name="titulo_tarjeta"
                   maxLength={finalValidationConfig["titulo_tarjeta"]?.max}
                   value={data.header.titulo_tarjeta || ""}
                   onChange={handleChange(setFormEncabezadoBody)}
-                  className={mergedStyles.input}
+                  className={`${mergedStyles.input} flex-1`}
                   placeholder="Ej: Información Detallada, Conoce Más"
                 />
+                <input
+                  type="color"
+                  value={data.header.titulo_tarjeta_color || "#FFB800"}
+                  onChange={(e) =>
+                    handleChange(setFormEncabezadoBody)({
+                      target: { name: "titulo_tarjeta_color", value: e.target.value },
+                    })
+                  }
+                  title="Color del título de la sección"
+                  className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                />
               </div>
+            </div>
 
               {/* Swiper para tarjetas de información */}
               <div className="relative">
@@ -1887,18 +1972,33 @@ export default function FormBody({
                                 <Type className="w-4 h-4 mr-2 text-purple-400" />
                                 Título
                               </label>
-                              <input
-                                type="text"
-                                name="titulo"
-                                maxLength={finalValidationConfig["titulo"]?.max}
-                                value={infoItem.titulo || ""}
-                                onChange={(e) =>
-                                  handleChangeMap(e, index, "titulo")
-                                }
-                                className={mergedStyles.input}
-                                placeholder={`Título de la tarjeta ${index + 1
-                                  }`}
-                              />
+                              <div className="flex items-start gap-2">
+                                <input
+                                  type="text"
+                                  name="titulo"
+                                  maxLength={finalValidationConfig["titulo"]?.max}
+                                  value={infoItem.titulo || ""}
+                                  onChange={(e) =>
+                                    handleChangeMap(e, index, "titulo")
+                                  }
+                                  className={`${mergedStyles.input} flex-1`}
+                                  placeholder={`Título de la tarjeta ${index + 1
+                                    }`}
+                                />
+                                <input
+                                  type="color"
+                                  value={infoItem.titulo_color || "#FFB800"}
+                                  onChange={(e) =>
+                                    handleChangeMap(
+                                      { target: { name: "titulo_color", value: e.target.value } },
+                                      index,
+                                      "titulo_color"
+                                    )
+                                  }
+                                  title="Color del título de la tarjeta"
+                                  className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                                />
+                              </div>
                               <ValidationMessage
                                 fieldName="titulo"
                                 index={index}
@@ -1911,37 +2011,52 @@ export default function FormBody({
                                 <AlignLeft className="w-4 h-4 mr-2 text-purple-400" />
                                 Descripción
                               </label>
-                              <textarea
-                                name="descripcion"
-                                maxLength={finalValidationConfig["descripcion"]?.max}
-                                value={infoItem.descripcion || ""}
-                                onChange={(e) => {
-                                  setSelectedDescriptionTexts((prev) => ({
-                                    ...prev,
-                                    [index]: "",
-                                  }));
-                                  handleChangeMap(e, index, "descripcion");
-                                }}
-                                onSelect={(e) => {
-                                  const { selectionStart, selectionEnd, value } =
-                                    e.currentTarget;
-                                  const selectedText = value.slice(
-                                    selectionStart,
-                                    selectionEnd
-                                  );
+                              <div className="flex items-start gap-2">
+                                <textarea
+                                  name="descripcion"
+                                  maxLength={finalValidationConfig["descripcion"]?.max}
+                                  value={infoItem.descripcion || ""}
+                                  onChange={(e) => {
+                                    setSelectedDescriptionTexts((prev) => ({
+                                      ...prev,
+                                      [index]: "",
+                                    }));
+                                    handleChangeMap(e, index, "descripcion");
+                                  }}
+                                  onSelect={(e) => {
+                                    const { selectionStart, selectionEnd, value } =
+                                      e.currentTarget;
+                                    const selectedText = value.slice(
+                                      selectionStart,
+                                      selectionEnd
+                                    );
 
-                                  if (!selectedText) return;
+                                    if (!selectedText) return;
 
-                                  setSelectedDescriptionTexts((prev) => ({
-                                    ...prev,
-                                    [index]: selectedText,
-                                  }));
-                                }}
-                                className={mergedStyles.textarea}
-                                rows={3}
-                                placeholder={`Descripción detallada de la tarjeta ${index + 1
-                                  }`}
-                              />
+                                    setSelectedDescriptionTexts((prev) => ({
+                                      ...prev,
+                                      [index]: selectedText,
+                                    }));
+                                  }}
+                                  className={`${mergedStyles.textarea} flex-1`}
+                                  rows={3}
+                                  placeholder={`Descripción detallada de la tarjeta ${index + 1
+                                    }`}
+                                />
+                                <input
+                                  type="color"
+                                  value={infoItem.descripcion_color || "#CCC3D4"}
+                                  onChange={(e) =>
+                                    handleChangeMap(
+                                      { target: { name: "descripcion_color", value: e.target.value } },
+                                      index,
+                                      "descripcion_color"
+                                    )
+                                  }
+                                  title="Color de la descripción de la tarjeta"
+                                  className="w-11 h-11 shrink-0 rounded-lg border-2 border-gray-600 cursor-pointer bg-gray-900"
+                                />
+                              </div>
                               <ValidationMessage
                                 fieldName="descripcion"
                                 index={index}
@@ -2143,12 +2258,12 @@ export default function FormBody({
                             <p className="text-[#FFB800] font-semibold text-xs mb-2">{data.header.fecha}</p>
                           )}
                           <h2
-                            className="font-extrabold text-[#FFB800] text-base lg:text-xl leading-tight tracking-[-0.48px] mb-2 uppercase"
-                            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+                            className="font-extrabold text-base lg:text-xl leading-tight tracking-[-0.48px] mb-2 uppercase"
+                            style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: data.header.titulo_color || "#FFB800" }}
                           >
                             {data.header.titulo || "Título del Blog"}
                           </h2>
-                          <p className="text-[#CCC3D4] text-xs leading-relaxed">
+                          <p className="text-xs leading-relaxed" style={{ color: data.header.descripcion_color || "#CCC3D4" }}>
                             {renderDescripcion(
                               data.header.descripcion || "Descripción del contenido del blog",
                               data.header.palabra,
@@ -2199,7 +2314,7 @@ export default function FormBody({
                           <div className="mx-3 my-3 rounded-[16px] px-4 py-4" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
                             <h3
                               className="text-center font-bold text-xs leading-tight mb-3"
-                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: data.header.titulo_consejos_color || "#FFB800" }}
                             >
                               {data.header.titulo_consejos || "Consejos Importantes"}
                             </h3>
@@ -2218,7 +2333,7 @@ export default function FormBody({
                                       className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
                                       style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
                                     >
-                                      <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>{consejo.texto}</p>
+                                      <p className="text-xs leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4" }}>{consejo.texto}</p>
                                     </div>
                                   </div>
                                 ))}
@@ -2255,11 +2370,11 @@ export default function FormBody({
                               <div className="px-4 py-3 border border-white/5 rounded-b-[14px]" style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}>
                                 <h3
                                   className="font-extrabold text-xs leading-tight tracking-[-0.48px] mb-1"
-                                  style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                                  style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: card.titulo_color || "#FFB800" }}
                                 >
                                   {card.titulo || `Información ${index + 1}`}
                                 </h3>
-                                <p className="text-xs leading-relaxed" style={{ color: "#CCC3D4" }}>
+                                <p className="text-xs leading-relaxed" style={{ color: card.descripcion_color || "#CCC3D4" }}>
                                   {renderDescripcion(
                                     card.descripcion || "Descripción del contenido de este punto informativo.",
                                     card.palabra,

@@ -78,11 +78,6 @@ export default function Body3({ id_blog_body, fecha }) {
     );
   }
 
-  const titleStyle = {
-    color: "#FFB800",
-    
-  };
-
   const cardBg = "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)";
 
 
@@ -95,10 +90,10 @@ export default function Body3({ id_blog_body, fecha }) {
         {fecha && (
           <p className="text-sm font-semibold mb-3" style={{ color: "#FFB800" }}>{fecha}</p>
         )}
-        <h2 className="font-extrabold text-3xl lg:text-4xl leading-tight tracking-tight mb-5" style={titleStyle}>
+        <h2 className="font-extrabold text-3xl lg:text-4xl leading-tight tracking-tight mb-5" style={{color: data.titulo_color || "#FFB800"} }>
           {data.titulo}
         </h2>
-        <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(data.descripcion, data.palabra, data.enlace)}</p>
+        <p className="text-base leading-relaxed" style={{ color: data.descripcion_color || "#CCC3D4"}}>{renderDescripcion(data.descripcion, data.palabra, data.enlace)}</p>
       </div>
       <div className="w-full lg:w-[45%] flex-shrink-0">
         <Image
@@ -140,7 +135,7 @@ const renderGaleria = () => {
     >
       <h3
         className="text-center font-extrabold text-4xl lg:text-5xl mb-6 lg:mb-8 tracking-tight"
-        style={titleStyle}
+        style={{ color: "#FFB800" }}
       >
         Galería
       </h3>
@@ -224,13 +219,13 @@ const renderGaleria = () => {
         <div className="flex justify-center mb-6">
           <CheckCircle className="w-14 h-14 text-white" />
         </div>
-        <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+        <p className="text-lg text-center leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4"  }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
       </div>
     );
 
     return (
       <div className="mb-16">
-        <h3 className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight" style={titleStyle}>
+        <h3 className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight" style={{ color: data.titulo_consejos_color || "#FFB800" }}>
           {data.titulo_consejos || "Consejos Importantes"}
         </h3>
 
@@ -281,7 +276,7 @@ const renderGaleria = () => {
               <div className="flex justify-center mb-6">
                 <CheckCircle className="w-14 h-14 text-white" />
               </div>
-              <p className="text-lg text-center leading-relaxed" style={{ color: "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+              <p className="text-lg text-center leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4"  }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
             </div>
           ))}
         </div>
@@ -305,13 +300,13 @@ const renderInformacion = () => {
     >
       <h3
         className="font-bold text-lg sm:text-2xl mb-2 sm:mb-3"
-        style={titleStyle}
+        style={{ color: section.titulo_color || "#FFB800" }}
       >
         {section.titulo}
       </h3>
       <p
         className="text-sm sm:text-lg leading-relaxed"
-        style={{ color: "#CCC3D4" }}
+        style={{ color: section.descripcion_color || "#CCC3D4" }}
       >
         {renderDescripcion(section.descripcion || "", section.palabra, section.enlace, false)}
       </p>
@@ -329,13 +324,13 @@ const renderInformacion = () => {
     >
       <h3
         className="font-bold text-base sm:text-xl mb-2 sm:mb-3"
-        style={titleStyle}
+        style={{ color: section.titulo_color || "#FFB800" }}
       >
         {section.titulo}
       </h3>
       <p
         className="text-sm sm:text-base leading-relaxed"
-        style={{ color: "#CCC3D4" }}
+        style={{ color: section.descripcion_color || "#CCC3D4" }}
       >
         {renderDescripcion(section.descripcion || "", section.palabra, section.enlace, false)}
       </p>
@@ -369,7 +364,7 @@ const renderInformacion = () => {
     <div className="mb-12 sm:mb-16 w-full sm:w-[90%] lg:w-[75%] mx-auto px-4 sm:px-0">
       <h3
         className="text-center font-extrabold text-2xl sm:text-4xl lg:text-5xl mb-8 sm:mb-12 tracking-tight"
-        style={titleStyle}
+        style={{ color: data.titulo_tarjeta_color || "#FFB800" }}
       >
         {data.titulo_tarjeta || "Información Detallada"}
       </h3>
