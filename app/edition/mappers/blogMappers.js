@@ -86,6 +86,11 @@ function mapHeaderFromServer(data) {
     bg_color: data.bg_color || HEADER_DEFAULTS.bg_color,
     bg_type: data.bg_type || "solid",
     bg_colors: data.bg_colors || "",
+
+    // colores para titulos texto y frase 
+    titulo_color: data.titulo_color || "",
+    texto_frase_color: data.texto_frase_color || "",
+    texto_descripcion_color: data.texto_descripcion_color || "",
   };
 }
 
@@ -119,6 +124,11 @@ function mapHeaderToServer(formData, { hasFile = false } = {}) {
     bg_color: formData.bg_color || HEADER_DEFAULTS.bg_color,
     bg_type: formData.bg_type || "solid",
     bg_colors: formData.bg_colors || "",
+
+    //colores para titulo frase y descripcion
+    titulo_color: formData.titulo_color || "",
+    texto_frase_color: formData.texto_frase_color || "",
+    texto_descripcion_color: formData.texto_descripcion_color || "",
   };
 }
 
@@ -177,6 +187,12 @@ function mapBodyFromServer(data, plantillaId = 1) {
      bg_color: data.bg_color || BODY_DEFAULTS.bg_color,
      bg_type: data.bg_type || "solid",
      bg_colors: data.bg_colors || "",
+
+     // colores para titulo, descripcion, titulo targeta y consejos
+     titulo_color: data.titulo_color || "",
+      descripcion_color: data.descripcion_color || "",
+      titulo_tarjeta_color: data.titulo_tarjeta_color || "",
+      titulo_consejos_color: data.titulo_consejos_color || "",
    };
 
   // Consejos: un array con un enlace (palabra/enlace) independiente por cada uno
@@ -188,6 +204,7 @@ function mapBodyFromServer(data, plantillaId = 1) {
           texto: consejo.texto || CONSEJO_DEFAULT.texto,
           palabra: consejo.palabra || CONSEJO_DEFAULT.palabra,
           enlace: consejo.enlace || CONSEJO_DEFAULT.enlace,
+          texto_color: consejo.texto_color || "", 
         }))
     : [];
 
@@ -198,6 +215,8 @@ function mapBodyFromServer(data, plantillaId = 1) {
         descripcion: tarjeta.descripcion || TARJETA_INFO_DEFAULT.descripcion,
         palabra: tarjeta.palabra || TARJETA_INFO_DEFAULT.palabra,
         enlace: tarjeta.enlace || TARJETA_INFO_DEFAULT.enlace,
+        titulo_color: tarjeta.titulo_color || "",         
+        descripcion_color: tarjeta.descripcion_color || "",
       }))
     : Array(MAX_INFO_TARJETAS)
         .fill(null)
@@ -219,6 +238,10 @@ function mapBodyToServer(
     titulo_tarjeta: formData.titulo_tarjeta || BODY_DEFAULTS.titulo_tarjeta, // Título de sección de tarjetas
     titulo_consejos: formData.titulo_consejos || BODY_DEFAULTS.titulo_consejos, // Título de sección de consejos
     fecha: formData.fecha || getCurrentDate(),
+    titulo_color: formData.titulo_color || "",
+    descripcion_color: formData.descripcion_color || "",
+    titulo_tarjeta_color: formData.titulo_tarjeta_color || "",
+    titulo_consejos_color: formData.titulo_consejos_color || "",
 
     // Imágenes normalizadas
     public_image1: hasFiles.image1
@@ -321,6 +344,10 @@ function mapFooterFromServer(data) {
      bg_color: data.bg_color || FOOTER_DEFAULTS.bg_color,
      bg_type: data.bg_type || "solid",
      bg_colors: data.bg_colors || "",
+
+     //colores en titulo y descripcio
+     titulo_color: data.titulo_color || "",      
+      descripcion_color: data.descripcion_color || "",
    };
 }
 
@@ -375,6 +402,10 @@ function mapFooterToServer(
      bg_color: formData.bg_color || FOOTER_DEFAULTS.bg_color,
      bg_type: formData.bg_type || "solid",
      bg_colors: formData.bg_colors || "",
+
+     //colores de titulo y descripcion
+     titulo_color: formData.titulo_color || "",       
+      descripcion_color: formData.descripcion_color || "",
    };
 }
 
@@ -394,6 +425,7 @@ export function mapConsejos(formData) {
       texto: consejo.texto,
       palabra: consejo.palabra || CONSEJO_DEFAULT.palabra,
       enlace: consejo.enlace || CONSEJO_DEFAULT.enlace,
+      texto_color: consejo.texto_color || "",
       orden: index,
     }));
 }
@@ -411,6 +443,8 @@ export function mapTarjetas(formData) {
       descripcion: tarjeta.descripcion || TARJETA_INFO_DEFAULT.descripcion,
       palabra: tarjeta.palabra || TARJETA_INFO_DEFAULT.palabra,
       enlace: tarjeta.enlace || TARJETA_INFO_DEFAULT.enlace,
+      titulo_color: tarjeta.titulo_color || "",        
+      descripcion_color: tarjeta.descripcion_color || "", 
     }));
 }
 

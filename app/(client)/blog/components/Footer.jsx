@@ -191,12 +191,14 @@ export default function Footer({ id_blog_footer, bg_color: propBgColor, bg_type:
           {/* Fila superior: título izquierda + descripción derecha */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 p-8 lg:p-12 items-start">
             <div className="w-full lg:w-[45%] flex-shrink-0">
-              <h3 className="font-extrabold text-[#FFB800] text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]">
+              <h3 className="font-extrabold  text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]" 
+              style={{ color: data.titulo_color || "#FFB800" }}>
                 {data.titulo}
               </h3>
             </div>
             <div className="flex-1">
-              <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
+              <p className=" text-base lg:text-[20px] leading-[24px]"
+              style={{ color: data.descripcion_color || "#CCC3D4" }}>
                 {data.descripcion}
               </p>
             </div>

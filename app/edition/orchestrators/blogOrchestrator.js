@@ -295,6 +295,7 @@ class BlogOrchestrator {
                 palabra: consejo.palabra,
                 enlace: consejo.enlace,
                 orden: consejo.orden,
+                texto_color: consejo.texto_color || "",
                 id_blog_body: bodyId,
               };
 
@@ -344,6 +345,8 @@ class BlogOrchestrator {
                 descripcion: tarjeta.descripcion || "",
                 palabra: tarjeta.palabra || "",
                 enlace: tarjeta.enlace || "",
+                titulo_color: tarjeta.titulo_color || "",
+                descripcion_color: tarjeta.descripcion_color || "",
                 id_blog_body: bodyId,
               };
 

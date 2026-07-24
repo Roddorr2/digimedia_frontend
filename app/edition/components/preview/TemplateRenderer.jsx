@@ -152,15 +152,18 @@ export default function TemplateRenderer({
 
      
       <div className="absolute bottom-0 left-0 right-0 p-12">
-        <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-xl leading-tight tracking-tight">
+        <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-xl leading-tight tracking-tight"
+        style={{ color: headerData.titulo_color || "#FFFFFF" }}>
           {headerData.titulo || "Título Principal Elegante"}
         </h1>
 
-        <p className="text-xl md:text-2xl text-white/80 max-w-3xl mt-6 leading-relaxed">
+        <p className="text-xl md:text-2xl text-white/80 max-w-3xl mt-6 leading-relaxed"
+          style={{ color: headerData.texto_frase_color || "rgba(255,255,255,0.8)" }}>
           {headerData.texto_frase || "Una frase impactante y memorable"}
         </p>
 
-        <p className="text-lg text-gray-200 max-w-4xl mt-4 leading-relaxed">
+        <p className="text-lg text-gray-200 max-w-4xl mt-4 leading-relaxed"
+          style={{ color: headerData.texto_descripcion_color || "#E5E7EB" }}>
           {renderDescripcion(
             headerData.texto_descripcion ||
               "Descripción envolvente del contenido del blog con un tono profesional",
@@ -204,10 +207,12 @@ export default function TemplateRenderer({
             <p className="text-[#FFB800] font-semibold text-sm mb-2">
               {bodyHeader.fecha || "Fecha de publicación"}
             </p>
-            <h2 className="font-extrabold text-[#FFB800] text-2xl leading-tight tracking-tight mb-3">
+            <h2 className="font-extrabold text-2xl leading-tight tracking-tight mb-3"
+              style={{ color: bodyHeader.titulo_color || "#FFB800" }}>
               {bodyHeader.titulo || (showPlaceholders ? "Título del Artículo" : "")}
             </h2>
-            <p className="text-[#CCC3D4] text-sm leading-relaxed">
+            <p className=" text-sm leading-relaxed"
+              style={{ color: bodyHeader.descripcion_color || "#CCC3D4" }}>
               {renderDescripcion(
                 bodyHeader.descripcion || (showPlaceholders ? "Descripción del contenido principal del blog" : ""),
                 bodyHeader.palabra,
@@ -266,7 +271,8 @@ export default function TemplateRenderer({
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           <div className="w-full lg:w-[40%] flex-shrink-0">
             <p className="text-[#FFB800] font-semibold text-base mb-1">Consejos importantes</p>
-            <h3 className="text-[#FFB800] font-extrabold text-2xl leading-tight tracking-tight">
+            <h3 className="font-extrabold text-2xl leading-tight tracking-tight"
+              style={{ color: bodyHeader.titulo_consejos_color || "#FFB800" }}>
               {bodyHeader.titulo_consejos || (showPlaceholders ? "Título de la sección" : "")}
             </h3>
           </div>
@@ -279,7 +285,8 @@ export default function TemplateRenderer({
               >
                 <div className="absolute top-0 left-0 right-0 h-[4px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #5F00DF 50%, rgba(65,12,137,0) 100%)" }} />
                 <p className="text-white font-extrabold text-5xl leading-none mt-5 text-center">{index + 1}</p>
-                <p className="text-[#CCC3D4] text-xs leading-[18px] text-center mt-3">{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+                <p className=" text-xs leading-[18px] text-center mt-3"
+                style={{ color: consejo.texto_color || "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
               </div>
             ))}
           </div>
@@ -414,12 +421,11 @@ export default function TemplateRenderer({
               >
                 <span
                   className="font-bold text-base text-center"
-                  style={{
-                    background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
+                  style={
+                    bodyHeader.titulo_tarjeta_color
+                      ? { color: bodyHeader.titulo_tarjeta_color }
+                      : { background: "linear-gradient(...)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }
+                  }
                 >
                   {bodyHeader.titulo_tarjeta || "Información detallada de nuestros servicios"}
                 </span>
@@ -439,10 +445,12 @@ export default function TemplateRenderer({
                   >
                     <ImageIcon className="w-5 h-5 text-[#100043]" />
                   </div>
-                  <h4 className="text-[#FFB800] font-bold text-base mb-2">
+                  <h4 className="font-bold text-base mb-2"
+                    style={{ color: item.titulo_color || "#FFB800" }}>
                     {item.titulo || `Información ${index + 1}`}
                   </h4>
-                  <p className="text-[#CCC3D4] text-sm leading-relaxed">
+                  <p className=" text-sm leading-relaxed"
+                    style={{ color: item.descripcion_color || "#CCC3D4" }}>
                     {renderDescripcion(
                       item.descripcion || "Descripción detallada del contenido",
                       item.palabra,
@@ -470,12 +478,14 @@ export default function TemplateRenderer({
         {/* Título izquierda + descripción derecha */}
         <div className="flex flex-col lg:flex-row gap-6 p-8 items-start">
           <div className="w-full lg:w-[45%] flex-shrink-0">
-            <h3 className="font-extrabold text-[#FFB800] text-2xl leading-tight tracking-tight">
+            <h3 className="font-extrabold  text-2xl leading-tight tracking-tight"
+              style={{ color: footer.titulo_color || "#FFB800" }}>
               {footer.titulo || "Contáctanos para más información"}
             </h3>
           </div>
           <div className="flex-1">
-            <p className="text-[#CCC3D4] text-sm leading-relaxed">
+            <p className=" text-sm leading-relaxed"
+              style={{ color: footer.descripcion_color || "#CCC3D4" }}>
               {footer.descripcion || "Descripción del pie de página"}
             </p>
           </div>
@@ -555,11 +565,12 @@ export default function TemplateRenderer({
             )}
             <h2
               className="font-extrabold text-[#FFB800] text-2xl lg:text-[36px] leading-tight lg:leading-[44px] tracking-[-0.48px] mb-4 uppercase"
-              style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+              style={{ color: bodyHeader.titulo_color || "#FFB800", fontFamily: "'Hanken Grotesk', sans-serif" }}
             >
               {bodyHeader.titulo || (showPlaceholders ? "TÍTULO DEL ARTÍCULO DEL BLOG" : "")}
             </h2>
-            <p className="text-[#CCC3D4] text-sm lg:text-[18px] leading-[26px]">
+            <p className=" text-sm lg:text-[18px] leading-[26px]"
+            style={{color: bodyHeader.descripcion_color || "#CCC3D4"}}>
               {bodyHeader.descripcion || (showPlaceholders ? "Descripción del contenido principal del blog que explica de qué trata este artículo y qué puede esperar el lector." : "")}
             </p>
           </div>
@@ -601,10 +612,10 @@ export default function TemplateRenderer({
               <div key={`p2-card-${index}`} className="overflow-hidden">
                 <div className="w-full h-[12px] rounded-t-[18px]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }} />
                 <div className="px-6 lg:px-[40px] py-5 border border-white/5 rounded-b-[18px]" style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}>
-                  <h3 className="font-extrabold text-base lg:text-[22px] leading-[1.4] tracking-[-0.48px] mb-2" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}>
+                  <h3 className="font-extrabold text-base lg:text-[22px] leading-[1.4] tracking-[-0.48px] mb-2" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: card.titulo_color || "#FFB800" }}>
                     {card.titulo || `Información ${index + 1}`}
                   </h3>
-                  <p className="text-sm lg:text-[17px] leading-[26px]" style={{ color: "#CCC3D4" }}>
+                  <p className="text-sm lg:text-[17px] leading-[26px]" style={{ color: card.descripcion_color || "#CCC3D4" }}>
                     {renderDescripcion(
                       card.descripcion || "Descripción detallada del contenido de este punto informativo.",
                       card.palabra,
@@ -632,7 +643,7 @@ export default function TemplateRenderer({
             <div className="rounded-[30px] overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(16,0,67,0.3) 62.02%)" }}>
               <div className="h-[8px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
               <div className="mx-4 my-5 rounded-[22px] px-6 py-7" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
-                <h3 className="text-center font-bold text-base lg:text-[22px] leading-[32px] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}>
+                <h3 className="text-center font-bold text-base lg:text-[22px] leading-[32px] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: bodyHeader.titulo_consejos_color || "#FFB800" }}>
                   {bodyHeader.titulo_consejos || (showPlaceholders ? "Consejos Importantes Para Elegir Correctamente" : "")}
                 </h3>
                 <div className="flex flex-col gap-3">
@@ -642,7 +653,7 @@ export default function TemplateRenderer({
                         <CheckCircle className="w-[22px] h-[22px] text-[#100043]" strokeWidth={2.5} />
                       </div>
                       <div className="flex-1 flex items-center px-5 min-h-[52px] rounded-[18px]" style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}>
-                        <p className="text-sm lg:text-[15px] leading-[22px]" style={{ color: "#CCC3D4" }}>
+                        <p className="text-sm lg:text-[15px] leading-[22px]" style={{ color: consejo.texto_color || "#CCC3D4" }}>
                           {consejo.texto}
                         </p>
                       </div>
@@ -742,7 +753,7 @@ export default function TemplateRenderer({
           <h1
             className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight mb-4"
             style={{
-              color: "#FFFFFF",
+              color: headerData.titulo_color || "#FFFFFF",
               textShadow:
                 "0 2px 20px rgba(0,0,0,0.9), 0 4px 40px rgba(0,0,0,0.7), 0 0 60px rgba(0,0,0,0.5)",
             }}
@@ -752,7 +763,7 @@ export default function TemplateRenderer({
           <p
             className="text-xl md:text-2xl font-semibold max-w-3xl mb-3"
             style={{
-              color: "#FFFFFF",
+              color: headerData.texto_frase_color || "#FFFFFF",
               textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.6)",
             }}
           >
@@ -762,7 +773,7 @@ export default function TemplateRenderer({
           <p
             className="text-lg max-w-4xl leading-relaxed"
             style={{
-              color: "#CCC3D4",
+              color: headerData.texto_descripcion_color || "#CCC3D4",
               textShadow: "0 2px 10px rgba(0,0,0,0.9)",
             }}
           >
@@ -794,11 +805,11 @@ export default function TemplateRenderer({
           </p>
           <h2
             className="font-extrabold text-4xl lg:text-5xl leading-tight tracking-tight mb-6"
-            style={{ color: "#FFB800", letterSpacing: "-0.48px" }}
+            style={{ color: bodyHeader.titulo_color || "#FFB800", letterSpacing: "-0.48px" }}
           >
             {bodyHeader.titulo || (showPlaceholders ? "Título del Artículo" : "")}
           </h2>
-          <p className="text-xl leading-relaxed" style={{ color: "#CCC3D4" }}>
+          <p className="text-xl leading-relaxed" style={{ color: bodyHeader.descripcion_color || "#CCC3D4" }}>
             {bodyHeader.descripcion ||
               (showPlaceholders
                 ? "Descripción del contenido principal del blog"
@@ -945,11 +956,11 @@ export default function TemplateRenderer({
       >
         <h4
           className="font-bold text-2xl mb-3"
-          style={{ color: "#FFB800" }}
+          style={{  color: item.titulo_color || "#FFB800" }}
         >
           {item.titulo || `Información ${index + 1}`}
         </h4>
-        <p className="text-lg leading-relaxed" style={{ color: "#CCC3D4" }}>
+        <p className="text-lg leading-relaxed" style={{ color: item.descripcion_color || "#CCC3D4" }}>
           {renderDescripcion(
             item.descripcion || "Descripción del contenido",
             item.palabra,
@@ -966,11 +977,11 @@ export default function TemplateRenderer({
       >
         <h4
           className="font-bold text-xl mb-3"
-          style={{ color: "#FFB800" }}
+          style={{ color: item.titulo_color || "#FFB800" }}
         >
           {item.titulo || `Información ${index + 1}`}
         </h4>
-        <p className="text-base leading-relaxed" style={{ color: "#CCC3D4" }}>
+        <p className="text-base leading-relaxed" style={{ color: item.descripcion_color || "#CCC3D4" }}>
           {renderDescripcion(
             item.descripcion || "Descripción del contenido",
             item.palabra,
@@ -984,7 +995,7 @@ export default function TemplateRenderer({
       <div className="mb-16">
         <h2
           className="text-center font-extrabold text-5xl mb-12 tracking-tight"
-          style={{ color: "#FFB800", letterSpacing: "-0.48px" }}
+          style={{ color: bodyHeader.titulo_tarjeta_color || "#FFB800", letterSpacing: "-0.48px" }}
         >
           {bodyHeader.titulo_tarjeta || "Información Detallada"}
         </h2>

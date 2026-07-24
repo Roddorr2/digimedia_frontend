@@ -128,10 +128,13 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
         </div>
         <div className="flex-1 min-w-0 flex flex-col justify-center">
           <p className="text-[#FFB800] font-semibold text-sm lg:text-base mb-3">{fecha}</p>
-          <h2 className="font-extrabold text-[#FFB800] text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px] mb-4 lg:mb-6">
+          <h2 className="font-extrabold  text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px] mb-4 lg:mb-6" 
+          style={{color: data.titulo_color || "#FFB800"}}>
             {data.titulo}
           </h2>
-          <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
+          <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]"
+          style={{color: data.descripcion_color || "#CCC3D4" }}
+          >
             {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
@@ -160,7 +163,8 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
             <p className="text-white font-extrabold text-[60px] lg:text-[80px] leading-none mt-8 text-center tracking-[-0.48px]">
               {index + 1}
             </p>
-            <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px] text-center mt-6 px-4 pb-6">
+            <p className="text-base lg:text-[20px] leading-[24px] text-center mt-6 px-4 pb-6" 
+            style={{ color: consejo.texto_color || "#CCC3D4" }}>
               {renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}
             </p>
           </div>
@@ -170,10 +174,11 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
           <div className="px-6 lg:px-[100px] py-10">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
               <div className="w-full lg:w-[388px] flex-shrink-0">
-                <p className="text-[#FFB800] font-semibold text-lg lg:text-[24px] leading-[40px] mb-2">
+                <p className="text-[#FFB800] font-semibold text-lg lg:text-[24px] leading-[40px] mb-2" >
                   Consejos importantes
                 </p>
-                <h3 className="text-[#FFB800] font-extrabold text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]">
+                <h3 className=" font-extrabold text-3xl lg:text-[50px] leading-tight lg:leading-[56px] tracking-[-0.48px]" 
+                style={{color:data.titulo_consejos_color || "#FFB800"}}>
                   {data.titulo_consejos || "Consejos"}
                 </h3>
               </div>
@@ -346,16 +351,18 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
           >
             <span
               className="font-bold text-base lg:text-[24px] text-center leading-tight max-w-[90%]"
-              style={{
-                background:
-                  "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+              style={
+                data.titulo_tarjeta_color
+                  ? { color: data.titulo_tarjeta_color }
+                  : {
+                      background: "linear-gradient(180deg, #100043 0%, #08012E 50%, #130049 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }
+              }
             >
-              {data.titulo_tarjeta ||
-                "Información Detallada Sobre Nuestros Servicios"}
+              {data.titulo_tarjeta || "Información Detallada Sobre Nuestros Servicios"}
             </span>
           </div>
         </div>
@@ -395,10 +402,12 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                       >
                         <CheckCircle className="w-7 h-7 text-[#100043]" />
                       </div>
-                      <h3 className="text-[#FFB800] font-bold text-xl leading-[40px] mb-3 text-center">
+                      <h3 className=" font-bold text-xl leading-[40px] mb-3 text-center"
+                      style={{color: card.titulo_color || "#FFB800",}}>
                         {card.titulo}
                       </h3>
-                      <p className="text-[#CCC3D4] text-base leading-[24px]">
+                      <p className=" text-base leading-[24px]"
+                      style={{color: card.descripcion_color || "#CCC3D4"}}>
                         {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
                       </p>
                     </div>
@@ -454,12 +463,17 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   >
                     <CheckCircle className="w-7 h-7 lg:w-9 lg:h-9 text-[#100043]" />
                   </div>
-                  <h3 className="text-[#FFB800] font-bold text-xl lg:text-[30px] leading-[40px] mb-3">
-                    {card.titulo}
-                  </h3>
-                  <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
-                    {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
-                  </p>
+                  <h3 className="font-bold text-xl lg:text-[30px] leading-[40px] mb-3"
+                      style={{ color: card.titulo_color || "#FFB800" }}
+                    >
+                      {card.titulo}
+                    </h3>
+                    <p
+                      className="text-base lg:text-[20px] leading-[24px]"
+                      style={{ color: card.descripcion_color || "#CCC3D4" }}
+                    >
+                      {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                    </p>
                 </div>
               ))}
             </div>

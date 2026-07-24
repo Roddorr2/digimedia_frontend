@@ -117,12 +117,13 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
             <p className="text-[#FFB800] font-semibold text-sm lg:text-base mb-3">{fecha}</p>
           )}
           <h2
-            className="font-extrabold text-[#FFB800] text-3xl lg:text-[48px] leading-tight lg:leading-[56px] tracking-[-0.48px] mb-4 uppercase"
-            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+            className="font-extrabold  text-3xl lg:text-[48px] leading-tight lg:leading-[56px] tracking-[-0.48px] mb-4 uppercase"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif",color: data.titulo_color || "#FFB800" }}
           >
             {data.titulo}
           </h2>
-          <p className="text-[#CCC3D4] text-base lg:text-[24px] leading-[30px]">
+          <p className=" text-base lg:text-[24px] leading-[30px]"
+          style={{ color: data.descripcion_color || "#CCC3D4" }}>
             {renderDescripcion(data.descripcion, data.palabra, data.enlace)}
           </p>
         </div>
@@ -206,11 +207,11 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                       >
                         <h3
                           className="font-extrabold text-lg leading-[1.4] tracking-[-0.48px] mb-3"
-                          style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                          style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: card.titulo_color || "#FFB800" }}
                         >
                           {card.titulo}
                         </h3>
-                        <p className="text-sm leading-6" style={{ color: "#CCC3D4" }}>
+                        <p className="text-sm leading-6" style={{ color: card.descripcion_color || "#CCC3D4" }}>
                           {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
                         </p>
                       </div>
@@ -241,11 +242,11 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   >
                     <h3
                       className="font-extrabold text-xl lg:text-[30px] leading-[1.4] tracking-[-0.48px] mb-3"
-                      style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#FFB800" }}
+                      style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: card.titulo_color || "#FFB800" }}
                     >
                       {card.titulo}
                     </h3>
-                    <p className="text-base lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
+                    <p className="text-base lg:text-[24px] leading-[30px]" style={{ color: card.descripcion_color || "#CCC3D4" }}>
                       {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
                     </p>
                   </div>
@@ -291,7 +292,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                   className="text-center font-bold text-xl lg:text-[30px] leading-[40px] mb-8"
                   style={{
                     fontFamily: "'Hanken Grotesk', sans-serif",
-                    color: "#FFB800",
+                    color: data.titulo_consejos_color || "#FFB800",
                   }}
                 >
                   {data.titulo_consejos || "Consejos Importantes"}
@@ -344,7 +345,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                                 "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)",
                             }}
                           >
-                            <p className="text-sm leading-6" style={{ color: "#CCC3D4" }}>
+                            <p className="text-sm leading-6" style={{ color: consejo.texto_color || "#CCC3D4" }}>
                               {consejo.texto}
                             </p>
                           </div>
@@ -389,7 +390,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                       >
                         <p
                           className="text-sm lg:text-[24px] leading-6 lg:leading-[30px]"
-                          style={{ color: "#CCC3D4" }}
+                          style={{ color: consejo.texto_color || "#CCC3D4" }}
                         >
                           {consejo.texto}
                         </p>

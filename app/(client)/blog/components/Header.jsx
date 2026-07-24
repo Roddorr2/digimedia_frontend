@@ -186,15 +186,20 @@ return (
 
       {/* Contenido sobre la imagen */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6 sm:px-12" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 4px 24px rgba(0,0,0,0.7)" }}>
-        <h1 className="text-3xl md:text-6xl font-extrabold mb-4 neon-textov4">
+        <h1 className="text-3xl md:text-6xl font-extrabold mb-4 neon-textov4"
+         style={{ color: data.titulo_color || "#FFFFFF" }}
+        >
           {data.titulo}
         </h1>
 
-        <h2 className="text-xl md:text-xl font-bold mb-4">
+        <h2 className="text-xl md:text-xl font-bold mb-4"
+        style={{ color: data.texto_frase_color || "#FFFFFF" }}>
           {data.texto_frase}
         </h2>
 
-        <p className="text-lg text-gray-300 font-light">
+        <p className="text-lg text-gray-300 font-light"
+        style={{ color: data.texto_descripcion_color}}
+        >
           {renderDescripcion(
             data.texto_descripcion,
             data.palabra,
