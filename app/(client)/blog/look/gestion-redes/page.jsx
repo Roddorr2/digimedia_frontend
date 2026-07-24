@@ -16,7 +16,9 @@ export default function Page() {
             <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
                 <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
 
-                <Body3 />
+      <div className="relative min-h-screen w-full overflow-hidden bg-[linear-gradient(135deg,_#000118_0%,_#410C89_50%,_#000118_100%)] text-white">
+        <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 md:py-14 lg:px-8">
+          <Body3 />
 
                 <Footer 
                 url_image1={"/blog/blog-14.webp"} 
@@ -33,5 +35,8 @@ export default function Page() {
               <MayaChatbot />
             </div>
         </div>
-    )
+        
+      </div>
+    </div>
+  );
 }

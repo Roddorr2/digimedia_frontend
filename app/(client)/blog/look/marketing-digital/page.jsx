@@ -13,10 +13,9 @@ export default function Page() {
               descripcion = {"El marketing y la gestión digital son tus aliados para potenciar el éxito de tu marca en el mundo digital"}
             />
 
-            <div className="container mx-auto px-4 py-12 relative bg-gradient-to-r text-black min-h-screen w-full">
-            <div className="hidden lg:block w-20 xl:w-24 2xl:w-32 bg-gradient-to-b from-red-700 via-sky to-blue-800 fixed left-0 top-0 h-full -z-10"></div>
-            
-              <Body5 />
+      <div className="relative min-h-screen w-full overflow-hidden bg-[linear-gradient(135deg,_#000118_0%,_#410C89_50%,_#000118_100%)] text-white">
+        <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 md:py-14 lg:px-8">
+          <Body5 />
 
               <Footer 
               url_image1={"/blog/fondo-tablet.webp"} 
@@ -32,5 +31,6 @@ export default function Page() {
               <MayaChatbot />
             </div>
           </div>
-    )
+    </div>
+  );
 }
