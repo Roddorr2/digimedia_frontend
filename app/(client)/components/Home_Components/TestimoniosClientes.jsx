@@ -1,15 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { X } from "lucide-react";
-import { getHomeTestimonials } from "@/lib/homeTestimonials";
+import { getTestimonials } from "@/lib/testimonials";
 
 import "swiper/css";
 import "swiper/css/pagination";
 
-const LIMIT = 6;
 // Umbral de caracteres a partir del cual mostramos "Leer más" (igual que en Nosotros).
 const TRUNCATE_LIMIT = 220;
 const GOOGLE_MAPS_REVIEWS_URL =
@@ -125,96 +124,25 @@ export default function TestimoniosClientes() {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [activeReview, setActiveReview] = useState(null);
+  const [reviews, setReviews] = useState(null); // null = aún cargando
 
-  const [items, setItems] = useState([]);
-  const [meta, setMeta] = useState(null);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Evita setState tras desmontar (ej. el usuario navega mientras "Mostrar más" está en vuelo).
-  const isMountedRef = useRef(true);
-  // Bloquea solicitudes concurrentes: el estado `loadingMore` tarda un ciclo de render
-  // en deshabilitar el botón, así que un doble clic rápido podría disparar dos fetches
-  // para la misma página antes de que el botón se vea deshabilitado.
-  const fetchingRef = useRef(false);
-
-  const loadInitial = useCallback(() => {
+  useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    setError(null);
 
-    getHomeTestimonials(1, LIMIT)
-      .then(({ data, meta }) => {
-        if (cancelled) return;
-        setItems(data);
-        setMeta(meta);
-        setPage(1);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setError("No se pudieron cargar los comentarios de nuestros clientes.");
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
+    getTestimonials().then((data) => {
+      if (!cancelled) setReviews(data);
+    });
 
     return () => {
       cancelled = true;
     };
   }, []);
 
-  useEffect(() => {
-    isMountedRef.current = true;
-    const cancelLoad = loadInitial();
+  if (reviews === null) return null; // esperando la respuesta de la API
 
-    return () => {
-      isMountedRef.current = false;
-      cancelLoad();
-    };
-  }, [loadInitial]);
+  const testimonialsData = reviews.length > 0 ? reviews : fallbackTestimonials;
 
-  const handleShowMore = async () => {
-    if (!meta || fetchingRef.current) return;
-    const nextPage = page + 1;
-    fetchingRef.current = true;
-    setLoadingMore(true);
-    setError(null);
-
-    try {
-      const { data, meta: nextMeta } = await getHomeTestimonials(nextPage, LIMIT);
-      if (!isMountedRef.current) return;
-
-      if (data.length === 0) {
-        // El backend devuelve data: [] sin error cuando la página está fuera de rango
-        // (p.ej. un testimonio se desactivó justo entre requests). Detenemos la
-        // paginación en vez de seguir mostrando "Mostrar más" indefinidamente.
-        setMeta((prev) => (prev ? { ...prev, last_page: prev.current_page } : prev));
-      } else {
-        setItems((prev) => [...prev, ...data]);
-        setMeta(nextMeta);
-        setPage(nextPage);
-      }
-    } catch {
-      if (isMountedRef.current) {
-        setError("No se pudieron cargar más comentarios. Intenta nuevamente.");
-      }
-    } finally {
-      fetchingRef.current = false;
-      if (isMountedRef.current) setLoadingMore(false);
-    }
-  };
-
-  // Si la API respondió correctamente pero aún no hay testimonios activos cargados,
-  // mostramos contenido de respaldo (igual que Testimonios2.jsx en Nosotros) en vez
-  // de dejar la sección vacía. El botón "Mostrar más" no aplica sobre el fallback,
-  // ya que no viene de una paginación real.
-  const usingFallback = !loading && !error && items.length === 0;
-  const testimonialsData = usingFallback ? fallbackTestimonials : items;
-  const hasMore =
-    !usingFallback && meta && Number(meta.current_page) < Number(meta.last_page);
+  if (testimonialsData.length === 0) return null; // no renderiza nada si no hay testimonios de bd ni del fallback
 
   return (
     <section
@@ -251,173 +179,134 @@ export default function TestimoniosClientes() {
           </p>
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(LIMIT)].map((_, i) => (
-              <div
-                key={i}
-                className="h-[340px] animate-pulse rounded-2xl border border-white/10 bg-white/[0.04]"
+        <div className="relative px-2 md:px-14">
+          {/* Flechas de navegación */}
+          <button
+            ref={prevRef}
+            type="button"
+            aria-label="Testimonio anterior"
+            className="absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-left-3"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+              <path
+                d="M15 6l-6 6 6 6"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
-            ))}
-          </div>
-        ) : error && items.length === 0 ? (
-          <div className="text-center">
-            <p className="text-red-300">{error}</p>
-            <button
-              type="button"
-              onClick={loadInitial}
-              className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#ffb800]/40 bg-[#100043]/60 px-8 py-3 text-sm font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent"
-            >
-              Reintentar
-            </button>
-          </div>
-        ) : (
-          <div className="relative px-2 md:px-14">
-            {/* Flechas de navegación */}
-            <button
-              ref={prevRef}
-              type="button"
-              aria-label="Testimonio anterior"
-              className="absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-left-3"
-            >
-              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
-                <path
-                  d="M15 6l-6 6 6 6"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+            </svg>
+          </button>
 
-            <button
-              ref={nextRef}
-              type="button"
-              aria-label="Siguiente testimonio"
-              className="absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-right-3"
-            >
-              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
-                <path
-                  d="M9 6l6 6-6 6"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+          <button
+            ref={nextRef}
+            type="button"
+            aria-label="Siguiente testimonio"
+            className="absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-right-3"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+              <path
+                d="M9 6l6 6-6 6"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
 
-            {/* Carrusel principal de Swiper */}
-            <Swiper
-              modules={[Navigation, Pagination, Autoplay]}
-              onBeforeInit={(swiper) => {
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-              }}
-              navigation={{
-                prevEl: prevRef.current,
-                nextEl: nextRef.current,
-              }}
-              pagination={{
-                clickable: true,
-                bulletClass: "home-testimonials-bullet",
-                bulletActiveClass: "home-testimonials-bullet-active",
-              }}
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              loop
-              spaceBetween={24}
-              breakpoints={{
-                0: { slidesPerView: 1 },
-                768: { slidesPerView: 2 },
-                1200: { slidesPerView: 3 },
-              }}
-              className="!pb-14"
-            >
-              {testimonialsData.map((review) => {
-                const isLong = review.text.length > TRUNCATE_LIMIT;
+          {/* Carrusel principal de Swiper */}
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            onBeforeInit={(swiper) => {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
+            }}
+            navigation={{
+              prevEl: prevRef.current,
+              nextEl: nextRef.current,
+            }}
+            pagination={{
+              clickable: true,
+              bulletClass: "home-testimonials-bullet",
+              bulletActiveClass: "home-testimonials-bullet-active",
+            }}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            loop
+            spaceBetween={24}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1200: { slidesPerView: 3 },
+            }}
+            className="!pb-14"
+          >
+            {testimonialsData.map((review) => {
+              const isLong = review.text.length > TRUNCATE_LIMIT;
 
-                return (
-                  <SwiperSlide key={review.id} className="h-auto py-2">
-                    <div className="flex h-[340px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-[8px] p-7 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:border-[#ffb800]/50 hover:bg-[#100043]/60">
-                      {/* Header */}
-                      <div className="mb-5 flex items-center justify-between">
-                        <div className="flex min-w-0 items-center gap-4">
-                          <Avatar src={review.avatar} name={review.name} />
+              return (
+                <SwiperSlide key={review.id} className="h-auto py-2">
+                  <div className="flex h-[340px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-[8px] p-7 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:border-[#ffb800]/50 hover:bg-[#100043]/60">
+                    {/* Header */}
+                    <div className="mb-5 flex items-center justify-between">
+                      <div className="flex min-w-0 items-center gap-4">
+                        <Avatar src={review.avatar} name={review.name} />
 
-                          <div className="min-w-0">
-                            <h3 className="truncate font-semibold text-white">
-                              {review.name}
-                            </h3>
+                        <div className="min-w-0">
+                          <h3 className="truncate font-semibold text-white">
+                            {review.name}
+                          </h3>
 
-                            <p className="text-sm text-gray-400">{review.date}</p>
-                          </div>
+                          <p className="text-sm text-gray-400">{review.date}</p>
                         </div>
-
-                        <a
-                          href={GOOGLE_MAPS_REVIEWS_URL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label="Ver reseñas en Google Maps"
-                          className="flex-shrink-0"
-                        >
-                          <img
-                            src="/Img-nosotros/logo_google1.webp"
-                            alt="Google"
-                            width={28}
-                            height={28}
-                            className="h-7 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-                          />
-                        </a>
                       </div>
 
-                      <Stars rating={review.rating} />
-
-                      {/* Comentario */}
-                      <p className="flex-grow overflow-hidden whitespace-pre-line leading-7 text-gray-300 line-clamp-5">
-                        "{review.text}"
-                      </p>
-
-                      {isLong && (
-                        <button
-                          type="button"
-                          onClick={() => setActiveReview(review)}
-                          className="mt-3 self-start text-sm font-semibold text-[#ffb800] transition-colors hover:text-white"
-                        >
-                          Leer más
-                        </button>
-                      )}
+                      <a
+                        href={GOOGLE_MAPS_REVIEWS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Ver reseñas en Google Maps"
+                        className="flex-shrink-0"
+                      >
+                        <img
+                          src="/Img-nosotros/logo_google1.webp"
+                          alt="Google"
+                          width={28}
+                          height={28}
+                          className="h-7 w-auto opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+                        />
+                      </a>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
 
-            {/* Paginación custom */}
-            <div className="flex justify-center items-center gap-2 mt-4 home-testimonials-pagination" />
+                    <Stars rating={review.rating} />
 
-            {error && items.length > 0 && (
-              <p className="mt-6 text-center text-red-300">{error}</p>
-            )}
+                    {/* Comentario */}
+                    <p className="flex-grow overflow-hidden whitespace-pre-line leading-7 text-gray-300 line-clamp-5">
+                      "{review.text}"
+                    </p>
 
-            {hasMore && (
-              <div className="mt-8 flex justify-center">
-                <button
-                  type="button"
-                  onClick={handleShowMore}
-                  disabled={loadingMore}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#ffb800]/40 bg-[#100043]/60 px-8 py-3 text-sm font-bold uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {loadingMore ? "Cargando..." : "Mostrar más"}
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+                    {isLong && (
+                      <button
+                        type="button"
+                        onClick={() => setActiveReview(review)}
+                        className="mt-3 self-start text-sm font-semibold text-[#ffb800] transition-colors hover:text-white"
+                      >
+                        Leer más
+                      </button>
+                    )}
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+
+          {/* Paginación custom */}
+          <div className="flex justify-center items-center gap-2 mt-4 home-testimonials-pagination" />
+        </div>
       </div>
 
       {/* Modal con el testimonio completo */}
