@@ -36,14 +36,14 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  function renderDescripcion(texto, palabraClave, enlace) {
+  function renderDescripcion(texto, palabraClave, enlace, isUnderlined = true) {
     if (!palabraClave || !enlace) return texto;
     const regex = new RegExp(`(${palabraClave})`, "gi");
     const partes = texto.split(regex);
     return partes.map((parte, i) => {
       if (parte.toLowerCase() === palabraClave.toLowerCase()) {
         return (
-          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-[#FFB800] font-bold underline hover:opacity-80">
+          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className={`text-[#FFB800] font-bold ${isUnderlined ? "underline" : "no-underline"} hover:opacity-80`}>
             {parte}
           </a>
         );
@@ -399,7 +399,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                         {card.titulo}
                       </h3>
                       <p className="text-[#CCC3D4] text-base leading-[24px]">
-                        {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                        {renderDescripcion(card.descripcion, card.palabra, card.enlace, false)}
                       </p>
                     </div>
                   </SwiperSlide>
@@ -458,7 +458,7 @@ export default function Body1({ id_blog_body, fecha, bg_color, bg_type, bg_color
                     {card.titulo}
                   </h3>
                   <p className="text-[#CCC3D4] text-base lg:text-[20px] leading-[24px]">
-                    {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                    {renderDescripcion(card.descripcion, card.palabra, card.enlace, false)}
                   </p>
                 </div>
               ))}

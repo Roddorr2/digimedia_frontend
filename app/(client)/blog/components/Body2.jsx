@@ -17,14 +17,14 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("info");
 
-  function renderDescripcion(texto, palabraClave, enlace) {
+  function renderDescripcion(texto, palabraClave, enlace, isUnderlined = true) {
     if (!palabraClave || !enlace) return texto;
     const regex = new RegExp(`(${palabraClave})`, "gi");
     const partes = texto.split(regex);
     return partes.map((parte, i) => {
       if (parte.toLowerCase() === palabraClave.toLowerCase()) {
         return (
-          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-[#FFB800] font-bold underline hover:opacity-80">
+          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className={`text-[#FFB800] font-bold ${isUnderlined ? "underline" : "no-underline"} hover:opacity-80`}>
             {parte}
           </a>
         );
@@ -211,7 +211,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                           {card.titulo}
                         </h3>
                         <p className="text-sm leading-6" style={{ color: "#CCC3D4" }}>
-                          {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                          {renderDescripcion(card.descripcion, card.palabra, card.enlace, false)}
                         </p>
                       </div>
                     </div>
@@ -246,7 +246,7 @@ export default function Body2({ id_blog_body, fecha, bg_color, bg_type, bg_color
                       {card.titulo}
                     </h3>
                     <p className="text-base lg:text-[24px] leading-[30px]" style={{ color: "#CCC3D4" }}>
-                      {renderDescripcion(card.descripcion, card.palabra, card.enlace)}
+                      {renderDescripcion(card.descripcion, card.palabra, card.enlace, false)}
                     </p>
                   </div>
                 </div>

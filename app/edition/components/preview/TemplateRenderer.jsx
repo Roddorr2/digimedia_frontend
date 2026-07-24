@@ -11,7 +11,7 @@ import {
 // Configuración de plantillas
 import { getPlantillaConfig } from "../../config/index";
 
-function renderDescripcion(texto, palabraClave, enlace) {
+function renderDescripcion(texto, palabraClave, enlace, isUnderlined = true) {
   if (!texto || !palabraClave || !enlace) return texto;
 
   const palabraClaveEscapada = palabraClave.replace(
@@ -27,7 +27,7 @@ function renderDescripcion(texto, palabraClave, enlace) {
         href={enlace}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[#FFB800] font-bold underline hover:opacity-80"
+        className={`text-[#FFB800] font-bold ${isUnderlined ? "underline" : "no-underline"} hover:opacity-80`}
       >
         {parte}
       </a>
@@ -446,7 +446,8 @@ export default function TemplateRenderer({
                     {renderDescripcion(
                       item.descripcion || "Descripción detallada del contenido",
                       item.palabra,
-                      item.enlace
+                      item.enlace,
+                      false
                     )}
                   </p>
                 </div>
@@ -608,7 +609,8 @@ export default function TemplateRenderer({
                     {renderDescripcion(
                       card.descripcion || "Descripción detallada del contenido de este punto informativo.",
                       card.palabra,
-                      card.enlace
+                      card.enlace,
+                      false
                     )}
                   </p>
                 </div>
@@ -953,7 +955,8 @@ export default function TemplateRenderer({
           {renderDescripcion(
             item.descripcion || "Descripción del contenido",
             item.palabra,
-            item.enlace
+            item.enlace,
+            false
           )}
         </p>
       </div>
@@ -974,7 +977,8 @@ export default function TemplateRenderer({
           {renderDescripcion(
             item.descripcion || "Descripción del contenido",
             item.palabra,
-            item.enlace
+            item.enlace,
+            false
           )}
         </p>
       </div>
