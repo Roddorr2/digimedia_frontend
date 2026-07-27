@@ -1005,6 +1005,9 @@ export default function FormBody({
                 <h3 className="font-bold text-base mb-2" style={{ color: section.titulo_color || "#FFB800" }}>
                   {section.titulo}
                 </h3>
+                <p className="text-[#CCC3D4] text-xs leading-relaxed">
+                  </p>
+                  {renderDescripcion(section.descripcion, section.palabra, section.enlace, false)}
                 <p className="text-xs leading-relaxed" style={{ color: section.descripcion_color || "#CCC3D4" }}>
                   {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
                 </p>
