@@ -55,13 +55,13 @@ export default function ServiciosCarrusel({ services }) {
 
       {/* Custom Navigation Arrows */}
       <button
-        className="swiper-button-prev-services absolute left-[-15px] md:left-[-25px] top-[45%] -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#100043]/85 hover:bg-[#ffb800] border border-[#ffb800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#ffb800]/20 disabled:opacity-30 disabled:cursor-not-allowed"
+        className="hidden sm:flex absolute swiper-button-prev-services left-[-15px] md:left-[-25px] top-[45%] -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#100043]/85 hover:bg-[#ffb800] border border-[#ffb800]/30 hover:border-transparent text-white hover:text-[#100043] items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#ffb800]/20 disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Anterior servicio"
       >
         <ArrowLeft size={20} strokeWidth={2.5} />
       </button>
       <button
-        className="swiper-button-next-services absolute right-[-15px] md:right-[-25px] top-[45%] -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#100043]/85 hover:bg-[#ffb800] border border-[#ffb800]/30 hover:border-transparent text-white hover:text-[#100043] flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#ffb800]/20 disabled:opacity-30 disabled:cursor-not-allowed"
+        className="hidden sm:flex absolute swiper-button-next-services right-[-15px] md:right-[-25px] top-[45%] -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#100043]/85 hover:bg-[#ffb800] border border-[#ffb800]/30 hover:border-transparent text-white hover:text-[#100043] items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[#ffb800]/20 disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Siguiente servicio"
       >
         <ArrowRight size={20} strokeWidth={2.5} />

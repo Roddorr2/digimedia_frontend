@@ -156,7 +156,7 @@ export default function Testimonials() {
             ref={prevRef}
             type="button"
             aria-label="Testimonio anterior"
-            className="absolute left-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-left-3"
+            className="hidden absolute left-0 top-1/2 z-30 sm:flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-left-3"
           >
             <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
               <path
@@ -173,7 +173,7 @@ export default function Testimonials() {
             ref={nextRef}
             type="button"
             aria-label="Siguiente testimonio"
-            className="absolute right-0 top-1/2 z-30 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-right-3"
+            className="hidden absolute right-0 top-1/2 z-30 sm:flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[#100043]/85 border border-[#ffb800]/30 text-white shadow-lg transition-all duration-300 hover:bg-[#ffb800] hover:text-[#100043] hover:border-transparent hover:shadow-[#ffb800]/20 md:-right-3"
           >
             <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
               <path
@@ -229,7 +229,7 @@ export default function Testimonials() {
                 <SwiperSlide key={review.id} className="h-auto py-2">
                   <div className="flex h-[340px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-[8px] p-7 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:border-[#ffb800]/50 hover:bg-[#100043]/60">
                     {/* Header */}
-                    <div className="mb-5 flex items-center justify-between">
+                    <div className="mb-5 flex flex-col-reverse sm:flex-row items-center justify-between gap-2">
                       <div className="flex min-w-0 items-center gap-4">
                         <Avatar src={review.avatar} name={review.name} />
 
