@@ -515,7 +515,7 @@ export default function Page() {
                           {searchTerm && (
                             <>
                               <p className="text-gray-400 text-sm">
-                                No se encontraron resultados para "{searchTerm}"
+                                No se encontraron resultados para &quot;{searchTerm}&quot;
                               </p>
                               <button
                                 onClick={() => setSearchTerm("")}
