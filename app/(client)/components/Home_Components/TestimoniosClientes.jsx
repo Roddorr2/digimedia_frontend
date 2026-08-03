@@ -286,7 +286,7 @@ export default function TestimoniosClientes() {
 
                     {/* Comentario */}
                     <p className="flex-grow overflow-hidden whitespace-pre-line leading-7 text-gray-300 line-clamp-5">
-                      "{review.text}"
+                      &quot;{review.text}&quot;
                     </p>
 
                     {isLong && (
@@ -345,7 +345,7 @@ export default function TestimoniosClientes() {
             <Stars rating={activeReview.rating} />
 
             <p className="max-h-[50vh] overflow-y-auto whitespace-pre-line leading-7 text-gray-200 pr-2">
-              "{activeReview.text}"
+              &quot;{activeReview.text}&quot;
             </p>
           </div>
         </div>

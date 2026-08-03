@@ -420,7 +420,7 @@ export function CampaignQueuePanel() {
                 No hay campañas en cola
               </p>
               <p className="text-slate-400 text-xs mt-1">
-                Crea una campaña desde la pestaña "Prueba"
+                Crea una campaña desde la pestaña &quot;Prueba&quot;
               </p>
             </div>
           )}
