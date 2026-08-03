@@ -67,11 +67,13 @@ export const metadata = {
   },
   metadataBase: new URL('https://digimedia-marketing.com'),
 };
-
+//correccion de body a body{margin:0;line-height:inherit;font-family:var(--font-montserrat),Arial,Helvetica,sans-serif;background:#fff;color:#000}
+//.dark body{background:#000;color:#fff} por temas de variaciones de color cuando se modificaba el color del tema de oscuro a claro
 const criticalCSS = `
 /* Critical CSS - Inline for faster rendering */
 html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}
-body{margin:0;line-height:inherit;font-family:var(--font-montserrat),Arial,Helvetica,sans-serif;background:#000;color:#fff}
+body{margin:0;line-height:inherit;font-family:var(--font-montserrat),Arial,Helvetica,sans-serif;background:#fff;color:#000}
+.dark body{background:#000;color:#fff}
 img{display:block;max-width:100%;height:auto}
 h1,h2,h3,h4,h5,h6{font-family:var(--font-telegraf),sans-serif;font-weight:700}
 .antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}

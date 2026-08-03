@@ -321,7 +321,7 @@ export default function Page() {
   }
 
   return (
-    <main className="p-6 flex flex-col w-full max-h-svh bg-slate-50 dark:bg-slate-900">
+    <main className="p-6 flex flex-col w-full  bg-slate-50 dark:bg-slate-900">
       <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 mb-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
@@ -455,7 +455,8 @@ export default function Page() {
         </div>
       ) : (
         <>
-          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
+        {/* se oculto la tabla cuando se renderizaba en mobile */}
+          <div className="hidden lg:block bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
