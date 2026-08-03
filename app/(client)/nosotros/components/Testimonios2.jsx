@@ -281,7 +281,7 @@ export default function Testimonials() {
 
                     {/* Comentario */}
                     <p className="flex-grow overflow-hidden whitespace-pre-line leading-7 text-gray-300 line-clamp-5">
-                      "{review.text}"
+                      &quot;{review.text}&quot;
                     </p>
 
                     {/* Botón "Leer más" solo si el texto no cabe */}
@@ -304,7 +304,7 @@ export default function Testimonials() {
           </Swiper>
 
           {/* Paginación custom */}
-          <div className="flex justify-center items-center gap-2 mt-4 swiper-pagination-testimonials" />
+          <div className="flex justify-center items-center gap-2 mt-4 testimonials-pagination" />
         </div>
       </div>
 
@@ -341,7 +341,7 @@ export default function Testimonials() {
               </div>
             </div>
 
-            <div className="mb-5 flex">
+            <div className="mb-4 flex items-center gap-1">
               {[...Array(5)].map((_, index) => (
                 <svg
                   key={index}
@@ -360,7 +360,7 @@ export default function Testimonials() {
             </div>
 
             <p className="max-h-[50vh] overflow-y-auto whitespace-pre-line leading-7 text-gray-200 pr-2">
-              "{activeReview.text}"
+              &quot;{activeReview.text}&quot;
             </p>
           </div>
         </div>

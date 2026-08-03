@@ -548,7 +548,7 @@ const apiCall = useCallback(
                 <ol>
                   <li>Abre WhatsApp en tu teléfono</li>
                   <li>Ve a Configuración → Dispositivos vinculados</li>
-                  <li>Toca "Vincular un dispositivo"</li>
+                  <li>Toca &quot;Vincular un dispositivo&quot;</li>
                   <li>Escanea el código QR mostrado</li>
                 </ol>
               </div>
