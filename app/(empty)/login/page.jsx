@@ -401,12 +401,12 @@ export default function LoginPage() {
           {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </button>
 
-        <a href="/" className="absolute top-4 right-4 z-50">
+        <Link href="/" className="absolute top-4 right-4 z-50">
           <button className="flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:scale-105 transition-all duration-300 shadow-lg text-gray-700 dark:text-slate-200">
             <ArrowLeft className="w-4 h-4" />
             Regresar
           </button>
-        </a>
+        </Link>
 
         <div className="bg-white dark:bg-slate-800 p-8 lg:p-10 rounded-2xl shadow-xl w-full max-w-md border border-gray-100 dark:border-slate-700 transition-colors duration-300 mt-12 lg:mt-0">
           <div className="text-center mb-8">

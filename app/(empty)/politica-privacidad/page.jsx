@@ -14,11 +14,11 @@ export default function Page() {
   return (
     <div>
       {/* Section with logo */}
-      <div className='bg-gradient-to-r from-[#1e033f] from-80%  to-[#410C89] flex justify-center items-center'>
+      <div className='bg-gradient-to-r from-[#140048] to-[#2A0668] flex justify-center items-center'>
         <Image src={logoLegales} className='my-10' alt="Digimedia" width={160} height={120} />
       </div>
       {/* Section text */}
-      <section className='flex-grow grid mx-0 p-10 justify-items-center bg-white h-full'>
+      <section className='flex-grow grid mx-0 p-10 justify-items-center bg-gradient-to-r from-[#270564] to-[#320874] min-h-screen'>
         <div className='w-full md:w-2/3 border-b mb-4 text-center md:text-left py-4'>
           <h1 className='text-4xl pb-2'>Politicas de Privacidad</h1>
           <p>
@@ -44,7 +44,7 @@ export default function Page() {
             funcionalidad de nuestro sitio web y para comprender mejor cómo los usuarios
             interactúan con él.
           </p>
-          <p className='py-2'>Razón Social: DIIMEDIA MARKETING S.A.C.</p>
+          <p className='py-2'>Razón Social: DIGIMEDIA MARKETING S.A.C.</p>
           <p className='py-2'>RUC: 20605116559</p>
         </div>
       </section>

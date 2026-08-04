@@ -198,24 +198,24 @@ const ComplaintForm = () => {
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-center mb-4">Libro de Reclamaciones</h1>
+          <h1 className="text-3xl font-bold text-center mb-4 text-black">Libro de Reclamaciones</h1>
           <p className="text-sm text-gray-600 mb-2">
             Conforme está establecido en el Código de Protección y Defensa del Consumidor contamos con un Libro de Reclamaciones Virtual a tu disposición DigiMedia.com
           </p>
           <p className="text-sm text-gray-600 mb-4">
             Debes de tener en cuenta que tus reclamos conforme a ley deben ser resueltos en un plazo no mayor a 30 días, pudiendo extenderse el plazo cuando la naturaleza del reclamo lo acredite. Art. 24.1 Ley 29571.
           </p>
-          <p className="text-sm font-semibold mb-4">
+          <p className="text-sm font-semibold mb-4 text-black">
             Razón Social: DIGIMEDIA MARKETING S.A.C. RUC: 20605116559
           </p>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold text-center mb-6">Cuestionario de quejas</h2>
+          <h2 className="text-2xl font-bold text-center mb-6 text-black">Cuestionario de quejas</h2>
 
           <form className="space-y-6" onSubmit={handleSubmit} toolname="submit_complaint_form" tooldescription="Envía una reclamación o queja con datos personales e información del incidente">
             <div className="space-y-4">
-              <h3 className="font-semibold">Datos Personales:</h3>
+              <h3 className="font-semibold text-black">Datos Personales:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <input
                    type="text"
@@ -224,7 +224,7 @@ const ComplaintForm = () => {
                    onChange={handleChange}
                    placeholder="Nombre"
                    toolparamdescription="Nombre del usuario"
-                   className="w-full p-2 border rounded"
+                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                    required
                  />
                  <input
@@ -234,14 +234,14 @@ const ComplaintForm = () => {
                    onChange={handleChange}
                    placeholder="Apellido"
                    toolparamdescription="Apellido del usuario"
-                   className="w-full p-2 border rounded"
+                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                    required
                  />
                 <select
                   name="documento"
                   value={formData.documento}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                   required
                 >
                   <option value="">Tipo de Documento</option>
@@ -257,7 +257,7 @@ const ComplaintForm = () => {
                   value={formData.numeroDocumento}
                   onChange={handleChange}
                   placeholder="Número de Documento"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                   required
                 />
                 <input
@@ -266,7 +266,7 @@ const ComplaintForm = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Correo Electrónico"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                   required
                 />
 <input
@@ -276,7 +276,7 @@ const ComplaintForm = () => {
                    onChange={handleChange}
                    placeholder="Celular"
                    toolparamdescription="Número de teléfono"
-                   className="w-full p-2 border rounded"
+                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                    required
                  />
               </div>
@@ -289,7 +289,7 @@ const ComplaintForm = () => {
                    onChange={handleChange}
                    placeholder="Dirección"
                    toolparamdescription="Dirección del usuario"
-                   className="w-full p-2 border rounded"
+                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                    required
                  />
                  <input
@@ -299,7 +299,7 @@ const ComplaintForm = () => {
                    onChange={handleChange}
                    placeholder="Distrito"
                    toolparamdescription="Distrito"
-                   className="w-full p-2 border rounded"
+                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                    required
                  />
                  <input
@@ -309,20 +309,20 @@ const ComplaintForm = () => {
                    onChange={handleChange}
                    placeholder="Ciudad"
                    toolparamdescription="Ciudad"
-                   className="w-full p-2 border rounded"
+                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                    required
                  />
               </div>
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-semibold">Datos de incidente:</h3>
+              <h3 className="font-semibold text-black">Datos de incidente:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <select
                   name="tipoReclamo"
                   value={formData.tipoReclamo}
                   onChange={handleChange}
-                  className="w-full ml-1 p-2 border rounded"
+                  className="w-full ml-1 p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                   required
                 >
                   <option value="">Tipo de reclamo</option>
@@ -333,7 +333,7 @@ const ComplaintForm = () => {
                   name="id_servicio"
                   value={formData.id_servicio}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                   required
                 >
                   <option value="">Servicio contratado</option>
@@ -346,7 +346,7 @@ const ComplaintForm = () => {
                 <div className="ml-1">
                   <label htmlFor="fechaIncidente" className="text-gray-500">Fecha Incidente</label>
 <input value={formData.fechaIncidente}
-                   onChange={handleChange} id="fechaIncidente" name="fechaIncidente" type="date" toolparamdescription="Fecha del incidente" className="w-full p-2 border rounded"required/>
+                   onChange={handleChange} id="fechaIncidente" name="fechaIncidente" type="date" toolparamdescription="Fecha del incidente" className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20" required/>
                 </div>
               </div>
 <textarea
@@ -355,7 +355,7 @@ const ComplaintForm = () => {
                  onChange={handleChange}
                  placeholder="Indicar incidente"
                  toolparamdescription="Descripción del incidente"
-                 className="w-full p-2 border rounded h-32 ml-1"
+                 className="w-full p-2 border rounded h-32 ml-1 text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
                  required
                />
             </div>
@@ -370,7 +370,7 @@ const ComplaintForm = () => {
                   className="mt-1 mr-2"
                   required
                 />
-                <p className="text-sm">
+                <p className="text-sm text-black">
                   Soy consciente que la formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI. *El proveedor deberá dar respuesta al reclamo en un plazo no mayor a treinta (30) días calendario, de acuerdo a la Ley 29571
                 </p>
               </div>
@@ -384,7 +384,7 @@ const ComplaintForm = () => {
                   className="mt-1 mr-2"
                   required
                 />
-                <p className="text-sm">
+                <p className="text-sm text-black">
                   Acepto las Políticas de Privacidad.
                 </p>
               </div>

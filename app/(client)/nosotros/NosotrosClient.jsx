@@ -123,7 +123,7 @@ const Nosotros = () => {
                 MISIÓN
               </h3>
               <p className="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed font-normal">
-                "Impulsar el crecimiento digital de marcas y emprendimientos mediante estrategias creativas, innovación y soluciones digitales enfocadas en generar posicionamiento, conexión y resultados sostenibles."
+                &quot;Impulsar el crecimiento digital de marcas y emprendimientos mediante estrategias creativas, innovación y soluciones digitales enfocadas en generar posicionamiento, conexión y resultados sostenibles.&quot;
               </p>
             </div>
 
@@ -132,7 +132,7 @@ const Nosotros = () => {
                 VISIÓN
               </h3>
               <p className="text-gray-300 text-base sm:text-lg md:text-xl leading-relaxed font-normal">
-                "Buscamos impulsar la transformación digital de empresas y emprendimientos mediante estrategias innovadoras que conecten marcas con personas."
+                &quot;Buscamos impulsar la transformación digital de empresas y emprendimientos mediante estrategias innovadoras que conecten marcas con personas.&quot;
               </p>
             </div>
           </div>

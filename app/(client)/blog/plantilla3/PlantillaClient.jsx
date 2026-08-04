@@ -143,12 +143,12 @@ export default function PlantillaClient({ link }) {
             No pudimos cargar el contenido del blog. Por favor, intenta
             nuevamente.
           </p>
-          <a
+          <Link
             href="/blog"
             className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors inline-block"
           >
             Volver a blogs
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -174,12 +174,12 @@ export default function PlantillaClient({ link }) {
           <p className="text-gray-600 mb-6">
             El blog que estás buscando no existe o no está disponible.
           </p>
-          <a
+          <Link
             href="/blog"
             className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors inline-block"
           >
             Volver a blogs
-          </a>
+          </Link>
         </div>
       </div>
     );
