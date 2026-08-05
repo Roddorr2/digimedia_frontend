@@ -455,7 +455,7 @@ export default function Page() {
         </div>
       ) : (
         <>
-        {/* se oculto la tabla cuando se renderizaba en mobile */}
+          {/* se oculto la tabla cuando se renderizaba en mobile */}
           <div className="hidden lg:block bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-y-auto mb-6">
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -532,7 +532,7 @@ export default function Page() {
                             <Pencil className="w-4 h-4" />
                           </Link>
 
-                          {auth_service.hasPermission('eliminar-blogs') && (
+                          {auth_service.hasPermission("eliminar-blogs") && (
                             <button
                               onClick={() => confirmDelete(blog.id_blog)}
                               className="p-2 bg-rose-50 dark:bg-rose-900 text-rose-600 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-800 transition-colors"
@@ -613,15 +613,17 @@ export default function Page() {
 
             {/* Paginación (móvil) */}
             {totalPages > 1 && (
-              <div className="flex justify-between items-center bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sticky bottom-0">
-                <div className="text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 sticky bottom-0 w-full overflow-hidden">
+                {/* Texto indicativo */}
+                <div className="text-sm text-slate-500 dark:text-slate-400 text-center sm:text-left">
                   Mostrando{" "}
                   <span className="font-medium">{displayedBlogs.length}</span>{" "}
                   de <span className="font-medium">{filteredBlogs.length}</span>{" "}
                   blogs
                 </div>
 
-                <div className="flex gap-2 justify-center">
+                {/* Botones de paginación con ajuste flexible */}
+                <div className="flex flex-wrap items-center justify-center gap-1.5 max-w-full">
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
@@ -639,9 +641,9 @@ export default function Page() {
                       <button
                         key={`page-mobile-${page}`}
                         onClick={() => setCurrentPage(page)}
-                        className={`w-9 h-9 rounded-lg border ${
+                        className={`w-8 h-8 sm:w-9 sm:h-9 text-xs sm:text-sm rounded-lg border ${
                           currentPage === page
-                            ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700"
+                            ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700 font-medium"
                             : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                         }`}
                       >
