@@ -389,24 +389,49 @@ const ContactForm = () => {
               real del enfoque anterior con h-full/max-h). El ancho sigue
               derivándose de la proporción real del PNG (549x1105, confirmada
               con sharp) vía aspect-ratio + w-auto, así no se deforma. */}
-          <div className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[320px] aspect-[549/1105] mx-auto lg:mx-0 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:max-w-none lg:h-[720px] xl:h-[1120px] 2xl:h-[1140px]">
-            {/* El PNG casi no tiene margen transparente abajo (~4px de 1105,
-                confirmado con sharp trim): el hueco morado que quedaba debajo
-                de la base no venía del archivo sino del pb-20/24/28 del
-                <section>. Se empuja la imagen hacia ese padding con
-                translate-y para que la base llegue justo al borde inferior
-                real del bloque; el overflow-hidden del section recorta
-                cualquier exceso sin generar scroll horizontal. Los altos por
-                breakpoint (720/1120/1140) están calibrados para que el ancho
-                resultante (proporción 549:1105) no rebase el ancho real de
-                la columna derecha + el gap hacia el formulario en 1024,
-                1366 y 1440px — así crece bastante más sin tapar el form. */}
+          <div className="relative w-full max-w-[240px] sm:max-w-[320px] md:max-w-[400px] aspect-[549/794] xl:aspect-[549/1105] mx-auto lg:mx-0 lg:absolute lg:bottom-0 lg:right-0 lg:w-full lg:max-w-[556px] xl:w-auto xl:max-w-none xl:h-[1120px] 2xl:h-[1140px]">
+            {/* El PNG tiene ~28% de margen transparente arriba (311px de
+                1105, confirmado con sharp) y casi ninguno abajo (~4px). Con
+                object-contain esa franja transparente se mostraba entera,
+                generando el hueco vacío entre "redes sociales" y la persona
+                en móvil/tablet, además de encoger el ancho visible por los
+                márgenes transparentes laterales. Debajo de xl se usa
+                object-cover con una caja recortada a la proporción real del
+                contenido (549:794 = 1105 menos ese 28% superior) para que el
+                recorte elimine justo esa franja vacía sin deformar ni cortar
+                a la persona (el 549 de ancho coincide con el ancho nativo,
+                así que el recorte es 100% vertical). object-bottom conserva
+                el mismo anclaje inferior que ya tenía.
+
+                Rango lg (1024–1279px): el grid pasa a 2 columnas con la
+                izquierda fija en minmax(0,560px) (ver grid-cols de más
+                arriba), así que el ancho real disponible para esta columna
+                es 100% - 560px - gap-8(32px) - 2×px-12(48px) = varía de
+                ~336px (1024px) a ~591px (1279px). En vez de recalcular eso
+                a mano con vw (riesgo de off-by-scrollbar), se usa lg:w-full:
+                el propio grid ya estira este div (motion.div padre) al
+                ancho exacto de su columna, así que 100% = espacio real
+                disponible, sin poder invadir nunca el formulario. Se cubre
+                con lg:max-w-[556px] para no crecer de más cerca de 1279px y
+                entregar un ancho ~igual al de xl (556.4px, ver abajo), así
+                la transición a xl no da un salto brusco. La altura se
+                deriva sola del aspect-[549/794] heredado de móvil/tablet
+                (mismo recorte sin franja transparente, mayor presencia que
+                con la proporción completa).
+
+                Desde xl se restaura aspect-[549/1105] + object-contain (ver
+                clase en el Image) + w-auto para dejar el desktop exactamente
+                igual que antes: el hueco morado bajo la base sigue viniendo
+                del pb-20/24/28 del <section>, no de la imagen; translate-y
+                lo sigue empujando solo desde xl. Los altos por breakpoint
+                (1120/1140) siguen calibrados para no rebasar el ancho real
+                de la columna derecha en 1366 y 1440px. */}
             <Image
               src={CONTACT_PERSON_IMAGE}
               alt="Persona atendiendo una consulta de contacto"
               fill
-              className="object-contain object-bottom lg:translate-y-[100px] lg:translate-x-[64px]"
-              sizes="(max-width: 1024px) 320px, 540px"
+              className="object-cover object-bottom xl:object-contain xl:translate-y-[100px] xl:translate-x-[64px]"
+              sizes="(max-width: 640px) 240px, (max-width: 1024px) 400px, (max-width: 1280px) 556px, 556px"
             />
           </div>
         </motion.div>

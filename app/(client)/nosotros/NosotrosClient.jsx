@@ -3,9 +3,53 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 import WhatsAppButton from '../components/WhatsAppButton';
 import MayaChatbot from '../components/Chatbot';
 import Testimonios2 from './components/Testimonios2';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+// Contenido de las tarjetas de "Nuestra Esencia", compartido entre la
+// grilla de escritorio y el slider de móvil para evitar duplicar textos.
+const essenceCards = [
+  {
+    icon: '/Img-nosotros/inovacion.png',
+    alt: 'Innovation Icon',
+    title: 'INOVACIÓN',
+    text: 'Aplicamos tendencias y herramientas digitales para mantener marcas en constante evolución.',
+  },
+  {
+    icon: '/Img-nosotros/creatividad.png',
+    alt: 'Creativity Icon',
+    title: 'CREATIVIDAD',
+    text: 'Desarrollamos contenido visual y estrategias que fortalecen la identidad de cada marca.',
+  },
+  {
+    icon: '/Img-nosotros/estrategia.png',
+    alt: 'Strategy Icon',
+    title: 'ESTRATEGIA',
+    text: 'Creamos soluciones digitales enfocadas en posicionamiento, presencia y crecimiento sostenible.',
+  },
+];
+
+function EssenceCard({ icon, alt, title, text }) {
+  return (
+    <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
+      <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
+        <Image src={icon} alt={alt} width={60} height={60} />
+      </div>
+      <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
+        {title}
+      </h3>
+      <p className="text-gray-300 text-base leading-relaxed px-2">
+        {text}
+      </p>
+    </div>
+  );
+}
 
 const Nosotros = () => {
   return (
@@ -59,45 +103,50 @@ const Nosotros = () => {
           <div className="h-[4px] bg-[#FFC500] w-full mt-2 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1: Innovación */}
-          <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
-            <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
-              <Image src="/Img-nosotros/inovacion.png" alt="Innovation Icon" width={60} height={60} />
-            </div>
-            <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
-              INOVACIÓN
-            </h3>
-            <p className="text-gray-300 text-base leading-relaxed px-2">
-              Aplicamos tendencias y herramientas digitales para mantener marcas en constante evolución.
-            </p>
-          </div>
+        {/* Escritorio/tablet: grilla de 3 tarjetas (sin cambios de distribución) */}
+        <div className="hidden md:grid grid-cols-3 gap-8">
+          {essenceCards.map((card) => (
+            <EssenceCard key={card.title} {...card} />
+          ))}
+        </div>
 
-          {/* Card 2: Creatividad */}
-          <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
-            <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
-              <Image src="/Img-nosotros/creatividad.png" alt="Creativity Icon" width={60} height={60} />
-            </div>
-            <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
-              CREATIVIDAD
-            </h3>
-            <p className="text-gray-300 text-base leading-relaxed px-2">
-              Desarrollamos contenido visual y estrategias que fortalecen la identidad de cada marca.
-            </p>
-          </div>
-
-          {/* Card 3: Estrategia */}
-          <div className="min-h-[400px] h-auto bg-[#0f0430] border border-[#2C197B]/70 rounded-3xl px-8 py-14 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:border-[#7D29E8]/60 transition-all duration-300">
-            <div className="w-28 h-28 bg-[#FFC500] rounded-full flex items-center justify-center mb-6 text-black shadow-[0_4px_12px_rgba(255,197,0,0.25)]">
-              <Image src="/Img-nosotros/estrategia.png" alt="Strategy Icon" width={60} height={60} />
-            </div>
-            <h3 className="text-white text-3xl font-bold mb-3 uppercase tracking-wider">
-              ESTRATEGIA
-            </h3>
-            <p className="text-gray-300 text-base leading-relaxed px-2">
-              Creamos soluciones digitales enfocadas en posicionamiento, presencia y crecimiento sostenible.
-            </p>
-          </div>
+        {/* Móvil: slider de 1 tarjeta a la vez, mismo patrón que Testimonios2 */}
+        <div className="md:hidden">
+          <Swiper
+            modules={[Pagination]}
+            pagination={{
+              clickable: true,
+              bulletClass: 'essence-bullet',
+              bulletActiveClass: 'essence-bullet-active',
+            }}
+            slidesPerView={1}
+            spaceBetween={16}
+            loop
+            className="!pb-10"
+          >
+            {essenceCards.map((card) => (
+              <SwiperSlide key={card.title} className="h-auto py-2">
+                <EssenceCard {...card} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <style>{`
+            .essence-bullet {
+              width: 8px;
+              height: 8px;
+              border-radius: 9999px;
+              background-color: rgba(255, 255, 255, 0.35);
+              cursor: pointer;
+              transition: all 0.3s ease;
+              display: inline-block;
+              margin: 0 4px;
+            }
+            .essence-bullet-active {
+              width: 24px;
+              background-color: #FFC500;
+              box-shadow: 0 0 12px rgba(255, 197, 0, 0.6);
+            }
+          `}</style>
         </div>
       </section>
 
@@ -142,7 +191,7 @@ const Nosotros = () => {
       <Testimonios2 />
 
       {/* 5. CTA BUTTON */}
-      <div className="relative z-10 flex justify-center pb-24 pt-8">
+      <div className="relative z-10 flex justify-center pb-24 pt-2 md:pt-8">
         <Link
           href="/contactanos"
           className="bg-[#FFC500] hover:bg-[#FFB800] text-black font-extrabold py-4 px-16 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(255,197,0,0.35)] uppercase text-sm sm:text-base tracking-widest"

@@ -77,163 +77,171 @@ export default function TemplateSelector({
         </div>
 
         {/* Template Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {PLANTILLAS_ARRAY.map((config) => {
-            const isSelected = selectedTemplate === config.id;
-            const isHovered = hoveredTemplate === config.id;
-            const features = config.features || {};
-            const hasConsejos = config.sectionsConfig?.consejos?.enabled ?? false;
-            const consejosAllowLink = config.sectionsConfig?.consejos?.allowLink ?? false;
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-stretch"> {/* CAMBIO 1: items-stretch agregado */}
+  {PLANTILLAS_ARRAY.map((config) => {
+    const isSelected = selectedTemplate === config.id;
+    const isHovered = hoveredTemplate === config.id;
+    const features = config.features || {};
+    const hasConsejos = config.sectionsConfig?.consejos?.enabled ?? false;
+    const consejosAllowLink = config.sectionsConfig?.consejos?.allowLink ?? false;
 
-            return (
-              <div
-                key={config.id}
-                className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                  isSelected
-                    ? "ring-4 ring-yellow-400 shadow-2xl shadow-yellow-400/20"
-                    : "hover:shadow-xl"
-                }`}
-                onClick={() => handleTemplateSelect(config.id)}
-                onMouseEnter={() => setHoveredTemplate(config.id)}
-                onMouseLeave={() => setHoveredTemplate(null)}
-              >
-                {/* Template Card */}
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
-                  {/* Preview Area */}
-                  <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                    {/* Mock Layout Preview */}
-                    <div className="p-4 h-full">
-                      {/* Header */}
-                      <div className="h-8 bg-gray-800 rounded mb-3 relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-80"></div>
-                      </div>
-
-                      {/* Content Layout */}
-                      {config.layoutType === "tabs" ? (
-                        <div className="space-y-2">
-                          {/* Tabs */}
-                          <div className="flex space-x-1 mb-2">
-                            <div className="h-4 w-12 bg-teal-500 rounded"></div>
-                            <div className="h-4 w-12 bg-gray-400 rounded"></div>
-                            <div className="h-4 w-12 bg-gray-400 rounded"></div>
-                          </div>
-                          {/* Content */}
-                          {hasConsejos && (
-                            <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
-                              <div className="text-white text-xs font-bold">Consejos</div>
-                            </div>
-                          )}
-                          <div className="grid grid-cols-2 gap-2">
-                            {Array.from({ length: features.informacion?.maxItems || 4 }, (_, i) => (
-                              <div key={i} className="h-12 bg-green-200 rounded"></div>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          {/* Consejos Section */}
-                          {hasConsejos && (
-                            <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
-                              <div className="text-white text-xs font-bold">
-                                Consejos
-                              </div>
-                            </div>
-                          )}
-                          {/* Gallery */}
-                          <div className="grid grid-cols-2 gap-1">
-                            <div className="h-10 bg-blue-200 rounded"></div>
-                            <div className="h-10 bg-blue-300 rounded"></div>
-                          </div>
-                          {/* Info Cards */}
-                          <div className="space-y-1">
-                            {Array.from({ length: 2 }, (_, i) => (
-                              <div key={i} className="h-6 bg-teal-100 rounded"></div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Selection Overlay */}
-                    {isSelected && (
-                      <div className="absolute inset-0 bg-yellow-400/20 flex items-center justify-center">
-                        <CheckCircle className="w-16 h-16 text-yellow-600" />
-                      </div>
-                    )}
-
-                    {/* Template Label */}
-                    <div className="absolute top-2 right-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                        config.layoutType === "tabs"
-                          ? "bg-teal-500 text-white"
-                          : "bg-purple-500 text-white"
-                      }`}>
-                        {config.layoutType === "tabs" ? (
-                          <ArrowRightFromLine  className="w-3 h-3 inline mr-1" />
-                        ) : (
-                          <Layout className="w-3 h-3 inline mr-1" />
-                        )}
-                        {config.layoutType}
-                      </span>
-                    </div>
+    return (
+      <div
+        key={config.id}
+        className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 h-full ${
+          isSelected
+            ? "ring-4 ring-yellow-400 shadow-2xl shadow-yellow-400/20"
+            : "hover:shadow-xl"
+        }`} /* CAMBIO 2: h-full agregado aquí */
+        onClick={() => handleTemplateSelect(config.id)}
+        onMouseEnter={() => setHoveredTemplate(config.id)}
+        onMouseLeave={() => setHoveredTemplate(null)}
+      >
+        {/* Template Card */}
+        <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-full flex flex-col justify-between"> {/* CAMBIO 3: h-full flex flex-col justify-between agregado */}
+          
+          {/* Parte superior de la tarjeta (Preview + Info) */}
+          <div className="flex flex-col flex-grow justify-between"> {/* CAMBIO 4: Wrapper superior flex flex-col flex-grow */}
+            <div>
+              {/* Preview Area */}
+              <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                {/* Mock Layout Preview */}
+                <div className="p-4 h-full">
+                  {/* Header */}
+                  <div className="h-8 bg-gray-800 rounded mb-3 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-80"></div>
                   </div>
 
-                  {/* Template Info */}
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-xl font-bold text-gray-900">
-                        {config.name}
-                      </h3>
-                      {isSelected && (
-                        <CheckCircle className="w-6 h-6 text-yellow-500" />
-                      )}
-                    </div>
-
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                      {config.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="space-y-2 mb-4">
+                  {/* Content Layout */}
+                  {config.layoutType === "tabs" ? (
+                    <div className="space-y-2">
+                      {/* Tabs */}
+                      <div className="flex space-x-1 mb-2">
+                        <div className="h-4 w-12 bg-teal-500 rounded"></div>
+                        <div className="h-4 w-12 bg-gray-400 rounded"></div>
+                        <div className="h-4 w-12 bg-gray-400 rounded"></div>
+                      </div>
+                      {/* Content */}
                       {hasConsejos && (
-                        <div className="flex items-center text-sm text-gray-700">
-                          <Quote className="w-4 h-4 mr-2 text-purple-500" />
-                          <span>{consejosAllowLink ? "Consejos con enlace propio" : "Consejos"}</span>
+                        <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
+                          <div className="text-white text-xs font-bold">Consejos</div>
                         </div>
                       )}
-                      <div className="flex items-center text-sm text-gray-700">
-                        <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
-                        <span>{features.galeria?.maxImages || 2} imágenes en galería</span>
+                      <div className="grid grid-cols-2 gap-2">
+                        {Array.from({ length: features.informacion?.maxItems || 4 }, (_, i) => (
+                          <div key={i} className="h-12 bg-green-200 rounded"></div>
+                        ))}
                       </div>
-                      <div className="flex items-center text-sm text-gray-700">
-                        <Layers className="w-4 h-4 mr-2 text-teal-500" />
-                        <span>{features.informacion?.maxItems || 4} tarjetas de info</span>
-                      </div>
-                      {features.consejos?.hasAutoGeneration && (
-                        <div className="flex items-center text-sm text-gray-700">
-                          <Sparkles className="w-4 h-4 mr-2 text-yellow-500" />
-                          <span>Auto-generación de contenido</span>
-                        </div>
-                      )}
                     </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {/* Consejos Section */}
+                      {hasConsejos && (
+                        <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
+                          <div className="text-white text-xs font-bold">
+                            Consejos
+                          </div>
+                        </div>
+                      )}
+                      {/* Gallery */}
+                      <div className="grid grid-cols-2 gap-1">
+                        <div className="h-10 bg-blue-200 rounded"></div>
+                        <div className="h-10 bg-blue-300 rounded"></div>
+                      </div>
+                      {/* Info Cards */}
+                      <div className="space-y-1">
+                        {Array.from({ length: 2 }, (_, i) => (
+                          <div key={i} className="h-6 bg-teal-100 rounded"></div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-                    {/* Selection Button */}
-                    <button
-                      className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
-                        isSelected
-                          ? "bg-yellow-500 text-white shadow-lg"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={() => handleTemplateSelect(config.id)}
-                    >
-                      {isSelected ? "Seleccionada" : "Seleccionar"}
-                    </button>
+                {/* Selection Overlay */}
+                {isSelected && (
+                  <div className="absolute inset-0 bg-yellow-400/20 flex items-center justify-center">
+                    <CheckCircle className="w-16 h-16 text-yellow-600" />
                   </div>
+                )}
+
+                {/* Template Label */}
+                <div className="absolute top-2 right-2">
+                  <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                    config.layoutType === "tabs"
+                      ? "bg-teal-500 text-white"
+                      : "bg-purple-500 text-white"
+                  }`}>
+                    {config.layoutType === "tabs" ? (
+                      <ArrowRightFromLine className="w-3 h-3 inline mr-1" />
+                    ) : (
+                      <Layout className="w-3 h-3 inline mr-1" />
+                    )}
+                    {config.layoutType}
+                  </span>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Template Info */}
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {config.name}
+                  </h3>
+                  {isSelected && (
+                    <CheckCircle className="w-6 h-6 text-yellow-500" />
+                  )}
+                </div>
+
+                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                  {config.description}
+                </p>
+
+                {/* Features */}
+                <div className="space-y-2 mb-4">
+                  {hasConsejos && (
+                    <div className="flex items-center text-sm text-gray-700">
+                      <Quote className="w-4 h-4 mr-2 text-purple-500" />
+                      <span>{consejosAllowLink ? "Consejos con enlace propio" : "Consejos"}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center text-sm text-gray-700">
+                    <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
+                    <span>{features.galeria?.maxImages || 2} imágenes en galería</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-700">
+                    <Layers className="w-4 h-4 mr-2 text-teal-500" />
+                    <span>{features.informacion?.maxItems || 4} tarjetas de info</span>
+                  </div>
+                  {features.consejos?.hasAutoGeneration && (
+                    <div className="flex items-center text-sm text-gray-700">
+                      <Sparkles className="w-4 h-4 mr-2 text-yellow-500" />
+                      <span>Auto-generación de contenido</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Selection Button */}
+            <div className="p-6 pt-0 mt-auto"> {/* CAMBIO 5: Se metió en un wrapper con mt-auto para alinearlo abajo */}
+              <button
+                className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
+                  isSelected
+                    ? "bg-yellow-500 text-white shadow-lg"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+                onClick={() => handleTemplateSelect(config.id)}
+              >
+                {isSelected ? "Seleccionada" : "Seleccionar"}
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+    );
+  })}
+</div>
 
         {/* Selected Template Summary */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
