@@ -124,7 +124,7 @@ export default function Testimonials() {
 
   return (
     <section
-      className="w-full relative py-20 px-4 md:px-12 overflow-hidden" 
+      className="w-full relative pt-20 pb-8 md:pb-20 px-4 md:px-12 overflow-hidden"
     >
       {/* Background decorations para mantener consistencia con Servicios */}
       <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#ffb800]/10 blur-[120px] pointer-events-none" />
@@ -219,7 +219,7 @@ export default function Testimonials() {
                 slidesPerView: 3,
               },
             }}
-            className="!pb-14"
+            className="!pb-8 md:!pb-14"
           >
             {/* Renderiza una card por cada testimonio */}
             {testimonialsData.map((review) => {
@@ -304,7 +304,7 @@ export default function Testimonials() {
           </Swiper>
 
           {/* Paginación custom */}
-          <div className="flex justify-center items-center gap-2 mt-4 testimonials-pagination" />
+          <div className="flex justify-center items-center gap-2 mt-2 md:mt-4 testimonials-pagination" />
         </div>
       </div>
 
