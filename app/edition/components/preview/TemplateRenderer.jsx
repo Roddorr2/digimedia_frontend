@@ -421,11 +421,8 @@ export default function TemplateRenderer({
               >
                 <span
                   className="font-bold text-base text-center"
-                  style={
-                    bodyHeader.titulo_tarjeta_color
-                      ? { color: bodyHeader.titulo_tarjeta_color }
-                      : { background: "linear-gradient(...)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }
-                  }
+                  style={{ color: bodyHeader.titulo_tarjeta_color || "#1E40AF", letterSpacing: "-0.48px"
+                     }}
                 >
                   {bodyHeader.titulo_tarjeta || "Información detallada de nuestros servicios"}
                 </span>

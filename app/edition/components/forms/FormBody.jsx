@@ -168,7 +168,7 @@ export default function FormBody({
         titulo_consejos: "Consejos Importantes",
       }));
     }
-  }, [formEncabezadoBody, setFormEncabezadoBody]);
+  }, []);
 
   // Manejar cambio de tab activo cuando se deshabilitan secciones
   useEffect(() => {
@@ -765,7 +765,7 @@ export default function FormBody({
             className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
             style={{ color: data.header.titulo_consejos_color || "#FFB800" }}
           >
-            {data.header.titulo_consejos || "Consejos Importantes"}
+            {data.header.titulo_consejos ?? "Consejos Importantes"}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {consejos.map((consejo, index) => (
@@ -802,7 +802,7 @@ export default function FormBody({
           <h3 style={{ color: data.header.titulo_consejos_color || "#FFB800" }}
               className="font-extrabold text-2xl leading-tight tracking-tight"
             >
-            {data.header.titulo_consejos || "Consejos"}
+            {data.header.titulo_consejos ?? "Consejos"}
           </h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

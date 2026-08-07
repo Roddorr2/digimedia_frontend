@@ -481,7 +481,6 @@ export default function FormHeader({
                   </h4>
 
 
-
                   {/* Selector de tipo: sólido o gradiente */}
                   <div className="mb-3">
                     <select
