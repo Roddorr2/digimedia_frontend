@@ -344,7 +344,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="Buscar por nombre, correo o ID..."
-                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent"
+                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -353,7 +353,7 @@ export default function Page() {
             <div className="flex gap-2">
               <button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 dark:hover:bg-green-900/30"
                 title="Exportar a CSV"
               >
                 <Download size={18} />
@@ -363,7 +363,7 @@ export default function Page() {
               <button
                 onClick={() => fetchContacts()}
                 disabled={isRefreshing}
-                className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
+                className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800 dark:hover:bg-blue-900/30 ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
               >
                 {isRefreshing ? (
@@ -385,62 +385,66 @@ export default function Page() {
         ) : (
           <>
             {/* TABLA DESKTOP */}
-            <div className="hidden lg:block overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50 dark:bg-gray-800">
+            <div className="hidden lg:block overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-[#8c52ff]">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       ID
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Nombres
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Correo
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Telefono
                     </th>
                     {/* ── COLUMNA SERVICIO ── */}
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Servicio
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Estado
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Acciones
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredData.length > 0 ? (
                     //quitar el slice y deja map
-                    filteredData.map((contacto) => (
+                    filteredData.map((contacto, index) => (
                       <tr
                         key={`${contacto.id_contactanos}-Row`}
-                        className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"
+                        className={`${
+                          index % 2 === 0
+                            ? "bg-white dark:bg-gray-900"
+                            : "bg-gray-50 dark:bg-gray-700"
+                        } hover:bg-neutral-200 transition-colors dark:text-white`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {contacto.id_contactanos}
@@ -457,7 +461,7 @@ export default function Page() {
                         {/* ── CELDA SERVICIO ── */}
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
                           {contacto.servicio ? (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
                               {contacto.servicio}
                             </span>
                           ) : (
@@ -468,8 +472,8 @@ export default function Page() {
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               contacto.estado
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
+                                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
                             }`}
                           >
                             {contacto.estado ? "Activo" : "Inactivo"}
@@ -482,7 +486,7 @@ export default function Page() {
                                 visualizar(contacto.id_contactanos)
                               }
                               title="Visualizar"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
                             >
                               <Eye size={18} />
                             </button>
@@ -497,8 +501,8 @@ export default function Page() {
                               title={`Cambiar a ${contacto.estado ? "Inactivo" : "Activo"}`}
                               className={`p-1.5 rounded-lg transition-colors ${
                                 contacto.estado
-                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                                  : "bg-green-50 text-green-600 hover:bg-green-100"
+                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                                  : "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
                               }`}
                             >
                               <ToggleLeft size={18} />
@@ -510,7 +514,7 @@ export default function Page() {
                                   confirmarEliminacion(contacto.id_contactanos)
                                 }
                                 title="Eliminar"
-                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                               >
                                 <Trash2 size={18} />
                               </button>
@@ -554,7 +558,7 @@ export default function Page() {
                 filteredData.map((contacto) => (
                   <div
                     key={`${contacto.id_contactanos}-card`}
-                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 p-4"
+                    className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4"
                   >
                     {/* Header */}
                     <div className="flex justify-between items-start mb-4">
@@ -568,8 +572,8 @@ export default function Page() {
                       <span
                         className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                           contacto.estado
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                            : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
                         }`}
                       >
                         {contacto.estado ? "Activo" : "Inactivo"}
@@ -601,7 +605,7 @@ export default function Page() {
                       <div>
                         <p className="text-xs text-gray-400">Servicio</p>
                         {contacto.servicio ? (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
                             {contacto.servicio}
                           </span>
                         ) : (
@@ -614,7 +618,7 @@ export default function Page() {
                     <div className="flex justify-end gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
                       <button
                         onClick={() => visualizar(contacto.id_contactanos)}
-                        className="p-2 bg-amber-50 text-amber-600 rounded-xl hover:bg-amber-100 transition-colors"
+                        className="p-2 bg-amber-50 text-amber-600 rounded-xl hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
                       >
                         <Eye size={18} />
                       </button>
@@ -628,8 +632,8 @@ export default function Page() {
                         }
                         className={`p-2 rounded-xl transition-colors ${
                           contacto.estado
-                            ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                            : "bg-green-50 text-green-600 hover:bg-green-100"
+                            ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                            : "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
                         }`}
                       >
                         <ToggleLeft size={18} />
@@ -640,7 +644,7 @@ export default function Page() {
                           onClick={() =>
                             confirmarEliminacion(contacto.id_contactanos)
                           }
-                          className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors"
+                          className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                         >
                           <Trash2 size={18} />
                         </button>

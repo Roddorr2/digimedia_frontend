@@ -351,7 +351,7 @@ export default function Page() {
               <input
                 type="text"
                 placeholder="Buscar por nombre, correo o ID..."
-                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent"
+                className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8c52ff] focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -360,7 +360,7 @@ export default function Page() {
             <div className="flex gap-2">
               <button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 dark:hover:bg-green-900/30"
                 title="Exportar a CSV"
               >
                 <Download size={18} />
@@ -370,7 +370,7 @@ export default function Page() {
               <button
                 onClick={() => fetchReclamacion()}
                 disabled={isRefreshing}
-                className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
+                className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800 dark:hover:bg-blue-900/30 ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
               >
                 {isRefreshing ? (
@@ -394,56 +394,60 @@ export default function Page() {
         ) : (
           <>
             {/* TABLA - Desktop */}
-            <div className="hidden lg:block overflow-x-auto rounded-lg border border-gray-100">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50 dark:bg-gray-800">
+            <div className="hidden lg:block overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-[#8c52ff]">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase">
                       ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase">
                       Nombres
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase">
                       Correo
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase">
                       Estado
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-white uppercase">
                       Acciones
                     </th>
                   </tr>
                 </thead>
 
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredData.length > 0 &&
                     filteredData
                       .slice(
                         (Number(currentPage) - 1) * 4,
                         Number(currentPage) * 4,
                       )
-                      .map((reclamacion) => (
+                      .map((reclamacion, index) => (
                         <tr
                           key={`${reclamacion.id_reclamacion}-Row`}
-                          className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                          className={`${
+                            index % 2 === 0
+                              ? "bg-white dark:bg-gray-900"
+                              : "bg-gray-50 dark:bg-gray-700"
+                          } hover:bg-neutral-200 transition-colors`}
                         >
-                          <td className="px-6 py-4">
+                          <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                             {reclamacion.id_reclamacion}
                           </td>
 
-                          <td className="px-6 py-4">
+                          <td className="px-6 py-4 text-sm text-gray-700 dark:text-white">
                             {reclamacion.nombre} {reclamacion.apellido}
                           </td>
 
-                          <td className="px-6 py-4">{reclamacion.email}</td>
+                          <td className="px-6 py-4 text-sm text-gray-700 dark:text-white">{reclamacion.email}</td>
 
                           <td className="px-6 py-4">
                             <span
                               className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                 reclamacion.estadoReclamo === "ATENDIDO"
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-amber-100 text-amber-800"
+                                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                  : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
                               }`}
                             >
                               {reclamacion.estadoReclamo === "ATENDIDO" ? (
@@ -463,7 +467,7 @@ export default function Page() {
                                   visualizar(reclamacion.id_reclamacion)
                                 }
                                 title="Visualizar"
-                                className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                                className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
                               >
                                 <Eye size={18} />
                               </button>
@@ -480,8 +484,8 @@ export default function Page() {
                                 title={`Cambiar a ${reclamacion.estadoReclamo === "PENDIENTE" ? "ATENDIDO" : "PENDIENTE"}`}
                                 className={`p-1.5 rounded-lg transition-colors ${
                                   reclamacion.estadoReclamo === "PENDIENTE"
-                                    ? "bg-green-50 text-green-600 hover:bg-green-100"
-                                    : "bg-amber-50 text-amber-600 hover:bg-amber-100"
+                                    ? "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
+                                    : "bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
                                 }`}
                               >
                                 <CheckCircle size={18} />
@@ -495,7 +499,7 @@ export default function Page() {
                                     )
                                   }
                                   title="Eliminar"
-                                  className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                                  className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                                 >
                                   <Trash2 size={18} />
                                 </button>
@@ -530,8 +534,8 @@ export default function Page() {
                         <span
                           className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
                             reclamacion.estadoReclamo === "ATENDIDO"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-amber-100 text-amber-800"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                              : "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
                           }`}
                         >
                           {reclamacion.estadoReclamo === "ATENDIDO" ? (
@@ -565,7 +569,7 @@ export default function Page() {
                       <div className="flex justify-end gap-2 pt-3 border-t dark:border-gray-700">
                         <button
                           onClick={() => visualizar(reclamacion.id_reclamacion)}
-                          className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100"
+                          className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
                         >
                           <Eye size={18} />
                         </button>
@@ -581,8 +585,8 @@ export default function Page() {
                           }
                           className={`p-2 rounded-lg ${
                             reclamacion.estadoReclamo === "PENDIENTE"
-                              ? "bg-green-50 text-green-600 hover:bg-green-100"
-                              : "bg-amber-50 text-amber-600 hover:bg-amber-100"
+                              ? "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
+                              : "bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
                           }`}
                         >
                           <CheckCircle size={18} />
@@ -593,7 +597,7 @@ export default function Page() {
                             onClick={() =>
                               confirmarEliminacion(reclamacion.id_reclamacion)
                             }
-                            className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
+                            className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                           >
                             <Trash2 size={18} />
                           </button>
