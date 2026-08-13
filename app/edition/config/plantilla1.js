@@ -7,17 +7,17 @@ export const PLANTILLA1_STYLES = {
     "relative text-white rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
 
   // linearLayout también necesita el fix — fuerza fila siempre
-  linearLayout: "flex flex-col lg:flex-row justify-center",
-
+  //se hizo cambios para que funcione correctamente el scroll en cada plantilla
+    linearLayout: "flex flex-col lg:flex-row items-start gap-6",
   // Preview area responsive
-  previewArea: "w-full lg:w-[600px]",
+  previewArea: "w-full lg:min-w-0",
   previewHeader: "relative h-[220px] sm:h-[300px] lg:h-[400px] overflow-hidden",
   previewContent: "p-4 sm:p-8 bg-gradient-to-b from-[#000118] via-[#410C89] to-[#000118]",
 
   // Form panel responsive 
-  formPanel: "w-full lg:w-[420px] flex flex-col justify-center gap-5 p-4 sm:p-5",
+  formPanel: "w-full lg:min-w-0 flex flex-col gap-5",
   formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-4 sm:p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-4 shadow-lg w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
   // Sections  Plantilla 1 específicos
   consejosSection:
     "mb-[100px] p-10 px-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] text-center text-gray-100",

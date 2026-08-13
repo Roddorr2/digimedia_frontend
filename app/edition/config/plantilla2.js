@@ -3,22 +3,22 @@
 // Configuración de estilos específica
 export const PLANTILLA2_STYLES = {
   // Layout general
+  //se hizo cambios para que funcione correctamente el scroll en cada plantilla
   container:
-    "relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] overflow-hidden my-5",
-
+"relative text-black rounded-lg shadow-[0px_10px_25px_rgba(0,0,0,0.25)] my-5",
   tabsLayout:
-    "bg-white rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] overflow-hidden",
+     "bg-white rounded-2xl shadow-[0px_10px_25px_rgba(0,0,0,0.15)] flex flex-col lg:flex-row items-start gap-6 justify-center",
 
   // Preview area
   // de anchos fijos se paso a responsive porque se desbordaba
-  previewArea: "w-full lg:w-[600px]",
+  previewArea: "w-full lg:flex-1",
   previewHeader: "relative h-[220px] sm:h-[300px] lg:h-[400px] overflow-hidden",
   previewContent: "bg-black/5 p-4 sm:p-8",
 
   // Form panel
-  formPanel: "w-full lg:w-[420px] flex flex-col justify-center gap-5 p-4 sm:p-5",
+  formPanel: "w-full lg:flex-1 flex flex-col gap-5",
   formCard:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-4 sm:p-8 shadow-lg w-full max-w-lg overflow-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-4 sm:p-8 shadow-lg w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900",
 
   // Tabs específicos
     tabsContainer: "flex flex-wrap border-b border-gray-200 mb-8",
