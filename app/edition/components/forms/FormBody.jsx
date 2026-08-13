@@ -81,6 +81,12 @@ export default function FormBody({
   const [selectedDescriptionTexts, setSelectedDescriptionTexts] = useState({});
   const [selectedDescriptionText, setSelectedDescriptionText] = useState("");
   const [selectedConsejoTexts, setSelectedConsejoTexts] = useState({});
+  //nuevos estados internos
+  const previewContainerRef = useRef(null);
+  const [previewHeight, setPreviewHeight] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const PREVIEW_FLEX = "1 1 65%";
+  const EDITOR_FLEX = "1 1 35%";
 
   // Estados para controlar visibilidad dinámica de secciones
   const [sectionsVisibility, setSectionsVisibility] = useState({
@@ -92,6 +98,18 @@ export default function FormBody({
   // Estado local para los colores del gradiente
   const [gradientColorsLocal, setGradientColorsLocal] = useState([]);
   const [gradientDirection, setGradientDirection] = useState("");
+
+  //detectar breakpoint en dekstop 
+  useEffect(() => {
+  const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+  const updateIsDesktop = () => setIsDesktop(mediaQuery.matches);
+  updateIsDesktop();
+
+  mediaQuery.addEventListener("change", updateIsDesktop);
+  return () => mediaQuery.removeEventListener("change", updateIsDesktop);
+  }, []);
+
 
   // Sincronizar gradientColorsLocal con formEncabezadoBody.bg_colors
   useEffect(() => {
@@ -142,6 +160,31 @@ export default function FormBody({
   };
   const layoutType = plantillaConfig.layoutType;
 
+  //useeffect que mide altura
+  useEffect(() => {
+  const el = previewContainerRef.current;
+  if (!el || !isDesktop) {
+    setPreviewHeight(null);
+    return;
+  }
+
+  const updateHeight = () => setPreviewHeight(el.offsetHeight);
+  updateHeight();
+
+  const resizeObserver = new ResizeObserver(updateHeight);
+  resizeObserver.observe(el);
+
+  return () => resizeObserver.disconnect();
+}, [
+  isDesktop,
+  sectionsVisibility,
+  formEncabezadoBody,
+  formCommendBody,
+  formGaleryBody,
+  formInfoBody,
+  layoutType,
+  plantillaId,
+]);
   // Sincronizar estados de visibilidad con los datos
   useEffect(() => {
     setSectionsVisibility({
@@ -661,6 +704,7 @@ export default function FormBody({
   }
 
   // Renderizar sección de encabezado
+  //se hicieron modificaciones en los estilos para que aparezca el scroll y sea funcional
   const renderHeaderSection = () => {
     if (layoutType === "plantilla3") {
       return (
@@ -670,9 +714,9 @@ export default function FormBody({
               {data.header.fecha || "Fecha de publicación"}
             </p>
             <h2
-              className="font-extrabold text-2xl lg:text-3xl leading-tight tracking-tight mb-4"
-              style={{ color: data.header.titulo_color || "#FFB800", letterSpacing: "-0.48px" }}
-            >
+                className="font-extrabold text-2xl leading-tight tracking-tight mb-3"
+                style={{ color: data.header.titulo_color || "#FFB800" }}
+              >
               {data.header.titulo || "Título del Blog"}
             </h2>
             <p className="text-sm leading-relaxed" style={{ color: data.header.descripcion_color || "#CCC3D4" }}>
@@ -762,9 +806,9 @@ export default function FormBody({
       return (
         <div className="mb-16">
           <h3
-            className="text-center font-extrabold text-5xl mb-12 tracking-tight leading-tight"
-            style={{ color: data.header.titulo_consejos_color || "#FFB800" }}
-          >
+              className="text-center font-extrabold text-2xl mb-6 tracking-tight leading-tight"
+              style={{ color: data.header.titulo_consejos_color || "#FFB800" }}
+            >
             {data.header.titulo_consejos ?? "Consejos Importantes"}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -786,7 +830,7 @@ export default function FormBody({
                 <div className="flex justify-center mb-6">
                   <CheckCircle className="w-14 h-14 text-white" />
                 </div>
-                <p className="text-lg text-center leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
+                  <p className="text-sm text-center leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4" }}>{renderDescripcion(consejo.texto, consejo.palabra, consejo.enlace)}</p>
               </div>
             ))}
           </div>
@@ -849,7 +893,7 @@ export default function FormBody({
           }}
         >
           <h3
-            className="text-center font-extrabold text-5xl mb-10 tracking-tight"
+            className="text-center font-extrabold text-2xl mb-6 tracking-tight"
             style={{ color: "#FFB800" }}
           >
             Galería
@@ -921,7 +965,7 @@ export default function FormBody({
           className="rounded-[30px] p-8 mb-6"
           style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)" }}
         >
-          <h4 className="font-bold text-2xl mb-3" style={{ color: item.titulo_color || "#FFB800" }}>
+          <h4 className="font-bold text-base mb-2" style={{ color: item.titulo_color || "#FFB800" }}>
             {item.titulo || `Información ${index + 1}`}
           </h4>
           <p className="text-lg leading-relaxed" style={{ color: item.descripcion_color || "#CCC3D4" }}>
@@ -934,7 +978,7 @@ export default function FormBody({
           className="rounded-[30px] p-8 flex flex-col items-center text-center"
           style={{ background: cardBg, border: "1px solid rgba(95,0,223,0.2)" }}
         >
-          <h4 className="font-bold text-xl mb-3" style={{ color: item.titulo_color || "#FFB800" }}>
+          <h4 className="font-bold text-base mb-2" style={{ color: item.titulo_color || "#FFB800" }}>
             {item.titulo || `Información ${index + 1}`}
           </h4>
           <p className="text-base leading-relaxed" style={{ color: item.descripcion_color || "#CCC3D4" }}>
@@ -945,7 +989,7 @@ export default function FormBody({
       return (
         <div className="mb-16">
           <h3
-            className="text-center font-extrabold text-5xl mb-12 tracking-tight"
+            className="text-center font-extrabold text-2xl mb-6 tracking-tight"
             style={{ color: data.header.titulo_tarjeta_color || "#FFB800" }}
           >
             {data.header.titulo_tarjeta || "Información Detallada"}
@@ -1005,9 +1049,7 @@ export default function FormBody({
                 <h3 className="font-bold text-base mb-2" style={{ color: section.titulo_color || "#FFB800" }}>
                   {section.titulo}
                 </h3>
-                <p className="text-[#CCC3D4] text-xs leading-relaxed">
-                  </p>
-                  {renderDescripcion(section.descripcion, section.palabra, section.enlace, false)}
+                {/* se elimino texto de tajertas de informacion duplicadas */}
                 <p className="text-xs leading-relaxed" style={{ color: section.descripcion_color || "#CCC3D4" }}>
                   {renderDescripcion(section.descripcion, section.palabra, section.enlace)}
                 </p>
@@ -1318,9 +1360,21 @@ export default function FormBody({
   };
 
   // Renderizar formularios de edición - compatible con handlers originales
+  //se agrego el scroll propio para que no crezca el editor y estire la preview
   const renderEditForms = () => {
     return (
-      <div className={mergedStyles.formPanel}>
+    <div
+      className={`${mergedStyles.formPanel} overflow-y-auto lg:sticky lg:top-4 pr-2`}
+      style={
+        isDesktop
+          ? {
+              maxHeight: previewHeight ? `${previewHeight}px` : "85vh",
+              flex: EDITOR_FLEX,
+              minWidth: 0,
+            }
+          : undefined
+      }
+    >     
         <div className={mergedStyles.formCard}>
           <form className="space-y-6">
             <h3 className="text-lg font-semibold text-white mb-4">
@@ -2179,8 +2233,9 @@ export default function FormBody({
           <div className="w-full mb-6">{renderSectionControls()}</div>
           <div className={containerClass}>
             <div
-              className={mergedStyles.previewArea + " rounded-[20px] overflow-hidden"}
-              style={previewBgStyle}
+              ref={previewContainerRef}
+              className={mergedStyles.previewArea + " rounded-[20px] overflow-hidden sticky top-4"}
+              style={{ ...previewBgStyle, ...(isDesktop ? { flex: PREVIEW_FLEX } : {}) }}
             >
               <div className="p-5 pb-0">
                 {renderHeaderSection()}
@@ -2212,8 +2267,9 @@ export default function FormBody({
           {/* Contenido en dos columnas: preview + forms */}
           <div className={containerClass}>
             <div
-              className={mergedStyles.previewArea}
-              style={previewBgStyle}
+              ref={previewContainerRef}
+              className={`${mergedStyles.previewArea} `}
+              style={{ ...previewBgStyle, ...(isDesktop ? { flex: PREVIEW_FLEX } : {}) }}
             >
               <div className="p-8">
                 {renderHeaderSection()}
@@ -2243,31 +2299,32 @@ export default function FormBody({
         <div className={`${className}`}>
           <div className="w-full mb-6">{renderSectionControls()}</div>
           <div className={containerClass}>
-             {/* cambio para que no se aplasten las columnas una al lado de otra */}
-            <div className="flex flex-col lg:flex-row gap-6 justify-center">
-              {/* Preview izquierda con el diseño Figma de Plantilla 2 */}
-              <div className={mergedStyles.previewArea}>
-                <div className="sticky top-4">
-                  <div
-                    className="rounded-[20px] overflow-hidden"
-                    style={previewBgStyle}
-                  >
+            <div
+              ref={previewContainerRef}
+              className={mergedStyles.previewArea}
+              style={isDesktop ? { flex: PREVIEW_FLEX } : undefined}
+            >
+              <div className="sticky top-4">
+              <div
+                className="rounded-[20px] overflow-hidden"
+                style={previewBgStyle}
+              >
                     <div className="px-5 py-6">
 
                       {/* Hero: título izquierda + imagen derecha */}
+                      {/* se modificaron los tamaños de texto  */}
                       <div className="flex flex-col lg:flex-row gap-4 pb-5 items-center">
                         <div className="flex-1 min-w-0 flex flex-col justify-center">
                           {data.header.fecha && (
                             <p className="text-[#FFB800] font-semibold text-xs mb-2">{data.header.fecha}</p>
                           )}
                           <h2
-                            className="font-extrabold text-base lg:text-xl leading-tight tracking-[-0.48px] mb-2 uppercase"
+                            className="font-extrabold text-2xl leading-tight tracking-tight mb-3"
                             style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: data.header.titulo_color || "#FFB800" }}
                           >
                             {data.header.titulo || "Título del Blog"}
                           </h2>
-                          <p className="text-xs leading-relaxed" style={{ color: data.header.descripcion_color || "#CCC3D4" }}>
-                            {renderDescripcion(
+                              <p className="text-sm leading-relaxed" style={{ color: data.header.descripcion_color || "#CCC3D4" }}>                            {renderDescripcion(
                               data.header.descripcion || "Descripción del contenido del blog",
                               data.header.palabra,
                               data.header.enlace
@@ -2316,7 +2373,7 @@ export default function FormBody({
                           <div className="h-[6px]" style={{ background: "linear-gradient(90deg, rgba(65,12,137,0) 0%, #410C89 50%, rgba(65,12,137,0) 100%)" }} />
                           <div className="mx-3 my-3 rounded-[16px] px-4 py-4" style={{ background: "linear-gradient(180deg, rgba(19,0,73,0.69) 0%, rgba(16,0,67,0.69) 100%)" }}>
                             <h3
-                              className="text-center font-bold text-xs leading-tight mb-3"
+                              className="text-center font-extrabold text-2xl leading-tight mb-3"
                               style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: data.header.titulo_consejos_color || "#FFB800" }}
                             >
                               {data.header.titulo_consejos || "Consejos Importantes"}
@@ -2336,7 +2393,8 @@ export default function FormBody({
                                       className="flex-1 flex items-center px-3 min-h-[44px] rounded-[14px]"
                                       style={{ background: "linear-gradient(180deg, rgba(16,0,67,0.92) 0%, rgba(0,1,24,0.92) 100%)" }}
                                     >
-                                      <p className="text-xs leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4" }}>{consejo.texto}</p>
+                                      <p className="text-sm leading-relaxed" style={{ color: consejo.texto_color || "#CCC3D4" }}>
+                                        {consejo.texto}</p>
                                     </div>
                                   </div>
                                 ))}
@@ -2372,7 +2430,7 @@ export default function FormBody({
                               <div className="w-full h-[10px] rounded-t-[14px]" style={{ background: "linear-gradient(90deg, #FFCA3A 0%, #FFAC00 100%)" }} />
                               <div className="px-4 py-3 border border-white/5 rounded-b-[14px]" style={{ background: "linear-gradient(180deg, #000118 0%, #100043 100%)" }}>
                                 <h3
-                                  className="font-extrabold text-xs leading-tight tracking-[-0.48px] mb-1"
+                                  className="font-bold text-base mb-2"
                                   style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: card.titulo_color || "#FFB800" }}
                                 >
                                   {card.titulo || `Información ${index + 1}`}
@@ -2446,7 +2504,6 @@ export default function FormBody({
               {/* Formularios de edición */}
               {renderEditForms()}
             </div>
-          </div>
         </div>
       );
     }
@@ -2458,10 +2515,12 @@ export default function FormBody({
 
         {/* Layout principal: Preview (izquierda) + Forms (derecha) con anchos fijos */}
         <div className={containerClass}>
-          <div className="flex gap-6 justify-center">
-            {/* Columna IZQUIERDA: Preview con Header + Tabs */}
-            <div className={mergedStyles.previewArea}>
-              <div className="sticky top-4">
+          <div className="flex flex-col lg:flex-row items-start gap-6 justify-center">
+            <div
+              className={mergedStyles.previewArea}
+              style={isDesktop ? { flex: PREVIEW_FLEX } : undefined}
+            >
+              <div ref={previewContainerRef} className="sticky top-4">
                 {/* Header con controles */}
                 <div className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-lg">
                   <div className="flex items-center space-x-2 text-gray-500 text-sm">
