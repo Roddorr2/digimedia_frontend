@@ -335,7 +335,7 @@ export default function Page() {
             <div className="flex gap-2">
               <button
                 onClick={exportToCSV}
-                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg border border-green-100 hover:bg-green-100 transition-colors dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 dark:hover:bg-green-900/30"
                 title="Exportar a CSV"
               >
                 <Download size={18} />
@@ -345,7 +345,7 @@ export default function Page() {
               <button
                 onClick={() => fetchModals(currentPage, searchTerm)}
                 disabled={isRefreshing}
-                className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
+                className={`flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800 dark:hover:bg-blue-900/30 ${isRefreshing ? "opacity-70 cursor-not-allowed" : ""}`}
                 title="Actualizar datos"
               >
                 {isRefreshing ? (
@@ -368,58 +368,62 @@ export default function Page() {
           <>
             <div className="hidden md:block overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-800">
+                <thead className="bg-[#8c52ff]">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       ID
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Nombres
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Correo
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Servicio de Contrato
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Subservicio
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Estado
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400"
+                      className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider"
                     >
                       Acciones
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredData.length > 0 ? (
-                    filteredData.map((modal) => (
+                    filteredData.map((modal, index) => (
                       <tr
                         key={`${modal.id_modalservicio}-Row`}
-                        className="hover:bg-gray-50 transition-colors dark:hover:bg-gray-800 dark:text-white"
+                        className={`${
+                          index % 2 === 0
+                            ? "bg-white dark:bg-gray-900"
+                            : "bg-gray-50 dark:bg-gray-700"
+                        } hover:bg-neutral-200 transition-colors dark:text-white`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {modal.id_modalservicio}
@@ -554,8 +558,8 @@ export default function Page() {
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
                         modal.estado
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                          : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                       }`}
                     >
                       {modal.estado ? "Activo" : "Inactivo"}
@@ -593,14 +597,14 @@ export default function Page() {
                   <div className="flex justify-end gap-2 mt-4 pt-3 border-t dark:border-gray-700">
                     <button
                       onClick={() => visualizar(modal.id_modalservicio)}
-                      className="p-2 bg-amber-50 text-amber-600 rounded-lg"
+                      className="p-2 bg-amber-50 text-amber-600 rounded-lg dark:bg-amber-900/20 dark:text-amber-400"
                     >
                       <Eye size={18} />
                     </button>
 
                     <Link
                       href={`/dashboard/modales/mails?id_modal=${modal.id_modalservicio}`}
-                      className="p-2 bg-cyan-50 text-cyan-600 rounded-lg"
+                      className="p-2 bg-cyan-50 text-cyan-600 rounded-lg dark:bg-cyan-900/20 dark:text-cyan-400"
                     >
                       <Contact size={18} />
                     </Link>
@@ -614,8 +618,8 @@ export default function Page() {
                       }
                       className={`p-2 rounded-lg ${
                         modal.estado
-                          ? "bg-blue-50 text-blue-600"
-                          : "bg-green-50 text-green-600"
+                          ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                          : "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400"
                       }`}
                     >
                       <ToggleLeft size={18} />
@@ -626,7 +630,7 @@ export default function Page() {
                         onClick={() =>
                           confirmarEliminacion(modal.id_modalservicio)
                         }
-                        className="p-2 bg-red-50 text-red-600 rounded-lg"
+                        className="p-2 bg-red-50 text-red-600 rounded-lg dark:bg-red-900/20 dark:text-red-400"
                       >
                         <Trash2 size={18} />
                       </button>

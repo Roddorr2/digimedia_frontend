@@ -247,22 +247,22 @@ export default function Page() {
 
   // Componente para la vista de tarjetas (móvil)
   const BlogCard = ({ blog }) => (
-    <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
+    <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4 space-y-3">
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded">
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">
               ID: {blog.id_card}
             </span>
           </div>
-          <h3 className="font-medium text-slate-900 mb-1 line-clamp-2">
+          <h3 className="font-medium text-slate-900 dark:text-slate-100 mb-1 line-clamp-2">
             {blog.titulo}
           </h3>
-          <p className="text-sm text-slate-600 line-clamp-2 mb-2">
+          <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-2">
             {blog.descripcion}
           </p>
         </div>
-        <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 ml-3 flex-shrink-0">
+        <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700 ml-3 flex-shrink-0">
           <img
             src={blog.public_image || "/placeholder.svg"}
             alt={blog.titulo}
@@ -271,9 +271,9 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="pt-2 border-t border-slate-100">
+      <div className="pt-2 border-t border-slate-100 dark:border-slate-700">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm text-slate-600">
+          <span className="text-sm text-slate-600 dark:text-slate-400">
             <span className="font-medium">Autor:</span>{" "}
             {blog.empleado?.nombre || "Desconocido"}
           </span>
@@ -284,7 +284,7 @@ export default function Page() {
             href={`/blog/plantilla${blog.id_plantilla}/${blog.blog.link}/`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 text-sky-600 rounded-lg hover:bg-sky-100 transition-colors text-sm"
+            className="flex-1 flex items-center justify-center gap-2 p-2 bg-sky-50 dark:bg-sky-900 text-sky-600 dark:text-sky-400 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-800 transition-colors text-sm"
             title="Ver blog"
           >
             <Eye className="w-4 h-4" />
@@ -292,7 +292,7 @@ export default function Page() {
           </Link>
           <Link
             href={`/edition?mode=edit&id=${blog.id_blog}`}
-            className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors text-sm"
+            className="flex-1 flex items-center justify-center gap-2 p-2 bg-amber-50 dark:bg-amber-900 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-800 transition-colors text-sm"
             title="Editar blog"
           >
             <Pencil className="w-4 h-4" />
@@ -301,7 +301,7 @@ export default function Page() {
           {hasPermission("eliminar-blogs") && (
             <button
               onClick={() => confirmDelete(blog.id_blog)}
-              className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+              className="flex items-center justify-center p-2 bg-rose-50 dark:bg-rose-900 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-800 transition-colors"
               title="Eliminar blog"
             >
               <Trash2 className="w-4 h-4" />
@@ -460,23 +460,23 @@ export default function Page() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-700 border-b border-slate-100 dark:border-slate-600 text-center">
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                  <tr className="bg-[#8c52ff] text-center">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Título
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Descripción
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Imagen
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                       Autor
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-semibold text-white uppercase tracking-wider">
                       Acciones
                     </th>
                   </tr>
@@ -485,7 +485,11 @@ export default function Page() {
                   {displayedBlogs.map((blog, index) => (
                     <tr
                       key={`blog-${blog.id_card}`}
-                      className={`hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${
+                      className={`${
+                        index % 2 === 0
+                          ? "bg-white dark:bg-slate-900"
+                          : "bg-slate-50 dark:bg-slate-700"
+                      } hover:bg-neutral-200 transition-colors ${
                         index !== displayedBlogs.length - 1
                           ? "border-b border-slate-100 dark:border-slate-700"
                           : ""
