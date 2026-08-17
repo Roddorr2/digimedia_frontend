@@ -410,7 +410,7 @@ export default function Page() {
                       scope="col"
                       className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider"
                     >
-                      Acciones
+                      ACCIONES
                     </th>
                   </tr>
                 </thead>
@@ -425,49 +425,48 @@ export default function Page() {
                             : "bg-gray-50 dark:bg-gray-700"
                         } hover:bg-neutral-200 transition-colors dark:text-white`}
                       >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                          {modal.id_modalservicio}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-500 dark:text-gray-400">
+                          #{modal.id_modalservicio}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-gray-900 dark:text-white">
                           {modal.nombre}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-700 dark:text-gray-300">
                           {modal.correo}
                         </td>
 
-                        {/* 👇 CORRECCIÓN 1: Aquí agregamos el signo de interrogación (?) 👇 */}
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                          {modal.servicio?.nombre}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-700 dark:text-gray-300">
+                          {modal.servicio?.nombre || "—"}
                         </td>
 
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
-                          {modal.subservicio?.nombre || <span className="text-gray-400">—</span>}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-700 dark:text-gray-300">
+                          {modal.subservicio?.nombre || <span className="text-gray-400 dark:text-gray-500">—</span>}
                         </td>
 
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-nowrap text-center">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               modal.estado
-                                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+                                ? "bg-green-100 text-green-800 dark:bg-green-950/50 dark:text-green-400 dark:border dark:border-green-800/50"
+                                : "bg-red-100 text-red-800 dark:bg-red-950/50 dark:text-red-400 dark:border dark:border-red-800/50"
                             }`}
                           >
                             {modal.estado ? "Activo" : "Inactivo"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex justify-end gap-2">
+                        <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                          <div className="flex justify-center gap-2">
                             <button
                               onClick={() => visualizar(modal.id_modalservicio)}
                               title="Visualizar"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400"
+                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-950/40 dark:text-amber-400 dark:hover:bg-amber-900/60"
                             >
                               <Eye size={18} />
                             </button>
 
                             <button
                               title="Emails y WhatsApp"
-                              className="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors dark:bg-amber-900/20 dark:text-amber-400"
+                              className="p-1.5 bg-cyan-50 text-cyan-600 rounded-lg hover:bg-cyan-100 transition-colors dark:bg-cyan-950/40 dark:text-cyan-400 dark:hover:bg-cyan-900/60"
                             >
                               <Link
                                 href={`/dashboard/modales/mails?id_modal=${modal.id_modalservicio}`}
@@ -486,8 +485,8 @@ export default function Page() {
                               title={`Cambiar a ${modal.estado ? "Inactivo" : "Activo"}`}
                               className={`p-1.5 rounded-lg transition-colors ${
                                 modal.estado
-                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400"
-                                  : "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400"
+                                  ? "bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:hover:bg-blue-900/60"
+                                  : "bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-950/40 dark:text-green-400 dark:hover:bg-green-900/60"
                               }`}
                             >
                               <ToggleLeft size={18} />
@@ -499,7 +498,7 @@ export default function Page() {
                                   confirmarEliminacion(modal.id_modalservicio)
                                 }
                                 title="Eliminar"
-                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-900/20 dark:text-red-400"
+                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors dark:bg-red-950/40 dark:text-red-400 dark:hover:bg-red-900/60"
                               >
                                 <Trash2 size={18} />
                               </button>
@@ -512,13 +511,13 @@ export default function Page() {
                     <tr>
                       <td colSpan="7" className="px-6 py-16 text-center">
                         <div className="flex flex-col items-center">
-                          <Filter className="h-12 w-12 text-gray-300 mb-3" />
-                          <p className="text-gray-500 font-medium mb-1">
+                          <Filter className="h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" />
+                          <p className="text-gray-500 dark:text-gray-400 font-medium mb-1">
                             No hay datos disponibles
                           </p>
                           {searchTerm && (
                             <>
-                              <p className="text-gray-400 text-sm">
+                              <p className="text-gray-400 dark:text-gray-500 text-sm">
                                 No se encontraron resultados para &quot;{searchTerm}&quot;
                               </p>
                               <button
@@ -542,7 +541,7 @@ export default function Page() {
               {filteredData.map((modal) => (
                 <div
                   key={modal.id_modalservicio}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4"
+                  className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4"
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div>
@@ -550,8 +549,8 @@ export default function Page() {
                         {modal.nombre}
                       </h3>
 
-                      <p className="text-xs text-gray-500">
-                        ID: {modal.id_modalservicio}
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        ID: #{modal.id_modalservicio}
                       </p>
                     </div>
 
@@ -568,14 +567,14 @@ export default function Page() {
 
                   <div className="space-y-2 text-sm">
                     <div>
-                      <span className="font-medium text-gray-500">Correo:</span>
+                      <span className="font-medium text-gray-500 dark:text-gray-400">Correo:</span>
                       <p className="break-all text-gray-700 dark:text-gray-300">
                         {modal.correo}
                       </p>
                     </div>
 
                     <div>
-                      <span className="font-medium text-gray-500">
+                      <span className="font-medium text-gray-500 dark:text-gray-400">
                         Servicio:
                       </span>
                       <p className="text-gray-700 dark:text-gray-300">
@@ -584,7 +583,7 @@ export default function Page() {
                     </div>
 
                     <div>
-                      <span className="font-medium text-gray-500">
+                      <span className="font-medium text-gray-500 dark:text-gray-400">
                         Subservicio:
                       </span>
                       <p className="text-gray-700 dark:text-gray-300">
@@ -594,7 +593,7 @@ export default function Page() {
                   </div>
 
                   {/* Acciones */}
-                  <div className="flex justify-end gap-2 mt-4 pt-3 border-t dark:border-gray-700">
+                  <div className="flex justify-end gap-2 mt-4 pt-3 border-t border-gray-200 dark:border-gray-800">
                     <button
                       onClick={() => visualizar(modal.id_modalservicio)}
                       className="p-2 bg-amber-50 text-amber-600 rounded-lg dark:bg-amber-900/20 dark:text-amber-400"
