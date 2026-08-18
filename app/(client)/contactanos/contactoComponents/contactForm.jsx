@@ -193,7 +193,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="relative w-full px-4 sm:px-6 md:px-10 lg:px-12 pt-8 sm:pt-10 md:pt-12 lg:pt-12 pb-20 md:pb-24 lg:pb-28 overflow-hidden">
+    <section className="relative w-full px-4 sm:px-6 md:px-10 lg:px-12 pt-8 sm:pt-10 md:pt-12 lg:pt-12 pb-12 xl:pb-28 overflow-hidden">
       {/* Brillos decorativos (se ocultan en móvil por claridad/rendimiento) */}
       <div
         aria-hidden
@@ -204,7 +204,7 @@ const ContactForm = () => {
         className="pointer-events-none absolute bottom-0 right-[6%] w-56 h-56 md:w-72 md:h-72 rounded-full bg-[#FFB800]/10 blur-[60px] hidden sm:block"
       />
 
-      <div className="relative max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,709px)_minmax(0,1fr)] gap-10 lg:gap-8 lg:items-end">
+      <div className="relative max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,709px)_minmax(0,1fr)] gap-10 lg:gap-8 items-end">
         {/* Columna izquierda: formulario + redes sociales apiladas, mismo
             ancho/borde izquierdo para ambos. Al agruparlas en una sola celda
             del grid, la fila (y por lo tanto la columna de la imagen, que se
@@ -372,57 +372,80 @@ const ContactForm = () => {
         </div>
 
         <motion.div
-          className="relative z-10 flex items-end justify-center lg:justify-end lg:h-0"
+          className="relative z-10 flex items-end justify-center lg:justify-end xl:h-0"
           initial={{ opacity: 0, x: 80 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          {/* Mobile/tablet: en flujo normal, tamaño gobernado por ancho.
-              Desktop (lg+): el padre de arriba colapsa a lg:h-0 (no infla la
-              fila del grid ni mueve el formulario/redes) y sirve solo como
-              punto de anclaje: gracias a lg:items-end del grid, ese punto
-              cae exactamente en el borde inferior de la columna
-              formulario+redes. Este div pasa a lg:absolute + bottom-0/right-0
-              para poder crecer en alto MÁS ALLÁ de esa columna (ya no lo
-              limita la altura real del formulario+redes, que era el techo
-              real del enfoque anterior con h-full/max-h). El ancho sigue
-              derivándose de la proporción real del PNG (549x1105, confirmada
-              con sharp) vía aspect-ratio + w-auto, así no se deforma. */}
-          <div className="relative w-full max-w-[240px] sm:max-w-[320px] md:max-w-[400px] aspect-[549/794] xl:aspect-[549/1105] mx-auto lg:mx-0 lg:absolute lg:bottom-0 lg:right-0 lg:w-full lg:max-w-[556px] xl:w-auto xl:max-w-none xl:h-[1120px] 2xl:h-[1140px]">
-            {/* El PNG tiene ~28% de margen transparente arriba (311px de
-                1105, confirmado con sharp) y casi ninguno abajo (~4px). Con
-                object-contain esa franja transparente se mostraba entera,
-                generando el hueco vacío entre "redes sociales" y la persona
-                en móvil/tablet, además de encoger el ancho visible por los
-                márgenes transparentes laterales. Debajo de xl se usa
-                object-cover con una caja recortada a la proporción real del
-                contenido (549:794 = 1105 menos ese 28% superior) para que el
-                recorte elimine justo esa franja vacía sin deformar ni cortar
-                a la persona (el 549 de ancho coincide con el ancho nativo,
-                así que el recorte es 100% vertical). object-bottom conserva
-                el mismo anclaje inferior que ya tenía.
+          {/* Mobile/tablet/lg (<xl, hasta 1279px): en flujo normal, alto
+              real reservado por el grid (nada de absolute/h-0), tamaño
+              gobernado por el ancho. En el rango lg (1024–1279px) el grid
+              ya pasa a 2 columnas con la izquierda fija en minmax(0,560px)
+              (ver grid-cols de más arriba), así que el ancho real disponible
+              para esta columna es 100% - 560px - gap-8(32px) - 2×px-12(48px)
+              = varía de ~336px (1024px) a ~591px (1279px). lg:w-full deja
+              que el propio grid estire este div al ancho exacto de su
+              columna (sin invadir nunca el formulario), y lg:max-w-[556px]
+              evita que crezca de más cerca de 1279px, entregando un ancho
+              ~igual al de xl (556.4px) para que la transición no dé salto.
+              items-end en el grid (ver arriba, sin prefijo: aplica en todos
+              los breakpoints) ancla esta columna contra el borde inferior de
+              la fila — si la columna del formulario+redes es más alta, el
+              sobrante queda arriba de la mujer, nunca abajo, para que
+              "nazca desde abajo" igual que en desktop. El pb-12 (48px) del
+              <section> (más abajo, con xl:pb-28 fijo para desktop) queda
+              prácticamente cancelado por el -mt-12 (-48px) del Footer, que
+              ya se solapa por diseño global: neto ≈0px entre la mujer y el
+              Footer para <xl, sin llegar a superponerse (48px es el mínimo
+              exacto que compensa el -mt-12, nunca menos).
 
-                Rango lg (1024–1279px): el grid pasa a 2 columnas con la
-                izquierda fija en minmax(0,560px) (ver grid-cols de más
-                arriba), así que el ancho real disponible para esta columna
-                es 100% - 560px - gap-8(32px) - 2×px-12(48px) = varía de
-                ~336px (1024px) a ~591px (1279px). En vez de recalcular eso
-                a mano con vw (riesgo de off-by-scrollbar), se usa lg:w-full:
-                el propio grid ya estira este div (motion.div padre) al
-                ancho exacto de su columna, así que 100% = espacio real
-                disponible, sin poder invadir nunca el formulario. Se cubre
-                con lg:max-w-[556px] para no crecer de más cerca de 1279px y
-                entregar un ancho ~igual al de xl (556.4px, ver abajo), así
-                la transición a xl no da un salto brusco. La altura se
-                deriva sola del aspect-[549/794] heredado de móvil/tablet
-                (mismo recorte sin franja transparente, mayor presencia que
-                con la proporción completa).
+              Desktop (xl+): el padre de arriba colapsa a xl:h-0 (no infla la
+              fila del grid ni mueve el formulario/redes) y sirve solo como
+              punto de anclaje: gracias a items-end del grid, ese punto cae
+              exactamente en el borde inferior de la columna formulario+redes.
+              Este div pasa a xl:absolute + bottom-0/right-0 para poder crecer
+              en alto MÁS ALLÁ de esa columna. El ancho se deriva de la
+              proporción real del PNG (549x1105, confirmada con sharp) vía
+              aspect-ratio + w-auto, así no se deforma. */}
+          <div className="relative w-full max-w-[240px] sm:max-w-[320px] md:max-w-[400px] aspect-[549/794] xl:aspect-[549/1105] mx-auto lg:mx-0 lg:w-full lg:max-w-[556px] xl:absolute xl:bottom-0 xl:right-0 xl:w-auto xl:max-w-none xl:h-[1120px] 2xl:h-[1140px]">
+            {/* El PNG tiene ~28% de margen transparente arriba (311px de
+                1105, confirmado con sharp) y, abajo, una SOMBRA negra sólida
+                (no antialiasing del cuerpo) en las filas 1095–1104: fila
+                1094 = último píxel real (color piel/tela, alpha 255); fila
+                1095 en adelante = RGB (0,0,0) puro en TODO el ancho
+                muestreado, con alpha 63→0 degradando hacia abajo (confirmado
+                leyendo RGB+alfa con sharp, no solo alfa). Esa franja negra
+                semitransparente es la que se veía como un filo/línea negra
+                fina debajo de la mujer: un recorte que solo excluye los
+                píxeles casi-100%-transparentes (como el intento anterior,
+                ~4.7px) todavía deja visible la parte más opaca de esa sombra
+                (alpha 24–63). Con object-contain esa franja transparente
+                superior se mostraba entera, generando el hueco vacío entre
+                "redes sociales" y la persona en móvil/tablet, además de
+                encoger el ancho visible por los márgenes transparentes
+                laterales. Debajo de xl se usa object-cover con una caja
+                recortada a la proporción real del contenido (549:794 = 1105
+                menos ese 28% superior) para que el recorte elimine justo esa
+                franja vacía sin deformar ni cortar a la persona (el 549 de
+                ancho coincide con el ancho nativo, así que el recorte es
+                100% vertical).
+
+                object-[50%_96.8%] (en vez de object-bottom = 50% 100%)
+                ancla el recorte justo en la fila 1094 — el último píxel real
+                de la persona —, excluyendo las 10 filas de sombra negra
+                (1095–1104) completas, no solo su cola casi invisible. El
+                96.8% se traduce a (1-0.968)×311px ≈ 10px recortados del
+                fondo, y esos ~10px se restan del recorte superior (301px en
+                vez de 311px), un cambio de <1% imperceptible en el encuadre
+                de la cabeza. Como es un porcentaje, el recorte es
+                proporcional en todos los anchos <xl (390–1279px), no un
+                valor fijo en px que solo funcionaría en una resolución.
 
                 Desde xl se restaura aspect-[549/1105] + object-contain (ver
                 clase en el Image) + w-auto para dejar el desktop exactamente
                 igual que antes: el hueco morado bajo la base sigue viniendo
-                del pb-20/24/28 del <section>, no de la imagen; translate-y
+                del xl:pb-28 del <section>, no de la imagen; translate-y
                 lo sigue empujando solo desde xl. Los altos por breakpoint
                 (1120/1140) siguen calibrados para no rebasar el ancho real
                 de la columna derecha en 1366 y 1440px. */}
@@ -430,7 +453,7 @@ const ContactForm = () => {
               src={CONTACT_PERSON_IMAGE}
               alt="Persona atendiendo una consulta de contacto"
               fill
-              className="object-cover object-bottom xl:object-contain xl:translate-y-[100px] xl:translate-x-[64px]"
+              className="object-cover object-[50%_96.8%] xl:object-contain xl:translate-y-[100px] xl:translate-x-[64px]"
               sizes="(max-width: 640px) 240px, (max-width: 1024px) 400px, (max-width: 1280px) 556px, 556px"
             />
           </div>
