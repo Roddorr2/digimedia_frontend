@@ -28,7 +28,8 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
   const [button, setButtonStatus] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {  }, [updateDisplayName]);
+  useEffect(() => {
+  }, [updateDisplayName]);
 
   // Resetear estados cuando el modal se cierra
   useEffect(() => {
@@ -201,7 +202,8 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
                 setCookie('empleado', JSON.stringify(updatedEmpleadoData));
   
                 // Actualizamos el displayName mediante el contexto
-                if (isProfileEdit && typeof updateDisplayName === 'function') {                  updateDisplayName(`${formData.nombre}`);
+                if (isProfileEdit && typeof updateDisplayName === 'function') {
+                  updateDisplayName(`${formData.nombre}`);
                 }
               }
             }
@@ -212,7 +214,8 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
   
             setTimeout(() => {
               handleClose();
-            }, 1000);          } else {
+            }, 1000);
+          } else {
             setError({ status: true, message: response.message });
             setButtonStatus(true);
           }
@@ -323,7 +326,6 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
               />
             </fieldset>
 
-            {!isProfileEdit && (
             <fieldset className="flex flex-col gap-2">
               <label className="font-semibold text-sm" htmlFor="telefono">
                 Teléfono
@@ -337,9 +339,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
                 placeholder="Ingrese el teléfono"
               />
             </fieldset>
-            )}
 
-            
             {/* Solo mostramos el selector de rol cuando NO es edición de perfil */}
             {!isProfileEdit && (
               <fieldset className="flex flex-col gap-2">
@@ -365,28 +365,7 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
               </fieldset>
             )}
 
-
           </div>
-
-          {isProfileEdit && (
-          <div className="flex justify-center w-full mt-5">
-            <div className="w-1/3">
-              <fieldset className="flex flex-col gap-2">
-                <label className="font-semibold text-sm" htmlFor="telefono">
-                  Teléfono
-                </label>
-                <input
-                  id="telefono"
-                  onChange={handleChange}
-                  value={formData.telefono}
-                  className="w-full border border-gray-300 py-3 px-4 outline-none rounded-md"
-                  type="text"
-                  placeholder="Ingrese el teléfono"
-                />
-              </fieldset>
-            </div>
-          </div>
-        )}
 
 
           <div className="flex justify-center gap-4 mt-6">
