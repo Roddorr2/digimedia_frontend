@@ -240,9 +240,9 @@ export default function modal_empleado({ isVisible, onClose, data, onUpdateSucce
   }
 
   return (
-    <section className="fixed inset-0 bg-black bg-opacity-45 backdrop-blur-md flex justify-center items-center px-4 dark:text-white  ">
+    <section className="fixed inset-0 z-50 bg-black bg-opacity-45 backdrop-blur-md flex justify-center items-center px-4 py-4 overflow-y-auto dark:text-white">
       <div
-        className={`w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 transform transition-all duration-300 dark:bg-gray-900 ${
+        className={`w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 my-auto max-h-[90vh] overflow-y-auto transform transition-all duration-300 dark:bg-gray-900 ${
           isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
       >
