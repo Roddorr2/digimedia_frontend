@@ -181,10 +181,12 @@ const ComplaintForm = () => {
       <div className="bg-gradient-to-r from-[#1e033f] from-80%  to-[#410C89] relative p-4">
         <button
           onClick={() => window.location.href = '/'}
-          className="lg:flex bg-pink-500 hover:bg-pink-400 text-white py-2 px-4 rounded-lg transition-all duration-300 absolute left-10 top-1/2 transform -translate-y-1/2 hidden items-center"
+          className="flex items-center justify-center bg-pink-500 hover:bg-pink-400 text-white rounded-lg transition-all duration-300 absolute top-4 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-10 p-2.5 lg:py-2 lg:px-4 shadow-md z-10"
+          aria-label="Regresar"
+          title="Regresar"
         >
-          <img className="mr-2" src={'/headerFooter/arrow_left.svg'} alt="Regresar" />
-          REGRESAR
+          <img className="lg:mr-2 w-4 h-4" src={'/headerFooter/arrow_left.svg'} alt="Regresar" />
+          <span className="hidden lg:inline text-sm font-semibold">REGRESAR</span>
         </button>
 
         <div className="flex justify-center w-full">
