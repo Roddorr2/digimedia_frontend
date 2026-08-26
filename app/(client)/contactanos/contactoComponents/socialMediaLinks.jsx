@@ -122,8 +122,37 @@ const SocialMediaLinks = ({ bare = false }) => {
         </p>
       </div>
 
-      {/* Iconos */}
-      <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-3.5 lg:gap-4">
+      {/* Iconos
+          En el rango lg (1024–1279px, formato previo a xl) el ancho de
+          columna disponible es ~560px y el icono pasa a 80px + gap-x-4(16px):
+          7 iconos en una fila pedirían 656px (no caben), pero 6 sí caben
+          justo en 560px (6*80+5*16=560), así que el wrap natural del navegador
+          dejaba 6+1 en vez de las 4+3 pedidas. lg:max-w-[400px] fuerza el
+          corte tras el 4º icono (4*80+3*16=368 ≤ 400 < 464 = 5*80+4*16) y
+          lg:mx-auto centra ese bloque de 400px dentro de la columna de
+          ~560px; justify-center (heredado de la base, ya no se sobrescribe
+          con lg:justify-start) centra los iconos dentro de cada fila.
+          lg:-translate-x-5 corre el bloque ya centrado 20px hacia la
+          izquierda (deja ~60px de margen a la derecha del bloque de 400px
+          dentro de la columna de 560px, lejos de cualquier overflow).
+          lg:-translate-y-2.5 lo sube 10px adicionales: es un `transform`,
+          no cambia el alto real de la caja (a diferencia de un margin), así
+          que no empuja ni recoloca la imagen de la mujer ni el footer — solo
+          desplaza visualmente los iconos dentro de su propio espacio, dejando
+          más aire entre la 2ª fila y el borde inferior del bloque.
+          gap-x/gap-y se separan (antes un solo `gap` fijaba ambos) solo para
+          poder reducir el espacio ENTRE filas sin tocar el espacio entre
+          iconos de una misma fila: lg:gap-y-[10px] (antes 16px, heredado de
+          gap-y-4) sube la 2ª fila (LinkedIn/X/Threads) 6px respecto a la 1ª,
+          separación más ajustada pero pareja. gap-x-3/gap-y-3 y sus sm:
+          equivalen exactamente al `gap-3`/`gap-3.5` de antes (mismo valor en
+          ambos ejes), así que <1024 quedó sin cambios. Desde xl (1280px+,
+          columna de 709px) los 7 caben en una sola fila
+          (7*80+6*16=656≤709): xl:max-w-none + xl:mx-0 + xl:justify-start +
+          xl:translate-x-0 + xl:translate-y-0 + xl:gap-y-4 restauran
+          exactamente el layout de escritorio previo (una sola fila, alineada
+          a la izquierda, sin desplazamiento ni gap-y reducido). */}
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-x-3.5 sm:gap-y-3.5 lg:gap-x-4 lg:gap-y-[10px] lg:max-w-[400px] lg:mx-auto lg:-translate-x-5 lg:-translate-y-2.5 xl:max-w-none xl:mx-0 xl:justify-start xl:translate-x-0 xl:translate-y-0 xl:gap-y-4">
         {socialPlatforms.map((platform) => (
           <a
             key={platform.name}
