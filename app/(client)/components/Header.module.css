@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
+  background: linear-gradient(to right, #200e59 0%, #170c40 50%, #200769 100%);
   box-shadow: 0px 2px 20px #333333;
   position: sticky;
   top: 0;
@@ -77,7 +77,7 @@
   color: white;
   font-size: 22px;
   font-weight: normal;
-  font-family: 'Doppio One', Arial, Helvetica, sans-serif;
+  font-family: "Doppio One", Arial, Helvetica, sans-serif;
   padding: 15px;
   height: 100%;
   width: 100%;
@@ -109,8 +109,11 @@
   flex-direction: column;
   position: absolute;
   width: 200px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 1000;
-background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
+  background: linear-gradient(to right, #200e59 0%, #170c40 50%, #200769 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   top: 100%;
@@ -125,6 +128,8 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
     transform 0.2s ease,
     visibility 0.2s ease;
   pointer-events: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 }
 
 .menuVerticalDark {
@@ -180,9 +185,9 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
 }
 
 .seccionesHeader label {
-   display: none;
-   cursor: pointer;
-  }
+  display: none;
+  cursor: pointer;
+}
 
 .loginButton {
   transform: translateX(14px);
@@ -205,14 +210,14 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
     gap: 12px;
   }
 
-.seccionesHeader label {
-     display: flex;
-     align-items: center;
-   }
+  .seccionesHeader label {
+    display: flex;
+    align-items: center;
+  }
 
-   .seccionesHeader label img {
-     filter: brightness(0) saturate(100%) invert(1);
-   }
+  .seccionesHeader label img {
+    filter: brightness(0) saturate(100%) invert(1);
+  }
 
   .loginButton {
     display: none !important;
@@ -225,7 +230,7 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
     text-decoration: none;
     color: white;
     font-weight: bold;
-    font-family: 'Doppio One', Arial, Helvetica, sans-serif;
+    font-family: "Doppio One", Arial, Helvetica, sans-serif;
     font-size: 11px;
     padding: 6px 14px;
     border-radius: 16px;
@@ -242,28 +247,33 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
     display: none;
   }
 
-.menuHorizontal {
-  position: fixed;
-  background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
-  backdrop-filter: blur(16px);
-  -webkit-back-filter: blur(16px);
-  top: 125px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: auto;
-  flex-direction: column;
-  align-items: stretch;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(100%);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease,
-    visibility 0.3s ease;
-  z-index: 9;
-}
+  .menuHorizontal {
+    position: fixed;
+    background: linear-gradient(
+      to right,
+      #200e59 0%,
+      #170c40 50%,
+      #200769 100%
+    );
+    backdrop-filter: blur(16px);
+    -webkit-back-filter: blur(16px);
+    top: 125px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    flex-direction: column;
+    align-items: stretch;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(100%);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease,
+      visibility 0.3s ease;
+    z-index: 9;
+  }
 
   .menuOpen {
     visibility: visible;
@@ -280,11 +290,11 @@ background: linear-gradient(to right, #200E59 0%, #170C40 50%, #200769 100%);
     padding: 0;
   }
 
-.menuHorizontal a,
+  .menuHorizontal a,
   .menuHorizontal p {
     height: auto;
     font-size: 22px;
-    font-family: 'Doppio One', Arial, Helvetica, sans-serif;
+    font-family: "Doppio One", Arial, Helvetica, sans-serif;
   }
 
   .menuHorizontal li.active > a,
