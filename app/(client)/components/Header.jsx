@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
 import { dashboardLinks } from "@/app/dashboard/dashboardsLinks/dashboardsLinks";
 import auth_service from "@/app/dashboard/users/services/auth.service";
-
+import Swal from "sweetalert2";
 export default function Header2() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -131,6 +131,61 @@ export default function Header2() {
     isActiveCheck
       ? "!text-[#ffb800] !font-bold"
       : "!text-white hover:!text-[#f4d534] transition-colors";
+
+  const confirmLogout = () => {
+    Swal.fire({
+      html: `
+      <div class="flex flex-col items-center text-center">
+        <div class="flex items-center justify-center w-14 h-14 rounded-full bg-red-100 mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#dc2626"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </div>
+
+        <h2 class="text-lg font-semibold text-gray-900">
+          ¿Estás seguro de que deseas cerrar sesión?
+        </h2>
+
+        <p class="text-sm text-gray-500 mt-2">
+          Tendrás que volver a iniciar sesión para acceder al panel.
+        </p>
+      </div>
+    `,
+
+      showCancelButton: true,
+
+      confirmButtonText: "Cerrar sesión",
+      cancelButtonText: "Cancelar",
+
+      confirmButtonColor: "#f43f5e",
+      cancelButtonColor: "#64748b",
+
+      reverseButtons: true,
+
+      buttonsStyling: true,
+
+      customClass: {
+        confirmButton: "!px-6",
+        cancelButton: "!px-6",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
+  };
 
   return (
     <header
@@ -455,7 +510,7 @@ export default function Header2() {
                         e.preventDefault();
                         e.stopPropagation();
                         closeMenu();
-                        logout();
+                        confirmLogout();
                       }}
                     >
                       Cerrar sesión

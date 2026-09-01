@@ -5,6 +5,7 @@ import auth_service from "./users/services/auth.service";
 import { usePathname, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import PersonIcon from "@mui/icons-material/Person";
 import { DisplayNameContext } from "./components/DisplayNameContext";
 import { dashboardLinks } from "./dashboardsLinks/dashboardsLinks";
@@ -45,6 +46,90 @@ export default function RootLayout({ children }) {
     }
     return false;
   });
+
+  const confirmLogout = () => {
+    const isDark = darkMode;
+
+    Swal.fire({
+      html: `
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      ">
+        <div style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 56px;
+          height: 56px;
+          border-radius: 9999px;
+          background-color: ${isDark ? "#451a1a" : "#fee2e2"};
+          margin-bottom: 16px;
+        ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#dc2626"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </div>
+
+        <h2 style="
+          margin: 0;
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: ${isDark ? "#ffffff" : "#111827"};
+        ">
+          ¿Estás seguro de que deseas cerrar sesión?
+        </h2>
+
+        <p style="
+          margin: 8px 0 0;
+          font-size: 0.875rem;
+          color: ${isDark ? "#9ca3af" : "#6b7280"};
+        ">
+          Tendrás que volver a iniciar sesión para acceder al panel.
+        </p>
+      </div>
+    `,
+
+      background: isDark ? "#1f2937" : "#ffffff",
+
+      showCancelButton: true,
+
+      confirmButtonText: "Cerrar sesión",
+      cancelButtonText: "Cancelar",
+
+      confirmButtonColor: "#3a296f",
+      cancelButtonColor: "#64748b",
+
+      reverseButtons: true,
+
+      buttonsStyling: true,
+
+      customClass: {
+        popup: isDark ? "dark-swal-popup" : "",
+        confirmButton: "!px-6",
+        cancelButton: "!px-6",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsLoggingOut(true);
+        logout();
+      }
+    });
+  };
 
   useEffect(() => {
     if (darkMode) {
@@ -91,7 +176,10 @@ export default function RootLayout({ children }) {
 
             <h1 className="flex-1 text-center text-white font-semibold text-sm sm:text-xl lg:text-3xl truncate px-4">
               <span className="hidden sm:inline">SECCIÓN: </span>
-              {pathname.slice(pathname.indexOf("/", 1) + 1).replace("/", "").toUpperCase()}
+              {pathname
+                .slice(pathname.indexOf("/", 1) + 1)
+                .replace("/", "")
+                .toUpperCase()}
             </h1>
           </header>
 
@@ -166,10 +254,9 @@ export default function RootLayout({ children }) {
 
                 {/* Botón logout */}
                 <div
-                  onClick={async () => {
+                  onClick={() => {
                     setIsSidebarOpen(false);
-                    setIsLoggingOut(true);
-                    await logout();
+                    confirmLogout();
                   }}
                   className="flex items-center p-1.5 rounded-lg cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/30 text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                 >
@@ -188,7 +275,9 @@ export default function RootLayout({ children }) {
                 </div>
 
                 {/* Selector Dark Mode */}
-                <div className={`pt-1.5 pb-1 px-1 border-t border-gray-200/70 dark:border-gray-700/60 flex items-center ${isSidebarOpen ? "justify-between px-2" : "justify-center"}`}>
+                <div
+                  className={`pt-1.5 pb-1 px-1 border-t border-gray-200/70 dark:border-gray-700/60 flex items-center ${isSidebarOpen ? "justify-between px-2" : "justify-center"}`}
+                >
                   {isSidebarOpen && (
                     <span className="text-xs font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap">
                       Dark Mode
@@ -210,9 +299,7 @@ export default function RootLayout({ children }) {
             </div>
 
             {/* CONTENIDO PRINCIPAL */}
-            <div className="flex-1 overflow-y-auto">
-              {children}      
-            </div>
+            <div className="flex-1 overflow-y-auto">{children}</div>
           </div>
         </div>
       </AuthGuard>
