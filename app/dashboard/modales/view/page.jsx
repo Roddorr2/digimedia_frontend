@@ -47,16 +47,16 @@ export default function Page() {
 
   return (
     <div className="p-4 md:p-6">
-      <div className="max-w-5xl mx-auto flex">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-4 md:gap-0">
         <button
-          className="text-center h-14 w-52 bg-[#8c52ff] text-white px-4 py-2 rounded-lg hover:bg-[#7b45e0] transition-all duration-300 flex items-center shadow-sm group"
+          className="w-fit h-11 md:h-14 md:w-52 bg-[#8c52ff] text-white px-10 md:px-4 py-2 rounded-lg hover:bg-[#7b45e0] transition-all duration-300 flex items-center shadow-sm group text-sm md:text-base"
           onClick={() => router.push("/dashboard/modales/")}
         >
           <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
           Volver a la lista
         </button>
 
-        <div className="bg-white shadow-lg rounded-2xl overflow-hidden ml-10">
+        <div className="bg-white shadow-lg rounded-2xl overflow-hidden ml-0 md:ml-10 w-full">
           <div className="bg-gradient-to-r from-[#8c52ff] to-[#5e17eb] p-8 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mt-20 -mr-20"></div>
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">
