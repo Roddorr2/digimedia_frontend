@@ -330,7 +330,7 @@ export default function ModalRoles({
           </div>
 
           {/* BOTONES */}
-          <div className="flex min-[310px]:flex-row flex-col justify-end gap-4 mt-6">
+          <div className="flex min-[330px]:flex-row flex-col justify-end gap-4 mt-6">
             <button
               type="button"
               onClick={() => handleClose()}
