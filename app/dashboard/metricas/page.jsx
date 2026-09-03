@@ -64,8 +64,8 @@ function SummaryCard({ title, value, subtitle, icon: Icon, color }) {
       <div className={`p-3 rounded-xl shrink-0 ${palette[color] ?? palette.indigo}`}>
         <Icon size={22} />
       </div>
-      <div className="min-w-0">
-        <p className="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-0.5">{title}</p>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-0.5 break-words">{title}</p>
         <p className="text-2xl font-black text-gray-900 dark:text-white leading-none truncate">{value}</p>
         {subtitle && <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{subtitle}</p>}
       </div>
@@ -276,7 +276,7 @@ export default function MetricsPage() {
       </div>
 
       {/* ── Tarjetas de resumen ── */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <SummaryCard title="Total de Cards"      value={totalCards}                           subtitle={`En ${periodLabel}`}              icon={FileText} color="indigo" />
         <SummaryCard title="Blogs creados"       value={blogsByPeriod}                        subtitle={`En ${periodLabel}`}              icon={Calendar} color="cyan"   />
         <SummaryCard title="Colaboradores activos" value={`${activeCount} / ${empleados.length}`} subtitle="Con cards en el período"     icon={Users}    color="purple" />
