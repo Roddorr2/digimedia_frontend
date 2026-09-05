@@ -104,7 +104,7 @@ function Avatar({ src, name, size = 14 }) {
   const sizeClass =
     size === 14
       ? "h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14"
-      : "h-14 w-14 md:h-16 md:w-16";
+      : "h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16";
 
   if (failed || !src) {
     return (
@@ -167,6 +167,20 @@ export default function TestimoniosClientes() {
       cancelled = true;
     };
   }, []);
+
+  // Bloquear scroll del body y permitir cerrar con tecla Escape cuando el modal está abierto
+  useEffect(() => {
+    if (!activeReview) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setActiveReview(null);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeReview]);
 
   if (reviews === null) return null; // esperando la respuesta de la API
 
@@ -337,26 +351,18 @@ export default function TestimoniosClientes() {
       {/* Modal con el testimonio completo */}
       {activeReview && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+          className="fixed inset-0 z-[150] flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 overflow-y-auto"
           onClick={() => setActiveReview(null)}
         >
           <div
-            className="relative w-full max-w-lg rounded-2xl border border-[#ffb800]/30 bg-[#100043] p-8 shadow-2xl"
+            className="relative w-full max-w-lg my-auto rounded-2xl border border-[#ffb800]/30 bg-[#100043] p-5 sm:p-7 md:p-8 shadow-2xl"
             style={{
               background:
                 "linear-gradient(135deg, #100043 0%, #130049 50%, #2a0866 100%)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              type="button"
-              aria-label="Cerrar"
-              onClick={() => setActiveReview(null)}
-              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#ffb800]/50 hover:text-[#ffb800]"
-            >
-              <X size={18} />
-            </button>
-
+            {/* Header del modal con perfil y botones de acción agrupados */}
             <div className="mb-5 flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3 sm:gap-4">
                 <Avatar src={activeReview.avatar} name={activeReview.name} size={16} />
@@ -368,16 +374,28 @@ export default function TestimoniosClientes() {
                 </div>
               </div>
 
-              <a
-                href={GOOGLE_MAPS_REVIEWS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Ver reseña en Google Maps"
-                title="Reseña verificada en Google"
-                className="flex-shrink-0 flex items-center justify-center p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 hover:border-[#ffb800]/40 transition-all duration-300"
-              >
-                <GoogleIcon className="h-5 w-5" />
-              </a>
+              {/* Botones de acción: Google Maps + Cerrar */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <a
+                  href={GOOGLE_MAPS_REVIEWS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Ver reseña en Google Maps"
+                  title="Reseña verificada en Google"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 hover:border-[#ffb800]/40 transition-all duration-300 group"
+                >
+                  <GoogleIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+                </a>
+
+                <button
+                  type="button"
+                  aria-label="Cerrar modal"
+                  onClick={() => setActiveReview(null)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-white/70 transition-all duration-300 hover:border-[#ffb800]/50 hover:bg-white/[0.1] hover:text-[#ffb800]"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             <Stars rating={activeReview.rating} />
