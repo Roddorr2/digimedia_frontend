@@ -1118,7 +1118,7 @@ export default function FormBody({
 
     return (
       <div className="mb-6 p-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 rounded-lg border border-yellow-500/30 shadow-lg">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 min-w-0">
           {/* Título del controlador */}
           <div className="flex items-center">
             <Eye className="w-5 h-5 mr-2 text-yellow-400" />
@@ -1128,7 +1128,7 @@ export default function FormBody({
           </div>
 
           {/* Selector de tipo y color de fondo */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 min-w-0">
             <span className="text-sm text-gray-300">Fondo:</span>
             <select
               value={currentBgType}
@@ -1144,9 +1144,9 @@ export default function FormBody({
           </div>
 
           {/* Selector de color/es */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 min-w-0">
             <span className="text-sm text-gray-300">Color:</span>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {colorOptions.map((color) => (
                 <button
                   key={color}
@@ -1155,7 +1155,7 @@ export default function FormBody({
                     ...prev,
                     bg_color: color,
                   }))}
-                  className={`w-8 h-8 rounded-full border-2 transition-all ${currentBgColor === color
+                  className={`w-8 h-8 shrink-0 rounded-full border-2 transition-all ${currentBgColor === color
                       ? "border-white scale-110"
                       : "border-gray-600 hover:border-gray-400"
                     }`}
@@ -1180,7 +1180,7 @@ export default function FormBody({
           {currentBgType === "gradient" && (
             <div className="flex flex-col gap-3 w-full">
               {/* Selector de dirección del gradiente */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0">
                 <span className="text-sm text-gray-300">Dirección:</span>
                 <select
                   value={gradientDirection || ""}
@@ -1198,7 +1198,7 @@ export default function FormBody({
               <div className="flex items-center gap-3">
                 <Palette className="w-4 h-4 text-yellow-400" />
                 <span className="text-sm text-gray-300">¿Cuántos colores?</span>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 min-w-0">
                   <button
                     type="button"
                     onClick={() => setGradientColorCount(2)}
