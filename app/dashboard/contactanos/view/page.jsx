@@ -22,28 +22,28 @@ export default function Page() {
       <div className="flex items-center justify-center h-64">
         <div className="flex flex-col items-center">
           <div className="w-10 h-10 border-4 border-t-[#8c52ff] border-gray-200 rounded-full animate-spin"></div>
-          <p className="mt-3 text-gray-600 font-medium">Cargando datos...</p>
+          <p className="mt-3 text-gray-600 dark:text-gray-400 font-medium">Cargando datos...</p>
         </div>
       </div>
     )
   }
 
   if (!contacto) {
-    return <p className="text-center text-gray-500">No se encontraron datos del contacto</p>
+    return <p className="text-center text-gray-500 dark:text-gray-400">No se encontraron datos del contacto</p>
   }
 
   return (
     <div className="p-4 md:p-6">
-      <div className="max-w-5xl mx-auto flex">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-4 md:gap-0">
         <button
-          className="text-center h-14 w-52 bg-[#8c52ff] text-white px-4 py-2 rounded-lg hover:bg-[#7b45e0] transition-all duration-300 flex items-center shadow-sm group"
+          className="w-fit h-11 md:h-14 md:w-52 bg-[#8c52ff] text-white px-10 md:px-4 py-2 rounded-lg hover:bg-[#7b45e0] transition-all duration-300 flex items-center shadow-sm group text-sm md:text-base"
           onClick={() => router.push("/dashboard/contactanos/")}
         >
           <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
           Volver a la lista
         </button>
 
-        <div className="bg-white shadow-lg rounded-2xl overflow-hidden ml-10">
+        <div className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden ml-0 md:ml-10 w-full">
           <div className="bg-gradient-to-r from-[#8c52ff] to-[#5e17eb] p-8 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mt-20 -mr-20"></div>
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">
@@ -71,22 +71,22 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="p-8">
+          <div className="p-8 bg-white dark:bg-gray-800">
             {/* Cards: Nombre, Email, Teléfono, Servicio */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
                   <User className="w-6 h-6 text-[#8c52ff]" />
                 </div>
-                <h3 className="text-sm font-semibold text-gray-500 mb-1">Nombre</h3>
-                <p className="text-lg font-medium text-gray-800">{contacto.nombre}</p>
+                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Nombre</h3>
+                <p className="text-lg font-medium text-gray-800 dark:text-white">{contacto.nombre}</p>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
                   <Mail className="w-6 h-6 text-[#8c52ff]" />
                 </div>
-                <h3 className="text-sm font-semibold text-gray-500 mb-1">Email</h3>
+                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Email</h3>
                 <a
                   href={`mailto:${contacto.email}?subject=Respuesta%20a%20su%20contacto&body=Hola%20${contacto.nombre},%0A%0A`}
                   className="text-lg font-medium text-[#8c52ff] hover:underline break-all flex items-center group"
@@ -97,11 +97,11 @@ export default function Page() {
                 </a>
               </div>
 
-              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
                   <Phone className="w-6 h-6 text-[#8c52ff]" />
                 </div>
-                <h3 className="text-sm font-semibold text-gray-500 mb-1">Teléfono</h3>
+                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Teléfono</h3>
                 {contacto.numero ? (
                   <a
                     href={`https://wa.me/+51${contacto.numero.replace(/\D/g, '')}`}
@@ -112,34 +112,34 @@ export default function Page() {
                     {contacto.numero}
                   </a>
                 ) : (
-                  <p className="text-lg font-medium text-gray-800">No proporcionado</p>
+                  <p className="text-lg font-medium text-gray-800 dark:text-white">No proporcionado</p>
                 )}
               </div>
 
               {/* ── CARD SERVICIO ── */}
-              <div className="bg-gray-50 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-5 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div className="bg-[#8c52ff]/10 p-3 rounded-full mb-3">
                   <Briefcase className="w-6 h-6 text-[#8c52ff]" />
                 </div>
-                <h3 className="text-sm font-semibold text-gray-500 mb-1">Servicio</h3>
+                <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1">Servicio</h3>
                 {contacto.servicio ? (
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
                     {contacto.servicio}
                   </span>
                 ) : (
-                  <p className="text-lg font-medium text-gray-400">—</p>
+                  <p className="text-lg font-medium text-gray-400 dark:text-gray-500">—</p>
                 )}
               </div>
             </div>
 
             {/* Mensaje */}
-            <div className="bg-gray-50 rounded-xl border border-gray-100 w-[800px] h-48 overflow-auto">
-              <div className="sticky top-0 bg-gray-50 p-4 border-b border-gray-100 flex items-center">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 w-full max-w-[800px] h-48 overflow-auto">
+              <div className="sticky top-0 bg-gray-50 dark:bg-gray-900 p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
                 <MessageSquare className="w-5 h-5 text-[#8c52ff] mr-2" />
-                <h2 className="text-lg font-semibold text-gray-800">Mensaje</h2>
+                <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Mensaje</h2>
               </div>
               <div className="p-4">
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
                   {contacto.mensaje || "No hay mensaje disponible"}
                 </p>
               </div>
