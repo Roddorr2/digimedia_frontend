@@ -1248,8 +1248,8 @@ export default function FormBody({
           <div className="flex flex-col gap-3">
             {/* Toggle Consejos */}
             {mergedSectionsConfig.consejos.enabled && (
-              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
-                <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+                <span className="text-sm text-gray-300 flex items-center">
                   <Quote className="w-4 h-4 mr-2 text-purple-400" />
                   Consejos
                 </span>
@@ -1281,8 +1281,8 @@ export default function FormBody({
 
             {/* Toggle Galería */}
             {mergedSectionsConfig.galeria.enabled && (
-              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
-                <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+                <span className="text-sm text-gray-300 flex items-center">
                   <IconImage className="w-4 h-4 mr-2 text-blue-400" />
                   Galería
                 </span>
@@ -1314,8 +1314,8 @@ export default function FormBody({
 
             {/* Toggle Información */}
             {mergedSectionsConfig.informacion.enabled && (
-              <div className="flex items-center justify-between gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
-                <span className="text-sm text-gray-300 flex items-center whitespace-nowrap">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 p-2 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
+                <span className="text-sm text-gray-300 flex items-center">
                   <FileText className="w-4 h-4 mr-2 text-teal-400" />
                   Información
                 </span>
@@ -1348,11 +1348,13 @@ export default function FormBody({
         </div>
 
         {/* Tooltip informativo */}
-        <div className="mt-3 pt-3 border-t border-gray-700/50">
-          <p className="text-xs text-gray-400 flex items-start">
-            <span className="mr-1">💡</span>
+        <div className="mt-3 pt-3 border-t border-gray-700/50 overflow-hidden">
+          <p className="text-xs text-gray-400 flex items-start min-w-0">
+            <span className="mr-1 shrink-0">💡</span>
+            <span className="min-w-0 break-words">
             Controla qué secciones se muestran en la plantilla. Los datos se
             limpian automáticamente al deshabilitar.
+            </span>
           </p>
         </div>
       </div>
