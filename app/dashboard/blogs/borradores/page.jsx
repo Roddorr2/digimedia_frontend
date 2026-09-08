@@ -222,8 +222,8 @@ export default function Borradores() {
                 </div>
             ) : (
                 <>
-                    {/* TABLA */}
-                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-x-auto mb-6">
+                    {/* VISTA TABLA (DESKTOP) */}
+                    <div className="hidden md:block bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-x-auto mb-6">
                         <table className="w-full">
                             <thead>
                                 <tr className="bg-slate-50 dark:bg-slate-700 border-b border-slate-200 dark:border-slate-600">
@@ -241,14 +241,13 @@ export default function Borradores() {
                                         <td className="px-6 py-4 max-w-[200px] truncate">{blog.titulo}</td>
                                         <td className="px-6 py-4 max-w-[300px] truncate">{blog.descripcion}</td>
                                         <td className="px-6 py-4">
-                                            <img src={blog.public_image} className="w-12 h-12 rounded-lg object-cover" />
+                                            <img src={blog.public_image} alt={blog.titulo} className="w-12 h-12 rounded-lg object-cover" />
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex gap-2 justify-end">
-
                                                 <Link
                                                     href={`/edition?mode=edit&id=${blog.id_blog}`}
-                                                    className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100"
+                                                    className="p-2 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
                                                     title="Editar blog"
                                                 >
                                                     <Pencil className="w-4 h-4" />
@@ -256,7 +255,7 @@ export default function Borradores() {
                                                 {auth_service.hasRole("administrador") && (
                                                     <button
                                                         onClick={() => confirmDelete(blog.id_blog)}
-                                                        className="flex items-center justify-center p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                                                        className="flex items-center justify-center p-2 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors"
                                                         title="Eliminar blog"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
@@ -268,6 +267,77 @@ export default function Borradores() {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* VISTA TARJETAS (MOBILE - REFERENCIA SECCIÓN ROLES) */}
+                    <div className="grid gap-4 md:hidden mb-6">
+                        {displayedBlogs.map((blog) => (
+                            <div
+                                key={`mobile-${blog.id_card}`}
+                                className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800 shadow-sm p-4"
+                            >
+                                <div className="flex items-start justify-between gap-3 mb-2">
+                                    <div className="min-w-0 flex-1">
+                                        <div className="mb-2">
+                                            <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                                                ID:
+                                            </span>
+                                            <span className="font-medium text-gray-900 dark:text-gray-100 ml-2">
+                                                #{blog.id_card}
+                                            </span>
+                                        </div>
+
+                                        <div className="mb-2">
+                                            <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                                                TÍTULO:
+                                            </span>
+                                            <span className="font-medium text-gray-900 dark:text-gray-100 ml-2 break-words">
+                                                {blog.titulo}
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                                                DESCRIPCIÓN:
+                                            </span>
+                                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 line-clamp-3 break-words">
+                                                {blog.descripcion}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {blog.public_image && (
+                                        <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600">
+                                            <img
+                                                src={blog.public_image}
+                                                alt={blog.titulo}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Separador y acciones en la parte inferior */}
+                                <div className="flex justify-end items-center mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 gap-2">
+                                    <Link
+                                        href={`/edition?mode=edit&id=${blog.id_blog}`}
+                                        className="p-2 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
+                                        title="Editar blog"
+                                    >
+                                        <Pencil className="w-4 h-4" />
+                                    </Link>
+                                    {auth_service.hasRole("administrador") && (
+                                        <button
+                                            onClick={() => confirmDelete(blog.id_blog)}
+                                            className="flex items-center justify-center p-2 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors"
+                                            title="Eliminar blog"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
                     {/* PAGINACIÓN */}
