@@ -47,16 +47,17 @@ export default function Page() {
 
   return (
     <div className="p-4 md:p-6">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row gap-4 md:gap-0">
-        <button
-          className="w-fit h-11 md:h-14 md:w-52 bg-[#8c52ff] text-white px-10 md:px-4 py-2 rounded-lg hover:bg-[#7b45e0] transition-all duration-300 flex items-center shadow-sm group text-sm md:text-base"
-          onClick={() => router.push("/dashboard/modales/")}
-        >
-          <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
-          Volver a la lista
-        </button>
-
-        <div className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden ml-0 md:ml-10 w-full">
+      <div className="max-w-5xl mx-auto">
+        <div className= "mb-3">
+          <button
+            className="flex items-center px-3 py-1.5 rounded-xl text-sm shadow-sm transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md hover:-translate-y-0.5 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white dark:border dark:border-gray-700"
+            onClick={() => router.push("/dashboard/modales/")}
+          >
+            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+            Volver a la lista
+          </button>
+        </div>
+        <div className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden w-full">
           <div className="bg-gradient-to-r from-[#8c52ff] to-[#5e17eb] p-8 text-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mt-20 -mr-20"></div>
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">

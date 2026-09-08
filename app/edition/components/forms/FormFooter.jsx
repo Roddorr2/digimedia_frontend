@@ -32,8 +32,8 @@ import {
 // Configuración por defecto de estilos
 const DEFAULT_STYLES = {
   container:
-    "relative mt-12 flex flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-b from-[#000118] via-[#410C89] to-[#000118] rounded-[25px] shadow-lg overflow-hidden p-6 gap-6 border border-[#410C89]/40",
-  preview: "relative flex-1 p-6 md:p-8 min-w-0",
+    "relative mt-12 flex w-full flex-col md:flex-row justify-center items-stretch max-w-5xl mx-auto bg-gradient-to-b from-[#000118] via-[#410C89] to-[#000118] rounded-[25px] shadow-lg overflow-hidden p-2 sm:p-4 md:p-6 gap-4 md:gap-6 border border-[#410C89]/40",
+  preview: "relative flex-1 w-full p-4 sm:p-6 md:p-8 min-w-0",
   title:
     "text-3xl text-center font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500",
   description:
@@ -42,8 +42,8 @@ const DEFAULT_STYLES = {
   imageItem: "relative group cursor-pointer w-full",
   image:
     "w-full h-56 object-cover rounded-2xl border border-[#410C89]/40 group-hover:border-[#F4D534]/60 transition-all duration-300 shadow-md",
-  panel: "relative w-full md:w-[450px] h-auto p-6",
-  form: "bg-black/75 backdrop-blur-md rounded-2xl p-5 border border-[#410C89]/50 shadow-lg",
+  panel: "relative w-full md:w-[450px] h-auto p-2 sm:p-4 md:p-6 min-w-0",
+  form: "w-full bg-black/75 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#410C89]/50 shadow-lg",
   input:
     "w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent",
   textarea:
