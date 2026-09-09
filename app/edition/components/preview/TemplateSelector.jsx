@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import {
   Layout,
   Layers,
@@ -8,10 +8,15 @@ import {
   ArrowRight,
   CheckCircle,
   Sparkles,
-  ArrowRightFromLine ,
+  ArrowRightFromLine,
   Quote,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 // Configuración de plantillas
 import {
   PLANTILLAS_ARRAY,
@@ -21,7 +26,7 @@ import {
 
 /**
  * TemplateSelector - Componente para seleccionar plantilla antes de crear blog
- * 
+ *
  * Este componente permite al usuario elegir entre las plantillas disponibles
  * mostrando una vista previa de cada una con sus características principales.
  *
@@ -58,12 +63,51 @@ export default function TemplateSelector({
 
   // Obtener configuración de plantilla seleccionada
   const selectedConfig = getPlantillaConfig(selectedTemplate);
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const carouselRef = useRef(null);
+  const [currentTemplate, setCurrentTemplate] = useState(0);
+  const [swiperInstance, setSwiperInstance] = useState(null);
+  const nextTemplate = () => {
+    if (
+      currentTemplate >= PLANTILLAS_ARRAY.length - 1 ||
+      !carouselRef.current
+    ) {
+      return;
+    }
+
+    const cards = carouselRef.current.children;
+    const nextCard = cards[currentTemplate + 1];
+
+    nextCard?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  };
+
+  const previousTemplate = () => {
+    if (currentTemplate <= 0 || !carouselRef.current) {
+      return;
+    }
+
+    const cards = carouselRef.current.children;
+    const previousCard = cards[currentTemplate - 1];
+
+    previousCard?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 ${className}`}>
+    <div
+      className={`min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 ${className}`}
+    >
       <div className="container mx-auto px-6 py-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 overflow-hidden">
           <div className="flex items-center justify-center mb-4">
             <Layout className="w-8 h-8 text-yellow-400 mr-3" />
             <h1 className="text-4xl font-bold text-white">
@@ -71,196 +115,458 @@ export default function TemplateSelector({
             </h1>
           </div>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Elige la plantilla que mejor se adapte a tu contenido. Cada plantilla tiene
-            características únicas optimizadas para diferentes tipos de blogs.
+            Elige la plantilla que mejor se adapte a tu contenido. Cada
+            plantilla tiene características únicas optimizadas para diferentes
+            tipos de blogs.
           </p>
         </div>
 
         {/* Template Grid */}
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 items-stretch"> {/* CAMBIO 1: items-stretch agregado */}
-  {PLANTILLAS_ARRAY.map((config) => {
-    const isSelected = selectedTemplate === config.id;
-    const isHovered = hoveredTemplate === config.id;
-    const features = config.features || {};
-    const hasConsejos = config.sectionsConfig?.consejos?.enabled ?? false;
-    const consejosAllowLink = config.sectionsConfig?.consejos?.allowLink ?? false;
+        <div className="mb-6 lg:mb-16">
+          <div className="hidden lg:grid lg:grid-cols-3 gap-8 items-stretch">
+            {" "}
+            {/* CAMBIO 1: items-stretch agregado */}
+            {PLANTILLAS_ARRAY.map((config) => {
+              const isSelected = selectedTemplate === config.id;
+              const isHovered = hoveredTemplate === config.id;
+              const features = config.features || {};
+              const hasConsejos =
+                config.sectionsConfig?.consejos?.enabled ?? false;
+              const consejosAllowLink =
+                config.sectionsConfig?.consejos?.allowLink ?? false;
 
-    return (
-      <div
-        key={config.id}
-        className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 h-full ${
-          isSelected
-            ? "ring-4 ring-yellow-400 shadow-2xl shadow-yellow-400/20"
-            : "hover:shadow-xl"
-        }`} /* CAMBIO 2: h-full agregado aquí */
-        onClick={() => handleTemplateSelect(config.id)}
-        onMouseEnter={() => setHoveredTemplate(config.id)}
-        onMouseLeave={() => setHoveredTemplate(null)}
-      >
-        {/* Template Card */}
-        <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-full flex flex-col justify-between"> {/* CAMBIO 3: h-full flex flex-col justify-between agregado */}
-          
-          {/* Parte superior de la tarjeta (Preview + Info) */}
-          <div className="flex flex-col flex-grow justify-between"> {/* CAMBIO 4: Wrapper superior flex flex-col flex-grow */}
-            <div>
-              {/* Preview Area */}
-              <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                {/* Mock Layout Preview */}
-                <div className="p-4 h-full">
-                  {/* Header */}
-                  <div className="h-8 bg-gray-800 rounded mb-3 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-80"></div>
-                  </div>
+              return (
+                <div
+                  key={config.id}
+                  className={`relative group cursor-pointer transition-all duration-300 transform hover:scale-105 h-full ${
+                    isSelected
+                      ? "ring-4 ring-yellow-400 shadow-2xl shadow-yellow-400/20"
+                      : "hover:shadow-xl"
+                  }`} /* CAMBIO 2: h-full agregado aquí */
+                  onClick={() => handleTemplateSelect(config.id)}
+                  onMouseEnter={() => setHoveredTemplate(config.id)}
+                  onMouseLeave={() => setHoveredTemplate(null)}
+                >
+                  {/* Template Card */}
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-full flex flex-col justify-between">
+                    {" "}
+                    {/* CAMBIO 3: h-full flex flex-col justify-between agregado */}
+                    {/* Parte superior de la tarjeta (Preview + Info) */}
+                    <div className="flex flex-col flex-grow justify-between">
+                      {" "}
+                      {/* CAMBIO 4: Wrapper superior flex flex-col flex-grow */}
+                      <div>
+                        {/* Preview Area */}
+                        <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                          {/* Mock Layout Preview */}
+                          <div className="p-4 h-full">
+                            {/* Header */}
+                            <div className="h-8 bg-gray-800 rounded mb-3 relative overflow-hidden">
+                              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-80"></div>
+                            </div>
 
-                  {/* Content Layout */}
-                  {config.layoutType === "tabs" ? (
-                    <div className="space-y-2">
-                      {/* Tabs */}
-                      <div className="flex space-x-1 mb-2">
-                        <div className="h-4 w-12 bg-teal-500 rounded"></div>
-                        <div className="h-4 w-12 bg-gray-400 rounded"></div>
-                        <div className="h-4 w-12 bg-gray-400 rounded"></div>
-                      </div>
-                      {/* Content */}
-                      {hasConsejos && (
-                        <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
-                          <div className="text-white text-xs font-bold">Consejos</div>
-                        </div>
-                      )}
-                      <div className="grid grid-cols-2 gap-2">
-                        {Array.from({ length: features.informacion?.maxItems || 4 }, (_, i) => (
-                          <div key={i} className="h-12 bg-green-200 rounded"></div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      {/* Consejos Section */}
-                      {hasConsejos && (
-                        <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
-                          <div className="text-white text-xs font-bold">
-                            Consejos
+                            {/* Content Layout */}
+                            {config.layoutType === "tabs" ? (
+                              <div className="space-y-2">
+                                {/* Tabs */}
+                                <div className="flex space-x-1 mb-2">
+                                  <div className="h-4 w-12 bg-teal-500 rounded"></div>
+                                  <div className="h-4 w-12 bg-gray-400 rounded"></div>
+                                  <div className="h-4 w-12 bg-gray-400 rounded"></div>
+                                </div>
+                                {/* Content */}
+                                {hasConsejos && (
+                                  <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
+                                    <div className="text-white text-xs font-bold">
+                                      Consejos
+                                    </div>
+                                  </div>
+                                )}
+                                <div className="grid grid-cols-2 gap-2">
+                                  {Array.from(
+                                    {
+                                      length:
+                                        features.informacion?.maxItems || 4,
+                                    },
+                                    (_, i) => (
+                                      <div
+                                        key={i}
+                                        className="h-12 bg-green-200 rounded"
+                                      ></div>
+                                    ),
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                {/* Consejos Section */}
+                                {hasConsejos && (
+                                  <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
+                                    <div className="text-white text-xs font-bold">
+                                      Consejos
+                                    </div>
+                                  </div>
+                                )}
+                                {/* Gallery */}
+                                <div className="grid grid-cols-2 gap-1">
+                                  <div className="h-10 bg-blue-200 rounded"></div>
+                                  <div className="h-10 bg-blue-300 rounded"></div>
+                                </div>
+                                {/* Info Cards */}
+                                <div className="space-y-1">
+                                  {Array.from({ length: 2 }, (_, i) => (
+                                    <div
+                                      key={i}
+                                      className="h-6 bg-teal-100 rounded"
+                                    ></div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Selection Overlay */}
+                          {isSelected && (
+                            <div className="absolute inset-0 bg-yellow-400/20 flex items-center justify-center">
+                              <CheckCircle className="w-16 h-16 text-yellow-600" />
+                            </div>
+                          )}
+
+                          {/* Template Label */}
+                          <div className="absolute top-2 right-2">
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-bold ${
+                                config.layoutType === "tabs"
+                                  ? "bg-teal-500 text-white"
+                                  : "bg-purple-500 text-white"
+                              }`}
+                            >
+                              {config.layoutType === "tabs" ? (
+                                <ArrowRightFromLine className="w-3 h-3 inline mr-1" />
+                              ) : (
+                                <Layout className="w-3 h-3 inline mr-1" />
+                              )}
+                              {config.layoutType}
+                            </span>
                           </div>
                         </div>
-                      )}
-                      {/* Gallery */}
-                      <div className="grid grid-cols-2 gap-1">
-                        <div className="h-10 bg-blue-200 rounded"></div>
-                        <div className="h-10 bg-blue-300 rounded"></div>
+
+                        {/* Template Info */}
+                        <div className="p-6">
+                          <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-xl font-bold text-gray-900">
+                              {config.name}
+                            </h3>
+                            {isSelected && (
+                              <CheckCircle className="w-6 h-6 text-yellow-500" />
+                            )}
+                          </div>
+
+                          <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                            {config.description}
+                          </p>
+
+                          {/* Features */}
+                          <div className="space-y-2 mb-4">
+                            {hasConsejos && (
+                              <div className="flex items-center text-sm text-gray-700">
+                                <Quote className="w-4 h-4 mr-2 text-purple-500" />
+                                <span>
+                                  {consejosAllowLink
+                                    ? "Consejos con enlace propio"
+                                    : "Consejos"}
+                                </span>
+                              </div>
+                            )}
+                            <div className="flex items-center text-sm text-gray-700">
+                              <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
+                              <span>
+                                {features.galeria?.maxImages || 2} imágenes en
+                                galería
+                              </span>
+                            </div>
+                            <div className="flex items-center text-sm text-gray-700">
+                              <Layers className="w-4 h-4 mr-2 text-teal-500" />
+                              <span>
+                                {features.informacion?.maxItems || 4} tarjetas
+                                de info
+                              </span>
+                            </div>
+                            {features.consejos?.hasAutoGeneration && (
+                              <div className="flex items-center text-sm text-gray-700">
+                                <Sparkles className="w-4 h-4 mr-2 text-yellow-500" />
+                                <span>Auto-generación de contenido</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      {/* Info Cards */}
-                      <div className="space-y-1">
-                        {Array.from({ length: 2 }, (_, i) => (
-                          <div key={i} className="h-6 bg-teal-100 rounded"></div>
-                        ))}
+                      {/* Selection Button */}
+                      <div className="p-6 pt-0 mt-auto">
+                        {" "}
+                        {/* CAMBIO 5: Se metió en un wrapper con mt-auto para alinearlo abajo */}
+                        <button
+                          className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
+                            isSelected
+                              ? "bg-yellow-500 text-white shadow-lg"
+                              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          }`}
+                          onClick={() => handleTemplateSelect(config.id)}
+                        >
+                          {isSelected ? "Seleccionada" : "Seleccionar"}
+                        </button>
                       </div>
                     </div>
-                  )}
-                </div>
-
-                {/* Selection Overlay */}
-                {isSelected && (
-                  <div className="absolute inset-0 bg-yellow-400/20 flex items-center justify-center">
-                    <CheckCircle className="w-16 h-16 text-yellow-600" />
                   </div>
-                )}
-
-                {/* Template Label */}
-                <div className="absolute top-2 right-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-bold ${
-                    config.layoutType === "tabs"
-                      ? "bg-teal-500 text-white"
-                      : "bg-purple-500 text-white"
-                  }`}>
-                    {config.layoutType === "tabs" ? (
-                      <ArrowRightFromLine className="w-3 h-3 inline mr-1" />
-                    ) : (
-                      <Layout className="w-3 h-3 inline mr-1" />
-                    )}
-                    {config.layoutType}
-                  </span>
                 </div>
-              </div>
+              );
+            })}
+          </div>
 
-              {/* Template Info */}
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {config.name}
-                  </h3>
-                  {isSelected && (
-                    <CheckCircle className="w-6 h-6 text-yellow-500" />
-                  )}
-                </div>
+          {/* Mobile / Tablet */}
+          <div className="lg:hidden relative ">
+            <Swiper
+              modules={[Navigation, Pagination]}
+              onBeforeInit={(swiper) => {
+                swiper.params.navigation.prevEl = prevRef.current;
+                swiper.params.navigation.nextEl = nextRef.current;
+              }}
+              navigation={{
+                prevEl: prevRef.current,
+                nextEl: nextRef.current,
+              }}
+              pagination={{
+                clickable: true,
+                bulletClass: "testimonials-bullet",
+                bulletActiveClass: "testimonials-bullet-active",
+              }}
+              spaceBetween={24}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                },
+                768: {
+                  slidesPerView: 2,
+                },
+                1200: {
+                  slidesPerView: 3,
+                },
+              }}
+              className="!pb-12"
+            >
+              {PLANTILLAS_ARRAY.map((config) => {
+                const isSelected = selectedTemplate === config.id;
+                const isHovered = hoveredTemplate === config.id;
+                const features = config.features || {};
+                const hasConsejos =
+                  config.sectionsConfig?.consejos?.enabled ?? false;
+                const consejosAllowLink =
+                  config.sectionsConfig?.consejos?.allowLink ?? false;
 
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                  {config.description}
-                </p>
+                return (
+                  <SwiperSlide key={config.id} className="h-auto py-2">
+                    <div
+                      key={config.id}
+                      className="h-[600px]" /* CAMBIO 2: h-full agregado aquí */
+                      onClick={() => handleTemplateSelect(config.id)}
+                      onMouseEnter={() => setHoveredTemplate(config.id)}
+                      onMouseLeave={() => setHoveredTemplate(null)}
+                    >
+                      {/* Template Card */}
+                      <div className="bg-white rounded-2xl overflow-hidden shadow-lg h-full flex flex-col ">
+                        {" "}
+                        {/* CAMBIO 3: h-full flex flex-col justify-between agregado */}
+                        {/* Parte superior de la tarjeta (Preview + Info) */}
+                        <div className="flex flex-col flex-grow justify-between overflow-y-auto">
+                          {" "}
+                          {/* CAMBIO 4: Wrapper superior flex flex-col flex-grow */}
+                          {/* Preview Area */}
+                          <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                            {/* Mock Layout Preview */}
+                            <div className="p-4 h-full">
+                              {/* Header */}
+                              <div className="h-8 bg-gray-800 rounded mb-3 relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-80"></div>
+                              </div>
 
-                {/* Features */}
-                <div className="space-y-2 mb-4">
-                  {hasConsejos && (
-                    <div className="flex items-center text-sm text-gray-700">
-                      <Quote className="w-4 h-4 mr-2 text-purple-500" />
-                      <span>{consejosAllowLink ? "Consejos con enlace propio" : "Consejos"}</span>
+                              {/* Content Layout */}
+                              {config.layoutType === "tabs" ? (
+                                <div className="space-y-2">
+                                  {/* Tabs */}
+                                  <div className="flex space-x-1 mb-2">
+                                    <div className="h-4 w-12 bg-teal-500 rounded"></div>
+                                    <div className="h-4 w-12 bg-gray-400 rounded"></div>
+                                    <div className="h-4 w-12 bg-gray-400 rounded"></div>
+                                  </div>
+                                  {/* Content */}
+                                  {hasConsejos && (
+                                    <div className="h-8 bg-gray-700 rounded flex items-center justify-center mb-1">
+                                      <div className="text-white text-xs font-bold">
+                                        Consejos
+                                      </div>
+                                    </div>
+                                  )}
+                                  <div className="grid grid-cols-2 gap-2">
+                                    {Array.from(
+                                      {
+                                        length:
+                                          features.informacion?.maxItems || 4,
+                                      },
+                                      (_, i) => (
+                                        <div
+                                          key={i}
+                                          className="h-12 bg-green-200 rounded"
+                                        ></div>
+                                      ),
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="space-y-2">
+                                  {/* Consejos Section */}
+                                  {hasConsejos && (
+                                    <div className="h-12 bg-gray-700 rounded flex items-center justify-center">
+                                      <div className="text-white text-xs font-bold">
+                                        Consejos
+                                      </div>
+                                    </div>
+                                  )}
+                                  {/* Gallery */}
+                                  <div className="grid grid-cols-2 gap-1">
+                                    <div className="h-10 bg-blue-200 rounded"></div>
+                                    <div className="h-10 bg-blue-300 rounded"></div>
+                                  </div>
+                                  {/* Info Cards */}
+                                  <div className="space-y-1">
+                                    {Array.from({ length: 2 }, (_, i) => (
+                                      <div
+                                        key={i}
+                                        className="h-6 bg-teal-100 rounded"
+                                      ></div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Selection Overlay */}
+                            {isSelected && (
+                              <div className="absolute inset-0 bg-yellow-400/20 flex items-center justify-center">
+                                <CheckCircle className="w-16 h-16 text-yellow-600" />
+                              </div>
+                            )}
+
+                            {/* Template Label */}
+                            <div className="absolute top-2 right-2">
+                              <span
+                                className={`px-2 py-1 rounded-full text-xs font-bold ${
+                                  config.layoutType === "tabs"
+                                    ? "bg-teal-500 text-white"
+                                    : "bg-purple-500 text-white"
+                                }`}
+                              >
+                                {config.layoutType === "tabs" ? (
+                                  <ArrowRightFromLine className="w-3 h-3 inline mr-1" />
+                                ) : (
+                                  <Layout className="w-3 h-3 inline mr-1" />
+                                )}
+                                {config.layoutType}
+                              </span>
+                            </div>
+                          </div>
+                          {/* Template Info */}
+                          <div className="p-6 pb-0">
+                            <div className="flex items-center justify-between mb-3">
+                              <h3 className="text-xl font-bold text-gray-900">
+                                {config.name}
+                              </h3>
+                              {isSelected && (
+                                <CheckCircle className="w-6 h-6 text-yellow-500" />
+                              )}
+                            </div>
+
+                            <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                              {config.description}
+                            </p>
+
+                            {/* Features */}
+                            <div className="space-y-2 mb-4">
+                              {hasConsejos && (
+                                <div className="flex items-center text-sm text-gray-700">
+                                  <Quote className="w-4 h-4 mr-2 text-purple-500" />
+                                  <span>
+                                    {consejosAllowLink
+                                      ? "Consejos con enlace propio"
+                                      : "Consejos"}
+                                  </span>
+                                </div>
+                              )}
+                              <div className="flex items-center text-sm text-gray-700">
+                                <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
+                                <span>
+                                  {features.galeria?.maxImages || 2} imágenes en
+                                  galería
+                                </span>
+                              </div>
+                              <div className="flex items-center text-sm text-gray-700">
+                                <Layers className="w-4 h-4 mr-2 text-teal-500" />
+                                <span>
+                                  {features.informacion?.maxItems || 4} tarjetas
+                                  de info
+                                </span>
+                              </div>
+                              {features.consejos?.hasAutoGeneration && (
+                                <div className="flex items-center text-sm text-gray-700">
+                                  <Sparkles className="w-4 h-4 mr-2 text-yellow-500" />
+                                  <span>Auto-generación de contenido</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          {/* Selection Button */}
+                          <div>
+                            {" "}
+                            {/* CAMBIO 5: Se metió en un wrapper con mt-auto para alinearlo abajo */}
+                            <button
+                              className={`w-full py-3 px-4 rounded-lg font-semibold transition-all whitespace-normal break-words ${
+                                isSelected
+                                  ? "bg-yellow-500 text-white shadow-lg"
+                                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                              }`}
+                              onClick={() => handleTemplateSelect(config.id)}
+                            >
+                              {isSelected ? "Seleccionada" : "Seleccionar"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  )}
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Grid3x3 className="w-4 h-4 mr-2 text-blue-500" />
-                    <span>{features.galeria?.maxImages || 2} imágenes en galería</span>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Layers className="w-4 h-4 mr-2 text-teal-500" />
-                    <span>{features.informacion?.maxItems || 4} tarjetas de info</span>
-                  </div>
-                  {features.consejos?.hasAutoGeneration && (
-                    <div className="flex items-center text-sm text-gray-700">
-                      <Sparkles className="w-4 h-4 mr-2 text-yellow-500" />
-                      <span>Auto-generación de contenido</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Selection Button */}
-            <div className="p-6 pt-0 mt-auto"> {/* CAMBIO 5: Se metió en un wrapper con mt-auto para alinearlo abajo */}
-              <button
-                className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
-                  isSelected
-                    ? "bg-yellow-500 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-                onClick={() => handleTemplateSelect(config.id)}
-              >
-                {isSelected ? "Seleccionada" : "Seleccionar"}
-              </button>
-            </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
           </div>
         </div>
-      </div>
-    );
-  })}
-</div>
-
         {/* Selected Template Summary */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <div className="bg-white rounded-2xl shadow-xl p-4 min-[280px]:p-8 mb-8 overflow-hidden ">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="overflow-y-auto">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 Plantilla Seleccionada: {selectedConfig.name}
               </h3>
               <p className="text-gray-600 mb-4">{selectedConfig.description}</p>
-              <div className="flex items-center space-x-6 text-sm text-gray-700">
+              <div className="flex flex-col min-[401px]:flex-row min-[401px]:items-center gap-2 min-[401px]:gap-6 text-sm text-gray-700">
                 <div className="flex items-center">
                   <Layout className="w-4 h-4 mr-1 text-purple-500" />
                   <span>Layout {selectedConfig.layoutType}</span>
                 </div>
-                {(selectedConfig.sectionsConfig?.consejos?.enabled ?? false) && (
+                {(selectedConfig.sectionsConfig?.consejos?.enabled ??
+                  false) && (
                   <div className="flex items-center">
                     <Quote className="w-4 h-4 mr-1 text-purple-500" />
                     <span>
-                      {(selectedConfig.sectionsConfig?.consejos?.allowLink ?? false)
+                      {(selectedConfig.sectionsConfig?.consejos?.allowLink ??
+                      false)
                         ? "Consejos con enlace propio"
                         : "Consejos"}
                     </span>
@@ -268,7 +574,9 @@ export default function TemplateSelector({
                 )}
                 <div className="flex items-center">
                   <Grid3x3 className="w-4 h-4 mr-1 text-blue-500" />
-                  <span>{selectedConfig.features?.galeria?.maxImages || 2} imágenes</span>
+                  <span>
+                    {selectedConfig.features?.galeria?.maxImages || 2} imágenes
+                  </span>
                 </div>
               </div>
             </div>
@@ -276,24 +584,45 @@ export default function TemplateSelector({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-center space-x-4">
+        <div className="flex flex-col min-[560px]:flex-row items-stretch min-[560px]:items-center justify-center gap-3 min-[560px]:gap-4">
           {showCancel && (
             <button
               onClick={handleCancel}
-              className="px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors"
+              className="w-full min-[560px]:w-auto px-8 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors break-words"
             >
               Cancelar
             </button>
           )}
           <button
             onClick={handleConfirm}
-            className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center"
+            className="w-full min-[560px]:w-auto px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center justify-center break-words"
           >
             Crear Blog con esta Plantilla
             <ArrowRight className="w-5 h-5 ml-2" />
           </button>
         </div>
       </div>
+      {/* Estilos custom para los bullets */}
+      <style>{`
+        .testimonials-bullet {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background-color: rgba(255, 255, 255, 0.35);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-block;
+          margin: 0 4px;
+        }
+        .testimonials-bullet-active {
+          width: 24px;
+          background-color: #ffb800;
+          box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
+        }
+        .testimonials-bullet:hover {
+          background-color: rgba(255, 184, 0, 0.8);
+        }
+      `}</style>
     </div>
   );
 }
