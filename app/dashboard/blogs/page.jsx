@@ -333,27 +333,29 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Buscar por título..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-              />
-              <Search className="absolute left-3 top-1/3 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              {searchQuery && (
-                <button
-                  onClick={clearSearch}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+          <div className="flex flex-col lg:flex-row gap-3 w-full lg:w-auto">
+            <div className="w-full lg:w-64 shrink-0">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Buscar por título..."
+                  value={searchQuery}
+                  onChange={handleSearch}
+                  className="w-full sm:w-64 pl-10 pr-10 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="flex gap-2 flex-wrap sm:justify-end">
+            <div className="flex gap-2 flex-wrap lg:justify-end min-w-0">
               <button
                 onClick={() => handleFilterChange("all")}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
@@ -555,8 +557,8 @@ export default function Page() {
           </div>
 
           {totalPages > 1 && (
-            <div className="hidden lg:flex items-center justify-between bg-white rounded-xl shadow-sm p-4 mb-6">
-              <div className="text-sm text-slate-500">
+            <div className="hidden lg:flex items-center justify-between bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 mb-6">
+              <div className="text-sm text-slate-500 dark:text-slate-400">
                 Mostrando{" "}
                 <span className="font-medium">{displayedBlogs.length}</span> de{" "}
                 <span className="font-medium">{filteredBlogs.length}</span>{" "}
@@ -569,8 +571,8 @@ export default function Page() {
                   disabled={currentPage === 1}
                   className={`p-2 rounded-lg border ${
                     currentPage === 1
-                      ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                      ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                      : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -583,8 +585,8 @@ export default function Page() {
                       onClick={() => setCurrentPage(page)}
                       className={`w-9 h-9 rounded-lg border ${
                         currentPage === page
-                          ? "bg-sky-50 text-sky-600 border-sky-200"
-                          : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                          ? "bg-sky-50 dark:bg-sky-900 text-sky-600 border-sky-200 dark:border-sky-700 font-medium"
+                          : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                       }`}
                     >
                       {page}
@@ -599,8 +601,8 @@ export default function Page() {
                   disabled={currentPage === totalPages}
                   className={`p-2 rounded-lg border ${
                     currentPage === totalPages
-                      ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed"
-                      : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                      ? "bg-slate-50 dark:bg-slate-700 text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed"
+                      : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                 >
                   <ChevronRight className="w-4 h-4" />
