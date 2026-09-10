@@ -166,7 +166,7 @@
   transform: scale(1.05);
 }
 
-@media screen and (min-width: 701px) {
+@media screen and (min-width: 768px) {
   .userButton {
     width: 40px;
     height: 40px;
@@ -197,7 +197,7 @@
   display: none;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
   .contenidoHeader {
     padding: 0 20px;
   }
@@ -317,6 +317,7 @@
     overflow: hidden;
     pointer-events: none;
     display: block;
+    box-sizing: border-box;
   }
 
   .loginButton {
@@ -345,7 +346,7 @@
   display: block;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
   .hide-on-mobile {
     display: none;
   }

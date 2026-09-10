@@ -18,13 +18,16 @@ export default function Header2() {
   const [scrolled, setScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== "undefined") {
-      return window.innerWidth <= 700;
+      return window.innerWidth <= 768;
     }
     return false;
   });
   const [touchedItem, setTouchedItem] = useState(null);
   const menuRef = useRef(null);
   const { isAuthenticated, logout } = useAuth();
+  //estados de submenu para calcular el espaciado
+  const [submenuAlign, setSubmenuAlign] = useState({});
+  const submenuRefs = useRef({});
 
   const filterLinks = dashboardLinks.filter((item) => {
     const hasPermission =
@@ -36,11 +39,62 @@ export default function Header2() {
   const isActive = (path) => pathname === path || pathname === `${path}/`;
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 700);
+    const check = () => setIsMobile(window.innerWidth <= 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  // Corrige la alineación del dropdown si se sale de la pantalla
+  useEffect(() => {
+  if (!openSubmenu || isMobile) return;
+
+  const calculateSubmenuAlign = () => {
+    const el = submenuRefs.current[openSubmenu];
+    if (!el) return;
+
+    const li = el.parentElement;
+    if (!li) return;
+
+    const margin = 12;
+    const liRect = li.getBoundingClientRect();
+
+    // Usamos el ancho real definido por el dropdown
+    const width = el.getBoundingClientRect().width;
+
+    const spaceRight = window.innerWidth - liRect.left;
+    const spaceLeft = liRect.right;
+
+    let nextAlign = "left";
+
+    // si en la derecha no entra , se pasa la izquierda
+    if (spaceRight < width + margin && spaceLeft >= width + margin) {
+      nextAlign = "right";
+    }
+
+    setSubmenuAlign((prev) => {
+      if (prev[openSubmenu] === nextAlign) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [openSubmenu]: nextAlign,
+      };
+    });
+  };
+
+  // se espera las dimensiones finales del dropdown
+  requestAnimationFrame(calculateSubmenuAlign);
+
+  window.addEventListener("resize", calculateSubmenuAlign);
+
+  return () => {
+    window.removeEventListener("resize", calculateSubmenuAlign);
+  };
+}, [openSubmenu, isMobile]);
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,38 +143,47 @@ export default function Header2() {
   };
 
   const submenuStyle = (name) => {
-    if (isMobile) {
-      return openSubmenu === name
-        ? {
-            position: "static",
-            maxHeight: "400px",
-            pointerEvents: "auto",
-            padding: "8px 0",
-            overflow: "visible",
-            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
-          }
-        : {
-            position: "static",
-            maxHeight: "0",
-            pointerEvents: "none",
-            padding: "0",
-            overflow: "hidden",
-            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
-          };
-    } else {
-      return openSubmenu === name
-        ? {
-            opacity: "1",
-            visibility: "visible",
-            transform: "translateY(0)",
-            pointerEvents: "auto",
-            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
-          }
-        : {
-            backgroundColor: "#130049", // Ahora usa el azul oscuro del header
-          };
-    }
-  };
+  const align = submenuAlign[name] || "left";
+  const alignOverride = isMobile
+    ? {}
+    : align === "right"
+      ? { left: "auto", right: 0 }
+      : { left: 0, right: "auto" };
+
+  if (isMobile) {
+    return openSubmenu === name
+      ? {
+          position: "static",
+          maxHeight: "400px",
+          pointerEvents: "auto",
+          padding: "8px 0",
+          overflow: "visible",
+          backgroundColor: "#130049", // Ahora usa el azul oscuro del header
+        }
+      : {
+          position: "static",
+          maxHeight: "0",
+          pointerEvents: "none",
+          padding: "0",
+          overflow: "hidden",
+          backgroundColor: "#130049", // Ahora usa el azul oscuro del header
+        };
+  } else {
+    return openSubmenu === name
+      ? {
+          opacity: "1",
+          visibility: "visible",
+          transform: "translateY(0)",
+          pointerEvents: "auto",
+          backgroundColor: "#130049", // Ahora usa el azul oscuro del header
+          ...alignOverride,
+        }
+      : {
+          backgroundColor: "#130049", // Ahora usa el azul oscuro del header
+          ...alignOverride,
+        };
+  }
+};
 
   const touchStyle = (id) => ({
     backgroundColor: touchedItem === id ? "rgba(255,255,255,0.1)" : "",
@@ -307,8 +370,9 @@ export default function Header2() {
                 />
               </p>
               <ul
+                ref={(el) => (submenuRefs.current["services"] = el)}
                 suppressHydrationWarning
-                className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full left-0 mt-0 min-w-[280px] py-4 flex flex-col gap-4 z-50`}
+                className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full mt-0 min-w-[280px] py-4 flex flex-col gap-4 z-50`}
                 style={submenuStyle("services")}
               >
                 <li
@@ -410,8 +474,9 @@ export default function Header2() {
                 />
               </p>
               <ul
+                ref={(el) => (submenuRefs.current["more"] = el)}
                 suppressHydrationWarning
-                className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
+                className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full mt-0  py-4 flex flex-col gap-4 z-50`}
                 style={submenuStyle("more")}
               >
                 <li
@@ -423,7 +488,7 @@ export default function Header2() {
                 >
                   <Link
                     href="/preguntas"
-                    className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]"
+                    className="!block !w-full !px-2 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]"
                   >
                     Preguntas Frecuentes
                   </Link>
@@ -437,7 +502,7 @@ export default function Header2() {
                 >
                   <Link
                     href="/contactanos"
-                    className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]"
+                    className="!block !w-full !px-2 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]"
                   >
                     Contacto
                   </Link>
@@ -452,7 +517,7 @@ export default function Header2() {
                   >
                     <Link
                       href="/login"
-                      className="!block !w-full !px-4 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]"
+                      className="!block !w-full !px-2 !py-2 !text-center !text-white !font-extrabold hover:!text-[#ffb800] transition-colors text-[15px]"
                     >
                       Ingresar
                     </Link>
@@ -481,8 +546,9 @@ export default function Header2() {
                   />
                 </p>
                 <ul
+                  ref={(el) => (submenuRefs.current["panel"] = el)}
                   suppressHydrationWarning
-                  className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full right-0 mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
+                  className={`${styles.menuVertical} !bg-[#130049] shadow-lg md:absolute top-full  mt-0 min-w-[240px] py-4 flex flex-col gap-4 z-50`}
                   style={submenuStyle("panel")}
                 >
                   {filterLinks.map((link) => (
