@@ -170,7 +170,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
     <div className="rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 overflow-hidden">
       {/* Header strip */}
       <div
-        className={`px-5 py-3 flex items-center justify-between border-b border-slate-100 dark:border-slate-700 ${
+        className={`px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-700 ${
           tipo === "whatsapp"
             ? "bg-cyan-50 dark:bg-cyan-900/20"
             : "bg-violet-50 dark:bg-violet-900/20"
@@ -178,7 +178,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
       >
         <div className="flex items-center gap-2">
           <span
-            className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
+            className={`text-xs font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full shrink-0 ${
               tipo === "whatsapp"
                 ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-800 dark:text-cyan-300"
                 : "bg-violet-100 text-violet-700 dark:bg-violet-800 dark:text-violet-300"
@@ -186,26 +186,30 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
           >
             {tipoLabel}
           </span>
-          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 whitespace-nowrap">
             Tiempos de envío
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          {hasChanges && (
-            <span className="text-xs text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-700">
+        <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+          {hasChanges ? (
+            <span className="text-xs text-amber-600 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-700 whitespace-nowrap">
               ● Sin guardar
             </span>
+          ) : (
+            <span className="hidden sm:inline" />
           )}
           <button
             onClick={handleSave}
             disabled={saving || !hasChanges}
-            className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${
+            className={`text-xs font-semibold px-3.5 py-2 sm:py-1.5 rounded-lg transition-all ${
+              !hasChanges ? "w-full sm:w-auto" : "w-auto"
+            } ${
               saving || !hasChanges
                 ? "bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500 cursor-not-allowed"
                 : tipo === "whatsapp"
-                  ? "bg-cyan-500 hover:bg-cyan-600 text-white shadow-sm"
-                  : "bg-violet-500 hover:bg-violet-600 text-white shadow-sm"
+                  ? "bg-cyan-500 hover:bg-cyan-600 text-white shadow-sm active:scale-95"
+                  : "bg-violet-500 hover:bg-violet-600 text-white shadow-sm active:scale-95"
             }`}
           >
             {saving ? "Guardando…" : "Guardar"}
@@ -213,14 +217,14 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
         </div>
       </div>
 
-      <div className="p-5 space-y-4">
+      <div className="p-3.5 sm:p-5 space-y-4">
         {/* Selector de servicio — pills */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 sm:flex-wrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {SERVICIOS.map((s) => (
             <button
               key={s.id}
               onClick={() => setServicioSeleccionado(s.id)}
-              className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all border ${
+              className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all border whitespace-nowrap shrink-0 ${
                 servicioSeleccionado === s.id
                   ? tipo === "whatsapp"
                     ? "bg-cyan-500 border-cyan-500 text-white shadow-sm"
@@ -252,11 +256,11 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
               mensajes.map((msg, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 px-4 py-2.5"
+                  className="flex items-center gap-2 sm:gap-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 px-3 sm:px-4 py-2.5"
                 >
                   {/* Número */}
                   <span
-                    className={`w-6 h-6 flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
+                    className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
                       tipo === "whatsapp"
                         ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300"
                         : "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300"
@@ -277,7 +281,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
                         Number(e.target.value),
                       )
                     }
-                    className="w-16 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-center text-sm font-medium px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
+                    className="w-14 sm:w-16 shrink-0 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-center text-sm font-medium px-1 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
                   />
 
                   {/* Select unidad */}
@@ -286,7 +290,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
                     onChange={(e) =>
                       handleChange(index, "unidad_tiempo", e.target.value)
                     }
-                    className="rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
+                    className="rounded-lg shrink-0 border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs sm:text-sm px-1.5 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
                   >
                     {UNIDADES.map((u) => (
                       <option key={u.value} value={u.value}>
@@ -297,7 +301,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
 
                   {/* Badge preview */}
                   <span
-                    className={`flex-1 text-xs font-semibold px-2 py-1 rounded-full text-center ${
+                    className={`flex-1 min-w-0 truncate text-xs font-semibold px-2 py-1 rounded-full text-center ${
                       msg.valor_tiempo === 0
                         ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
                         : tipo === "whatsapp"
@@ -311,7 +315,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
                   {/* Borrar */}
                   <button
                     onClick={() => handleDelete(index)}
-                    className="text-slate-300 hover:text-red-500 dark:text-slate-600 dark:hover:text-red-400 transition-colors flex-shrink-0"
+                    className="text-slate-300 hover:text-red-500 dark:text-slate-600 dark:hover:text-red-400 transition-colors shrink-0 p-1"
                     title="Eliminar"
                   >
                     <svg
