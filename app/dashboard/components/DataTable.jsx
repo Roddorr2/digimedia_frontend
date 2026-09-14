@@ -4,6 +4,7 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { use, useState } from "react";
 import { Eye, Pencil, Trash2, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -84,6 +85,17 @@ export default function DataTable({
     return true;
   };
 
+  const getRoleBadgeStyle = (rol) => {
+    const roleLower = rol?.toLowerCase() || "";
+    if (roleLower.includes("admin")) {
+      return "bg-[#f0ebff] text-[#8c52ff] dark:bg-purple-950/50 dark:text-purple-300 border-purple-200 dark:border-purple-800";
+    }
+    if (roleLower.includes("ventas")) {
+      return "bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border-blue-200 dark:border-blue-800";
+    }
+    return "bg-purple-50 text-[#8c52ff] dark:bg-purple-950/40 dark:text-purple-300 border-purple-200 dark:border-purple-700";
+  };
+
   const renderMobileView = () => {
     return (
       <div className="grid gap-4 md:hidden ">
@@ -102,34 +114,54 @@ export default function DataTable({
               }`}
             >
               <div
-                className={`p-3 ${
+                className={`p-3.5 ${
                   esMismoUsuario
                     ? "bg-[#f0ebff] dark:bg-gray-800"
                     : "bg-white dark:bg-gray-900"
                 }`}
               >
-                {headers.slice(0, 2).map((header) => (
-                  <div
-                    key={`mobile-${dataRow.id_empleado}-${header}`}
-                    className="mb-1"
-                  >
-                    <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
-                      {header.toUpperCase()}:
-                    </span>
+                {/* ID del Empleado */}
+                <div className="mb-1">
+                  <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                    ID_EMPLEADO:
+                  </span>
+                  <span className="font-medium text-gray-900 dark:text-gray-100 text-xs">
+                    {" "}
+                    {dataRow.id_empleado}
+                  </span>
+                </div>
 
-                    <span className="font-medium text-gray-900 dark:text-gray-100">
-                      {" "}
-                      {dataRow[header]}
-                    </span>
+                {/* Nombre completo */}
+                <div className="mb-2">
+                  <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                    NOMBRE:
+                  </span>
+                  <span className="font-medium text-gray-900 dark:text-gray-100 text-xs">
+                    {" "}
+                    {dataRow.nombre} {dataRow.apellido || ""}
+                  </span>
+                </div>
+
+                {/* Rol del Empleado (en su propia fila para evitar colisiones en pantallas estrechas) */}
+                {dataRow.rol && (
+                  <div className="mb-2">
+                    <Badge
+                      variant="outline"
+                      className={`text-[11px] px-2.5 py-0.5 font-semibold capitalize tracking-wide shadow-none ${getRoleBadgeStyle(
+                        dataRow.rol
+                      )}`}
+                    >
+                      {dataRow.rol}
+                    </Badge>
                   </div>
-                ))}
+                )}
 
-                <div className="flex justify-between items-center mt-2">
+                <div className="flex justify-between items-center mt-3 pt-1 border-t border-gray-100 dark:border-gray-800">
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => toggleRowExpansion(index)}
-                    className="text-xs text-[#8c52ff] hover:text-[#6c3dbf] p-0 h-auto"
+                    className="text-xs text-[#8c52ff] hover:text-[#6c3dbf] p-0 h-auto font-medium"
                   >
                     {expandedRow === index ? "Ver menos" : "Ver más"}
                   </Button>
@@ -188,21 +220,28 @@ export default function DataTable({
 
               {expandedRow === index && (
                 <div className="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-                  {headers.slice(2).map((header) => (
-                    <div
-                      key={`mobile-expanded-${dataRow.id_empleado}-${header}`}
-                      className="mb-1"
-                    >
-                      <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
-                        {header.toUpperCase()}:
-                      </span>
+                  {headers
+                    .filter(
+                      (header) =>
+                        !["id_empleado", "nombre", "apellido", "rol"].includes(
+                          header
+                        )
+                    )
+                    .map((header) => (
+                      <div
+                        key={`mobile-expanded-${dataRow.id_empleado}-${header}`}
+                        className="mb-1"
+                      >
+                        <span className="font-semibold text-xs text-gray-500 dark:text-gray-400">
+                          {header.toUpperCase()}:
+                        </span>
 
-                      <span className="font-medium text-gray-900 dark:text-gray-100">
-                        {" "}
-                        {dataRow[header]}
-                      </span>
-                    </div>
-                  ))}
+                        <span className="font-medium text-gray-900 dark:text-gray-100 text-xs">
+                          {" "}
+                          {dataRow[header] || "-"}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               )}
             </Card>
