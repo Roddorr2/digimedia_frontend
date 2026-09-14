@@ -47,17 +47,17 @@ export default function Page() {
     if (!authLoading && (!user || !hasPermission("ver-testimonios"))) {
       router.push("/login");
     }
-  }, [user, authLoading,hasPermission, router]);
+  }, [user, authLoading, hasPermission, router]);
 
   async function setTestimonios(page) {
     //guarda para no mandar multiples mensajes de bloqueo
-    if (!hasPermission("ver-testimonios")) return; 
+    if (!hasPermission("ver-testimonios")) return;
     setIsLoading(true);
     try {
       const response = await testimonio_service.testimoniosByPage(
         page,
         10,
-        searchTerm
+        searchTerm,
       );
 
       if (response.status === 401) {
@@ -81,11 +81,17 @@ export default function Page() {
           nombre: item.nombre,
           cargo: item.cargo || "-",
           rating: "⭐".repeat(item.rating),
-          texto: item.texto?.length > 60 ? item.texto.slice(0, 60) + "..." : item.texto,
+          texto:
+            item.texto?.length > 60
+              ? item.texto.slice(0, 60) + "..."
+              : item.texto,
           imagen_url: item.imagen_url,
           texto_completo: item.texto,
           rating_num: item.rating,
           activo: item.activo,
+          //AGREGAR FECHA PS :
+          fecha_testimonio: item.fecha_testimonio,
+          created_at: item.created_at,
         }));
         setData(transformedData);
         setCount(response.total);
@@ -174,19 +180,18 @@ export default function Page() {
     fetchTestimonios(1);
   };
   //para manejar los multiples fetch
-useEffect(() => {
-  if (isFirstRender.current) {
-    isFirstRender.current = false;
-    return;
-  }
-  if (!authLoading && hasPermission("ver-testimonios")) {
-    const handler = setTimeout(() => {
-      handleFilterChange();
-    }, 500);
-    return () => clearTimeout(handler);
-  }
-}, [searchTerm, authLoading]);
-
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (!authLoading && hasPermission("ver-testimonios")) {
+      const handler = setTimeout(() => {
+        handleFilterChange();
+      }, 500);
+      return () => clearTimeout(handler);
+    }
+  }, [searchTerm, authLoading]);
 
   const fetchTestimonios = async () => {
     if (isNaN(currentPage)) {
@@ -197,31 +202,31 @@ useEffect(() => {
   };
 
   function onToggleActivo(id) {
-  const testimonio = data.find((r) => r.id_testimonio == id);
-  const accion = testimonio?.activo ? "ocultar" : "mostrar";
+    const testimonio = data.find((r) => r.id_testimonio == id);
+    const accion = testimonio?.activo ? "ocultar" : "mostrar";
 
-  testimonio_service
-    .toggleActivo(id)
-    .then((response) => {
-      if (response.error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Hubo un error al ${accion} el testimonio.`,
-          confirmButtonColor: "#6f4be8",
-        });
-      } else if (response.status === 200) {
-        fetchTestimonios();
-      }
-    })
-    .catch((error) => {
-      console.error(`Error al ${accion} testimonio:`, error);
-    });
-}
+    testimonio_service
+      .toggleActivo(id)
+      .then((response) => {
+        if (response.error) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Hubo un error al ${accion} el testimonio.`,
+            confirmButtonColor: "#6f4be8",
+          });
+        } else if (response.status === 200) {
+          fetchTestimonios();
+        }
+      })
+      .catch((error) => {
+        console.error(`Error al ${accion} testimonio:`, error);
+      });
+  }
 
   useEffect(() => {
     if (!authLoading && hasPermission("ver-testimonios")) {
-    fetchTestimonios();
+      fetchTestimonios();
     }
   }, [currentPage]);
 
@@ -252,20 +257,21 @@ useEffect(() => {
                 Gestión de Testimonios
               </CardTitle>
               <CardDescription className="text-white/80 mt-1">
-                Administra los testimonios que se muestran en la página de Nosotros
+                Administra los testimonios que se muestran en la página de
+                Nosotros
               </CardDescription>
             </div>
             {hasPermission("crear-testimonios") && (
-                <Button
+              <Button
                 className="bg-white text-[#8c52ff] hover:bg-gray-100 transition-colors shadow-sm w-full md:w-auto"
                 onClick={() => {
-                setDataUpdate(null);
-                setModal(true);
-              }}
-            >
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Añadir testimonio
-            </Button>
+                  setDataUpdate(null);
+                  setModal(true);
+                }}
+              >
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Añadir testimonio
+              </Button>
             )}
           </div>
         </CardHeader>
@@ -306,14 +312,24 @@ useEffect(() => {
             <>
               <div className="rounded-lg overflow-hidden">
                 {hasPermission("ver-testimonios") && (
-                <Table
-                  headers={headers}
-                  data={data}
-                  idField="id_testimonio" 
-                  onDelete={hasPermission("eliminar-testimonios") ? onDelete : undefined}
-                    onUpdate={hasPermission("editar-testimonios") ? onUpdate : undefined}
-                    onShow={hasPermission("editar-testimonios") ? onToggleActivo : undefined}
-                />
+                  <Table
+                    headers={headers}
+                    data={data}
+                    idField="id_testimonio"
+                    onDelete={
+                      hasPermission("eliminar-testimonios")
+                        ? onDelete
+                        : undefined
+                    }
+                    onUpdate={
+                      hasPermission("editar-testimonios") ? onUpdate : undefined
+                    }
+                    onShow={
+                      hasPermission("editar-testimonios")
+                        ? onToggleActivo
+                        : undefined
+                    }
+                  />
                 )}
               </div>
 
