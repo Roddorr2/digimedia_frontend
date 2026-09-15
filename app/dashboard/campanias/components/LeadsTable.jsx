@@ -115,7 +115,9 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
       console.error("Error copiando teléfono", err);
     }
   };
+
   const shouldPoll = leads.some((lead) => lead.estado === "pendiente");
+
   // FETCH NORMAL
   useEffect(() => {
     if (!campaniaId) return;
@@ -208,7 +210,7 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
 
   return (
     <div className="space-y-4">
-      {/* FILTROS */}
+      {/* FILTROS Y BÚSQUEDA */}
       <div className="flex flex-wrap items-center gap-3">
         {[
           { label: "Todos", value: "" },
@@ -270,13 +272,15 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
         </div>
       )}
 
-      {/* TABLE */}
-      <div className="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
+      {/* ========================================================= */}
+      {/* 1. VISTA ESCRITORIO (TABLA TRADICIONAL)                   */}
+      {/* ========================================================= */}
+      <div className="hidden md:block overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700">
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-100">
               <tr>
-                <th className="p-4 text-left font-semibold">nombre</th>
+                <th className="p-4 text-left font-semibold">Nombre</th>
                 <th className="p-4 text-left font-semibold">Teléfono</th>
                 <th className="p-4 text-left font-semibold">Estado</th>
                 <th className="p-4 text-left font-semibold">Intentos</th>
@@ -288,7 +292,7 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
             <tbody className="bg-white dark:bg-gray-900">
               {loading ? (
                 <tr>
-                  <td colSpan={8}>
+                  <td colSpan={6}>
                     <div className="flex items-center justify-center gap-2 py-10 text-gray-500">
                       <Loader2 size={18} className="animate-spin" />
                       Cargando leads...
@@ -326,6 +330,7 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
                         {lead.telefono && (
                           <button
                             onClick={() => handleCopyPhone(lead.telefono)}
+                            title="Copiar teléfono"
                             className="inline-flex items-center justify-center rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition"
                           >
                             {copiedPhone === lead.telefono ? (
@@ -389,9 +394,108 @@ export default function LeadsTable({ campaniaId, enablePolling = false }) {
         </div>
       </div>
 
-      {/* PAGINACION */}
+      {/* ========================================================= */}
+      {/* 2. VISTA MOBILE / RESPONSIVE (CARDS)                      */}
+      {/* ========================================================= */}
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+        {loading ? (
+          <div className="flex items-center justify-center gap-2 py-10 text-gray-500 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700">
+            <Loader2 size={18} className="animate-spin" />
+            Cargando leads...
+          </div>
+        ) : leads.length === 0 ? (
+          <div className="text-center py-10 text-gray-500 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700">
+            No hay leads
+          </div>
+        ) : (
+          leads.map((lead) => (
+            <div
+              key={lead.id_modal_wat ?? `card-lead-${lead.id_modalservicio}`}
+              className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm space-y-3"
+            >
+              {/* Cabecera: Nombre y Estado */}
+              <div className="flex justify-between items-start gap-2">
+                <div>
+                  <p className="text-xs text-gray-400">Nombre</p>
+                  <h3 className="font-bold text-gray-900 dark:text-white text-base">
+                    {lead.nombre || "-"}
+                  </h3>
+                </div>
+                <div>{renderEstado(lead)}</div>
+              </div>
+
+              {/* Datos en cuadrícula */}
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100 dark:border-gray-800">
+                <div>
+                  <p className="text-xs text-gray-400">Teléfono</p>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className="text-sm font-mono text-gray-700 dark:text-gray-200">
+                      {lead.telefono || "-"}
+                    </span>
+                    {lead.telefono && (
+                      <button
+                        onClick={() => handleCopyPhone(lead.telefono)}
+                        title="Copiar teléfono"
+                        className="p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition"
+                      >
+                        {copiedPhone === lead.telefono ? (
+                          <Check size={12} className="text-green-500" />
+                        ) : (
+                          <Copy size={12} />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs text-gray-400">Intentos</p>
+                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 mt-0.5">
+                    {lead.intentos || 0}{" "}
+                    <span className="text-gray-400 text-xs font-normal">/ 3</span>
+                  </p>
+                </div>
+
+                <div className="col-span-2">
+                  <p className="text-xs text-gray-400">Fecha</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">
+                    {formatDate(lead.fecha)}
+                  </p>
+                </div>
+              </div>
+
+              {/* Pie: Botón Reintentar si aplica */}
+              {lead.estado === "fallido" &&
+                lead.id_modal_wat &&
+                lead.puede_reintentar && (
+                  <div className="flex justify-end pt-3 border-t border-gray-100 dark:border-gray-800">
+                    <button
+                      onClick={() => handleRetry(lead.id_modal_wat)}
+                      disabled={retryingId === lead.id_modal_wat}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold transition disabled:opacity-50"
+                    >
+                      {retryingId === lead.id_modal_wat ? (
+                        <>
+                          <Loader2 size={14} className="animate-spin" />
+                          Reintentando
+                        </>
+                      ) : (
+                        <>
+                          <RotateCcw size={14} />
+                          Reintentar Envío
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* PAGINACIÓN */}
       {pagination.last_page > 1 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 pt-2">
           {Array.from({
             length: pagination.last_page,
           }).map((_, i) => {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import logoLegales from "@/public/headerFooter/logoFooter.webp";
 
 export const metadata = {
@@ -12,13 +13,22 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <div className='h-screen'>
+    <div className='min-h-screen'>
       {/* Section with logo */}
-      <div className='bg-gradient-to-r from-[#140048] to-[#2A0668] flex justify-center items-center'>
+      <div className='bg-gradient-to-r from-[#140048] to-[#2A0668] flex justify-center items-center relative p-4'>
+        <Link
+          href="/"
+          className="flex items-center justify-center bg-pink-500 hover:bg-pink-400 text-white rounded-lg transition-all duration-300 absolute top-4 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-10 p-2.5 lg:py-2 lg:px-4 shadow-md z-10"
+          aria-label="Regresar"
+          title="Regresar"
+        >
+          <img className="lg:mr-2 w-4 h-4" src={'/headerFooter/arrow_left.svg'} alt="Regresar" />
+          <span className="hidden lg:inline text-sm font-semibold">REGRESAR</span>
+        </Link>
         <Image src={logoLegales} className='my-10' alt="Digimedia" width={160} height={120} />
       </div>
       {/* Section text */}
-      <section className='flex-grow grid mx-0 p-10 justify-items-center bg-gradient-to-r from-[#270564] to-[#320874]'>
+      <section className='flex-grow grid mx-0 p-10 justify-items-center bg-gradient-to-r from-[#270564] to-[#320874] min-h-screen'>
           <div className='w-full md:w-2/3 border-b mb-4 text-center md:text-left py-4'>
               <h1 className='text-4xl pb-2'>Terminos y Condiciones</h1>
               <p>
