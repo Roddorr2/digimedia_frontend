@@ -89,6 +89,9 @@ export default function Page() {
           texto_completo: item.texto,
           rating_num: item.rating,
           activo: item.activo,
+          //AGREGAR FECHA PS :
+          fecha_testimonio: item.fecha_testimonio,
+          created_at: item.created_at,
         }));
         setData(transformedData);
         setCount(response.total);
