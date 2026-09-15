@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { getCookie } from 'cookies-next';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { getCookie } from "cookies-next";
+import Swal from "sweetalert2";
 
-import url from '../../../api/url';
-import { Loader2 } from 'lucide-react';
+import url from "../../../api/url";
+import { Loader2 } from "lucide-react";
 
 const URL_API = `${url}/api/reclamaciones`;
+
+const documentMaxLengths = { DNI: 8, RUC: 11, CE: 20, PTP: 20, OTROS: 20 };
 
 const SERVICIOS = [
   { id: 1, nombre: "Diseño y Desarrollo Web" },
@@ -20,42 +22,226 @@ const SERVICIOS = [
 const TIPOS_DOCUMENTO = ["DNI", "RUC", "CE", "PTP", "OTROS"];
 
 const ComplaintForm = () => {
+  const isFormValid = () => {
+    const fields = [
+      "nombre",
+      "apellido",
+      "documento",
+      "numeroDocumento",
+      "email",
+      "celular",
+      "direccion",
+      "distrito",
+      "ciudad",
+      "tipoReclamo",
+      "id_servicio",
+      "fechaIncidente",
+      "reclamoPerson",
+    ];
 
+    const fieldsValid = fields.every((field) => {
+      return validateField(field, formData[field], formData) === "";
+    });
+
+    const checkboxesValid = checkReclamo === true && aceptaPolitica === true;
+
+    return fieldsValid && checkboxesValid;
+  };
+  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
   const [checkReclamo, setCheckReclamo] = useState(false);
   const [aceptaPolitica, setAceptaPolitica] = useState(false);
 
-  function cambioReclamo(valor){
+  const validateField = (name, value, data = formData) => {
+    let error = "";
+
+    // Campos obligatorios
+    const requiredFields = [
+      "nombre",
+      "apellido",
+      "documento",
+      "numeroDocumento",
+      "email",
+      "celular",
+      "direccion",
+      "distrito",
+      "ciudad",
+      "tipoReclamo",
+      "id_servicio",
+      "fechaIncidente",
+      "reclamoPerson",
+    ];
+
+    if (requiredFields.includes(name) && !String(value).trim()) {
+      return "El campo es obligatorio";
+    }
+
+    // Nombre
+    if (name === "nombre" && value) {
+      if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(value)) {
+        return "El nombre solo puede contener letras y espacios";
+      }
+    }
+
+    // Apellido
+    if (name === "apellido" && value) {
+      if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(value)) {
+        return "El apellido solo puede contener letras y espacios";
+      }
+    }
+
+    // Número de documento
+    if (name === "numeroDocumento" && value) {
+      if (!/^\d+$/.test(value) && data.documento !== "CE") {
+        return "El documento solo puede contener números";
+      }
+
+      const maxLength = documentMaxLengths[data.documento] || 20;
+
+      if (value.length > maxLength) {
+        return `El número de documento no puede superar los ${maxLength} caracteres`;
+      }
+
+      // Para DNI/RUC exigimos exactamente la longitud correspondiente
+      if (data.documento === "DNI" && value.length !== 8) {
+        return "El DNI debe tener 8 dígitos";
+      }
+
+      if (data.documento === "RUC" && value.length !== 11) {
+        return "El RUC debe tener 11 dígitos";
+      }
+      if (data.documento === "CE" && value.length < 9) {
+        return "El CE debe estar completo";
+      }
+      if (data.documento === "PTP" && value.length < 9) {
+        return "El PTP debe estar completo";
+      }
+    }
+
+    // Correo
+    if (name === "email" && value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(value)) {
+        return "Ingrese un correo electrónico válido";
+      }
+    }
+
+    // Celular
+    if (name === "celular" && value) {
+      if (!/^\d+$/.test(value)) {
+        return "El celular solo puede contener números";
+      }
+      if (!/^9\d{8}$/.test(value)) {
+        return "El celular debe tener 9 dígitos y empezar con 9";
+      }
+
+      if (value.length > 20) {
+        return "El celular no puede superar los 20 dígitos";
+      }
+    }
+
+    // Fecha del incidente
+    if (name === "fechaIncidente" && value) {
+      const selectedDate = new Date(`${value}T00:00:00`);
+      const minDate = new Date("2000-01-01T00:00:00");
+
+      if (selectedDate < minDate) {
+        return "La fecha no puede ser anterior al año 2000";
+      }
+    }
+
+    return error;
+  };
+
+  function cambioReclamo(valor) {
     setCheckReclamo(valor);
   }
 
-  function cambioPolitica(valor){
+  function cambioPolitica(valor) {
     setAceptaPolitica(valor);
   }
 
-
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
-    documento: '',
-    numeroDocumento: '',
-    email: '',
-    celular: '',
-    direccion: '',
-    distrito: '',
-    ciudad: '',
-    tipoReclamo: '',
-    id_servicio: '',
-    reclamoPerson: '',
-    fechaIncidente: '',
-    checkReclamoForm: false, 
-    aceptaPoliticaPrivacidad: false 
+    nombre: "",
+    apellido: "",
+    documento: "",
+    numeroDocumento: "",
+    email: "",
+    celular: "",
+    direccion: "",
+    distrito: "",
+    ciudad: "",
+    tipoReclamo: "",
+    id_servicio: "",
+    reclamoPerson: "",
+    fechaIncidente: "",
+    checkReclamoForm: false,
+    aceptaPoliticaPrivacidad: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    let newValue = value;
+
+    // Nombre y apellido: eliminar números y caracteres especiales
+    if (name === "nombre" || name === "apellido") {
+      newValue = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]/g, "");
+    }
+
+    // Documento: solo números + límite según tipo
+    if (name === "numeroDocumento") {
+      if (formData.documento === "CE") {
+        // CE: permite letras y números, máximo 20 caracteres
+        newValue = value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 20);
+      } else {
+        // DNI, RUC, PTP y OTROS: solo números
+        newValue = value.replace(/\D/g, "");
+
+        const maxLength = documentMaxLengths[formData.documento] || 20;
+
+        newValue = newValue.slice(0, maxLength);
+      }
+    }
+
+    // Celular: solo números
+    if (name === "celular") {
+      newValue = value.replace(/\D/g, "").slice(0, 9);
+    }
+
+    const updatedData = {
+      ...formData,
+      [name]: newValue,
+    };
+
+    setFormData(updatedData);
+
+    // Si el campo ya fue tocado, validarlo inmediatamente
+    if (touched[name]) {
+      const error = validateField(name, newValue, updatedData);
+
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error,
+      }));
+    }
+
+    // Si cambia el tipo de documento, volver a validar el número
+    if (name === "documento" && touched.numeroDocumento) {
+      const documentError = validateField(
+        "numeroDocumento",
+        updatedData.numeroDocumento,
+        updatedData,
+      );
+
+      setErrors((prev) => ({
+        ...prev,
+        numeroDocumento: documentError,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -64,33 +250,94 @@ const ComplaintForm = () => {
 
     const unregister = window.navigator.modelContext.registerTool({
       name: "submit_complaint_form",
-      description: "Envía una reclamación o queja con datos personales e información del incidente",
+      description:
+        "Envía una reclamación o queja con datos personales e información del incidente",
       inputSchema: {
         type: "object",
         properties: {
           nombre: { type: "string", description: "Nombre del usuario" },
           apellido: { type: "string", description: "Apellido del usuario" },
-          documento: { type: "string", enum: TIPOS_DOCUMENTO, description: "Tipo de documento de identidad" },
-          numeroDocumento: { type: "string", description: "Número del documento" },
-          email: { type: "string", format: "email", description: "Correo electrónico" },
+          documento: {
+            type: "string",
+            enum: TIPOS_DOCUMENTO,
+            description: "Tipo de documento de identidad",
+          },
+          numeroDocumento: {
+            type: "string",
+            description: "Número del documento",
+          },
+          email: {
+            type: "string",
+            format: "email",
+            description: "Correo electrónico",
+          },
           celular: { type: "string", description: "Número de teléfono" },
           direccion: { type: "string", description: "Dirección del usuario" },
           distrito: { type: "string", description: "Distrito" },
           ciudad: { type: "string", description: "Ciudad" },
-          tipoReclamo: { type: "string", enum: ["QUEJA", "RECLAMO"], description: "Tipo de reclamo" },
-          id_servicio: { type: "integer", enum: [1, 2, 3, 4], description: "Servicio contratado" },
-          reclamoPerson: { type: "string", description: "Descripción del incidente" },
-          fechaIncidente: { type: "string", format: "date", description: "Fecha del incidente" },
-          aceptaPoliticaPrivacidad: { type: "boolean", description: "Acepta políticas de privacidad" },
-          checkReclamoForm: { type: "boolean", description: "Confirmación de envío" },
+          tipoReclamo: {
+            type: "string",
+            enum: ["QUEJA", "RECLAMO"],
+            description: "Tipo de reclamo",
+          },
+          id_servicio: {
+            type: "integer",
+            enum: [1, 2, 3, 4],
+            description: "Servicio contratado",
+          },
+          reclamoPerson: {
+            type: "string",
+            description: "Descripción del incidente",
+          },
+          fechaIncidente: {
+            type: "string",
+            format: "date",
+            description: "Fecha del incidente",
+          },
+          aceptaPoliticaPrivacidad: {
+            type: "boolean",
+            description: "Acepta políticas de privacidad",
+          },
+          checkReclamoForm: {
+            type: "boolean",
+            description: "Confirmación de envío",
+          },
         },
         required: ["nombre", "apellido", "email", "celular", "reclamoPerson"],
       },
-      execute: async ({ nombre, apellido, documento, numeroDocumento, email, celular, direccion, distrito, ciudad, tipoReclamo, id_servicio, reclamoPerson, fechaIncidente }) => {
+      execute: async ({
+        nombre,
+        apellido,
+        documento,
+        numeroDocumento,
+        email,
+        celular,
+        direccion,
+        distrito,
+        ciudad,
+        tipoReclamo,
+        id_servicio,
+        reclamoPerson,
+        fechaIncidente,
+      }) => {
         try {
           const response = await axios.post(
             URL_API,
-            { nombre, apellido, documento, numeroDocumento, email, celular, direccion, distrito, ciudad, tipoReclamo, id_servicio, reclamoPerson, fechaIncidente },
+            {
+              nombre,
+              apellido,
+              documento,
+              numeroDocumento,
+              email,
+              celular,
+              direccion,
+              distrito,
+              ciudad,
+              tipoReclamo,
+              id_servicio,
+              reclamoPerson,
+              fechaIncidente,
+            },
             {
               headers: {
                 Authorization: `Bearer ${getCookie("token")}`,
@@ -106,11 +353,44 @@ const ComplaintForm = () => {
           return { success: false, message: error.message };
         }
       },
-      annotations: { readOnlyHint: false, openWorldHint: true, destructiveHint: false, idempotentHint: false },
+      annotations: {
+        readOnlyHint: false,
+        openWorldHint: true,
+        destructiveHint: false,
+        idempotentHint: false,
+      },
     });
 
     return () => unregister && unregister();
   }, []);
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+
+    const error = validateField(name, value, formData);
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: value ? "" : "Debe aceptar este campo",
+    }));
+  };
 
   const handleSubmit = async (e) => {
     formData.aceptaPoliticaPrivacidad = aceptaPolitica;
@@ -123,9 +403,9 @@ const ComplaintForm = () => {
     try {
       const response = await axios.post(`${URL_API}`, formData, {
         headers: {
-          Authorization: `Bearer ${getCookie('token')}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getCookie("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
       });
 
@@ -137,21 +417,21 @@ const ComplaintForm = () => {
           confirmButtonText: "OK",
         });
         setFormData({
-          nombre: '',
-          apellido: '',
-          documento: '',
-          numeroDocumento: '',
-          email: '',
-          celular: '',
-          direccion: '',
-          distrito: '',
-          ciudad: '',
-          tipoReclamo: '',
-          id_servicio: '',
-          reclamoPerson: '',
-          fechaIncidente: '',
+          nombre: "",
+          apellido: "",
+          documento: "",
+          numeroDocumento: "",
+          email: "",
+          celular: "",
+          direccion: "",
+          distrito: "",
+          ciudad: "",
+          tipoReclamo: "",
+          id_servicio: "",
+          reclamoPerson: "",
+          fechaIncidente: "",
           checkReclamoForm: false,
-          aceptaPoliticaPrivacidad: false
+          aceptaPoliticaPrivacidad: false,
         });
         setAceptaPolitica(false);
         setCheckReclamo(false);
@@ -180,13 +460,19 @@ const ComplaintForm = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-[#1e033f] from-80%  to-[#410C89] relative p-4">
         <button
-          onClick={() => window.location.href = '/'}
+          onClick={() => (window.location.href = "/")}
           className="flex items-center justify-center bg-pink-500 hover:bg-pink-400 text-white rounded-lg transition-all duration-300 absolute top-4 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-10 p-2.5 lg:py-2 lg:px-4 shadow-md z-10"
           aria-label="Regresar"
           title="Regresar"
         >
-          <img className="lg:mr-2 w-4 h-4" src={'/headerFooter/arrow_left.svg'} alt="Regresar" />
-          <span className="hidden lg:inline text-sm font-semibold">REGRESAR</span>
+          <img
+            className="lg:mr-2 w-4 h-4"
+            src={"/headerFooter/arrow_left.svg"}
+            alt="Regresar"
+          />
+          <span className="hidden lg:inline text-sm font-semibold">
+            REGRESAR
+          </span>
         </button>
 
         <div className="flex justify-center w-full">
@@ -200,12 +486,19 @@ const ComplaintForm = () => {
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-center mb-4 text-black">Libro de Reclamaciones</h1>
+          <h1 className="text-3xl font-bold text-center mb-4 text-black">
+            Libro de Reclamaciones
+          </h1>
           <p className="text-sm text-gray-600 mb-2">
-            Conforme está establecido en el Código de Protección y Defensa del Consumidor contamos con un Libro de Reclamaciones Virtual a tu disposición DigiMedia.com
+            Conforme está establecido en el Código de Protección y Defensa del
+            Consumidor contamos con un Libro de Reclamaciones Virtual a tu
+            disposición DigiMedia.com
           </p>
           <p className="text-sm text-gray-600 mb-4">
-            Debes de tener en cuenta que tus reclamos conforme a ley deben ser resueltos en un plazo no mayor a 30 días, pudiendo extenderse el plazo cuando la naturaleza del reclamo lo acredite. Art. 24.1 Ley 29571.
+            Debes de tener en cuenta que tus reclamos conforme a ley deben ser
+            resueltos en un plazo no mayor a quince (15) días hábiles
+            improrrogables, pudiendo extenderse el plazo cuando la naturaleza
+            del reclamo lo acredite. Art. 24.1 Ley 29571.
           </p>
           <p className="text-sm font-semibold mb-4 text-black">
             Razón Social: DIGIMEDIA MARKETING S.A.C. RUC: 20605116559
@@ -213,196 +506,405 @@ const ComplaintForm = () => {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-bold text-center mb-6 text-black">Cuestionario de quejas</h2>
+          <h2 className="text-2xl font-bold text-center mb-6 text-black">
+            Cuestionario de quejas
+          </h2>
 
-          <form className="space-y-6" onSubmit={handleSubmit} toolname="submit_complaint_form" tooldescription="Envía una reclamación o queja con datos personales e información del incidente">
+          <form
+            className="space-y-6"
+            onSubmit={handleSubmit}
+            toolname="submit_complaint_form"
+            tooldescription="Envía una reclamación o queja con datos personales e información del incidente"
+          >
             <div className="space-y-4">
               <h3 className="font-semibold text-black">Datos Personales:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-<input
-                   type="text"
-                   name="nombre"
-                   value={formData.nombre}
-                   onChange={handleChange}
-                   placeholder="Nombre"
-                   toolparamdescription="Nombre del usuario"
-                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                   required
-                 />
-                 <input
-                   type="text"
-                   name="apellido"
-                   value={formData.apellido}
-                   onChange={handleChange}
-                   placeholder="Apellido"
-                   toolparamdescription="Apellido del usuario"
-                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                   required
-                 />
-                <select
-                  name="documento"
-                  value={formData.documento}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                  required
-                >
-                  <option value="">Tipo de Documento</option>
-                  <option value="DNI">DNI</option>
-                  <option value="RUC">RUC</option>
-                  <option value="CE">CE</option>
-                  <option value="PTP">PTP</option>
-                  <option value="OTROS">OTROS...</option>
-                </select>
-                <input
-                  type="text"
-                  name="numeroDocumento"
-                  value={formData.numeroDocumento}
-                  onChange={handleChange}
-                  placeholder="Número de Documento"
-                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Correo Electrónico"
-                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                  required
-                />
-<input
-                   type="tel"
-                   name="celular"
-                   value={formData.celular}
-                   onChange={handleChange}
-                   placeholder="Celular"
-                   toolparamdescription="Número de teléfono"
-                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                   required
-                 />
+                <div>
+                  <input
+                    type="text"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Nombre"
+                    toolparamdescription="Nombre del usuario"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.nombre && errors.nombre ? "border-red-500" : ""
+                    }`}
+                  />
+
+                  {touched.nombre && errors.nombre && (
+                    <p className="mt-1 text-sm text-red-600">{errors.nombre}</p>
+                  )}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="apellido"
+                    value={formData.apellido}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Apellido"
+                    toolparamdescription="Apellido del usuario"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.apellido && errors.apellido
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  />
+
+                  {touched.apellido && errors.apellido && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.apellido}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <select
+                    name="documento"
+                    value={formData.documento}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.documento && errors.documento
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  >
+                    <option value="">Tipo de Documento</option>
+                    <option value="DNI">DNI</option>
+                    <option value="RUC">RUC</option>
+                    <option value="CE">CE</option>
+                    <option value="PTP">PTP</option>
+                    <option value="OTROS">OTROS...</option>
+                  </select>
+
+                  {touched.documento && errors.documento && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.documento}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="numeroDocumento"
+                    value={formData.numeroDocumento}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Número de Documento"
+                    inputMode="numeric"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.numeroDocumento && errors.numeroDocumento
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  />
+
+                  {touched.numeroDocumento && errors.numeroDocumento && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.numeroDocumento}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Correo Electrónico"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.email && errors.email ? "border-red-500" : ""
+                    }`}
+                  />
+
+                  {touched.email && errors.email && (
+                    <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                  )}
+                </div>
+                <div>
+                  <input
+                    type="tel"
+                    name="celular"
+                    value={formData.celular}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Celular"
+                    inputMode="numeric"
+                    toolparamdescription="Número de teléfono"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.celular && errors.celular ? "border-red-500" : ""
+                    }`}
+                  />
+
+                  {touched.celular && errors.celular && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.celular}
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-<input
-                   type="text"
-                   name="direccion"
-                   value={formData.direccion}
-                   onChange={handleChange}
-                   placeholder="Dirección"
-                   toolparamdescription="Dirección del usuario"
-                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                   required
-                 />
-                 <input
-                   type="text"
-                   name="distrito"
-                   value={formData.distrito}
-                   onChange={handleChange}
-                   placeholder="Distrito"
-                   toolparamdescription="Distrito"
-                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                   required
-                 />
-                 <input
-                   type="text"
-                   name="ciudad"
-                   value={formData.ciudad}
-                   onChange={handleChange}
-                   placeholder="Ciudad"
-                   toolparamdescription="Ciudad"
-                   className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                   required
-                 />
+                <div>
+                  <input
+                    type="text"
+                    name="direccion"
+                    value={formData.direccion}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Dirección"
+                    toolparamdescription="Dirección del usuario"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.direccion && errors.direccion
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  />
+
+                  {touched.direccion && errors.direccion && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.direccion}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="distrito"
+                    value={formData.distrito}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Distrito"
+                    toolparamdescription="Distrito"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.distrito && errors.distrito
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  />
+
+                  {touched.distrito && errors.distrito && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.distrito}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="ciudad"
+                    value={formData.ciudad}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Ciudad"
+                    toolparamdescription="Ciudad"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.ciudad && errors.ciudad ? "border-red-500" : ""
+                    }`}
+                  />
+
+                  {touched.ciudad && errors.ciudad && (
+                    <p className="mt-1 text-sm text-red-600">{errors.ciudad}</p>
+                  )}
+                </div>
               </div>
             </div>
 
             <div className="space-y-4">
               <h3 className="font-semibold text-black">Datos de incidente:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <select
-                  name="tipoReclamo"
-                  value={formData.tipoReclamo}
-                  onChange={handleChange}
-                  className="w-full ml-1 p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                  required
-                >
-                  <option value="">Tipo de reclamo</option>
-                  <option value="QUEJA">QUEJA</option>
-                  <option value="RECLAMO">RECLAMO</option>
-                </select>
-                <select
-                  name="id_servicio"
-                  value={formData.id_servicio}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                  required
-                >
-                  <option value="">Servicio contratado</option>
-                  <option value={1}>Diseño y Desarrollo Web</option>
-                  <option value={2}>Gestión de Redes Sociales</option>
-                  <option value={3}>Marketing y Gestión Digital</option>
-                  <option value={4}>Branding y Diseño</option>
-                </select>
+                <div>
+                  <select
+                    name="tipoReclamo"
+                    value={formData.tipoReclamo}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.tipoReclamo && errors.tipoReclamo
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  >
+                    <option value="">Tipo de reclamo</option>
+                    <option value="QUEJA">QUEJA</option>
+                    <option value="RECLAMO">RECLAMO</option>
+                  </select>
+
+                  {touched.tipoReclamo && errors.tipoReclamo && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.tipoReclamo}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <select
+                    name="id_servicio"
+                    value={formData.id_servicio}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.id_servicio && errors.id_servicio
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  >
+                    <option value="">Servicio contratado</option>
+                    <option value={1}>Diseño y Desarrollo Web</option>
+                    <option value={2}>Gestión de Redes Sociales</option>
+                    <option value={3}>Marketing y Gestión Digital</option>
+                    <option value={4}>Branding y Diseño</option>
+                  </select>
+
+                  {touched.id_servicio && errors.id_servicio && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.id_servicio}
+                    </p>
+                  )}
+                </div>
 
                 <div className="ml-1">
-                  <label htmlFor="fechaIncidente" className="text-gray-500">Fecha Incidente</label>
-<input value={formData.fechaIncidente}
-                   onChange={handleChange} id="fechaIncidente" name="fechaIncidente" type="date" toolparamdescription="Fecha del incidente" className="w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20" required/>
+                  <label htmlFor="fechaIncidente" className="text-gray-500">
+                    Fecha Incidente
+                  </label>
+
+                  <input
+                    value={formData.fechaIncidente}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id="fechaIncidente"
+                    name="fechaIncidente"
+                    type="date"
+                    min="2000-01-01"
+                    toolparamdescription="Fecha del incidente"
+                    className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                      touched.fechaIncidente && errors.fechaIncidente
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                  />
+
+                  {touched.fechaIncidente && errors.fechaIncidente && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.fechaIncidente}
+                    </p>
+                  )}
                 </div>
               </div>
-<textarea
-                 name="reclamoPerson"
-                 value={formData.reclamoPerson}
-                 onChange={handleChange}
-                 placeholder="Indicar incidente"
-                 toolparamdescription="Descripción del incidente"
-                 className="w-full p-2 border rounded h-32 ml-1 text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20"
-                 required
-               />
+              <div className="ml-1">
+                <textarea
+                  name="reclamoPerson"
+                  value={formData.reclamoPerson}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Indicar incidente"
+                  toolparamdescription="Descripción del incidente"
+                  className={`w-full p-2 border rounded h-32 text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
+                    touched.reclamoPerson && errors.reclamoPerson
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                />
+
+                {touched.reclamoPerson && errors.reclamoPerson && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.reclamoPerson}
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-4 ">
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  name="checkReclamoForm"
-                  checked={checkReclamo}
-                  onChange={valor => cambioReclamo(valor.target.checked)}
-                  className="mt-1 mr-2"
-                  required
-                />
-                <p className="text-sm text-black">
-                  Soy consciente que la formulación del reclamo no impide acudir a otras vías de solución de controversias ni es requisito previo para interponer una denuncia ante el INDECOPI. *El proveedor deberá dar respuesta al reclamo en un plazo no mayor a treinta (30) días calendario, de acuerdo a la Ley 29571
-                </p>
+              <div>
+                <div className="flex items-start">
+                  <input
+                    type="checkbox"
+                    name="checkReclamoForm"
+                    checked={checkReclamo}
+                    onChange={(e) => {
+                      cambioReclamo(e.target.checked);
+                      handleCheckboxChange(
+                        "checkReclamoForm",
+                        e.target.checked,
+                      );
+                    }}
+                    className="mt-1 mr-2"
+                  />
+
+                  <p className="text-sm text-black">
+                    Soy consciente que la formulación del reclamo no impide
+                    acudir a otras vías de solución de controversias ni es
+                    requisito previo para interponer una denuncia ante el
+                    INDECOPI. *El proveedor deberá dar respuesta al reclamo en
+                    un plazo no mayor a quince (15) días calendario, de acuerdo
+                    a la Ley 29571
+                  </p>
+                </div>
+
+                {touched.checkReclamoForm && errors.checkReclamoForm && (
+                  <p className="mt-1 ml-6 text-sm text-red-600">
+                    {errors.checkReclamoForm}
+                  </p>
+                )}
               </div>
 
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  name="aceptaPoliticaPrivacidad"
-                  checked={aceptaPolitica}
-                  onChange={valor => cambioPolitica(valor.target.checked)}
-                  className="mt-1 mr-2"
-                  required
-                />
-                <p className="text-sm text-black">
-                  Acepto las Políticas de Privacidad.
-                </p>
+              <div>
+                <div className="flex items-start">
+                  <input
+                    type="checkbox"
+                    name="aceptaPoliticaPrivacidad"
+                    checked={aceptaPolitica}
+                    onChange={(e) => {
+                      cambioPolitica(e.target.checked);
+                      handleCheckboxChange(
+                        "aceptaPoliticaPrivacidad",
+                        e.target.checked,
+                      );
+                    }}
+                    className="mt-1 mr-2"
+                  />
+
+                  <p className="text-sm text-black">
+                    Acepto las{" "}
+                    <a
+                      className="text-blue-600 underline hover:text-blue-800"
+                      href="/politica-privacidad"
+                      target="t"
+                    >
+                      Políticas de Privacidad
+                    </a>
+                    .
+                  </p>
+                </div>
+
+                {touched.aceptaPoliticaPrivacidad &&
+                  errors.aceptaPoliticaPrivacidad && (
+                    <p className="mt-1 ml-6 text-sm text-red-600">
+                      {errors.aceptaPoliticaPrivacidad}
+                    </p>
+                  )}
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#3a0a7a] hover:bg-[#5c40d1]  p-2 rounded text-white transition-all duration-300"
-              disabled={isSubmitting}
-              title={isSubmitting ? 'Guardando...' : 'Enviar Reclamación'}
+              className={`w-full p-2 rounded text-white transition-all duration-300 ${
+                isSubmitting || !isFormValid()
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#3a0a7a] hover:bg-[#5c40d1]"
+              }`}
+              disabled={isSubmitting || !isFormValid()}
+              title={isSubmitting ? "Guardando..." : "Enviar Reclamación"}
             >
               {isSubmitting ? (
-              <span className="flex items-center justify-center">
-                <Loader2 className="animate-spin h-4 w-4 mx-auto" />
-              </span>
-              ) : 'Enviar Reclamación'}
+                <span className="flex items-center justify-center">
+                  <Loader2 className="animate-spin h-4 w-4 mx-auto" />
+                </span>
+              ) : (
+                "Enviar Reclamación"
+              )}
             </button>
           </form>
         </div>

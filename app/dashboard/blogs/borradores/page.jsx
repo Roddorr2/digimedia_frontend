@@ -341,15 +341,16 @@ export default function Borradores() {
                     </div>
 
                     {/* PAGINACIÓN */}
-                    <div className="flex items-center justify-between bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm">
-                        <span className="text-sm text-slate-500">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm">
+                        <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
                             Mostrando {displayedBlogs.length} de {filteredBlogs.length}
                         </span>
 
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center max-w-full overflow-x-auto">
                             <button
                                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                                className="p-2 border rounded-lg"
+                                disabled={currentPage === 1}
+                                className="p-2 border border-slate-200 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-300 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                             >
                                 <ChevronLeft className="w-4 h-4" />
                             </button>
@@ -358,9 +359,9 @@ export default function Borradores() {
                                 <button
                                     key={i}
                                     onClick={() => setCurrentPage(i + 1)}
-                                    className={`w-8 h-8 rounded-lg border ${currentPage === i + 1
-                                        ? "bg-sky-100 text-sky-700 border-sky-300"
-                                        : "bg-white"
+                                    className={`w-8 h-8 shrink-0 rounded-lg border text-sm transition-colors ${currentPage === i + 1
+                                        ? "bg-sky-100 text-sky-700 border-sky-300 dark:bg-sky-900/40 dark:text-sky-300 dark:border-sky-700"
+                                        : "bg-white text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700"
                                         }`}
                                 >
                                     {i + 1}
@@ -369,7 +370,8 @@ export default function Borradores() {
 
                             <button
                                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                                className="p-2 border rounded-lg"
+                                disabled={currentPage === totalPages}
+                                className="p-2 border border-slate-200 dark:border-slate-600 rounded-lg text-slate-600 dark:text-slate-300 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                             >
                                 <ChevronRight className="w-4 h-4" />
                             </button>

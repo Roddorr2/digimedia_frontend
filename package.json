@@ -6,9 +6,10 @@
     "dev": "next dev --turbopack",
     "prebuild": "node -e \"require('fs').rmSync('.next', { recursive: true, force: true })\" && node scripts/optimize-images.js && node scripts/generate-sitemap.js",
     "build": "next build",
+    "postbuild": "node scripts/defer-css.js",
     "start": "next start",
     "lint": "next lint",
-    "build:staging": "env-cmd -f .env.produ next build",
+    "build:staging": "env-cmd -f .env.produ next build && node scripts/defer-css.js",
     "export:staging": "next export",
     "optimize-images": "node scripts/optimize-images.js"
   },
@@ -73,5 +74,13 @@
     "postcss": "^8.5.18",
     "sharp": "^0.35.0",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "browserslist": [
+    "chrome >= 93",
+    "edge >= 93",
+    "firefox >= 92",
+    "safari >= 15.4",
+    "ios_saf >= 15.4",
+    "opera >= 79"
+  ]
 }
