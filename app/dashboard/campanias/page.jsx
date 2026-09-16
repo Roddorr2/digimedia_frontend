@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 import { campaniaApi } from "@/api/fetchApiWhatsApp";
 import CampaniaCard from "./components/CampaniaCard";
 import { CampaignProgressMonitor } from "@/app/dashboard/whatsapp/components/CampaignProgressMonitor";
 
 export default function CampaniaListPage() {
+  const { user, hasRole, isLoading: isAuthLoading } = useAuth();
+  const router = useRouter();
+
   const [campanias, setCampanias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [estado, setEstado] = useState("");
@@ -13,11 +18,24 @@ export default function CampaniaListPage() {
   const [pagination, setPagination] = useState({});
   const [openMenu, setOpenMenu] = useState(null);
 
+  useEffect(() => {
+    if (!isAuthLoading) {
+      if (!user || !hasRole("administrador, marketing")) {
+        router.replace("/dashboard/main");
+      }
+    }
+  }, [user, isAuthLoading, hasRole, router]);
+
   const fetchCampanias = async () => {
     setLoading(true);
 
     try {
       const response = await campaniaApi.getAll({ estado, page });
+
+      if (response?.status === "error") {
+        setCampanias([]);
+        return;
+      }
 
       const paginated = response?.data ?? response;
 
@@ -41,8 +59,10 @@ export default function CampaniaListPage() {
   };
 
   useEffect(() => {
-    fetchCampanias();
-  }, [estado, page]);
+    if (!isAuthLoading && user && hasRole("administrador, marketing")) {
+      fetchCampanias();
+    }
+  }, [estado, page, isAuthLoading, user]);
 
   const filtros = [
     {
@@ -96,6 +116,22 @@ export default function CampaniaListPage() {
       ],
     },
   ];
+
+  if (isAuthLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
+
+  if (!user || !hasRole("administrador, marketing")) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center text-gray-500 dark:text-gray-400">
+        Redirigiendo...
+      </div>
+    );
+  }
 
   return (
     <main className="p-4 md:p-6 flex flex-col w-full h-[100vh] bg-gray-50 dark:bg-gray-900 overflow-y-auto">
