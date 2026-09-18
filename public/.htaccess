@@ -1,7 +1,13 @@
 DirectoryIndex index.html
 
+# Desactivar ETag para evitar exposición de metadatos del sistema de archivos
+FileETag None
+
 # Cache headers for static assets
 <IfModule mod_headers.c>
+  # Eliminar ETag de las respuestas
+  Header always unset ETag
+  
   # Images - 1 year cache
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg|ico)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
