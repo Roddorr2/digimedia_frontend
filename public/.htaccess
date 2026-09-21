@@ -1,7 +1,24 @@
 DirectoryIndex index.html
 
+# Desactivar ETag para evitar exposición de metadatos del sistema de archivos
+FileETag None
+
 # Cache headers for static assets
 <IfModule mod_headers.c>
+  # Eliminar ETag de las respuestas
+  Header always unset ETag
+  
+  # -------------------------------------------------------------
+  # Security Headers (VUL02 Fix)
+  # -------------------------------------------------------------
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set X-XSS-Protection "1; mode=block"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss: ws:; frame-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com https://www.google.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.digimedia-marketing.com; upgrade-insecure-requests;"
+
   # Images - 1 year cache
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg|ico)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
