@@ -17,8 +17,14 @@ const UNIDADES = [
   { value: "dias", label: "días" },
 ];
 
+const LIMITES_TIEMPO = {
+  minutos: { min: 0, max: 60, label: "0 a 60 min" },
+  horas: { min: 1, max: 24, label: "1 a 24 hrs" },
+  dias: { min: 1, max: 30, label: "1 a 30 días" },
+};
+
 function formatTiempo(valor, unidad) {
-  if (valor === 0) return "Inmediato";
+  if (valor === 0 || valor === "0") return "Inmediato";
   const label = UNIDADES.find((u) => u.value === unidad)?.label || unidad;
   return `+${valor} ${label}`;
 }
@@ -72,6 +78,50 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
     setHasChanges(true);
   };
 
+  const handleValorChange = (index, rawValue) => {
+    const msg = getMensajes()[index];
+    const limits = LIMITES_TIEMPO[msg.unidad_tiempo] || { min: 0, max: 30 };
+    if (rawValue === "") {
+      handleChange(index, "valor_tiempo", "");
+      return;
+    }
+    const num = Number(rawValue);
+    if (isNaN(num)) return;
+    const clamped = Math.max(0, Math.min(num, limits.max));
+    handleChange(index, "valor_tiempo", clamped);
+  };
+
+  const handleValorBlur = (index) => {
+    const msg = getMensajes()[index];
+    const limits = LIMITES_TIEMPO[msg.unidad_tiempo] || { min: 0, max: 30 };
+    let val = Number(msg.valor_tiempo);
+    if (isNaN(val) || val < limits.min) {
+      val = limits.min;
+    } else if (val > limits.max) {
+      val = limits.max;
+    }
+    handleChange(index, "valor_tiempo", val);
+  };
+
+  const handleUnidadChange = (index, newUnidad) => {
+    const msg = getMensajes()[index];
+    const limits = LIMITES_TIEMPO[newUnidad] || { min: 0, max: 30 };
+    let newValor = Number(msg.valor_tiempo) || 0;
+    if (newValor > limits.max) {
+      newValor = limits.max;
+    } else if (newValor < limits.min) {
+      newValor = limits.min;
+    }
+    const nuevos = [...getMensajes()];
+    nuevos[index] = {
+      ...nuevos[index],
+      unidad_tiempo: newUnidad,
+      valor_tiempo: newValor,
+    };
+    setConfiguracion((prev) => ({ ...prev, [tipo]: nuevos }));
+    setHasChanges(true);
+  };
+
   const handleAdd = () => {
     const actuales = getMensajes();
     const nuevoNumero =
@@ -115,6 +165,21 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
     try {
       const mensajesActuales = getMensajes();
       const mensajesOriginales = getMensajesOriginales();
+
+      // Validar que ningún tiempo exceda los límites antes de guardar
+      for (const msg of mensajesActuales) {
+        const limits = LIMITES_TIEMPO[msg.unidad_tiempo] || { min: 0, max: 30, label: "0 a 30" };
+        const val = Number(msg.valor_tiempo);
+        if (isNaN(val) || val < limits.min || val > limits.max) {
+          Swal.fire({
+            icon: "warning",
+            title: "Límite de tiempo excedido",
+            text: `El mensaje #${msg.numero_mensaje} (${msg.valor_tiempo} ${msg.unidad_tiempo}) supera el límite permitido de ${limits.label}. Por favor, corrígelo antes de guardar.`,
+          });
+          setSaving(false);
+          return;
+        }
+      }
 
       // IDs de mensajes actuales y originales
       const idsActuales = mensajesActuales.map((m) => m.numero_mensaje);
@@ -248,69 +313,95 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
           </div>
         ) : (
           <div className="space-y-2">
+            {mensajes.length > 0 && (
+              <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 px-1 pb-0.5">
+                <span>Secuencia de mensajes</span>
+                <span>Límites máx.: 60 min · 24 hrs · 30 días</span>
+              </div>
+            )}
             {mensajes.length === 0 ? (
               <p className="text-center text-sm text-slate-400 py-4">
                 Sin mensajes configurados
               </p>
             ) : (
-              mensajes.map((msg, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 sm:gap-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 px-3 sm:px-4 py-2.5"
-                >
-                  {/* Número */}
-                  <span
-                    className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
-                      tipo === "whatsapp"
-                        ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300"
-                        : "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300"
+              mensajes.map((msg, index) => {
+                const limits = LIMITES_TIEMPO[msg.unidad_tiempo] || { min: 0, max: 30, label: "0 a 30" };
+                const isExceeded = Number(msg.valor_tiempo) > limits.max;
+
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center gap-2 sm:gap-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border px-3 sm:px-4 py-2.5 transition-colors ${
+                      isExceeded
+                        ? "border-amber-300 dark:border-amber-700 bg-amber-50/40 dark:bg-amber-950/20"
+                        : "border-slate-100 dark:border-slate-700"
                     }`}
                   >
-                    {msg.numero_mensaje}
-                  </span>
+                    {/* Número */}
+                    <span
+                      className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
+                        tipo === "whatsapp"
+                          ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300"
+                          : "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300"
+                      }`}
+                    >
+                      {msg.numero_mensaje}
+                    </span>
 
-                  {/* Input valor */}
-                  <input
-                    type="number"
-                    min="0"
-                    value={msg.valor_tiempo}
-                    onChange={(e) =>
-                      handleChange(
-                        index,
-                        "valor_tiempo",
-                        Number(e.target.value),
-                      )
-                    }
-                    className="w-14 sm:w-16 shrink-0 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-center text-sm font-medium px-1 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
-                  />
+                    {/* Input valor */}
+                    <input
+                      type="number"
+                      min={limits.min}
+                      max={limits.max}
+                      value={msg.valor_tiempo}
+                      onChange={(e) =>
+                        handleValorChange(index, e.target.value)
+                      }
+                      onBlur={() => handleValorBlur(index)}
+                      title={`Límite permitido: ${limits.label}`}
+                      className={`w-14 sm:w-16 shrink-0 rounded-lg border bg-white dark:bg-slate-800 text-center text-sm font-medium px-1 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200 ${
+                        isExceeded
+                          ? "border-amber-500 text-amber-600 dark:border-amber-400 dark:text-amber-400 ring-1 ring-amber-400"
+                          : "border-slate-200 dark:border-slate-600"
+                      }`}
+                    />
 
-                  {/* Select unidad */}
-                  <select
-                    value={msg.unidad_tiempo}
-                    onChange={(e) =>
-                      handleChange(index, "unidad_tiempo", e.target.value)
-                    }
-                    className="rounded-lg shrink-0 border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs sm:text-sm px-1.5 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
-                  >
-                    {UNIDADES.map((u) => (
-                      <option key={u.value} value={u.value}>
-                        {u.label}
-                      </option>
-                    ))}
-                  </select>
+                    {/* Select unidad */}
+                    <select
+                      value={msg.unidad_tiempo}
+                      onChange={(e) =>
+                        handleUnidadChange(index, e.target.value)
+                      }
+                      className="rounded-lg shrink-0 border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs sm:text-sm px-1.5 sm:px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-400 dark:text-slate-200"
+                    >
+                      {UNIDADES.map((u) => (
+                        <option key={u.value} value={u.value}>
+                          {u.label}
+                        </option>
+                      ))}
+                    </select>
 
-                  {/* Badge preview */}
-                  <span
-                    className={`flex-1 min-w-0 truncate text-xs font-semibold px-2 py-1 rounded-full text-center ${
-                      msg.valor_tiempo === 0
-                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
-                        : tipo === "whatsapp"
-                          ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400"
-                          : "bg-violet-50 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400"
-                    }`}
-                  >
-                    {formatTiempo(msg.valor_tiempo, msg.unidad_tiempo)}
-                  </span>
+                    {/* Badge preview */}
+                    <span
+                      title={
+                        isExceeded
+                          ? `Excede el límite permitido (${limits.label})`
+                          : undefined
+                      }
+                      className={`flex-1 min-w-0 truncate text-xs font-semibold px-2 py-1 rounded-full text-center ${
+                        isExceeded
+                          ? "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 border border-amber-300 dark:border-amber-700"
+                          : msg.valor_tiempo === 0 || msg.valor_tiempo === "0"
+                            ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                            : tipo === "whatsapp"
+                              ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400"
+                              : "bg-violet-50 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400"
+                      }`}
+                    >
+                      {isExceeded
+                        ? `+${msg.valor_tiempo} (Máx: ${limits.max})`
+                        : formatTiempo(msg.valor_tiempo, msg.unidad_tiempo)}
+                    </span>
 
                   {/* Borrar */}
                   <button
@@ -333,7 +424,8 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
                     </svg>
                   </button>
                 </div>
-              ))
+                  );
+                })
             )}
 
             <button

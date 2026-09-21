@@ -22,6 +22,9 @@ const SERVICIOS = [
 const TIPOS_DOCUMENTO = ["DNI", "RUC", "CE", "PTP", "OTROS"];
 
 const ComplaintForm = () => {
+  const today = new Date();
+  const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
   const isFormValid = () => {
     const fields = [
       "nombre",
@@ -145,9 +148,14 @@ const ComplaintForm = () => {
     if (name === "fechaIncidente" && value) {
       const selectedDate = new Date(`${value}T00:00:00`);
       const minDate = new Date("2000-01-01T00:00:00");
+      const todayLimit = new Date(`${todayString}T23:59:59`);
 
       if (selectedDate < minDate) {
         return "La fecha no puede ser anterior al año 2000";
+      }
+
+      if (selectedDate > todayLimit) {
+        return "La fecha del incidente no puede ser posterior al día de hoy";
       }
     }
 
@@ -219,8 +227,8 @@ const ComplaintForm = () => {
 
     setFormData(updatedData);
 
-    // Si el campo ya fue tocado, validarlo inmediatamente
-    if (touched[name]) {
+    // Si el campo ya fue tocado o es la fecha del incidente, validarlo inmediatamente
+    if (touched[name] || name === "fechaIncidente") {
       const error = validateField(name, newValue, updatedData);
 
       setErrors((prev) => ({
@@ -397,6 +405,16 @@ const ComplaintForm = () => {
     formData.checkReclamoForm = checkReclamo;
     e.preventDefault();
 
+    if (!isFormValid()) {
+      Swal.fire({
+        title: "Datos inválidos",
+        text: "Por favor, revise los campos del formulario antes de enviar.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
     if (isSubmitting) return;
     setIsSubmitting(true);
 
@@ -445,9 +463,14 @@ const ComplaintForm = () => {
       }
     } catch (error) {
       console.error(error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        (error?.response?.data?.errors
+          ? Object.values(error.response.data.errors).flat().join(" ")
+          : "Ocurrió un error inesperado.");
       Swal.fire({
         title: "Error",
-        text: "Ocurrió un error inesperado.",
+        text: errorMessage,
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -778,15 +801,16 @@ const ComplaintForm = () => {
                     name="fechaIncidente"
                     type="date"
                     min="2000-01-01"
+                    max={todayString}
                     toolparamdescription="Fecha del incidente"
                     className={`w-full p-2 border rounded text-black focus:outline-none focus:border-[#320874] focus:ring-2 focus:ring-[#320874]/20 ${
-                      touched.fechaIncidente && errors.fechaIncidente
+                      (touched.fechaIncidente || errors.fechaIncidente) && errors.fechaIncidente
                         ? "border-red-500"
                         : ""
                     }`}
                   />
 
-                  {touched.fechaIncidente && errors.fechaIncidente && (
+                  {errors.fechaIncidente && (
                     <p className="mt-1 text-sm text-red-600">
                       {errors.fechaIncidente}
                     </p>
