@@ -28,7 +28,7 @@ async function optimizeMobileImages() {
   for (const imgPath of [...mobileImgs, ...iconImgs]) {
     const srcPath = path.join(PUBLIC_DIR, imgPath);
     if (!fs.existsSync(srcPath)) {
-      console.log(`Skipping ${imgPath} - not found`);
+      
       continue;
     }
     
@@ -45,7 +45,7 @@ async function optimizeMobileImages() {
     
     const outPath = outName + '.webp';
     await targetImg.webp({ quality: 75 }).toFile(outPath);
-    console.log(`Optimized: ${outPath}`);
+    
   }
 }
 
