@@ -9,7 +9,6 @@ import { getTestimonials } from "@/lib/testimonials";
 import "swiper/css";
 import "swiper/css/pagination";
 
-
 function GoogleIcon({ className = "h-5 w-5" }) {
   return (
     <svg
@@ -81,10 +80,11 @@ function Avatar({ src, name, size = 14 }) {
 // Umbral de caracteres a partir del cual mostramos "Leer más".
 // Aproximadamente lo que entra en 5 líneas dentro de la card.
 const TRUNCATE_LIMIT = 220;
-const GOOGLE_MAPS_REVIEWS_URL = "https://www.google.com/maps/place/Agencia+de+Marketing+Digital+en+Lima+Per%C3%BA+-+DigiMedia/@-12.057454,-77.0277795,1103m/data=!3m1!1e3!4m8!3m7!1s0x9105c981108188a1:0x2bce3907b5bcb3ec!8m2!3d-12.0574593!4d-77.0252046!9m1!1b1!16s%2Fg%2F11fml3rlc6?entry=ttu&g_ep=EgoyMDI2MDcxMi4wIKXMDSoASAFQAw%3D%3D";
+const GOOGLE_MAPS_REVIEWS_URL =
+  "https://www.google.com/maps/place/Agencia+de+Marketing+Digital+en+Lima+Per%C3%BA+-+DigiMedia/@-12.057454,-77.0277795,1103m/data=!3m1!1e3!4m8!3m7!1s0x9105c981108188a1:0x2bce3907b5bcb3ec!8m2!3d-12.0574593!4d-77.0252046!9m1!1b1!16s%2Fg%2F11fml3rlc6?entry=ttu&g_ep=EgoyMDI2MDcxMi4wIKXMDSoASAFQAw%3D%3D";
 
 // testimonios de respaldo
-const fallbackTestimonials  = [
+const fallbackTestimonials = [
   {
     id: 1,
     name: "Geraldine",
@@ -99,34 +99,35 @@ const fallbackTestimonials  = [
     rating: 4,
     text: "Trabajar con DigMedia Marketing ha sido una muy buena decisión. Destacan por su conocimiento actualizado en estrategias digitales y por saber adaptar cada acción a los objetivos del negocio. Me gustó especialmente su enfoque práctico y orientado a resultados, sin complicaciones innecesarias. El trato del equipo es cercano y profesional, y se nota el compromiso que tienen con cada proyecto. Totalmente recomendables para quienes buscan crecer en el entorno digital.",
   },
-{
+  {
     id: 3,
     name: "Renzo Aquino",
     date: "Hace 1 mes",
     rating: 5,
     text: "El equipo de DigiMedia entendió rápido lo que necesitábamos y propuso una estrategia clara desde la primera reunión. La comunicación fue constante durante todo el proyecto y los resultados en redes se notaron desde el primer mes. Muy recomendados para negocios que recién empiezan a invertir en digital.",
   },
-{
+  {
     id: 4,
     name: "Lucía Fernández",
     date: "Hace 5 meses",
     rating: 5,
     text: "Contratamos a DigiMedia para reordenar nuestra presencia digital y superaron las expectativas. Son organizados, cumplen los tiempos acordados y siempre están abiertos a explicar el porqué de cada decisión. Se siente que realmente les importa el crecimiento del cliente y no solo entregar un reporte mensual.",
   },
-{
+  {
     id: 5,
     name: "Miguel Torres",
     date: "Hace 4 meses",
     rating: 4,
     text: "Buena experiencia en general con el equipo de DigiMedia. Destaco su capacidad de adaptarse cuando cambiamos el enfoque de campaña a mitad de camino y su disposición para explicar las métricas en términos simples. Sería ideal que la entrega de reportes fuera un poco más rápida, pero el resultado final valió la pena.",
   },
-{
+  {
     id: 6,
     name: "Andrea Salazar",
     date: "Hace 3 meses",
     rating: 5,
     text: "Desde que trabajamos con DigiMedia notamos un antes y un después en cómo se percibe nuestra marca en redes. El equipo propone contenido creativo pero siempre alineado a los objetivos del negocio, y el soporte ante cualquier duda es rápido. Totalmente recomendados para quienes buscan una agencia comprometida.",
-  }];
+  },
+];
 
 export default function Testimonials() {
   const prevRef = useRef(null);
@@ -167,9 +168,7 @@ export default function Testimonials() {
   if (testimonialsData.length === 0) return null; // no renderiza nada si no hay testimonios de bd ni del fallbackk
 
   return (
-    <section
-      className="w-full relative pt-20 pb-8 md:pb-20 px-4 md:px-12 overflow-hidden"
-    >
+    <section className="w-full relative pt-20 pb-8 md:pb-20 px-4 md:px-12 overflow-hidden">
       {/* Background decorations para mantener consistencia con Servicios */}
       <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#ffb800]/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#b525fe]/10 blur-[120px] pointer-events-none" />
@@ -189,8 +188,8 @@ export default function Testimonials() {
 
           <p className="mx-auto max-w-2xl text-gray-300 text-[15px] md:text-lg leading-relaxed">
             Empresas y emprendedores que confiaron en{" "}
-            <span className="text-[#ffb800] font-medium">Digimedia</span>{" "}
-            para potenciar su imagen.
+            <span className="text-[#ffb800] font-medium">Digimedia</span> para
+            potenciar su imagen.
           </p>
         </div>
 
@@ -242,6 +241,8 @@ export default function Testimonials() {
             }}
             pagination={{
               clickable: true,
+              dynamicBullets: true, // activa la "ventana" de bullets
+              dynamicMainBullets: 4, // cuántos bullets "grandes" se ven a la vez
               bulletClass: "testimonials-bullet",
               bulletActiveClass: "testimonials-bullet-active",
             }}
@@ -335,11 +336,8 @@ export default function Testimonials() {
                     )}
                   </div>
                 </SwiperSlide>
-              
               );
-              
             })}
-            
           </Swiper>
 
           {/* Paginación custom */}
@@ -364,12 +362,18 @@ export default function Testimonials() {
             {/* Header del modal con perfil y botones de acción agrupados */}
             <div className="mb-5 flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-                <Avatar src={activeReview.avatar} name={activeReview.name} size={16} />
+                <Avatar
+                  src={activeReview.avatar}
+                  name={activeReview.name}
+                  size={16}
+                />
                 <div className="min-w-0">
                   <h3 className="truncate font-semibold text-white text-base sm:text-lg">
                     {activeReview.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-400">{activeReview.date}</p>
+                  <p className="text-xs sm:text-sm text-gray-400">
+                    {activeReview.date}
+                  </p>
                 </div>
               </div>
 

@@ -106,7 +106,7 @@ async function main() {
   const allUrls = [...STATIC_PAGES, ...blogUrls];
   const xml = buildXml(allUrls);
   fs.writeFileSync(OUTPUT_PATH, xml, 'utf8');
-  console.log(`✅ sitemap.xml generado con ${allUrls.length} URLs (${blogUrls.length} posts de blog).`);
+  
 }
 
 main();

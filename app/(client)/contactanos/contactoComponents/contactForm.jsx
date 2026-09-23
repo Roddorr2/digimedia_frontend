@@ -118,7 +118,7 @@ const ContactForm = () => {
 
     if (window.navigator.modelContextTesting?.listTools) {
       window.navigator.modelContextTesting.listTools().then((tools) => {
-        //console.log("WebMCP tools registered:", tools);
+        
       });
     }
 
