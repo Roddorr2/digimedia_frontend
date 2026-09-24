@@ -6,6 +6,7 @@ import {
   ExternalLink,
   Image as ImageIcon,
   CheckCircle,
+  Eye,
 } from "lucide-react";
 
 // Configuración de plantillas
@@ -721,9 +722,13 @@ export default function TemplateRenderer({
       style={p2BgStyle}
     >
       {mode === "preview" && (
-        <div className="fixed mr-36 mt-1 top-4 right-4 z-50">
-          <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-            Vista Previa
+        <div className="fixed top-0 h-16 right-16 sm:right-36 z-50 flex items-center">
+          <span
+            title="Vista Previa"
+            className="flex items-center justify-center gap-1.5 h-8 w-8 sm:w-auto sm:px-4 bg-yellow-500 text-white rounded-full text-sm font-semibold shadow-lg"
+          >
+            <Eye className="h-4 w-4 sm:hidden" />
+            <span className="hidden sm:inline">Vista Previa</span>
           </span>
         </div>
       )}
@@ -1018,9 +1023,13 @@ export default function TemplateRenderer({
       style={bodyBgStyle}
     >
       {mode === "preview" && (
-        <div className="fixed mr-36 mt-1 top-4 right-4 z-50">
-          <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-            Vista Previa
+        <div className="fixed top-0 h-16 right-16 sm:right-36 z-50 flex items-center">
+          <span
+            title="Vista Previa"
+            className="flex items-center justify-center gap-1.5 h-8 w-8 sm:w-auto sm:px-4 bg-yellow-500 text-white rounded-full text-sm font-semibold shadow-lg"
+          >
+            <Eye className="h-4 w-4 sm:hidden" />
+            <span className="hidden sm:inline">Vista Previa</span>
           </span>
         </div>
       )}
@@ -1079,9 +1088,13 @@ export default function TemplateRenderer({
 
         {/* Preview Badge */}
         {mode === "preview" && (
-          <div className="fixed mr-36 mt-1 top-4 right-4 z-50">
-            <span className="bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-              Vista Previa
+          <div className="fixed top-0 h-16 right-16 sm:right-36 z-50 flex items-center">
+            <span
+              title="Vista Previa"
+              className="flex items-center justify-center gap-1.5 h-8 w-8 sm:w-auto sm:px-4 bg-yellow-500 text-white rounded-full text-sm font-semibold shadow-lg"
+            >
+              <Eye className="h-4 w-4 sm:hidden" />
+              <span className="hidden sm:inline">Vista Previa</span>
             </span>
           </div>
         )}
