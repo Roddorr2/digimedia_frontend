@@ -299,7 +299,7 @@ const auth_service = {
 
   hasPermission: (permission) => {
     const permisos = auth_service.getCurrentPermissions();
-    console.log(permisos);
+    
     return permisos.includes(permission);
   },
   

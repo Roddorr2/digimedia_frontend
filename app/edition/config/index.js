@@ -86,10 +86,10 @@ export const DEFAULT_HEADER_VALIDATION_CONFIG = {
   texto_frase: { min: 10, max: 140, required: true },
   texto_descripcion: { min: 10, max: 240, required: true },
   titulo_enlace: { min: 5, max: 50, required: false },
-alt: { min: 10, max: 240, required: false },
-   title: { min: 10, max: 140, required: false },
-   meta_title: { min: 10, max: 120, required: false },
-   meta_descripcion: { min: 10, max: 255, required: false },
+  alt: { min: 10, max: 240, required: false },
+  title: { min: 10, max: 140, required: false },
+  meta_title: { min: 10, max: 120, required: false },
+  meta_descripcion: { min: 10, max: 255, required: false },
 };
 
 // Configuración de validación por defecto para Footer (común a todas las plantillas)
@@ -97,7 +97,7 @@ export const DEFAULT_FOOTER_VALIDATION_CONFIG = {
   titulo: { min: 10, max: 50, required: false },
   descripcion: { min: 10, max: 300, required: false },
   estado: { required: true },
-alt_image1: { min: 10, max: 240, required: false },
+  alt_image1: { min: 10, max: 240, required: false },
    alt_image2: { min: 10, max: 240, required: false },
    alt_image3: { min: 10, max: 240, required: false },
    title_image1: { min: 10, max: 140, required: false },

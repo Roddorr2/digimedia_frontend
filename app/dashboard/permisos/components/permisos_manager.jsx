@@ -47,7 +47,7 @@ export default function Page() {
     setIsLoading(true);
     try {
       const response = await permiso_service.getPermisos(); 
-      console.log(response);
+      
       
     
       if (response && response.status === 200) {

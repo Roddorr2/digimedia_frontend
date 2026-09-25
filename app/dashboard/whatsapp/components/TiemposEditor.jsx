@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { tiemposApi } from "@/api/fetchApiWhatsApp";
+import { tiemposApi, plantillaApi } from "@/api/fetchApiWhatsApp";
 
 const SERVICIOS = [
   { id: 1, nombre: "Diseño y Desarrollo Web" },
@@ -31,6 +31,8 @@ function formatTiempo(valor, unidad) {
 
 export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
   const [servicioSeleccionado, setServicioSeleccionado] = useState(1);
+  const [plantillasDisponibles, setPlantillasDisponibles] = useState([1, 2, 3]);
+  const [huerfanosDetectados, setHuerfanosDetectados] = useState([]);
   const [configuracion, setConfiguracion] = useState({
     email: [],
     whatsapp: [],
@@ -45,16 +47,60 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
 
   useEffect(() => {
     loadConfiguracion();
-  }, [servicioSeleccionado]);
+  }, [servicioSeleccionado, tipo]);
 
   const loadConfiguracion = async () => {
     setLoading(true);
     try {
-      const res = await tiemposApi.getByServicio(servicioSeleccionado);
-      if (res.status === 200 && res.data) {
-        setConfiguracion(res.data);
-        setConfiguracionOriginal(JSON.parse(JSON.stringify(res.data)));
-        setHasChanges(false);
+      const [resTiempos, resPlantillas] = await Promise.all([
+        tiemposApi.getByServicio(servicioSeleccionado),
+        plantillaApi.getByOwner(tipo, "servicio", servicioSeleccionado).catch(() => null),
+      ]);
+
+      let numerosPlantillas = [1, 2, 3];
+      if (
+        resPlantillas?.success &&
+        Array.isArray(resPlantillas.data) &&
+        resPlantillas.data.length > 0
+      ) {
+        numerosPlantillas = resPlantillas.data
+          .map((p) => p.numero_plantilla)
+          .sort((a, b) => a - b);
+      }
+      setPlantillasDisponibles(numerosPlantillas);
+
+      if (resTiempos?.status === 200 && resTiempos?.data) {
+        setConfiguracionOriginal(JSON.parse(JSON.stringify(resTiempos.data)));
+
+        const rawMensajes = resTiempos.data[tipo] || [];
+
+        // Detectar tiempos huérfanos (guardados en BD sin plantilla correspondiente)
+        const huerfanos = rawMensajes
+          .filter((m) => !numerosPlantillas.includes(m.numero_mensaje))
+          .map((m) => m.numero_mensaje);
+        setHuerfanosDetectados(huerfanos);
+
+        // Mapear solo para los números de plantilla existentes
+        const sincronizados = numerosPlantillas.map((num) => {
+          const existente = rawMensajes.find((m) => m.numero_mensaje === num);
+          if (existente) {
+            return { ...existente };
+          }
+          const defaultValor = num === 1 ? 0 : num === 2 ? 30 : 60;
+          return {
+            numero_mensaje: num,
+            unidad_tiempo: "minutos",
+            valor_tiempo: defaultValor,
+          };
+        });
+
+        setConfiguracion({
+          ...resTiempos.data,
+          [tipo]: sincronizados,
+        });
+
+        // Si existen huérfanos, marcamos cambios para que el usuario pueda limpiar de inmediato
+        setHasChanges(huerfanos.length > 0);
       }
     } catch (error) {
       console.error("Error cargando configuración:", error);
@@ -122,39 +168,37 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
     setHasChanges(true);
   };
 
-  const handleAdd = () => {
+  // Añadir tiempo solo para plantillas que no tengan tiempo configurado en la lista
+  const handleAddParaPlantilla = (numeroPlantilla) => {
     const actuales = getMensajes();
-    const nuevoNumero =
-      actuales.length > 0
-        ? Math.max(...actuales.map((m) => m.numero_mensaje)) + 1
-        : 1;
+    const defaultValor = numeroPlantilla === 1 ? 0 : numeroPlantilla === 2 ? 30 : 60;
     const nuevos = [
       ...actuales,
       {
-        numero_mensaje: nuevoNumero,
+        numero_mensaje: numeroPlantilla,
         unidad_tiempo: "minutos",
-        valor_tiempo: 0,
+        valor_tiempo: defaultValor,
       },
-    ];
+    ].sort((a, b) => a.numero_mensaje - b.numero_mensaje);
     setConfiguracion((prev) => ({ ...prev, [tipo]: nuevos }));
     setHasChanges(true);
   };
 
   const handleDelete = (index) => {
+    const msg = getMensajes()[index];
     Swal.fire({
-      title: "¿Eliminar mensaje?",
-      text: "Esta acción no se puede deshacer",
+      title: `¿Quitar tiempo de Plantilla #${msg.numero_mensaje}?`,
+      text: "Podrás volver a asignarlo cuando lo necesites.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
+      confirmButtonText: "Sí, quitar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#ef4444",
     }).then((result) => {
       if (result.isConfirmed) {
-        const renumerados = getMensajes()
-          .filter((_, i) => i !== index)
-          .map((m, i) => ({ ...m, numero_mensaje: i + 1 }));
-        setConfiguracion((prev) => ({ ...prev, [tipo]: renumerados }));
+        // Mantener números originales intactos (sin renumerar arbitrariamente)
+        const restantes = getMensajes().filter((_, i) => i !== index);
+        setConfiguracion((prev) => ({ ...prev, [tipo]: restantes }));
         setHasChanges(true);
       }
     });
@@ -164,7 +208,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
     setSaving(true);
     try {
       const mensajesActuales = getMensajes();
-      const mensajesOriginales = getMensajesOriginales();
+      const mensajesOriginales = getMensajesOriginales() || [];
 
       // Validar que ningún tiempo exceda los límites antes de guardar
       for (const msg of mensajesActuales) {
@@ -174,7 +218,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
           Swal.fire({
             icon: "warning",
             title: "Límite de tiempo excedido",
-            text: `El mensaje #${msg.numero_mensaje} (${msg.valor_tiempo} ${msg.unidad_tiempo}) supera el límite permitido de ${limits.label}. Por favor, corrígelo antes de guardar.`,
+            text: `La plantilla #${msg.numero_mensaje} (${msg.valor_tiempo} ${msg.unidad_tiempo}) supera el límite permitido de ${limits.label}. Por favor, corrígelo antes de guardar.`,
           });
           setSaving(false);
           return;
@@ -185,7 +229,7 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
       const idsActuales = mensajesActuales.map((m) => m.numero_mensaje);
       const idsOriginales = mensajesOriginales.map((m) => m.numero_mensaje);
 
-      // 1. Eliminar los que ya no existen
+      // 1. Eliminar los que ya no existen (incluye huérfanos que estuvieran en BD)
       const idsAEliminar = idsOriginales.filter(
         (id) => !idsActuales.includes(id),
       );
@@ -215,7 +259,12 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
         }
       }
 
-      Swal.fire("¡Éxito!", "Tiempos actualizados correctamente", "success");
+      const mensajeExito =
+        idsAEliminar.length > 0
+          ? `Tiempos actualizados y ${idsAEliminar.length} registros no asociados depurados correctamente`
+          : "Tiempos actualizados correctamente";
+
+      Swal.fire("¡Éxito!", mensajeExito, "success");
 
       // Recargar para sincronizar
       await loadConfiguracion();
@@ -230,6 +279,11 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
 
   const mensajes = getMensajes();
   const tipoLabel = tipo === "email" ? "Email" : "WhatsApp";
+
+  // Identificar qué plantillas existentes aún no tienen tiempo configurado
+  const plantillasFaltantes = plantillasDisponibles.filter(
+    (num) => !mensajes.some((m) => m.numero_mensaje === num),
+  );
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 overflow-hidden">
@@ -313,15 +367,31 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
           </div>
         ) : (
           <div className="space-y-2">
+            {/* Banner de aviso si existen registros huérfanos en BD */}
+            {huerfanosDetectados.length > 0 && (
+              <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-800 dark:text-amber-200">
+                <span className="text-sm shrink-0">⚠️</span>
+                <div className="flex-1">
+                  <span className="font-semibold block">
+                    Registros no asociados detectados
+                  </span>
+                  <span className="opacity-90">
+                    Existen {huerfanosDetectados.length} tiempos en la base de datos sin plantilla vinculada ({huerfanosDetectados.map((n) => `#${n}`).join(", ")}).
+                    Al hacer clic en <strong>Guardar</strong> se depurarán automáticamente.
+                  </span>
+                </div>
+              </div>
+            )}
+
             {mensajes.length > 0 && (
               <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 px-1 pb-0.5">
-                <span>Secuencia de mensajes</span>
+                <span>Secuencia vinculada a plantillas</span>
                 <span>Límites máx.: 60 min · 24 hrs · 30 días</span>
               </div>
             )}
             {mensajes.length === 0 ? (
               <p className="text-center text-sm text-slate-400 py-4">
-                Sin mensajes configurados
+                Sin plantillas configuradas
               </p>
             ) : (
               mensajes.map((msg, index) => {
@@ -330,23 +400,28 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
 
                 return (
                   <div
-                    key={index}
+                    key={msg.numero_mensaje}
                     className={`flex items-center gap-2 sm:gap-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border px-3 sm:px-4 py-2.5 transition-colors ${
                       isExceeded
                         ? "border-amber-300 dark:border-amber-700 bg-amber-50/40 dark:bg-amber-950/20"
                         : "border-slate-100 dark:border-slate-700"
                     }`}
                   >
-                    {/* Número */}
-                    <span
-                      className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
-                        tipo === "whatsapp"
-                          ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300"
-                          : "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300"
-                      }`}
-                    >
-                      {msg.numero_mensaje}
-                    </span>
+                    {/* Número y etiqueta de plantilla */}
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span
+                        className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
+                          tipo === "whatsapp"
+                            ? "bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300"
+                            : "bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300"
+                        }`}
+                      >
+                        {msg.numero_mensaje}
+                      </span>
+                      <span className="hidden sm:inline text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Plantilla {msg.numero_mensaje}
+                      </span>
+                    </div>
 
                     {/* Input valor */}
                     <input
@@ -403,41 +478,68 @@ export function TiemposEditor({ tipo, onConfiguracionGuardada }) {
                         : formatTiempo(msg.valor_tiempo, msg.unidad_tiempo)}
                     </span>
 
-                  {/* Borrar */}
-                  <button
-                    onClick={() => handleDelete(index)}
-                    className="text-slate-300 hover:text-red-500 dark:text-slate-600 dark:hover:text-red-400 transition-colors shrink-0 p-1"
-                    title="Eliminar"
-                  >
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
+                    {/* Borrar / Desasignar tiempo */}
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="text-slate-300 hover:text-red-500 dark:text-slate-600 dark:hover:text-red-400 transition-colors shrink-0 p-1"
+                      title="Quitar tiempo"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                  );
-                })
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                );
+              })
             )}
 
-            <button
-              onClick={handleAdd}
-              className={`w-full mt-1 rounded-xl border-2 border-dashed py-2 text-xs font-semibold transition-colors ${
-                tipo === "whatsapp"
-                  ? "border-cyan-200 text-cyan-500 hover:border-cyan-400 hover:bg-cyan-50 dark:border-cyan-800 dark:text-cyan-500 dark:hover:bg-cyan-900/20"
-                  : "border-violet-200 text-violet-500 hover:border-violet-400 hover:bg-violet-50 dark:border-violet-800 dark:text-violet-500 dark:hover:bg-violet-900/20"
-              }`}
-            >
-              + Añadir mensaje
-            </button>
+            {/* Asignación de tiempo para plantillas que falten o mensaje de sincronización total */}
+            {plantillasFaltantes.length > 0 ? (
+              <div className="space-y-1.5 pt-1">
+                {plantillasFaltantes.map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => handleAddParaPlantilla(num)}
+                    className={`w-full rounded-xl border-2 border-dashed py-2 text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 ${
+                      tipo === "whatsapp"
+                        ? "border-cyan-200 text-cyan-600 hover:border-cyan-400 hover:bg-cyan-50 dark:border-cyan-800 dark:text-cyan-400 dark:hover:bg-cyan-900/20"
+                        : "border-violet-200 text-violet-600 hover:border-violet-400 hover:bg-violet-50 dark:border-violet-800 dark:text-violet-400 dark:hover:bg-violet-900/20"
+                    }`}
+                  >
+                    <span>+ Asignar tiempo a Plantilla #{num}</span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-1.5 py-2.5 px-3 mt-1 rounded-xl bg-slate-50/80 dark:bg-slate-900/30 border border-slate-200/80 dark:border-slate-700/60 text-xs text-slate-500 dark:text-slate-400">
+                <svg
+                  className="w-4 h-4 text-emerald-500 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>
+                  Todas las plantillas de este servicio ({plantillasDisponibles.length}) tienen su tiempo vinculado
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>

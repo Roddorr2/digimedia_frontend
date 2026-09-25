@@ -63,7 +63,7 @@ export default function Header({ id_blog_head, bg_color, bg_type, bg_colors }) {
         setError(null);
         const response = await Fetch.fetchBlogHead(id_blog_head);
         setDataResponse(response);
-        //console.log("🔍 ¿Qué viene de Laravel en el Editor?:", response?.imagen);
+        
       } catch (error) {
         console.error("Error fetching blog header:", error);
         setError("Ocurrió un error al cargar el encabezado");

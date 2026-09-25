@@ -85,6 +85,7 @@ export default function ModalRoles({
               "Cargando permisos desde el servicio para el Rol ID:",
               rolId,
             );
+            
             const resultado = await role_service.getPermisosDelRol(rolId);
             const permisosAsignados = resultado?.permisos || [];
 

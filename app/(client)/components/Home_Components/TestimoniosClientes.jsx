@@ -196,7 +196,8 @@ export default function TestimoniosClientes() {
         // (bg-gradient-to-b from-[#1D006F] to-[#0E0630]); Inicio no tiene ese wrapper
         // compartido, así que esta sección necesita su propio degradado para no
         // cortar abruptamente contra las secciones vecinas (Servicios, CTA Testimonios, Clientes).
-        background: "linear-gradient(135deg, #130049 0%, #100043 60%, #000118 100%)",
+        background:
+          "linear-gradient(135deg, #130049 0%, #100043 60%, #000118 100%)",
       }}
     >
       {/* Background decorations, igual que en Nosotros */}
@@ -218,8 +219,8 @@ export default function TestimoniosClientes() {
 
           <p className="mx-auto max-w-2xl text-gray-300 text-[15px] md:text-lg leading-relaxed">
             Empresas y emprendedores que confiaron en{" "}
-            <span className="text-[#ffb800] font-medium">Digimedia</span>{" "}
-            para potenciar su imagen.
+            <span className="text-[#ffb800] font-medium">Digimedia</span> para
+            potenciar su imagen.
           </p>
         </div>
 
@@ -272,8 +273,10 @@ export default function TestimoniosClientes() {
             }}
             pagination={{
               clickable: true,
-              bulletClass: "home-testimonials-bullet",
-              bulletActiveClass: "home-testimonials-bullet-active",
+              //dynamicBullets: true,
+              //dynamicMainBullets: 4,
+              //bulletClass: "home-testimonials-bullet",
+              //bulletActiveClass: "home-testimonials-bullet-active",
             }}
             autoplay={{
               delay: 5000,
@@ -287,7 +290,7 @@ export default function TestimoniosClientes() {
               768: { slidesPerView: 2 },
               1200: { slidesPerView: 3 },
             }}
-            className="!pb-14"
+            className="home-testimonials-swiper !pb-14"
           >
             {testimonialsData.map((review) => {
               const isLong = review.text.length > TRUNCATE_LIMIT;
@@ -305,7 +308,9 @@ export default function TestimoniosClientes() {
                             {review.name}
                           </h3>
 
-                          <p className="text-xs sm:text-sm text-gray-400 mt-0.5">{review.date}</p>
+                          <p className="text-xs sm:text-sm text-gray-400 mt-0.5">
+                            {review.date}
+                          </p>
                         </div>
                       </div>
 
@@ -344,7 +349,6 @@ export default function TestimoniosClientes() {
           </Swiper>
 
           {/* Paginación custom */}
-          <div className="flex justify-center items-center gap-2 mt-4 home-testimonials-pagination" />
         </div>
       </div>
 
@@ -365,12 +369,18 @@ export default function TestimoniosClientes() {
             {/* Header del modal con perfil y botones de acción agrupados */}
             <div className="mb-5 flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-                <Avatar src={activeReview.avatar} name={activeReview.name} size={16} />
+                <Avatar
+                  src={activeReview.avatar}
+                  name={activeReview.name}
+                  size={16}
+                />
                 <div className="min-w-0">
                   <h3 className="truncate font-semibold text-white text-base sm:text-lg">
                     {activeReview.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-400">{activeReview.date}</p>
+                  <p className="text-xs sm:text-sm text-gray-400">
+                    {activeReview.date}
+                  </p>
                 </div>
               </div>
 
@@ -408,23 +418,22 @@ export default function TestimoniosClientes() {
       )}
 
       {/* Estilos custom para los bullets, con nombre propio para no chocar con los de Nosotros */}
-      <style>{`
-        .home-testimonials-bullet {
+<style>{`
+        .home-testimonials-swiper .swiper-pagination-bullet {
           width: 8px;
           height: 8px;
           border-radius: 9999px;
           background-color: rgba(255, 255, 255, 0.35);
           cursor: pointer;
           transition: all 0.3s ease;
-          display: inline-block;
-          margin: 0 4px;
+          opacity: 1;
         }
-        .home-testimonials-bullet-active {
+        .home-testimonials-swiper .swiper-pagination-bullet-active {
           width: 24px;
           background-color: #ffb800;
           box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
         }
-        .home-testimonials-bullet:hover {
+        .home-testimonials-swiper .swiper-pagination-bullet:hover {
           background-color: rgba(255, 184, 0, 0.8);
         }
       `}</style>

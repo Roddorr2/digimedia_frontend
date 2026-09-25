@@ -39,7 +39,7 @@ const permiso_service = {
             let permisos = []
 
             permisos = data.data;
-            console.log(permisos)
+            
             return permisos;
 
         }catch(error){

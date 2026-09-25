@@ -29,17 +29,17 @@ const DEFAULT_STYLES = {
   //se cambió de h-[120vh] a min-h-[120vh] para evitar que el título se desborde y se superponga
   //con los tabs de navegacion
   //se aggrego break-words para titulos extensos
-  container:
-   "w-full min-h-[120vh] md:min-h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-12 bg-cover bg-center bg-no-repeat py-12",
-  overlay: "absolute inset-0 bg-black/60",
-  content:
-    "relative w-full text-white flex flex-col md:flex-row items-center justify-between gap-6",
-  preview: "text-center max-w-xl",
-  title: "text-5xl md:text-6xl font-extrabold mb-4 neon-textov4 break-words",
+container:
+  "w-full min-h-[120vh] md:min-h-[93vh] relative flex items-center justify-center text-center px-6 sm:px-8 md:px-10 bg-cover bg-center bg-no-repeat py-12 overflow-x-hidden",
+content:
+  "relative w-full max-w-full text-white flex flex-col md:flex-row items-start lg:items-center justify-between gap-3 md:gap-4 lg:gap-6 min-w-0",
+preview: "text-center max-w-full md:max-w-md lg:max-w-xl min-w-0 md:self-center",
+title:
+  "text-5xl md:text-4xl lg:text-6xl font-extrabold mb-4 neon-textov4 break-words text-balance",
   subtitle: "text-2xl md:text-xl font-bold mb-4",
   description: "text-lg text-gray-300 font-light",
   panel:
-    "bg-black/5 backdrop-blur-md rounded-2xl p-8 shadow-lg w-[450px] max-w-lg overflow-auto max-h-[80vh]",
+    "bg-black/5 backdrop-blur-md rounded-2xl p-5 sm:p-6 lg:p-8 shadow-lg w-full sm:w-[320px] lg:w-[450px] max-w-full overflow-auto max-h-[80vh] min-w-0",
   form: "space-y-6",
   input:
     "w-full bg-gray-900 text-white border border-gray-700 rounded-lg p-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all",
@@ -466,7 +466,7 @@ export default function FormHeader({
         </div>
 
         {/* Panel de edición */}
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end ">
           <div className={mergedStyles.panel}>
             <form className={mergedStyles.form}>
               <h3 className="text-lg font-semibold text-white mb-4">

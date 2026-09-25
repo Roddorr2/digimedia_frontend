@@ -1,7 +1,7 @@
 const MAYA_WEBHOOK = process.env.NEXT_PUBLIC_MAYA_WEBHOOK_URL ?? "";
 
 export async function sendToMaya({ message, sessionId, interactionNumber }) {
-  console.log("[Maya frontend] enviando a n8n:", message?.slice(0, 50));
+  
 
   if (!MAYA_WEBHOOK) {
     return {
@@ -24,7 +24,7 @@ export async function sendToMaya({ message, sessionId, interactionNumber }) {
       }),
     });
 
-    console.log("[Xiomara frontend] status:", res.status);
+    
 
     if (!res.ok) {
       return {
@@ -35,7 +35,7 @@ export async function sendToMaya({ message, sessionId, interactionNumber }) {
     }
 
     const rawText = await res.text();
-    console.log("[Maya frontend] raw:", rawText?.slice(0, 200));
+    
 
     let data;
     try {
