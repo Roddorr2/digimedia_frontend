@@ -30,6 +30,8 @@ export default function Page() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [perPage, setPerPage] = useState(4);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -59,11 +61,18 @@ export default function Page() {
       } else if (response.data.meta && response.data.meta.last_page) {
         totalPaginas = response.data.meta.last_page;
       } else if (response.data.total) {
-        totalPaginas = Math.ceil(response.data.total / 15);
+        totalPaginas = Math.ceil(response.data.total / 4);
       } else if (response.data.meta && response.data.meta.total) {
-        totalPaginas = Math.ceil(response.data.meta.total / 15);
+        totalPaginas = Math.ceil(response.data.meta.total / 4);
       }
 
+      let totalReal =
+        response.data.total ?? response.data.meta?.total ?? pageData.length;
+      let realPerPage =
+        response.data.per_page ?? response.data.meta?.per_page ?? 4;
+
+      setTotalItems(totalReal);
+      setPerPage(realPerPage);
       setTotalPages(totalPaginas);
     } catch (error) {
       console.error("Error al obtener los datos:", error.message);
@@ -418,12 +427,7 @@ export default function Page() {
 
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredData.length > 0 &&
-                    filteredData
-                      .slice(
-                        (Number(currentPage) - 1) * 4,
-                        Number(currentPage) * 4,
-                      )
-                      .map((reclamacion, index) => (
+                    filteredData.map((reclamacion, index) => (
                         <tr
                           key={`${reclamacion.id_reclamacion}-Row`}
                           className={`${
@@ -515,9 +519,7 @@ export default function Page() {
             {/* TARJETAS - Mobile / Tablet */}
             <div className="grid gap-4 lg:hidden">
               {filteredData.length > 0 ? (
-                filteredData
-                  .slice((Number(currentPage) - 1) * 4, Number(currentPage) * 4)
-                  .map((reclamacion) => (
+                filteredData.map((reclamacion) => (
                     <div
                       key={`${reclamacion.id_reclamacion}-Card`}
                       className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm"
@@ -629,6 +631,8 @@ export default function Page() {
               filteredData={filteredData}
               currentPage={currentPage}
               totalPages={totalPages}
+              perPage={perPage}
+              totalItems={totalItems}
             />
           </>
         )}

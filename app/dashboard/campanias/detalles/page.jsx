@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 import { campaniaApi } from "@/api/fetchApiWhatsApp";
 import { CampaniaEstadoBadge } from "../components/CampaniaEstadoBadge";
 import LeadsTable from "../components/LeadsTable";
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 
 export default function Page() {
+  const { user, hasRole, isLoading: isAuthLoading } = useAuth();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const router = useRouter();
@@ -24,9 +26,21 @@ export default function Page() {
   const [campania, setCampania] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    if (!isAuthLoading) {
+      if (!user || !hasRole("administrador, marketing")) {
+        router.replace("/dashboard/main");
+      }
+    }
+  }, [user, isAuthLoading, hasRole, router]);
+
   const fetchCampania = async () => {
     try {
       const res = await campaniaApi.getById(id);
+      if (res?.status === "error") {
+        setCampania(null);
+        return;
+      }
       setCampania(res.data);
     } catch (err) {
       console.error("Error cargando campaña", err);
@@ -36,7 +50,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || isAuthLoading || !user || !hasRole("administrador, marketing")) return;
 
     fetchCampania();
 
@@ -52,7 +66,23 @@ export default function Page() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [id, campania?.estado]);
+  }, [id, campania?.estado, isAuthLoading, user]);
+
+  if (isAuthLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
+
+  if (!user || !hasRole("administrador, marketing")) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center text-gray-500 dark:text-gray-400">
+        Redirigiendo...
+      </div>
+    );
+  }
 
   if (!id) {
     return <p className="p-6">Falta ID de campaña</p>;
