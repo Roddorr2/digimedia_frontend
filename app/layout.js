@@ -101,22 +101,6 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
 
-        <Script
-          id="load-non-critical-css"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var links = document.querySelectorAll('link[data-next-css][data-precedence="next"]');
-                for (var i = 0; i < links.length; i++) {
-                  links[i].media = 'print';
-                  links[i].addEventListener('load', function() { this.media = 'all'; });
-                }
-              })();
-            `,
-          }}
-        />
-
         <Script id="theme-init" strategy="beforeInteractive">
           {`
             try {
@@ -131,7 +115,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
-        <Script id="gtm-script" strategy="afterInteractive">
+        <Script id="gtm-script" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
             w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});

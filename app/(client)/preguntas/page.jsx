@@ -110,7 +110,7 @@ export default function Page() {
       </div>
 
       {/* Preguntas */}
-      <div className="max-w-[1000px] mx-auto px-4 mb-16">
+      <div className="max-w-[1000px] mx-auto px-4 mb-6 sm:mb-12">
         <div className="bg-[#1c083b]/90 rounded-[2.5rem] p-6 sm:p-10 shadow-2xl border border-white/5">
           {/* Categorías */}
           <div className="flex flex-wrap justify-between items-center border-b border-[#3b1575] pb-4 mb-8 gap-4 px-2">
@@ -196,7 +196,7 @@ export default function Page() {
       </div>
 
       {/* Contacto */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-20">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
         <div className="max-w-7xl mx-auto">
           {/* Fondo exterior */}
           <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-r from-[#5a18b8] via-[#8d24ff] to-[#5a18b8] p-[2px] shadow-[0_25px_80px_rgba(140,36,255,.35)]">
@@ -223,7 +223,7 @@ export default function Page() {
                     href="https://wa.me/983027828?text=Hola, quisiera realizar una pregunta sobre su negocio."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-2xl bg-[#f5a000] px-12 py-4 text-lg font-bold text-black transition-all duration-300 hover:bg-[#ffb81a] hover:scale-105 hover:shadow-[0_0_35px_rgba(245,160,0,.45)]"
+                    className="w-full max-w-[280px] mx-auto inline-flex items-center justify-center rounded-2xl bg-[#f5a000] px-4 py-3.5 text-base sm:text-lg font-bold text-black text-center leading-tight transition-all duration-300 hover:bg-[#ffb81a] hover:scale-105 hover:shadow-[0_0_35px_rgba(245,160,0,.45)]"
                   >
                     CONTÁCTANOS AHORA
                   </a>

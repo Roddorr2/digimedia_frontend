@@ -675,14 +675,14 @@ useEffect(() => {
       )}
 
       {/* Panel de acciones */}
-      <div className="mt-12 bg-white rounded-lg shadow-sm border p-6">
+      <div className="mt-6 bg-white rounded-lg shadow-sm border p-6">
          {/* cambio para que no este tan comprimido */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-center">
             {showCancel && (
               <button
                 onClick={handleCancel}
-                className="flex items-center space-x-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex w-[220px] items-center justify-center space-x-2 rounded-xl border border-gray-300 px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50 lg:w-auto"
                 disabled={loading || isSaving}
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -693,7 +693,7 @@ useEffect(() => {
              {showPreview && (
               <button
                 onClick={handlePreview}
-                className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${viewMode === "preview"
+                className={`flex w-[220px] items-center justify-center space-x-2 rounded-xl border px-4 py-2 transition-colors lg:w-auto ${viewMode === "preview"
                   ? "text-blue-700 border-blue-300 bg-blue-50"
                   : "text-blue-700 border-blue-300 hover:bg-blue-50"
                   }`}
@@ -707,7 +707,7 @@ useEffect(() => {
             {isCreateMode && showTemplateSelectorProp && (
               <button
                 onClick={handleShowTemplateSelector}
-                className="flex items-center space-x-2 px-4 py-2 text-purple-700 border border-purple-300 rounded-lg hover:bg-purple-50 transition-colors"
+                className="flex w-[220px] items-center justify-center space-x-2 rounded-xl border border-purple-300 px-4 py-2 text-purple-700 transition-colors hover:bg-purple-50 lg:w-auto"
                 disabled={loading || isSaving}
               >
                 <span>🎨</span>
@@ -716,10 +716,10 @@ useEffect(() => {
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-center">
             {/* Información de auto-guardado */}
             {autoSave && isDirty && (
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 text-center lg:text-left">
                 Auto-guardado en {Math.round(autoSaveInterval / 1000)}s
               </span>
             )}
@@ -728,7 +728,7 @@ useEffect(() => {
             <button
               onClick={handleSave}
               disabled={loading || isSaving || !isFormValid}
-              className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all ${isFormValid && !loading && !isSaving
+              className={`flex w-[220px] items-center justify-center space-x-2 rounded-xl px-6 py-2 font-medium transition-all lg:w-auto ${isFormValid && !loading && !isSaving
                 ? "bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}

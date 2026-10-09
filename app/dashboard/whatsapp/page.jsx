@@ -120,7 +120,7 @@ export default function WhatsAppPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen w-full bg-slate-50 dark:bg-slate-900">
+    <div className="flex flex-col min-h-full w-full bg-slate-50 dark:bg-slate-900">
       {/* Sistema de notificaciones Toast */}
       <div className="fixed top-4 right-4 z-50 space-y-2 max-w-md">
         {notifications.map((notification) => (
@@ -141,22 +141,22 @@ export default function WhatsAppPage() {
 
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur">
-        <div className="w-full px-4 py-4">
+        <div className="w-full px-3.5 sm:px-4 py-2.5 sm:py-4">
           <div className="mx-auto w-full max-w-5xl">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold text-slate-900 dark:text-white">
+                <h1 className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white">
                   Envío de WhatsApp
                 </h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="hidden sm:block text-sm text-slate-500 dark:text-slate-400">
                   Conecta tu cuenta y ejecuta pruebas reales de campaña.
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2.5 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
                   <span
-                    className={`h-2.5 w-2.5 rounded-full ${
+                    className={`h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full ${
                       isConnected ? "bg-emerald-500" : "bg-rose-500"
                     }`}
                   />
@@ -166,8 +166,8 @@ export default function WhatsAppPage() {
             </div>
 
             {/* Tabs */}
-            <div className="mt-4">
-              <div className="flex gap-6 border-b border-slate-200 dark:border-slate-700">
+            <div className="mt-2.5 sm:mt-4">
+              <div className="flex gap-4 sm:gap-6 border-b border-slate-200 dark:border-slate-700 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 <TabButton
                   active={tab === "conexion"}
                   onClick={() => setTab("conexion")}
@@ -195,10 +195,10 @@ export default function WhatsAppPage() {
       </header>
 
       {/* Content */}
-      <main className="mb-12 flex-1 w-full px-4 py-8 overflow-y-auto">
+      <main className="mb-12 flex-1 w-full px-3 sm:px-4 py-4 sm:py-8">
         <div className="mx-auto w-full max-w-7xl">
           {/* Monitor de Progreso de Campañas (siempre visible) */}
-          <div className="mb-6">
+          <div className="mb-4 sm:mb-6">
             <CampaignProgressMonitor />
           </div>
 
