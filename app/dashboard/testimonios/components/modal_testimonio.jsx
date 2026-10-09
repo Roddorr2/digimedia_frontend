@@ -47,6 +47,7 @@ export default function modal_testimonio({
     process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
   );
   console.log("Cloud name que se está usando:", CLOUDINARY_CLOUD_NAME);
+  
   // actualiza formData cuando cambia data
   useEffect(() => {
     if (data) {
